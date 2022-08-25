@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>StageProduct</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="StageProduct">
+            <g id="Group" fill-rule="nonzero">
+                <g>
+                    <polygon id="Path" fill="#515151" points="4 4 28 4 28 28 4 28"></polygon>
+                    <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#666666"></path>
+                    <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+                </g>
+            </g>
+            <g id="Group" transform="translate(4.000000, 13.000000)" fill="#79A548" fill-rule="nonzero">
+                <g id="Group-Copy">
+                    <polygon id="Path-Copy-50" points="1.70530257e-13 0 24 0 24 3 1.71945791e-13 3"></polygon>
+                </g>
+            </g>
+            <g id="Group" transform="translate(4.000000, 4.000000)" fill="#AAD400" fill-rule="nonzero">
+                <g id="Group-Copy">
+                    <polygon id="Path-Copy-50" points="1.70530257e-13 0 24 0 24 9 1.71945791e-13 9"></polygon>
+                </g>
+            </g>
+            <polygon id="Path" fill="#515151" fill-rule="nonzero" points="7 8 25 8 25 28 7 28"></polygon>
+            <g id="Group" transform="translate(9.000000, 10.000000)" fill="#EFEFEF" fill-rule="nonzero">
+                <g id="header-d">
+                    <polygon id="Path" points="0 0 14 0 14 10 0 10"></polygon>
+                </g>
+            </g>
+            <g id="Group-11" transform="translate(16.000000, 16.000000)">
+                <rect id="Rectangle" fill="#515151" x="0" y="0" width="16" height="16"></rect>
+                <circle id="Oval" fill="#AAD400" cx="8" cy="8" r="5"></circle>
+                <image id="Listsymbol" x="2" y="2" width="12" height="12" xlink:href="data:image/png;base64,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"></image>
+            </g>
+        </g>
+    </g>
+</svg>

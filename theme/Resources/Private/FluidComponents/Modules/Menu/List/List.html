@@ -1,0 +1,47 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-menu-list"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="menu" type="array" optional="1" default="0"/>
+  <fc:param name="news" type="array" optional="1" default="0"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="2:1"/>
+  <fc:param name="itemConfig" type="array" optional="1" default="{}"/>
+  <fc:param name="itemConfigDefault"
+            type="array"
+            optional="1"
+            default="{type: 'item', class: '', image: 1, body: 1, category: 1, cta: 1, cropVariant: '2:1'}"/>
+  <fc:renderer>
+    <f:variable name="itemConfig" value="{ubos:arr.merge(a:itemConfigDefault,b:itemConfig)}"/>
+
+    <layout:section
+            class="{name}__wrap"
+            data="{data}"
+            appearance="{data.frame_class}"
+            container="cols10"
+            id="c{data.uid}">
+      <element:text.header data="{data}"/>
+      <ul class="{name} {itemConfig.class}">
+        <f:if condition="{menu}">
+          <f:for each="{menu}" as="item" iteration="i">
+            <f:if condition="!{item.current}">
+              <f:variable name="title" value="{f:if(condition:item.data.nav_title,then:item.data.nav_title,else:item.data.title)}"/>
+              <module:menu.list.item
+                      name="{name}-{itemConfig.type}"
+                      class="{itemConfig.class}"
+                      link="{f:uri.page(pageUid: item.data.uid)}"
+                      headline="{title}"
+                      topline="{item.data.subtitle}"
+                      body="{item.data.abstract}"
+                      images="{item.files}"
+                      config="{itemConfig}"/>
+            </f:if>
+          </f:for>
+        </f:if>
+      </ul>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+
+

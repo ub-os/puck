@@ -1,0 +1,43 @@
+{namespace vh=In2code\Powermail\ViewHelpers}
+<fieldset class="powermail_fieldset powermail_fieldset_{page.uid} -{page.css} -white-bg" data-powermail-page="{page.sorting}"
+          id="form-{form.uid}-page-{page.sorting}">
+    <div class="l-container -cols10">
+    <f:if condition="{page.css} != 'nolabel'">
+        <f:variable name="headerLayout" value="{f:if(condition:'{page.css} == \'layout1\'', then:1, else:0)}"/>
+        <element:text.header data="{header: page.title, header_layout: headerLayout}" />
+    </f:if>
+    <div class="powermail_field_list">
+        <f:for each="{page.fields}" as="field" iteration="iteration">
+            <vh:misc.createRowTags columns="{settings.styles.numberOfColumns}"
+                                   class="{settings.styles.framework.rowClasses}" iteration="{iteration}">
+                <f:render partial="Form/Field/{vh:String.Upper(string:field.type)}" arguments="{field:field}" />
+            </vh:misc.createRowTags>
+        </f:for>
+        <f:if condition="{settings.main.moresteps}">
+            <div style="width: 100%"></div>
+            <f:if condition="{page.sorting} > 1">
+                <div class="powermail_fieldwrap powermail_fieldwrap_type_submit powermail_fieldwrap_pagination -prev">
+                    <div class="powermail_field">
+                        <div class="e-button-primary powermail_morestep_button -prev"
+                             data-powermail-to-page="{page.sorting}">
+                            <f:translate extensionName="theme" key="go-back" />
+                        </div>
+                    </div>
+                </div>
+            </f:if>
+            <f:if condition="{page.sorting} < {form.pages -> f:count()}">
+                <div class="powermail_fieldwrap powermail_fieldwrap_type_submit powermail_fieldwrap_pagination -next">
+                    <div class="powermail_field">
+                        <div class="e-button-primary powermail_morestep_button -next"
+                             data-powermail-to-page="{page.sorting}"
+                             data-powermail-validate-fieldset>
+                            <f:translate extensionName="theme" key="next-step" />
+                        </div>
+                    </div>
+                </div>
+            </f:if>
+        </f:if>
+    </div>
+    </div>
+</fieldset>
+

@@ -1,0 +1,9 @@
+@import 'EXT:theme/Configuration/_Page/*.tsconfig'
+@import 'EXT:theme/Configuration/_Content/*.tsconfig'
+@import 'EXT:theme/Configuration/_Extensions/*.tsconfig'
+
+// RTE
+RTE.default.preset = theme
+RTE.default.buttons.link.relAttribute.enabled = 1
+
+

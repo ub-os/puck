@@ -1,0 +1,26 @@
+.form-framework .form
+
+  &-navigation
+    +spacing(top, m, margin)
+    +flex(row, center, center)
+
+  &-required-note
+    +spacing(top, s)
+    +font-size($fs-small)
+
+  &-label
+    +font-size($fs-small)
+    display: block
+    margin-bottom: .4em
+
+  &-element-fieldset
+    +grid-row
+
+  &-element-fieldset .form-element
+    +grid-col(12)
+
+
+  &-control
+    margin: 0 0 .5em
+
+.form-framework

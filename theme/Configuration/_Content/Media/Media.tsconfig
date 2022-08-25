@@ -1,0 +1,13 @@
+TCEFORM.tt_content {
+    imageorient.types.media {
+        disabled = 1
+    }
+    frame_class.types.media {
+        disabled = 0
+        keepItems = default, blue-bg
+    }
+    layout.types.media {
+        disabled = 0
+        keepItems = default, icon-list
+    }
+}

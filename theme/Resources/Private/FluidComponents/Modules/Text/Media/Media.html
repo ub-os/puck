@@ -1,0 +1,22 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-media"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="files" type="array"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap"
+            appearance="{data.frame_class}"
+            container="cols10"
+            data="{data}"
+            id="c{data.uid}">
+      <element:text.header data="{data}"/>
+      <module:text.media.item data="{data}" name="{name}" cropVariant="{cropVariant}" files="{files}"/>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

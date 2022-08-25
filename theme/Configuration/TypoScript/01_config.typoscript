@@ -1,0 +1,64 @@
+typeNum = 0
+config {
+
+    headerComment (
+===========================================================================================
+COPYRIGHT 2022
+Umsetzung in TYPO3: UNIBRAND OS
+===========================================================================================
+     )
+    disableImgBorderAttr = 1
+    pageTitleFirst = 1
+    pageTitleSeparator = -
+    pageTitleSeparator.noTrimWrap = | | |
+    absRefPrefix = /
+    prefixLocalAnchors = all
+    disablePrefixComment = 1
+    removeDefaultJS = external
+    inlineStyle2TempFile = 1s
+    spamProtectEmailAddresses = 2
+    spamProtectEmailAddresses_atSubst = <span>&#064;</span>
+    spamProtectEmailAddresses_lastDotSubst = <span>&#046;</span>
+    cache_clearAtMidnight = 1
+    sendCacheHeaders = 1
+    enableContentLengthHeader = 1
+    sendCacheHeaders_onlyWhenLoginDeniedInBranch = 0
+    htmlTag.attributes {
+        class = d-html
+    }
+    uniqueLinkVars = 1
+    linkVars = L(int)
+    sys_language_uid = 0
+    doctype = html5
+    xmlprologue = none
+    admPanel = 1
+    contentObjectExceptionHandler = 0
+    moveJsFromHeaderToFooter = 1
+    //concatenateCss = 1
+    //concatenateJs = 1
+    no_cache = 0
+    compressCss = 1
+    compressJs = 1
+}
+
+[{$development} == 1]
+    config.no_cache = 1
+    config.compressCss = 0
+    config.compressJs = 0
+[END]
+[backend.user.isLoggedIn]
+    config.no_cache = 0
+[global]
+
+//force absolute URLs in Typolinks
+// parseFunc
+lib.parseFunc.tags.a.typolink.forceAbsoluteUrl = 1
+lib.parseFunc.tags.link.typolink.forceAbsoluteUrl = 1
+lib.parseFunc.tags.a.typolink.forceAbsoluteUrl.scheme = https
+lib.parseFunc.tags.link.typolink.forceAbsoluteUrl.scheme = https
+
+// parseFunc_RTE
+lib.parseFunc_RTE.tags.a.typolink.forceAbsoluteUrl = 1
+lib.parseFunc_RTE.tags.link.typolink.forceAbsoluteUrl = 1
+lib.parseFunc_RTE.tags.a.typolink.forceAbsoluteUrl.scheme = https
+lib.parseFunc_RTE.tags.link.typolink.forceAbsoluteUrl.scheme = https

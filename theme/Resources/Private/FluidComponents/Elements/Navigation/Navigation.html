@@ -1,0 +1,28 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-navigation"/>
+  <fc:param name="pageUid" type="string" optional="1" default="1"/>
+  <fc:param name="special" type="string" optional="1" default="directory"/>
+  <fc:param name="levels" type="integer" optional="1" default="1"/>
+  <fc:param name="menu" type="Navigation" optional="1"/>
+  <fc:param name="breadcrumbs" type="boolean" optional="1" default="0"/>
+  <fc:param name="iconFromTitle" type="boolean" optional="1" default="0"/>
+  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:renderer>
+
+    <f:if condition="{pageUid}">
+      <f:cObject typoscriptObjectPath="lib.menu_{special}"
+                 data="{
+                 pageUid: pageUid,
+                 name: name,
+                 levels: levels,
+                 special: special,
+                 class: class,
+                 breadcrumbs: breadcrumbs,
+                 attributes: attributes,
+                 content: content,
+                 iconFromTitle: iconFromTitle}"/>
+    </f:if>
+  </fc:renderer>
+
+</fc:component>

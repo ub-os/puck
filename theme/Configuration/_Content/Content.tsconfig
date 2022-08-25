@@ -1,0 +1,49 @@
+//Manual import of Content Element tsconfig files is the only way of sorting items in the new content element wizard
+@import 'EXT:theme/Configuration/_Content/_CTypes/CTypes.tsconfig'
+@import 'EXT:theme/Configuration/_Content/*/*.tsconfig'
+
+// Text Content Field Configuration
+TCEFORM.tt_content {
+    date.disabled = 1
+    subheader.disabled = 0
+    header_position.disabled = 0
+    header_position.keepItems = center, left
+    header_position.default = center
+    header_layout.disabled = 0
+    header_layout.keepItems = 0,1,2
+    header_link.disabled = 1
+    sectionIndex.disabled = 1
+    frame_class.disabled = 1
+    frame_class2.disabled = 1
+    space_before_class.disabled = 1
+    space_after_class.disabled = 1
+    header.label = Headline
+    layout.disabled = 0
+    layout.keepItems = default
+    imageborder.disabled = 1
+    imagecols.disabled = 0
+    imagecols.label = Media per Row
+    imageorient.disabled = 1
+    imagewidth.disabled = 1
+    imageheight.disabled = 1
+    image_zoom.disabled = 1
+    linkToTop.disabled = 1
+    starttime.disabled = 1
+    endtime.disabled = 1
+    categories.disabled = 1
+    //CType.removeItems := addToList(div)
+}
+
+// Content Wizard Groups
+mod.wizards.newContentElement.wizardItems {
+    01_content {
+        header = Content
+    }
+    menu.show =
+    common.show =
+    forms.show =
+}
+
+TCEMAIN.table.pages.disablePrependAtCopy = 1
+TCEMAIN.table.pages.disableHideAtCopy = 1
+TCAdefaults.tt_content.imagecols = 1

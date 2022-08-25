@@ -1,0 +1,82 @@
+# Load default processing options
+imports:
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
+  - { resource: "EXT:rte_ckeditor_dl/Configuration/RTE/Plugin.yaml" }
+
+
+# Add configuration for the editor
+# For complete documentation see http://docs.ckeditor.com/#!/api/CKEDITOR.config
+editor:
+  externalPlugins:
+    insertIcon:
+      { resource: "EXT:theme/Resources/Public/CkEditorPlugins/insertIcon/plugin.js" }
+    linebreak:
+      { resource: "EXT:theme/Resources/Public/CkEditorPlugins/linebreak/plugin.js" }
+  config:
+    toolbar:
+    contentsCss:
+      - 'EXT:theme/Resources/Public/css/be-ck-contents.css'
+      - 'EXT:theme/Resources/Public/CkEditorPlugins/insertIcon/insertIcon.css'
+      - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
+
+    stylesSet:
+      #Paragraphs
+      - { name: "Intro paragraph", element: "p", attributes: { class: "-intro" } }
+      - { name: "Small paragraph", element: "p", attributes: { class: "-small"} }
+      - { name: "Footnote paragraph", element: "p", attributes: { class: "-footnote"} }
+
+      #Headlines
+      # link styles
+      - { name: "Button", element: "a", attributes: { class: "e-button-primary"} }
+
+      #Lists
+
+      #List items
+
+    format_tags: "p;h2;h3"
+
+    toolbarGroups:
+      - { name: styles, groups: [ Styles, Format ] }
+      - { name: basicstyles, groups: [ basicstyles ] }
+      - { name: paragraph, groups: [ list, align ] }
+      - { name: links, groups: [ links ] }
+      - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
+      - { name: insert, groups: [ insert ] }
+      - { name: linebreak }
+      - { name: tools, groups: [ specialchar ] }
+      - { name: document, groups: [ mode ] }
+
+    alignment:
+      options:
+        - { name: 'left', className: 'u-text-left' },
+        - { name: 'center', className: 'u-text-center' }
+        - { name: 'right', className: 'u-text-right' }
+        - { name: 'justify', className: 'u-text-justify' }
+
+    justifyClasses:
+      - u-text-left
+      - u-text-center
+      - u-text-right
+      - u-text-justify
+
+    extraPlugins:
+      - justify
+      - linebreak
+
+    removePlugins:
+      - media
+
+    removeButtons:
+      - Anchor
+      - Strike
+
+    extraAllowedContent : "span;p span;span(*);i(*); *(*)[data-*]"
+
+    qtRows: 20
+    qtColumns: 6
+
+processing:
+  allowTags:
+    - wbr

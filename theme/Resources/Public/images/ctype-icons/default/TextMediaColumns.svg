@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>TextMediaColumns</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="TextMediaColumns" fill-rule="nonzero">
+            <g id="Group">
+                <polygon id="Path" fill="#515151" points="4 4 28 4 28 28 4 28"></polygon>
+                <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#666666"></path>
+                <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            </g>
+            <g id="img-xs-d" transform="translate(7.000000, 12.000000)">
+                <polygon id="Path" fill="#79A548" points="1 1 5 1 5 5 1 5"></polygon>
+                <polygon id="Path" fill="#AAD400" points="0 0 4 0 4 4 0 4"></polygon>
+            </g>
+            <g id="img-xs-d" transform="translate(21.000000, 12.000000)">
+                <polygon id="Path" fill="#79A548" points="1 1 5 1 5 5 1 5"></polygon>
+                <polygon id="Path" fill="#AAD400" points="0 0 4 0 4 4 0 4"></polygon>
+            </g>
+            <g id="text-d" transform="translate(7.000000, 18.000000)" fill="#E3D3B4">
+                <polygon id="Path" points="0 0 5 0 5 8 0 8"></polygon>
+            </g>
+            <g id="text-d" transform="translate(14.000000, 12.000000)" fill="#E3D3B4">
+                <polygon id="Path" points="0 0 5 0 5 14 0 14"></polygon>
+            </g>
+            <g id="text-d" transform="translate(21.000000, 18.000000)" fill="#E3D3B4">
+                <polygon id="Path" points="0 0 5 0 5 6 0 6"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

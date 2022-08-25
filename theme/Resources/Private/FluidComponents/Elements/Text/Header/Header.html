@@ -1,0 +1,29 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-text-header"/>
+  <fc:param name="data" type="array"/>
+  <fc:renderer>
+
+    <div class="{name}">
+      <f:if condition="{data.subheader}">
+        <p class="{name}__topline u-text-{data.header_position}"><f:format.raw>{data.subheader}</f:format.raw></p>
+      </f:if>
+      <f:if condition="{data.header}">
+        <f:switch expression="{data.header_layout}">
+          <f:case value="1">
+            <h2 class="{name}__headline -h2 -like-h3 u-text-{data.header_position} {class}"><f:format.raw>{data.header}</f:format.raw></h2>
+          </f:case>
+          <f:case value="2">
+            <h3 class="{name}__headline -h3 u-text-{data.header_position} {class}"><f:format.raw>{data.header}</f:format.raw></h3>
+          </f:case>
+          <f:defaultCase>
+            <h2 class="{name}__headline -h2 u-text-{data.header_position} {class}"><f:format.raw>{data.header}</f:format.raw></h2>
+          </f:defaultCase>
+        </f:switch>
+      </f:if>
+    </div>
+
+  </fc:renderer>
+</fc:component>
+
+

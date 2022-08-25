@@ -1,0 +1,72 @@
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="e-media"/>
+    <fc:param name="image" type="TYPO3\CMS\Core\Resource\FileReference" optional="1"/>
+    <fc:param name="src" type="string" optional="1"/>
+    <fc:param name="width" type="integer" optional="1"/>
+    <fc:param name="sources" type="array" optional="1"/>
+    <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+    <fc:param name="webp" type="boolean" optional="1" default="0"/>
+    <fc:param name="retina" type="boolean" optional="1" default="0"/>
+    <fc:param name="loading" type="string" optional="1" default="lazy"/>
+    <fc:param name="breakpoints" type="array" optional="1"
+              default="{s: 600, sm: 750, m: 900, ml: 1050, l: 1200, xl: 1500, xxl: 1920}"/>
+    <fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
+    <fc:param name="reserveHeight" type="string" optional="1"/>
+    <fc:renderer>
+
+        <f:if condition="{src} || {image}">
+
+            <f:if condition="{backgroundImg}">
+                <f:then>
+                    <div class="{name}__image {class} -background-image"
+                         style="--bg-image: url('{f:uri.image(src:src,image:image,cropVariant:cropVariant,width:width)}{f:if(condition:webp,then:'.webp')}');"></div>
+                </f:then>
+                <f:else>
+                    <picture class="{name}__picture {f:if(condition:reserveHeight,then:'-reserve-height')}" style="--padding-top:{reserveHeight}">
+                        <f:if condition="{sources}">
+                            <f:for each="{sources}" as="source" key="key">
+                                <f:variable name="media" value="{key}"/>
+                                <f:if condition="{breakpoints.{key}}">
+                                    <f:variable name="media" value="{breakpoints.{key}}"/>
+                                </f:if>
+                                <f:variable name="srcSet" value="{f:uri.image(
+              src: src,
+              image: image,
+              width: source.width,
+              cropVariant: source.cropVariant
+              )}"/>
+                                <f:variable name="srcSetx2" value=""/>
+                                <f:if condition="{retina}">
+                                    <f:variable name="srcSetx2" value=", {f:uri.image(
+              src: src,
+              image: image,
+              width: '{source.width * 2}',
+              cropVariant: source.cropVariant
+              )}"/>
+                                </f:if>
+                                <f:if condition="{webp}">
+                                    <source media="(min-width: {media}px)"
+                                            srcset="{srcSet}.webp{srcSetx2}{f:if(condition:retina,then:'.webp 2x')}"
+                                            type="image/webp">
+                                </f:if>
+                                <source media="(min-width: {media}px)"
+                                        srcset="{srcSet}{srcSetx2}{f:if(condition:retina,then:' 2x')}">
+                            </f:for>
+                        </f:if>
+                        <f:image src="{src}"
+                                 image="{image}"
+                                 class="{name}__image {class}"
+                                 width="{width}"
+                                 cropVariant="{cropVariant}"
+                                 title="{image.title}"
+                                 alt="{image.alternative}"
+                                 loading="{loading}"/>
+                    </picture>
+
+                </f:else>
+            </f:if>
+
+        </f:if>
+
+    </fc:renderer>
+</fc:component>

@@ -1,0 +1,24 @@
+.m-form-default
+
+  &__row
+    +grid-row
+
+  &__column
+    +grid-col(6,12,(m:(1,1)))
+
+  &__input
+    position: relative
+    margin-top: 1.5em
+
+  label
+    position: absolute
+    left: 0
+    top: .5em
+    transition: top .1s, font-size .1s
+
+  textarea,  [type="text"], [type="email"], [type="password"]
+
+    &:focus+label,
+    &:not(:placeholder-shown)+label
+      font-size: 75%
+      top: -1em

@@ -1,0 +1,21 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-columns"/>
+  <fc:param name="item" type="array"/>
+  <fc:param name="uid" type="integer"/>
+  <fc:param name="i" type="array"/>
+  <fc:renderer>
+
+    <li class="{name}__item {class}">
+      <div class="{name}__column">
+        <f:if condition="{item.data.header}">
+          <h3 class="{name}__headline"><f:format.raw>{item.data.header}</f:format.raw></h3>
+        </f:if>
+        <module:text.media.item
+                data="{imageorient: item.data.imageorient, imagecols: 1, bodytext: item.data.bodytext}"
+                files="{item.files}" />
+      </div>
+    </li>
+
+  </fc:renderer>
+</fc:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Video</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Video" fill-rule="nonzero">
+            <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+            <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            <polygon id="Path" fill="#515151" points="6 6 26 6 26 10 6 10"></polygon>
+            <g id="youtube-brands" transform="translate(7.000000, 13.000000)" fill="#FF8700">
+                <path d="M17.6238725,1.87759375 C17.4168574,1.13853125 16.8069192,0.55646875 16.0324829,0.3589375 C14.6287614,0 9,0 9,0 C9,0 3.37127152,0 1.96751713,0.3589375 C1.19308082,0.5565 0.583142599,1.13853125 0.376127471,1.87759375 C0,3.2171875 0,6.012125 0,6.012125 C0,6.012125 0,8.8070625 0.376127471,10.1466563 C0.583142599,10.8857188 1.19308082,11.4435313 1.96751713,11.6410625 C3.37127152,12 9,12 9,12 C9,12 14.6287285,12 16.0324829,11.6410625 C16.8069192,11.4435312 17.4168574,10.8857188 17.6238725,10.1466562 C18,8.8070625 18,6.012125 18,6.012125 C18,6.012125 18,3.2171875 17.6238725,1.87759375 Z M7,9 L7,4 L12,6.50006157 L7,9 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

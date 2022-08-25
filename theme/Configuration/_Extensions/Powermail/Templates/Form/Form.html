@@ -1,0 +1,47 @@
+{namespace vh=In2code\Powermail\ViewHelpers}
+<layout:section container="0" id="c{ttContentData.uid}">
+    <div class="powermail_container">
+
+        <element:text.header data="{ttContentData}"/>
+    <f:alias map="{flashMessageClass:'powermail_message_error'}">
+        <f:render partial="Misc/FlashMessages" arguments="{_all}" />
+    </f:alias>
+
+    <f:if condition="{form}">
+        <f:then>
+            <f:form
+                    action="{action}"
+                    section="c{ttContentData.uid}"
+                    name="field"
+                    id="form-{form.uid}"
+                    enctype="multipart/form-data"
+                    addQueryString="{settings.misc.addQueryString}"
+                    class="powermail_form powermail_form_{form.uid} {form.css} {settings.styles.framework.formClasses} {vh:misc.morestepClass(activate:settings.main.moresteps)}">
+
+                <f:if condition="{form.css} != 'nolabel'">
+                    <h2>{form.title}</h2>
+                </f:if>
+                <f:render partial="Misc/FormError" arguments="{_all}" />
+
+                <f:for each="{form.pages}" as="page">
+                    <f:render partial="Form/Page" arguments="{_all}" />
+                </f:for>
+
+                <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid" />
+                <f:render partial="Misc/HoneyPod" arguments="{form:form}" />
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:translate key="error_no_form" />
+        </f:else>
+    </f:if>
+    </div>
+</layout:section>
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+.d-html .e-button-primary
+  &
+    +typo-button
+    display: inline-block
+    max-width: 100vw
+    padding: .66em 3em
+    text-align: center
+    border: 3px solid transparent
+    border-radius: $border-radius-s
+    cursor: pointer
+    transition: color .15s, filter .15s, transform .2s, box-shadow .15s, border-color .15s, background-color .15s, background-position .25s
+
+  &:hover
+    filter: brightness(1.2)
+
+  &.-block
+    display: block
+    width: 100%
+
+  &[disabled],
+  &.-disabled,
+  &.-green[disabled],
+  &.-green.-disabled
+    background: lightgrey !important
+    opacity: 1
+    pointer-events: none
+
+  &__icon
+    transform: translateY(2px)
+    margin-right: 0.2em
+
+.e-button-primary
+  .e-text-rich * + p &
+    +spacing(top, xs, margin)
+
+  .e-text-rich p:not(:last-child) &
+    +spacing(bottom, xs, margin)
+
+  &+&
+    +media(m, up)
+      margin-left: 2em
+    +media(s)
+      +spacing(top, xs, margin)

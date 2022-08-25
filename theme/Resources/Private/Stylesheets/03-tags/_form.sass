@@ -1,0 +1,129 @@
+
+fieldset
+  padding: 0
+  border: none
+
+input, textarea
+  border: none
+  outline: 0
+  background: transparent
+  color: inherit
+  margin: 0 0 1em
+  padding: 0
+
+  &::placeholder
+    opacity: 0
+
+textarea
+  width: 100%
+  height: 9.5em
+  resize: none
+
+[type="text"], [type="email"], [type="password"]
+  width: 100%
+
+textarea, select, [type="text"], [type="email"], [type="password"]
+  padding: .66em
+  border: 2px solid white
+  border-radius: $border-radius-s
+  transition: background .15s, border-color .15s
+  &:active, &:focus, &:hover
+
+select
+  -webkit-appearance: none
+  -moz-appearance: none
+  padding-right: 2em
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>')
+  background-repeat: no-repeat
+  background-size: .75em
+  background-position-x: calc(100% - .5em)
+  background-position-y: 47%
+
+[type="checkbox"], [type="radio"]
+  position: absolute
+  width: 34px
+  height: 34px
+  opacity: 0
+  z-index: -1
+
+  & + label
+    cursor: pointer
+    position: relative
+    display: block
+    padding: 0 0 0 34px
+    line-height: 1.5
+
+  & + label:after, & + label:before
+    position: absolute
+    content: ''
+    display: inline-block
+    border-radius: 100%
+    +media(s)
+      transform: translateY(-3px)
+
+  & + label:before
+    top: 3px
+    left: 0
+    width: 22px
+    height: 22px
+    border: 2px solid white
+    transition: border-color .15s
+
+  & + label:after
+    box-sizing: border-box
+    top: 8px
+    left: 5px
+    width: 16px
+    height: 16px
+    opacity: 0
+    transition: border-color .15s, background .15s, opacity .15s
+
+  &:not(:checked) + label:hover:after
+    opacity: .5
+
+  &:not(:checked) + label:hover:after
+
+  &:checked + label:after
+    opacity: 1
+
+[type="radio"]
+
+
+[type="checkbox"]
+  & + label
+    display: block
+    max-width: 100%
+    width: 100%
+
+[type="submit"]
+
+input[type="range"]
+  -webkit-appearance: none
+  width: 50vw
+  min-width: 20rem
+  max-width: 50rem
+  margin-bottom: 0
+  height: 7px
+  border-radius: 5px
+
+
+input[type="range"]::-webkit-slider-thumb
+  -webkit-appearance: none
+  height: 1em
+  width: 1em
+  border-radius: 50%
+  transition: background .3s ease-in-out
+
+input[type="range"]::-moz-range-thumb
+  height: 1em
+  width: 1em
+  border-radius: 50%
+  transition: background .3s ease-in-out
+  border: none
+
+input[type="range"]::-webkit-slider-runnable-track
+  -webkit-appearance: none
+  box-shadow: none
+  border: none
+  background: transparent
+

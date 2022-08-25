@@ -1,0 +1,152 @@
+@use '../00-settings/default'
+@use 'sass:math'
+@use "sass:list"
+@import "../../../../../node_modules/rfs/sass"
+
+
+=media($size, $dir: down)
+  @if $dir == up
+    @if map-get(bps-up(), $size)
+      @media (min-width: map-get(bps-up(), $size))
+        @content
+    @else
+      @media (min-width: #{$size}px)
+        @content
+  @else
+    @if map-get(bps-down(), $size)
+      @media (max-width: map-get(bps-down(), $size))
+        @content
+    @else
+      @media (max-width: #{$size}px)
+        @content
+
+
+=media-down($size)
+  +media($size,down)
+    @content
+
+=media-up($size)
+  +media($size,up)
+    @content
+
+=gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb)
+  +padding-left($gutter)
+  +padding-right($gutter)
+  @each $mb, $value in $gutters-mb
+    +media($mb, down)
+      padding-left: $value
+      padding-right: $value
+
+=grid-container($max-width: grid-width(), $gutter: true)
+  @if $gutter
+    +gutter-outer()
+  margin-right: auto
+  margin-left: auto
+  width: 100%
+  max-width: $max-width
+
+
+=grid-row($custom-gutter: $gutter)
+  +rfs($custom-gutter, --grid-gutter-x)
+  --grid-gutter-y: var(--grid-gutter-x)
+  display: flex
+  flex-wrap: wrap
+  margin-top: calc(-1 * var(--grid-gutter-y))
+  margin-right: calc(-.5 * var(--grid-gutter-x))
+  margin-left: calc(-.5 * var(--grid-gutter-x))
+
+
+=grid-col($columns, $custom-grid-columns: $grid-columns, $columns-mb: ())
+  flex-shrink: 0
+  max-width: 100%
+  padding-right: calc(var(--grid-gutter-x) * .5)
+  padding-left: calc(var(--grid-gutter-x) * .5)
+  margin-top: var(--grid-gutter-y)
+  flex: 0 0 auto
+  width: percentage(divide($columns, $custom-grid-columns))
+  @each $mb, $value in $columns-mb
+    +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
+
+=grid-col-mb($mb, $size, $columns: $grid-columns)
+  +media($mb)
+    width: percentage(divide($size, $columns))
+
+
+=spacing($side: 'both', $size: 'm', $property: padding, $multiplier: 1)
+  $spacing: $multiplier * map-get(sizes(), $size)
+  @if $side == 'both'
+    +rfs($spacing, #{$property}-top)
+    +rfs($spacing, #{$property}-bottom)
+  @if (str-index($side, 'top'))
+    +rfs($spacing, #{$property}-top)
+  @if (str-index($side, 'bottom'))
+    +rfs($spacing, #{$property}-bottom)
+  @if (str-index($side, 'left'))
+    +rfs($spacing, #{$property}-left)
+  @if (str-index($side, 'right'))
+    +rfs($spacing, #{$property}-right)
+
+
+=flex( $direction: row, $justify: n, $align: n, $wrap: n)
+  display: flex
+  flex-direction: $direction
+  @if $justify != n
+    justify-content: $justify
+  @if $align != n
+    align-items: $align
+  @if $direction == row and $wrap == n
+    flex-wrap: wrap
+  @if $wrap != n
+    flex-wrap: $wrap
+
+
+=center($axis: 'both')
+  position: absolute
+  @if $axis == 'vertical'
+    top: 50%
+    transform: translateY(-50%)
+  @else if $axis == 'horizontal'
+    left: 50%
+    transform: translate(-50%)
+  @else if $axis == 'both'
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+
+=cover-media($position: center)
+  position: relative
+  overflow: hidden
+  &>picture>img, &>video, &>iframe
+    position: absolute
+    min-width: 500%
+    min-height: 500%
+    width: auto
+    height: auto
+    max-width: unset
+    max-height: unset
+    left: 50%
+    @if $position == center
+      top: 50%
+      transform: translateX(-50%) translateY(-50%) scale(0.2)
+    @if $position == top
+      top: 0
+      transform-origin: top
+      transform: translateX(-50%) translateY(0) scale(0.2)
+    object-fit: cover
+
+=hover()
+  @media (hover: hover)
+    &:hover:not(:disabled)
+      @content
+
+=hover-child($parentClass)
+  .#{$parentClass}:hover &
+    @content
+
+=hover-and-touch-devices()
+  @media (hover: hover)
+    &:hover:not(:disabled)
+      @content
+  @media (hover: none)
+    @content

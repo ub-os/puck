@@ -1,0 +1,31 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-accordion"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="items" type="array"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        data="{data}"
+        container="cols8"
+        appearance="{data.frame_class}"
+        id="c{data.uid}"
+        dataAttributes='data-acc-el=group'>
+      <element:text.header data="{data}"/>
+      <element:text.rich text="{data.bodytext}"/>
+      <ul class="{name}__list">
+        <f:for each="{items}" as="item" iteration="i">
+          <module:text.accordion.item
+              name="{name}"
+              item="{item}"
+              uid="{data.uid}"
+              i="{i}"/>
+        </f:for>
+      </ul>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -1,0 +1,30 @@
+<div class="powermail_required_note">
+  *Pflichtfeld
+</div>
+<div
+  class="powermail_fieldwrap powermail_fieldwrap_type_submit powermail_fieldwrap_{field.marker} {field.css} {settings.styles.framework.fieldAndLabelWrappingClasses}">
+  <div class="{settings.styles.framework.fieldWrappingClasses} {settings.styles.framework.offsetClasses}">
+    <f:form.submit value="{field.title}" class="e-button-primary -green {settings.styles.framework.submitClasses}" />
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      try {
+        const captchaResponse = document.getElementById('g-recaptcha-response').value || '';
+        const powerMailHiddenField = document.getElementById('powermail_field_hiddencaptcharesponse');
+        powerMailHiddenField.value = captchaResponse;
+      } catch {
+        powerMailHiddenField.value = "";
+        console.log("LOG:  ~ form.addEventListener ~ error");
+      } finally {
+        form.submit();
+      }
+    });
+  });
+  console.log("Powermail: Submit.html");
+</script>

@@ -1,0 +1,41 @@
+.e-text-table
+  &__wrap
+    overflow-x: auto
+    @each $mb, $value in $gutter-outer-mb
+      +media($mb)
+        margin: 0 0-$value
+        padding: 0 $value
+
+  &
+    width: 100%
+    border: none
+    +media(m,up)
+      table-layout: fixed
+
+  & .-small
+    +font-size($fs-small)
+
+  &:not(:last-child),
+  &__wrap:not(:last-child)
+    +spacing(bottom, m, margin)
+
+  thead
+    +typo-h3
+    background: lightgrey
+
+  tr
+    border-bottom: 2px solid lightgrey
+    &:last-of-type
+      border-bottom: none
+
+  tr>:first-child
+    padding-left: 0
+
+  th[scope='row']
+    font-weight: bold
+
+  td,
+  th
+    +padding($fs-basic)
+    +padding-top($fs-basic * 1.15)
+    vertical-align: baseline

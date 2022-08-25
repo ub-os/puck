@@ -1,0 +1,34 @@
+tt_content {
+    menu_pages {
+        dataProcessing {
+            10 = TYPO3\CMS\Frontend\DataProcessing\DatabaseQueryProcessor
+            10 {
+                table = pages
+                selectFields.dataWrap = *, FIND_IN_SET(uid,'{field:pages}') as multiSelectSort
+                pidInList = 0
+                uidInList.field = pages
+                where.dataWrap = FIND_IN_SET(uid,'{field:pages}')
+                orderBy = multiSelectSort
+                as = menu_selected
+                dataProcessing {
+                    10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+                    10 {
+                        references.fieldName = media
+                    }
+                }
+            }
+            20 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            20 {
+                special = directory
+                special.value.field = parents
+                as = menu_sub
+                dataProcessing {
+                    10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+                    10 {
+                        references.fieldName = media
+                    }
+                }
+            }
+        }
+    }
+}

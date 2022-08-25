@@ -1,0 +1,68 @@
+
+.m-text-accordion
+  &
+    border: 2px solid white
+    border-radius: $border-radius-s
+
+  & + &
+    +spacing(top, xxs, margin)
+
+  .e-text-rich+&__list
+    +spacing(top, m)
+
+  &__button
+    display: flex
+    justify-content: space-between
+    width: 100%
+    padding: .9em 1em .8em
+    line-height: 1.5
+    transition: color .15s, background-color .15s, transform .15s, border-color .15s
+
+  &__button:hover
+
+  &.-open &__button
+
+  &__title
+    padding-right: 1em
+    text-align: left
+    transition: transform .2s
+
+  &__content
+    max-height: 0
+    padding: 0 1em
+    background: white
+    overflow: hidden
+    opacity: 0
+    transition: padding .15s ease-out, opacity .05s
+
+  &.-open &__content
+    +spacing(both, s)
+    opacity: 1
+    border-top: 4px solid white
+
+
+  &__icon
+    position: relative
+    height: 1em
+    width: 1em
+    transform: translateY(.2em)
+
+  &__icon:before,
+  &__icon:after
+    +center(both)
+    content: ''
+    display: block
+    height: .85em
+    width: 2px
+    background: currentColor
+    transform-origin: center
+    transition: transform .2s
+
+  &__icon:after
+    transform: translate(-50%, -50%) rotate(90deg)
+
+  &.-open &__icon:before
+    transform: translate(-50%,-50%) scaleY(0)
+
+  &.-open &__icon:after
+    transform: translate(-50%,-50%) rotate(90deg)

@@ -1,0 +1,31 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-page-footer"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="contentElements" type="string"/>
+  <fc:renderer>
+
+    <footer class="{name}">
+      <layout:section
+              class="{name}-navigation__wrap"
+              top="none"
+              container="0">
+        <div class="{name}__container">
+          <div class="{name}__navigations">
+            <icon:svg icon="hermes-logo" class="{name}__logo"/>
+            <element:navigation name="{name}-navigation" pageUid="{settings.navUid.footer}" class="">
+              <li class="{name}-navigation__item">
+                <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookies</button>
+              </li>
+            </element:navigation>
+            <element:navigation name="{name}-navigation" pageUid="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
+          </div>
+        </div>
+      </layout:section>
+      <f:format.raw>{contentElements}</f:format.raw>
+    </footer>
+
+  </fc:renderer>
+</fc:component>
+
+

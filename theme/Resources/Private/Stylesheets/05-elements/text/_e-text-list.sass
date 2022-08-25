@@ -1,0 +1,58 @@
+$list-offset: 1.6em
+$bullet-width: .66em
+$bullet-height: .66em
+$bullet-color: black
+
+.e-text-list
+  &
+    margin-bottom: 1em
+    padding-left: 0
+
+  &:last-child
+    margin-bottom: 0
+
+  &>li
+    margin-bottom: .5em
+    padding-left: $list-offset
+    &:last-child
+      margin-bottom: 0
+
+  &>li:before
+    content: ''
+    box-sizing: border-box
+    display: inline-block
+    width: $bullet-width
+    height: $bullet-height
+    position: relative
+    bottom: .1em
+    margin-left: - $list-offset
+    margin-right: $list-offset - $bullet-width
+    vertical-align: middle
+    background: $bullet-color
+
+  &>li>ol
+    margin-top: .5em
+    &>li
+      counter-increment: ol-sub-counter
+    .d-body &>li:before
+      content: counter(ol-sub-counter)
+
+  &>li>ul
+    margin-top: .5em
+    .d-body &>li:before
+      transform: scale(.6)
+
+
+ol.e-text-list
+  &>li
+    counter-increment: ol-counter
+
+  &>li:before
+    content: counter(ol-counter)'.'
+    height: 100%
+    bottom: .05em
+    padding-left: 1px
+    color: $bullet-color
+    text-align: center
+    font-weight: bold
+    background: none

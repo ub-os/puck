@@ -1,0 +1,29 @@
+.l-section
+  &
+    +spacing(both, m, margin)
+    position: relative
+    width: 100%
+    z-index: 1
+
+  &.-top
+    &-none
+      margin-top: 0
+    &-small
+      +spacing(top, s, margin)
+    &-medium
+      +spacing(top, m, margin)
+    &-large
+      +spacing(top, l, margin)
+
+  &.-bot
+    &-none
+      margin-bottom: 0
+    &-small
+      +spacing(bottom, s, margin)
+    &-medium
+      +spacing(bottom, m, margin)
+    &-large
+      +spacing(bottom, l, margin)
+
+
+  // Auto spacing rules

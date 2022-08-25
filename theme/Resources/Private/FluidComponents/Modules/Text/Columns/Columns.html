@@ -1,0 +1,31 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-columns"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="items" type="array"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        data="{data}"
+        container="cols10"
+        appearance="{data.frame_class}"
+        id="c{data.uid}">
+      <element:text.header data="{data}"/>
+      <element:text.rich text="{data.bodytext}" class="{name}__bodytext"/>
+      <ul class="{name}__list -col{data.imagecols}">
+        <f:for each="{items}" as="item" iteration="i">
+          <module:text.columns.item
+              name="{name}"
+              item="{item}"
+              class="-{data.frame_class2}"
+              uid="{data.uid}"
+              i="{i}"/>
+        </f:for>
+      </ul>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -1,0 +1,21 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-block"/>
+  <fc:param name="data" type="array"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap {f:if(condition: '!{data.bodytext}', then: '-headline-only')} {class}"
+            container="cols10"
+            data="{data}"
+            appearance="{data.frame_class}"
+            id="c{data.uid}">
+        <element:text.header data="{data}"/>
+        <element:text.rich text="{data.bodytext}"/>
+        <f:format.html>{content}</f:format.html>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

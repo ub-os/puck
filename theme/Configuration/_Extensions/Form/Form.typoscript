@@ -1,0 +1,23 @@
+plugin.tx_form {
+    view {
+        # Note that this configuration only affects the EXT:Form plugin
+        # template (form/Resources/Private/Frontend/Templates/Render.html)
+        # The fluid paths for the formelements reside within the YAML settings.
+        # @see TYPO3.CMS.Form.<prototypeName>.standard.formElementsDefinition.Form.renderingOptions
+        #
+        # That means: If you want to override the formelement templates
+        # then change them within the YAML settings, not here.
+        templateRootPaths.900 = EXT:theme/Configuration/_Extensions/Form/Templates/
+        partialRootPaths.900 = EXT:theme/Configuration/_Extensions/Form/Partials/
+        layoutRootPaths.900 = EXT:theme/Configuration/_Extensions/Form/Layouts/
+    }
+
+
+    settings {
+        yamlConfigurations {
+            100 = EXT:theme/Configuration/_Extensions/Form/FormSetup.yaml
+        }
+    }
+}
+
+

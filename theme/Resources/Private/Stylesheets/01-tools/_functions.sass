@@ -1,0 +1,37 @@
+@use 'sass:math'
+@use "sass:list"
+
+
+// computed variables
+@function grid-gutters()
+  @return $grid-columns - 1
+
+@function grid-width()
+  @return $page-width + 2 * $gutter-outer
+
+@function column-width()
+  @return math.div(($page-width - $gutter * grid-gutters()), $grid-columns)
+
+@function bps-up()
+  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'grid-width': grid-width())
+
+@function bps-down()
+  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'grid-width': (grid-width() - 1))
+
+@function sizes()
+  @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
+
+
+// helpers
+@function width-by-cols($columns: 12, $grid-padding: false)
+  $result: (column-width() * $columns) + ($gutter * ($columns - 1))
+  @if ($grid-padding == true)
+    @return $result + (2 * $gutter-outer)
+  @else
+    @return $result
+
+@function str-replace($string, $search, $replace: '')
+  $index: str-index($string, $search)
+  @if $index
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
+  @return $string

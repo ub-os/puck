@@ -1,0 +1,99 @@
+
+
+html
+  overflow-y: auto
+  overflow-x: hidden
+  font-size: 62.5%
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  //height: -webkit-fill-available  /* Mozilla-based browsers will ignore this. */
+  text-rendering: optimizeLegibility
+  transition: background .15s
+
+
+body
+  +typo-basic
+  overflow-y: hidden
+  overflow-x: hidden
+  min-height: 100vh
+  //min-height: -webkit-fill-available
+  display: flex
+  flex-direction: column
+  color: black
+
+main
+  background: white
+
+img, video, iframe
+  max-width: 100%
+  height: auto
+  display: block
+
+audio
+  max-width: 100%
+  &::-webkit-media-controls-panel
+    background: white
+  &::-webkit-media-controls-enclosure
+    border-radius: $border-radius-s
+
+svg
+  max-width: 100%
+  height: auto
+
+figure
+  margin: 0
+  padding: 0
+
+
+figcaption
+  +font-size($fs-small)
+  padding-top: 1em
+
+
+hr
+  +spacing(both, s, margin)
+  border: none
+  border-top: 2px solid
+
+p
+  +spacing(bottom, xs)
+  line-height: 1.36
+
+small
+  +font-size($fs-small)
+
+strong
+  font-weight: 700
+
+ul, ol
+  line-height: 1.38
+  list-style: none
+
+a
+  transition: color .15s, opacity .15s, transform 0.15s, background .15s, filter .15s
+  text-decoration: none
+  color: inherit
+  &:active
+    //opacity: .8
+
+[data-link-to]
+  cursor: pointer
+  &:active
+    cursor: default
+
+button[disabled], button.-disabled
+  cursor: default
+  pointer-events: none
+  opacity: .5
+
+sup, sub
+  font-size: 50%
+
+sup
+  top: -.75em
+
+em
+  font-style: italic
+
+b
+  font-weight: bold

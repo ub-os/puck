@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>InlineTextMedia</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="InlineTextMedia" fill-rule="nonzero">
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            <g id="Group-14" transform="translate(4.000000, 5.000000)">
+                <polygon id="Path" fill="#FFFFFF" points="0 0 24 0 24 24 0 24"></polygon>
+                <polygon id="Path" fill="#5599FF" points="6 11 18 11 18 18 6 18"></polygon>
+                <g id="header" transform="translate(6.000000, 6.000000)" fill="#515151">
+                    <polygon id="Path" points="0 0 12 0 12 4 0 4"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

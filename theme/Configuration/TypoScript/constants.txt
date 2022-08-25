@@ -1,0 +1,23 @@
+
+confDir = EXT:theme/Configuration
+resDir = EXT:theme/Resources
+
+cssDev = EXT:theme/Resources/Public/css/styles.css
+cssProd = EXT:theme/Resources/Public/css/styles.min.css
+
+jsDev =  EXT:theme/Resources/Public/js/app.js
+jsProd =  EXT:theme/Resources/Public/js/app.min.js
+
+## Development state variable -  Set to 0 in Production!
+## when set to 0: cache enabled, minified assets are included and compressed
+development = 1
+
+search {
+    pid = 18
+}
+navUid {
+    main = 1
+    footer = 7
+    social = 8
+    meta = 9
+}

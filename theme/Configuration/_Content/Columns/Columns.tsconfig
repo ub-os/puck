@@ -1,0 +1,10 @@
+TCEFORM.tt_content {
+    frame_class.types.columns {
+        disabled = 0
+        keepItems = default, blue-bg
+    }
+    imagecols.types.columns {
+        label = Columns per row
+        keepItems = 2,3,4
+    }
+}

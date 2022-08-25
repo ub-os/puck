@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Gallery</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Gallery" fill-rule="nonzero">
+            <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+            <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            <g id="Group-2" transform="translate(6.000000, 7.000000)">
+                <polygon id="Path" fill="#9CC8FF" points="1.8 2 9 2 9 8 1.8 8"></polygon>
+                <polygon id="Path" fill="#5599FF" points="0 0 7.2 0 7.2 6 0 6"></polygon>
+            </g>
+            <g id="Group-2" transform="translate(17.000000, 7.000000)">
+                <polygon id="Path" fill="#9CC8FF" points="2 2 9 2 9 8 2 8"></polygon>
+                <polygon id="Path" fill="#5599FF" points="0 0 7 0 7 6 0 6"></polygon>
+            </g>
+            <g id="Group-2" transform="translate(6.000000, 17.000000)">
+                <polygon id="Path" fill="#9CC8FF" points="2 2 9 2 9 8 2 8"></polygon>
+                <polygon id="Path" fill="#5599FF" points="0 0 7 0 7 6 0 6"></polygon>
+            </g>
+            <g id="Group-2" transform="translate(17.000000, 17.000000)">
+                <polygon id="Path" fill="#9CC8FF" points="2 2 9 2 9 8 2 8"></polygon>
+                <polygon id="Path" fill="#5599FF" points="0 0 7 0 7 6 0 6"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

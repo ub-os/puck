@@ -1,0 +1,16 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-control-to-top"/>
+  <fc:renderer>
+
+    <button class="{name}"
+            aria-label="{f:translate(extensionName: 'theme', key: 'to-top')}"
+            data-to-top
+            data-scroll-sensitive='{"items": [{"top": 500, "media": 0}]}'>
+    <icon:svg class="{name}__icon" icon="pfeil-oben"/>
+    </button>
+
+  </fc:renderer>
+</fc:component>
+
+

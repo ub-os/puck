@@ -1,0 +1,41 @@
+.powermail
+  &_container
+    max-width: width-by-cols(12)
+    margin: auto
+
+  &_fieldset
+    +spacing(both,l)
+    background: white
+    border-radius: $border-radius-s
+
+  &_fieldset+&_fieldset
+    +spacing(top,s,margin)
+
+  &_field_list
+    +grid-row
+
+  &_fieldwrap
+    +grid-col(12)
+
+  &_label
+    +font-size($fs-small)
+    display: block
+    margin-bottom: .4em
+
+  &_field
+    a
+      text-decoration: underline
+
+  &_input
+    margin: 0 0 .5em
+
+  &_required_note
+    +spacing(top, s)
+    +font-size($fs-small)
+
+  &_fieldwrap_type_submit
+    +flex(row, center, flex-start)
+    +spacing(top, m, margin)
+
+  &_submit
+    margin-bottom: 0

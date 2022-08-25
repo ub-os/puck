@@ -1,0 +1,229 @@
+
+=media-down-text-media($bp:s, $bp-in-col:m)
+  +media-down($bp)
+    @content
+  .m-text-columns__list &
+    +media-down($bp-in-col)
+      @content
+=media-up-text-media($bp:s, $bp-in-col:m)
+  +media-up($bp)
+    @content
+  .m-text-columns__list &
+    +media-up($bp-in-col)
+      @content
+
+=text-media-item($layout: gallery, $img-pos: above, $setting: null, $name: '.m-text-media')
+
+  // image gallery above/below text
+  @if $layout == gallery
+    &
+    #{$name}__row
+      +flex(column, flex-start, stretch)
+
+    #{$name}__gallery
+      +grid-row
+      &.-col6 #{$name}__figure
+        +grid-col(1,6, (l: (1,4), s: (1,2)))
+      &.-col5 #{$name}__figure
+        +grid-col(1,5, (m: (1,2)))
+      &.-col4 #{$name}__figure
+        +grid-col(1,4, (m: (1,2)))
+      &.-col3 #{$name}__figure
+        +grid-col(1,3, (m: (1,2), s: (1,1)))
+      &.-col2 #{$name}__figure
+        +grid-col(1,2, (s: (1,1)))
+
+    #{$name}__figure
+      +grid-col(1,1)
+
+    @if $img-pos == above
+      #{$name}__media + #{$name}__text
+        +spacing(top, m)
+
+    @if $img-pos == below
+      #{$name}__media
+        order: 2
+      #{$name}__media + #{$name}__text.-bodytext
+        +spacing(bottom, m)
+
+
+  // image column beside text
+  @if $layout == beside
+    #{$name}__row
+      +grid-row($gutter * 2)
+      overflow: hidden
+      +media-down-text-media()
+        display: flex
+        flex-direction: column-reverse
+
+    #{$name}__text,
+    #{$name}__media
+      +grid-col(1,2)
+      +media-down-text-media()
+        width: 100%
+
+    #{$name}__media
+      @if $img-pos == right
+        +media-up-text-media()
+          order: 2
+
+    #{$name}__gallery
+      +grid-row
+
+    #{$name}__figure
+      +grid-col(1,1)
+
+  // image next to floating text
+  @if $layout == float
+    &
+      +media-up-text-media()
+        +margin-bottom(-$size-s)
+
+    .m-text-carousel__list &
+      +media-down(xl)
+        padding-left: 3em
+        padding-right: 3em
+
+    #{$name}__row
+      +grid-row($gutter * 4)
+      +rfs($gutter * 2, --bs-gutter-y)
+      display: block
+      +media-up-text-media()
+        --bs-gutter-y: 0
+      +media-down-text-media()
+        display: flex
+        flex-direction: column-reverse
+
+    #{$name}__text
+      +grid-col(1,1)
+      +media-up-text-media()
+        +margin-bottom($size-s)
+
+    #{$name}__media
+      +grid-col(1,2)
+      +media-up-text-media()
+        +margin-bottom($size-s)
+      +media-down-text-media()
+        width: 100%
+      @if $img-pos == right
+        +media-up-text-media()
+          float: right
+      @if $img-pos == left
+        +media-up-text-media()
+          float: left
+
+    #{$name}__gallery
+      +grid-row
+
+    #{$name}__figure
+      +grid-col(1,1)
+
+  @if $layout == beside or $layout == float
+    #{$name}__media.-layout-cols6-5 #{$name}__figure
+      max-width: width-by-cols(5) + $gutter
+      @if $img-pos == right
+        margin-left: auto
+
+  // image and text in box (image full height)
+  @if $layout == box
+    &
+      background: white
+
+    #{$name}__row
+      +grid-row(0)
+      align-items: stretch
+
+    #{$name}__text,
+    #{$name}__media
+      +grid-col(1,2)
+      +media-down-text-media(m,l)
+        width: 100%
+
+    #{$name}__text
+      +spacing(both, xl)
+      padding-left: 5em
+      padding-right: 5em
+      +media-down-text-media(m,l)
+        +spacing(top, l)
+        padding-left: 3em
+        padding-right: 3em
+
+    #{$name}__media
+      @if $img-pos == right
+        +media-up-text-media(m,l)
+          order: 2
+
+    #{$name}__gallery
+      height: 100%
+
+    #{$name}__figure
+      +media-up-text-media(m,l)
+        +cover-media
+        height: 100%
+
+  @if $layout == card
+    &
+      +spacing(top, s)
+      +spacing(bottom, m)
+      +padding-left($gutter*1.5)
+      +padding-right($gutter*1.5)
+      background: white
+
+    #{$name}__row
+      +flex(column)
+    #{$name}__text
+    #{$name}__media
+      @if $setting == full-width
+        +margin-left(-$gutter*1.5)
+        +margin-right(-$gutter*1.5)
+      @if $img-pos == above
+        +spacing(bottom,s)
+        @if $setting == full-width
+          +spacing(top, s, margin, -1)
+      @if $img-pos == below
+        +spacing(top,s)
+        order: 2
+        @if $setting == full-width
+          +spacing(bottom, s, margin, -1)
+    #{$name}__figure
+
+.m-text-media
+  &.-pos1
+    +text-media-item(float,right)
+  &.-pos2
+    +text-media-item(float,left)
+  &.-pos3
+    +text-media-item(beside,right)
+  &.-pos4
+    +text-media-item(beside,left)
+  &.-pos5
+    +text-media-item(gallery,above)
+  &.-pos6
+    +text-media-item(gallery,below)
+  &.-pos7
+    +text-media-item(box,right)
+  &.-pos8
+    +text-media-item(box,left)
+  &.-pos9
+    +text-media-item(card,above)
+  &.-pos10
+    +text-media-item(card,below)
+  &.-pos11
+    +text-media-item(card,above,full-width)
+  &.-pos12
+    +text-media-item(card,below,full-width)
+
+  &__file
+    margin-left: auto
+    margin-right: auto
+
+  &__gallery.-col1 &__file
+    width: 100%
+    max-width: width-by-cols(8)
+
+  &__mp3
+    width: 100%
+
+  &__image-desc
+    text-align: center
+

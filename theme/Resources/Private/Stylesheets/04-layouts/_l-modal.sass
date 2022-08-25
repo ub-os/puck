@@ -1,0 +1,60 @@
+.l-modal
+  @keyframes modal-open-wrap
+    0%
+      opacity: 0
+    100%
+      opacity: 1
+
+  @keyframes modal-open
+    0%
+      transform: translate(-50%, calc(-50% - 5rem))
+    100%
+      transform: translate(-50%, -50%)
+
+  &__wrap
+    +gutter-outer()
+    position: fixed
+    display: none
+    top: 0
+    left: 0
+    height: 100%
+    width: 100vw
+    z-index: 9
+
+  &__wrap.-open
+    display: block
+    animation: modal-open-wrap .3s
+
+  &
+    +center(both)
+    +flex(column, center, center, nowrap)
+    position: relative
+    max-height: 96%
+    background: white
+    width: width-by-cols(8)
+    max-width: 100%
+    border-radius: $border-radius-s
+
+
+  &.-cols10
+    width: width-by-cols(10)
+
+  &.-cols12
+    width: width-by-cols(12)
+
+  &__inner
+    position: relative
+    max-height: 100%
+    width: 100%
+
+  &__wrap.-open &
+    animation: modal-open .3s
+
+  &__close
+    position: absolute
+    right: 1em
+    top: 1em
+    z-index: 9
+    cursor: pointer
+
+  &__close:hover

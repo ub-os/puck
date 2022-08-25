@@ -1,0 +1,27 @@
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-media-embed"/>
+  <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference"/>
+  <fc:param name="width" type="integer" optional="1"/>
+  <fc:renderer>
+
+    <div class="{name}" data-video-embed="{file.extension}" data-embed-id="{file.contents}" data-width="{width}">
+      <f:switch expression="{file.extension}">
+        <f:case value="youtube">
+          <f:variable name="thumbnailSrc" value="https://i.ytimg.com/vi/{file.contents}/maxresdefault.jpg"/>
+        </f:case>
+        <f:case value="vimeo">
+          <f:variable name="thumbnailSrc" value="{ubos:utility.fetchVimeoThumbnail(id: file.contents)}"/>
+        </f:case>
+      </f:switch>
+      <img class="{name}__image"
+           src="{thumbnailSrc}"
+           width="1080"
+           alt=""
+           loading="lazy">
+      <div class="{name}__button">
+        <icon:svg icon="play" class="{name}__icon"/>
+      </div>
+    </div>
+
+  </fc:renderer>
+</fc:component>

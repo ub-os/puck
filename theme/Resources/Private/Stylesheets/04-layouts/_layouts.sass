@@ -1,0 +1,69 @@
+.d-html
+	&.-modal-open
+		overflow: hidden
+	&.-burger-open
+		+media(s)
+			overflow: hidden
+
+.d-body
+
+
+.l-container
+	&
+		+grid-container
+		display: flex
+		flex-direction: column
+
+	&.-full
+		padding-left: 0
+		padding-right: 0
+
+	&.-cols6
+		max-width: width-by-cols(6, true)
+
+	&.-cols8
+		max-width: width-by-cols(8, true)
+
+	&.-cols10
+		max-width: width-by-cols(10, true)
+
+
+.l-row
+	&
+		+grid-row
+
+	&.-align-start
+		align-items: flex-start
+
+	&.-align-center
+		align-items: center
+
+	&.-align-end
+		align-items: flex-end
+
+	&.-justify-start
+		justify-content: flex-start
+
+	&.-justify-center
+		justify-content: center
+
+	&.-justify-end
+		justify-content: flex-end
+
+	&.-justify-between
+		justify-content: space-between
+
+
+.l-column
+	&
+		+grid-col(12)
+
+	@for $i from 1 through $grid-columns
+		&.-column#{$i}
+			//+col-width($i)
+
+
+.l-center
+	+center(both)
+
+

@@ -1,0 +1,85 @@
+page.10 = FLUIDTEMPLATE
+page.10 {
+    variables {
+        beLayout = TEXT
+        beLayout.data = levelfield:-2,backend_layout_next_level,slide
+        beLayout.override.field = backend_layout
+        homeTitle = TEXT
+        homeTitle.data = db:pages:1:title
+        contentElementsMain = COA
+        contentElementsMain {
+            10 = CONTENT
+            10 {
+                table = tt_content
+                select {
+                    pidInList = this
+                    where = colPos = 2
+                    orderBy = sorting
+                }
+                renderObj = < tt_content
+                slide = 0
+                slide {
+                    collect = 0
+                    collectReverse = 0
+                    collectFuzzy = 0
+                }
+                wrap =
+            }
+            20 = CONTENT
+            20 {
+                table = tt_content
+                select {
+                    pidInList = this
+                    where = colPos = 1
+                    orderBy = sorting
+                }
+                renderObj = < tt_content
+                slide = 0
+                slide {
+                    collect = 0
+                    collectReverse = 0
+                    collectFuzzy = 0
+                }
+                wrap =
+            }
+        }
+        contentElementsFooter = COA
+        contentElementsFooter {
+            10 = CONTENT
+            10 {
+                table = tt_content
+                select {
+                    pidInList = this
+                    where = colPos = 3
+                    orderBy = sorting
+                }
+                renderObj = < tt_content
+                slide = -1
+                slide {
+                    collect = 0
+                    collectReverse = 0
+                    collectFuzzy = 0
+                }
+                wrap =
+            }
+        }
+    }
+    partialRootPaths.900 = EXT:theme/Configuration/_Page/Partials
+    layoutRootPath = EXT:theme/Configuration/_Page/Layouts
+    file.stdWrap.cObject = CASE
+    file.stdWrap.cObject {
+        key.data = levelfield:-1, backend_layout_next_level, slide
+        key.override.field = backend_layout
+        default = TEXT
+        default.value = EXT:theme/Configuration/_Page/Page.html
+    }
+    dataProcessing {
+        10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+        10 {
+            references.fieldName = media
+        }
+    }
+}
+
+
+module.tx_backend.view.partialRootPaths.100 = EXT:theme/Resources/Private/Templates/Backend/Partials/

@@ -1,0 +1,42 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-stage-default"/>
+  <fc:param name="data" type="array"/>
+  <fc:param name="files" type="array" optional="1"/>
+    <fc:param name="files2" type="array" optional="1"/>
+    <fc:param name="backgroundFileId" type="string" optional="1" default="magnesium"/>
+    <fc:renderer>
+
+    <layout:section
+        container="cols10"
+        class="{name}__wrap {f:if(condition: '!{data.bodytext} && !{files}', then: '-headline-only')} -{data.layout}"
+        top="none"
+        bottom="none"
+        id="c{data.uid}">
+        <div class="{name}__text">
+            <h1 class="{name}__headline">{data.header}</h1>
+            <f:if condition="{data.bodytext}">
+                <div class="{name}__bodytext e-text-rich">
+                    <f:format.raw>{data.bodytext}</f:format.raw>
+                </div>
+            </f:if>
+        </div>
+        <f:if condition="{files}">
+            <element:media
+                    file="{files.0}"
+                    cropVariant="3:2"
+                    name="{name}"
+                    width="900"
+                    loading="lazy"
+                    showDesc="1"
+                    sources="{
+                        s: {width: 900, cropVariant: '3:2'},
+                        0: {width: 600, cropVariant: '3:2'}
+                    }"/>
+        </f:if>
+
+    </layout:section>
+  </fc:renderer>
+</fc:component>
+
+

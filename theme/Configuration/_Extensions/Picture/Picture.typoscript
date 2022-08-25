@@ -1,0 +1,14 @@
+plugin.tx_picture {
+    addWebp = 0
+    lossless = 1
+    breakpoints {
+        0 = 0
+        s = 600
+        sm = 750
+        m = 900
+        ml = 1050
+        l = 1200
+        lg = 1500
+        xl = 1920
+    }
+}

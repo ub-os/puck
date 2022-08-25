@@ -1,0 +1,57 @@
+.m-page-footer-navigation
+	&
+		+typo-nav
+		+spacing(both, xxs)
+
+	&__wrap
+		+spacing(bottom, m)
+
+	&__list
+		display: flex
+		justify-content: center
+		+media(s)
+			flex-direction: column
+			align-items: center
+
+			//font-size: 1.1rem
+
+	&__list.-icons
+		flex-direction: row
+
+	&.-small
+		font-weight: 400
+		+media(s, up)
+			+font-size($fs-extra-small)
+
+	&__item
+		+media(s, up)
+			margin: 0 .66em
+		+media(s)
+			margin: .2em 0
+
+	&.-small &__item
+		+media(s, up)
+			margin: 0 1.5em
+
+	&__list.-icons &__item
+		margin: 0 .66em
+
+	&__link
+		+media(s)
+			padding: .25em 0
+			display: block
+
+	&__link:hover,
+	&.-small &__link:hover
+
+	&.-small &__link
+
+	&__list.-child-hover &__link:not(:hover)
+		//opacity: .5
+
+	&.-social &__link
+
+	&.-social &__link:hover
+
+	&.-social &__list.-child-hover &__link:not(:hover)
+		//opacity: 1

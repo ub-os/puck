@@ -1,0 +1,28 @@
+.m-text-columns
+  &__list
+    +grid-row($gutter * 2)
+    +media(s)
+    @for $i from 1 through 6
+      &.-col#{$i} .m-text-columns__item
+        +grid-col(1,$i)
+
+    &.-col6 .m-text-columns__item
+      +grid-col-mb(l, 1,4)
+      +grid-col-mb(s, 1,2)
+
+    &.-col4 .m-text-columns__item,
+    &.-col5 .m-text-columns__item
+      +grid-col-mb(m, 1,2)
+
+    &.-col3 .m-text-columns__item
+      +grid-col-mb(m, 1,2)
+      +grid-col-mb(s, 1,1)
+
+    &.-col2 .m-text-columns__item
+      +grid-col-mb(s, 1,1)
+
+  &__bodytext
+    +spacing(bottom, m)
+
+  .e-text-header + &__list
+    +spacing(top, xs)
