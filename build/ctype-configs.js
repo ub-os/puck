@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+
 const contentPath = 'theme/Configuration/_Content';
 const excludedCtypes = ['list'];
 if (!fs.existsSync(contentPath+"/_CTypes")){

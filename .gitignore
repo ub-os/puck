@@ -1,8 +1,9 @@
 package-lock.json
 node_modules
+.DS_Store
 .sass-cache
 .idea
-.DS_Store
+/.vscode
 /.nova
 /.idea
 /theme/Configuration/_Content/_CTypes/
@@ -16,4 +17,3 @@ node_modules
 /theme/Resources/Public/images/sprite-sheet.svg
 /theme/Configuration/TypoScript/03_favicons.typoscript
 /theme/Resources/Public/images/favicons/
-/.vscode

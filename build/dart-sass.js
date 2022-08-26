@@ -1,11 +1,10 @@
-const sass = require('sass');
-const globImporter = require('node-sass-glob-importer');
-const fs = require('fs');
-const path = require('path');
+import sass from 'sass';
+import globImporter from 'node-sass-glob-importer';
+import fs from 'fs';
+import path from 'path';
 
 const sourcePath = "./theme/Resources/Private/Stylesheets/";
 const distPath = "./theme/Resources/Public/css/";
-
 const files = [
   "styles",
   "be-ck-contents",
@@ -19,6 +18,7 @@ for (let file of files) {
 function renderFile(file) {
     const sassFile = sourcePath+file+".sass";
     const cssFile = distPath+file+".css";
+
     sass.render({
         file: sassFile,
         importer: globImporter(),

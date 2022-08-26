@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+
 const contentPath = 'theme/Configuration/_Content';
 const args = process.argv.slice(2);
 const ctype = args[0];

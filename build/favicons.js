@@ -1,5 +1,5 @@
-const fs = require('fs');
-const favicons = require("favicons");
+import fs from 'fs';
+import favicons from 'favicons';
 
 const resourcePath = 'theme/Resources/Public/',
     distPath = `${resourcePath}images/favicons/`,
@@ -17,7 +17,7 @@ const resourcePath = 'theme/Resources/Public/',
             yandex: false,
         }
     },
-    callback = function (error, response) {
+    callback = function (response, error) {
         if (error) {
             console.log(error.message); // Error description e.g. "An unknown error has occurred"
             return;
@@ -37,8 +37,9 @@ const resourcePath = 'theme/Resources/Public/',
 page.headerData.99999999 = TEXT
 page.headerData.99999999.value (
 ${html}
-)
-        `,function(){});
+)`,function(){});
     };
 
-favicons.favicons(source, configuration, callback);
+favicons(source, configuration).then((response,error) => {
+   callback(response);
+});

@@ -1,10 +1,11 @@
-const fs = require('fs');
-const fantasticon = require('fantasticon');
+import fs from 'fs';
+import {generateFonts} from "fantasticon";
+
 const resourcePath = 'theme/Resources/Public/';
 if (!fs.existsSync(resourcePath+"fonts/icons")){
-    fs.mkdirSync(resourcePath+"fonts/icons");
+    fs.mkdirSync(resourcePath+"fonts/icons", { recursive: true });
 }
-fantasticon.generateFonts({
+generateFonts({
     inputDir: `${resourcePath}images/icons`, // (required)
     outputDir: `${resourcePath}fonts/icons`, // (required)
     assetTypes: ['scss', 'json', 'html', 'css'],

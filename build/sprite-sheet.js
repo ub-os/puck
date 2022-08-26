@@ -1,5 +1,5 @@
-const svgstore = require('svgstore');
-const fs = require('fs');
+import fs from 'fs';
+import svgstore from 'svgstore';
 
 const iconPath = 'theme/Resources/Public/images/icons';
 const distPath = 'theme/Resources/Public/images';

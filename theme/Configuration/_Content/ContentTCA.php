@@ -1,4 +1,6 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme') .'/Configuration/_Content/_CTypes/CTypesTCA.php';
 $files = glob( \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme').'/Configuration/_Content/*/*TCA.php' );
 foreach ( $files as $file )
@@ -196,8 +198,8 @@ $GLOBALS['TCA']['tt_content']['columns']['frame_class2'] = $GLOBALS['TCA']['tt_c
 $GLOBALS['TCA']['tt_content']['columns']['assets2'] = $GLOBALS['TCA']['tt_content']['columns']['assets'];
 $GLOBALS['TCA']['tt_content']['columns']['assets2']['config']['foreign_match_fields']['fieldname'] = 'assets2';
 
+$iconJson = file_get_contents(ExtensionManagementUtility::extPath('theme')."Resources/Public/fonts/icons/icons.json");
 
-$iconJson = file_get_contents($_SERVER['DOCUMENT_ROOT']."typo3conf/ext/theme/Resources/Public/fonts/icons/icons.json");
 $iconJsonIterator = new RecursiveIteratorIterator(
     new RecursiveArrayIterator(json_decode($iconJson, TRUE)),
     RecursiveIteratorIterator::SELF_FIRST);

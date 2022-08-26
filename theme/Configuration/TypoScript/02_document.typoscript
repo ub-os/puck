@@ -55,7 +55,6 @@ page.shortcutIcon = typo3conf/ext/theme/Resources/Public/images/favicons/favicon
 
 page.headerData.110 = TEXT
 page.headerData.110.value (
-
 )
 
 page.headerData.120 = TEXT
