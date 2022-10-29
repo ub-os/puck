@@ -36,7 +36,7 @@ const resourcePath = 'theme/Resources/Public/',
         fs.writeFile('theme/Configuration/Typoscript/03_favicons.typoscript', `
 page.headerData.99999999 = TEXT
 page.headerData.99999999.value (
-${html}
+${html.replaceAll(distPath, 'typo3conf/ext/'+distPath)}
 )`,function(){});
     };
 

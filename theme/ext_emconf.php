@@ -22,9 +22,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
             'typo3' => '',
-            'vhs' => '',
             'content_defender' => '',
-            'picture' => '',
             'fluid_components' => '',
     ),
 		'conflicts' => array(

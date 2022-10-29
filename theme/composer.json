@@ -8,7 +8,6 @@
     "php": "7.4 - 8.0",
     "typo3/cms-core": "^11",
     "ichhabrecht/content-defender": "^3.2",
-    "b13/picture": "^1.1",
     "sitegeist/fluid-components": "^3.1",
     "brotkrueml/schema": "^2.5",
     "plan2net/webp": "^4.1"
