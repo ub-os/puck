@@ -14,7 +14,7 @@ return [
         'transOrigDiffSourceField' => 'l10n_diffsource',
         'delete' => 'deleted',
         'hideTable' => true,
-        //'iconfile' => 'EXT:theme/Resources/Public/Icons/InlineMedia.svg',
+        'iconfile' => 'EXT:theme/Resources/Public/Icons/InlineMedia.svg',
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
@@ -51,8 +51,8 @@ return [
                 'items' => [
                     ['', 0],
                 ],
-                'foreign_table' => 'tx_theme_domain_model_inline_textmedia',
-                'foreign_table_where' => 'AND {#tx_theme_domain_model_inline_textmedia}.{#pid}=###CURRENT_PID### AND {#tx_theme_domain_model_inline_textmedia}.{#sys_language_uid} IN (-1,0)',
+                'foreign_table' => 'tx_theme_domain_model_inline_media',
+                'foreign_table_where' => 'AND {#tx_theme_domain_model_inline_media}.{#pid}=###CURRENT_PID### AND {#tx_theme_domain_model_inline_media}.{#sys_language_uid} IN (-1,0)',
             ],
         ],
         'l10n_diffsource' => [

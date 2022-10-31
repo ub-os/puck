@@ -247,6 +247,26 @@ $inline_itemsTca = [
     'tt_content',
     $inline_itemsTca
 );
+$GLOBALS['TCA']['tt_content']['columns']['inline_media'] = [
+    'label' => 'Content items',
+    'config' => [
+        'appearance' => [
+            'collapseAll' => '1',
+            'enabledControls' => [
+                'dragdrop' => '1',
+            ],
+            'levelLinksPosition' => 'bottom',
+            'useSortable' => '1',
+        ],
+        'foreign_field' => 'parent_uid',
+        'foreign_table' => 'tx_theme_domain_model_inline_media',
+        'foreign_table_field' => 'parent_table',
+        'maxitems' => '30',
+        'minitems' => '0',
+        'type' => 'inline',
+    ],
+];
+
 $GLOBALS['TCA']['tt_content']['palettes']['inline_items'] = [
     'showitem' => 'inline_items; Items',
     'canNotCollapse' => 1

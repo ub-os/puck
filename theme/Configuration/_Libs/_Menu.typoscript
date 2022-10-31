@@ -1,6 +1,6 @@
 lib.menu = FLUIDTEMPLATE
 lib.menu {
-    templateRootPaths.900 = EXT:theme/Configuration/_Libs/Menu/
+    templateRootPaths.900 = EXT:theme/Resources/Private/Fluid/Libs/
     templateName = Menu
     dataProcessing.10 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
     dataProcessing.10 {

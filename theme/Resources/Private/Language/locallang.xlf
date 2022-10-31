@@ -75,6 +75,18 @@
 			<trans-unit id="order-now-get-today" resname="order-now-get-today">
 				<source>Order now and get it today</source>
 			</trans-unit>
+			<trans-unit id="content.element.text_media2" resname="content.element.text_media2">
+				<source>Text Media 2</source>
+			</trans-unit>
+			<trans-unit id="wizard.text_media2" resname="wizard.text_media2">
+				<source>Text Media 2</source>
+			</trans-unit>
+			<trans-unit id="wizard.text_media2.description" resname="wizard.text_media2.description">
+				<source>Text media layouts.</source>
+			</trans-unit>
+			<trans-unit id="tt_content.theme.header" resname="tt_content.theme.header">
+				<source>Theme Content</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

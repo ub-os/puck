@@ -6,10 +6,10 @@ plugin.tx_indexedsearch {
     }
     view {
         templateRootPaths {
-            1000 = EXT:theme/Configuration/_Extensions/IndexedSearch/Templates/
+            1000 = EXT:theme/Resource/Private/Fluid/IndexedSearch/Templates/
         }
         partialRootPaths {
-            1000 = EXT:theme/Configuration/_Extensions/IndexedSearch/Partials/
+            1000 = EXT:theme/Resource/Private/Fluid/IndexedSearch/Partials/
         }
     }
     _LOCAL_LANG.default.pi_list_browseresults_page >

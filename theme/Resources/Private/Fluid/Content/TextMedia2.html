@@ -1,0 +1,5 @@
+<f:debug title="{settings.contentElement} (object)">{object}</f:debug>
+<f:for each="{object.computedProps}" as="prop">
+    <f:debug title="{settings.contentElement} (object.{prop})">{object.{prop}}</f:debug>
+</f:for>
+<module:text.media data="{object}" files="{object.assets}"/>

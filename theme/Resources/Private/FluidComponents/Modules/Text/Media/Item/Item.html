@@ -1,60 +1,60 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-text-media"/>
-  <fc:param name="data" type="array"/>
-  <fc:param name="files" type="array"/>
+    <fc:param name="name" type="string" optional="1" default="m-text-media"/>
+    <fc:param name="data" type="mixed"/>
+    <fc:param name="files" type="array"/>
     <fc:param name="cropVariant" type="string" optional="1" default="default"/>
     <fc:renderer>
 
-      <div class="{name} -pos{data.imageorient}">
-        <div class="{name}__row -pos{data.imageorient}">
-            <f:if condition="{files}">
-                <div class="{name}__media -pos{data.imageorient} -layout-{data.layout}">
-                    <f:if condition="{data.imageorient} > 4">
-                        <f:then>
-                            <f:switch expression="{data.imagecols}">
-                                <f:case value="12">
-                                    <f:variable name="calcWidth" value="1300" />
-                                </f:case>
-                                <f:case value="11">
-                                    <f:variable name="calcWidth" value="1080" />
-                                </f:case>
-                                <f:case value="1">
-                                    <f:variable name="calcWidth" value="860" />
-                                </f:case>
-                                <f:defaultCase>
-                                    <f:variable name="calcWidth" value="528" />
-                                </f:defaultCase>
-                            </f:switch>
-                        </f:then>
-                        <f:else>
-                            <f:variable name="calcWidth" value="528" />
-                        </f:else>
-                    </f:if>
-                    <div class="{name}__gallery -pos{data.imageorient} -col{data.imagecols}">
-                        <element:media
-                                name="{name}"
-                                files="{files}"
-                                cropVariant="{cropVariant}"
-                                width="{calcWidth}"
-                                sources="{
+        <div class="{name} -pos{data.imageorient}">
+            <div class="{name}__row -pos{data.imageorient}">
+                <f:if condition="{files}">
+                    <div class="{name}__media -pos{data.imageorient} -layout-{data.layout}">
+                        <f:if condition="{data.imageorient} > 4">
+                            <f:then>
+                                <f:switch expression="{data.imagecols}">
+                                    <f:case value="12">
+                                        <f:variable name="calcWidth" value="1300"/>
+                                    </f:case>
+                                    <f:case value="11">
+                                        <f:variable name="calcWidth" value="1080"/>
+                                    </f:case>
+                                    <f:case value="1">
+                                        <f:variable name="calcWidth" value="860"/>
+                                    </f:case>
+                                    <f:defaultCase>
+                                        <f:variable name="calcWidth" value="528"/>
+                                    </f:defaultCase>
+                                </f:switch>
+                            </f:then>
+                            <f:else>
+                                <f:variable name="calcWidth" value="528"/>
+                            </f:else>
+                        </f:if>
+                        <div class="{name}__gallery -pos{data.imageorient} -col{data.imagecols}">
+                            <element:media
+                                    name="{name}"
+                                    files="{files}"
+                                    cropVariant="{cropVariant}"
+                                    width="{calcWidth}"
+                                    sources="{
                           s: {width: calcWidth, cropVariant: cropVariant},
                           0: {width: 528, cropVariant: cropVariant}
                           }"
-                                showTitle="1"
-                                showDesc="1"/>
+                                    showTitle="1"
+                                    showDesc="1"/>
+                        </div>
                     </div>
-                </div>
-            </f:if>
-        <f:if condition="{data.bodytext}">
-            <div class="{name}__text -pos{data.imageorient} -layout-{data.layout}">
-                <element:text.rich text="{data.bodytext}"/>
+                </f:if>
+                <f:if condition="{data.bodytext}">
+                    <div class="{name}__text -pos{data.imageorient} -layout-{data.layout}">
+                        <element:text.rich text="{data.bodytext}"/>
+                    </div>
+                </f:if>
             </div>
-        </f:if>
         </div>
-      </div>
 
-  </fc:renderer>
+    </fc:renderer>
 </fc:component>
 
 

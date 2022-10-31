@@ -19,11 +19,11 @@ TCEFORM.tt_content {
     space_after_class.disabled = 1
     header.label = Headline
     layout.disabled = 0
-    layout.keepItems = default
+    //layout.keepItems = default
     imageborder.disabled = 1
     imagecols.disabled = 0
     imagecols.label = Media per Row
-    imageorient.disabled = 1
+    imageorient.disabled = 0
     imagewidth.disabled = 1
     imageheight.disabled = 1
     image_zoom.disabled = 1
@@ -39,9 +39,9 @@ mod.wizards.newContentElement.wizardItems {
     01_content {
         header = Content
     }
-    menu.show =
-    common.show =
-    forms.show =
+   // menu.show =
+   // common.show =
+   // forms.show =
 }
 
 TCEMAIN.table.pages.disablePrependAtCopy = 1

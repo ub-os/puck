@@ -1,4 +1,4 @@
-@import 'EXT:theme/Configuration/_Libs/*/*.typoscript'
+@import 'EXT:theme/Configuration/_Libs/_*.typoscript'
 
 lib.currentYear = COA
 lib.currentYear {

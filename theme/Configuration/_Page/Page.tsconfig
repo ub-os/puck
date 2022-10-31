@@ -77,9 +77,7 @@ mod.web_layout.BackendLayouts {
                                 name = Main content
                                 colPos = 1
                                 colSpan = 8
-                                allowed {
-                                    CType = stage, teaser, columns, tabs, menu_pages, shortcut, html, accordion, gallery, media, list, text, textmedia
-                                }
+
                             }
                         }
                     }

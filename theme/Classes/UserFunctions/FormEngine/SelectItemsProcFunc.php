@@ -1,12 +1,42 @@
 <?php
 namespace UBOS\Theme\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+/**
+ *
+ */
 class SelectItemsProcFunc
 {
     /**
-     *
+     * @var array|array[]
+     */
+    public array $keepItemsMap = [
+        'theme_text_media2' => [
+            'layout' => ['cols5-5','cols6-4'],
+            'imageorient' => [1,2,3,4,5,6],
+            'content_type' => ['assets','page']
+        ]
+    ];
+
+    /**
+     * @param $params
+     * @return void
+     */
+    public function keepItems(&$params): void
+    {
+        $keepItems = $this->keepItemsMap[$params['row']['CType'][0]][$params['field']];
+        if ($keepItems) {
+            $params['items'] = array_filter($params['items'], function ($item) use ($keepItems, $params) {
+                return in_array($item[1], $keepItems);
+            });
+        }
+    }
+
+    /**
      * @param array $params
+     * @return void
      */
     public function columnsInlineItemImageorient(&$params): void
     {

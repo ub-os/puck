@@ -6,6 +6,7 @@ $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/D
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_theme_domain_model_inline_textmedia');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_theme_domain_model_inline_media');
 
 // IS SET IN SYS_TEMPLATES.PHP
 //\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('theme', 'Configuration/TypoScript', 'theme');
@@ -14,3 +15,5 @@ require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme'
 
 $GLOBALS['TBE_STYLES']['skins']['theme']['name'] = 'Theme';
 $GLOBALS['TBE_STYLES']['skins']['theme']['stylesheetDirectories']['css'] = 'EXT:theme/Resources/Public/css/backend/';
+
+\HDNET\Autoloader\Loader::extTables('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));

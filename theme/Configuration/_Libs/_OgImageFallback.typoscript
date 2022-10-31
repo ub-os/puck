@@ -1,6 +1,6 @@
 lib.ogImageFallback = FLUIDTEMPLATE
 lib.ogImageFallback {
-    templateRootPaths.900 = EXT:theme/Configuration/_Libs/OgImageFallback/
+    templateRootPaths.900 = EXT:theme/Resources/Private/Fluid/Libs/
     templateName = OgImageFallback
     dataProcessing {
         10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor

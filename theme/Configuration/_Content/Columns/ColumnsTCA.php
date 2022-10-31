@@ -18,6 +18,7 @@ $GLOBALS['TCA']['tt_content']['types'][$ctype]['showitem'] = '
         rowDescription,
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
 ';
+
 $GLOBALS['TCA']['tt_content']['types'][$ctype]['columnsOverrides'] = [
     'bodytext' => [
         'config' => [
