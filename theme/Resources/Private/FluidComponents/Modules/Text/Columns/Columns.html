@@ -1,25 +1,24 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-text-columns"/>
-  <fc:param name="data" type="array"/>
-  <fc:param name="items" type="array"/>
+  <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
     <layout:section
         class="{name}__wrap"
-        data="{data}"
+        data="{object}"
         container="cols10"
-        appearance="{data.frame_class}"
-        id="c{data.uid}">
-      <element:text.header data="{data}"/>
-      <element:text.rich text="{data.bodytext}" class="{name}__bodytext"/>
-      <ul class="{name}__list -col{data.imagecols}">
-        <f:for each="{items}" as="item" iteration="i">
+        appearance="{object.frameClass}"
+        id="c{object.uid}">
+      <element:text.header data="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+      <ul class="{name}__list -col{object.imagecols}">
+        <f:for each="{object.inlineMedia}" as="item" iteration="i">
           <module:text.columns.item
               name="{name}"
               item="{item}"
-              class="-{data.frame_class2}"
-              uid="{data.uid}"
+              class="-{object.frameClass2}"
+              uid="{object.uid}"
               i="{i}"/>
         </f:for>
       </ul>

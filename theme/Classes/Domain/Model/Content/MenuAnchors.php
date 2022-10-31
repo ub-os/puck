@@ -3,20 +3,22 @@
 namespace UBOS\Theme\Domain\Model\Content;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\Domain\Repository\PageRepository;
+use UBOS\Theme\Domain\Model\Content\Anchor;
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class MenuPages extends AbstractEntity
+class MenuAnchors extends AbstractEntity
 {
 
     /**
@@ -47,35 +49,28 @@ class MenuPages extends AbstractEntity
     /**
      * @var string
      */
-    public string $bodytext;
+    public string $bodytext = '';
 
-    /**
-     * @var string
-     */
-    protected string $pages;
-
-    /**
-     * @var string
-     */
-    protected string $parents;
-
-    public array $computedProps = ['menu'];
 
     /**
      * @return array
      */
-    public function getMenu(): array
+    public function getAnchors(): array
     {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $records = $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('theme_anchor')),
+                $queryBuilder->expr()->eq('pid', $this->pid),
+            )
+            ->add('orderBy', 'sorting ASC')
+            ->execute()
+            ->fetchAll();
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $pageRepository = $objectManager->get(PageRepository::class);
-        $pages = $pageRepository->findByPropertyList('uid', $this->pages, 'FIELD(pages.uid,'.$this->pages.')');
-        $subpages = $pageRepository->findByPropertyList('pid', $this->parents);
-        $merged = array_unique(array_merge($pages,$subpages));
-        return [
-            'pages' => $pages,
-            'subpages' => $subpages,
-            'merged' => $merged
-        ];
+        $dataMapper = $objectManager->get(DataMapper::class);
+        return $dataMapper->map('UBOS\\Theme\\Domain\\Model\\Content\\Anchor', $records);
     }
 
     /**
@@ -87,8 +82,7 @@ class MenuPages extends AbstractEntity
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
         --palette--;;frames,
-        --palette--;;headers,
-        --palette--;;menu_pages,';
+        --palette--;;headers,';
     }
 
     /**

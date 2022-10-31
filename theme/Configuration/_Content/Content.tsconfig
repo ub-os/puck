@@ -17,7 +17,7 @@ TCEFORM.tt_content {
     frame_class2.disabled = 1
     space_before_class.disabled = 1
     space_after_class.disabled = 1
-    header.label = Headline
+    //header.label = Headline
     layout.disabled = 0
     //layout.keepItems = default
     imageborder.disabled = 1

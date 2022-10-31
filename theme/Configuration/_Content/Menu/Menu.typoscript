@@ -31,4 +31,5 @@ tt_content {
             }
         }
     }
+    theme_menu_pages.20.settings.dataProcessing < tt_content.menu_pages.dataProcessing
 }

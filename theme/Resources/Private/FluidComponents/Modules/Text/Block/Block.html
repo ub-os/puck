@@ -1,17 +1,17 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-text-block"/>
-  <fc:param name="data" type="array"/>
+  <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
     <layout:section
-            class="{name}__wrap {f:if(condition: '!{data.bodytext}', then: '-headline-only')} {class}"
+            class="{name}__wrap {f:if(condition: '!{object.bodytext}', then: '-headline-only')} {class}"
             container="cols10"
-            data="{data}"
-            appearance="{data.frame_class}"
-            id="c{data.uid}">
-        <element:text.header data="{data}"/>
-        <element:text.rich text="{data.bodytext}"/>
+            data="{object}"
+            appearance="{object.frameClass}"
+            id="c{object.uid}">
+        <element:text.header data="{object}"/>
+        <element:text.rich text="{object.bodytext}"/>
         <f:format.html>{content}</f:format.html>
     </layout:section>
 

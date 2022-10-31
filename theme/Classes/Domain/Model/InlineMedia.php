@@ -15,6 +15,9 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 class InlineMedia extends AbstractEntity
 {
 
+    public function __construct() {
+        $this->assets = new ObjectStorage();
+    }
     /**
      * @var int
      * @DatabaseField("int")
@@ -31,49 +34,49 @@ class InlineMedia extends AbstractEntity
      * @var string
      * @DatabaseField("string")
      */
-    public string $header;
+    public string $header = '';
 
     /**
      * @var string
      * @DatabaseField("string")
      */
-    public string $subheader;
+    public string $subheader = '';
 
     /**
      * @var string
      * @DatabaseField("string")
      */
-    public string $bodytext;
+    public string $bodytext = '';
 
     /**
      * @var int
      * @DatabaseField("int")
      */
-    public int $imageorient;
+    public int $imageorient = 0;
 
     /**
      * @var int
      * @DatabaseField("int")
      */
-    public int $imagecols;
+    public int $imagecols = 0;
 
     /**
      * @var string
      * @DatabaseField("string")
      */
-    public string $layout;
+    public string $layout = '';
 
     /**
      * @var string
      * @DatabaseField("string")
      */
-    public string $frameClass;
+    public string $frameClass = '';
 
     /**
      * @var ObjectStorage<FileReference>
      * @DatabaseField("string")
      */
-    public ObjectStorage $assets;
+    public $assets = null;
 
     /**
      * @return int

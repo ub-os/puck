@@ -20,14 +20,15 @@ foreach(glob(ExtensionManagementUtility::extPath('theme').'Classes/Domain/Model/
     $class = new $fullClassName;
     $GLOBALS['TCA']['tt_content']['types'][$cTypeName]['showitem'] = $class->showItem().$baseShowItem;
     $GLOBALS['TCA']['tt_content']['types'][$cTypeName]['columnsOverrides'] = $class->columnsOverrides();
-
-    ExtensionManagementUtility::addTypoScript('theme', 'setup',
-        'tt_content.'.$cTypeName.' {
-    20.view {
-        templateRootPaths.100 = EXT:theme/Resources/Private/Fluid/
-        layoutRootPaths.100 = EXT:theme/Resources/Private/Fluid/
-        partialRootPaths.100 = EXT:theme/Resources/Private/Fluid/
-    }
-}');
+    ExtensionManagementUtility::addTypoScript(
+        'theme',
+        'setup',
+        'tt_content.'.$cTypeName.'.20.view  {
+            templateRootPaths.900 = EXT:theme/Resources/Private/Fluid/
+            layoutRootPaths.900 = EXT:theme/Resources/Private/Fluid/
+            partialRootPaths.900 = EXT:theme/Resources/Private/Fluid/
+        }',
+        'defaultContentRendering'
+    );
 }
 

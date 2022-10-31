@@ -16,7 +16,7 @@ use UBOS\Theme\Domain\Model\InlineMedia;
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Columns extends AbstractEntity
+class Accordions extends AbstractEntity
 {
     /**
      * @var string
@@ -66,7 +66,6 @@ class Columns extends AbstractEntity
         --palette--;;headers,
         --palette--;;bodytext,        
     --div--;Items,
-        imagecols,
         inline_media,';
     }
 
@@ -81,39 +80,11 @@ class Columns extends AbstractEntity
                     'enableRichtext' => true,
                 ]
             ],
-            'imagecols' => [
-              'config' => [
-                  'itemsProcFunc' => SelectItemsProcFunc::class . '->keepItems'
-              ]
-            ],
-            'inline_textmedia' => [
-                'label' => 'Columns items',
+            'inline_media' => [
+                'label' => 'Accordion items',
                 'config' => [
                     'overrideChildTca' => [
                         'columns' => [
-                            'imageorient' => [
-                                'config' => [
-                                    'default' => 5,
-                                    'itemsProcFunc' => SelectItemsProcFunc::class . '->columnsInlineItemImageorient',
-                                ]
-                            ]
-                        ],
-                        'types' => [
-                            '1' => [
-                                'showitem' => '
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-                                header, 
-                                bodytext, 
-                            --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-                                imageorient,
-                                assets,
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
-                                sys_language_uid, 
-                                l10n_parent, 
-                                l10n_diffsource, 
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, 
-                                hidden'
-                            ],
                         ],
                     ]
                 ]

@@ -16,7 +16,7 @@ use UBOS\Theme\Domain\Model\Page;
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class TextMedia2 extends AbstractEntity
+class Media extends AbstractEntity
 {
     /**
      * @var string

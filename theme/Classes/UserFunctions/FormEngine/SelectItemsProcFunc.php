@@ -13,10 +13,13 @@ class SelectItemsProcFunc
      * @var array|array[]
      */
     public array $keepItemsMap = [
-        'theme_text_media2' => [
+        'theme_media' => [
             'layout' => ['cols5-5','cols6-4'],
             'imageorient' => [1,2,3,4,5,6],
             'content_type' => ['assets','page']
+        ],
+        'theme_columns' => [
+            'imagecols' => [2,3,4]
         ]
     ];
 

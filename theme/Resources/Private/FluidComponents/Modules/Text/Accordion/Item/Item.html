@@ -1,18 +1,18 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-text-accordion"/>
-  <fc:param name="item" type="array"/>
+  <fc:param name="item" type="mixed"/>
   <fc:param name="uid" type="integer"/>
   <fc:param name="i" type="array"/>
   <fc:renderer>
 
     <li class="{name}" id="c{uid}-acc{i.index}" data-acc="group">
       <button class="{name}__button" aria-expanded="false" data-acc-el="head">
-        <span class="{name}__title"><f:format.raw>{item.data.header}</f:format.raw></span>
+        <span class="{name}__title"><f:format.raw>{item.header}</f:format.raw></span>
         <span class="{name}__icon"></span>
       </button>
       <div class="{name}__content" data-acc-el="content">
-        <module:text.media.item data="{item.data}" files="{item.files}" />
+        <module:text.media.item data="{item}" files="{item.assets}" />
       </div>
     </li>
 

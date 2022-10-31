@@ -2,6 +2,8 @@
 if (!defined('TYPO3_MODE')) {
     die ('Acess denied.');
 }
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 // Register tsconfig
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/Page.tsconfig">'
@@ -52,3 +54,4 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:theme/Resources/Public/images/icons/website-logo.svg';
 
 \HDNET\Autoloader\Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
+

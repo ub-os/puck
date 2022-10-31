@@ -16,10 +16,14 @@ use HDNET\Autoloader\Annotation\EnableRichText;
 class Page extends AbstractEntity
 {
 
+    public function __construct() {
+        $this->media = new ObjectStorage();
+    }
+
     /**
      * @var string
      */
-    public string $title;
+    public string $title = '';
 
     /**
      * @var string
@@ -29,62 +33,62 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    public string $navTitle;
+    public string $navTitle = '';
 
     /**
      * @var string
      */
-    public string $subtitle;
+    public string $subtitle = '';
 
     /**
      * @var string
      */
-    public string $seoTitle;
+    public string $seoTitle = '';
 
     /**
      * @var string
      */
-    public string $description;
+    public string $description = '';
 
     /**
      * @var string
      */
-    public string $abstract;
+    public string $abstract = '';
 
     /**
      * @var string
      */
-    public string $keywords;
+    public string $keywords = '';
 
     /**
      * @var string
      */
-    public string $author;
+    public string $author = '';
 
     /**
      * @var string
      */
-    public string $authorEmail;
+    public string $authorEmail = '';
 
     /**
      * @var string
      */
-    public string $lastUpdated;
+    public string $lastUpdated = '';
 
     /**
      * @var string
      */
-    public string $layout;
+    public string $layout = '';
 
     /**
      * @var string
      */
-    public string $backendLayout;
+    public string $backendLayout = '';
 
     /**
      * @var ObjectStorage<FileReference>
      */
-    public ObjectStorage $media;
+    public $media = null;
 
     /**
      * @return int
@@ -92,5 +96,13 @@ class Page extends AbstractEntity
     public function getUid(): int
     {
         return $this->uid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMenuTitle(): string
+    {
+        return $this->navTitle ? : $this->title;
     }
 }

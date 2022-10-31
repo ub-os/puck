@@ -5,12 +5,15 @@
 lib.contentElement {
     partialRootPaths {
         100 = EXT:theme/Resources/Private/Templates/Fsc/Partials/
+        200 = EXT:theme/Resources/Private/Fluid/Content/Partials/
     }
     templateRootPaths {
         100 = EXT:theme/Resources/Private/Templates/Fsc/Templates/
+        200 = EXT:theme/Resources/Private/Fluid/Content/
     }
     layoutRootPaths {
         100 = EXT:theme/Resources/Private/Templates/Fsc/Layouts/
+        200 = EXT:theme/Resources/Private/Fluid/Content/Layouts/
     }
     settings {
         media {
