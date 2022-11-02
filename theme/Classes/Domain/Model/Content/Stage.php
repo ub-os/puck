@@ -9,7 +9,6 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
 
 /**
  * @DatabaseTable("tt_content")
@@ -52,6 +51,11 @@ class Stage extends AbstractEntity
      */
     public ObjectStorage $assets;
 
+
+    /**
+     * Content Element TCA
+     */
+
     /**
      * @return string
      */
@@ -60,7 +64,7 @@ class Stage extends AbstractEntity
         return '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,
         --palette--;;bodytext,
     --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,

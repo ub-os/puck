@@ -1,9 +1,10 @@
 <!--TYPO3SEARCH_end-->
-<module:page.schema data="{data}" files="{files}"/>
+<module:page.schema data="{data}" files="{object.media}"/>
 <module:page.header data="{data}"/>
 <!--TYPO3SEARCH_begin-->
-<module:page.main data="{data}" contentElements="{contentElements}"/>
+<module:page.main data="{data}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
 <!--TYPO3SEARCH_end-->
-<module:page.footer data="{data}" contentElements="{contentElementsFooter}"/>
+<module:page.footer data="{data}" contentElements="{contentElements.colPos3}"/>
 <element:control.toTop/>
 <div class="m-page-main__modals" data-page-modals-container></div>
+<f:debug>{_all}</f:debug>

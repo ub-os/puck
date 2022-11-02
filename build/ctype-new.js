@@ -13,7 +13,7 @@ if (args[2]) {
 }
 let showitem = `--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,`;
 if (options.showitem) {
     for (let palette of options.showitem.split(',')) {

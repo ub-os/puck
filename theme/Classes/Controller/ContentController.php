@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace UBOS\Theme\Controller;
 
-use HDNET\Autoloader\Utility\ClassNamingUtility;
-use HDNET\Autoloader\Utility\ExtendedUtility;
-use HDNET\Autoloader\Utility\ModelUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
+use HDNET\Autoloader\Utility\ClassNamingUtility;
+use HDNET\Autoloader\Utility\ExtendedUtility;
+use HDNET\Autoloader\Utility\ModelUtility;
 
 /**
  * Content Controller.
@@ -43,40 +43,36 @@ class ContentController extends ActionController
 
             $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-
-            // add dataprocessors
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-            $dataProcessingAsTyposcriptArray = [];
+            $dataProcessingAsTypoScriptArray = [];
             if (array_key_exists('dataProcessing', $this->settings)) {
-                $dataProcessingAsTyposcriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+                $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
             }
             if (method_exists($model, 'computeProperties')) {
                 $model->computeProperties();
             }
             $variables = $contentDataProcessor->process(
                 $this->configurationManager->getContentObject(),
-                ['dataProcessing.' => $dataProcessingAsTyposcriptArray ?? null],
+                ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
                 ['data' => $data]
             );
             $variables['settings'] = $this->settings;
             $variables['object'] = $model;
-            $viewConfiguration = $configuration['view'];
 
-            $layoutRootPaths = \is_array($viewConfiguration['layoutRootPaths']) ? $viewConfiguration['layoutRootPaths'] : [];
+            $viewConfiguration = $configuration['view'] ?? [];
+            $layoutRootPaths = $viewConfiguration['layoutRootPaths'] ?? [];
             if (!isset($layoutRootPaths[5])) {
-                $layoutRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Layouts/';
+                $layoutRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
             }
             $view->setLayoutRootPaths($layoutRootPaths);
-
-            $partialRootPaths = \is_array($viewConfiguration['partialRootPaths']) ? $viewConfiguration['partialRootPaths'] : [];
+            $partialRootPaths = $viewConfiguration['partialRootPaths'] ?? [];
             if (!isset($partialRootPaths[5])) {
-                $partialRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Partials/';
+                $partialRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
             }
             $view->setPartialRootPaths($partialRootPaths);
-
-            $templateRootPaths = \is_array($viewConfiguration['templateRootPaths']) ? $viewConfiguration['templateRootPaths'] : [];
+            $templateRootPaths = $viewConfiguration['templateRootPaths'] ?? [];
             if (!isset($templateRootPaths[5])) {
-                $templateRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Templates/';
+                $templateRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
             }
             $view->setTemplateRootPaths($templateRootPaths);
 

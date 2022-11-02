@@ -59,24 +59,40 @@ class MenuPages extends AbstractEntity
      */
     protected string $parents;
 
-    public array $computedProps = ['menu'];
 
     /**
-     * @return array
+     * Computed properties.
      */
-    public function getMenu(): array
+
+    /**
+     * @var array
+     */
+    public array $menu = [];
+
+    /**
+     * @return void
+     */
+    public function setMenu(): void
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $pageRepository = $objectManager->get(PageRepository::class);
         $pages = $pageRepository->findByPropertyList('uid', $this->pages, 'FIELD(pages.uid,'.$this->pages.')');
         $subpages = $pageRepository->findByPropertyList('pid', $this->parents);
         $merged = array_unique(array_merge($pages,$subpages));
-        return [
-            'pages' => $pages,
-            'subpages' => $subpages,
-            'merged' => $merged
-        ];
+        $this->menu = $merged;
     }
+
+    /**
+     * @return void
+     */
+    public function computeProperties(): void
+    {
+        $this->setMenu();
+    }
+
+    /**
+     * Content Element TCA
+     */
 
     /**
      * @return string
@@ -86,7 +102,7 @@ class MenuPages extends AbstractEntity
         return '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,
         --palette--;;menu_pages,';
     }

@@ -19,8 +19,6 @@ use HDNET\Autoloader\Annotation\WizardTab;
  */
 class MenuAnchors extends AbstractEntity
 {
-    public function __construct() {
-    }
 
     /**
      * @var string
@@ -57,13 +55,16 @@ class MenuAnchors extends AbstractEntity
      * Computed properties.
      */
 
-    public function computeProperties() {
-        $this->setAnchors();
-    }
-
+    /**
+     * @var array
+     */
     public array $anchors = [];
 
-    public function setAnchors() {
+    /**
+     * @return void
+     */
+    public function setAnchors(): void
+    {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $records = $queryBuilder
             ->select('*')
@@ -81,6 +82,19 @@ class MenuAnchors extends AbstractEntity
     }
 
     /**
+     * @return void
+     */
+    public function computeProperties(): void
+    {
+        $this->setAnchors();
+    }
+
+
+    /**
+     * Content Element TCA
+     */
+
+    /**
      * @return string
      */
     public function showItem(): string
@@ -88,7 +102,7 @@ class MenuAnchors extends AbstractEntity
         return '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,';
     }
 

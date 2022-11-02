@@ -30,26 +30,3 @@ lib.formatAnchorId {
     }
     stdWrap.case = lower
 }
-
-lib.dataProcessors {
-    dataProcessing {
-        inline_textmedia = TYPO3\CMS\Frontend\DataProcessing\DatabaseQueryProcessor
-        inline_textmedia {
-            table = tx_theme_domain_model_inline_textmedia
-            pidInList.field = pid
-            where {
-                data = field:uid
-                intval = 1
-                wrap = parent_uid=|
-            }
-            orderBy = sorting
-            as = items
-            dataProcessing {
-                10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
-                10 {
-                    references.fieldName = assets
-                }
-            }
-        }
-    }
-}

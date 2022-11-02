@@ -21,7 +21,7 @@
       <element:text.header data="{object}"/>
       <ul class="{name} {itemConfig.class}">
         <f:if condition="{object.menu}">
-          <f:for each="{object.menu.merged}" as="item" iteration="i">
+          <f:for each="{object.menu}" as="item" iteration="i">
             <f:if condition="!{item.current}">
               <module:menu.list.item
                       name="{name}-{itemConfig.type}"

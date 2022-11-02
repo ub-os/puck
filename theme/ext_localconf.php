@@ -4,7 +4,9 @@ if (!defined('TYPO3_MODE')) {
 }
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use HDNET\Autoloader\Loader;
 use UBOS\Theme\Controller\PageController;
+use UBOS\Theme\Controller\ContentController;
 
 ExtensionUtility::configurePlugin(
     'Theme',
@@ -14,7 +16,7 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'Theme',
     'Content',
-    [PageController::class => 'index'],
+    [ContentController::class => 'index'],
 );
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
@@ -27,8 +29,28 @@ ExtensionManagementUtility::addUserTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/User.tsconfig">'
 );
 
-// Register icons Registry
+Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
+
 require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/IconRegistry.php';
+
+foreach(require(ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php') as $content) {
+    ExtensionManagementUtility::addTypoScript(
+        'theme',
+        'setup',
+        'tt_content.'.$content['ctype'].'.20  {
+                userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+                extensionName = Theme
+                pluginName = Content
+                vendorName = UBOS
+                settings {
+                    contentElement = '.$content['name'].'
+                    extensionKey = theme
+                    vendorName = UBOS
+                }   
+        }',
+        'defaultContentRendering'
+    );
+}
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['theme'] = 'EXT:theme/Configuration/RTE/Theme.yaml';
@@ -64,6 +86,4 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:theme
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:theme/Resources/Public/images/favicons/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#8CBE28';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:theme/Resources/Public/images/icons/website-logo.svg';
-
-\HDNET\Autoloader\Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
 

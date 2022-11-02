@@ -30,17 +30,22 @@ class PageController extends ActionController
         try {
             $data = $this->configurationManager->getContentObject()->data;
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+            $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $contentObject = new ContentContentObject($contentObjectRenderer);
-            $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $modelArray = $dataMapper->map('UBOS\Theme\Domain\Model\Page', [$data]);
-            $contentElements = $contentObject->render([
-                'table' => 'tt_content',
-                'select' => [
-                    'pidInList' => $data['uid'],
-                    'orderBy' => 'sorting'
-                ]
-            ]);
+            $colPoss = [1,2,3];
+            $contentElements = [];
+            foreach($colPoss as $colPos) {
+                $contentElements['colPos'.$colPos] = $contentObject->render([
+                    'table' => 'tt_content',
+                    'select.' => [
+                        'pidInList' => $data['uid'],
+                        'where' => '{#colPos}='.$colPos,
+                        'orderBy' => 'sorting',
+                    ]
+                ]);
+            }
             $variables = $contentDataProcessor->process(
                 $this->configurationManager->getContentObject(),
                 ['dataProcessing.' => $this->settings['dataProcessing'] ?? null],

@@ -31,6 +31,10 @@ class Anchor extends AbstractEntity
     }
 
     /**
+     * Content Element TCA
+     */
+
+    /**
      * @return string
      */
     public function showItem(): string

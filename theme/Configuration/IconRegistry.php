@@ -32,18 +32,18 @@ $icons = [
 foreach ($icons as $item) {
     $iconRegistry->registerIcon(
         strtolower($item),
-        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        BitmapIconProvider::class,
         ['source' => 'EXT:theme/Resources/Public/images/ctype-icons/default/'.$item.'.svg']
     );
 }
 
 /*$iconRegistry->registerIcon(
     'content-special-html',
-    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-    ['source' => 'EXT:theme/Resources/Public/images/ctype-icons/default/Html.svg']
-);
+    BitmapIconProvider::class,
+    ['source' => 'EXT:theme/Resources/Public/Icons/Content/Html.svg']
+);*/
 $iconRegistry->registerIcon(
     'content-special-shortcut',
-    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-    ['source' => 'EXT:theme/Resources/Public/images/ctype-icons/default/Shortcut.svg']
-);*/
+    BitmapIconProvider::class,
+    ['source' => 'EXT:theme/Resources/Public/Icons/Content/Shortcut.svg']
+);

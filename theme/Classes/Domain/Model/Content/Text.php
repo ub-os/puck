@@ -49,6 +49,10 @@ class Text extends AbstractEntity
     public string $bodytext = '';
 
     /**
+     * Content Element TCA
+     */
+
+    /**
      * @return string
      */
     public function showItem(): string
@@ -56,7 +60,7 @@ class Text extends AbstractEntity
         return '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,
         --palette--;;bodytext,';
     }
@@ -67,6 +71,11 @@ class Text extends AbstractEntity
     public function columnsOverrides(): array
     {
         return [
+            'layout' => [
+              'config' => [
+
+              ]
+            ],
             'bodytext' => [
                 'config' => [
                     'enableRichtext' => true,

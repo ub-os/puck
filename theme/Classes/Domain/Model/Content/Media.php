@@ -75,13 +75,10 @@ class Media extends AbstractEntity
      */
     public string $contentType;
 
+
     /**
-     * @return string
+     * Content Element TCA
      */
-    public function getComputedProp(): string
-    {
-        return 'lole le';
-    }
 
     /**
      * @return string
@@ -91,7 +88,7 @@ class Media extends AbstractEntity
         return '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;frames,
+        --palette--;;layout,
         --palette--;;headers,
         --palette--;;bodytext,
     --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,

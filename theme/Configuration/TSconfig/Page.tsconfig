@@ -1,5 +1,4 @@
 
-@import 'Mod.tsconfig'
 // RTE
 RTE.default.preset = theme
 RTE.default.buttons.link.relAttribute.enabled = 1
