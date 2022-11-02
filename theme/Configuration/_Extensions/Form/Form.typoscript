@@ -7,9 +7,9 @@ plugin.tx_form {
         #
         # That means: If you want to override the formelement templates
         # then change them within the YAML settings, not here.
-        templateRootPaths.900 = EXT:theme/Resource/Private/Fluid/Form/Templates/
-        partialRootPaths.900 = EXT:theme/Resource/Private/Fluid/Form/Partials/
-        layoutRootPaths.900 = EXT:theme/Resource/Private/Fluid/Form/Layouts/
+        templateRootPaths.900 = EXT:theme/Resource/Private/Fluid/Extensions/Form/Templates/
+        partialRootPaths.900 = EXT:theme/Resource/Private/Fluid/Extensions/Form/Partials/
+        layoutRootPaths.900 = EXT:theme/Resource/Private/Fluid/Extensions/Form/Layouts/
     }
 
 

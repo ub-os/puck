@@ -1,7 +1,0 @@
-TCEFORM.tt_content {
-    frame_class.types.text {
-        disabled = 0
-        keepItems = default, blue-bg
-    }
-}
-

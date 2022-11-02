@@ -1,4 +1,21 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme').'/Configuration/_Page/PageTCA.php';
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme').'/Configuration/_Extensions/ExtensionsTCA.php';
+$tca = [];
+$GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
+    '5:2' => ['disabled' => true],
+    '2:1' => ['disabled' => true],
+    '1:1' => ['disabled' => true],
+    'default' => ['disabled' => true],
+    'social' => [
+        'title' => '1.91:1',
+        'allowedAspectRatios' => [
+            'default' => [
+                'title' => '1.91:1',
+                'value' => 1200/630
+            ]
+        ]
+    ]
+];
+$GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'];
+$GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'];

@@ -3,30 +3,43 @@ if (!defined('TYPO3_MODE')) {
     die ('Acess denied.');
 }
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use UBOS\Theme\Controller\PageController;
 
+ExtensionUtility::configurePlugin(
+    'Theme',
+    'Page',
+    [PageController::class => 'index'],
+);
+ExtensionUtility::configurePlugin(
+    'Theme',
+    'Content',
+    [PageController::class => 'index'],
+);
 // Register tsconfig
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/Page.tsconfig">'
 );
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
+ExtensionManagementUtility::addPageTSConfig(
+    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/Mod.tsconfig">'
+);
+ExtensionManagementUtility::addUserTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/User.tsconfig">'
 );
+
+// Register icons Registry
+require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/IconRegistry.php';
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['theme'] = 'EXT:theme/Configuration/RTE/Theme.yaml';
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['header'] = 'EXT:theme/Configuration/RTE/Header.yaml';
 
-// Register icons Registry
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme') .'/Configuration/_Content/IconRegistry.php';
-
-// Register PageLayoutView REMOVED
-
 // Define fluid_components Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
-    'UBOS\\Theme\\Layouts' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Layouts'),
-    'UBOS\\Theme\\Elements' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Elements'),
-    'UBOS\\Theme\\Modules' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Modules'),
-    'UBOS\\Theme\\Icons' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Icons')
+    'UBOS\\Theme\\Layouts' => ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Layouts'),
+    'UBOS\\Theme\\Elements' => ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Elements'),
+    'UBOS\\Theme\\Modules' => ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Modules'),
+    'UBOS\\Theme\\Icons' => ExtensionManagementUtility::extPath('theme', 'Resources/Private/FluidComponents/Icons')
 ];
 
 // Add Global Fluid Namespaces
@@ -36,7 +49,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['module'] = ['UBOS\The
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Theme\Icons'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ubos'] = ['UBOS\Theme\ViewHelpers'];
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['i'] = ['B13\Picture\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['v'] = ['FluidTYPO3\Vhs\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['n'] = ['GeorgRinger\News\ViewHelpers'];
 

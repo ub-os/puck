@@ -1,4 +1,0 @@
-tt_content.list {
-    templateName = List
-    templateRootPaths.900 = EXT:theme/Configuration/_Content/List/
-}

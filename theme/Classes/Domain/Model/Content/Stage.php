@@ -9,13 +9,13 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\Domain\Model\InlineMedia;
+use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Accordions extends AbstractEntity
+class Stage extends AbstractEntity
 {
     /**
      * @var string
@@ -48,10 +48,9 @@ class Accordions extends AbstractEntity
     public string $bodytext;
 
     /**
-     * @var ObjectStorage<InlineMedia>
-     * @DatabaseField("string")
+     * @var ObjectStorage<FileReference>
      */
-    public $inlineMedia = null;
+    public ObjectStorage $assets;
 
     /**
      * @return string
@@ -63,9 +62,9 @@ class Accordions extends AbstractEntity
         --palette--;;general,
         --palette--;;frames,
         --palette--;;headers,
-        --palette--;;bodytext,        
-    --div--;Items,
-        inline_media,';
+        --palette--;;bodytext,
+    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        assets,';
     }
 
     /**
@@ -77,17 +76,8 @@ class Accordions extends AbstractEntity
             'bodytext' => [
                 'config' => [
                     'enableRichtext' => true,
-                ]
+                ],
             ],
-            'inline_media' => [
-                'label' => 'Accordion items',
-                'config' => [
-                    'overrideChildTca' => [
-                        'columns' => [
-                        ],
-                    ]
-                ]
-            ]
         ];
     }
 }

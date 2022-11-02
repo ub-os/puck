@@ -12,14 +12,15 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\Domain\Model\Content\Anchor;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("01_content")
+ * @WizardTab("02_menu")
  */
 class MenuAnchors extends AbstractEntity
 {
+    public function __construct() {
+    }
 
     /**
      * @var string
@@ -53,10 +54,16 @@ class MenuAnchors extends AbstractEntity
 
 
     /**
-     * @return array
+     * Computed properties.
      */
-    public function getAnchors(): array
-    {
+
+    public function computeProperties() {
+        $this->setAnchors();
+    }
+
+    public array $anchors = [];
+
+    public function setAnchors() {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $records = $queryBuilder
             ->select('*')
@@ -70,7 +77,7 @@ class MenuAnchors extends AbstractEntity
             ->fetchAll();
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $dataMapper = $objectManager->get(DataMapper::class);
-        return $dataMapper->map('UBOS\\Theme\\Domain\\Model\\Content\\Anchor', $records);
+        $this->anchors = $dataMapper->map('UBOS\\Theme\\Domain\\Model\\Content\\Anchor', $records);
     }
 
     /**

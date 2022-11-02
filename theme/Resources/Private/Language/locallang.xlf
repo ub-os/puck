@@ -75,17 +75,92 @@
 			<trans-unit id="order-now-get-today" resname="order-now-get-today">
 				<source>Order now and get it today</source>
 			</trans-unit>
+
+			<trans-unit id="wizard.01_content.header" resname="tt_content.theme.header">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="wizard.02_menu.header" resname="tt_content.theme.header">
+				<source>Menu</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.accordions" resname="content.element.media">
+				<source>Accordions</source>
+			</trans-unit>
+			<trans-unit id="wizard.accordions" resname="wizard.media">
+				<source>Accordions</source>
+			</trans-unit>
+			<trans-unit id="wizard.accordions.description" resname="wizard.media.description">
+				<source>Collapsible text and media elements.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.anchor" resname="content.element.media">
+				<source>Anchor</source>
+			</trans-unit>
+			<trans-unit id="wizard.anchor" resname="wizard.media">
+				<source>Anchor</source>
+			</trans-unit>
+			<trans-unit id="wizard.anchor.description" resname="wizard.media.description">
+				<source>Anchor for anchor menu.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.columns" resname="content.element.media">
+				<source>Columns</source>
+			</trans-unit>
+			<trans-unit id="wizard.columns" resname="wizard.media">
+				<source>Columns</source>
+			</trans-unit>
+			<trans-unit id="wizard.columns.description" resname="wizard.media.description">
+				<source>Text and media column layouts.</source>
+			</trans-unit>
+
 			<trans-unit id="content.element.media" resname="content.element.media">
-				<source>Text Media 2</source>
+				<source>Text and media</source>
 			</trans-unit>
 			<trans-unit id="wizard.media" resname="wizard.media">
-				<source>Text Media 2</source>
+				<source>Text and media</source>
 			</trans-unit>
 			<trans-unit id="wizard.media.description" resname="wizard.media.description">
-				<source>Text media layouts.</source>
+				<source>Flexible text and media layouts.</source>
 			</trans-unit>
-			<trans-unit id="tt_content.theme.header" resname="tt_content.theme.header">
-				<source>Theme Content</source>
+
+			<trans-unit id="content.element.menu_anchors" resname="content.element.media">
+				<source>Anchor menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_anchors" resname="wizard.media">
+				<source>Anchor menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_anchors.description" resname="wizard.media.description">
+				<source>Navigation of on-page anchors.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.menu_pages" resname="content.element.media">
+				<source>Page menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_pages" resname="wizard.media">
+				<source>Page menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_pages.description" resname="wizard.media.description">
+				<source>Menu of selected pages and subpages of parent pages.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.stage" resname="content.element.media">
+				<source>Stage</source>
+			</trans-unit>
+			<trans-unit id="wizard.stage" resname="wizard.media">
+				<source>Stage</source>
+			</trans-unit>
+			<trans-unit id="wizard.stage.description" resname="wizard.media.description">
+				<source>Page introduction with h1-headline.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.text" resname="content.element.media">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="wizard.text" resname="wizard.media">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="wizard.text.description" resname="wizard.media.description">
+				<source>Simple text element.</source>
 			</trans-unit>
 		</body>
 	</file>

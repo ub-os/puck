@@ -1,7 +1,0 @@
-TCEFORM.tt_content {
-    header.types.anchor.label = Title
-    subheader.types.anchor {
-        disabled = 0
-        label = Override ID
-    }
-}

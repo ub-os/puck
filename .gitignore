@@ -15,5 +15,6 @@ node_modules
 /theme/Resources/Public/css/
 /theme/Resources/Public/js/
 /theme/Resources/Public/images/sprite-sheet.svg
-/theme/Configuration/TypoScript/03_favicons.typoscript
+/theme/Configuration/TypoScript/04_favicons.typoscript
 /theme/Resources/Public/images/favicons/
+/theme/Configuration/TypoScript/04_favicons.typoscript

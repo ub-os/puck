@@ -1,29 +1,26 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-stage-default"/>
-  <fc:param name="data" type="array"/>
-  <fc:param name="files" type="array" optional="1"/>
-    <fc:param name="files2" type="array" optional="1"/>
-    <fc:param name="backgroundFileId" type="string" optional="1" default="magnesium"/>
+  <fc:param name="object" type="mixed"/>
     <fc:renderer>
 
     <layout:section
         container="cols10"
-        class="{name}__wrap {f:if(condition: '!{data.bodytext} && !{files}', then: '-headline-only')} -{data.layout}"
+        class="{name}__wrap {f:if(condition: '!{object.bodytext} && !{object.assets}', then: '-headline-only')} -{object.layout}"
         top="none"
         bottom="none"
-        id="c{data.uid}">
+        id="c{object.uid}">
         <div class="{name}__text">
-            <h1 class="{name}__headline">{data.header}</h1>
-            <f:if condition="{data.bodytext}">
+            <h1 class="{name}__headline">{object.header}</h1>
+            <f:if condition="{object.bodytext}">
                 <div class="{name}__bodytext e-text-rich">
-                    <f:format.raw>{data.bodytext}</f:format.raw>
+                    <f:format.raw>{object.bodytext}</f:format.raw>
                 </div>
             </f:if>
         </div>
-        <f:if condition="{files}">
+        <f:if condition="{object.assets}">
             <element:media
-                    file="{files.0}"
+                    file="{object.assets.0}"
                     cropVariant="3:2"
                     name="{name}"
                     width="900"

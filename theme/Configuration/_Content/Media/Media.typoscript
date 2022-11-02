@@ -1,8 +1,0 @@
-tt_content.media {
-    dataProcessing {
-        10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
-        10 {
-            references.fieldName = assets
-        }
-    }
-}

@@ -8,7 +8,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'UBOS Theme - Biolectra 2022',
+	'title' => 'UBOS Theme',
 	'description' => '',
 	'category' => 'distribution',
 	'author' => 'Amadeus Kiener / Unibrand',
@@ -24,6 +24,7 @@ $EM_CONF[$_EXTKEY] = array(
             'typo3' => '',
             'content_defender' => '',
             'fluid_components' => '',
+            'autoloader' => '',
     ),
 		'conflicts' => array(
 		),

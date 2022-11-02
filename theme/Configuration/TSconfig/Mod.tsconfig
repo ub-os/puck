@@ -1,0 +1,128 @@
+// Content Wizard Groups
+mod.wizards.newContentElement.wizardItems {
+    01_content {
+        header = Content
+    }
+    02_menu {
+        header = Menu
+    }
+    menu.show =
+    common.show =
+    forms.show =
+}
+// Page Backend Layouts
+mod.web_layout.BackendLayouts {
+    default {
+        title = Default
+        config {
+            backend_layout {
+                colCount = 8
+                rows {
+                    1 {
+                        columns {
+                            1 {
+                                name = Stage
+                                colPos = 2
+                                colSpan = 8
+                                allowed {
+                                    CType = stage
+                                }
+                            }
+                        }
+                    }
+                    2 {
+                        columns {
+                            1 {
+                                name = Main content
+                                colPos = 1
+                                colSpan = 8
+                                allowed {
+                                    CType = stage, form_formframework, teaser, columns, tabs, menuanchors, anchor, menu_pages, shortcut, html, accordion, gallery, media, list, text, textmedia
+                                }
+                            }
+                        }
+                    }
+                    3 {
+                        columns {
+                            1 {
+                                name = Override footer
+                                colPos = 3
+                                colSpan = 8
+                                allowed {
+                                    CType = text
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    home {
+        title = Home
+        config {
+            backend_layout {
+                colCount = 8
+                rowCount = 2
+                rows {
+                    1 {
+                        columns {
+                            1 {
+                                name = Stage
+                                colPos = 2
+                                colSpan = 8
+                                allowed {
+                                    CType = stage
+                                }
+                            }
+                        }
+                    }
+                    2 {
+                        columns {
+                            1 {
+                                name = Main content
+                                colPos = 1
+                                colSpan = 8
+
+                            }
+                        }
+                    }
+                    3 {
+                        columns {
+                            1 {
+                                name = Footer
+                                colPos = 3
+                                colSpan = 8
+                                allowed {
+                                    CType = text
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    newsdetail {
+        title = Newsdetail
+        config {
+            backend_layout {
+                colCount = 8
+                rows {
+                    1 {
+                        columns {
+                            1 {
+                                name = Main content
+                                colPos = 1
+                                colSpan = 8
+                                allowed {
+                                    CType = list
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

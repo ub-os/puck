@@ -14,11 +14,10 @@ use UBOS\Theme\Domain\Repository\PageRepository;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("01_content")
+ * @WizardTab("02_menu")
  */
 class MenuPages extends AbstractEntity
 {
-
     /**
      * @var string
      */
@@ -56,6 +55,7 @@ class MenuPages extends AbstractEntity
 
     /**
      * @var string
+     * @DatabaseField("string")
      */
     protected string $parents;
 

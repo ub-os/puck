@@ -60,6 +60,7 @@ class Media extends AbstractEntity
 
     /**
      * @var string
+     * @DatabaseField("string")
      */
     public string $bodytext2;
 
@@ -70,6 +71,7 @@ class Media extends AbstractEntity
 
     /**
      * @var string
+     * @DatabaseField("string")
      */
     public string $contentType;
 

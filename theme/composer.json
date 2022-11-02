@@ -1,7 +1,7 @@
 {
   "name": "ubos/theme",
   "type": "typo3-cms-extension",
-  "description": "UBOS Theme - Biolectra 2022",
+  "description": "UBOS Theme",
   "license": "GPL-2.0-or-later",
   "version": "1.0.0",
   "require": {
@@ -9,6 +9,7 @@
     "typo3/cms-core": "^11",
     "ichhabrecht/content-defender": "^3.2",
     "sitegeist/fluid-components": "^3.1",
+    "lochmueller/autoloader": "7.3.7",
     "brotkrueml/schema": "^2.5",
     "plan2net/webp": "^4.1"
   },

@@ -38,6 +38,7 @@ class Text extends AbstractEntity
 
     /**
      * @var string
+     * @DatabaseField("string")
      */
     public string $layout;
 
