@@ -119,7 +119,7 @@ $GLOBALS['TCA']['tt_content']['columns']['pages'] = [
         'type' => 'group',
         'allowed' => 'pages',
         'size' => 3,
-        'maxitems' => 50,
+        'maxitems' => 50
     ],
 ];
 
@@ -166,7 +166,7 @@ $GLOBALS['TCA']['tt_content']['columns']['space_after_class'] = [
 
 $GLOBALS['TCA']['tt_content']['columns']['bodytext2'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
 
-$iconJson = file_get_contents(ExtensionManagementUtility::extPath('theme') . "Resources/Public/fonts/icons/icons.json");
+$iconJson = file_get_contents(ExtensionManagementUtility::extPath('theme') . "Resources/Public/Fonts/Icons/icons.json");
 
 $iconJsonIterator = new RecursiveIteratorIterator(
     new RecursiveArrayIterator(json_decode($iconJson, TRUE)),
@@ -174,10 +174,10 @@ $iconJsonIterator = new RecursiveIteratorIterator(
 $iconSelectItems = [['none', '']];
 foreach ($iconJsonIterator as $key => $val) {
     $iconSelectItems[] = [
-        $key, $key, 'EXT:theme/Resources/Public/images/icons/' . $key . '.svg'
+        $key, $key, 'EXT:theme/Resources/Public/Icons/Frontend/' . $key . '.svg'
     ];
 }
-$GLOBALS['TCA']['tt_content']['columns']['icon'] = [
+/*$GLOBALS['TCA']['tt_content']['columns']['icon'] = [
     'exclude' => true,
     'label' => 'Icon',
     'config' => [
@@ -186,7 +186,7 @@ $GLOBALS['TCA']['tt_content']['columns']['icon'] = [
         'items' => $iconSelectItems,
         'default' => '',
     ]
-];
+];*/
 
 $GLOBALS['TCA']['tt_content']['columns']['inline_media'] = [
     'label' => 'Content items',
@@ -207,7 +207,25 @@ $GLOBALS['TCA']['tt_content']['columns']['inline_media'] = [
         'type' => 'inline',
     ],
 ];
-
+$GLOBALS['TCA']['tt_content']['columns']['inline_media2'] = [
+    'label' => 'Content items',
+    'config' => [
+        'appearance' => [
+            'collapseAll' => '1',
+            'enabledControls' => [
+                'dragdrop' => '1',
+            ],
+            'levelLinksPosition' => 'bottom',
+            'useSortable' => '1',
+        ],
+        'foreign_field' => 'parent_uid',
+        'foreign_table' => 'tx_theme_domain_model_inline_media',
+        'foreign_table_field' => 'parent_table',
+        'maxitems' => '30',
+        'minitems' => '0',
+        'type' => 'inline',
+    ],
+];
 
 $GLOBALS['TCA']['tt_content']['palettes']['layout'] = [
     'label' => 'Configuration',
@@ -270,7 +288,9 @@ $baseShowItem = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,
         rowDescription,
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,';
-foreach(require(ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php') as $content) {
+
+require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php';
+foreach(getContentClasses() as $content) {
     $class = new $content['fullName'];
     $GLOBALS['TCA']['tt_content']['types'][$content['ctype']]['showitem'] = $class->showItem().$baseShowItem;
     $GLOBALS['TCA']['tt_content']['types'][$content['ctype']]['columnsOverrides'] = $class->columnsOverrides();

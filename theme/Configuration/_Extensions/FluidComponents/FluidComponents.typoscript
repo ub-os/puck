@@ -1,9 +1,0 @@
-config.tx_fluidcomponents.settings {
-    navUid {
-        main = {$navUid.main}
-        footer = {$navUid.footer}
-        social = {$navUid.social}
-        meta = {$navUid.meta}
-        language = {$navUid.language}
-    }
-}

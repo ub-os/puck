@@ -9,7 +9,11 @@ page.20 {
         view {
             templateRootPath = EXT:theme/Resources/Private/Fluid/
         }
+        navigations {
+            main {
+                uid = 1
+            }
+        }
     }
 }
 
-module.tx_backend.view.partialRootPaths.100 = EXT:theme/Resources/Private/Fluid/Backend/Partials/

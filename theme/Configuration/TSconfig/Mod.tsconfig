@@ -36,9 +36,7 @@ mod.web_layout.BackendLayouts {
                                 name = Main content
                                 colPos = 1
                                 colSpan = 8
-                                allowed {
-                                    CType = stage, form_formframework, teaser, columns, tabs, menuanchors, anchor, menu_pages, shortcut, html, accordion, gallery, media, list, text, textmedia
-                                }
+
                             }
                         }
                     }
@@ -49,7 +47,7 @@ mod.web_layout.BackendLayouts {
                                 colPos = 3
                                 colSpan = 8
                                 allowed {
-                                    CType = text
+                                    CType = theme_text
                                 }
                             }
                         }
@@ -94,7 +92,7 @@ mod.web_layout.BackendLayouts {
                                 colPos = 3
                                 colSpan = 8
                                 allowed {
-                                    CType = text
+                                    CType = theme_text
                                 }
                             }
                         }

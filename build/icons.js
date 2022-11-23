@@ -2,7 +2,7 @@ import fs from 'fs';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
-const themeIcons = require('../theme/Resources/Public/fonts/icons/icons.json');
+const themeIcons = require('../theme/Resources/Public/Fonts/Icons/icons.json');
 
 console.log(themeIcons);
 const ckIconPluginDialogFile = './theme/Resources/Public/CkEditorPlugins/insertIcon/dialog.js';

@@ -6,12 +6,19 @@
   <fc:param name="i" type="array"/>
   <fc:renderer>
 
-    <li class="{name}" id="c{uid}-acc{i.index}" data-acc="group">
-      <button class="{name}__button" aria-expanded="false" data-acc-el="head">
+    <f:variable name="options" value="{activeExclusionId: 'c{uid}'}"/>
+    <f:variable name="id" value="c{uid}-{i.index}-accordion"/>
+    <li class="{name}" id="{id}">
+      <button class="{name}__button"
+              id="{id}-header"
+              aria-controls="{id}-content">
         <span class="{name}__title"><f:format.raw>{item.header}</f:format.raw></span>
         <span class="{name}__icon"></span>
       </button>
-      <div class="{name}__content" data-acc-el="content">
+      <div class="{name}__content"
+           id="{id}-content"
+           aria-labelledby="{id}-header"
+           data-accordion="{options -> f:format.json()}">
         <module:text.media.item data="{item}" files="{item.assets}" />
       </div>
     </li>

@@ -1,23 +1,41 @@
-import {$, $$} from '../General/Aliases';
+import {$, $$, jsx} from '../General/Aliases';
 
 // CLASS ListFilter
 export default class ListFilter {
-    constructor(node, options= {}, categories= {}, t3langData = {}) {
-        this.node = node;
-        this.options = {
-            ...{setTriggerPotential: true},
-            ...options};
-        this.urlParams = new URLSearchParams(window.location.search);
-        this.htmlLang = $('html').lang.substring(0,2);
-        this.currentLang = t3langData[this.htmlLang] ? t3langData[this.htmlLang] : t3langData.en;
-        this.activeTriggerCounter = 0;
-        this.list = $(`[data-menu-filter-list-of="${node.id}"]`);
-        this.clearAllTrigger = node.$('[data-menu-filter-clear-all]');
-        this.activeTriggerDisplay =  node.$('[data-menu-filter-trigger-counter]');
-        this.state = this.createStateCategories(categories);
-        this.items = this.createItems();
-        this.triggers = this.createTriggers();
-        this.watch();
+    constructor(
+        target,
+        {
+            listNode,
+            clearAllNode, 
+            counterNode, 
+            options= {},
+            categories= {}, 
+            t3langData = {},
+        }) {
+        if (target instanceof Element) {
+            this.node = target
+        } else if (typeof target === 'string' && document.getElementById(target)) {
+            this.node = document.querySelector(target)
+        } else {
+            console.error('ListFilter: No valid element or id for root node provided')
+            console.trace()
+        }
+        Object.assign(this, {
+            id: this.node.id,
+            options: {
+                ...{setTriggerPotential: true},
+                ...options},
+            listNode: listNode || this.node.$('[data-filter-list]'),
+            clearAllNode: clearAllNode || this.node.$('[data-filter-clear-all]'),
+            counterNode: counterNode || this.node.$('[data-filter-counter]'),
+            activeTriggerCounter: 0,
+            htmlLang: document.documentElement.lang.substring(0,2),
+            urlParams: new URLSearchParams(window.location.search),
+            currentLang: t3langData[this.htmlLang] ? t3langData[this.htmlLang] : t3langData.en,
+            state: this.createStateCategories(categories),
+            items: this.createItems(),
+            triggers: this.createTriggers(),
+        })
     }
     arrayIsSubset(arr1, arr2) {
         return arr1.every(val => arr2.includes(val));
@@ -26,7 +44,7 @@ export default class ListFilter {
         let state = {};
         for (let id in categories) {
             state[id] = {
-                ...{conjunction_eval:false,
+                ...{conjunctionEval:false,
                     exclusive:false,
                     selected:this.getStateFromParam(id)},
                 ...categories[id]};
@@ -35,9 +53,9 @@ export default class ListFilter {
     }
     createItems() {
         let items = [];
-        $$(`[data-menu-filter-item-of="${this.node.id}"]`).forEach((item,i) => {
+        $$(`[data-filter-item-of="${this.node.id}"]`).forEach((item,i) => {
             items[i] = {
-                data: JSON.parse(item.$('[data-menu-filter-item-data]').textContent),
+                data: JSON.parse(item.$('[data-filter-item-data]').textContent),
                 node: item,
                 active: true
             };
@@ -46,9 +64,8 @@ export default class ListFilter {
     }
     createTriggers() {
         let triggers = {};
-        const self = this;
-        this.node.$$(`[data-menu-filter-trigger]`).forEach((trigger,i) => {
-            let trVal = trigger.getAttribute('data-menu-filter-trigger');
+        this.node.$$(`[data-filter-trigger]`).forEach((trigger,i) => {
+            let trVal = trigger.getAttribute('data-filter-trigger');
             let tr = {
                 category: trVal.split(':')[0],
                 value: trVal.split(':')[1],
@@ -58,48 +75,46 @@ export default class ListFilter {
                 active: false,
                 enabled: true
             };
-            if (self.arrayIsSubset(tr.valArr, self.state[tr.category].selected)) {
-                self.toggleTrigger(tr);
+            if (this.arrayIsSubset(tr.valArr, this.state[tr.category].selected)) {
+                this.toggleTrigger(tr);
             }
-            self.setTriggerPotential(tr);
+            this.setTriggerPotential(tr);
             tr.node.addEventListener('click', event => {
-                self.trigger(tr);
+                this.trigger(tr);
             });
             triggers[trVal] = tr;
         });
         return triggers;
     }
     trigger(tr){
-        const self = this;
-        self.toggleTrigger(tr);
-        if (self.state[tr.category].exclusive) {
-            for (let activeTriggerInCat of Object.entries(self.triggers).filter(item => (item[1].category == tr.category && item[1].active && item[1].value != tr.value))) {
-                self.toggleTrigger(activeTriggerInCat[1]);
+        this.toggleTrigger(tr);
+        if (this.state[tr.category].exclusive) {
+            for (let activeTriggerInCat of Object.entries(this.triggers).filter(item => (item[1].category == tr.category && item[1].active && item[1].value != tr.value))) {
+                this.toggleTrigger(activeTriggerInCat[1]);
             }
         }
-        self.setCategoryParam(tr.category);
-        for (let trId in self.triggers) {
-            self.setTriggerPotential(self.triggers[trId]);
+        this.setCategoryParam(tr.category);
+        for (let trId in this.triggers) {
+            this.setTriggerPotential(this.triggers[trId]);
         }
-        self.filterItems();
+        this.filterItems();
     }
     toggleTrigger(tr) {
         if (tr.active) {
             tr.active = false;
-            tr.node.classList.remove('-active');
+            tr.node.classList.remove('--active');
             this.changeActiveTriggerCounter(-1);
         } else {
             tr.active = true;
-            tr.node.classList.add('-active');
+            tr.node.classList.add('--active');
             this.changeActiveTriggerCounter(1);
         }
         this.state = this.getChangedState(tr, this.state);
     }
     getChangedState(tr, state, invertActiveState = false) {
-        const self = this;
         let st = JSON.parse(JSON.stringify(state));
         if ((tr.active && !invertActiveState) || (!tr.active && invertActiveState)) {
-            if (!self.arrayIsSubset(tr.valArr, st[tr.category].selected)) {
+            if (!this.arrayIsSubset(tr.valArr, st[tr.category].selected)) {
                 st[tr.category].selected.push.apply(st[tr.category].selected, tr.valArr);
             }
         } else {
@@ -108,39 +123,36 @@ export default class ListFilter {
         return st;
     }
     setCategoryParam(cat) {
-        const self = this;
-        self.urlParams.set(
-            self.t3translate(cat).toLowerCase(),
-            self.state[cat].selected
-                .map(x => self.t3translate(x).toLowerCase())
+        this.urlParams.set(
+            this.t3translate(cat).toLowerCase(),
+            this.state[cat].selected
+                .map(x => this.t3translate(x).toLowerCase())
                 .join('.'));
-        if (!self.state[cat].selected.length) {
-            self.urlParams.delete(self.t3translate(cat).toLowerCase());
+        if (!this.state[cat].selected.length) {
+            this.urlParams.delete(this.t3translate(cat).toLowerCase());
         }
-        window.history.replaceState({}, '', `${window.location.pathname}?${self.urlParams}`);
+        window.history.replaceState({}, '', `${window.location.pathname}?${this.urlParams}`);
     }
     getStateFromParam(cat) {
         return this.urlParams.get(this.t3translate(cat).toLowerCase()) ? this.urlParams.get(this.t3translate(cat).toLowerCase()).split('.').map(x => this.t3transKey(x)) : [];
     }
     filterItems() {
-        const self = this;
-        self.list.animate([
+        this.listNode.animate([
             { opacity: '0' },
             { opacity: '1' },
         ], {
             duration: 550,
             iterations: 1
         });
-        self.items.forEach(item => {
-            self.toggleItem(item, self.checkItem(item, self.state));
+        this.items.forEach(item => {
+            this.toggleItem(item, this.checkItem(item, this.state));
         });
     }
     checkItem(item, state) {
-        const self = this;
         let check = true;
         for (let cat in state) {
-            if (state[cat].conjunction_eval) {
-                if (state[cat].selected.length && !self.arrayIsSubset(state[cat].selected, item.data[cat].split(','))) {
+            if (state[cat].conjunctionEval) {
+                if (state[cat].selected.length && !this.arrayIsSubset(state[cat].selected, item.data[cat].split(','))) {
                     check = false;
                     break;
                 }
@@ -153,66 +165,65 @@ export default class ListFilter {
     }
     toggleItem(item, check) {
         if (check) {
-            item.node.classList.add('-filter-1');
-            item.node.classList.remove('-filter-0','u-hide');
+            item.node.classList.add('--filter-1');
+            item.node.classList.remove('--filter-0','u-hide');
             item.active = true;
         } else {
-            item.node.classList.remove('-filter-1');
-            item.node.classList.add('-filter-0','u-hide');
+            item.node.classList.remove('--filter-1');
+            item.node.classList.add('--filter-0','u-hide');
             item.active = false;
         }
     }
     setTriggerPotential(tr) {
-        const self = this;
-        if (self.options.setTriggerPotential) {
+        if (this.options.setTriggerPotential) {
             let state = {};
-            if (self.state[tr.category].conjunction_eval || tr.active) {
-                state = self.getChangedState(tr, self.state, true);
+            if (this.state[tr.category].conjunctionEval || tr.active) {
+                state = this.getChangedState(tr, this.state, true);
             } else {
-                state = JSON.parse(JSON.stringify(self.state));
+                state = JSON.parse(JSON.stringify(this.state));
                 state[tr.category].selected = tr.valArr;
             }
             tr.enabled = false;
-            self.items.forEach((item, i) => {
-                let check = self.checkItem(item, state);
+            this.items.forEach((item, i) => {
+                let check = this.checkItem(item, state);
                 tr.potential[i] = check;
                 if (check) { tr.enabled = true; }
             });
             if (tr.enabled) {
-                tr.node.classList.add('-enabled');
-                tr.node.classList.remove('-disabled');
+                tr.node.classList.add('--enabled');
+                tr.node.classList.remove('--disabled');
             } else {
-                tr.node.classList.remove('-enabled');
-                tr.node.classList.add('-disabled');
+                tr.node.classList.remove('--enabled');
+                tr.node.classList.add('--disabled');
             }
         }
     }
     changeActiveTriggerCounter(addend) {
-        const self = this;
-        self.activeTriggerCounter += addend;
-        self.activeTriggerDisplay.textContent = self.activeTriggerCounter;
-        if (self.activeTriggerCounter > 0) {
-            self.clearAllTrigger.classList.add('-active');
-            self.clearAllTrigger.classList.remove('-disabled');
-        } else {
-            self.clearAllTrigger.classList.remove('-active');
-            self.clearAllTrigger.classList.add('-disabled');
+        this.activeTriggerCounter += addend;
+        if (this.counterNode) {
+            this.counterNode.textContent = this.activeTriggerCounter;
+            if (this.activeTriggerCounter > 0) {
+                this.clearAllNode.classList.add('--active');
+                this.clearAllNode.classList.remove('--disabled');
+            } else {
+                this.clearAllNode.classList.remove('--active');
+                this.clearAllNode.classList.add('--disabled');
+            }
         }
     }
     clearAll() {
-        const self = this;
-        for (let trId in self.triggers) {
-            if (self.triggers[trId].active) {
-                self.toggleTrigger(self.triggers[trId]);
+        for (let trId in this.triggers) {
+            if (this.triggers[trId].active) {
+                this.toggleTrigger(this.triggers[trId]);
             }
         }
-        for (let trId in self.triggers) {
-            self.setTriggerPotential(self.triggers[trId]);
+        for (let trId in this.triggers) {
+            this.setTriggerPotential(this.triggers[trId]);
         }
-        for (let cat in self.state) {
-            self.setCategoryParam(cat);
+        for (let cat in this.state) {
+            this.setCategoryParam(cat);
         }
-        self.filterItems();
+        this.filterItems();
     }
     t3translate(key) {
         if (this.currentLang) {
@@ -225,10 +236,9 @@ export default class ListFilter {
     }
     t3transKey(trans) {
         let k = trans;
-        const self = this;
-        if (self.currentLang) {
-            for (let key in self.currentLang) {
-                let x = self.currentLang[key];
+        if (this.currentLang) {
+            for (let key in this.currentLang) {
+                let x = this.currentLang[key];
                 if (x.source.toLowerCase() == trans || (x.target && x.target.toLowerCase() == trans)) {
                     k = key;
                 }
@@ -236,49 +246,51 @@ export default class ListFilter {
         }
         return k;
     }
-    watch() {
-        const self = this;
+    mount() {
         this.changeActiveTriggerCounter(0);
-        this.clearAllTrigger.addEventListener('click', event => {
-            event.stopPropagation();
-            self.clearAll();
-        });
+        if (this.clearAllNode) {
+            this.clearAllNode.addEventListener('click', event => {
+                event.stopPropagation();
+                this.clearAll();
+            });
+        }
         this.filterItems();
+        return this
     }
 }
 
 // HTML Structure
-//  #{id}[data-menu-filter]
-//      [data-menu-filter-clear-all]
-//      [data-menu-filter-trigger-counter]
-//      [data-menu-filter-trigger={filterCategory}:{value}]
+//  #{id}[data-filter]
+//      [data-filter-clear-all]
+//      [data-filter-counter]
+//      [data-filter-trigger={filterCategory}:{value}]
 //      ..
-//  [data-menu-filter-list-of={id}]
-//      [data-menu-filter-item-of={id}]
-//          script[data-menu-filter-item-data]
+//  [data-filter-list-of={id}]
+//      [data-filter-item-of={id}]
+//          script[data-filter-item-data]
 //              {"{filterCategory}":"{value}"}
 //      ..
 // Example HTML
-/*<div data-menu-filter id="filterId">
-    <button data-menu-filter-clear-all>Clear</button>
-    <span data-menu-filter-trigger-counter>0</span>
+/*<div data-filter id="filterId">
+    <button data-filter-clear-all>Clear</button>
+    <span data-filter-counter>0</span>
 
     <header>Animal</header>
-    <button data-menu-filter-trigger="animal:cat">Cat</button>
-    <button data-menu-filter-trigger="animal:dog">Dog</button>
+    <button data-filter-trigger="animal:cat">Cat</button>
+    <button data-filter-trigger="animal:dog">Dog</button>
 
     <header>Clothing</header>
-    <button data-menu-filter-trigger="clothing:shirt">Shirt</button>
-    <button data-menu-filter-trigger="clothing:pants">Pants</button>
+    <button data-filter-trigger="clothing:shirt">Shirt</button>
+    <button data-filter-trigger="clothing:pants">Pants</button>
 </div>
-<ul data-menu-filter-list-of="filterId">
-    <li data-menu-filter-item-of="filterId">
-        <script data-menu-filter-item-data
+<ul data-filter-list-of="filterId">
+    <li data-filter-item-of="filterId">
+        <script data-filter-item-data
                 type="application/json">{"animal":"cat","clothing":"shirt"}</script>
         Cat with shirt
     </li>
-    <li data-menu-filter-item-of="filterId">
-        <script data-menu-filter-item-data
+    <li data-filter-item-of="filterId">
+        <script data-filter-item-data
                 type="application/json">{"animal":"dog","clothing":"shirt,pants"}</script>
         Dog with pants and shirt
     </li>

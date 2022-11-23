@@ -11,7 +11,7 @@
     100%
       transform: translate(-50%, -50%)
 
-  &__wrap
+  &
     +gutter-outer()
     position: fixed
     display: none
@@ -21,11 +21,11 @@
     width: 100vw
     z-index: 9
 
-  &__wrap.-open
+  &.--active
     display: block
     animation: modal-open-wrap .3s
 
-  &
+  &__dialog
     +center(both)
     +flex(column, center, center, nowrap)
     position: relative
@@ -42,12 +42,12 @@
   &.-cols12
     width: width-by-cols(12)
 
-  &__inner
+  &__content
     position: relative
     max-height: 100%
     width: 100%
 
-  &__wrap.-open &
+  &.--active &__dialog
     animation: modal-open .3s
 
   &__close

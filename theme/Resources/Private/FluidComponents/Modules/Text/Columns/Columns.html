@@ -24,6 +24,33 @@
       </ul>
     </layout:section>
 
+    <layout:section
+            class="splide__wrap"
+            data="{object}"
+            container="cols10"
+            appearance="{object.frameClass}"
+            id="c{object.uid}-carousel">
+      <element:text.header data="{object}"/>
+      <div class="splide" data-carousel id="c{object.uid}-splide">
+        <div class="splide__track -col{object.imagecols}">
+          <ul class="splide__list">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+              <li class="splide__slide">
+                <f:if condition="{item.header}">
+                  <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+                </f:if>
+                <module:text.media.item
+                        data="{imageorient: item.imageorient, imagecols: 1, bodytext: item.bodytext}"
+                        files="{item.assets}" />
+              </li>
+            </f:for>
+          </ul>
+        </div>
+      </div>
+      <button aria-controls="c{object.uid}-splide" data-go-to="<">Prev</button>
+      <button aria-controls="c{object.uid}-splide" data-go-to=">">Next</button>
+    </layout:section>
+
   </fc:renderer>
 </fc:component>
 

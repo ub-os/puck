@@ -1,7 +1,7 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-page-header"/>
-  <fc:param name="data" type="array"/>
+  <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
     <f:variable name="scrollSensitive"
@@ -11,7 +11,7 @@
                     1: {top: 33, media: 600}
                   }
                 }" />
-    <header class="{name}" data-burger-el="parent"
+    <header class="{name}"
             data-scroll-sensitive='{scrollSensitive -> f:format.json() -> f:format.htmlentitiesDecode()}'>
       <div class="{name}__background"></div>
       <div class="{name}__container">
@@ -19,13 +19,13 @@
                 class="{name}__homelink"
                 absolute="1"
                 parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}">
-          <img src="/typo3conf/ext/theme/Resources/Public/images/icons/website-logo.svg" alt="Algovir" class="{name}__logo">
+          <img src="/typo3conf/ext/theme/Resources/Public/Icons/website-logo.svg" class="{name}__logo">
         </f:link.typolink>
-        <div class="{name}-navigation__wrap" data-burger-el="navigation">
+        <div class="{name}-navigation__wrap" data-burger-menu id="main-menu">
           <element:navigation name="{name}-navigation" class="-small" pageUid="{settings.navUid.meta}">
             <f:if condition="{data.uid} != 18">
               <li class="{name}-navigation__item">
-                <a href="#" class="{name}-navigation__link" data-modal-trigger="header-search-modal">
+                <a href="#" class="{name}-navigation__link" aria-controls="header-search-modal">
                   <f:translate extensionName="theme" key="search"/>
                 </a>
               </li>

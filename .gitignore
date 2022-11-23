@@ -10,11 +10,11 @@ node_modules
 /theme/Resources/Public/json/Language/
 /theme/Resources/Public/json/Language/de.locallang.xlf.json
 /theme/Resources/Public/json/Language/locallang.xlf.json
-/theme/Resources/Public/fonts/icons/
+/theme/Resources/Public/Fonts/Icons/
 /theme/Resources/Private/Stylesheets/00-settings/_icon-font.scss
 /theme/Resources/Public/css/
 /theme/Resources/Public/js/
-/theme/Resources/Public/images/sprite-sheet.svg
-/theme/Configuration/TypoScript/04_favicons.typoscript
-/theme/Resources/Public/images/favicons/
-/theme/Configuration/TypoScript/04_favicons.typoscript
+/theme/Resources/Public/Icons/sprite-sheet.svg
+/theme/Configuration/TypoScript/05_favicons.typoscript
+/theme/Resources/Public/Icons/Favicons/
+/theme/Configuration/TypoScript/05_favicons.typoscript

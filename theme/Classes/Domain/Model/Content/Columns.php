@@ -4,53 +4,33 @@ namespace UBOS\Theme\Domain\Model\Content;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
 use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
 use UBOS\Theme\Domain\Model\InlineMedia;
+use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Columns extends AbstractEntity
+class Columns extends Text
 {
     /**
-     * @var string
+     * @var int
      */
-    public string $header;
-
-    /**
-     * @var string
-     */
-    public string $headerLayout;
-
-    /**
-     * @var string
-     */
-    public string $headerPosition;
-
-    /**
-     * @var string
-     */
-    public string $subheader;
-
-    /**
-     * @var string
-     */
-    public string $layout;
-
-    /**
-     * @var string
-     */
-    public string $bodytext;
+    public int $imagecols = 1;
 
     /**
      * @var ObjectStorage<InlineMedia>
      * @DatabaseField("string")
+     * @Cascade("remove")
+     * @Lazy
      */
     public ObjectStorage $inlineMedia;
 

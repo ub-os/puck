@@ -9,13 +9,18 @@ namespace UBOS\Theme\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
-
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Core\Context\Context;
+
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+//use UBOS\Theme\Domain\Repository\PageRepository;
+//use B13\Menus\Domain\Repository\MenuRepository;
+
 
 /**
  * Page Controller.
@@ -30,20 +35,25 @@ class PageController extends ActionController
         try {
             $data = $this->configurationManager->getContentObject()->data;
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+            $context = GeneralUtility::makeInstance(Context::class);
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $contentObject = new ContentContentObject($contentObjectRenderer);
-            $modelArray = $dataMapper->map('UBOS\Theme\Domain\Model\Page', [$data]);
-            $colPoss = [1,2,3];
+            $model = $dataMapper->map('UBOS\Theme\Domain\Model\Page', [$data])[0];
+            $backendRows = [
+                ['colPos' => 1, 'slide' => 0],
+                ['colPos' => 3, 'slide' => -1]
+            ];
             $contentElements = [];
-            foreach($colPoss as $colPos) {
-                $contentElements['colPos'.$colPos] = $contentObject->render([
+            foreach($backendRows as $row) {
+                $contentElements['colPos'.$row['colPos']] = $contentObject->render([
                     'table' => 'tt_content',
                     'select.' => [
                         'pidInList' => $data['uid'],
-                        'where' => '{#colPos}='.$colPos,
+                        'where' => '{#colPos}='.$row['colPos'],
                         'orderBy' => 'sorting',
-                    ]
+                    ],
+                    'slide' => $row['slide']
                 ]);
             }
             $variables = $contentDataProcessor->process(
@@ -51,8 +61,23 @@ class PageController extends ActionController
                 ['dataProcessing.' => $this->settings['dataProcessing'] ?? null],
                 ['data' => $data]
             );
+            //$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            //$pageRepository = $objectManager->get(PageRepository::class);
+            //$menuRepository = $objectManager->get(MenuRepository::class);
+            //$variables['tree_theme'] = $pageRepository->getPageTree($data['uid'], 3, true);
+            //$variables['tree_b13'] = $menuRepository->getPageTree($data['uid'], 3, []);
+            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $data['uid']);
+            $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+            $model->setBreadcrumbs(array_reverse($dataMapper->map('UBOS\Theme\Domain\Model\Page', $rootLine->get())));
+            $model->setPrimaryImage(0);
+            $variables['context'] = [
+                'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
+                'timestamp'  => $context->getPropertyFromAspect('date', 'timestamp'),
+                'site' => $site,
+                'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
+            ];
             $variables['settings'] = $this->settings;
-            $variables['object'] = $modelArray[0];
+            $variables['object'] = $model;
             $variables['contentElements'] = $contentElements;
             $this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
             $this->view->assignMultiple(

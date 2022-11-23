@@ -14,7 +14,7 @@ return [
         'transOrigDiffSourceField' => 'l10n_diffsource',
         'delete' => 'deleted',
         'hideTable' => true,
-        'iconfile' => 'EXT:theme/Resources/Public/Icons/InlineMedia.svg',
+        'iconfile' => 'EXT:theme/Resources/Public/Icons/Content/InlineMedia.svg',
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],

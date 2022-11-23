@@ -1,4 +1,4 @@
-function noDragClick(node, callbackFunc, delta = 6) {
+const noDragClick = (node, callbackFunc, delta = 6) => {
     let startX;
     let startY;
     node.addEventListener('mousedown', function (event) {

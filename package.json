@@ -23,7 +23,7 @@
     "watch:css:dev": "onchange 'theme/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css:dev",
     "build:js": "run-s build:js:dev uglify",
     "build:css": "run-s build:css:dev minifycss",
-    "build:js:dev": "run-s jshint browserify",
+    "build:js:dev": "run-s eslint browserify",
     "build:css:dev": "run-s dart-sass autoprefixer",
     "build:favicons": "node build/favicons.js",
     "build:xlf-to-json": "node build/xlf-to-json.js",
@@ -32,6 +32,7 @@
     "dart-sass": "node build/dart-sass.js",
     "createDist": "mkdir -p ${npm_package_config_path_dist}js && mkdir -p ${npm_package_config_path_dist}css",
     "jshint": "jshint ${npm_package_config_path_src}JavaScript/**/*.js",
+    "eslint": "eslint ${npm_package_config_path_src}JavaScript/**/*.js",
     "browserify": "browserify -t [ babelify --presets [ @babel/preset-env ] ] -d ${npm_package_config_path_src}JavaScript/app.js > ${npm_package_config_path_dist}js/app.js",
     "uglify": "uglifyjs ${npm_package_config_path_dist}js/app.js --compress --mangle -o ${npm_package_config_path_dist}js/app.min.js",
     "autoprefixer": "postcss ${npm_package_config_path_dist}css/styles.css --use autoprefixer --map -o ${npm_package_config_path_dist}css/styles.css",
@@ -40,10 +41,13 @@
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
     "autoprefixer": "^10.4.8",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "css-minify": "^2.0.0",
+    "eslint": "^8.27.0",
     "fantasticon": "^1.2.3",
     "favicons": "^7.0.0-beta.5",
     "install": "^0.13.0",
@@ -61,7 +65,9 @@
     "xliff": "^6.1.0"
   },
   "dependencies": {
-    "@glidejs/glide": "^3.5.2",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
+    "@splidejs/splide": "^4.1.4",
+    "jsx-dom": "^8.0.3",
     "normalize.css": "^8.0.1",
     "rfs": "^9.0.6",
     "smoothscroll-polyfill": "^0.4.4"

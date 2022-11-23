@@ -4,10 +4,10 @@ namespace UBOS\Theme\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\DatabaseField;
-
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 
 /**
  * @DatabaseTable("tx_theme_domain_model_inline_media")
@@ -57,7 +57,7 @@ class InlineMedia extends AbstractEntity
      * @var int
      * @DatabaseField("int")
      */
-    public int $imagecols = 0;
+    public int $imagecols = 1;
 
     /**
      * @var string
@@ -74,14 +74,8 @@ class InlineMedia extends AbstractEntity
     /**
      * @var ObjectStorage<FileReference>
      * @DatabaseField("string")
+     * @Lazy
      */
     public $assets;
 
-    /**
-     * @return int
-     */
-    public function getUid(): int
-    {
-        return $this->uid;
-    }
 }

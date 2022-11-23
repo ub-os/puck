@@ -75,7 +75,6 @@ class ContentController extends ActionController
                 $templateRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
             }
             $view->setTemplateRootPaths($templateRootPaths);
-
             $view->assignMultiple(
                 $variables
             );

@@ -2,8 +2,8 @@ import fs from 'fs';
 import favicons from 'favicons';
 
 const resourcePath = 'theme/Resources/Public/',
-    distPath = `${resourcePath}images/favicons/`,
-    source = `${resourcePath}images/icons/website-favicon.svg`,
+    distPath = `${resourcePath}Icons/Favicons/`,
+    source = `${resourcePath}Icons/website-favicon.svg`,
     configuration =     {
         path: distPath,
         lang: 'de-DE',
@@ -33,7 +33,7 @@ const resourcePath = 'theme/Resources/Public/',
             html += icon+'' +
                 '';
         }
-        fs.writeFile('theme/Configuration/Typoscript/04_favicons.typoscript', `
+        fs.writeFile('theme/Configuration/Typoscript/05_favicons.typoscript', `
 page.headerData.99999999 = TEXT
 page.headerData.99999999.value (
 ${html.replaceAll(distPath, 'typo3conf/ext/'+distPath)}

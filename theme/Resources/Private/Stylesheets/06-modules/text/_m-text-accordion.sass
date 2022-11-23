@@ -20,7 +20,7 @@
 
   &__button:hover
 
-  &.-open &__button
+  &__button.--active
 
   &__title
     padding-right: 1em
@@ -35,11 +35,10 @@
     opacity: 0
     transition: padding .15s ease-out, opacity .05s
 
-  &.-open &__content
+  &__content.--active
     +spacing(both, s)
     opacity: 1
     border-top: 4px solid white
-
 
   &__icon
     position: relative
@@ -61,8 +60,8 @@
   &__icon:after
     transform: translate(-50%, -50%) rotate(90deg)
 
-  &.-open &__icon:before
+  &__button.--active &__icon:before
     transform: translate(-50%,-50%) scaleY(0)
 
-  &.-open &__icon:after
+  &__button.--active &__icon:after
     transform: translate(-50%,-50%) rotate(90deg)

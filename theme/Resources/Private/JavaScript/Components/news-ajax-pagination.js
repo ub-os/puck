@@ -1,7 +1,7 @@
-import {$, $$} from '../General/Aliases';
+import {$, $$, jsx} from '../General/Aliases';
 
 $$('[id^="news-container"] .page-navigation a').forEach((el) => {
-  paginationLink(el);
+  paginationLink(el)
 });
 
 function paginationLink(node) {
@@ -19,9 +19,9 @@ function paginationLink(node) {
             top: height,
             behavior: 'smooth',
             left: 0,
-          });
+          })
           $$(`#${container} .page-navigation a`).forEach((link) => {
-            paginationLink(link);
+            paginationLink(link)
           });
         });
       });

@@ -162,6 +162,16 @@
 			<trans-unit id="wizard.text.description" resname="wizard.media.description">
 				<source>Simple text element.</source>
 			</trans-unit>
+
+			<trans-unit id="content.element.carousel" resname="content.element.carousel">
+				<source>Carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.carousel" resname="wizard.carousel">
+				<source>Carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.carousel.description" resname="wizard.media.description">
+				<source>Text and media slider.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

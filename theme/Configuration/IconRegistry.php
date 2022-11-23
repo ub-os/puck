@@ -33,7 +33,7 @@ foreach ($icons as $item) {
     $iconRegistry->registerIcon(
         strtolower($item),
         BitmapIconProvider::class,
-        ['source' => 'EXT:theme/Resources/Public/images/ctype-icons/default/'.$item.'.svg']
+        ['source' => 'EXT:theme/Resources/Public/Icons/Content/'.$item.'.svg']
     );
 }
 
@@ -42,6 +42,7 @@ foreach ($icons as $item) {
     BitmapIconProvider::class,
     ['source' => 'EXT:theme/Resources/Public/Icons/Content/Html.svg']
 );*/
+
 $iconRegistry->registerIcon(
     'content-special-shortcut',
     BitmapIconProvider::class,

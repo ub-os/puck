@@ -4,7 +4,8 @@
   <fc:param name="width" type="integer" optional="1"/>
   <fc:renderer>
 
-    <div class="{name}" data-video-embed="{file.extension}" data-embed-id="{file.contents}" data-width="{width}">
+    <f:variable name="options" value="{service:file.extension,id:file.contents,width:width}"/>
+    <div class="{name}" data-video-embed="{options -> f:format.json()}">
       <f:switch expression="{file.extension}">
         <f:case value="youtube">
           <f:variable name="thumbnailSrc" value="https://i.ytimg.com/vi/{file.contents}/maxresdefault.jpg"/>

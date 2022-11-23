@@ -20,20 +20,19 @@ ExtensionUtility::configurePlugin(
 );
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
-    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/Page.tsconfig">'
-);
-ExtensionManagementUtility::addPageTSConfig(
-    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/Mod.tsconfig">'
+    "@import 'EXT:theme/Configuration/TSconfig/Page.tsconfig'
+    @import 'EXT:theme/Configuration/TSconfig/Mod.tsconfig'"
 );
 ExtensionManagementUtility::addUserTSConfig(
-    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:theme/Configuration/TSconfig/User.tsconfig">'
+    "@import 'EXT:theme/Configuration/TSconfig/User.tsconfig'"
 );
 
 Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
 
 require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/IconRegistry.php';
+require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php';
 
-foreach(require(ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php') as $content) {
+foreach(getContentClasses() as $content) {
     ExtensionManagementUtility::addTypoScript(
         'theme',
         'setup',
@@ -46,6 +45,7 @@ foreach(require(ExtensionManagementUtility::extPath('theme') .'/Configuration/He
                     contentElement = '.$content['name'].'
                     extensionKey = theme
                     vendorName = UBOS
+             
                 }   
         }',
         'defaultContentRendering'
@@ -82,8 +82,8 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,bmp,png,svg,webp';
 
 // Backend Extension Configuration
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:theme/Resources/Public/images/favicons/favicon-32x32.png';
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:theme/Resources/Public/images/favicons/favicon.ico';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:theme/Resources/Public/Icons/Favicons/favicon-32x32.png';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:theme/Resources/Public/Icons/Favicons/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#8CBE28';
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:theme/Resources/Public/images/icons/website-logo.svg';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:theme/Resources/Public/Icons/website-logo.svg';
 

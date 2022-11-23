@@ -1,4 +1,4 @@
-import {$, $$} from '../General/Aliases';
+import {$, $$, jsx} from '../General/Aliases';
 
 $$('.powermail_morestep').forEach(node => {
     const el = {

@@ -3,82 +3,43 @@
 namespace UBOS\Theme\Domain\Model\Content;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use UBOS\Theme\Domain\Repository\ContentRepository;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("02_menu")
  */
-class MenuAnchors extends AbstractEntity
+class MenuAnchors extends Text
 {
-
-    /**
-     * @var string
-     */
-    public string $header;
-
-    /**
-     * @var string
-     */
-    public string $headerLayout;
-
-    /**
-     * @var string
-     */
-    public string $headerPosition;
-
-    /**
-     * @var string
-     */
-    public string $subheader;
-
-    /**
-     * @var string
-     */
-    public string $layout;
-
-    /**
-     * @var string
-     */
-    public string $bodytext = '';
-
 
     /**
      * Computed properties.
      */
 
     /**
-     * @var array
+     * @var mixed
+     * @Lazy
+     * @Transient
      */
-    public array $anchors = [];
+    public $anchors = [];
 
     /**
      * @return void
      */
     public function setAnchors(): void
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $records = $queryBuilder
-            ->select('*')
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('theme_anchor')),
-                $queryBuilder->expr()->eq('pid', $this->pid),
-            )
-            ->add('orderBy', 'sorting ASC')
-            ->execute()
-            ->fetchAll();
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $dataMapper = $objectManager->get(DataMapper::class);
-        $this->anchors = $dataMapper->map('UBOS\\Theme\\Domain\\Model\\Content\\Anchor', $records);
+        $contentRepository = $objectManager->get(ContentRepository::class);
+        $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid);
     }
 
     /**

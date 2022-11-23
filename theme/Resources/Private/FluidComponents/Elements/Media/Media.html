@@ -1,7 +1,7 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-media"/>
-  <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference" optional="1"/>
+  <fc:param name="file" type="SMS\FluidComponents\Domain\Model\File" optional="1"/>
   <fc:param name="files" type="array" optional="1"/>
   <fc:param name="width" type="integer" optional="1"/>
   <fc:param name="sources" type="array" optional="1"/>
@@ -9,9 +9,7 @@
   <fc:param name="webp" type="boolean" optional="1" default="1"/>
   <fc:param name="retina" type="boolean" optional="1" default="1"/>
   <fc:param name="loading" type="string" optional="1" default="lazy"/>
-  <fc:param name="controls" type="boolean" optional="1" default="1"/>
-  <fc:param name="autoplay" type="boolean" optional="1" default="0"/>
-  <fc:param name="loop" type="boolean" optional="1" default="0"/>
+  <fc:param name="additionalConfig" type="array" optional="1" default="{controls:1,autoplay:0,loop:0}"/>
   <fc:param name="showTitle" type="boolean" optional="1" default="0"/>
   <fc:param name="showDesc" type="boolean" optional="1" default="0"/>
   <fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
@@ -21,6 +19,9 @@
     <f:variable name="filesP" value="{f:if(condition: file, then: '{0: file}', else: files)}"/>
     <f:if condition="{filesP}">
       <f:for each="{filesP}" as="file" iteration="i">
+        <f:if condition="!{file.extension}">
+          <f:variable name="file" value="{file.originalResource}"/>
+        </f:if>
         <f:variable name="type" value="{file.extension}"/>
         <div class="{name}__figure {class}">
           <f:if condition="{type} == 'jpeg' || {type} == 'jpg' || {type} == 'png' || {type} == 'gif' || {type} == 'webp'">
@@ -53,7 +54,7 @@
             <f:else>
               <f:media file="{file}"
                        width="{width}"
-                       additionalConfig="{autoplay: autoplay, controls: controls, loop: loop, playsinline: autoplay, muted: autoplay}"
+                       additionalConfig="{autoplay:additionalConfig.autoplay, controls:additionalConfig.controls, loop:additionalConfig.loop, playsinline:additionalConfig.autoplay, muted:additionalConfig.autoplay}"
                        class="{name}__{type} {name}__file"
                        title="{file.title}" alt="{file.alternative}" />
             </f:else>

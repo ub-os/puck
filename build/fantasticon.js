@@ -2,15 +2,15 @@ import fs from 'fs';
 import {generateFonts} from "fantasticon";
 
 const resourcePath = 'theme/Resources/Public/';
-if (!fs.existsSync(resourcePath+"fonts/icons")){
-    fs.mkdirSync(resourcePath+"fonts/icons", { recursive: true });
+if (!fs.existsSync(resourcePath+"Fonts/Icons")){
+    fs.mkdirSync(resourcePath+"Fonts/Icons", { recursive: true });
 }
 generateFonts({
-    inputDir: `${resourcePath}images/icons`, // (required)
-    outputDir: `${resourcePath}fonts/icons`, // (required)
+    inputDir: `${resourcePath}Icons/Frontend`, // (required)
+    outputDir: `${resourcePath}Fonts/Icons`, // (required)
     assetTypes: ['scss', 'json', 'html', 'css'],
     fontTypes: ['ttf', 'woff', 'woff2'],
-    fontsUrl: '../fonts/icons',
+    fontsUrl: '../Fonts/Icons',
     prefix: 'icon-',
     tag: '*',
     formatOptions: {

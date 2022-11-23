@@ -4,11 +4,12 @@ namespace UBOS\Theme\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
-
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 
 /**
  * @DatabaseTable("pages")
@@ -16,8 +17,12 @@ use HDNET\Autoloader\Annotation\EnableRichText;
 class Page extends AbstractEntity
 {
 
+    /**
+     *
+     */
     public function __construct() {
         $this->media = new ObjectStorage();
+        $this->subpages = new ObjectStorage();
     }
 
     /**
@@ -87,22 +92,67 @@ class Page extends AbstractEntity
 
     /**
      * @var ObjectStorage<FileReference>
+     * @Lazy
      */
     public $media = null;
 
     /**
-     * @return int
+     * @var array
+     * @Transient
+     * @Lazy
      */
-    public function getUid(): int
+    public array $breadcrumbs = [];
+
+    /**
+     * @var array
+     * @Transient
+     * @Lazy
+     */
+    public array $subpages = [];
+
+    /**
+     * @var FileReference|null
+     * @Transient
+     * @Lazy
+     */
+    public $primaryImage = null;
+
+    /**
+     * @return string
+     */
+    public function getNavTitle(): string
     {
-        return $this->uid;
+        return $this->navTitle ? : $this->title;
     }
 
     /**
      * @return string
      */
-    public function getMenuTitle(): string
+    public function getSeoTitle(): string
     {
-        return $this->navTitle ? : $this->title;
+        return $this->seoTitle ? : $this->title;
     }
+
+    /**
+     * @return string
+     */
+    public function setPrimaryImage($rootLineIndex = 0)
+    {
+        $rootline = array_reverse($this->breadcrumbs);
+         if ($rootline[$rootLineIndex]->media->count() > 0) {
+            $this->primaryImage = $rootline[$rootLineIndex]->media->current();
+        } else if ($rootLineIndex < (count($rootline) - 1)) {
+             $this->setPrimaryImage($rootLineIndex + 1);
+        }
+    }
+
+    /**
+     * @param array $breadcrumbs
+     * @return void
+     */
+    public function setBreadcrumbs(array $breadcrumbs): void
+    {
+        $this->breadcrumbs = $breadcrumbs;
+    }
+
 }

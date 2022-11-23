@@ -4,44 +4,21 @@ namespace UBOS\Theme\Domain\Model\Content;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
 use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
 use UBOS\Theme\Domain\Model\Page;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Media extends AbstractEntity
+class Media extends Text
 {
-    /**
-     * @var string
-     */
-    public string $header;
-
-    /**
-     * @var string
-     */
-    public string $headerLayout;
-
-    /**
-     * @var string
-     */
-    public string $headerPosition;
-
-    /**
-     * @var string
-     */
-    public string $subheader;
-
-    /**
-     * @var string
-     */
-    public string $layout;
 
     /**
      * @var int
@@ -49,12 +26,8 @@ class Media extends AbstractEntity
     public int $imageorient;
 
     /**
-     * @var string
-     */
-    public string $bodytext;
-
-    /**
      * @var ObjectStorage<FileReference>
+     * @Lazy
      */
     public ObjectStorage $assets;
 
@@ -66,6 +39,7 @@ class Media extends AbstractEntity
 
     /**
      * @var ObjectStorage<Page>
+     * @Lazy
      */
     public ObjectStorage $pages;
 

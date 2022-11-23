@@ -6,17 +6,17 @@
   <fc:param name="dataAttributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <div class="{name}__wrap {class}"
+    <div class="{name} {class} -{container}"
          id="{id}"
          data-modal
          {dataAttributes}>
-      <div class="{name} -{container}" data-modal-window>
-        <div class="{name}__inner" id="{id}-inner">
+      <div class="{name}__dialog">
+        <div class="{name}__content" id="{id}-content">
           <f:format.raw>{content}</f:format.raw>
         </div>
-        <div data-modal-close>
-          <icon:svg icon="close" class="{name}__close" />
-        </div>
+        <button class="{name}__close" aria-controls="{id}" aria-label="Close">
+          <icon:svg icon="close" />
+        </button>
       </div>
     </div>
 

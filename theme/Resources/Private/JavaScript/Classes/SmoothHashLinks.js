@@ -7,9 +7,8 @@ export default class SmoothHashLinks {
       offset = 200) {
     this.hashLinks = document.querySelectorAll('a[href*="#"]');
     this.offset = offset;
-    this.watch();
   }
-  watch() {
+  mount() {
     const self = this;
     this.hashLinks.forEach(function(el, i) {
       el.onclick = function(event) {
@@ -40,5 +39,6 @@ export default class SmoothHashLinks {
         }
       }
     };
+    return this
   }
 }

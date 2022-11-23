@@ -30,19 +30,19 @@
                                     <f:variable name="media" value="{breakpoints.{key}}"/>
                                 </f:if>
                                 <f:variable name="srcSet" value="{f:uri.image(
-              src: src,
-              image: image,
-              width: source.width,
-              cropVariant: source.cropVariant
-              )}"/>
+                                  src: src,
+                                  image: image,
+                                  width: source.width,
+                                  cropVariant: source.cropVariant
+                                )}"/>
                                 <f:variable name="srcSetx2" value=""/>
                                 <f:if condition="{retina}">
                                     <f:variable name="srcSetx2" value=", {f:uri.image(
-              src: src,
-              image: image,
-              width: '{source.width * 2}',
-              cropVariant: source.cropVariant
-              )}"/>
+                                  src: src,
+                                  image: image,
+                                  width: '{source.width * 2}',
+                                  cropVariant: source.cropVariant
+                                 )}"/>
                                 </f:if>
                                 <f:if condition="{webp}">
                                     <source media="(min-width: {media}px)"

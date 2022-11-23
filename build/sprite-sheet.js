@@ -1,8 +1,8 @@
 import fs from 'fs';
 import svgstore from 'svgstore';
 
-const iconPath = 'theme/Resources/Public/images/icons';
-const distPath = 'theme/Resources/Public/images';
+const iconPath = 'theme/Resources/Public/Icons/Frontend';
+const distPath = 'theme/Resources/Public/Icons';
 const storeName = 'sprite-sheet.svg';
 
 function getIcons(path) {

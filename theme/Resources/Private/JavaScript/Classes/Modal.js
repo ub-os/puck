@@ -1,60 +1,40 @@
-// CLASS Modal
-//# html-structure for Accordion element: [data-modal] > [data-modal-window], [data-modal-close] && data-modal-trigger={modal.id}
-//# click on "trigger" toggles "content" visibility
-export default class Modal {
-  constructor(node) {
-    document.querySelector('[data-page-modals-container]').appendChild(node);
-    this.el = node;
-    this.id = node.id;
-    this.closer = node.querySelector('[data-modal-close]');
-    this.window = node.querySelector(`[data-modal-window]`);
-    this.trigger = document.querySelectorAll(`[data-modal-trigger="${this.id}"]`);
-    this.active = false;
-    this.valid = this.trigger != null;
-    this.watch();
-  }
-  open() {
-    this.active = true;
-    this.el.classList.add('-open');
-    document.documentElement.classList.add('-modal-open');
-    this.trigger.forEach(function (trigger) {
-      trigger.classList.add('-open');
-    });
-  }
-  close() {
-    this.active = false;
-    this.el.classList.remove('-open');
-    document.documentElement.classList.remove('-modal-open');
-    this.trigger.forEach(function (trigger) {
-      trigger.classList.remove('-open');
-    });
-  }
-  toggle() {
-    if (this.active) {
-      this.close();
-    } else {
-      this.open();
+
+import {Toggleable, toggleEvents} from "./Toggleable"
+import FocusTrap from "./FocusTrap.js";
+
+class Modal extends Toggleable {
+    constructor(target, { toggleOffOnOutsideClick = true, ...options }) {
+        super(target, { toggleOffOnOutsideClick, ...options })
+        this.previousFocusable = null
+        this.focusTrap = new FocusTrap({ node: this.node })
     }
-  }
-  watch() {
-    const self = this;
-    if (this.valid) {
-      self.closer.addEventListener('click', function (event) {
-        self.close();
-      });
-      self.el.addEventListener('click', function (event) {
-        if (!self.window.contains(event.target)) {
-          event.preventDefault();
-          self.close();
-        }
-      });
-      self.trigger.forEach(function(trigger){
-        trigger.addEventListener('click', function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          self.open();
-        });
-      });
+    toggleOn() {
+        super.toggleOn();
+        this.node.removeAttribute('aria-hidden')
+        this.node.role = 'dialog'
+        this.node.ariaModal = 'true'
+        this.focusTrap.firstFocusable.focus()
     }
-  }
+    toggleOff() {
+        super.toggleOff()
+        this.node.ariaHidden = 'true'
+        this.node.removeAttribute('aria-modal')
+        this.node.removeAttribute('role')
+        if (this.previousFocusable) this.previousFocusable.focus()
+    }
+    mount() {
+        super.mount()
+        this.focusTrap.mount()
+        this.node.tabIndex = -1
+        this.toggles.forEach(t => {
+            if (!this.node.contains(t)) {
+                t.addEventListener('click', () => {
+                    this.previousFocusable = t
+                })
+            }
+        })
+        return this
+    }
 }
+
+export default Modal

@@ -19,7 +19,7 @@
     <f:variable name="config" value="{ubos:arr.merge(a:configDefault,b:config)}"/>
 
     <li class="{name} {class}">
-      <article class="{name}__article" data-link-to="{link -> f:format.raw()}" role="link">
+      <article class="{name}__article" data-link-to="{link -> f:format.raw()}">
         <f:if condition="{config.image}">
           <element:media
                   name="{name}"

@@ -1,3 +1,5 @@
+
 import "./Components/init";
-import "./Components/text-rich";
-import "./Components/media-embed";
+import "./Components/rich-text";
+import "./Components/video-embed";
+

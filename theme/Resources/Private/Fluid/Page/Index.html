@@ -1,10 +1,17 @@
 <!--TYPO3SEARCH_end-->
-<module:page.schema data="{data}" files="{object.media}"/>
-<module:page.header data="{data}"/>
+<module:page.schema object="{object}" context="{context}"/>
+<module:page.header object="{object}"/>
 <!--TYPO3SEARCH_begin-->
-<module:page.main data="{data}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
+<module:page.main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
+<button aria-controls="test-modal">Test modal</button>
 <!--TYPO3SEARCH_end-->
-<module:page.footer data="{data}" contentElements="{contentElements.colPos3}"/>
+<module:page.footer object="{object}" contentElements="{contentElements.colPos3}"/>
 <element:control.toTop/>
-<div class="m-page-main__modals" data-page-modals-container></div>
+<div class="m-page-main__modals" object-page-modals-container>
+    <layout:modal id="test-modal">
+        <h2>Modal Header</h2>
+        lorem ipsum
+    </layout:modal>
+</div>
+<span data-link-to="/belas">Hey this is FakeLink test!</span>
 <f:debug>{_all}</f:debug>
