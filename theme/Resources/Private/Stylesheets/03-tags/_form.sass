@@ -1,18 +1,22 @@
+$checkboxSize: 1.5em
 
 fieldset
   padding: 0
   border: none
 
 input, textarea
-  border: none
-  outline: 0
-  background: transparent
-  color: inherit
   margin: 0 0 1em
   padding: 0
-
+  color: inherit
+  background: var(--background-input)
+  outline: 0
   &::placeholder
-    opacity: 0
+    opacity: 0.5
+  &:active, &:focus
+    color: var(--color-input--active)
+    background: var(--background-input--active)
+    &::placeholder
+      opacity: 1
 
 textarea
   width: 100%
@@ -24,10 +28,11 @@ textarea
 
 textarea, select, [type="text"], [type="email"], [type="password"]
   padding: .66em
-  border: 2px solid white
-  border-radius: $border-radius-s
+  border: 2px solid var(--color-input-border)
+  border-radius: var(--border-radius-s)
   transition: background .15s, border-color .15s
   &:active, &:focus, &:hover
+    border-color: var(--color-input-border--active)
 
 select
   -webkit-appearance: none
@@ -41,8 +46,8 @@ select
 
 [type="checkbox"], [type="radio"]
   position: absolute
-  width: 34px
-  height: 34px
+  width: $checkboxSize
+  height: $checkboxSize
   opacity: 0
   z-index: -1
 
@@ -50,7 +55,7 @@ select
     cursor: pointer
     position: relative
     display: block
-    padding: 0 0 0 34px
+    padding: 0 0 0 $checkboxSize
     line-height: 1.5
 
   & + label:after, & + label:before
@@ -64,17 +69,17 @@ select
   & + label:before
     top: 3px
     left: 0
-    width: 22px
-    height: 22px
+    width: $checkboxSize * 0.7
+    height: $checkboxSize * 0.7
     border: 2px solid white
     transition: border-color .15s
 
   & + label:after
     box-sizing: border-box
-    top: 8px
-    left: 5px
-    width: 16px
-    height: 16px
+    top: $checkboxSize * 0.375
+    left: $checkboxSize * 0.2
+    width: $checkboxSize * 0.5
+    height: $checkboxSize * 0.5
     opacity: 0
     transition: border-color .15s, background .15s, opacity .15s
 

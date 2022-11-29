@@ -1,4 +1,4 @@
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
 
 $$('.powermail_morestep').forEach(node => {
     const el = {
@@ -49,7 +49,7 @@ $$('.powermail_morestep').forEach(node => {
     };
     el.to_page_links.forEach(link => {
         let id = link.getAttribute('data-powermail-to-page');
-        link.on('click', function() {
+        link.addEventListener('click', function() {
             if (link.hasAttribute('data-powermail-validate-fieldset')) {
                 let valid = true;
                 el.active_page.$$('[required]').forEach(input => {

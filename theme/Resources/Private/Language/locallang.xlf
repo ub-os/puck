@@ -172,6 +172,26 @@
 			<trans-unit id="wizard.carousel.description" resname="wizard.media.description">
 				<source>Text and media slider.</source>
 			</trans-unit>
+
+			<trans-unit id="content.element.stage_carousel" resname="content.element.stage_carousel">
+				<source>Stage carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.stage_carousel" resname="wizard.stage_carousel">
+				<source>Stage carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.stage_carousel.description" resname="wizard.stage_carousel.description">
+				<source>Stage element slider.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.modal" resname="content.element.modal">
+				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="wizard.modal" resname="wizard.modal">
+				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="wizard.modal.description" resname="wizard.modal.description">
+				<source>Hidden dialog that opens via hash link.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

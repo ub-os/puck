@@ -1,20 +1,19 @@
 
-.m-text-accordion
-  &
-    border: 2px solid white
-    border-radius: $border-radius-s
+.m-text-accordions
+  &__item
+    border-radius: var(--border-radius-s)
 
-  & + &
-    +spacing(top, xxs, margin)
+  &__item + &__item
+    +spacing(top, xs, margin)
 
-  .e-text-rich+&__list
+  .e-text-rich + &
     +spacing(top, m)
 
   &__button
+    +typo-h4
     display: flex
     justify-content: space-between
     width: 100%
-    padding: .9em 1em .8em
     line-height: 1.5
     transition: color .15s, background-color .15s, transform .15s, border-color .15s
 
@@ -23,22 +22,25 @@
   &__button.--active
 
   &__title
-    padding-right: 1em
+    padding:
+      right: 1em
     text-align: left
     transition: transform .2s
 
-  &__content
-    max-height: 0
-    padding: 0 1em
-    background: white
+  &__collapse
+    height: 0
     overflow: hidden
     opacity: 0
-    transition: padding .15s ease-out, opacity .05s
+    transition: opacity .15s, height .2s
 
-  &__content.--active
-    +spacing(both, s)
+  &__collapse.--active
     opacity: 1
-    border-top: 4px solid white
+
+  &__content
+    +spacing(top, xs)
+    +spacing(bottom, s)
+    color: var(--color-accordion)
+    background: var(--background-accordion)
 
   &__icon
     position: relative

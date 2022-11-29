@@ -1,18 +1,17 @@
 
 <fc:component>
     <fc:param name="name" type="string" optional="1" default="m-text-media"/>
-    <fc:param name="data" type="mixed"/>
-    <fc:param name="files" type="array"/>
+    <fc:param name="object" type="mixed"/>
     <fc:param name="cropVariant" type="string" optional="1" default="default"/>
     <fc:renderer>
 
-        <div class="{name} -pos{data.imageorient}">
-            <div class="{name}__row -pos{data.imageorient}">
-                <f:if condition="{files}">
-                    <div class="{name}__media -pos{data.imageorient} -layout-{data.layout}">
-                        <f:if condition="{data.imageorient} > 4">
+        <div class="{name} -pos{object.imageorient}">
+            <div class="{name}__row -pos{object.imageorient}">
+                <f:if condition="{object.assets}">
+                    <div class="{name}__media -pos{object.imageorient} -layout-{object.layout}">
+                        <f:if condition="{object.imageorient} > 4">
                             <f:then>
-                                <f:switch expression="{data.imagecols}">
+                                <f:switch expression="{object.imagecols}">
                                     <f:case value="12">
                                         <f:variable name="calcWidth" value="1300"/>
                                     </f:case>
@@ -31,10 +30,10 @@
                                 <f:variable name="calcWidth" value="528"/>
                             </f:else>
                         </f:if>
-                        <div class="{name}__gallery -pos{data.imageorient} -col{data.imagecols}">
+                        <div class="{name}__gallery -pos{object.imageorient} -col{object.imagecols}">
                             <element:media
                                     name="{name}"
-                                    files="{files}"
+                                    files="{object.assets}"
                                     cropVariant="{cropVariant}"
                                     width="{calcWidth}"
                                     sources="{
@@ -46,9 +45,9 @@
                         </div>
                     </div>
                 </f:if>
-                <f:if condition="{data.bodytext}">
-                    <div class="{name}__text -pos{data.imageorient} -layout-{data.layout}">
-                        <element:text.rich text="{data.bodytext}"/>
+                <f:if condition="{object.bodytext}">
+                    <div class="{name}__text -pos{object.imageorient} -layout-{object.layout}">
+                        <element:text.rich text="{object.bodytext}"/>
                     </div>
                 </f:if>
             </div>

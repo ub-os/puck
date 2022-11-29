@@ -1,12 +1,11 @@
 .d-html
-	&.-modal-open
+	background: var(--background)
+	&[class*="-modal--active"]
 		overflow: hidden
-	&.-burger-open
-		+media(s)
-			overflow: hidden
+	&.--main-menu-toggleable--active
+		overflow: hidden
 
 .d-body
-
 
 .l-container
 	&

@@ -1,19 +1,19 @@
 // CLASS ScrollSensitive
 //# scrolling down adds scroll class to element
 //# arguments: node selector, trigger distance from top, scroll class name
+import {getNode} from '../General/Functions';
 
 export default class ScrollSensitive {
   constructor(
-      node,
-      top = [{top: 5, media: 0}],
-      parent = window,
-      scrollClass = '-scroll'
+      target,
+      {
+        top = [{top: 5, media: 0}],
+        parent = window,
+        scrollClass = '--scroll'
+      }
   ) {
-    this.node = node;
-    this.scrollClass = scrollClass;
-    this.parent = node.dataset.scrollParent ? document.getElementById(node.dataset.scrollParent) : parent;
-    this.top = 0;
-    top = node.dataset.scrollSensitive ?  JSON.parse(node.dataset.scrollSensitive).items : top;
+    Object.assign(this, {top, parent, scrollClass});
+    this.node = getNode(target, 'ScrollSensitive');
     for (let item of top) {
       if (window.innerWidth > item.media) {
         this.top = item.top;
@@ -28,8 +28,7 @@ export default class ScrollSensitive {
     }
   }
   mount() {
-    const self = this;
-    this.parent.addEventListener('scroll', event => {self.toggleScrollClass();});
+    this.parent.addEventListener('scroll', event => {this.toggleScrollClass();});
     return this
   }
 }

@@ -1,23 +1,46 @@
 
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
 import App from '../Classes/App';
-import {Toggleable} from '../Classes/Toggleable';
+import { Toggleable } from '../Classes/Toggleable';
 import Accordion from '../Classes/Accordion';
 import Modal from '../Classes/Modal';
+import TabPanel from '../Classes/TabPanel';
 import Carousel from '../Classes/Carousel';
-import SmoothHashLinks from "../Classes/SmoothHashLinks";
-import ScrollSensitive from '../Classes/ScrollSensitive';
 import FakeLink from '../Classes/FakeLink';
+import SmoothHashLinks from "../Classes/SmoothHashLinks";
+import { ScrollReveal } from '../Classes/ScrollReveal';
+import ScrollSensitive from '../Classes/ScrollSensitive';
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
 
 const _app = new App({
-    debug: document.body.dataset.appDebug
+    debug: document.body.dataset.appDebug,
+    scrollOnCurrentLink: true
 })
 _app.components = {
 
     smoothHashLinks: new SmoothHashLinks().mount(),
+
+    scrollReveals: [...$$('main section')].map(node => {
+        return {
+            section: new ScrollReveal(node, {}).mount(),
+            listItems: [...node.$$('li')].map((li, index) => {
+                return new ScrollReveal(li, {
+                    timing: {
+                        delay: 50+150*index
+                    },
+                }).mount()
+            }),
+            media: [...node.$$('img, video')].map((media, index) => {
+                return new ScrollReveal(media, {
+                    timing: {
+                        delay: 350+150*index
+                    },
+                }).mount()
+            })
+        }
+    }),
 
     burgerMenu: new Toggleable('main-menu',
         {
@@ -57,6 +80,20 @@ _app.components = {
         ]
     })),
 
+    tabPanels: new Map([...$$('[data-tab-panel]')].map(node => {
+        return [
+            node.id,
+            new TabPanel(
+                node,
+                {
+                    ...JSON.parse(node.dataset.tabPanel || '{}'),
+                    ...{
+                        clickDelay: 150,
+                    }}
+            ).mount()
+        ]
+    })),
+
     modals: new Map([...$$('[data-modal]')].map(node => {
         return [
             node.id,
@@ -88,19 +125,24 @@ _app.components = {
     scrollSensitives: new Map([...$$('[data-scroll-sensitive]')].map((node, i) => {
         return [
             node.id || i,
-            new ScrollSensitive(node).mount()
+            new ScrollSensitive(
+                node,
+                {
+                    ...JSON.parse(node.dataset.scrollSensitive),
+                    ...{
+
+                    }}
+            ).mount()
         ]
     })),
 
-    scrollTop: [...$$('[data-to-top]')].map(node => {
-        node.on('click', function(){
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-            })
-        })
-        return node
-    })
 }
 _app.mount()
+
+window.requestAnimationFrame(() => {
+    document.body.classList.remove('u-no-transition');
+    $$('.u-initially-hidden').forEach(node => {
+        node.classList.remove('u-initially-hidden');
+    });
+})
+

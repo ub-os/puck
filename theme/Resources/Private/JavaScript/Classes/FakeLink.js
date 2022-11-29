@@ -3,11 +3,11 @@
 //# opens url on left click(not drag).
 //# handler stops if event target is within a data-link-to-stop element.
 
-import {noDragClick} from '../General/Functions';
+import {noDragClick, getNode} from '../General/Functions';
 
 export default class FakeLink {
   constructor(target) {
-    this.node = target
+    this.node = getNode(target, 'FakeLink');
     this.node.role = 'link'
   }
   openLink(newTab = false) {

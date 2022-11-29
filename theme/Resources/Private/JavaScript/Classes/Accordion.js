@@ -7,13 +7,17 @@ class Accordion extends Toggleable {
     }
     toggleOn() {
         super.toggleOn();
-        this.node.style.maxHeight = `${(this.node.scrollHeight + 100).toString()}px`
+        this.node.style.height = `${(this.node.scrollHeight).toString()}px`
         this.toggles.forEach(t => t.ariaExpanded = 'true')
     }
     toggleOff() {
         super.toggleOff()
-        this.node.style.maxHeight = `0`
+        this.node.style.height = `0`
         this.toggles.forEach(t => t.ariaExpanded = 'false')
+    }
+    mount() {
+        super.mount()
+        return this
     }
 }
 

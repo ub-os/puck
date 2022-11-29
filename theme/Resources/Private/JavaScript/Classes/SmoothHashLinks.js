@@ -16,7 +16,7 @@ export default class SmoothHashLinks {
         if(el.pathname === window.location.pathname){
           event.preventDefault();
           const id = href.split('#')[1];
-          if (id && document.getElementById(id)) {
+          if (id && document.getElementById(id) && getComputedStyle(document.getElementById(id)).position !== 'fixed') {
             const height = document.getElementById(id).getBoundingClientRect().top + document.documentElement.scrollTop - self.offset;
             window.scrollTo({
               top: height,

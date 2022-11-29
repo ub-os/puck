@@ -1,4 +1,4 @@
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
 
 $$('[id^="news-container"] .page-navigation a').forEach((el) => {
   paginationLink(el)

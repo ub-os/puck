@@ -1,0 +1,16 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text-modal"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+  <layout:modal id="c{object.uid}">
+      <element:text.header data="{object}"/>
+      <element:text.rich text="{object.bodytext}"/>
+      <f:format.html>{content}</f:format.html>
+  </layout:modal>
+
+  </fc:renderer>
+</fc:component>
+
+

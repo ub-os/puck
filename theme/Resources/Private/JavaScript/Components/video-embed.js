@@ -1,4 +1,4 @@
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
 
 $$('[data-video-embed]').forEach(node => {
     const data = JSON.parse(node.dataset.videoEmbed);

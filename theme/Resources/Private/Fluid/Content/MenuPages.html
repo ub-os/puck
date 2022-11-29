@@ -1,7 +1,4 @@
-<f:comment><f:debug title="{settings.contentElement} (object)">{object}</f:debug>
-<f:for each="{object.computedProps}" as="prop">
-  <f:debug title="{settings.contentElement} (object.{prop})">{object.{prop}}</f:debug>
-</f:for></f:comment>
+
 <f:switch expression="{object.layout}">
   <f:defaultCase>
     <module:menu.list object="{object}"

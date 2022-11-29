@@ -1,47 +1,28 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-section"/>
+  <fc:param name="id" type="string" optional="1"/>
   <fc:param name="top" type="string" optional="1" default="auto"/>
   <fc:param name="bottom" type="string" optional="1" default="auto"/>
   <fc:param name="container" type="string" optional="1" default="cols12" />
-  <fc:param name="id" type="string" optional="1"/>
-  <fc:param name="data" type="mixed" optional="1"/>
-  <fc:param name="appearance" type="string" optional="1"/>
-  <fc:param name="showSpectrum" type="string" optional="1" default="0"/>
-  <fc:param name="dosageSpectrum" type="string" optional="1" default=""/>
-  <fc:param name="dataAttributes" type="string" optional="1"/>
+  <fc:param name="frameClass" type="string" optional="1" default="default"/>
+  <fc:param name="layout" type="string" optional="1" default="default"/>
+  <fc:param name="object" type="mixed" optional="1"/>
+  <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
     <f:variable name="containerP" value="{f:if(condition: '{container} == default', then: 'cols10', else: container)}"/>
-    <section class="{name} {class}{f:if(condition:'{appearance}',then:' -{appearance}')}{f:if(condition:'{showSpectrum}',then:' -spectrum -dosage{dosageSpectrum}')} -top-{top} -bot-{bottom} {f:if(condition: '!{data.header} || {data.header_layout}', then: '-no-h2')}"
+    <section class="{name} {class} -{object.frameClass} -{object.layout} -top-{top} -bot-{bottom} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')} "
              id="{id}"
-             {dataAttributes}>
-      <f:if condition="{dosageSpectrum} && {showSpectrum}">
-        <div class="{name}__spectrum -blockpos{dosageSpectrum}">
-          <div class="{name}__spectrum__inner">
-            <div class="{name}__spectrum__block"></div>
-          </div>
-        </div>
-      </f:if>
+             {attributes}>
       <f:if condition="{container} == '0'">
         <f:then>
           <f:format.raw>{content}</f:format.raw>
         </f:then>
         <f:else>
-          <f:if condition="{appearance} == 'white-bg' || {appearance} == 'blue-gradient-bg' || {appearance} == 'blue-gradient-box-bg'">
-            <f:then>
-              <div class="{name}__box -{appearance}">
-                <div class="l-container -{containerP}">
-                  <f:format.raw>{content}</f:format.raw>
-                </div>
-              </div>
-            </f:then>
-            <f:else>
-              <div class="l-container -{containerP}">
-                <f:format.raw>{content}</f:format.raw>
-              </div>
-            </f:else>
-          </f:if>
+          <div class="l-container -{containerP}">
+            <f:format.raw>{content}</f:format.raw>
+          </div>
         </f:else>
       </f:if>
     </section>

@@ -26,6 +26,11 @@ class Media extends Text
     public int $imageorient;
 
     /**
+     * @var int
+     */
+    public int $imagecols;
+
+    /**
      * @var ObjectStorage<FileReference>
      * @Lazy
      */

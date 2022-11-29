@@ -1,5 +1,5 @@
 .l-modal
-  @keyframes modal-open-wrap
+  @keyframes modal-open-overlay
     0%
       opacity: 0
     100%
@@ -11,30 +11,45 @@
     100%
       transform: translate(-50%, -50%)
 
-  &
+  &__backdrop
     +gutter-outer()
     position: fixed
     display: none
     top: 0
     left: 0
+    z-index: $z-index-modal-backdrop
     height: 100%
     width: 100vw
-    z-index: 9
+    background: var(--background-modal-backdrop)
+
+  .d-html[class*="-modal--active"] &__backdrop
+    display: block
+    animation: modal-open-overlay .3s
+
+  &
+    +center(both)
+    +flex(column, center, center, nowrap)
+    +spacing(both, m)
+    position: fixed
+    z-index: $z-index-modal
+    display: none
+    width: width-by-cols(6)
+    max-width: 90%
+    max-height: 96%
+    padding:
+      left: 2em
+      right: 2em
+    color: var(--color-modal)
+    background: var(--background-modal)
+    border-radius: var(--border-radius-m)
+    box-shadow: var(--box-shadow-m)
 
   &.--active
     display: block
-    animation: modal-open-wrap .3s
+    animation: modal-open .3s
 
-  &__dialog
-    +center(both)
-    +flex(column, center, center, nowrap)
-    position: relative
-    max-height: 96%
-    background: white
-    width: width-by-cols(8)
-    max-width: 100%
-    border-radius: $border-radius-s
-
+  &.--deactivating
+    //display: block
 
   &.-cols10
     width: width-by-cols(10)
@@ -47,14 +62,12 @@
     max-height: 100%
     width: 100%
 
-  &.--active &__dialog
-    animation: modal-open .3s
-
   &__close
     position: absolute
-    right: 1em
-    top: 1em
-    z-index: 9
+    right: 1.5em
+    top: 1.5em
     cursor: pointer
+    color: var(--color-link)
 
   &__close:hover
+    color: var(--color-link--hover)

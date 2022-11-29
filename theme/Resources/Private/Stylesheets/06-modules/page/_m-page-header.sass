@@ -1,28 +1,53 @@
 .m-page-header
   &
     position: absolute
-    z-index: 10
     top: 0
     left: 0
+    z-index: $z-index-header
     width: 100%
-    height: var(--page-header-height)
-    box-sizing: content-box
+    height: var(--height-page-header)
+    background: var(--background)
     border-bottom: 2px solid transparent
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
-  .-burger-open &,
-  .-burger-open &__background
-    //border-color: $white
-    //background: $brown-carrara
 
-  .-modal-open &.-scroll
+  .d-html[class*="-modal--active"] &.--scroll
     transform: translateY(-100%)
 
-  &.-scroll
-    --page-header-height: #{$page-header-height-sticky}
+  &.--scroll
+    --height-page-header: #{$page-header-height--scroll}
     position: fixed
     top: 0
-    border-color: lightgrey
+    +media(sm)
+      --height-page-header: #{$page-header-height-mobile}
+
+  &__container
+    +flex(row, space-between, center, nowrap)
+    +gutter-outer()
+    height: 100%
+
+  &__anchor
+    position: relative
+    display: flex
+    align-items: center
+    transition: width .15s, padding .15s
+
+  &__logo
+    z-index: $z-index-header-burger
+    max-width: 90%
+    height: auto
+    max-height: 5rem
+    transition: width .15s
+
+  &.--scroll &__logo
+
+  &__menu
+    padding-bottom: .5rem
+
+  &__burger
+    z-index: $z-index-header-burger
+    +media($bp-mobile-nav, up)
+      display: none
 
   &__background
     position: absolute
@@ -30,51 +55,14 @@
     top: 0
     left: 0
     width: 100%
-    height: var(--page-header-height)
+    height: var(--height-page-header)
     background: white
+    opacity: 0
     transform: translateY(-100%)
-    transition: transform .15s, border-color .15s
+    transition: opacity .35s, transform 0s .35s, border-color .35s
 
-  &.-scroll &__background
+  &.--scroll &__background
+    opacity: 1
     transform: translateY(0%)
 
-  &__container
-    +flex(row, space-between, center, nowrap)
-    +gutter-outer()
-    height: 100%
-
-  &__homelink
-    position: relative
-    z-index: 10
-    height: 100%
-    display: flex
-    align-items: center
-    width: 27.7rem
-    height: 100%
-    max-width: 30vw
-    margin-right: .66em
-    transition: width .15s, padding .15s
-    +media(s)
-      width: 14rem
-
-  &.-scroll &__homelink
-    width: 14rem
-
-  &__logo
-    max-width: 90%
-    width: 18rem
-    height: auto
-    transition: width .15s
-
-  &__menu
-    padding-bottom: .5rem
-
-  &.-sticky &__burgernav
-    +media($bp-mobile-nav)
-      top: $page-header-height-sticky
-
-  &__burger
-    z-index: 10
-    margin-left: 3rem
-    +media($bp-mobile-nav, up)
-      display: none
+    transition: transform .35s, border-color .35s

@@ -3,15 +3,7 @@
 <module:page.header object="{object}"/>
 <!--TYPO3SEARCH_begin-->
 <module:page.main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
-<button aria-controls="test-modal">Test modal</button>
 <!--TYPO3SEARCH_end-->
 <module:page.footer object="{object}" contentElements="{contentElements.colPos3}"/>
 <element:control.toTop/>
-<div class="m-page-main__modals" object-page-modals-container>
-    <layout:modal id="test-modal">
-        <h2>Modal Header</h2>
-        lorem ipsum
-    </layout:modal>
-</div>
-<span data-link-to="/belas">Hey this is FakeLink test!</span>
-<f:debug>{_all}</f:debug>
+<div class="l-modal__backdrop"></div>

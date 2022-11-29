@@ -6,33 +6,38 @@
 
     <f:variable name="scrollSensitive"
                 value="{
-                  items: {
+                  top: {
                     0: {top: 1, media: 0},
-                    1: {top: 33, media: 600}
+                    1: {top: 25, media: 600}
                   }
                 }" />
     <header class="{name}"
-            data-scroll-sensitive='{scrollSensitive -> f:format.json() -> f:format.htmlentitiesDecode()}'>
+            data-scroll-sensitive='{scrollSensitive -> f:format.json()}'>
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink
-                class="{name}__homelink"
+                class="{name}__anchor"
                 absolute="1"
                 parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}">
           <img src="/typo3conf/ext/theme/Resources/Public/Icons/website-logo.svg" class="{name}__logo">
         </f:link.typolink>
-        <div class="{name}-navigation__wrap" data-burger-menu id="main-menu">
-          <element:navigation name="{name}-navigation" class="-small" pageUid="{settings.navUid.meta}">
-            <f:if condition="{data.uid} != 18">
-              <li class="{name}-navigation__item">
-                <a href="#" class="{name}-navigation__link" aria-controls="header-search-modal">
-                  <f:translate extensionName="theme" key="search"/>
-                </a>
-              </li>
-            </f:if>
-          </element:navigation>
-          <element:navigation name="{name}-navigation" class="" pageUid="{settings.navUid.main}"/>
+        <div class="{name}-menu__wrap" data-burger-menu id="main-menu">
+          <f:comment>
+              // small navigation with search link that opens modal
+            <element:navigation name="{name}-menu" class="-small" pageUid="{settings.navUid.meta}">
+              <f:if condition="{data.uid} != 18">
+                <li class="{name}-menu__item">
+                  <a href="#" class="{name}-menu__link" aria-controls="header-search-modal">
+                    <f:translate extensionName="theme" key="search"/>
+                  </a>
+                </li>
+              </f:if>
+            </element:navigation>
+          </f:comment>
+
+          <element:navigation name="{name}-menu" class="" pageUid="{settings.navUid.main}"/>
         </div>
+        <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">
           <element:control.burger/>
         </div>

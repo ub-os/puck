@@ -82,7 +82,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,bmp,png,svg,webp';
 
 // Backend Extension Configuration
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:theme/Resources/Public/Icons/Favicons/favicon-32x32.png';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:theme/Resources/Public/Icons/Favicons/android-chrome-72x72.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:theme/Resources/Public/Icons/Favicons/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#8CBE28';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:theme/Resources/Public/Icons/website-logo.svg';

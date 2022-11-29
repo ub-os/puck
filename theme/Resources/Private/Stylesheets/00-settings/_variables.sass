@@ -1,8 +1,7 @@
 @use 'sass:math'
-
+@use 'default'
 // GRID VARIABLES
-$page-width:              177rem
-$gutter:                  2rem
+$page-width:              120rem
 $bp-mobile-nav: l
 
 // FONT-SIZES
@@ -11,70 +10,121 @@ $rfs-factor: 8
 $rfs-breakpoint: 1000px
 $rfs-rem-value: 10
 
-$fs-basic: 2.2rem
-$fs-h1: 6rem
+$fs-basic: 1.8rem
+$fs-h1: 5rem
 $fs-h2: 4rem
-$fs-h3: 3.5rem
-$fs-h4: 3rem
-$fs-small: 1.8rem
-$fs-extra-small: 1.5rem
-
-$fs-sub: $fs-small
-$fs-nav: $fs-basic
-$fs-button: $fs-basic
+$fs-h3: 3rem
+$fs-h4: 2rem
+$fs-small: 1.6rem
+$fs-extra-small: 1.4rem
 
 // COLORS
-$red-cardinal: #AC194F
-$red-jazzberry-jam: #8C103E
-
-$green-rio-grande: #B9C315
-$green-primrose: #DFE396
-
-$blue-pattens: #E3F3F9
-
-$grey-dim: #606060
-$white-gainsboro: #E1E1E1
-
+$lilac: #A46CDC
+$black: #1c1818
+$white: #e1e1e1
+$light-lilac: #A46CDC
+$dark-lilac: #663399
 
 // FONT-FAMILIES
-$ff-text: 'Museo Sans'
+$ff-text: 'Quattrocento Sans'
 $ff-headline: $ff-text
-$ff-alt1: $ff-text
+$ff-alt1: 'Quattrocento Sans'
 $ff-alt2: $ff-text
 
 // STYLES
-$border-radius-s: 5px
-$border-radius-m: 15px
-$box-shadow-xs: 0 3px 4px rgb(0 0 0 / 12%)
+$border-radius-s: .5rem
+$border-radius-m: 1.5rem
+$box-shadow-s: 0 3px 4px rgb(0 0 0 / 12%)
+$box-shadow-m: 0 5px 7px rgb(0 0 0 / 18%)
 
 // COMPONENTS
-$page-header-logo-width: 22.2rem
-$page-header-height: 16rem
-$page-header-height-sticky: 9.4rem
-$page-header-height-mobile: 7.6rem
+$page-header-height: 14rem
+$page-header-height--scroll: 9rem
+$page-header-height-mobile: 8rem
+
+// z-indexes for fixed / absolute relative to root
+$z-index-modal: 1000
+$z-index-modal-backdrop: 999
+$z-index-header: 100
+$z-index-header-menu: 200
+$z-index-header-menu-backdrop: 199
+$z-index-header-burger: 201
 
 
-\:root
-  --color-text
-  --color-headline
-  --color-accent
-  --color-link
-  --color-button
-  --color-footer
-  --color-header
-  --color-burger-menu
-  --background-section
-  --background-main
-  --background-footer
-  --background-header
-  --background-button
-  --background-burger-menu
-  --border-radius-s
-  --border-radius-m
-  --box-shadow-s
-  --box-shadow-m
-  --grid-gutter-x
-  --grid-gutter-y
-  --page-header-height
+\:root  
+  // ### colors / backgrounds
+  // basic
+  --color: #{$black}
+  --color-alt: #{$black}
+  --color-headline: #{$black}
+  --color-accent: #{$lilac}
+  --color-accent-alt: #{$lilac}
+  --background: #{$white}
+
+  // link
+  --color-link: #{$lilac}
+  --color-link--hover: #{lighten($lilac, 5%)}
+
+  // button
+  --color-button: #{$white}
+  --color-button--hover: #{$white}
+  --color-button-border: transparent
+  --color-button-border--hover: transparent
+  --background-button: #{$lilac}
+  --background-button--hover: #{lighten($lilac, 5%)}
+  
+  // button alt
+  --color-button-alt: var(--color-button)
+  --color-button-alt--hover: var(--color-button--hover)
+  --color-button-alt-border: var(--color-button-border)
+  --color-button-alt-border--hover: var(--color-button-border--hover)
+  --background-button-alt: #{$lilac}
+  --background-button-alt--hover: #{lighten($lilac, 5%)}
+  
+  // button light
+  --color-button-light: #{$black}
+  --color-button-light--hover: #{$black}
+  --color-button-light-border: transparent
+  --color-button-light-border--hover: transparent
+  --background-button-light: lightgrey
+  --background-button-light--hover: #{lighten(lightgrey, 5%)}
+  
+  // input
+  --color-input: var(--color)
+  --color-input--active: var(--color)
+  --color-input-border: transparent
+  --color-input-border--active: transparent
+  --background-input: var(--background)
+  --background-input--active: var(--background)
+  
+  // card
+  --background-card: var(--background)
+  
+  // modal
+  --color-modal: var(--color)
+  --background-modal: white
+  --background-modal-backdrop: #{transparentize($white, 0.5)}
+
+  // accordion
+  --color-accordion: var(--color)
+  --background-accordion: var(--background)
 
 
+  // ### border-radius / shadows
+  --border-radius-s: #{$border-radius-s}
+  --border-radius-m: #{$border-radius-m}
+  --border-radius-default: 0
+
+  --box-shadow-s: #{$box-shadow-s}
+  --box-shadow-m: #{$box-shadow-m}
+
+
+  // ### widths / heights
+  --grid-gutter-x: $gutter
+  --grid-gutter-y: $gutter
+
+  --height-page-header: #{$page-header-height}
+  @media(max-width: #{$bp-sm})
+    --height-page-header: #{$page-header-height-mobile}
+
+  --width-page: #{$page-width}

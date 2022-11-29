@@ -7,8 +7,7 @@
     <layout:section
             class="{name}__wrap {f:if(condition: '!{object.bodytext}', then: '-headline-only')} {class}"
             container="cols10"
-            data="{object}"
-            appearance="{object.frameClass}"
+            object="{object}"
             id="c{object.uid}">
         <element:text.header data="{object}"/>
         <element:text.rich text="{object.bodytext}"/>

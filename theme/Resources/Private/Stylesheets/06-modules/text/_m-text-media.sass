@@ -86,10 +86,10 @@
 
     #{$name}__row
       +grid-row($gutter * 4)
-      +rfs($gutter * 2, --bs-gutter-y)
+      +rfs($gutter * 2, --grid-gutter-y)
       display: block
       +media-up-text-media()
-        --bs-gutter-y: 0
+        --grid-gutter-y: 0
       +media-down-text-media()
         display: flex
         flex-direction: column-reverse

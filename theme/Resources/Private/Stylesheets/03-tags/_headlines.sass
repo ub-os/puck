@@ -10,10 +10,12 @@ h2, .h2
 
 h3, .h3
   +typo-h3
-  +spacing(top, xs)
   +spacing(bottom, s)
+  &:not(:first-child)
+    +spacing(top, xs)
 
 h4, .h4
   +typo-h4
   +spacing(bottom, xs)
-
+  &:not(:first-child)
+    +spacing(top, xs)

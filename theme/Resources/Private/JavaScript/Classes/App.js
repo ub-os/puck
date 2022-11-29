@@ -4,15 +4,27 @@ export default class App {
     constructor({ ...options }) {
         this.options = { ...options }
         this.components = {}
-
     }
     mount() {
-        document.body.classList.remove('u-no-transition');
-        $$('.u-initially-hidden').forEach(node => {
-            node.classList.remove('u-initially-hidden');
-        });
         if (this.options.debug) {
             console.log(this);
+        }
+        if (this.options.scrollOnCurrentLink) {
+            const currentLinks = document.querySelectorAll(`
+              a[href="${window.location.href}"], 
+              a[href="${window.location.pathname}"], 
+              [data-link-to="${window.location.href}"], 
+              [data-link-to="${window.location.pathname}"]`)
+            currentLinks.forEach(node => {
+                node.addEventListener('click', e => {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                })
+            })
         }
         return this
     }

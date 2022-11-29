@@ -3,21 +3,19 @@
   <fc:param name="name" type="string" optional="1" default="l-modal"/>
   <fc:param name="container" type="string" optional="1" default="cols8"/>
   <fc:param name="id" type="string" optional="1"/>
-  <fc:param name="dataAttributes" type="string" optional="1"/>
+  <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
     <div class="{name} {class} -{container}"
          id="{id}"
          data-modal
-         {dataAttributes}>
-      <div class="{name}__dialog">
-        <div class="{name}__content" id="{id}-content">
-          <f:format.raw>{content}</f:format.raw>
-        </div>
-        <button class="{name}__close" aria-controls="{id}" aria-label="Close">
-          <icon:svg icon="close" />
-        </button>
+         {attributes}>
+      <div class="{name}__content" id="{id}-content">
+        <f:format.raw>{content}</f:format.raw>
       </div>
+      <button class="{name}__close" aria-controls="{id}" aria-label="Close">
+        <icon:svg icon="close" />
+      </button>
     </div>
 
   </fc:renderer>

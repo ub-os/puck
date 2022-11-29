@@ -11,9 +11,7 @@
         <f:if condition="{item.header}">
           <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
         </f:if>
-        <module:text.media.item
-                data="{imageorient: item.imageorient, imagecols: 1, bodytext: item.bodytext}"
-                files="{item.assets}" />
+        <module:text.media.item object="{item}"/>
       </div>
     </li>
 

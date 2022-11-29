@@ -5,17 +5,34 @@
     max-width: 100vw
     padding: .66em 3em
     text-align: center
-    border: 3px solid transparent
-    border-radius: $border-radius-s
+    color: var(--color-button)
+    background: var(--background-button)
+    border: 2px solid var(--color-button-border)
+    border-radius: var(--border-radius-s)
     cursor: pointer
     transition: color .15s, filter .15s, transform .2s, box-shadow .15s, border-color .15s, background-color .15s, background-position .25s
-
-  &:hover
-    filter: brightness(1.2)
+    &:hover
+      color: var(--color-button--hover)
+      background: var(--background-button--hover)
+      border-color: var(--color-button-border--hover)
 
   &.-block
     display: block
     width: 100%
+
+  &.-ghost,
+  &.-outline
+    color: var(--background-button)
+    background: transparent
+    &:hover
+      color: var(--background-button--hover)
+  &.-ghost
+    border-color: transparent
+  &.-outline
+    border-color: var(--background-button)
+    &:hover
+      border-color: var(--background-button--hover)
+
 
   &[disabled],
   &.-disabled,
@@ -30,11 +47,11 @@
     margin-right: 0.2em
 
 .e-button-primary
-  .e-text-rich * + p &
+  .e-text-rich * + p &:not(:first-child)
     +spacing(top, xs, margin)
 
   .e-text-rich p:not(:last-child) &
-    +spacing(bottom, xs, margin)
+    //+spacing(bottom, xs, margin)
 
   &+&
     +media(m, up)

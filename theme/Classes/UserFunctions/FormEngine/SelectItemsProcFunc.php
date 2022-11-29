@@ -18,9 +18,16 @@ class SelectItemsProcFunc
             'imageorient' => [1,2,3,4,5,6],
             'content_type' => ['assets','page']
         ],
+        'theme_modal' => [
+            'imageorient' => [1,2,3,4,5,6],
+        ],
         'theme_columns' => [
             'imagecols' => [2,3,4]
+        ],
+        'theme_carousel' => [
+            'imagecols' => [1,2,3,4]
         ]
+
     ];
 
     /**

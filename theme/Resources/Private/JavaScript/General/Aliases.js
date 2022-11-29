@@ -9,12 +9,6 @@ Element.prototype.$ = function(selector) {
 Element.prototype.$$ = function(selector) {
   return this.querySelectorAll(selector);
 };
-Element.prototype.on = function(type, listener, options = {}) {
-  return this.addEventListener(type, listener, options);
-};
-Element.prototype.off = function(type, listener, options = {}) {
-  return this.removeEventListener(type, listener, options);
-};
 
 // jsx pragma method
 const jsx = (tag, props, ...children) => {
@@ -35,4 +29,4 @@ const jsx = (tag, props, ...children) => {
 }
 
 
-export {$, $$, jsx};
+export { $, $$, jsx };

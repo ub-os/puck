@@ -38,3 +38,4 @@ class Modal extends Toggleable {
 }
 
 export default Modal
+

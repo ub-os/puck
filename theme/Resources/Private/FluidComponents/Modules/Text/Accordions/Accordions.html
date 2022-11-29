@@ -1,19 +1,17 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-text-accordion"/>
+  <fc:param name="name" type="string" optional="1" default="m-text-accordions"/>
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
     <layout:section
         class="{name}__wrap"
-        data="{object}"
-        container="cols8"
-        appearance="{object.frameClass}"
-        id="c{object.uid}"
-        dataAttributes='data-acc-group'>
+        object="{object}"
+        container="cols10"
+        id="c{object.uid}">
       <element:text.header data="{object}"/>
       <element:text.rich text="{object.bodytext}"/>
-      <ul class="{name}__list">
+      <ul class="{name}">
         <f:for each="{object.inlineMedia}" as="item" iteration="i">
           <module:text.accordions.item
               name="{name}"

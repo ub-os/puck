@@ -1,11 +1,11 @@
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
 
 function wrap(el, wrapper) {
   el.parentNode.insertBefore(wrapper, el);
   wrapper.appendChild(el);
 }
 
-$$('[data-rich-text]').forEach(el => {
+$$('[data-rte]').forEach(el => {
   el.$$('a').forEach( a => {
     a.classList.add( location.hostname === a.hostname || !a.hostname.length ? '-local' : '-external' );
   });

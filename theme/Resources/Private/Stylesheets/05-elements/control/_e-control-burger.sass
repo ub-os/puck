@@ -21,7 +21,7 @@ $slice-degree: 45deg
     cursor: pointer
     transition: transform .15s
 
-  &.-active
+  &.--active
   //transform: scale(.6) translateX(30%)
 
   &__slice
@@ -29,23 +29,22 @@ $slice-degree: 45deg
     position: absolute
     width: $burger-width
     height: 3px
-    background: black
+    background: var(--background-button)
     transform-origin: 50% 50%
     transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
 
-  .-burger-open &__slice
 
-  &.-active &__slice
+  &.--active &__slice
     transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
 
   &__slice:nth-child(1)
     top: 0
     z-index: 2
 
-  &.-active &__slice:nth-child(1)
+  &.--active &__slice:nth-child(1)
     animation: burger-open-top $menu-animation-duration $menu-animation-timing forwards
 
-  &.-closing &__slice:nth-child(1)
+  &.--deactivating &__slice:nth-child(1)
     animation: burger-close-top $menu-animation-duration $menu-animation-timing forwards
 
   &__slice:nth-child(2)
@@ -53,17 +52,17 @@ $slice-degree: 45deg
     opacity: 1
     transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear ($menu-animation-duration / 2), border-color $header-color-trans, background .15s
 
-  &.-active &__slice:nth-child(2)
+  &.--active &__slice:nth-child(2)
     opacity: 0
     transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear ($menu-animation-duration / 2), background .15s
 
   &__slice:nth-child(3)
     top: $slice-distance*2
 
-  &.-active &__slice:nth-child(3)
+  &.--active &__slice:nth-child(3)
     animation: burger-open-bot $menu-animation-duration $menu-animation-timing forwards
 
-  &.-closing &__slice:nth-child(3)
+  &.--deactivating &__slice:nth-child(3)
     animation: burger-close-bot $menu-animation-duration $menu-animation-timing forwards
 
 

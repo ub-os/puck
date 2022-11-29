@@ -21,18 +21,6 @@ mod.web_layout.BackendLayouts {
                     1 {
                         columns {
                             1 {
-                                name = Stage
-                                colPos = 2
-                                colSpan = 8
-                                allowed {
-                                    CType = stage
-                                }
-                            }
-                        }
-                    }
-                    2 {
-                        columns {
-                            1 {
                                 name = Main content
                                 colPos = 1
                                 colSpan = 8
@@ -64,18 +52,6 @@ mod.web_layout.BackendLayouts {
                 rowCount = 2
                 rows {
                     1 {
-                        columns {
-                            1 {
-                                name = Stage
-                                colPos = 2
-                                colSpan = 8
-                                allowed {
-                                    CType = stage
-                                }
-                            }
-                        }
-                    }
-                    2 {
                         columns {
                             1 {
                                 name = Main content

@@ -6,7 +6,7 @@ export default class FocusTrap {
         this.lastFocusable = this.focusables[this.focusables.length - 1]
     }
     mount() {
-        this.node.addEventListener('keydown', (event) => {
+        this.node.addEventListener('keydown', event => {
             if (event.key === 'Tab') {
                 if (event.shiftKey) {
                     if (document.activeElement === this.firstFocusable) {

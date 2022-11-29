@@ -4,12 +4,13 @@
 	background-position: center center
 	background-size: cover
 	&:not(img)::selection
-		background-color: rgba(black, 1) !important
-		color: white !important
+		background-color: var(--color) !important
+		color: var(--background) !important
 		&:after, &:before
-			color: white !important
+			color: var(--background) !important
 	& img::selection
-		background-color: rgba(black, .4)
+		background-color: var(--color)
+		opacity: .4
 
 
 html, body, div, span, applet, object, iframe,

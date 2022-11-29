@@ -6,7 +6,7 @@ const el = {
     string: ''
 };
 if (el.submit && el.input) {
-    el.input.on('change',e => {
+    el.input.addEventListener('change', e => {
         el.string = el.input.value;
         if (el.string.length > 2) {
             el.submit.classList.remove('-disabled');
@@ -15,7 +15,7 @@ if (el.submit && el.input) {
         }
     });
 
-    el.submit.on('click', e => {
+    el.submit.addEventListener('click', e => {
         e.preventDefault();
         if ($('html').lang.substring(0,2) == 'en') {
             window.location = "/en/search/s/"+el.string;

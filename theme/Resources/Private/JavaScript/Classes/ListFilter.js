@@ -1,4 +1,5 @@
-import {$, $$, jsx} from '../General/Aliases';
+import { $, $$, jsx } from '../General/Aliases';
+import {getNode} from '../General/Functions';
 
 // CLASS ListFilter
 export default class ListFilter {
@@ -12,14 +13,7 @@ export default class ListFilter {
             categories= {}, 
             t3langData = {},
         }) {
-        if (target instanceof Element) {
-            this.node = target
-        } else if (typeof target === 'string' && document.getElementById(target)) {
-            this.node = document.querySelector(target)
-        } else {
-            console.error('ListFilter: No valid element or id for root node provided')
-            console.trace()
-        }
+        this.node = getNode(target, 'ListFilter');
         Object.assign(this, {
             id: this.node.id,
             options: {

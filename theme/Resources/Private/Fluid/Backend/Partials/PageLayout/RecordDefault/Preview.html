@@ -28,10 +28,10 @@
         </f:if>
         <f:switch expression="{item.record.CType}">
             <f:case value="columns">
-                <f:render section="items" arguments="{inline_textmedia: item.record.inline_textmedia, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia', col: item.record.imagecols}" />
+                <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia', col: item.record.imagecols}" />
             </f:case>
             <f:defaultCase>
-                <f:render section="items" arguments="{inline_textmedia: item.record.inline_textmedia, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
+                <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
             </f:defaultCase>
         </f:switch>
     </a>
@@ -106,9 +106,9 @@
 </f:section>
 
 <f:section name="items">
-    <f:if condition="{inline_textmedia}">
+    <f:if condition="{inline_media}">
         <f:variable name="items"
-                    value="{ubos:utility.backend.getRecords(table: 'tx_theme_domain_model_inline_textmedia', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
+                    value="{ubos:utility.backend.getRecords(table: 'tx_theme_domain_model_inline_media', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
         <small style="padding-bottom: 3px; display: block; text-align: right">
             <strong>
                 [<f:count>{items}</f:count>]
@@ -134,7 +134,7 @@
                         <div class="t3-page-ce-body-inner">
                             <f:render section="text"
                                       arguments="{header: item.header, headerType: 'h3', subheader: item.subheader, bodytext: item.bodytext}"/>
-                            <f:render section="fileThumbs" arguments="{row: item, files: item.assets, field: 'assets', table: 'tx_theme_domain_model_inline_textmedia'}" />
+                            <f:render section="fileThumbs" arguments="{row: item, files: item.assets, field: 'assets', table: 'tx_theme_domain_model_inline_media'}" />
                         </div>
                     </div>
                 </div>
