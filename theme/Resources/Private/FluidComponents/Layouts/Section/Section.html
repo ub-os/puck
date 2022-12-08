@@ -11,7 +11,6 @@
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <f:variable name="containerP" value="{f:if(condition: '{container} == default', then: 'cols10', else: container)}"/>
     <section class="{name} {class} -{object.frameClass} -{object.layout} -top-{top} -bot-{bottom} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')} "
              id="{id}"
              {attributes}>
@@ -20,9 +19,12 @@
           <f:format.raw>{content}</f:format.raw>
         </f:then>
         <f:else>
-          <div class="l-container -{containerP}">
+          <layout:container
+                  width="{object.containerWidth}"
+                  align="{object.containerPosition}"
+                  offset="{object.containerOffset}">
             <f:format.raw>{content}</f:format.raw>
-          </div>
+          </layout:container>
         </f:else>
       </f:if>
     </section>

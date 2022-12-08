@@ -1,5 +1,6 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use UBOS\Theme\UserFunctions\FormEngine\ContentItemsProcFunc;
 
 $GLOBALS['TCA']['tt_content']['columns']['frame_class'] = [
     'label' => 'Appearance',
@@ -79,29 +80,31 @@ $GLOBALS['TCA']['tt_content']['columns']['content_type'] = [
 ];
 $GLOBALS['TCA']['tt_content']['columns']['imageorient'] = [
     'label' => 'Media position',
+    'onChange' => 'reload',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
             ['default', 0],
-            ['Right in text', 1,
-                'content-inside-text-img-right'
-            ],
-            ['Left in text', 2,
-                'content-inside-text-img-left'
-            ],
-            ['Right beside text', 3,
-                'content-beside-text-img-right'
-            ],
-            ['Left beside text', 4,
-                'content-beside-text-img-left'
-            ],
             ['Above text', 5,
-                'content-beside-text-img-above-center',
+                'imageorient_top-center',
             ],
             ['Below text', 6,
-                'content-beside-text-img-below-center',
+                'imageorient_bottom-center',
             ],
+            ['Right beside text', 3,
+                'imageorient_right-top'
+            ],
+            ['Left beside text', 4,
+                'imageorient_left-top'
+            ],
+            ['Right in text', 1,
+                'imageorient_right-float'
+            ],
+            ['Left in text', 2,
+                'imageorient_left-float'
+            ],
+
         ],
         'default' => 1,
         'fieldWizard' => [
@@ -207,26 +210,123 @@ $GLOBALS['TCA']['tt_content']['columns']['inline_media'] = [
         'type' => 'inline',
     ],
 ];
-$GLOBALS['TCA']['tt_content']['columns']['inline_media2'] = [
-    'label' => 'Content items',
+$GLOBALS['TCA']['tt_content']['columns']['container_width'] = [
+    'label' => 'Width',
+    'onChange' => 'reload',
     'config' => [
-        'appearance' => [
-            'collapseAll' => '1',
-            'enabledControls' => [
-                'dragdrop' => '1',
-            ],
-            'levelLinksPosition' => 'bottom',
-            'useSortable' => '1',
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'items' => [
+            ['4', 4],
+            ['5', 5],
+            ['6', 6],
+            ['7', 7],
+            ['8', 8],
+            ['9', 9],
+            ['10', 10],
+            ['11', 11],
+            ['12', 12],
         ],
-        'foreign_field' => 'parent_uid',
-        'foreign_table' => 'tx_theme_domain_model_inline_media',
-        'foreign_table_field' => 'parent_table',
-        'maxitems' => '30',
-        'minitems' => '0',
-        'type' => 'inline',
+        'default' => 10
+    ],
+];
+$GLOBALS['TCA']['tt_content']['columns']['item_column_width'] = [
+    'label' => 'Default item width',
+    'onChange' => 'reload',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'itemsProcFunc' => ContentItemsProcFunc::class.'->itemColumnWidth',
+        'disableNoMatchingValueElement' => true,
+        'items' => [
+            ['2', 2],
+            ['3', 3],
+            ['4', 4],
+            ['5', 5],
+            ['6', 6],
+            ['7', 7],
+            ['8', 8],
+            ['9', 9],
+            ['10', 10],
+            ['11', 11],
+            ['12', 12],
+        ],
+        'default' => 5
+    ],
+];
+$GLOBALS['TCA']['tt_content']['columns']['column_position'] = [
+    'label' => 'Align items',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'items' => [
+            ['Space between', 'space-between'],
+            ['Center', 'center'],
+            ['Left', 'left'],
+            ['Right', 'right'],
+        ],
+        'default' => 'space-between'
     ],
 ];
 
+$GLOBALS['TCA']['tt_content']['columns']['text_column_width'] = $GLOBALS['TCA']['tt_content']['columns']['item_column_width'];
+$GLOBALS['TCA']['tt_content']['columns']['media_column_width'] = $GLOBALS['TCA']['tt_content']['columns']['item_column_width'];
+$GLOBALS['TCA']['tt_content']['columns']['text_column_width']['label'] = 'Text width';
+$GLOBALS['TCA']['tt_content']['columns']['media_column_width']['label'] = 'Media width';
+$GLOBALS['TCA']['tt_content']['columns']['text_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class.'->textColumnWidth';
+$GLOBALS['TCA']['tt_content']['columns']['media_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class.'->mediaColumnWidth';
+
+
+$GLOBALS['TCA']['tt_content']['columns']['container_position'] = [
+    'label' => 'Align',
+    'onChange' => 'reload',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'items' => [
+            ['Center', 'center'],
+            ['Left', 'left'],
+            ['Right', 'right'],
+        ],
+        'default' => 'center'
+    ],
+];
+$GLOBALS['TCA']['tt_content']['columns']['container_offset'] = [
+    'label' => 'Offset',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'itemsProcFunc' => ContentItemsProcFunc::class.'->containerOffset',
+        'disableNoMatchingValueElement' => true,
+        'items' => [
+            ['0', 0],
+            ['1', 1],
+            ['2', 2],
+            ['3', 3],
+            ['4', 4]
+        ],
+        'default' => 0,
+    ],
+];
+$GLOBALS['TCA']['tt_content']['palettes']['gridContainer'] = [
+    'label' => 'Grid container',
+    'showitem' => '
+        container_width, container_position, container_offset'
+];
+$GLOBALS['TCA']['tt_content']['palettes']['gridColumns'] = [
+    'label' => 'Grid columns',
+    'showitem' => '
+        item_column_width, column_position'
+];
+$GLOBALS['TCA']['tt_content']['palettes']['gridMedia'] = [
+    'label' => 'Grid columns',
+    'showitem' => '
+        imageorient,
+        --linebreak--,
+        text_column_width, media_column_width,
+        --linebreak--,
+        item_column_width, column_position'
+];
 $GLOBALS['TCA']['tt_content']['palettes']['layout'] = [
     'label' => 'Configuration',
     'showitem' => '
@@ -244,7 +344,7 @@ $GLOBALS['TCA']['tt_content']['palettes']['layout_full'] = [
         space_before_class, space_after_class'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['headers'] = [
-    'label' => 'Configuration',
+    'label' => 'Headlines',
     'showitem' => '
         header,--linebreak--,
         header_layout, header_position,--linebreak--,

@@ -31,7 +31,22 @@ const getNode = (target, objectName = '') => {
     }
     return node
 }
-
-export {noDragClick, getNode}
+function getParents(target, parentSelector /* optional */) {
+    // If no parentSelector defined will bubble up all the way to *document*
+    if (parentSelector === undefined) {
+        parentSelector = document;
+    }
+    const node = getNode(target)
+    const parents = [];
+    let p = node.parentNode;
+    while (p !== parentSelector) {
+        const o = p;
+        parents.push(o);
+        p = o.parentNode;
+    }
+    parents.push(parentSelector); // Push that parentSelector you wanted to stop at
+    return parents;
+}
+export {noDragClick, getNode, getParents}
 
 

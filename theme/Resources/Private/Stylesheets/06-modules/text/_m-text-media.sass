@@ -12,29 +12,20 @@
     +media-up($bp-in-col)
       @content
 
+
 =text-media-item($layout: gallery, $img-pos: above, $setting: null, $name: '.m-text-media')
+
 
   // image gallery above/below text
   @if $layout == gallery
     &
     #{$name}__row
-      +flex(column, flex-start, stretch)
 
-    #{$name}__gallery
-      +grid-row
-      &.-col6 #{$name}__figure
-        +grid-col(1,6, (l: (1,4), s: (1,2)))
-      &.-col5 #{$name}__figure
-        +grid-col(1,5, (m: (1,2)))
-      &.-col4 #{$name}__figure
-        +grid-col(1,4, (m: (1,2)))
-      &.-col3 #{$name}__figure
-        +grid-col(1,3, (m: (1,2), s: (1,1)))
-      &.-col2 #{$name}__figure
-        +grid-col(1,2, (s: (1,1)))
-
-    #{$name}__figure
-      +grid-col(1,1)
+    #{$name}__media,
+    #{$name}__text
+      width: 100%
+      &>*
+        --grid-columns: inherit
 
     @if $img-pos == above
       #{$name}__media + #{$name}__text
@@ -50,15 +41,14 @@
   // image column beside text
   @if $layout == beside
     #{$name}__row
-      +grid-row($gutter * 2)
-      overflow: hidden
       +media-down-text-media()
-        display: flex
-        flex-direction: column-reverse
+        //display: flex
+        //flex-direction: column-reverse
+        //justify-content: flex-start
 
     #{$name}__text,
     #{$name}__media
-      +grid-col(1,2)
+      //+grid-col(1,2)
       +media-down-text-media()
         width: 100%
 
@@ -67,62 +57,48 @@
         +media-up-text-media()
           order: 2
 
-    #{$name}__gallery
-      +grid-row
-
-    #{$name}__figure
-      +grid-col(1,1)
 
   // image next to floating text
   @if $layout == float
     &
-      +media-up-text-media()
-        +margin-bottom(-$size-s)
-
-    .m-text-carousel__list &
-      +media-down(xl)
-        padding-left: 3em
-        padding-right: 3em
+      display: flex
+      flex-direction: column
 
     #{$name}__row
-      +grid-row($gutter * 4)
-      +rfs($gutter * 2, --grid-gutter-y)
+      +grid-row($gutter)
+      //+rfs($gutter * 2, --grid-gutter-y)
       display: block
-      +media-up-text-media()
+      +media-up(sm)
+        +margin-bottom(-$gutter)
         --grid-gutter-y: 0
-      +media-down-text-media()
+      +media-down(sm)
         display: flex
         flex-direction: column-reverse
 
     #{$name}__text
       +grid-col(1,1)
-      +media-up-text-media()
-        +margin-bottom($size-s)
+      +media-up(sm)
+          +margin-bottom($gutter)
 
     #{$name}__media
-      +grid-col(1,2)
-      +media-up-text-media()
-        +margin-bottom($size-s)
-      +media-down-text-media()
+      +media-up(sm)
+        +margin-bottom($gutter)
+      +media-down(sm)
         width: 100%
       @if $img-pos == right
-        +media-up-text-media()
+        +media-up(sm)
+          +margin-left($gutter)
           float: right
       @if $img-pos == left
-        +media-up-text-media()
+        +media-up(sm)
+          +margin-right($gutter)
           float: left
 
-    #{$name}__gallery
-      +grid-row
-
-    #{$name}__figure
-      +grid-col(1,1)
-
-  @if $layout == beside or $layout == float
-    #{$name}__media.-layout-cols6-5 #{$name}__figure
-      max-width: width-by-cols(5) + $gutter
-      @if $img-pos == right
-        margin-left: auto
+  //@if $layout == beside or $layout == float
+  //  #{$name}__media.-layout-cols6-5 #{$name}__figure
+  //    max-width: width-by-cols(5) + $gutter
+  //    @if $img-pos == right
+  //      margin-left: auto
 
   // image and text in box (image full height)
   @if $layout == box
@@ -141,12 +117,10 @@
 
     #{$name}__text
       +spacing(both, xl)
-      padding-left: 5em
-      padding-right: 5em
+      padding-inline: 5em
       +media-down-text-media(m,l)
         +spacing(top, l)
-        padding-left: 3em
-        padding-right: 3em
+        padding-inline: 3em
 
     #{$name}__media
       @if $img-pos == right
@@ -165,8 +139,7 @@
     &
       +spacing(top, s)
       +spacing(bottom, m)
-      +padding-left($gutter*1.5)
-      +padding-right($gutter*1.5)
+      +rfs(padding-inline, $gutter*1.5)
       background: white
 
     #{$name}__row
@@ -174,8 +147,7 @@
     #{$name}__text
     #{$name}__media
       @if $setting == full-width
-        +margin-left(-$gutter*1.5)
-        +margin-right(-$gutter*1.5)
+        +rfs(margin-inline, -$gutter*1.5)
       @if $img-pos == above
         +spacing(bottom,s)
         @if $setting == full-width
@@ -188,38 +160,35 @@
     #{$name}__figure
 
 .m-text-media
-  &.-pos1
+  &.-orient-1
     +text-media-item(float,right)
-  &.-pos2
+  &.-orient-2
     +text-media-item(float,left)
-  &.-pos3
+  &.-orient-3
     +text-media-item(beside,right)
-  &.-pos4
+  &.-orient-4
     +text-media-item(beside,left)
-  &.-pos5
+  &.-orient-5
     +text-media-item(gallery,above)
-  &.-pos6
+  &.-orient-6
     +text-media-item(gallery,below)
-  &.-pos7
-    +text-media-item(box,right)
-  &.-pos8
-    +text-media-item(box,left)
-  &.-pos9
-    +text-media-item(card,above)
-  &.-pos10
-    +text-media-item(card,below)
-  &.-pos11
-    +text-media-item(card,above,full-width)
-  &.-pos12
-    +text-media-item(card,below,full-width)
+
+  //
+  //&.-orient-7
+  //  +text-media-item(box,right)
+  //&.-orient-8
+  //  +text-media-item(box,left)
+  //&.-orient-9
+  //  +text-media-item(card,above)
+  //&.-orient-10
+  //  +text-media-item(card,below)
+  //&.-orient-11
+  //  +text-media-item(card,above,full-width)
+  //&.-orient-12
+  //  +text-media-item(card,below,full-width)
 
   &__file
-    margin-left: auto
-    margin-right: auto
-
-  &__gallery.-col1 &__file
-    width: 100%
-    max-width: width-by-cols(8)
+    margin-inline: auto
 
   &__mp3
     width: 100%

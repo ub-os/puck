@@ -65,19 +65,19 @@ class Toggleable {
       }, this.clickDelay)
     }
   }
-  toggleOn() {
+  toggleOn(transition= true) {
     this.active = true
     this.setClass('add', this.classes.active)
-    this.transitionClass(this.classes.activating)
+    if (transition) this.transitionClass(this.classes.activating)
     if (this.groupNode) {
       toggleEvents.groupToggle.activeId = this.id
       this.groupNode.dispatchEvent(toggleEvents.groupToggle)
     }
   }
-  toggleOff() {
+  toggleOff(transition= true) {
     this.active = false
     this.setClass('remove', this.classes.active)
-    this.transitionClass(this.classes.deactivating)
+    if (transition) this.transitionClass(this.classes.deactivating)
   }
   toggle() {
     if (this.active) {
@@ -91,7 +91,7 @@ class Toggleable {
     if (toggle) this.lastUsedToggle = toggle
   }
   mount() {
-    this.active ? this.toggleOn() : this.toggleOff()
+    this.active ? this.toggleOn(false) : this.toggleOff(false)
     this.toggles.forEach(t => {
       t.setAttribute('aria-controls', this.id)
       t.addEventListener('click', () => {

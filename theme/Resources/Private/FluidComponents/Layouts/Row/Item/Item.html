@@ -1,0 +1,13 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="l-row"/>
+  <fc:param name="width" type="integer" optional="1" default=""/>
+  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:renderer>
+
+    <li class="{name}__item {class} -width-{width}" {attributes}>
+      <f:format.raw>{content}</f:format.raw>
+    </li>
+
+  </fc:renderer>
+</fc:component>

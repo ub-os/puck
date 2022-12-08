@@ -48,6 +48,25 @@ class Text extends AbstractEntity
     public string $bodytext = '';
 
     /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $containerWidth = 12;
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $containerPosition = '';
+
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $containerOffset = 0;
+
+
+    /**
      * Content Element TCA
      */
 
@@ -59,7 +78,7 @@ class Text extends AbstractEntity
         return '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;layout,
+        --palette--;;gridContainer,
         --palette--;;headers,
         --palette--;;bodytext,';
     }

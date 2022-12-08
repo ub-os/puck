@@ -9,7 +9,7 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
+use UBOS\Theme\UserFunctions\FormEngine\ContentItemsProcFunc;
 use UBOS\Theme\Domain\Model\Page;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 
@@ -54,6 +54,28 @@ class Media extends Text
      */
     public string $contentType;
 
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $itemColumnWidth = 6;
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $columnPosition = '';
+
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $textColumnWidth = 6;
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $mediaColumnWidth = 6;
 
     /**
      * Content Element TCA
@@ -67,11 +89,11 @@ class Media extends Text
         return '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;layout,
+        --palette--;;gridContainer,
         --palette--;;headers,
         --palette--;;bodytext,
     --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-        --palette--;;media_config,
+        --palette--;;gridMedia,
         assets,
         pages,
         bodytext2,
@@ -107,34 +129,24 @@ class Media extends Text
             'imageorient' => [
                 'onChange' => 'reload',
                 'config' => [
-                    'itemsProcFunc' => SelectItemsProcFunc::class.'->keepItems',
                 ]
             ],
             'content_type' => [
                 'onChange' => 'reload',
                 'config' => [
-                    'itemsProcFunc' => SelectItemsProcFunc::class.'->keepItems',
+                    'itemsProcFunc' => ContentItemsProcFunc::class.'->keepItems',
                 ]
             ],
-            'imagecols' => [
-                'displayCond' => [
-                    'AND' => [
-                        'FIELD:content_type:=:assets',
-                        'FIELD:imageorient:>:4',
-                    ],
-                ],
+            'item_column_width' => [
+                'displayCond' => 'FIELD:content_type:=:assets',
             ],
-            'layout' => [
-                'displayCond' => [
-                    'AND' => [
-                        'FIELD:content_type:=:assets',
-                        'FIELD:imageorient:<=:4',
-                    ],
-                ],
-                'config' => [
-                    'itemsProcFunc' => SelectItemsProcFunc::class.'->keepItems',
-                    'default' => 'cols5-5'
-                ]
+            'column_position' => [
+                'displayCond' => 'FIELD:content_type:=:assets',
+
+            ],
+            'media_column_width' => [
+            ],
+            'text_column_width' => [
             ],
         ];
     }

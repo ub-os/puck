@@ -1,0 +1,18 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="l-container"/>
+  <fc:param name="width" type="integer" optional="1" default="12" />
+  <fc:param name="align" type="string" optional="1" default="center" />
+  <fc:param name="offset" type="integer" optional="1" default="0" />
+  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:renderer>
+
+    <div class="l-container -width-{width} -align-{align} -offset-{offset}">
+      <div class="l-container__inner">
+        <f:format.raw>{content}</f:format.raw>
+      </div>
+    </div>
+
+    </section>
+  </fc:renderer>
+</fc:component>

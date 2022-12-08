@@ -31,20 +31,19 @@
     @content
 
 =gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb)
-  +padding-left($gutter)
-  +padding-right($gutter)
+  +rfs($gutter, padding-inline)
   @each $mb, $value in $gutters-mb
     +media($mb, down)
-      padding-left: $value
-      padding-right: $value
+        +rfs($value, padding-inline)
+
+
 
 =grid-container($max-width: grid-width(), $gutter: true)
   @if $gutter
     +gutter-outer()
-  margin-right: auto
-  margin-left: auto
   width: 100%
   max-width: $max-width
+  margin-inline: auto
 
 
 =grid-row($custom-gutter: $gutter)
@@ -53,18 +52,17 @@
   display: flex
   flex-wrap: wrap
   margin-top: calc(-1 * var(--grid-gutter-y))
-  margin-right: calc(-.5 * var(--grid-gutter-x))
-  margin-left: calc(-.5 * var(--grid-gutter-x))
+  margin-inline: calc(-.5 * var(--grid-gutter-x))
 
 
-=grid-col($columns, $custom-grid-columns: $grid-columns, $columns-mb: ())
+=grid-col($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
   flex-shrink: 0
   max-width: 100%
-  padding-right: calc(var(--grid-gutter-x) * .5)
-  padding-left: calc(var(--grid-gutter-x) * .5)
+  padding-inline: calc(var(--grid-gutter-x) * .5)
   margin-top: var(--grid-gutter-y)
   flex: 0 0 auto
-  width: percentage(divide($columns, $custom-grid-columns))
+  //width: percentage(divide($columns, $custom-grid-columns))
+  width: calc(100% * #{$columns} / #{$custom-grid-columns})
   @each $mb, $value in $columns-mb
     +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
 

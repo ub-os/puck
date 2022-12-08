@@ -8,9 +8,11 @@
     cursor: pointer
 
   &__image
-    +center(vertical)
+    position: absolute
+    top: 0
     width: 100%
     filter: brightness(0.75)
+    border-radius: var(--border-radius-m)
     transition: filter .15s
 
   &:hover &__image

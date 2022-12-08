@@ -8,8 +8,8 @@ export default class Carousel {
         this.id = this.node.id
         this.controls = controls || document.querySelectorAll(`[aria-controls="${this.id}"]`)
         this.splide = new Splide(this.node, {
-            gap: '40px',
             arrows: false,
+            autoWidth: true,
             ...options})
     }
     mount() {

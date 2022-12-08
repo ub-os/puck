@@ -11,16 +11,18 @@
         id="c{object.uid}">
       <element:text.header data="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
-      <ul class="{name}__list -col{object.imagecols}">
+      <layout:row justify="{object.columnPosition}">
         <f:for each="{object.inlineMedia}" as="item" iteration="i">
-          <module:text.columns.item
-              name="{name}"
-              item="{item}"
-              class="-{object.frameClass2}"
-              uid="{object.uid}"
-              i="{i}"/>
+          <layout:row.item width="{object.columnWidths.{i.index}}">
+            <div class="{name}__column">
+              <f:if condition="{item.header}">
+                <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+              </f:if>
+              <module:text.media.item object="{item}"/>
+            </div>
+          </layout:row.item>
         </f:for>
-      </ul>
+      </layout:row>
     </layout:section>
 
   </fc:renderer>

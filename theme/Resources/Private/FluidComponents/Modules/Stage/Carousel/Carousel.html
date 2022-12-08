@@ -6,6 +6,7 @@
         <layout:section
                 class="{name}__wrap"
                 object="{object}"
+                top="none"
                 container="0"
                 id="c{object.uid}">
             <div class="splide" data-carousel id="c{object.uid}-splide">
@@ -13,20 +14,32 @@
                     <ul class="splide__list">
                         <f:for each="{object.inlineMedia}" as="item" iteration="i">
                             <li class="splide__slide">
-                                <f:if condition="{item.header}">
-                                    <h2 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h2>
-                                </f:if>
-                                <element:picture
-                                        name="{name}"
-                                        image="{item.image}"/>
-                                <element:text.rich text="{item.bodytext}"/>
+                                <div class="l-container">
+                                    <element:media
+                                            file="{item.assets.0}"
+                                            cropVariant="3:2"
+                                            name="{name}"
+                                            width="1920"
+                                            loading="lazy"
+                                            sources="{
+                                    l: {width: 1920, cropVariant: '2:1'},
+                                    s: {width: 1200, cropVariant: '2:1'},
+                                    0: {width: 600, cropVariant: '3:2'}
+                                }"/>
+                                    <f:if condition="{item.header}">
+                                        <h2 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h2>
+                                    </f:if>
+                                    <element:text.rich text="{item.bodytext}"/>
+                                </div>
                             </li>
                         </f:for>
                     </ul>
                 </div>
             </div>
-            <button class="{name}__control__prev" aria-controls="c{object.uid}-splide" data-go-to="<">Prev</button>
-            <button class="{name}__control__next" aria-controls="c{object.uid}-splide" data-go-to=">">Next</button>
+            <div class="l-container">
+                <button class="{name}__control__prev" aria-controls="c{object.uid}-splide" data-go-to="<">Prev</button>
+                <button class="{name}__control__next" aria-controls="c{object.uid}-splide" data-go-to=">">Next</button>
+            </div>
         </layout:section>
 
     </fc:renderer>

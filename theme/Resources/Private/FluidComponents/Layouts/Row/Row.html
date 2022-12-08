@@ -1,0 +1,16 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="l-row"/>
+  <fc:param name="gutterRem" type="string" optional="1"/>
+  <fc:param name="direction" type="string" optional="1" default="row"/>
+  <fc:param name="justify" type="string" optional="1" default="center"/>
+  <fc:param name="itemWidth" type="integer" optional="1" default=""/>
+  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:renderer>
+
+    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} -justify-{justify}"  {attributes}>
+      <f:format.raw>{content}</f:format.raw>
+    </ul>
+
+  </fc:renderer>
+</fc:component>

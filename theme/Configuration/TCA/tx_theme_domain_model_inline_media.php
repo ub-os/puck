@@ -1,4 +1,6 @@
 <?php
+use UBOS\Theme\UserFunctions\FormEngine\InlineMediaItemsProcFunc;
+
 return [
     'ctrl' => [
         'label' => 'header',
@@ -109,6 +111,113 @@ return [
             ],
         ],
         'assets' => $GLOBALS['TCA']['tt_content']['columns']['assets'],
+        'column_width' => [
+            'label' => 'Item width',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->columnWidth',
+                'disableNoMatchingValueElement' => true,
+                'items' => [
+                    ['auto', 0],
+                    ['2', 2],
+                    ['3', 3],
+                    ['4', 4],
+                    ['5', 5],
+                    ['6', 6],
+                    ['7', 7],
+                    ['8', 8],
+                    ['9', 9],
+                    ['10', 10],
+                    ['11', 11],
+                    ['12', 12],
+                ],
+                'default' => 0
+            ],
+        ],
+        'item_column_width' => [
+            'label' => 'Default item width',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->itemColumnWidth',
+                'disableNoMatchingValueElement' => true,
+                'items' => [
+                    ['2', 2],
+                    ['3', 3],
+                    ['4', 4],
+                    ['5', 5],
+                    ['6', 6],
+                    ['7', 7],
+                    ['8', 8],
+                    ['9', 9],
+                    ['10', 10],
+                    ['11', 11],
+                    ['12', 12],
+                ],
+                'default' => 5
+            ],
+        ],
+        'text_column_width' => [
+            'label' => 'Text width',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->textColumnWidth',
+                'disableNoMatchingValueElement' => true,
+                'items' => [
+                    ['2', 2],
+                    ['3', 3],
+                    ['4', 4],
+                    ['5', 5],
+                    ['6', 6],
+                    ['7', 7],
+                    ['8', 8],
+                    ['9', 9],
+                    ['10', 10],
+                    ['11', 11],
+                    ['12', 12],
+                ],
+                'default' => 5
+            ],
+        ],
+        'media_column_width' => [
+            'label' => 'Media width',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->mediaColumnWidth',
+                'disableNoMatchingValueElement' => true,
+                'items' => [
+                    ['2', 2],
+                    ['3', 3],
+                    ['4', 4],
+                    ['5', 5],
+                    ['6', 6],
+                    ['7', 7],
+                    ['8', 8],
+                    ['9', 9],
+                    ['10', 10],
+                    ['11', 11],
+                    ['12', 12],
+                ],
+                'default' => 5
+            ],
+        ],
+        'column_position' => [
+            'label' => 'Align items',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['Space between', 'space-between'],
+                    ['Center', 'center'],
+                    ['Left', 'left'],
+                    ['Right', 'right'],
+                ],
+                'default' => 'space-between'
+            ]
+        ],
         'imageorient' => [
             'label' => 'Media position',
             'onChange' => 'reload',
@@ -117,24 +226,25 @@ return [
                 'renderType' => 'selectSingle',
                 'items' => [
                     ['default', 0],
-                    ['Right in text', 1,
-                        'content-inside-text-img-right'
-                    ],
-                    ['Left in text', 2,
-                        'content-inside-text-img-left'
-                    ],
-                    ['Right beside text', 3,
-                        'content-beside-text-img-right'
-                    ],
-                    ['Left beside text', 4,
-                        'content-beside-text-img-left'
-                    ],
                     ['Above text', 5,
-                        'content-beside-text-img-above-center',
+                        'imageorient_top-center',
                     ],
                     ['Below text', 6,
-                        'content-beside-text-img-below-center',
+                        'imageorient_bottom-center',
                     ],
+                    ['Right beside text', 3,
+                        'imageorient_right-top'
+                    ],
+                    ['Left beside text', 4,
+                        'imageorient_left-top'
+                    ],
+                    ['Right in text', 1,
+                        'imageorient_right-float'
+                    ],
+                    ['Left in text', 2,
+                        'imageorient_left-float'
+                    ],
+
                 ],
                 'default' => 1,
                 'fieldWizard' => [
@@ -185,11 +295,14 @@ return [
         ],
     ],
     'palettes' => [
-        'media_config' => [
-            'label' => 'Configuration',
+        'gridMedia' => [
+            'label' => 'Grid columns',
             'showitem' => '
-                imageorient;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:imageorient_formlabel,
-                imagecols;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:imagecols_formlabel,'
+                    imageorient,
+                    --linebreak--,
+                    text_column_width, media_column_width,
+                    --linebreak--,
+                    item_column_width, column_position'
         ],
     ],
     'types' => [
@@ -199,7 +312,7 @@ return [
                     header, 
                     bodytext, 
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-                    --palette--;;media_config,
+                    --palette--;;gridMedia,
                     assets,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
                     sys_language_uid, 

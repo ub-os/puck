@@ -66,6 +66,36 @@ class InlineMedia extends AbstractEntity
     public string $layout = '';
 
     /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $columnWidth = 0;
+
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $itemColumnWidth = 0;
+
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $mediaColumnWidth = 0;
+
+    /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $textColumnWidth = 0;
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $columnPosition = '';
+
+    /**
      * @var string
      * @DatabaseField("string")
      */

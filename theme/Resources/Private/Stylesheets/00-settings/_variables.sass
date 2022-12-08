@@ -1,5 +1,7 @@
 @use 'sass:math'
-@use 'default'
+@import 'default'
+
+
 // GRID VARIABLES
 $page-width:              120rem
 $bp-mobile-nav: l
@@ -120,11 +122,12 @@ $z-index-header-burger: 201
 
 
   // ### widths / heights
-  --grid-gutter-x: $gutter
-  --grid-gutter-y: $gutter
+  --grid-gutter-x: #{$gutter}
+  --grid-gutter-y: #{ $gutter }
+  --grid-columns: #{ $grid-columns }
 
   --height-page-header: #{$page-header-height}
-  @media(max-width: #{$bp-sm})
+  @media(max-width: 750px)
     --height-page-header: #{$page-header-height-mobile}
 
   --width-page: #{$page-width}

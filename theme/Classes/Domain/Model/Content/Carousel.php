@@ -9,8 +9,6 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\UserFunctions\FormEngine\SelectItemsProcFunc;
-use UBOS\Theme\Domain\Model\InlineMedia;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 

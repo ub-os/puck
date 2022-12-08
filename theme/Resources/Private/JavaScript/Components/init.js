@@ -11,6 +11,7 @@ import SmoothHashLinks from "../Classes/SmoothHashLinks";
 import { ScrollReveal } from '../Classes/ScrollReveal';
 import ScrollSensitive from '../Classes/ScrollSensitive';
 import smoothscroll from 'smoothscroll-polyfill';
+import { getParents } from '../General/Functions';
 
 smoothscroll.polyfill();
 
@@ -26,11 +27,14 @@ _app.components = {
         return {
             section: new ScrollReveal(node, {}).mount(),
             listItems: [...node.$$('li')].map((li, index) => {
-                return new ScrollReveal(li, {
-                    timing: {
-                        delay: 50+150*index
-                    },
-                }).mount()
+                if (getParents(li, node).length < 9) {
+                    return new ScrollReveal(li, {
+                        timing: {
+                            delay: 50+150*index
+                        },
+                    }).mount()
+                }
+                return null
             }),
             media: [...node.$$('img, video')].map((media, index) => {
                 return new ScrollReveal(media, {

@@ -3,54 +3,46 @@
     <fc:param name="name" type="string" optional="1" default="m-text-media"/>
     <fc:param name="object" type="mixed"/>
     <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+    <fc:param name="gridWidth" type="float" optional="1" default="1300"/>
     <fc:renderer>
 
-        <div class="{name} -pos{object.imageorient}">
-            <div class="{name}__row -pos{object.imageorient}">
+        <div class="{name} -orient-{object.imageorient}">
+            <layout:row class="{name}__row" justify="{object.columnPosition}">
                 <f:if condition="{object.assets}">
-                    <div class="{name}__media -pos{object.imageorient} -layout-{object.layout}">
-                        <f:if condition="{object.imageorient} > 4">
+                    <layout:row.item class="{name}__media" width="{object.mediaColumnWidth}">
+                        <f:if condition="{object.itemColumnWidth} > 6">
                             <f:then>
-                                <f:switch expression="{object.imagecols}">
-                                    <f:case value="12">
-                                        <f:variable name="calcWidth" value="1300"/>
-                                    </f:case>
-                                    <f:case value="11">
-                                        <f:variable name="calcWidth" value="1080"/>
-                                    </f:case>
-                                    <f:case value="1">
-                                        <f:variable name="calcWidth" value="860"/>
-                                    </f:case>
-                                    <f:defaultCase>
-                                        <f:variable name="calcWidth" value="528"/>
-                                    </f:defaultCase>
-                                </f:switch>
+                                <f:variable name="calcWidth" value="{gridWidth}"/>
                             </f:then>
                             <f:else>
-                                <f:variable name="calcWidth" value="528"/>
+                                <f:variable name="calcWidth" value="{ubos:math.evaluate(expression:'{gridWidth}/2')}"/>
                             </f:else>
                         </f:if>
-                        <div class="{name}__gallery -pos{object.imageorient} -col{object.imagecols}">
-                            <element:media
-                                    name="{name}"
-                                    files="{object.assets}"
-                                    cropVariant="{cropVariant}"
-                                    width="{calcWidth}"
-                                    sources="{
+                        <layout:row itemWidth="{object.itemColumnWidth}" justify="{object.columnPosition}">
+                            <f:for each="{object.assets}" as="asset">
+                                <layout:row.item>
+                                    <element:media
+                                            name="{name}"
+                                            file="{asset}"
+                                            cropVariant="{cropVariant}"
+                                            width="{calcWidth}"
+                                            sources="{
                                       s: {width: calcWidth, cropVariant: cropVariant},
                                       0: {width: 528, cropVariant: cropVariant}
                                       }"
-                                    showTitle="1"
-                                    showDesc="1"/>
-                        </div>
-                    </div>
+                                            showTitle="1"
+                                            showDesc="1"/>
+                                </layout:row.item>
+                            </f:for>
+                        </layout:row>
+                    </layout:row.item>
                 </f:if>
                 <f:if condition="{object.bodytext}">
-                    <div class="{name}__text -pos{object.imageorient} -layout-{object.layout}">
+                    <layout:row.item class="{name}__text" width="{object.textColumnWidth}">
                         <element:text.rich text="{object.bodytext}"/>
-                    </div>
+                    </layout:row.item>
                 </f:if>
-            </div>
+            </layout:row>
         </div>
 
     </fc:renderer>

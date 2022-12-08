@@ -11,16 +11,18 @@
             id="c{object.uid}">
       <element:text.header data="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
-      <div class="splide" data-carousel id="c{object.uid}-splide">
-        <div class="splide__track -col{object.imagecols}">
-          <ul class="splide__list">
+      <div class="{name} splide" data-carousel="{}" id="c{object.uid}-splide">
+        <div class="splide__track">
+          <ul class="splide__list {name}__list">
             <f:for each="{object.inlineMedia}" as="item" iteration="i">
-              <li class="splide__slide">
+              <layout:row.item
+                      class="splide__slide {name}__item"
+                      width="{object.columnWidths.{i.index}}">
                 <f:if condition="{item.header}">
                   <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
                 </f:if>
                 <module:text.media.item object="{item}"/>
-              </li>
+              </layout:row.item>
             </f:for>
           </ul>
         </div>
