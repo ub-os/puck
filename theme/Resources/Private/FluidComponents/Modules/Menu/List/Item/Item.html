@@ -16,52 +16,48 @@
             default="{type: 'item', class: '', image: 1, body: 1, category: 1, cta: 1, cropVariant: '2:1'}"/>
 
   <fc:renderer>
-    <f:variable name="config" value="{ubos:arr.merge(a:configDefault,b:config)}"/>
+    <f:variable name="config" value="{ubos:array.merge(a:configDefault,b:config)}"/>
 
-    <li class="{name} {class}">
-      <article class="{name}__article" data-link-to="{link -> f:format.raw()}">
-        <f:if condition="{config.image}">
-          <element:media
-                  name="{name}"
-                  file="{images.0}"
-                  cropVariant="{config.cropVariant}"
-                  width="720"
-                  sources="{
-          s: {width: 720, cropVariant: config.cropVariant},
-          0: {width: 600, cropVariant: config.cropVariant}
-          }"/>
-        </f:if>
-        <div class="{name}__text">
-          <f:if condition="{topline} || {date} || {categories}">
-            <div class="{name}__topline">
-              <f:if condition="{date}">
-                <time class="{name}__date" datetime="{date -> f:format.date(format: 'Y-m-d H:i:s')}">{date -> f:format.date(format: 'd.m.Y')}</time>
-              </f:if>
-              {topline}
-              <f:if condition="{config.category} && {categories}">
+    <layout:card
+            media="{images}"
+            cropVariant="{cropVariant}"
+            width="4"
+            mediaSize="cover"
+            mediaWidth="4"
+            orient="5"
+            class="{name}"
+            attributes="data-link-to={link -> f:format.raw()} {attributes}">
+      <div class="{name}__text">
+        <f:if condition="{topline} || {date} || {categories}">
+          <div class="{name}__topline">
+            <f:if condition="{date}">
+              <time class="{name}__date" datetime="{date -> f:format.date(format: 'Y-m-d H:i:s')}">{date -> f:format.date(format: 'd.m.Y')}</time>
+            </f:if>
+            {topline}
+            <f:if condition="{config.category} && {categories}">
                 <span class="{name}__categories">
                   <f:for each="{categories}" as="cat" iteration="i">
                     <span class="{name}__category">{cat.title}</span>{f:if(condition: '!{i.isLast}', then:' |')}
                   </f:for>
                 </span>
-              </f:if>
-            </div>
-          </f:if>
-          <a href="{link -> f:format.raw()}"
-             class="{name}__headline"
-             data-link-to-stop="1">
-              {headline}
-          </a>
-          <f:if condition="{config.body}">
-            <div class="{name}__body"><f:format.raw>{body}</f:format.raw></div>
-          </f:if>
-          <f:if condition="{config.cta}">
-            <button class="{name}__cta e-button-primary">
-              <f:translate extensionName="theme" key="learn-more"/>
-            </button>
-          </f:if>
-        </div>
-      </article>
-    </li>
+            </f:if>
+          </div>
+        </f:if>
+        <a href="{link -> f:format.raw()}"
+           class="{name}__headline"
+           data-link-to-stop="1">
+          {headline}
+        </a>
+        <f:if condition="{config.body}">
+          <div class="{name}__body"><f:format.raw>{body}</f:format.raw></div>
+        </f:if>
+        <f:if condition="{config.cta}">
+          <button class="{name}__cta e-button-primary">
+            <f:translate extensionName="theme" key="learn-more"/>
+          </button>
+        </f:if>
+      </div>
+    </layout:card>
+
   </fc:renderer>
 </fc:component>

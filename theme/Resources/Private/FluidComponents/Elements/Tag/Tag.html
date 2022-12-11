@@ -1,0 +1,11 @@
+<fc:component>
+    <fc:param name="is" type="string" optional="1" default="div"/>
+    <fc:param name="attributes" type="string" optional="1"/>
+    <fc:renderer>
+
+        <{is} class="{class}" {attributes}>
+            <f:format.raw>{content}</f:format.raw>
+        </{is}>
+
+    </fc:renderer>
+</fc:component>

@@ -1,0 +1,57 @@
+
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="l-media"/>
+    <fc:param name="media" type="array" optional="1"/>
+    <fc:param name="text" type="string" optional="1"/>
+    <fc:param name="orient" type="integer" optional="1" default="5" />
+    <fc:param name="justify" type="string" optional="1"/>
+    <fc:param name="mediaWidth" type="integer" optional="1" default="5" />
+    <fc:param name="textWidth" type="integer" optional="1" default="5" />
+    <fc:param name="itemWidth" type="integer" optional="1" default="5" />
+    <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+    <fc:renderer>
+
+        <div class="{name} -orient-{orient}">
+            <layout:row class="{name}__row" justify="{justify}">
+                <f:if condition="{media}">
+                    <layout:row.item class="{name}__media" width="{mediaWidth}">
+                        <f:if condition="{itemWidth} > 5">
+                            <f:then>
+                                <f:variable name="calcWidth" value="{settings.gridWidth}"/>
+                            </f:then>
+                            <f:else>
+                                <f:variable name="calcWidth" value="{ubos:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+                            </f:else>
+                        </f:if>
+                        <layout:row itemWidth="{itemWidth}" justify="{justify}">
+                            <f:for each="{media}" as="file">
+                                <layout:row.item>
+                                    <element:media
+                                            name="{name}"
+                                            file="{file}"
+                                            cropVariant="{cropVariant}"
+                                            width="{calcWidth}"
+                                            sources="{
+                                      s: {width: calcWidth, cropVariant: cropVariant},
+                                      xs: {width: 600, cropVariant: cropVariant},
+                                      0: {width: 450, cropVariant: cropVariant}
+                                      }"
+                                            showTitle="1"
+                                            showDesc="1"/>
+                                </layout:row.item>
+                            </f:for>
+                        </layout:row>
+                    </layout:row.item>
+                </f:if>
+                <f:if condition="{text}">
+                    <layout:row.item class="{name}__text" width="{textWidth}">
+                        <element:text.rich text="{text}"/>
+                    </layout:row.item>
+                </f:if>
+            </layout:row>
+        </div>
+
+    </fc:renderer>
+</fc:component>
+
+

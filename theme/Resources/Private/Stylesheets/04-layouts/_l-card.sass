@@ -1,0 +1,73 @@
+$padding-inline: 2em
+$padding-block: 2em
+
+.l-card
+  &
+    +flex(column-reverse, space-between, flex-start)
+    position: relative
+    flex-grow: 1
+    background: var(--background-card)
+    border-radius: var(--border-radius-s)
+    overflow: hidden
+    &.-media-size-contain
+      padding: $padding-block $padding-inline
+    &.-orient-3
+      +media-up(s)
+        flex-direction: row
+    &.-orient-4
+      +media-up(s)
+        flex-direction: row-reverse
+    &.-orient-5
+      flex-direction: column-reverse
+    &.-orient-6
+      flex-direction: column
+    &.-media-size-cover.-orient-3,
+    &.-media-size-cover.-orient-4
+      align-items: stretch
+
+  &__content
+    position: relative
+    width: 100%
+    &.-media-size-cover
+      padding: $padding-block $padding-inline
+    &.-orient-3,
+    &.-orient-4
+      +media-up(s)
+        width: 0
+        flex-grow: 1
+
+  &__figure
+    width: 100%
+    &.-media-size-cover.-orient-3,
+    &.-media-size-cover.-orient-4
+      +media-up(s)
+        +cover-media
+        width: 50%
+        @for $i from 2 through 10
+          &.-media-width-#{$i}
+            width: calc(100% * #{$i} / var(--grid-columns))
+
+    &.-media-size-contain.-orient-5
+      padding-bottom: $padding-block
+    &.-media-size-contain.-orient-6
+      padding-top: $padding-block
+
+
+  &__figure
+    &.-media-size-contain.-orient-3
+      +media-up(s)
+        padding-left: $padding-inline
+      +media(s)
+        padding-bottom: $padding-block
+    &.-media-size-contain.-orient-4
+      +media-up(s)
+        padding-right: $padding-inline
+      +media(s)
+        padding-bottom: $padding-block
+    &.-media-size-contain.-orient-3,
+    &.-media-size-contain.-orient-4
+      +media-up(s)
+        width: calc((100% + #{$padding-inline}) / 2)
+        @for $i from 2 through 10
+          &.-media-width-#{$i}
+            width: calc((100% + #{$padding-inline}) * #{$i} / var(--grid-columns))

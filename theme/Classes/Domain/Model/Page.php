@@ -97,6 +97,12 @@ class Page extends AbstractEntity
     public $media = null;
 
     /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $icon = '';
+
+    /**
      * @var array
      * @Transient
      * @Lazy

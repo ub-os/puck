@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ColumnWidth7</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ColumnWidth7">
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999" fill-rule="nonzero"></path>
+            <circle id="Oval" fill="#515151" cx="16" cy="16" r="16"></circle>
+            <path d="M16,0 C24.836556,0 32,7.163444 32,16 C32,24.836556 24.836556,32 16,32 C13.056138,32 10.2979682,31.2049568 7.9284935,29.8178733 L15.9984935,16 Z" id="Combined-Shape" fill="#FBAA04"></path>
+        </g>
+    </g>
+</svg>

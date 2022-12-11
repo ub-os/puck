@@ -3,31 +3,52 @@ namespace UBOS\Theme\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 /**
  *
  */
 class InlineMediaItemsProcFunc extends BaseItemsProcFunc
 {
-    
     /**
      * @param $params
      * @return void
      */
-    public function imageOrient(&$params): void
+    public function itemType(&$params): void
+    {
+        $ctype = $this->getInlineParentRow($params)['CType'];
+        $items = array_filter($params['items'], function ($item) use ($ctype) {
+            return $item[1] == str_replace('theme_', '', $ctype);
+        });
+        $params['items'] = $items;
+    }
+
+    /**
+     * @param $params
+     * @return void
+     */
+    public function imageorient(&$params): void
     {
         $parentRow = $this->getInlineParentRow($params);
-        // if parent isn't a columns or carousel element, do nothing
-        if ($parentRow['CType'] !== 'theme_columns' && $parentRow['CType'] !== 'theme_carousel') {
+        // if parent isn't a card/columns/carousel element, do nothing
+        if (!GeneralUtility::inList('theme_columns,theme_carousel,theme_cards,theme_cards_carousel', $this->val($parentRow['CType']))) {
             return;
         }
+        $items = $params['items'];
+        if (GeneralUtility::inList('theme_cards,theme_cards_carousel', $this->val($parentRow['CType']))) {
+            $items = array_filter($items, function ($item) {
+                return $item[1] > 2;
+            });
+        }
         // if column width is smaller than 4 allow only imageorient "image above" and "image below"
-        if (($this->val($params['row']['column_width']) == 0 && $this->val($parentRow['item_column_width']) < 4) || $this->val($params['row']['column_width']) < 4) {
-            $items = array_filter($params['items'], function ($item) {
+        if (($this->val($params['row']['column_width']) == 0 && $this->val($parentRow['item_column_width']) < 4)
+            || ($this->val($params['row']['column_width']) < 4  && $this->val($params['row']['column_width']) != 0)) {
+            $items = array_filter($items, function ($item) {
                 return $item[1] > 4;
             });
-            $params['items'] = $items;
         }
+        $params['items'] = $items;
     }
 
     /**
@@ -89,7 +110,14 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
      */
     public function mediaColumnWidth(&$params): void
     {
+        $parentRow = $this->getInlineParentRow($params);
         $columnWidth = $this->getComputedContainerWidth($params);
+        if (GeneralUtility::inList('theme_cards,theme_cards_carousel', $this->val($parentRow['CType'])) && $this->val($params['row']['imageorient']) < 5) {
+            $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
+                return $item[1] <= ($columnWidth - 2);
+            });
+            return;
+        }
         if ($this->val($params['row']['imageorient']) >= 5) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
                 return $item[1] === $columnWidth;
@@ -113,10 +141,10 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     {
         $parentRow = $this->getInlineParentRow($params);
         // if parent is a content element with columns use column width or parent default fallback, else use parent container width
-        if ($parentRow['CType'] === 'theme_columns' || $parentRow['CType'] === 'theme_carousel') {
-            return $this->val($params['row']['column_width']) ? : $this->getInlineParentRow($params)['item_column_width'];
+        if (GeneralUtility::inList('theme_columns,theme_carousel,theme_cards,theme_cards_carousel', $this->val($parentRow['CType']))) {
+            return $this->val($params['row']['column_width']) ? : $this->val($this->getInlineParentRow($params)['item_column_width']);
         } else {
-            return $this->getInlineParentRow($params)['container_width'];
+            return $this->val($this->getInlineParentRow($params)['container_width']);
         }
     }
 }

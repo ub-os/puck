@@ -1,3 +1,5 @@
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
+
 <f:render partial="PageLayout/Record/{item.record.CType}/Preview" arguments="{_all}" optional="1">
     <a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
         <f:render section="type" arguments="{CType: item.record.CType, uid: item.record.uid}" />
@@ -26,14 +28,7 @@
                 <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
             </f:for>
         </f:if>
-        <f:switch expression="{item.record.CType}">
-            <f:case value="columns">
-                <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia', col: item.record.imagecols}" />
-            </f:case>
-            <f:defaultCase>
-                <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
-            </f:defaultCase>
-        </f:switch>
+        <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
     </a>
 </f:section>
 
@@ -109,36 +104,68 @@
     <f:if condition="{inline_media}">
         <f:variable name="items"
                     value="{ubos:utility.backend.getRecords(table: 'tx_theme_domain_model_inline_media', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
-        <small style="padding-bottom: 3px; display: block; text-align: right">
-            <strong>
-                [<f:count>{items}</f:count>]
-            </strong>
-        </small>
-        <div class="item-row">
-            <f:for each="{items}" as="item" iteration="i">
-                <div class="item-col -col{col}">
-                    <div class="t3-page-ce-header">
-            <span class="t3js-icon icon icon-size-small">
-              <img src="/typo3conf/ext/theme/Resources/Public/Icons/Content/{icon}.svg" alt="">
-            </span>
-                        <small style="padding: 0 4px;">
-                            <f:if condition="{itemLabel}">
-                                <f:then>{itemLabel}</f:then>
-                                <f:else>
-                                    <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ubos:string.replace(search:'theme_',replace:'',subject:CType)}" />
-                                </f:else>
-                            </f:if>
-                        </small>
+        <div class="panel-group panel-hover">
+            <div class="panel panel-default">
+                <div class="panel-heading row m-0 p-2 g-0 gap-1 align-items-center collapsed"
+                     onclick="event.preventDefault()"
+                     data-bs-toggle="collapse"
+                     data-bs-target="#c{uid}-inline-collapse"
+                     aria-controls="c{uid}-inline-collapse"
+                     aria-expanded="false">
+                    <div class="form-irre-header-cell form-irre-header-icon" style="max-width: 20px">
+                        <span class="caret"></span>
                     </div>
-                    <div class="t3-page-ce-body">
-                        <div class="t3-page-ce-body-inner">
-                            <f:render section="text"
-                                      arguments="{header: item.header, headerType: 'h3', subheader: item.subheader, bodytext: item.bodytext}"/>
-                            <f:render section="fileThumbs" arguments="{row: item, files: item.assets, field: 'assets', table: 'tx_theme_domain_model_inline_media'}" />
+                    <div class="col ms-2">
+                        Items (<f:count>{items}</f:count>)
+                        <div class="headers" style="font-weight: normal; color: black;">
+                            <f:for each="{items}" as="item" iteration="i">
+                                <span class="header">
+                                    <f:if condition="{item.header}">
+                                        <f:then>{item.header}</f:then>
+                                        <f:else>{item.bodytext -> f:format.stripTags() -> f:format.crop(maxCharacters:50)}</f:else>
+                                    </f:if></span><f:if condition="!{i.isLast}">,</f:if>
+                            </f:for>
                         </div>
                     </div>
+                    <!--                <div class="col-auto">
+                                        <button type="button" class="btn btn-default btn-sm float-end t3js-toggle-recordlist"
+                                                onclick="event.preventDefault()"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#c{uid}-inline-collapse"
+                                                aria-controls="c{uid}-inline-collapse"
+                                                aria-expanded="false">
+                                            <core:icon identifier="actions-chevron-down"/>
+                                        </button>
+                                    </div>-->
                 </div>
-            </f:for>
+                <div class="item-row panel-collapse collapse" id="c{uid}-inline-collapse" style="padding: 1em">
+                    <f:for each="{items}" as="item" iteration="i">
+                        <div class="item-col -col" style="">
+                            <div class="t3-page-ce-header">
+                                <core:icon identifier="{item.item_type}_inline_media"/>
+                            </div>
+
+                            <div class="t3-page-ce-body">
+
+                                <div class="t3-page-ce-body-inner">
+
+                                    <strong>
+                                        <small>
+                                            <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ubos:string.replace(search:'theme_',replace:'',subject:CType)}" />
+                                            item
+                                        </small>
+                                    </strong>
+                                    <f:render section="text"
+                                              arguments="{header: item.header, headerType: 'h3', subheader: item.subheader, bodytext: item.bodytext}"/>
+                                    <f:render section="fileThumbs" arguments="{row: item, files: item.assets, field: 'assets', table: 'tx_theme_domain_model_inline_media'}" />
+                                </div>
+                            </div>
+                        </div>
+                    </f:for>
+                </div>
+            </div>
+
         </div>
+
     </f:if>
 </f:section>

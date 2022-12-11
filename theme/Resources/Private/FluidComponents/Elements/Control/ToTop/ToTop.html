@@ -1,9 +1,10 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-control-to-top"/>
+  <fc:param name="options" type="array" optional="1" default="{top: {0: {top: 500, media: 0}}}"/>
+
   <fc:renderer>
 
-    <f:variable name="options" value="{top: {0: {top: 500, media: 0}}}"/>
     <a class="{name}"
             aria-label="{f:translate(extensionName: 'theme', key: 'to-top')}"
             href="#page-main"

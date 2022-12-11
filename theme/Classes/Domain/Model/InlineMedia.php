@@ -45,6 +45,12 @@ class InlineMedia extends AbstractEntity
      * @var string
      * @DatabaseField("string")
      */
+    public string $icon = '';
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
     public string $bodytext = '';
 
     /**
@@ -94,6 +100,18 @@ class InlineMedia extends AbstractEntity
      * @DatabaseField("string")
      */
     public string $columnPosition = '';
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $cardMediaSize = '';
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $itemType = '';
 
     /**
      * @var string

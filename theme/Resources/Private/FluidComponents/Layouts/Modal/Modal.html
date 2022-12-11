@@ -1,32 +1,36 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-modal"/>
-  <fc:param name="container" type="string" optional="1" default="cols8"/>
   <fc:param name="id" type="string" optional="1"/>
-  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:param name="width" type="integer" optional="1" default="6"/>
   <fc:param name="slots" type="array" optional="1" default="{}"/>
+  <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <div class="{name} {class} -{container}"
+    <div class="{name} {class} -width-{width}"
          id="{id}"
          data-modal
          {attributes}>
-      <f:if condition="{slots.header}">
-        <div class="{name}__header">
-          <f:format.raw>{slots.header}</f:format.raw>
-        </div>
-      </f:if>
-      <div class="{name}__content" id="{id}-content">
-        <f:format.raw>{content}</f:format.raw>
-      </div>
-      <f:if condition="{slots.footer}">
-        <div class="{name}__footer">
-          <f:format.raw>{slots.footer}</f:format.raw>
-        </div>
-      </f:if>
+
+      <f:comment>
+        <f:if condition="{slots.header}">
+          <div class="{name}__header">
+            <f:format.raw>{slots.header}</f:format.raw>
+          </div>
+        </f:if>
+        <f:if condition="{slots.footer}">
+          <div class="{name}__footer">
+            <f:format.raw>{slots.footer}</f:format.raw>
+          </div>
+        </f:if>
+      </f:comment>
+
+      <f:format.raw>{content}</f:format.raw>
+
       <button class="{name}__close" aria-controls="{id}" aria-label="Close">
         <icon:svg icon="close" />
       </button>
+
     </div>
 
   </fc:renderer>

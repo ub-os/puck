@@ -1,0 +1,37 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-carousel"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            id="c{object.uid}">
+      <element:text.header data="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+      <layout:carousel id="c{object.uid}-splide">
+        <f:for each="{object.inlineMedia}" as="item" iteration="i">
+          <layout:row.item
+                  class="splide__slide {name}__item"
+                  width="{object.columnWidths.{i.index}}">
+            <f:if condition="{item.header}">
+              <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+            </f:if>
+            <layout:media
+                    media="{item.assets}"
+                    text="{item.bodytext}"
+                    orient="{item.imageorient}"
+                    justify="{item.columnPosition}"
+                    mediaWidth="{item.mediaColumnWidth}"
+                    textWidth="{item.textColumnWidth}"
+                    itemWidth="{item.itemColumnWidth}"/>
+          </layout:row.item>
+        </f:for>
+      </layout:carousel>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

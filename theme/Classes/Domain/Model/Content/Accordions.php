@@ -61,8 +61,9 @@ class Accordions extends Text
                 'label' => 'Accordion items',
                 'config' => [
                     'overrideChildTca' => [
-                        'columns' => [
-                        ],
+                        'types' => [
+                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['accordions'],
+                        ]
                     ]
                 ]
             ]

@@ -16,6 +16,27 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Modal extends Text
+class Modal extends Media
 {
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $cardMediaSize = '';
+
+    /**
+     * @return string
+     */
+    public function showItem(): string
+    {
+        return '
+    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+        --palette--;;general,
+        --palette--;;gridContainerWidth,
+        --palette--;;headers,
+        --palette--;;bodytext,
+    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --palette--;;gridCard,
+        assets,';
+    }
 }

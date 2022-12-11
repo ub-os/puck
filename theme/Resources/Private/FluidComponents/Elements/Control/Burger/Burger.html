@@ -1,9 +1,10 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-control-burger"/>
+  <fc:param name="controls" type="string" optional="1" default="main-menu"/>
   <fc:renderer>
 
-    <div class="{name}" aria-controls="main-menu">
+    <div class="{name}" aria-controls="{controls}">
       <span class="{name}__slice"></span>
       <span class="{name}__slice"></span>
       <span class="{name}__slice"></span>

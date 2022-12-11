@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>CardsInlineMedia</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CardsInlineMedia" transform="translate(0.000000, -0.000000)" fill-rule="nonzero">
+            <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+            <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            <polygon id="Path" fill="#515151" points="11 7 21 7 21 18 11 18"></polygon>
+            <polygon id="Path" fill="#FBAA04" points="11 6 21 6 21 10 11 10"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="4 8 9 8 9 18 4 18"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="4 20 9 20 9 28 4 28"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="11 20 21 20 21 28 11 28"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="23 8 28 8 28 18 23 18"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="23 20 28 20 28 28 23 28"></polygon>
+        </g>
+    </g>
+</svg>

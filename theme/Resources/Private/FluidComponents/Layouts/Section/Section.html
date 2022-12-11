@@ -11,7 +11,7 @@
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <section class="{name} {class} -{object.frameClass} -{object.layout} -top-{top} -bot-{bottom} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')} "
+    <section class="{name} {class} -background-{object.frameClass} -layout-{object.layout} -top-{top} -bot-{bottom} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')} "
              id="{id}"
              {attributes}>
       <f:if condition="{container} == '0'">

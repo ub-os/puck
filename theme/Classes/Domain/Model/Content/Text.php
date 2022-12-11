@@ -40,6 +40,12 @@ class Text extends AbstractEntity
      * @var string
      * @DatabaseField("string")
      */
+    public string $icon = '';
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
     public string $layout;
 
     /**

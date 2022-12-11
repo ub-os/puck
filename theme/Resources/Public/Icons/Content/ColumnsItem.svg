@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ColumnsItem</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ColumnsItem">
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="4 4 28 4 28 28 4 28"></polygon>
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999" fill-rule="nonzero"></path>
+            <polygon id="Path" fill="#515151" fill-rule="nonzero" points="6 6 26 6 26 10 6 10"></polygon>
+            <polygon id="Path" fill="#9CC8FF" fill-rule="nonzero" points="8 13.25 12 13.25 12 17 8 17"></polygon>
+            <polygon id="Path" fill="#5599FF" fill-rule="nonzero" points="7 12 11 12 11 15.75 7 15.75"></polygon>
+            <polygon id="Path" fill="#9CC8FF" fill-rule="nonzero" points="22 13.25 26 13.25 26 17 22 17"></polygon>
+            <polygon id="Path" fill="#5599FF" fill-rule="nonzero" points="21 12 25 12 25 15.75 21 15.75"></polygon>
+            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="7 18 12 18 12 26 7 26"></polygon>
+            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="21 18 26 18 26 24 21 24"></polygon>
+            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="14 12 19 12 19 26 14 26"></polygon>
+            <circle id="Oval" fill="#A46CDC" cx="5" cy="16" r="5"></circle>
+        </g>
+    </g>
+</svg>

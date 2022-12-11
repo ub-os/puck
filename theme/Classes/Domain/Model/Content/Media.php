@@ -138,6 +138,7 @@ class Media extends Text
                 ]
             ],
             'item_column_width' => [
+                'label' => 'Default media item width',
                 'displayCond' => 'FIELD:content_type:=:assets',
             ],
             'column_position' => [

@@ -170,7 +170,7 @@
 				<source>Carousel</source>
 			</trans-unit>
 			<trans-unit id="wizard.carousel.description" resname="wizard.media.description">
-				<source>Text and media slider.</source>
+				<source>Columns slider.</source>
 			</trans-unit>
 
 			<trans-unit id="content.element.stage_carousel" resname="content.element.stage_carousel">
@@ -191,6 +191,26 @@
 			</trans-unit>
 			<trans-unit id="wizard.modal.description" resname="wizard.modal.description">
 				<source>Hidden dialog that opens via hash link.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.cards_carousel" resname="content.element.cards_carousel">
+				<source>Cards carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.cards_carousel" resname="wizard.cards_carousel">
+				<source>Cards carousel</source>
+			</trans-unit>
+			<trans-unit id="wizard.cards_carousel.description" resname="wizard.cards_carousel.description">
+				<source>Cards slider.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.cards" resname="content.element.cards">
+				<source>Cards</source>
+			</trans-unit>
+			<trans-unit id="wizard.cards" resname="wizard.cards">
+				<source>Cards</source>
+			</trans-unit>
+			<trans-unit id="wizard.cards.description" resname="wizard.cards.description">
+				<source>Text and media cards.</source>
 			</trans-unit>
 		</body>
 	</file>

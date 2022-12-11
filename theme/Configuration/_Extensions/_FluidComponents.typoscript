@@ -12,4 +12,5 @@ config.tx_fluidcomponents.settings {
         meta = {$navUid.meta}
         language = {$navUid.language}
     }
+    gridWidth = {$gridWidth}
 }

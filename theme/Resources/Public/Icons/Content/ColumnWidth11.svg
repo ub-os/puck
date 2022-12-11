@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ColumnWidth11</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ColumnWidth11">
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999" fill-rule="nonzero"></path>
+            <circle id="Oval" fill="#515151" cx="16" cy="16" r="16"></circle>
+            <path d="M8.69955348,1.75881383 L8.01355161,2.15544202 L16.0135516,16.0118485 L29.8675527,8.01396304 C31.2239236,10.3641917 32,13.0914647 32,16 C32,24.836556 24.836556,32 16,32 C7.163444,32 0,24.836556 0,16 C0,9.79337138 3.53400632,4.41215417 8.69955348,1.75881383 Z" id="Combined-Shape" fill="#FBAA04"></path>
+            <path d="M16,0 C24.836556,0 32,7.163444 32,16 L16,16 Z" id="Combined-Shape" fill="#FBAA04"></path>
+        </g>
+    </g>
+</svg>

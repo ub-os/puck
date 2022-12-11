@@ -4,37 +4,39 @@
   <fc:param name="object" type="mixed"/>
   <fc:param name="news" type="array" optional="1" default="0"/>
   <fc:param name="cropVariant" type="string" optional="1" default="2:1"/>
-  <fc:param name="itemConfig" type="array" optional="1" default="{type: 'item'}"/>
+  <fc:param name="itemConfig" type="array" optional="1" default="{}"/>
   <fc:param name="itemConfigDefault"
             type="array"
             optional="1"
             default="{type: 'item', class: '', image: 1, body: 1, category: 1, cta: 1, cropVariant: '2:1'}"/>
   <fc:renderer>
-    <f:variable name="itemConfig" value="{ubos:arr.merge(a:itemConfigDefault,b:itemConfig)}"/>
+    <f:variable name="itemConfig" value="{ubos:array.merge(a:itemConfigDefault,b:itemConfig)}"/>
 
     <layout:section
             class="{name}__wrap"
             object="{object}"
-            container="cols10"
             id="c{object.uid}">
       <element:text.header data="{object}"/>
-      <ul class="{name} {itemConfig.class}">
-        <f:if condition="{object.menu}">
+
+      <f:if condition="{object.menu}">
+        <layout:row class="{name}__row" flexGrow="0">
           <f:for each="{object.menu}" as="item" iteration="i">
             <f:if condition="!{item.current}">
-              <module:menu.list.item
-                      name="{name}-{itemConfig.type}"
-                      class="{itemConfig.class}"
-                      link="{f:uri.page(pageUid: item.uid)}"
-                      headline="{item.navTitle}"
-                      topline="{item.subtitle}"
-                      body="{item.abstract}"
-                      images="{item.media}"
-                      config="{itemConfig}"/>
+              <layout:row.item class="{name}__item" width="4">
+                <module:menu.list.item
+                        name="{name}-{itemConfig.type}"
+                        class="{itemConfig.class}"
+                        link="{f:uri.page(pageUid: item.uid)}"
+                        headline="{item.navTitle}"
+                        topline="{item.subtitle}"
+                        body="{item.abstract}"
+                        images="{item.media}"
+                        config="{itemConfig}"/>
+              </layout:row.item>
             </f:if>
           </f:for>
-        </f:if>
-      </ul>
+        </layout:row>
+      </f:if>
     </layout:section>
 
   </fc:renderer>

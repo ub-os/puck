@@ -5,33 +5,27 @@
     <fc:renderer>
 
     <layout:section
-        container="cols10"
-        class="{name}__wrap {f:if(condition: '!{object.bodytext} && !{object.assets}', then: '-headline-only')} -{object.layout}"
+        class="{name}__wrap {f:if(condition: '!{object.bodytext} && !{object.assets}', then: '-headline-only')} -layout-{object.layout}"
         top="none"
-        bottom="none"
         id="c{object.uid}">
-        <div class="{name}__text">
-            <h1 class="{name}__headline">{object.header}</h1>
-            <f:if condition="{object.bodytext}">
-                <div class="{name}__bodytext e-text-rich">
-                    <f:format.raw>{object.bodytext}</f:format.raw>
-                </div>
-            </f:if>
-        </div>
         <f:if condition="{object.assets}">
             <element:media
                     file="{object.assets.0}"
-                    cropVariant="3:2"
+                    cropVariant="2:1"
                     name="{name}"
-                    width="900"
+                    width="{settings.gridWidth}"
                     loading="lazy"
                     showDesc="1"
                     sources="{
-                        s: {width: 900, cropVariant: '3:2'},
-                        0: {width: 600, cropVariant: '3:2'}
+                        s: {width: 1300, cropVariant: '2:1'},
+                        xs: {width: 600, cropVariant: '3:2'},
+                        0: {width: 450, cropVariant: '3:2'}
                     }"/>
         </f:if>
-
+        <div class="{name}__text">
+            <h1 class="{name}__headline">{object.header}</h1>
+            <element:text.rich class="{name}__bodytext" text="{object.bodytext}"/>
+        </div>
     </layout:section>
   </fc:renderer>
 </fc:component>

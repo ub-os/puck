@@ -26,17 +26,14 @@ _app.components = {
     scrollReveals: [...$$('main section')].map(node => {
         return {
             section: new ScrollReveal(node, {}).mount(),
-            listItems: [...node.$$('li')].map((li, index) => {
-                if (getParents(li, node).length < 9) {
-                    return new ScrollReveal(li, {
-                        timing: {
-                            delay: 50+150*index
-                        },
-                    }).mount()
-                }
-                return null
+            listItems: [...node.$$('.l-card, .m-content-accordions__item')].map((li, index) => {
+                return new ScrollReveal(li, {
+                    timing: {
+                        delay: 50+150*index
+                    },
+                }).mount()
             }),
-            media: [...node.$$('img, video')].map((media, index) => {
+            media: [...node.$$('.l-media__figure')].map((media, index) => {
                 return new ScrollReveal(media, {
                     timing: {
                         delay: 350+150*index

@@ -1,0 +1,43 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="l-card"/>
+  <fc:param name="media" type="array" optional="1"/>
+  <fc:param name="mediaSize" type="string" optional="1" default="cover" />
+  <fc:param name="mediaWidth" type="string" optional="1" default="" />
+  <fc:param name="orient" type="integer" optional="1" default="5" />
+  <fc:param name="width" type="integer" optional="1"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="default" />
+  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:renderer>
+
+    <div class="{name} -orient-{orient} -media-size-{mediaSize} {class}" {attributes}>
+      <div class="{name}__content -orient-{orient} -media-size-{mediaSize}">
+        <f:format.raw>{content}</f:format.raw>
+      </div>
+      <f:if condition="{width} > 5 || !{width}">
+        <f:then>
+          <f:variable name="calcWidth" value="{settings.gridWidth}"/>
+        </f:then>
+        <f:else>
+          <f:variable name="calcWidth" value="{ubos:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+        </f:else>
+      </f:if>
+      <f:if condition="{media}">
+        <element:media
+                name="{name}"
+                class="-media-size-{mediaSize} -media-width-{mediaWidth} -orient-{orient}"
+                file="{media.0}"
+                cropVariant="{cropVariant}"
+                width="{calcWidth}"
+                sources="{
+                s: {width: calcWidth, cropVariant: cropVariant},
+                xs: {width: 600, cropVariant: cropVariant},
+                0: {width: 450, cropVariant: cropVariant}
+                }"
+                showTitle="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"
+                showDesc="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"/>
+      </f:if>
+    </div>
+
+  </fc:renderer>
+</fc:component>

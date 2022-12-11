@@ -1,7 +1,6 @@
 <?php
 namespace UBOS\Theme\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
@@ -35,7 +34,7 @@ class BaseItemsProcFunc
      */
     protected function getInlineParentRow(array $params): array
     {
-        return BackendUtility::getRecord($params['inlineParentTableName'], $params['inlineParentUid'], '*', '', true);
+        return BackendUtility::getRecord($params['inlineParentTableName'], $params['inlineParentUid'], '*', '', true) ?? [];
     }
 
 

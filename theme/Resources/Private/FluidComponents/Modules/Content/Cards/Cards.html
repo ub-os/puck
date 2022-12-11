@@ -1,0 +1,39 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-cards"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        object="{object}"
+        id="c{object.uid}">
+      <element:text.header data="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+      <layout:row justify="{object.columnPosition}" flexGrow="0">
+        <f:for each="{object.inlineMedia}" as="item" iteration="i">
+          <layout:row.item width="{object.columnWidths.{i.index}}" attributes="style=display:flex;flex-direction:column">
+            <layout:card
+                    media="{item.assets}"
+                    cropVariant="{cropVariant}"
+                    width="{object.columnWidths.{i.index}}"
+                    mediaSize="{item.cardMediaSize}"
+                    mediaWidth="{item.mediaColumnWidth}"
+                    orient="{item.imageorient}">
+              <f:if condition="{item.header}">
+                <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+              </f:if>
+              <f:if condition="{item.bodytext}">
+                <element:text.rich text="{item.bodytext}"/>
+              </f:if>
+            </layout:card>
+          </layout:row.item>
+        </f:for>
+      </layout:row>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

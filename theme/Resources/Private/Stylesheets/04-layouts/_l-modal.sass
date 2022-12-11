@@ -21,46 +21,37 @@
     height: 100%
     width: 100vw
     background: var(--background-modal-backdrop)
-
-  .d-html[class*="-modal--active"] &__backdrop
-    display: block
-    animation: modal-open-overlay .3s
+    .d-html[class*="-modal--active"] &
+      display: block
+      animation: modal-open-overlay .3s
 
   &
     +center(both)
     +flex(column, center, center, nowrap)
-    +spacing(both, m)
     position: fixed
     z-index: $z-index-modal
     display: none
     width: width-by-cols(6)
     max-width: 90%
     max-height: 96%
-    padding:
-      left: 2em
-      right: 2em
+    //padding:
+      //left: 2em
+      //right: 2em
     color: var(--color-modal)
     background: var(--background-modal)
     border-radius: var(--border-radius-m)
     box-shadow: var(--box-shadow-m)
-
-  &.--active
-    display: block
-    animation: modal-open .3s
-
-  &.--deactivating
-    //display: block
-
-  &.-cols10
-    width: width-by-cols(10)
-
-  &.-cols12
-    width: width-by-cols(12)
-
-  &__content
-    position: relative
-    max-height: 100%
-    width: 100%
+    overflow: hidden
+    &.--active
+      display: block
+      animation: modal-open .3s
+    &.--deactivating
+      //display: block
+    @for $i from 4 through 12
+      &.-width-#{$i}
+        width: width-by-cols($i)
+        &>*
+          --grid-columns: #{$i}
 
   &__close
     position: absolute

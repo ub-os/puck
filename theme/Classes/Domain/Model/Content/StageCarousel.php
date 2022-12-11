@@ -48,21 +48,8 @@ class StageCarousel extends Columns
                 'config' => [
                     'overrideChildTca' => [
                         'types' => [
-                            '1' => [
-                                'showitem' => '
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-                                header, 
-                                bodytext, 
-                            --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-                                assets,
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
-                                sys_language_uid, 
-                                l10n_parent, 
-                                l10n_diffsource, 
-                            --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, 
-                                hidden'
-                            ],
-                        ],
+                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['stage_carousel'],
+                        ]
                     ]
                 ]
             ]

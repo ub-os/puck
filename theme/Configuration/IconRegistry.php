@@ -12,8 +12,33 @@ $iconRegistry->registerIcon(
 );
 
 $icons = [
+    'InlineMedia',
+    'ColumnsInlineMedia',
+    'AccordionsInlineMedia',
+    'CardsInlineMedia',
+    'CarouselInlineMedia',
+    'CardsCarouselInlineMedia',
+    'StageCarouselInlineMedia',
+    'Center',
+    'Left',
+    'Right',
+    'Cover',
+    'Contain',
+    'Space-between',
+    'ColumnWidth2',
+    'ColumnWidth3',
+    'ColumnWidth4',
+    'ColumnWidth5',
+    'ColumnWidth6',
+    'ColumnWidth7',
+    'ColumnWidth8',
+    'ColumnWidth9',
+    'ColumnWidth10',
+    'ColumnWidth11',
+    'ColumnWidth12',
     'Space_auto',
-    'Space_none','Space_small',
+    'Space_none',
+    'Space_small',
     'Space_medium',
     'Space_large',
     'ImageOrient_left-float',
@@ -31,7 +56,7 @@ $icons = [
 
 foreach ($icons as $item) {
     $iconRegistry->registerIcon(
-        strtolower($item),
+        strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $item)),
         BitmapIconProvider::class,
         ['source' => 'EXT:theme/Resources/Public/Icons/Content/'.$item.'.svg']
     );

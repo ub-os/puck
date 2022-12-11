@@ -1,0 +1,94 @@
+=media-layout($layout: block, $media-pos: above, $name: '.l-media')
+
+  // image gallery above/below text
+  @if $layout == block
+
+    #{$name}__media,
+    #{$name}__text
+      width: 100%
+      &>*
+        --grid-columns: inherit
+
+    @if $media-pos == above
+      #{$name}__media + #{$name}__text
+        +spacing(top, m)
+
+    @if $media-pos == below
+      #{$name}__media
+        order: 2
+      #{$name}__media + #{$name}__text.-bodytext
+        +spacing(bottom, m)
+
+  // image column beside text
+  @if $layout == inline
+    #{$name}__row
+
+    #{$name}__text,
+    #{$name}__media
+      +media(s)
+        width: 100%
+
+    #{$name}__media
+      @if $media-pos == right
+        +media-up(s)
+          order: 2
+
+  // image next to floating text
+  @if $layout == float
+    &
+      display: flex
+      flex-direction: column
+
+    #{$name}__row
+      +grid-row($gutter)
+      display: block
+      +media-up(s)
+        +margin-bottom(-$gutter)
+        --grid-gutter-y: 0
+      +media-down(s)
+        display: flex
+        flex-direction: column-reverse
+
+    #{$name}__text
+      +grid-col(1,1)
+      +media-up(s)
+        +margin-bottom($gutter)
+
+    #{$name}__media
+      +media-up(s)
+        +margin-bottom($gutter)
+      +media-down(s)
+        width: 100%
+      @if $media-pos == right
+        +media-up(s)
+          +margin-left($gutter)
+          float: right
+      @if $media-pos == left
+        +media-up(s)
+          +margin-right($gutter)
+          float: left
+
+.l-media
+  &.-orient-1
+    +media-layout(float,right)
+  &.-orient-2
+    +media-layout(float,left)
+  &.-orient-3
+    +media-layout(inline,right)
+  &.-orient-4
+    +media-layout(inline,left)
+  &.-orient-5
+    +media-layout(block,above)
+  &.-orient-6
+    +media-layout(block,below)
+
+  &__file
+    margin-inline: auto
+
+  &__mp3
+    width: 100%
+
+  &__image-desc
+    text-align: center
+
+

@@ -2,6 +2,7 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-page-header"/>
   <fc:param name="object" type="mixed"/>
+  <fc:param name="context" type="array"/>
   <fc:renderer>
 
     <f:variable name="scrollSensitive"
@@ -18,10 +19,10 @@
         <f:link.typolink
                 class="{name}__anchor"
                 absolute="1"
-                parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}">
+                parameter="{context.site.rootPageId}">
           <img src="/typo3conf/ext/theme/Resources/Public/Icons/website-logo.svg" class="{name}__logo">
         </f:link.typolink>
-        <div class="{name}-menu__wrap" data-burger-menu id="main-menu">
+        <div class="{name}-menu__wrap" id="main-menu">
           <f:comment>
               // small navigation with search link that opens modal
             <element:navigation name="{name}-menu" class="-small" pageUid="{settings.navUid.meta}">
@@ -45,8 +46,7 @@
     </header>
     <f:variable name="searchName" value="m-form-indexedsearch"/>
     <layout:modal id="header-search-modal"
-                  class="{searchName}__modal"
-                  container="cols12">
+                  class="{searchName}__modal">
       <form>
         <div class="{searchName}__input__wrap">
           <input type="text"

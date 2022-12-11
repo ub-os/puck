@@ -3,17 +3,21 @@
     <title>Columns</title>
     <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Columns" fill-rule="nonzero">
-            <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
-            <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
-            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
-            <polygon id="Path" fill="#515151" points="6 6 26 6 26 10 6 10"></polygon>
-            <polygon id="Path" fill="#9CC8FF" points="8 13.25 12 13.25 12 17 8 17"></polygon>
-            <polygon id="Path" fill="#5599FF" points="7 12 11 12 11 15.75 7 15.75"></polygon>
-            <polygon id="Path" fill="#9CC8FF" points="22 13.25 26 13.25 26 17 22 17"></polygon>
-            <polygon id="Path" fill="#5599FF" points="21 12 25 12 25 15.75 21 15.75"></polygon>
-            <polygon id="Path" fill="#B9B9B9" points="7 18 12 18 12 26 7 26"></polygon>
-            <polygon id="Path" fill="#B9B9B9" points="21 18 26 18 26 24 21 24"></polygon>
-            <polygon id="Path" fill="#B9B9B9" points="14 12 19 12 19 26 14 26"></polygon>
+            <g id="InlineMediaParent" transform="translate(1.000000, 1.000000)" fill="#A46CDC">
+                <polygon id="Path" points="0 1 3 1 3 29 0 29"></polygon>
+                <polygon id="Path" points="27 2 30 2 30 30 27 30"></polygon>
+                <polygon id="Path" points="0 27 11 27 11 30 0 30"></polygon>
+                <polygon id="Path" points="19 27 30 27 30 30 19 30"></polygon>
+                <polygon id="Path" points="0 0 11 0 11 3 0 3"></polygon>
+                <polygon id="Path" points="19 0 30 0 30 3 19 3"></polygon>
+            </g>
+            <g id="ColumnsInlineMedia">
+                <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+                <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+                <polygon id="Path" fill="#515151" points="12 6 20 6 20 25 12 25"></polygon>
+                <polygon id="Path" fill="#B9B9B9" points="6 6 10 6 10 25 6 25"></polygon>
+                <polygon id="Path" fill="#B9B9B9" points="22 6 26 6 26 25 22 25"></polygon>
+            </g>
         </g>
     </g>
 </svg>

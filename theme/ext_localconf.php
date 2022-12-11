@@ -30,9 +30,8 @@ ExtensionManagementUtility::addUserTSConfig(
 Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
 
 require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/IconRegistry.php';
-require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php';
 
-foreach(getContentClasses() as $content) {
+foreach(require ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php' as $content) {
     ExtensionManagementUtility::addTypoScript(
         'theme',
         'setup',

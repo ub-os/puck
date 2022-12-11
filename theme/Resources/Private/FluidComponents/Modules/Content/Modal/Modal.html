@@ -1,0 +1,24 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-modal"/>
+  <fc:param name="object" type="mixed"/>
+    <fc:param name="cropVariant" type="string" optional="1" default="default" />
+    <fc:renderer>
+
+      <layout:modal id="c{object.uid}" width="{object.containerWidth}">
+          <layout:card
+                  media="{object.assets}"
+                  cropVariant="{cropVariant}"
+                  mediaSize="{object.cardMediaSize}"
+                  mediaWidth="{object.mediaColumnWidth}"
+                  orient="{object.imageorient}">
+              <element:text.header data="{object}"/>
+              <element:text.rich text="{object.bodytext}"/>
+              <f:format.html>{content}</f:format.html>
+          </layout:card>
+      </layout:modal>
+
+  </fc:renderer>
+</fc:component>
+
+

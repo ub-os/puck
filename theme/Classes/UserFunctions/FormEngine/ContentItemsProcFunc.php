@@ -15,7 +15,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     protected array $keepItemsMap = [
         'theme_media' => [
-            'content_type' => ['assets','page']
+            'content_type' => ['assets','html']
         ],
     ];
 
