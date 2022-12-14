@@ -92,6 +92,7 @@ class Columns extends Text
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
         --palette--;;gridContainer,
+        --palette--;;appearance,
         --palette--;;headers,
         --palette--;;bodytext,        
     --div--;Items,

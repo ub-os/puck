@@ -31,6 +31,9 @@
 
   &__item
     +grid-col(var(--grid-columns))
+    &.-stretch-content
+      display: flex
+      flex-direction: column
 
   @for $i from 1 through 12
     &.-item-width-#{$i}.-flex-grow-0 &__item,

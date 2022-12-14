@@ -1,6 +1,6 @@
 
 // RTE
-RTE.default.preset = theme
+RTE.default.preset = theme_default
 RTE.default.buttons.link.relAttribute.enabled = 1
 
 // clean copy

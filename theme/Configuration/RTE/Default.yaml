@@ -23,13 +23,18 @@ editor:
 
     stylesSet:
       #Paragraphs
-      - { name: "Intro paragraph", element: "p", attributes: { class: "-intro" } }
       - { name: "Small paragraph", element: "p", attributes: { class: "-small"} }
+      - { name: "Large paragraph", element: "p", attributes: { class: "-large"} }
       - { name: "Footnote paragraph", element: "p", attributes: { class: "-footnote"} }
+      - { name: "Quote paragraph", element: "p", attributes: { class: "-quote"} }
+      - { name: "Like h2 paragraph", element: "p", attributes: { class: "h2" } }
+      - { name: "Like h3 paragraph", element: "p", attributes: { class: "h3" } }
 
       #Headlines
       # link styles
       - { name: "Button", element: "a", attributes: { class: "e-button-primary"} }
+      - { name: "Button outline", element: "a", attributes: { class: "e-button-primary -outline"} }
+      - { name: "Button ghost", element: "a", attributes: { class: "e-button-primary -ghost"} }
 
       #Lists
 

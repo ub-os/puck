@@ -1,4 +1,14 @@
 .l-modal
+  // color variables
+  --background: var(--background-modal)
+  --color: #{$black}
+  --color-alt: #{$black}
+  --color-headline: #{$dark-lilac}
+  --color-accent: #{$lilac}
+  --color-accent-alt: #{$dark-lilac}
+  --background: #{$white}
+  --color-link: #{$lilac}
+  --color-link--hover: #{$dark-lilac}
   @keyframes modal-open-overlay
     0%
       opacity: 0
@@ -37,8 +47,8 @@
     //padding:
       //left: 2em
       //right: 2em
-    color: var(--color-modal)
-    background: var(--background-modal)
+    color: var(--color)
+    background: var(--background)
     border-radius: var(--border-radius-m)
     box-shadow: var(--box-shadow-m)
     overflow: hidden

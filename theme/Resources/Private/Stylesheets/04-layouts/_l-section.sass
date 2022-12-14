@@ -3,8 +3,10 @@
     +spacing(both, m, margin)
     position: relative
     width: 100%
+    color: var(--color)
     background: var(--background)
 
+  // Spacing
   &.-top
     &-none
       margin-top: 0
@@ -25,5 +27,25 @@
     &-large
       +spacing(bottom, l, margin)
 
-
   // Auto spacing rules
+
+
+
+  // Backgrounds
+
+  &[class*="-background-"]
+    +spacing(both, m, padding, 2)
+    & + &
+      +spacing(top, m, margin, -1)
+
+  &.-background-dark
+    // color variables
+    --background: #{ $dark-lilac }
+    --color: white
+    --color-headline: white
+    --color-accent: white
+    --color-accent-alt: white
+    --color-link: white
+    --color-link--hover: rgba(white, 0.8)
+    & + &
+      padding-top: 0

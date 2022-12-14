@@ -1,0 +1,59 @@
+.m-content-media-fullwidth
+  &__wrap
+    &.l-section[class*="-background-"]
+      padding-block: 0
+
+    &.-orient-5
+      +flex(column-reverse, center, center, nowrap)
+    &.-orient-6
+      +flex(column, center, center, nowrap)
+
+  &__row
+    &.-orient-3
+      flex-direction: row-reverse
+    &.-orient-4
+      flex-direction: row
+
+  &__content
+    &.-orient-5
+      +spacing(top, m)
+
+    &.-orient-6
+      +spacing(bottom, m)
+
+  &__wrap[class*="-background-"] &__content
+    &.-orient-3,
+    &.-orient-4
+      +spacing(both, m, padding, 2)
+
+    &.-orient-5
+      +spacing(bottom, m, padding, 2)
+
+    &.-orient-6
+      +spacing(top, m, padding, 2)
+
+  &__figure
+    &.-orient-3,
+    &.-orient-4
+      +cover-media()
+      position: absolute
+      top: 0
+      height: 100%
+      width: 50vw
+
+    &.-orient-3
+      left: 0
+
+    &.-orient-4
+      right: 0
+
+    &.-orient-5,
+    &.-orient-6
+      width: 100vw
+
+
+  &__figure.-orient-3 &__file,
+  &__figure.-orient-4 &__file
+
+
+

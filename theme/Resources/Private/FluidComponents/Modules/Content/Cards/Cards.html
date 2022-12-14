@@ -9,11 +9,11 @@
         class="{name}__wrap"
         object="{object}"
         id="c{object.uid}">
-      <element:text.header data="{object}"/>
+      <element:text.header object="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
       <layout:row justify="{object.columnPosition}" flexGrow="0">
         <f:for each="{object.inlineMedia}" as="item" iteration="i">
-          <layout:row.item width="{object.columnWidths.{i.index}}" attributes="style=display:flex;flex-direction:column">
+          <layout:row.item width="{object.columnWidths.{i.index}}" class="-stretch-content">
             <layout:card
                     media="{item.assets}"
                     cropVariant="{cropVariant}"

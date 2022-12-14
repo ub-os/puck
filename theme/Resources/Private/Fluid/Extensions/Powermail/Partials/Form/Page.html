@@ -4,7 +4,7 @@
     <div class="l-container -cols10">
     <f:if condition="{page.css} != 'nolabel'">
         <f:variable name="headerLayout" value="{f:if(condition:'{page.css} == \'layout1\'', then:1, else:0)}"/>
-        <element:text.header data="{header: page.title, header_layout: headerLayout}" />
+        <element:text.header object="{header: page.title, header_layout: headerLayout}" />
     </f:if>
     <div class="powermail_field_list">
         <f:for each="{page.fields}" as="field" iteration="iteration">

@@ -9,12 +9,12 @@
             class="{name}__wrap"
             object="{object}"
             id="c{object.uid}">
-      <element:text.header data="{object}"/>
+      <element:text.header object="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
       <layout:carousel id="c{object.uid}-splide">
         <f:for each="{object.inlineMedia}" as="item" iteration="i">
           <layout:row.item
-                  class="splide__slide {name}__item"
+                  class="splide__slide {name}__item -stretch-content"
                   width="{object.columnWidths.{i.index}}">
             <layout:card
                     media="{item.assets}"

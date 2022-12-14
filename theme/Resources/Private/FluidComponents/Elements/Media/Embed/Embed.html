@@ -2,26 +2,31 @@
   <fc:param name="name" type="string" optional="1" default="e-media-embed"/>
   <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference"/>
   <fc:param name="width" type="integer" optional="1"/>
+  <fc:param name="openInModal" type="boolean" optional="1" default="1"/>
   <fc:renderer>
 
+    <f:variable name="id">{file.name}-{ub:math.random(min:1000,max:9999)}</f:variable>
     <f:variable name="options" value="{service:file.extension,id:file.contents,width:width}"/>
-    <div class="{name}" data-video-embed="{options -> f:format.json()}">
-      <f:switch expression="{file.extension}">
-        <f:case value="youtube">
-          <f:variable name="thumbnailSrc" value="https://i.ytimg.com/vi/{file.contents}/maxresdefault.jpg"/>
-        </f:case>
-        <f:case value="vimeo">
-          <f:variable name="thumbnailSrc" value="{ubos:utility.fetchVimeoThumbnail(id: file.contents)}"/>
-        </f:case>
-      </f:switch>
+    <f:variable name="manualPoster" value="{ub:utility.posterImage(src:'/fileadmin{file.identifier}')}"/>
+    <f:variable name="autoPoster">{f:uri.image(image:file)}</f:variable>
+    <f:variable name="poster" value="{f:if(condition:manualPoster,then:manualPoster,else:autoPoster)}"/>
+    <div class="{name}" data-video-embed="{options -> f:format.json()}" aria-controls="{id}">
       <img class="{name}__image"
-           src="{thumbnailSrc}"
-           width="1080"
-           alt=""
+           src="{poster}"
+           alt="{file.alternative}"
            loading="lazy">
+      <f:if condition="!{openInModal}">
+        <div class="{name}__frame" id="{id}">
+        </div>
+      </f:if>
       <div class="{name}__button">
-        <icon:svg icon="play" class="{name}__icon"/>
+        <icon:svg icon="circle-play-duotone" class="{name}__icon"/>
       </div>
+      <f:if condition="{openInModal}">
+        <layout:modal id="{id}" width="12">
+          <div style="padding-top: 56.25%"></div>
+        </layout:modal>
+      </f:if>
     </div>
 
   </fc:renderer>

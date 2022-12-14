@@ -17,6 +17,9 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         'theme_media' => [
             'content_type' => ['assets','html']
         ],
+        'theme_full_width_media' => [
+            'imageorient' => [3,4,5,6]
+        ],
     ];
 
     /**

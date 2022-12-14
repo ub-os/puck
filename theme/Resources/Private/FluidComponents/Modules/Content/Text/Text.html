@@ -8,7 +8,7 @@
             class="{name}__wrap {f:if(condition: '!{object.bodytext}', then: '-headline-only')} {class}"
             object="{object}"
             id="c{object.uid}">
-        <element:text.header data="{object}"/>
+        <element:text.header object="{object}"/>
         <element:text.rich text="{object.bodytext}"/>
         <f:format.html>{content}</f:format.html>
     </layout:section>

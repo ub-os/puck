@@ -251,6 +251,28 @@ $columns = [
             ],
         ]
     ],
+    'media_max_height' => [
+        'label' => 'Maximum height',
+        'description' => 'Maximum image height for mobile devices (in % of viewport height)',
+        'config' => [
+            'type' => 'input',
+            'size' => 30,
+            'eval' => 'int',
+            'default' => 0,
+            'range' => [
+                'lower' => 0,
+                'upper' => 100
+            ],
+            'valuePicker' => [
+                'items' => [
+                    ['20', 20],
+                    ['30', 30],
+                    ['40', 40],
+                    ['50', 50]
+                ],
+            ],
+        ],
+    ],
     'card_media_size' => [
         'label' => 'Media size',
         'config' => [
@@ -299,15 +321,15 @@ $columns['text_column_width']['config']['itemsProcFunc'] = InlineMediaItemsProcF
 $columns['media_column_width']['config']['itemsProcFunc'] = InlineMediaItemsProcFunc::class.'->mediaColumnWidth';
 $palettes = [
     'gridMedia' => [
-        'label' => 'Grid columns',
+        'label' => 'Layout',
         'showitem' => '
                     imageorient,
                     text_column_width, media_column_width,
                     --linebreak--,
-                    item_column_width, column_position'
+                    item_column_width, column_position, media_max_height,'
     ],
     'gridCard' => [
-        'label' => 'Grid columns',
+        'label' => 'Layout',
         'showitem' => '
                     imageorient, card_media_size, media_column_width'
     ],

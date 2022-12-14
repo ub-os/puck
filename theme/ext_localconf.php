@@ -52,8 +52,8 @@ foreach(require ExtensionManagementUtility::extPath('theme') .'/Configuration/He
 }
 
 // Register RTE configuration file
-$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['theme'] = 'EXT:theme/Configuration/RTE/Theme.yaml';
-$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['header'] = 'EXT:theme/Configuration/RTE/Header.yaml';
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['theme_default'] = 'EXT:theme/Configuration/RTE/Default.yaml';
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['theme_header'] = 'EXT:theme/Configuration/RTE/Header.yaml';
 
 // Define fluid_components Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
@@ -68,7 +68,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['layout'] = ['UBOS\The
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['element'] = ['UBOS\Theme\Elements'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['module'] = ['UBOS\Theme\Modules'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Theme\Icons'];
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ubos'] = ['UBOS\Theme\ViewHelpers'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ub'] = ['UBOS\Theme\ViewHelpers'];
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['v'] = ['FluidTYPO3\Vhs\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['n'] = ['GeorgRinger\News\ViewHelpers'];

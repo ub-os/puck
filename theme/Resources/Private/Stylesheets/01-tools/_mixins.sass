@@ -116,7 +116,15 @@
 =cover-media($position: center)
   position: relative
   overflow: hidden
-  &>picture>img, &>video, &>iframe
+  &>div
+    width: 100%
+    height: 100%
+  .e-media-embed
+    padding-top: 0
+    width: 100%
+    height: 100%
+
+  &>picture>img, &>video, &>iframe, .e-media-embed>img
     position: absolute
     min-width: 500%
     min-height: 500%
@@ -132,7 +140,7 @@
       top: 0
       transform-origin: top
       transform: translateX(-50%) translateY(0) scale(0.2)
-    object-fit: cover
+    //object-fit: cover
 
 =hover()
   @media (hover: hover)

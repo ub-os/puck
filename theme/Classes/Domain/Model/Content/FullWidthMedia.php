@@ -9,23 +9,17 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Theme\Domain\Model\InlineMedia;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use UBOS\Theme\UserFunctions\FormEngine\ContentItemsProcFunc;
+
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Accordions extends Text
+class FullWidthMedia extends Media
 {
-    /**
-     * @var ObjectStorage<InlineMedia>
-     * @DatabaseField("string")
-     * @Cascade("remove")
-     * @Lazy
-     */
-    public $inlineMedia = null;
 
     /**
      * Content Element TCA
@@ -42,9 +36,10 @@ class Accordions extends Text
         --palette--;;gridContainer,
         --palette--;;appearance,
         --palette--;;headers,
-        --palette--;;bodytext,        
-    --div--;Items,
-        inline_media,';
+        --palette--;;bodytext,
+    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        imageorient,
+        assets,';
     }
 
     /**
@@ -58,15 +53,19 @@ class Accordions extends Text
                     'enableRichtext' => true,
                 ]
             ],
-            'inline_media' => [
-                'label' => 'Accordion items',
+            'imageorient' => [
                 'config' => [
-                    'overrideChildTca' => [
-                        'types' => [
-                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['accordions'],
-                        ]
-                    ]
+                    'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
                 ]
+            ],
+            'container_width' => [
+                'displayCond' => 'FIELD:imageorient:>:4',
+            ],
+            'container_offset' => [
+                'displayCond' => 'FIELD:imageorient:>:4',
+            ],
+            'container_position' => [
+                'displayCond' => 'FIELD:imageorient:>:4',
             ]
         ];
     }

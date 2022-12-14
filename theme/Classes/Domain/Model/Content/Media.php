@@ -78,6 +78,12 @@ class Media extends Text
     public int $mediaColumnWidth = 6;
 
     /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $mediaMaxHeight = 0;
+
+    /**
      * Content Element TCA
      */
 
@@ -90,6 +96,7 @@ class Media extends Text
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
         --palette--;;gridContainer,
+        --palette--;;appearance,
         --palette--;;headers,
         --palette--;;bodytext,
     --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,

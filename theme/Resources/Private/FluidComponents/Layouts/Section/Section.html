@@ -5,13 +5,18 @@
   <fc:param name="top" type="string" optional="1" default="auto"/>
   <fc:param name="bottom" type="string" optional="1" default="auto"/>
   <fc:param name="container" type="string" optional="1" default="cols12" />
-  <fc:param name="frameClass" type="string" optional="1" default="default"/>
-  <fc:param name="layout" type="string" optional="1" default="default"/>
   <fc:param name="object" type="mixed" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <section class="{name} {class} -background-{object.frameClass} -layout-{object.layout} -top-{top} -bot-{bottom} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')} "
+    <f:variable name="mods"
+                value="{
+                    background: object.frameClass,
+                    layout: object.layout,
+                    top: top,
+                    bottom: bottom}"/>
+
+    <section class="{name} {class} {mods -> ub:modClass()} {f:if(condition: '!{object.header} || {object.headerLayout}', then: '-no-h2')}"
              id="{id}"
              {attributes}>
       <f:if condition="{container} == '0'">

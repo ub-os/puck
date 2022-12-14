@@ -82,8 +82,13 @@
   &.-orient-6
     +media-layout(block,below)
 
+  &.-mobile-max-height &__figure &__file
+    +media(s)
+      max-height: var(--max-height-media-mobile)
+      width: auto
+
   &__file
-    margin-inline: auto
+    //margin-inline: auto
 
   &__mp3
     width: 100%

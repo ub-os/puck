@@ -2,22 +2,35 @@ $padding-inline: 2em
 $padding-block: 2em
 
 .l-card
+  // color variables
+  --background: var(--background-card)
+  --color: #{$black}
+  --color-alt: #{$black}
+  --color-headline: #{$dark-lilac}
+  --color-accent: #{$lilac}
+  --color-accent-alt: #{$dark-lilac}
+  --color-link: #{$lilac}
+  --color-link--hover: #{$dark-lilac}
   &
-    +flex(column-reverse, space-between, flex-start)
+    +flex(column, flex-start, flex-start)
     position: relative
     flex-grow: 1
-    background: var(--background-card)
+    color: var(--color)
+    background: var(--background)
     border-radius: var(--border-radius-s)
     overflow: hidden
+    &.-media
+      flex-direction: column-reverse
+      justify-content: space-between
     &.-media-size-contain
       padding: $padding-block $padding-inline
     &.-orient-3
       +media-up(s)
         flex-direction: row
-    &.-orient-4
+    &.-orient-4.-media
       +media-up(s)
         flex-direction: row-reverse
-    &.-orient-5
+    &.-orient-5.-media
       flex-direction: column-reverse
     &.-orient-6
       flex-direction: column
@@ -51,9 +64,6 @@ $padding-block: 2em
       padding-bottom: $padding-block
     &.-media-size-contain.-orient-6
       padding-top: $padding-block
-
-
-  &__figure
     &.-media-size-contain.-orient-3
       +media-up(s)
         padding-left: $padding-inline

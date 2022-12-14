@@ -8,7 +8,7 @@
         class="{name}__wrap"
         object="{object}"
         id="c{object.uid}">
-      <element:text.header data="{object}"/>
+      <element:text.header object="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
       <layout:row justify="{object.columnPosition}">
         <f:for each="{object.inlineMedia}" as="item" iteration="i">
@@ -24,7 +24,8 @@
                       justify="{item.columnPosition}"
                       mediaWidth="{item.mediaColumnWidth}"
                       textWidth="{item.textColumnWidth}"
-                      itemWidth="{item.itemColumnWidth}"/>
+                      itemWidth="{item.itemColumnWidth}"
+                      mediaMobileMaxVh="{item.mediaMaxHeight}"/>
             </div>
           </layout:row.item>
         </f:for>

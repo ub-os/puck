@@ -10,8 +10,14 @@
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <div class="{name} -orient-{orient} -media-size-{mediaSize} {class}" {attributes}>
-      <div class="{name}__content -orient-{orient} -media-size-{mediaSize}">
+    <f:variable name="mods"
+                value="{
+                    orient: orient,
+                    media-size: mediaSize,
+                    media-width: mediaWidth}"/>
+
+    <div class="{name} {mods -> ub:modClass()} {class} {f:if(condition:media.0,then:'-media')}" {attributes}>
+      <div class="{name}__content {mods -> ub:modClass()}">
         <f:format.raw>{content}</f:format.raw>
       </div>
       <f:if condition="{width} > 5 || !{width}">
@@ -19,13 +25,13 @@
           <f:variable name="calcWidth" value="{settings.gridWidth}"/>
         </f:then>
         <f:else>
-          <f:variable name="calcWidth" value="{ubos:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+          <f:variable name="calcWidth" value="{ub:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
         </f:else>
       </f:if>
       <f:if condition="{media}">
         <element:media
                 name="{name}"
-                class="-media-size-{mediaSize} -media-width-{mediaWidth} -orient-{orient}"
+                class="{mods -> ub:modClass()}"
                 file="{media.0}"
                 cropVariant="{cropVariant}"
                 width="{calcWidth}"

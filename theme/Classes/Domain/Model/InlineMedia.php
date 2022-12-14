@@ -108,6 +108,12 @@ class InlineMedia extends AbstractEntity
     public string $cardMediaSize = '';
 
     /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $mediaMaxHeight = 0;
+
+    /**
      * @var string
      * @DatabaseField("string")
      */

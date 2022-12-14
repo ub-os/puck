@@ -27,16 +27,18 @@ _app.components = {
         return {
             section: new ScrollReveal(node, {}).mount(),
             listItems: [...node.$$('.l-card, .m-content-accordions__item')].map((li, index) => {
+                const delay = index < 4 ? index * 100 : 300
                 return new ScrollReveal(li, {
                     timing: {
-                        delay: 50+150*index
+                        delay: 50+delay
                     },
                 }).mount()
             }),
             media: [...node.$$('.l-media__figure')].map((media, index) => {
+                const delay = index < 4 ? index * 100 : 300
                 return new ScrollReveal(media, {
                     timing: {
-                        delay: 350+150*index
+                        delay: 350+delay
                     },
                 }).mount()
             })
@@ -116,9 +118,8 @@ _app.components = {
                 node,
                 {
                 ...JSON.parse(node.dataset.carousel || '{}'),
-                ...{
-                    type: 'loop'
-                }}
+                ...{}
+                }
             ).mount()
         ]
     })),

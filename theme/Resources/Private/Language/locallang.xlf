@@ -212,6 +212,17 @@
 			<trans-unit id="wizard.cards.description" resname="wizard.cards.description">
 				<source>Text and media cards.</source>
 			</trans-unit>
+
+			<trans-unit id="content.element.full_width_media" resname="content.element.full_width_media">
+				<source>Full-width media</source>
+			</trans-unit>
+			<trans-unit id="wizard.full_width_media" resname="wizard.full_width_media">
+				<source>Full-width media</source>
+			</trans-unit>
+			<trans-unit id="wizard.full_width_media.description" resname="wizard.full_width_media.description">
+				<source>Media element with 50% or 100% viewport width.</source>
+			</trans-unit>
+			
 		</body>
 	</file>
 </xliff>

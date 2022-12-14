@@ -24,7 +24,7 @@
         <f:render section="group" arguments="{group: item.record.parents, table: 'pages', headline: 'Subpages of'}"/>
         <f:if condition="{item.record.records}">
             <em>Shortcut to:</em>
-            <f:for each="{ubos:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
+            <f:for each="{ub:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
                 <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
             </f:for>
         </f:if>
@@ -36,7 +36,7 @@
     <p>
         <small>
             <strong>
-                <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ubos:string.replace(search:'theme_',replace:'',subject:CType)}" />
+                <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ub:string.replace(search:'theme_',replace:'',subject:CType)}" />
             </strong>
             id:{uid}
         </small>
@@ -73,13 +73,13 @@
         <div class="thumb">
             <div  style="margin-top: 10px; margin-right: 10px">
                 <f:format.raw>
-                    <ubos:utility.backend.thumbCode row="{row}" table="{table}" field="{field}"/>
+                    <ub:utility.backend.thumbCode row="{row}" table="{table}" field="{field}"/>
                 </f:format.raw>
             </div>
         </div>
         <div class="media-desc" style="display: none">
             <f:for
-                    each="{ubos:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
+                    each="{ub:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
                     as="fileReference">
                 {fileReference.description}<br>
             </f:for>
@@ -91,7 +91,7 @@
     <f:if condition="{group}">
         <em>{headline}:</em>
         <ul>
-            <f:for each="{ubos:utility.backend.getRecords(table: table, uids: group)}" as="item">
+            <f:for each="{ub:utility.backend.getRecords(table: table, uids: group)}" as="item">
                 <li>
                     {item.title}
                 </li>
@@ -103,7 +103,7 @@
 <f:section name="items">
     <f:if condition="{inline_media}">
         <f:variable name="items"
-                    value="{ubos:utility.backend.getRecords(table: 'tx_theme_domain_model_inline_media', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
+                    value="{ub:utility.backend.getRecords(table: 'tx_theme_domain_model_inline_media', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
         <div class="panel-group panel-hover">
             <div class="panel panel-default">
                 <div class="panel-heading row m-0 p-2 g-0 gap-1 align-items-center collapsed"
@@ -151,7 +151,7 @@
 
                                     <strong>
                                         <small>
-                                            <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ubos:string.replace(search:'theme_',replace:'',subject:CType)}" />
+                                            <f:translate key="LLL:EXT:theme/Resources/Private/Language/locallang.xlf:wizard.{ub:string.replace(search:'theme_',replace:'',subject:CType)}" />
                                             item
                                         </small>
                                     </strong>

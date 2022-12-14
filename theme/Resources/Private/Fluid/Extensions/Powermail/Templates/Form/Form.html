@@ -2,7 +2,7 @@
 <layout:section container="0" id="c{ttContentData.uid}">
     <div class="powermail_container">
 
-        <element:text.header data="{ttContentData}"/>
+        <element:text.header object="{ttContentData}"/>
     <f:alias map="{flashMessageClass:'powermail_message_error'}">
         <f:render partial="Misc/FlashMessages" arguments="{_all}" />
     </f:alias>

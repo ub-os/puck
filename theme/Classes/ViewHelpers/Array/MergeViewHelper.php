@@ -18,6 +18,15 @@ class MergeViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return array_merge( $arguments['a'], $arguments['b'] );
+        $a = $arguments['a'];
+        $b = $arguments['b'];
+        if (is_array($a)) {
+            return array_merge( $a, $b );
+        } else {
+            foreach($b as $key => $value) {
+                $a->$key = $value;
+            }
+            return $a;
+        }
     }
 }

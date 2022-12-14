@@ -9,6 +9,7 @@ $GLOBALS['TCA']['tt_content']['columns']['frame_class'] = [
         'renderType' => 'selectSingle',
         'items' => [
             ['Default', 'default'],
+            ['Dark', 'dark'],
         ],
         'default' => 'default'
     ],
@@ -327,6 +328,28 @@ $GLOBALS['TCA']['tt_content']['columns']['card_media_size'] = [
         ],
     ]
 ];
+$GLOBALS['TCA']['tt_content']['columns']['media_max_height'] = [
+    'label' => 'Maximum height',
+    'description' => 'Maximum image height for mobile devices (in % of viewport height)',
+    'config' => [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => 'int',
+        'default' => 0,
+        'range' => [
+            'lower' => 0,
+            'upper' => 100
+        ],
+        'valuePicker' => [
+            'items' => [
+                ['20', 20],
+                ['30', 30],
+                ['40', 40],
+                ['50', 50]
+            ],
+        ],
+    ],
+];
 $GLOBALS['TCA']['tt_content']['palettes']['gridContainer'] = [
     'label' => 'Grid container',
     'showitem' => '
@@ -338,22 +361,27 @@ $GLOBALS['TCA']['tt_content']['palettes']['gridContainerWidth'] = [
         container_width'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['gridColumns'] = [
-    'label' => 'Grid columns',
+    'label' => 'Layout',
     'showitem' => '
         item_column_width, column_position'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['gridMedia'] = [
-    'label' => 'Grid columns',
+    'label' => 'Layout',
     'showitem' => '
         imageorient,
         text_column_width, media_column_width,
         --linebreak--,
-        item_column_width, column_position'
+        item_column_width, column_position, media_max_height'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['gridCard'] = [
-    'label' => 'Grid columns',
+    'label' => 'Layout',
     'showitem' => '
         imageorient, card_media_size, media_column_width'
+];
+$GLOBALS['TCA']['tt_content']['palettes']['appearance'] = [
+    'label' => 'Appearance',
+    'showitem' => '
+        frame_class'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['layout'] = [
     'label' => 'Configuration',

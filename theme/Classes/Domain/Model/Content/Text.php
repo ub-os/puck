@@ -50,6 +50,12 @@ class Text extends AbstractEntity
 
     /**
      * @var string
+     * @DatabaseField("string")
+     */
+    public string $frameClass = '';
+
+    /**
+     * @var string
      */
     public string $bodytext = '';
 
@@ -85,6 +91,7 @@ class Text extends AbstractEntity
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
         --palette--;;gridContainer,
+        --palette--;;appearance,
         --palette--;;headers,
         --palette--;;bodytext,';
     }

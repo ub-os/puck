@@ -1,0 +1,60 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-media-fullwidth"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap -orient-{object.imageorient}"
+            object="{object}"
+            container="{f:if(condition:'{object.imageorient} < 5',then:1,else:0)}"
+            id="c{object.uid}">
+      <f:if condition="{object.imageorient} < 5">
+        <f:then>
+          <layout:row justify="space-between" class="{name}__row -orient-{object.imageorient}">
+            <layout:row.item width="6" attributes="style=position:relative">
+              <element:media
+                      name="{name}"
+                      class="-orient-{object.imageorient}"
+                      file="{object.assets.0}"
+                      sources="{
+                        1920: {width: 1280, cropVariant: 'default'},
+                        1000: {width: 960, cropVariant: 'default'},
+                        xs: {width: 600, cropVariant: 'default'},
+                        0: {width: 450, cropVariant: 'default'}
+                    }"/>
+            </layout:row.item>
+            <layout:row.item width="5">
+              <div class="{name}__content -orient-{object.imageorient}">
+                <element:text.header object="{object}"/>
+                <element:text.rich text="{object.bodytext}"/>
+            </layout:row.item>
+          </layout:row>
+        </f:then>
+        <f:else>
+          <layout:container width="{object.containerWidth}" align="{object.containerPosition}" offset="{object.containerOffset}">
+            <div class="{name}__content -orient-{object.imageorient}">
+              <element:text.header object="{object}"/>
+              <element:text.rich text="{object.bodytext}"/>
+              <f:format.html>{content}</f:format.html>
+            </div>
+          </layout:container>
+          <element:media
+                  name="{name}"
+                  class="-orient-{object.imageorient}"
+                  file="{object.assets.0}"
+                  sources="{
+                        1920: {width: 2560, cropVariant: 'default'},
+                        1000: {width: 1920, cropVariant: 'default'},
+                        xs: {width: 600, cropVariant: 'default'},
+                        0: {width: 450, cropVariant: 'default'}
+                    }"/>
+        </f:else>
+      </f:if>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

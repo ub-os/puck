@@ -20,10 +20,12 @@ class Toggleable {
         toggleOffOnEsc = true,
         toggleOffOnOutsideClick = false,
         disableToggles = false,
-        addMatchingHashLinksToToggles = toggleOnIfUrlHashMatches
+        addMatchingHashLinksToToggles = toggleOnIfUrlHashMatches,
+        pauseMediaOnToggle = true,
+        reloadIframeOnToggle = pauseMediaOnToggle
       })
   {
-    Object.assign(this, { active, alwaysActive, groupId, exclusiveGroup, clickDelay, toggleOffOnOutsideClick, toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles })
+    Object.assign(this, { active, alwaysActive, groupId, exclusiveGroup, clickDelay, toggleOffOnOutsideClick, toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles, pauseMediaOnToggle, reloadIframeOnToggle })
     this.classes = {
       ...{
         active: '--active',
@@ -48,6 +50,9 @@ class Toggleable {
     if (!this.toggles.length) {
       console.warn(`Toggleable: No toggles found for ${this.id}`)
       console.trace()
+    }
+    if (this.pauseMediaOnToggle) {
+      this.mediaContent = this.node.querySelectorAll('video, audio')
     }
   }
   setClass(operation, className) {
@@ -78,6 +83,19 @@ class Toggleable {
     this.active = false
     this.setClass('remove', this.classes.active)
     if (transition) this.transitionClass(this.classes.deactivating)
+    if (this.pauseMediaOnToggle && this.mediaContent) {
+      this.mediaContent.forEach(item => {
+        if (item.pause) item.pause()
+      })
+    }
+    if (this.reloadIframeOnToggle && this.node.querySelectorAll('iframe')) {
+      this.node.querySelectorAll('iframe').forEach(item => {
+        if (item.src) {
+          let src = item.src
+          item.src = src
+        }
+      })
+    }
   }
   toggle() {
     if (this.active) {
