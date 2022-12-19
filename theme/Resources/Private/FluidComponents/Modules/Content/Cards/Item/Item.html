@@ -1,0 +1,25 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-cards"/>
+  <fc:param name="item" type="mixed"/>
+  <fc:renderer>
+
+    <layout:card
+            media="{item.assets}"
+            cropVariant="{cropVariant}"
+            width="{object.columnWidths.{i.index}}"
+            mediaSize="{item.cardMediaSize}"
+            mediaWidth="{item.mediaColumnWidth}"
+            orient="{item.imageorient}">
+      <f:if condition="{item.header}">
+        <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+      </f:if>
+      <f:if condition="{item.bodytext}">
+        <element:text.rich text="{item.bodytext}"/>
+      </f:if>
+    </layout:card>
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -1,6 +1,7 @@
 .d-html .e-button-primary
   &
     +typo-button
+    position: relative
     display: inline-block
     max-width: 100vw
     padding: .66em 2.33em
@@ -15,6 +16,17 @@
       color: var(--color-button--hover)
       background: var(--background-button--hover)
       border-color: var(--color-button-border--hover)
+    &:after
+      +cover
+      z-index: 0
+      content: ''
+      opacity: 0
+      border-radius: var(--border-radius-s)
+      box-shadow: 0 0 0 10px var(--background-button--hover)
+      transition: opacity .2s
+    &:focus:after,
+    &:active:after
+      opacity: 0.2
 
   &.-block
     display: block
@@ -29,9 +41,6 @@
   &.-ghost
     padding-inline: .66em
     border-color: transparent
-    border-radius: 0
-    &:hover
-      border-bottom-color: var(--background-button--hover)
   &.-outline
     border-color: var(--background-button)
     &:hover

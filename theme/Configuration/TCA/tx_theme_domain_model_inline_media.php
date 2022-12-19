@@ -27,11 +27,8 @@ $ctrl = [
         'default' => 'inline_media',
         'accordions' => 'accordions_inline_media',
         'columns' => 'columns_inline_media',
-        'carousel' => 'carousel_inline_media',
         'cards' => 'cards_inline_media',
-        'cards_carousel' => 'cards_carousel_inline_media',
         'stage_carousel' => 'stage_carousel_inline_media',
-
     ],
 ];
 $interface = [
@@ -87,8 +84,6 @@ $columns = [
                 ['Column', 'columns', 'columns_inline_media'],
                 ['Card', 'cards', 'cards_inline_media'],
                 ['Accordion', 'accordions', 'accordions_inline_media'],
-                ['Carousel Slide', 'carousel', 'carousel_inline_media'],
-                ['Cards carousel slide', 'cards_carousel', 'cards_carousel_inline_media'],
                 ['Stage carousel slide', 'stage_carousel', 'stage_carousel_inline_media'],
             ],
             'default' => '1'
@@ -417,37 +412,7 @@ $types = [
             'assets' => $overrideCropVariants('default,mobile'),
         ]
     ],
-    'carousel' => [
-        'showitem' => '
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-                    item_type,
-                    column_width,
-                    header, 
-                    bodytext, 
-                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-                    --palette--;;gridMedia,
-                    assets,
-                '.$typesShowItemBase,
-        'columnsOverrides' => [
-            'assets' => $overrideCropVariants('default,mobile'),
-        ]
-    ],
     'cards' => [
-        'showitem' => '
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-                    item_type,
-                    column_width,
-                    header, 
-                    bodytext, 
-                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-                    --palette--;;gridCard,
-                    assets,
-                '.$typesShowItemBase,
-        'columnsOverrides' => [
-            'assets' => $overrideCropVariants('default,mobile'),
-        ]
-    ],
-    'cards_carousel' => [
         'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     item_type,

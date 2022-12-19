@@ -13,13 +13,15 @@
       flex-direction: row-reverse
     &.-orient-4
       flex-direction: row
+    +media(ml)
+      --grid-gutter-y: 0
 
   &__content
     &.-orient-5
-      +spacing(top, m)
+      +spacing(top, m, padding, 2)
 
     &.-orient-6
-      +spacing(bottom, m)
+      +spacing(bottom, m, padding, 2)
 
   &__wrap[class*="-background-"] &__content
     &.-orient-3,
@@ -35,11 +37,14 @@
   &__figure
     &.-orient-3,
     &.-orient-4
-      +cover-media()
-      position: absolute
-      top: 0
-      height: 100%
-      width: 50vw
+      +media(ml, up)
+        +cover-media()
+        position: absolute
+        top: 0
+        height: 100%
+        width: 50vw
+      +media(ml)
+        +gutter-outer($gutter-outer, $gutter-outer-mb, true)
 
     &.-orient-3
       left: 0
@@ -50,6 +55,7 @@
     &.-orient-5,
     &.-orient-6
       width: 100vw
+
 
 
   &__figure.-orient-3 &__file,

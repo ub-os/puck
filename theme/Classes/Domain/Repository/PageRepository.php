@@ -23,37 +23,63 @@ class PageRepository extends Repository
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
 
-    public function findPagesByPid(int $pid)
+    public function findPagesByPid(int $pid, $options = [])
     {
+        $options = array_merge(
+            [
+                'navHide' => 0,
+            ],
+            $options
+        );
         $query = $this->createQuery();
+        $constraints = array(
+            $query->equals('pid', $pid),
+            $query->lessThan('doktype', 100),
+        );
+        if ($options['navHide']) {
+            $constraints[] = $query->equals('nav_hide', 0);
+        }
         return $query->matching(
             $query->logicalAnd(
-                $query->equals('pid', $pid),
-                $query->lessThan('doktype', 100)
+                $constraints
             )
         )->execute()->toArray();
     }
 
-    public function findByUidListAndPidList($uidList, $pidList, $orderByUidList = false) {
+    public function findByUidListAndPidList($uidList, $pidList, $options = [])
+    {
+        $options = array_merge(
+            [
+                'navHide' => 0,
+                'orderByUidList' => 0,
+            ],
+            $options
+        );
         $query = $this->createQuery();
-        $constraints = [];
         $uidArray = explode(',', $uidList);
+        $pidUidConstraints = [];
         foreach ($uidArray as $key => $value) {
-            $constraints[] = $query->equals('uid', $value);
+            $pidUidConstraints[] = $query->equals('uid', $value);
         }
         foreach (explode(',', $pidList) as $key => $value) {
-            $constraints[] = $query->equals('pid', $value);
+            $pidUidConstraints[] = $query->equals('pid', $value);
+        }
+        $constraints = array(
+            $query->logicalOr(
+                $pidUidConstraints
+            ),
+            $query->lessThan('doktype', 100),
+        );
+        if ($options['navHide']) {
+            $constraints[] = $query->equals('nav_hide', 0);
         }
         $queryResult = $query->matching(
             $query->logicalAnd(
-                $query->logicalOr(
-                    $constraints
-                ),
-                $query->lessThan('doktype', 100)
+                $constraints
             )
         )->execute();
         $result = $queryResult->toArray();
-        if ($orderByUidList) {
+        if ($options['orderByUidList']) {
             usort($result, function ($a, $b) use ($uidArray) {
                 $pos_a = array_search($a->getUid(), $uidArray);
                 $pos_b = array_search($b->getUid(), $uidArray);

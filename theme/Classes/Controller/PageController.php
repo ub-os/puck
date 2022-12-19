@@ -42,7 +42,8 @@ class PageController extends ActionController
             $model = $dataMapper->map('UBOS\Theme\Domain\Model\Page', [$data])[0];
             $backendRows = [
                 ['colPos' => 1, 'slide' => 0],
-                ['colPos' => 3, 'slide' => -1]
+                ['colPos' => 3, 'slide' => -1],
+                ['colPos' => 9, 'slide' => 0]
             ];
             $contentElements = [];
             foreach($backendRows as $row) {

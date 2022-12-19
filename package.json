@@ -67,7 +67,9 @@
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@splidejs/splide": "^4.1.4",
+    "get-sass-vars": "^3.4.0",
     "jsx-dom": "^8.0.3",
+    "node-sass-variables": "^0.0.5",
     "normalize.css": "^8.0.1",
     "rfs": "^9.0.6",
     "smoothscroll-polyfill": "^0.4.4"

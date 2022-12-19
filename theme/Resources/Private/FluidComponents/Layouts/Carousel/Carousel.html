@@ -19,8 +19,12 @@
 
     <f:if condition="{controls}">
       <div class="{name}__controls {class}">
-        <button class="{name}__controls__prev" aria-controls="{id}" data-go-to="<">Prev</button>
-        <button class="{name}__controls__next" aria-controls="{id}" data-go-to=">">Next</button>
+        <button class="{name}__controls__prev" aria-controls="{id}" data-go-to="<">
+          <icon:svg icon="arrow-left-regular"/>
+        </button>
+        <button class="{name}__controls__next" aria-controls="{id}" data-go-to=">">
+          <icon:svg icon="arrow-right-regular"/>
+        </button>
       </div>
     </f:if>
 

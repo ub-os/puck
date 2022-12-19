@@ -1,0 +1,23 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-columns"/>
+  <fc:param name="item" type="mixed"/>
+  <fc:renderer>
+
+    <f:if condition="{item.header}">
+      <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
+    </f:if>
+    <layout:media
+            media="{item.assets}"
+            text="{item.bodytext}"
+            orient="{item.imageorient}"
+            justify="{item.columnPosition}"
+            mediaWidth="{item.mediaColumnWidth}"
+            textWidth="{item.textColumnWidth}"
+            itemWidth="{item.itemColumnWidth}"
+            mediaMobileMaxVh="{item.mediaMaxHeight}"/>
+
+  </fc:renderer>
+</fc:component>
+
+

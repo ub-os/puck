@@ -11,26 +11,33 @@
         id="c{object.uid}">
       <element:text.header object="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
-      <layout:row justify="{object.columnPosition}" flexGrow="0">
-        <f:for each="{object.inlineMedia}" as="item" iteration="i">
-          <layout:row.item width="{object.columnWidths.{i.index}}" class="-stretch-content">
-            <layout:card
-                    media="{item.assets}"
-                    cropVariant="{cropVariant}"
-                    width="{object.columnWidths.{i.index}}"
-                    mediaSize="{item.cardMediaSize}"
-                    mediaWidth="{item.mediaColumnWidth}"
-                    orient="{item.imageorient}">
-              <f:if condition="{item.header}">
-                <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
-              </f:if>
-              <f:if condition="{item.bodytext}">
-                <element:text.rich text="{item.bodytext}"/>
-              </f:if>
-            </layout:card>
-          </layout:row.item>
-        </f:for>
-      </layout:row>
+
+      <f:switch expression="{object.layout}">
+
+        <f:case value="carousel">
+          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+              <layout:row.item
+                      class="splide__slide {name}__item -stretch-content"
+                      width="{object.columnWidths.{i.index}}">
+                <module:content.cards.item item="{item}"/>
+              </layout:row.item>
+            </f:for>
+          </layout:carousel>
+        </f:case>
+
+        <f:defaultCase>
+          <layout:row justify="{object.columnPosition}" flexGrow="0" class="{name}__row">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+              <layout:row.item width="{object.columnWidths.{i.index}}" class="-stretch-content">
+                <module:content.cards.item item="{item}"/>
+              </layout:row.item>
+            </f:for>
+          </layout:row>
+        </f:defaultCase>
+
+      </f:switch>
+
     </layout:section>
 
   </fc:renderer>

@@ -30,6 +30,14 @@ class Cards extends Columns
                     'enableRichtext' => true,
                 ]
             ],
+            'layout' => [
+                'config' => [
+                    'items' => [
+                        ['Default', 'default'],
+                        ['Carousel', 'carousel']
+                    ]
+                ]
+            ],
             'inline_media' => [
                 'label' => 'Cards items',
                 'config' => [

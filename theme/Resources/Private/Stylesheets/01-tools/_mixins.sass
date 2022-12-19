@@ -30,11 +30,17 @@
   +media($size,up)
     @content
 
-=gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb)
-  +rfs($gutter, padding-inline)
-  @each $mb, $value in $gutters-mb
-    +media($mb, down)
-        +rfs($value, padding-inline)
+=gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb, $reversal: false)
+  @if ($reversal)
+    +rfs($gutter * -1, margin-inline)
+    @each $mb, $value in $gutters-mb
+      +media($mb, down)
+        +rfs($value * -1, margin-inline)
+  @else
+    +rfs($gutter, padding-inline)
+    @each $mb, $value in $gutters-mb
+      +media($mb, down)
+          +rfs($value, padding-inline)
 
 
 
@@ -112,6 +118,14 @@
     left: 50%
     transform: translate(-50%, -50%)
 
+=cover()
+  position: absolute
+  top: 0
+  left: 0
+  display: block
+  width: 100%
+  height: 100%
+  object-fit: cover
 
 =cover-media($position: center)
   position: relative

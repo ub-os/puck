@@ -397,6 +397,11 @@ $GLOBALS['TCA']['tt_content']['palettes']['appearance'] = [
     'showitem' => '
         frame_class'
 ];
+$GLOBALS['TCA']['tt_content']['palettes']['appearanceLayout'] = [
+    'label' => 'Appearance',
+    'showitem' => '
+        frame_class, layout'
+];
 $GLOBALS['TCA']['tt_content']['palettes']['layout'] = [
     'label' => 'Configuration',
     'showitem' => '

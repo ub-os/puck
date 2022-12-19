@@ -20,7 +20,6 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
  */
 class MenuAnchors extends Text
 {
-
     /**
      * @var ?array
      * @Lazy
@@ -36,7 +35,7 @@ class MenuAnchors extends Text
         if ($this->anchors === null) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             $contentRepository = $objectManager->get(ContentRepository::class);
-            $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid);
+            $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid)->toArray();
         }
         return $this->anchors;
     }
@@ -62,7 +61,6 @@ class MenuAnchors extends Text
         return '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;layout,
         --palette--;;headers,';
     }
 

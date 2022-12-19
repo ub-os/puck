@@ -47,7 +47,7 @@ class MenuPages extends Text
         if ($this->menu === null) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             $pageRepository = $objectManager->get(PageRepository::class);
-            $this->menu = $pageRepository->findByUidListAndPidList($this->pages, $this->parents);
+            $this->menu = $pageRepository->findByUidListAndPidList($this->pages, $this->parents, ['navHide' => 1, 'orderByUidList' => 1]);
         }
         return $this->menu;
     }
@@ -60,7 +60,6 @@ class MenuPages extends Text
     {
         $this->menu = $menu;
     }
-
 
     /**
      * Content Element TCA

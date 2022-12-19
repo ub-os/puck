@@ -10,26 +10,33 @@
         id="c{object.uid}">
       <element:text.header object="{object}"/>
       <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
-      <layout:row justify="{object.columnPosition}">
-        <f:for each="{object.inlineMedia}" as="item" iteration="i">
-          <layout:row.item width="{object.columnWidths.{i.index}}">
-            <div class="{name}__column">
-              <f:if condition="{item.header}">
-                <h3 class="{name}__headline"><f:format.raw>{item.header}</f:format.raw></h3>
-              </f:if>
-              <layout:media
-                      media="{item.assets}"
-                      text="{item.bodytext}"
-                      orient="{item.imageorient}"
-                      justify="{item.columnPosition}"
-                      mediaWidth="{item.mediaColumnWidth}"
-                      textWidth="{item.textColumnWidth}"
-                      itemWidth="{item.itemColumnWidth}"
-                      mediaMobileMaxVh="{item.mediaMaxHeight}"/>
-            </div>
-          </layout:row.item>
-        </f:for>
-      </layout:row>
+
+      <f:switch expression="{object.layout}">
+
+        <f:case value="carousel">
+          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+              <layout:row.item
+                      class="splide__slide {name}__item"
+                      width="{object.columnWidths.{i.index}}">
+                <module:content.columns.item item="{item}"/>
+              </layout:row.item>
+            </f:for>
+          </layout:carousel>
+        </f:case>
+
+        <f:defaultCase>
+          <layout:row justify="{object.columnPosition}" class="{name}__row">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+              <layout:row.item width="{object.columnWidths.{i.index}}">
+                <module:content.columns.item item="{item}"/>
+              </layout:row.item>
+            </f:for>
+          </layout:row>
+        </f:defaultCase>
+
+      </f:switch>
+
     </layout:section>
 
   </fc:renderer>
