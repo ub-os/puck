@@ -1,11 +1,10 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+$cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
+
 $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
-    '5:2' => ['disabled' => true],
-    '2:1' => ['disabled' => true],
-    '1:1' => ['disabled' => true],
-    'default' => ['disabled' => true],
+    '3:2' => $cropVariants['3:2'],
     'social' => [
         'title' => '1.91:1',
         'allowedAspectRatios' => [

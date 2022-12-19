@@ -10,7 +10,6 @@
     border-bottom: 2px solid transparent
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
-
   .d-html[class*="-modal--active"] &.--scroll
     transform: translateY(-100%)
 
@@ -30,14 +29,21 @@
     position: relative
     display: flex
     align-items: center
-    transition: width .15s, padding .15s
+    transition: width .5s, padding .5s
 
   &__logo
+    --icon-color1: #{ $orange-bright-crayola }
+    --icon-color2: currentColor
     z-index: $z-index-header-burger
     max-width: 90%
-    height: auto
-    max-height: 5rem
-    transition: width .15s
+    height: 5rem
+    width: 5rem
+    color: $lilac-dark-orchid
+    outline: none
+    transition: color .4s, transform .4s
+    &:hover
+      color: $lilac-electric
+      transform: scale(1.05)
 
   &.--scroll &__logo
 

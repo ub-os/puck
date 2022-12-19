@@ -2,6 +2,7 @@
 
 namespace UBOS\Theme\Domain\Model\Content;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
@@ -19,10 +20,10 @@ class Stage extends Text
 {
 
     /**
-     * @var ObjectStorage<FileReference>
+     * @var ?ObjectStorage<FileReference>
      * @Lazy
      */
-    public ObjectStorage $assets;
+    public ?ObjectStorage $assets = null;
 
     /**
      * Content Element TCA
@@ -48,12 +49,29 @@ class Stage extends Text
      */
     public function columnsOverrides(): array
     {
+        $cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
         return [
             'bodytext' => [
                 'config' => [
                     'enableRichtext' => true,
                 ],
             ],
+            'assets' => [
+                'config' => [
+                    'overrideChildTca' => [
+                        'columns' => [
+                            'crop' => [
+                                'config' => [
+                                    'cropVariants' => [
+                                        '2:1' => $cropVariants['2:1'],
+                                        '3:2' => $cropVariants['3:2'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                ]
+            ]
         ];
     }
 }

@@ -22,34 +22,33 @@ class MenuAnchors extends Text
 {
 
     /**
-     * Computed properties.
-     */
-
-    /**
-     * @var mixed
+     * @var ?array
      * @Lazy
      * @Transient
      */
-    public $anchors = [];
+    protected ?array $anchors = null;
 
     /**
-     * @return void
+     * @return array
      */
-    public function setAnchors(): void
+    public function getAnchors(): array
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $contentRepository = $objectManager->get(ContentRepository::class);
-        $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid);
+        if ($this->anchors === null) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $contentRepository = $objectManager->get(ContentRepository::class);
+            $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid);
+        }
+        return $this->anchors;
     }
 
     /**
+     * @param array $anchors
      * @return void
      */
-    public function computeProperties(): void
+    public function setAnchors(array $anchors): void
     {
-        $this->setAnchors();
+        $this->anchors = $anchors;
     }
-
 
     /**
      * Content Element TCA

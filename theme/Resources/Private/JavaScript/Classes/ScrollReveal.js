@@ -4,7 +4,7 @@ import {getNode} from '../General/Functions'
 const createScrollRevealObserver = (
     {
         root = null,
-        rootMargin = '0px 0px -20px 0px',
+        rootMargin = '0px 0px -40px 0px',
         threshold = 0
     } = {}) => {
     const observer = new IntersectionObserver(entries => {
@@ -28,6 +28,7 @@ class ScrollReveal {
         presetTranslate = 10,
         animation = null,
         timing = {},
+        observationTarget = null,
         observerOptions,
         ...options})
     {
@@ -38,9 +39,10 @@ class ScrollReveal {
             ...timing
         }
         this.node = getNode(target, 'ScrollReveal')
+        this.observedNode = observationTarget ? getNode(observationTarget, 'ScrollReveal') : this.node
         this.revealed = true
         window.requestAnimationFrame(() => {
-            if (this.node.getBoundingClientRect().top > window.innerHeight) {
+            if (this.observedNode.getBoundingClientRect().top > window.innerHeight) {
                 this.node.style.opacity = 0
                 this.revealed = false
             }
@@ -90,11 +92,11 @@ class ScrollReveal {
     }
     mount() {
         if (this.observerOptions) {
-            createScrollRevealObserver(this.observerOptions).observe(this.node)
+            createScrollRevealObserver(this.observerOptions).observe(this.observedNode)
         } else {
-            scrollRevealObserver.observe(this.node)
+            scrollRevealObserver.observe(this.observedNode)
         }
-        this.node.addEventListener('scrollReveal', () => {
+        this.observedNode.addEventListener('scrollReveal', () => {
             if (!this.revealed) this.reveal()
         })
         return this

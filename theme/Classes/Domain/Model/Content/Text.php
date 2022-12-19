@@ -32,6 +32,12 @@ class Text extends AbstractEntity
     public string $headerPosition;
 
     /**
+     * @var int
+     * @DatabaseField ("int")
+     */
+    public int $headerSpacingOverride;
+
+    /**
      * @var string
      */
     public string $subheader;

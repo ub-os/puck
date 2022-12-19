@@ -3,7 +3,7 @@
 
 
 // GRID VARIABLES
-$page-width:              120rem
+$page-width: 120rem
 $bp-mobile-nav: l
 
 // FONT-SIZES
@@ -21,16 +21,38 @@ $fs-small: 1.6rem
 $fs-extra-small: 1.4rem
 
 // COLORS
-$lilac: #A46CDC
 $black: #1c1818
-$white: #e1e1e1
-$light-lilac: #A46CDC
-$dark-lilac: #663399
+$grey-1: #3d3a3a
+$grey-2: #5d5959
+$grey-3: #8c8b8b
+$grey-4: #c9c9c9
+$grey-5: #eeeeee
+$white: #fff
+
+$lilac-purple: #5A06AB
+$orange-bright-crayola: #FBAA04
+
+$lilac-electric: #AF19FF
+$lilac-dark-orchid: #9343C4
+$lilac-amethyst: #A46CDC
+
+$orange-pumpkin: #FF7D26
+$orange-mango-tango: #F58F4D
+$white-dutch: #eee4b6
+
+$blue-capri: #00C3FF
+$blue-cyan-process: #12B1E1
+$blue-baby-eyes: #A2CDEF
+
+$blue-electric: #0AE8F3
+$blue-sky-crayola: #6AD7DD
+$blue-powder: #B4DFE6
+
 
 // FONT-FAMILIES
-$ff-text: 'Quattrocento Sans'
-$ff-headline: $ff-text
-$ff-alt1: 'Quattrocento Sans'
+$ff-text: 'Nunito'
+$ff-headline: 'Roboto'
+$ff-alt1: $ff-text
 $ff-alt2: $ff-text
 
 // STYLES
@@ -53,19 +75,17 @@ $z-index-header-menu-backdrop: 199
 $z-index-header-burger: 201
 
 
-\:root  
+\:root
   // ### colors / backgrounds
   // basic
-  --color: #{$black}
-  --color-alt: #{$black}
-  --color-headline: #{$dark-lilac}
-  --color-accent: #{$lilac}
-  --color-accent-alt: #{$dark-lilac}
-  --background: #{$white}
-
-  // link
-  --color-link: #{$lilac}
-  --color-link--hover: #{$dark-lilac}
+  --color: #{ $black }
+  --color-alt: #{ $black }
+  --color-headline: #{ $grey-1 }
+  --color-accent: #{ $orange-mango-tango }
+  --color-accent-alt: #{ $blue-cyan-process }
+  --background: #{ $grey-5 }
+  --color-link: #{ $lilac-dark-orchid }
+  --color-link--hover: #{ $lilac-electric }
 
   // button
   --color-button: var(--background)
@@ -74,7 +94,7 @@ $z-index-header-burger: 201
   --color-button-border--hover: transparent
   --background-button: var(--color-link)
   --background-button--hover: var(--color-link--hover)
-  
+
   // button alt
   --color-button-alt: var(--color-button)
   --color-button-alt--hover: var(--color-button--hover)
@@ -82,7 +102,7 @@ $z-index-header-burger: 201
   --color-button-alt-border--hover: var(--color-button-border--hover)
   --background-button-alt: var(--background-button)
   --background-button-alt--hover: var(--background-button--hover)
-  
+
   // button light
   --color-button-light: #{$black}
   --color-button-light--hover: #{$black}
@@ -90,7 +110,7 @@ $z-index-header-burger: 201
   --color-button-light-border--hover: transparent
   --background-button-light: lightgrey
   --background-button-light--hover: white
-  
+
   // input
   --color-input: var(--color)
   --color-input--active: var(--color)
@@ -98,39 +118,35 @@ $z-index-header-burger: 201
   --color-input-border--active: transparent
   --background-input: var(--background)
   --background-input--active: var(--background)
-  
+
   // card
   --background-card: white
-  
+
   // modal
   --color-modal: var(--color)
   --background-modal: white
-  --background-modal-backdrop: #{transparentize($white, 0.5)}
-
-  // accordion
-  --color-accordion: var(--color)
-  --background-accordion: var(--background)
+  --background-modal-backdrop: #{transparentize($grey-5, 0.5)}
 
 
   // ### border-radius / shadows
-  --border-radius-s: #{$border-radius-s}
-  --border-radius-m: #{$border-radius-m}
+  --border-radius-s: #{ $border-radius-s }
+  --border-radius-m: #{ $border-radius-m }
   --border-radius-default: 0
 
-  --box-shadow-s: #{$box-shadow-s}
-  --box-shadow-m: #{$box-shadow-m}
+  --box-shadow-s: #{ $box-shadow-s }
+  --box-shadow-m: #{ $box-shadow-m }
 
 
   // ### widths / heights
-  --grid-gutter-x: #{$gutter}
+  --grid-gutter-x: #{ $gutter }
   --grid-gutter-y: #{ $gutter }
   --grid-columns: #{ $grid-columns }
 
-  --height-page-header: #{$page-header-height}
+  --height-page-header: #{ $page-header-height }
   @media(max-width: 750px)
-    --height-page-header: #{$page-header-height-mobile}
+    --height-page-header: #{ $page-header-height-mobile }
 
-  --width-page: #{$page-width}
+  --width-page: #{ $page-width }
 
   --color-icon1: currentColor
   --color-icon2: var(--color-icon1)

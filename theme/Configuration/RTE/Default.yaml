@@ -33,8 +33,8 @@ editor:
       #Headlines
       # link styles
       - { name: "Button", element: "a", attributes: { class: "e-button-primary"} }
-      - { name: "Button outline", element: "a", attributes: { class: "e-button-primary -outline"} }
-      - { name: "Button ghost", element: "a", attributes: { class: "e-button-primary -ghost"} }
+      - { name: "Button outline", element: "a", attributes: { class: "-outline e-button-primary"} }
+      - { name: "Button ghost", element: "a", attributes: { class: "-ghost e-button-primary"} }
 
       #Lists
 

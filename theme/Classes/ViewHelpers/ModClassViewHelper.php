@@ -24,7 +24,11 @@ class ModClassViewHelper extends AbstractViewHelper
         if (is_array($mods)) {
             foreach($mods as $key => $value) {
                 if ($value && $value !== 'default') {
-                    $class .= ' -'.$key.'-'.$value;
+                    if ($value === 1 || $value === true) {
+                        $class .= ' -' . $key;
+                    } else {
+                        $class .= ' -' . $key . '-' . $value;
+                    }
                 }
             }
         }

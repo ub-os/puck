@@ -14,122 +14,105 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
  */
 class InlineMedia extends AbstractEntity
 {
-    public function __construct() {
-        $this->assets = new ObjectStorage();
-    }
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $parentUid;
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $parentTable;
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $header = '';
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $subheader = '';
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $icon = '';
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $bodytext = '';
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $imageorient = 0;
-
     /**
      * @var int
      * @DatabaseField("int")
      */
-    public int $imagecols = 1;
-
+    public int $imagecols = 0;
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $layout = '';
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $columnWidth = 0;
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $itemColumnWidth = 0;
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $mediaColumnWidth = 0;
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $textColumnWidth = 0;
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $columnPosition = '';
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $cardMediaSize = '';
-
     /**
      * @var int
      * @DatabaseField("int")
      */
     public int $mediaMaxHeight = 0;
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $itemType = '';
-
     /**
      * @var string
      * @DatabaseField("string")
      */
     public string $frameClass = '';
-
     /**
-     * @var ObjectStorage<FileReference>
+     * @var ?ObjectStorage<FileReference>
      * @DatabaseField("string")
      * @Lazy
      */
-    public $assets;
+    public ?ObjectStorage $assets = null;
+
+    public function __construct() {
+        $this->assets = new ObjectStorage();
+    }
 
 }

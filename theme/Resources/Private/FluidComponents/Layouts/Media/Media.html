@@ -10,6 +10,7 @@
     <fc:param name="itemWidth" type="integer" optional="1" default="5" />
     <fc:param name="mediaMobileMaxVh" type="integer" optional="1" default="0" />
     <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+    <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile"/>
     <fc:renderer>
 
         <div class="{name} -orient-{orient} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
@@ -34,8 +35,8 @@
                                             width="{calcWidth}"
                                             sources="{
                                       s: {width: calcWidth, cropVariant: cropVariant},
-                                      xs: {width: 600, cropVariant: cropVariant},
-                                      0: {width: 450, cropVariant: cropVariant}
+                                      xs: {width: 600, cropVariant: cropVariantMobile},
+                                      0: {width: 450, cropVariant: cropVariantMobile}
                                       }"
                                             showTitle="1"
                                             showDesc="1"/>

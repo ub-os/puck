@@ -4,7 +4,7 @@ namespace UBOS\Theme\Domain\Model\Content;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
@@ -31,10 +31,10 @@ class Media extends Text
     public int $imagecols;
 
     /**
-     * @var ObjectStorage<FileReference>
+     * @var ?ObjectStorage<FileReference>
      * @Lazy
      */
-    public ObjectStorage $assets;
+    public ?ObjectStorage $assets = null;
 
     /**
      * @var string
@@ -70,12 +70,12 @@ class Media extends Text
      * @var int
      * @DatabaseField("int")
      */
-    public int $textColumnWidth = 6;
+    public int $textColumnWidth = 0;
     /**
      * @var int
      * @DatabaseField("int")
      */
-    public int $mediaColumnWidth = 6;
+    public int $mediaColumnWidth = 0;
 
     /**
      * @var int
@@ -119,7 +119,15 @@ class Media extends Text
                 ],
             ],
             'assets' => [
-                'displayCond' => 'FIELD:content_type:=:assets'
+                'displayCond' => 'FIELD:content_type:=:assets',
+                'config' => [
+                    'overrideChildTca' => [
+                        'columns' => [
+                            'crop' => [
+                            ],
+                        ],
+                    ]
+                ]
             ],
             'pages' => [
                 'label' => 'Pages',
@@ -141,7 +149,7 @@ class Media extends Text
             'content_type' => [
                 'onChange' => 'reload',
                 'config' => [
-                    'itemsProcFunc' => ContentItemsProcFunc::class.'->keepItems',
+                    'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
                 ]
             ],
             'item_column_width' => [

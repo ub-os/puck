@@ -5,15 +5,20 @@
                 <f:if condition="{i.index} > 0 && {data.special} == 'rootline'">❯</f:if>
                 <f:if condition="{i.isLast} && {data.special} == 'rootline'">
                     <f:then>
-                  <span class="{data.name}__link">
-                    <f:format.raw>{item.data.title}</f:format.raw>
-                  </span>
+                      <span class="{data.name}__link">
+                        <f:format.raw>{item.data.title}</f:format.raw>
+                      </span>
                     </f:then>
                     <f:else>
+                        <f:variable name="mods"
+                                    value="{
+                                        active: item.active,
+                                        current: item.current,
+                                        has-subpages: item.hasSubpages}"/>
                         <f:link.typolink parameter="{item.data.uid}"
-                                         class="{data.name}__link {item.class}"
+                                         class="{data.name}__link {item.class} {mods -> ub:modClass()}"
                                          absolute="1"
-                                         additionalAttributes="{'data-navigation-hover-item': '1', aria-label: item.data.title}">
+                                         additionalAttributes="{aria-label: item.data.title}">
                             <f:if condition="{i.index} == 0 && {data.special} == 'rootline'">
                                 <icon:svg icon="home" class="{data.name}__icon"/>
                             </f:if>
@@ -32,7 +37,12 @@
                     <f:variable name="subName">{data.name}__sub</f:variable>
                     <ul class="{subName}__list">
                         <f:for each="{item.children}" as="item">
-                            <li class="{subName}__item {item.class}">
+                            <f:variable name="mods"
+                                        value="{
+                                        active: item.active,
+                                        current: item.current,
+                                        has-subpages: item.hasSubpages}"/>
+                            <li class="{subName}__item {mods -> ub:modClass()}">
                                 <f:link.typolink
                                         parameter="{item.link}"
                                         absolute="1"

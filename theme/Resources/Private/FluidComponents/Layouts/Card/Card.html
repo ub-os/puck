@@ -7,6 +7,7 @@
   <fc:param name="orient" type="integer" optional="1" default="5" />
   <fc:param name="width" type="integer" optional="1"/>
   <fc:param name="cropVariant" type="string" optional="1" default="default" />
+  <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile" />
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
@@ -37,8 +38,8 @@
                 width="{calcWidth}"
                 sources="{
                 s: {width: calcWidth, cropVariant: cropVariant},
-                xs: {width: 600, cropVariant: cropVariant},
-                0: {width: 450, cropVariant: cropVariant}
+                xs: {width: 600, cropVariant: cropVariantMobile},
+                0: {width: 450, cropVariant: cropVariantMobile}
                 }"
                 showTitle="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"
                 showDesc="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"/>

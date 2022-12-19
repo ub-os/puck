@@ -24,21 +24,21 @@ class Columns extends Text
     /**
      * @var int
      */
-    public int $imagecols = 2;
+    public int $imagecols = 0;
 
     /**
-     * @var ObjectStorage<InlineMedia>
+     * @var ?ObjectStorage<InlineMedia>
      * @DatabaseField("string")
      * @Cascade("remove")
      * @Lazy
      */
-    public ObjectStorage $inlineMedia;
+    public ?ObjectStorage $inlineMedia = null;
 
     /**
      * @var int
      * @DatabaseField("int")
      */
-    public int $itemColumnWidth = 6;
+    public int $itemColumnWidth = 0;
 
     /**
      * @var string
@@ -47,37 +47,49 @@ class Columns extends Text
     public string $columnPosition = '';
 
     /**
-     * @var array
+     * @var ?array
      * @Transient
      */
-    public array $columnWidths = [];
+    protected ?array $columnWidths = null;
 
-    public function setColumnWidths(): void
-    {;
-        $items = $this->inlineMedia->toArray();
-        $itemsWithWidth = array_filter($items, function($item) {
-            return $item->columnWidth > 0;
-        });
-        end($itemsWithWidth);
-        $lastKey = key($itemsWithWidth);
-        $widths = [];
-        foreach ($items as $index=>$item) {
-            if ($index <= $lastKey) {
-                if ($item->columnWidth > 0) {
-                    $widths[] = $item->columnWidth;
+    /**
+     * @return array
+     */
+    public function getColumnWidths(): array
+    {
+        if ($this->columnWidths === null) {
+            $items = $this->inlineMedia->toArray();
+            $itemsWithWidth = array_filter($items, function($item) {
+                return $item->columnWidth > 0;
+            });
+            end($itemsWithWidth);
+            $lastKey = key($itemsWithWidth);
+            $widths = [];
+            foreach ($items as $index=>$item) {
+                if ($index <= $lastKey) {
+                    if ($item->columnWidth > 0) {
+                        $widths[] = $item->columnWidth;
+                    } else {
+                        $widths[] = $this->itemColumnWidth;
+                    }
                 } else {
-                    $widths[] = $this->itemColumnWidth;
+                    $widths[] = $widths[$index % ($lastKey+1)];
                 }
-            } else {
-                $widths[] = $widths[$index % ($lastKey+1)];
             }
+            $this->columnWidths = $widths;
         }
-        $this->columnWidths = $widths;
+        return $this->columnWidths;
     }
 
-    public function computeProperties() {
-        $this->setColumnWidths();
+    /**
+     * @param array $columnWidths
+     * @return void
+     */
+    public function setColumnWidths(array $columnWidths): void
+    {
+        $this->columnWidths = $columnWidths;
     }
+
 
     /**
      * Content Element TCA

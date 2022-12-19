@@ -24,42 +24,43 @@ class MenuPages extends Text
     /**
      * @var string
      */
-    protected string $pages;
+    public string $pages;
 
     /**
      * @var string
      * @DatabaseField("string")
      */
-    protected string $parents;
+    public string $parents;
 
     /**
-     * Computed properties.
-     */
-
-    /**
-     * @var array
+     * @var ?array
      * @Lazy
      * @Transient
      */
-    public array $menu = [];
+    protected ?array $menu = null;
 
     /**
-     * @return void
+     * @return array
      */
-    public function setMenu(): void
+    public function getMenu(): array
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $pageRepository = $objectManager->get(PageRepository::class);
-        $this->menu = $pageRepository->getPagesAndSubPages($this->pages, $this->parents);
+        if ($this->menu === null) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $pageRepository = $objectManager->get(PageRepository::class);
+            $this->menu = $pageRepository->findByUidListAndPidList($this->pages, $this->parents);
+        }
+        return $this->menu;
     }
 
     /**
+     * @param array $menu
      * @return void
      */
-    public function computeProperties(): void
+    public function setMenu(array $menu): void
     {
-        $this->setMenu();
+        $this->menu = $menu;
     }
+
 
     /**
      * Content Element TCA

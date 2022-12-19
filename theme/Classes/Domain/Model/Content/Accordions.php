@@ -20,12 +20,12 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 class Accordions extends Text
 {
     /**
-     * @var ObjectStorage<InlineMedia>
+     * @var ?ObjectStorage<InlineMedia>
      * @DatabaseField("string")
      * @Cascade("remove")
      * @Lazy
      */
-    public $inlineMedia = null;
+    public ?ObjectStorage $inlineMedia = null;
 
     /**
      * Content Element TCA
@@ -64,7 +64,7 @@ class Accordions extends Text
                     'overrideChildTca' => [
                         'types' => [
                             '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['accordions'],
-                        ]
+                        ],
                     ]
                 ]
             ]

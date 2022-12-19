@@ -1,7 +1,10 @@
 .m-menu-list-item
   &
-    transition: transform .15s
+    transition: transform .25s
     &:hover
-      transform: translateY(-.5em)
+      transform: translateY(-5px)
   &__headline
     +typo-h3
+    color: var(--color-link)
+  &:hover &__headline
+    color: var(--color-link--hover)

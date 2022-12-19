@@ -23,7 +23,18 @@ class PageRepository extends Repository
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
 
-    public function getPagesAndSubPages($uidList, $pidList, $orderByUids = false) {
+    public function findPagesByPid(int $pid)
+    {
+        $query = $this->createQuery();
+        return $query->matching(
+            $query->logicalAnd(
+                $query->equals('pid', $pid),
+                $query->lessThan('doktype', 100)
+            )
+        )->execute()->toArray();
+    }
+
+    public function findByUidListAndPidList($uidList, $pidList, $orderByUidList = false) {
         $query = $this->createQuery();
         $constraints = [];
         $uidArray = explode(',', $uidList);
@@ -42,7 +53,7 @@ class PageRepository extends Repository
             )
         )->execute();
         $result = $queryResult->toArray();
-        if ($orderByUids) {
+        if ($orderByUidList) {
             usort($result, function ($a, $b) use ($uidArray) {
                 $pos_a = array_search($a->getUid(), $uidArray);
                 $pos_b = array_search($b->getUid(), $uidArray);

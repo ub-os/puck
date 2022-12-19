@@ -1,4 +1,6 @@
+
 .l-section
+  $backgrounds: 'alternative', 'dark'
   &
     +spacing(both, m, margin)
     position: relative
@@ -17,7 +19,7 @@
     &-large
       +spacing(top, l, margin)
 
-  &.-bot
+  &.-bottom
     &-none
       margin-bottom: 0
     &-small
@@ -27,25 +29,59 @@
     &-large
       +spacing(bottom, l, margin)
 
+
   // Auto spacing rules
-
-
-
-  // Backgrounds
+  &.-bottom-auto + &.-top-auto.-no-h2
+    margin-top: 0
 
   &[class*="-background-"]
     +spacing(both, m, padding, 2)
     & + &
       +spacing(top, m, margin, -1)
 
-  &.-background-dark
-    // color variables
-    --background: #{ $dark-lilac }
-    --color: white
-    --color-headline: white
-    --color-accent: white
-    --color-accent-alt: white
-    --color-link: white
-    --color-link--hover: rgba(white, 0.8)
-    & + &
-      padding-top: 0
+  @each $bg in $backgrounds
+    &.-background-#{$bg}
+      &.-bottom-auto + &.-top-auto
+        +spacing(top, m, margin, -3)
+      &.-bottom-auto + &.-top-auto.-no-h2
+        +spacing(top, m, padding)
+
+
+  // Backgrounds
+  &.-background-dark-purple
+    --background: #{ $lilac-purple }
+    --color: #{ $white }
+    --color-headline: #{ $orange-mango-tango }
+    --color-accent: #{ $orange-mango-tango }
+    --color-accent-alt: #{ $blue-cyan-process }
+    --color-link: #{ $blue-sky-crayola }
+    --color-link--hover: #{ $blue-electric }
+    --color-button: #{ $lilac-purple }
+    --color-button--hover: #{ $lilac-purple }
+    --background-button: #{ $blue-sky-crayola }
+    --background-button--hover: #{ $blue-electric }
+
+  &.-background-light-blue
+    --background: #{ $blue-baby-eyes }
+    --color-headline: #{ $blue-cyan-process }
+    --color-accent: #{ $lilac-dark-orchid }
+    --color-accent-alt: #{ $lilac-purple }
+    --color-link: #{ $lilac-dark-orchid }
+
+  &.-background-light-orange
+    --background: #{ $white-dutch }
+    --color-headline: #{ $orange-mango-tango }
+    --color-accent: #{ $orange-mango-tango }
+    --color-accent-alt: #{ $blue-cyan-process }
+    --color-link: #{ $lilac-dark-orchid }
+    --background-button: #{ $blue-cyan-process }
+    --background-button--hover: #{ $blue-capri }
+
+  &.-background-light-turquoise
+    --background: #{ $blue-powder }
+    --color-headline: #{ $blue-cyan-process }
+    --color-accent: #{ $blue-cyan-process }
+    --color-accent-alt: #{ $lilac-dark-orchid }
+    --color-link: #{ $lilac-dark-orchid }
+    --background-button: #{ $orange-mango-tango }
+    --background-button--hover: #{ $orange-pumpkin }

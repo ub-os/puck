@@ -3,7 +3,7 @@
     +typo-button
     display: inline-block
     max-width: 100vw
-    padding: .66em 3em
+    padding: .66em 2.33em
     text-align: center
     color: var(--color-button)
     background: var(--background-button)
@@ -27,7 +27,11 @@
     &:hover
       color: var(--background-button--hover)
   &.-ghost
+    padding-inline: .66em
     border-color: transparent
+    border-radius: 0
+    &:hover
+      border-bottom-color: var(--background-button--hover)
   &.-outline
     border-color: var(--background-button)
     &:hover

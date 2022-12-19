@@ -44,7 +44,6 @@ foreach(require ExtensionManagementUtility::extPath('theme') .'/Configuration/He
                     contentElement = '.$content['name'].'
                     extensionKey = theme
                     vendorName = UBOS
-             
                 }   
         }',
         'defaultContentRendering'

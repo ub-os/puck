@@ -18,8 +18,8 @@
 
   &__button
     +center
-    --color-icon1: var(--color-accent)
-    --color-icon2: #{rgba(white, 0.8)}
+    --color-icon1: #{ $white-dutch }
+    --color-icon2: #{ $orange-mango-tango }
     color: white
     height: 4.2em
     width: 4.2em
@@ -28,7 +28,7 @@
     transition: --color-icon2 .2s
 
   &:hover &__button
-    --color-icon2: white
+    //--color-icon2: white
 
   &__iframe
     position: absolute

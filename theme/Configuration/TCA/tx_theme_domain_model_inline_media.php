@@ -37,6 +37,7 @@ $ctrl = [
 $interface = [
     'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, header, subheader, bodytext',
 ];
+$columnAssets = $GLOBALS['TCA']['tt_content']['columns']['assets'];
 $columns = [
     'sys_language_uid' => [
         'exclude' => true,
@@ -133,7 +134,7 @@ $columns = [
             'enableRichtext' => 1,
         ],
     ],
-    'assets' => $GLOBALS['TCA']['tt_content']['columns']['assets'],
+    'assets' => $columnAssets,
     'icon' => require ExtensionManagementUtility::extPath('theme') .'/Configuration/TCA/Common/Columns/Icon.php',
     'column_width' => [
         'label' => 'Item width',
@@ -334,6 +335,23 @@ $palettes = [
                     imageorient, card_media_size, media_column_width'
     ],
 ];
+
+$cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
+$overrideCropVariants = function($variantKeys) use (&$cropVariants): array
+{
+    return [
+        'config' => [
+        'overrideChildTca' => [
+            'columns' => [
+                'crop' => [
+                    'config' => [
+                        'cropVariants' => (array_intersect_key($cropVariants, array_flip(explode(',', $variantKeys)))),
+                    ],
+                ]
+            ]
+        ]
+    ]];
+};
 $typesShowItemBase = '                
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
                     sys_language_uid, 
@@ -351,7 +369,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridMedia,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
     'accordions' => [
         'showitem' => '
@@ -362,7 +383,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridMedia,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
     'stage_carousel' => [
         'showitem' => '
@@ -372,7 +396,11 @@ $types = [
                     bodytext, 
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('2:1,3:2'),
+
+        ]
     ],
     'columns' => [
         'showitem' => '
@@ -384,7 +412,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridMedia,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
     'carousel' => [
         'showitem' => '
@@ -396,7 +427,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridMedia,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
     'cards' => [
         'showitem' => '
@@ -408,7 +442,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridCard,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
     'cards_carousel' => [
         'showitem' => '
@@ -420,7 +457,10 @@ $types = [
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
                     --palette--;;gridCard,
                     assets,
-                '.$typesShowItemBase
+                '.$typesShowItemBase,
+        'columnsOverrides' => [
+            'assets' => $overrideCropVariants('default,mobile'),
+        ]
     ],
 ];
 return [

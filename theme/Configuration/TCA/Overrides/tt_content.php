@@ -9,7 +9,10 @@ $GLOBALS['TCA']['tt_content']['columns']['frame_class'] = [
         'renderType' => 'selectSingle',
         'items' => [
             ['Default', 'default'],
-            ['Dark', 'dark'],
+            ['Light blue', 'light-blue'],
+            ['Light turquoise', 'light-turquoise'],
+            ['Light orange', 'light-orange'],
+            ['Dark purple', 'dark-purple'],
         ],
         'default' => 'default'
     ],
@@ -22,12 +25,6 @@ $GLOBALS['TCA']['tt_content']['columns']['layout'] = [
         'renderType' => 'selectSingle',
         'items' => [
             ['Default', 'default'],
-            ['6 Columns centered', 'cols6'],
-            ['8 columns centered', 'cols8'],
-            ['10 columns centered', 'cols10'],
-            ['Text/Media 5/5', 'cols5-5'],
-            ['Text/Media 6/4', 'cols6-4'],
-            ['Home', 'stage-home'],
         ],
         'default' => 'default'
     ],
@@ -39,10 +36,17 @@ $GLOBALS['TCA']['tt_content']['columns']['header_layout'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
+            // 0 = default
             ['H2', 0],
-            ['H2 in H3-style', 1],
-            ['H3', 2],
-            ['Paragraph', 3],
+
+            // 20-29 reserved for h2 styles, these styles increase spacing to preceeding element
+            // for example: ['H2 alternative color', 21],
+
+            // 30-39 reserved for h3 styles
+            ['H3', 30],
+            ['H2 in H3-style', 31],
+
+            ['Paragraph', 50],
         ],
         'default' => 0
     ],
@@ -136,7 +140,13 @@ $GLOBALS['TCA']['tt_content']['columns']['parents'] = [
         'maxitems' => 50,
     ],
 ];
-
+$GLOBALS['TCA']['tt_content']['columns']['header_spacing_override'] =  [
+    'label' => 'Force spacing',
+    'description' => 'Force increased distance to preceding element, even if no h2-style headline is set.',
+    'config' => [
+        'type' => 'check',
+    ],
+];
 
 $GLOBALS['TCA']['tt_content']['columns']['space_before_class'] = [
     'label' => 'Space Before',
@@ -167,7 +177,11 @@ $GLOBALS['TCA']['tt_content']['columns']['space_after_class'] = [
     'label' => 'Space After',
     'config' => $GLOBALS['TCA']['tt_content']['columns']['space_before_class']['config']
 ];
-
+$cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
+$GLOBALS['TCA']['tt_content']['columns']['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
+    'default' => $cropVariants['default'],
+    'mobile' => $cropVariants['mobile'],
+];
 $GLOBALS['TCA']['tt_content']['columns']['bodytext2'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
 
 $GLOBALS['TCA']['tt_content']['columns']['icon'] = require ExtensionManagementUtility::extPath('theme') .'/Configuration/TCA/Common/Columns/Icon.php';
@@ -402,8 +416,10 @@ $GLOBALS['TCA']['tt_content']['palettes']['layout_full'] = [
 $GLOBALS['TCA']['tt_content']['palettes']['headers'] = [
     'label' => 'Headlines',
     'showitem' => '
-        header,--linebreak--,
-        header_layout, header_position,--linebreak--,
+        header,
+        --linebreak--,
+        header_layout, header_position, header_spacing_override, 
+        --linebreak--,
         subheader'
 ];
 $GLOBALS['TCA']['tt_content']['palettes']['bodytext'] = [
@@ -417,18 +433,6 @@ $GLOBALS['TCA']['tt_content']['palettes']['media'] = [
     'showitem' => 'media',
 ];
 
-// header fields simplified as one rich text field?
-/*$GLOBALS['TCA']['tt_content']['columns']['header'] = [
-    'l10n_mode' => 'prefixLangTitle',
-    'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header',
-    'config' => [
-        'type' => 'text',
-        'cols' => 50,
-        'rows' => 1,
-        'enableRichtext' => true,
-        'richtextConfiguration' => 'header',
-    ],
-];*/
 
 // add overrides from Domain Model Content Classes
 $baseShowItem = '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,

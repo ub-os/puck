@@ -2,6 +2,8 @@
 
 namespace UBOS\Theme\Domain\Model\Content;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
@@ -42,6 +44,7 @@ class StageCarousel extends Columns
      */
     public function columnsOverrides(): array
     {
+        $cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
         return [
             'inline_media' => [
                 'label' => 'Carousel items',
@@ -49,7 +52,8 @@ class StageCarousel extends Columns
                     'overrideChildTca' => [
                         'types' => [
                             '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['stage_carousel'],
-                        ]
+                        ],
+
                     ]
                 ]
             ]

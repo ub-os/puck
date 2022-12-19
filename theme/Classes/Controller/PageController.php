@@ -66,10 +66,7 @@ class PageController extends ActionController
             //$menuRepository = $objectManager->get(MenuRepository::class);
             //$variables['tree_theme'] = $pageRepository->getPageTree($data['uid'], 3, true);
             //$variables['tree_b13'] = $menuRepository->getPageTree($data['uid'], 3, []);
-            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $data['uid']);
             $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
-            $model->setBreadcrumbs(array_reverse($dataMapper->map('UBOS\Theme\Domain\Model\Page', $rootLine->get())));
-            $model->setPrimaryImage(0);
             $variables['context'] = [
                 'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
                 'timestamp'  => $context->getPropertyFromAspect('date', 'timestamp'),

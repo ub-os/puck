@@ -2,20 +2,112 @@
 
 namespace UBOS\Theme\Domain\Model;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+
+use UBOS\Theme\Domain\Repository\PageRepository;
 
 /**
  * @DatabaseTable("pages")
  */
 class Page extends AbstractEntity
 {
+    /**
+     * @var string
+     */
+    public string $title = '';
+    /**
+     * @var string
+     */
+    public string $slug;
+    /**
+     * @var string
+     */
+    public string $subtitle = '';
+    /**
+     * @var string
+     */
+    public string $description = '';
+    /**
+     * @var string
+     */
+    public string $abstract = '';
+    /**
+     * @var string
+     */
+    public string $keywords = '';
+    /**
+     * @var string
+     */
+    public string $author = '';
+    /**
+     * @var string
+     */
+    public string $authorEmail = '';
+    /**
+     * @var string
+     */
+    public string $lastUpdated = '';
+    /**
+     * @var string
+     */
+    public string $layout = '';
+    /**
+     * @var string
+     */
+    public string $backendLayout = '';
+    /**
+     * @var int
+     */
+    public int $navHide = 0;
+    /**
+     * @var ?ObjectStorage<FileReference>
+     * @Lazy
+     */
+    public ?ObjectStorage $media = null;
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $icon = '';
+    /**
+     * @var string
+     */
+    protected string $navTitle = '';
+    /**
+     * @var string
+     */
+    protected string $seoTitle = '';
+    /**
+     * @var ?array
+     * @Transient
+     * @Lazy
+     */
+    protected ?array $childPages = null;
+    /**
+     * @var ?array
+     * @Transient
+     * @Lazy
+     */
+    protected ?array $breadcrumbs = null;
+    /**
+     * @var ?FileReference
+     * @Transient
+     * @Lazy
+     */
+    protected ?FileReference $primaryImage = null;
 
     /**
      *
@@ -26,102 +118,81 @@ class Page extends AbstractEntity
     }
 
     /**
-     * @var string
+     * @return ?array
      */
-    public string $title = '';
+    public function getChildPages(): ?array
+    {
+        if ($this->subpages === null) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $pageRepository = $objectManager->get(PageRepository::class);
+            $this->subpages = $pageRepository->findPagesByPid($this->getUid());
+        }
+        return $this->subpages;
+    }
 
     /**
-     * @var string
+     * @param ?array $childPages
      */
-    public string $slug;
+    public function setChildPages(?array $childPages): void
+    {
+        $this->childPages = $childPages;
+    }
 
     /**
-     * @var string
+     * @return ?FileReference
      */
-    public string $navTitle = '';
+    public function getPrimaryImage(): ?FileReference
+    {
+        if ($this->primaryImage === null) {
+            $this->primaryImage = $this->getPrimaryImageFromRootLine();
+        }
+        return $this->primaryImage;
+    }
 
     /**
-     * @var string
+     * @param ?FileReference $primaryImage
      */
-    public string $subtitle = '';
+    public function setPrimaryImage(?FileReference $primaryImage): void
+    {
+        $this->primaryImage = $primaryImage;
+    }
 
     /**
-     * @var string
+     * @param int $rootLineIndex
+     * @return ?FileReference
      */
-    public string $seoTitle = '';
+    protected function getPrimaryImageFromRootLine(int $rootLineIndex = 0): ?FileReference
+    {
+        $rootLine = array_reverse($this->getBreadcrumbs());
+        if ($rootLine[$rootLineIndex]->media->count() > 0) {
+            return $rootLine[$rootLineIndex]->media->current();
+        } else if ($rootLineIndex < (count($rootLine) - 1)) {
+            return $this->getPrimaryImageFromRootLine($rootLineIndex + 1);
+        } else {
+            return null;
+        }
+    }
 
     /**
-     * @var string
+     * @return array
      */
-    public string $description = '';
+    public function getBreadcrumbs(): array
+    {
+        if ($this->breadcrumbs === null) {
+            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $this->getUid());
+            $this->breadcrumbs =($dataMapper->map('UBOS\Theme\Domain\Model\Page', $rootLine->get()));
+        }
+        return $this->breadcrumbs;
+    }
 
     /**
-     * @var string
+     * @param ?array $breadcrumbs
      */
-    public string $abstract = '';
-
-    /**
-     * @var string
-     */
-    public string $keywords = '';
-
-    /**
-     * @var string
-     */
-    public string $author = '';
-
-    /**
-     * @var string
-     */
-    public string $authorEmail = '';
-
-    /**
-     * @var string
-     */
-    public string $lastUpdated = '';
-
-    /**
-     * @var string
-     */
-    public string $layout = '';
-
-    /**
-     * @var string
-     */
-    public string $backendLayout = '';
-
-    /**
-     * @var ObjectStorage<FileReference>
-     * @Lazy
-     */
-    public $media = null;
-
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $icon = '';
-
-    /**
-     * @var array
-     * @Transient
-     * @Lazy
-     */
-    public array $breadcrumbs = [];
-
-    /**
-     * @var array
-     * @Transient
-     * @Lazy
-     */
-    public array $subpages = [];
-
-    /**
-     * @var FileReference|null
-     * @Transient
-     * @Lazy
-     */
-    public $primaryImage = null;
+    public function setBreadcrumbs(?array $breadcrumbs): void
+    {
+        $this->breadcrumbs = $breadcrumbs;
+    }
 
     /**
      * @return string
@@ -129,6 +200,14 @@ class Page extends AbstractEntity
     public function getNavTitle(): string
     {
         return $this->navTitle ? : $this->title;
+    }
+
+    /**
+     * @param string $navTitle
+     */
+    public function setNavTitle(string $navTitle): void
+    {
+        $this->navTitle = $navTitle;
     }
 
     /**
@@ -140,25 +219,11 @@ class Page extends AbstractEntity
     }
 
     /**
-     * @return string
+     * @param string $seoTitle
      */
-    public function setPrimaryImage($rootLineIndex = 0)
+    public function setSeoTitle(string $seoTitle): void
     {
-        $rootline = array_reverse($this->breadcrumbs);
-         if ($rootline[$rootLineIndex]->media->count() > 0) {
-            $this->primaryImage = $rootline[$rootLineIndex]->media->current();
-        } else if ($rootLineIndex < (count($rootline) - 1)) {
-             $this->setPrimaryImage($rootLineIndex + 1);
-        }
-    }
-
-    /**
-     * @param array $breadcrumbs
-     * @return void
-     */
-    public function setBreadcrumbs(array $breadcrumbs): void
-    {
-        $this->breadcrumbs = $breadcrumbs;
+        $this->seoTitle = $seoTitle;
     }
 
 }

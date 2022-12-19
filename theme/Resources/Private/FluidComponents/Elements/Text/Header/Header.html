@@ -10,13 +10,13 @@
       </f:if>
       <f:if condition="{object.header}">
         <f:switch expression="{object.headerLayout}">
-          <f:case value="1">
+          <f:case value="31">
             <h2 class="{name}__headline h3 u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h2>
           </f:case>
-          <f:case value="2">
+          <f:case value="30">
             <h3 class="{name}__headline h3 u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h3>
           </f:case>
-          <f:case value="3">
+          <f:case value="50">
             <p class="{name}__headline u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></p>
           </f:case>
           <f:defaultCase>
