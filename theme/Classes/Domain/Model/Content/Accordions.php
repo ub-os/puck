@@ -27,47 +27,4 @@ class Accordions extends Text
      */
     public ?ObjectStorage $inlineMedia = null;
 
-    /**
-     * Content Element TCA
-     */
-
-    /**
-     * @return string
-     */
-    public function showItem(): string
-    {
-        return '
-    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        --palette--;;gridContainer,
-        --palette--;;appearance,
-        --palette--;;headers,
-        --palette--;;bodytext,        
-    --div--;Items,
-        inline_media,';
-    }
-
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        return [
-            'bodytext' => [
-                'config' => [
-                    'enableRichtext' => true,
-                ]
-            ],
-            'inline_media' => [
-                'label' => 'Accordion items',
-                'config' => [
-                    'overrideChildTca' => [
-                        'types' => [
-                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['accordions'],
-                        ],
-                    ]
-                ]
-            ]
-        ];
-    }
 }

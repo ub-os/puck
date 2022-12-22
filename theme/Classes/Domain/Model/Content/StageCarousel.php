@@ -21,42 +21,4 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
  */
 class StageCarousel extends Columns
 {
-    /**
-     * Content Element TCA
-     */
-
-    /**
-     * @return string
-     */
-    public function showItem(): string
-    {
-        return '
-    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        --palette--;;layout,
-        --palette--;;headers,
-    --div--;Items,
-        inline_media,';
-    }
-
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        $cropVariants = require(ExtensionManagementUtility::extPath('theme') . 'Configuration/TCA/Common/CropVariants.php');
-        return [
-            'inline_media' => [
-                'label' => 'Carousel items',
-                'config' => [
-                    'overrideChildTca' => [
-                        'types' => [
-                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['stage_carousel'],
-                        ],
-
-                    ]
-                ]
-            ]
-        ];
-    }
 }

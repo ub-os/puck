@@ -82,42 +82,4 @@ class Text extends AbstractEntity
      * @DatabaseField("int")
      */
     public int $containerOffset = 0;
-
-
-    /**
-     * Content Element TCA
-     */
-
-    /**
-     * @return string
-     */
-    public function showItem(): string
-    {
-        return '
-    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        --palette--;;gridContainer,
-        --palette--;;appearance,
-        --palette--;;headers,
-        --palette--;;bodytext,';
-    }
-
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        return [
-            'layout' => [
-              'config' => [
-
-              ]
-            ],
-            'bodytext' => [
-                'config' => [
-                    'enableRichtext' => true,
-                ],
-            ]
-        ];
-    }
 }

@@ -1,6 +1,6 @@
 
 .l-section
-  $backgrounds: 'alternative', 'dark'
+  $backgrounds: 'dark-purple', 'light-blue', 'light-turquoise', 'light-orange'
   &
     +spacing(both, m, margin)
     position: relative
@@ -29,23 +29,26 @@
     &-large
       +spacing(bottom, l, margin)
 
-
   // Auto spacing rules
-  &.-bottom-auto + &.-top-auto.-no-h2
-    margin-top: 0
+  &:not([class*="-background-"])
+    &.-bottom-auto + &.-top-auto.-no-h2,
+    &.-bottom-auto + .e-anchor + &.-top-auto.-no-h2
+      margin-top: 0
 
   &[class*="-background-"]
     +spacing(both, m, padding, 2)
-    & + &
+    & + &,
+    & + .e-anchor + &
       +spacing(top, m, margin, -1)
 
   @each $bg in $backgrounds
     &.-background-#{$bg}
-      &.-bottom-auto + &.-top-auto
-        +spacing(top, m, margin, -3)
-      &.-bottom-auto + &.-top-auto.-no-h2
-        +spacing(top, m, padding)
-
+      &.-bottom-auto + &.-top-auto,
+      &.-bottom-auto + .e-anchor + &.-top-auto
+        +spacing(top, m, margin, -1)
+        padding-top: 0
+        &.-no-h2
+          +spacing(top, m, margin, -2)
 
   // Backgrounds
   &.-background-dark-purple
@@ -57,9 +60,10 @@
     --color-link: #{ $blue-sky-crayola }
     --color-link--hover: #{ $blue-electric }
     --color-button: #{ $lilac-purple }
-    --color-button--hover: #{ $lilac-purple }
+    --color-button--hover: #{ $lilac-dark-orchid }
     --background-button: #{ $blue-sky-crayola }
     --background-button--hover: #{ $blue-electric }
+    --outline-color-button--focus: #{ $blue-sky-crayola-30 }
 
   &.-background-light-blue
     --background: #{ $blue-baby-eyes }
@@ -67,6 +71,8 @@
     --color-accent: #{ $lilac-dark-orchid }
     --color-accent-alt: #{ $lilac-purple }
     --color-link: #{ $lilac-dark-orchid }
+    --color-button: #{ $blue-baby-eyes }
+    --color-button--hover: #{ $white }
 
   &.-background-light-orange
     --background: #{ $white-dutch }
@@ -76,6 +82,9 @@
     --color-link: #{ $lilac-dark-orchid }
     --background-button: #{ $blue-cyan-process }
     --background-button--hover: #{ $blue-capri }
+    --outline-color-button--focus: #{ $blue-cyan-process-30 }
+    --color-button: #{ $white-dutch }
+    --color-button--hover: #{ $white }
 
   &.-background-light-turquoise
     --background: #{ $blue-powder }
@@ -85,3 +94,6 @@
     --color-link: #{ $lilac-dark-orchid }
     --background-button: #{ $orange-mango-tango }
     --background-button--hover: #{ $orange-pumpkin }
+    --outline-color-button--focus: #{ $orange-mango-tango-30 }
+    --color-button: #{ $blue-powder }
+    --color-button--hover: #{ $white }

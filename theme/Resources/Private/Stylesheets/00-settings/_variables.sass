@@ -34,18 +34,22 @@ $orange-bright-crayola: #FBAA04
 
 $lilac-electric: #AF19FF
 $lilac-dark-orchid: #9343C4
+$lilac-dark-orchid-30: rgba(147, 67, 196, 0.3)
 $lilac-amethyst: #A46CDC
 
 $orange-pumpkin: #FF7D26
 $orange-mango-tango: #F58F4D
+$orange-mango-tango-30: rgba(245, 143, 77, 0.3)
 $white-dutch: #eee4b6
 
 $blue-capri: #00C3FF
 $blue-cyan-process: #12B1E1
+$blue-cyan-process-30: rgba(18, 177, 225, 0.3)
 $blue-baby-eyes: #A2CDEF
 
 $blue-electric: #0AE8F3
 $blue-sky-crayola: #6AD7DD
+$blue-sky-crayola-30: rgba(106, 215, 221, 0.3)
 $blue-powder: #B4DFE6
 
 
@@ -86,12 +90,15 @@ $z-index-header-burger: 201
   --background: #{ $grey-5 }
   --color-link: #{ $lilac-dark-orchid }
   --color-link--hover: #{ $lilac-electric }
+  --color-link--disabled: #{ $grey-3 }
 
   // button
+  --border-width-button: 2px
   --color-button: var(--background)
-  --color-button--hover: var(--background)
+  --color-button--hover: #{ $white }
   --color-button-border: transparent
   --color-button-border--hover: transparent
+  --outline-color-button--focus: #{ $lilac-dark-orchid-30 }
   --background-button: var(--color-link)
   --background-button--hover: var(--color-link--hover)
 
@@ -100,16 +107,17 @@ $z-index-header-burger: 201
   --color-button-alt--hover: var(--color-button--hover)
   --color-button-alt-border: var(--color-button-border)
   --color-button-alt-border--hover: var(--color-button-border--hover)
+  --outline-color-button-alt-focus: var(--outline-color-button--focus)
   --background-button-alt: var(--background-button)
   --background-button-alt--hover: var(--background-button--hover)
 
   // button light
-  --color-button-light: #{$black}
-  --color-button-light--hover: #{$black}
+  --color-button-light: #{ $black }
+  --color-button-light--hover: var(--color-link--hover)
   --color-button-light-border: transparent
   --color-button-light-border--hover: transparent
-  --background-button-light: lightgrey
-  --background-button-light--hover: white
+  --background-button-light: #{ $grey-3 }
+  --background-button-light--hover: #{ $grey-4 }
 
   // input
   --color-input: var(--color)
@@ -120,11 +128,11 @@ $z-index-header-burger: 201
   --background-input--active: var(--background)
 
   // card
-  --background-card: white
+  --background-card: #{ $white }
 
   // modal
   --color-modal: var(--color)
-  --background-modal: white
+  --background-modal: #{ $white }
   --background-modal-backdrop: #{transparentize($grey-5, 0.5)}
 
 

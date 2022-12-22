@@ -19,35 +19,4 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
  */
 class Cards extends Columns
 {
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        return [
-            'bodytext' => [
-                'config' => [
-                    'enableRichtext' => true,
-                ]
-            ],
-            'layout' => [
-                'config' => [
-                    'items' => [
-                        ['Default', 'default'],
-                        ['Carousel', 'carousel']
-                    ]
-                ]
-            ],
-            'inline_media' => [
-                'label' => 'Cards items',
-                'config' => [
-                    'overrideChildTca' => [
-                        'types' => [
-                            '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['cards'],
-                        ]
-                    ]
-                ]
-            ]
-        ];
-    }
 }

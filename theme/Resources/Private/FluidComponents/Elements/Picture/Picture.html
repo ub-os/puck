@@ -14,8 +14,10 @@
     <fc:param name="reserveHeight" type="string" optional="1"/>
     <fc:renderer>
 
+        <f:if condition="!{width}">
+            <f:variable name="width" value="{settings.gridWidth}"/>
+        </f:if>
         <f:if condition="{src} || {image}">
-
             <f:if condition="{backgroundImg}">
                 <f:then>
                     <div class="{name}__image {class} -background-image"
@@ -29,23 +31,37 @@
                                 <f:if condition="{breakpoints.{key}}">
                                     <f:variable name="media" value="{breakpoints.{key}}"/>
                                 </f:if>
-                                <f:variable name="srcSet" value="{f:uri.image(
-                                  src: src,
-                                  image: image,
-                                  width: source.width,
-                                  absolute: '1',
-                                  cropVariant: source.cropVariant
-                                )}"/>
-                                <f:variable name="srcSetx2" value=""/>
-                                <f:if condition="{retina}">
-                                    <f:variable name="srcSetx2" value=", {f:uri.image(
-                                  src: src,
-                                  image: image,
-                                  width: '{source.width * 2}',
-                                    absolute: '1',
-                                  cropVariant: source.cropVariant
-                                 )}"/>
+                                <f:if condition="{image}">
+                                    <f:then>
+                                        <f:variable name="srcSet" value="{f:uri.image(
+                                          image: image,
+                                          width: source.width,
+                                          absolute: '1',
+                                          cropVariant: source.cropVariant
+                                        )}"/>
+                                        <f:variable name="srcSetx2" value=""/>
+                                        <f:if condition="{retina}">
+                                            <f:variable name="srcSetx2" value=", {f:uri.image(
+                                              image: image,
+                                              width: '{source.width * 2}',
+                                                absolute: '1',
+                                              cropVariant: source.cropVariant
+                                             )}"/>
+                                        </f:if>
+                                    </f:then>
+                                    <f:else>
+                                        <f:variable name="srcSet" value="{f:uri.image(src: src,width: source.width,absolute: '1')}"/>
+                                        <f:variable name="srcSetx2" value=""/>
+                                        <f:if condition="{retina}">
+                                            <f:variable name="srcSetx2" value=", {f:uri.image(
+                                              src: src,
+                                              width: '{source.width * 2}',
+                                                absolute: '1'
+                                             )}"/>
+                                        </f:if>
+                                    </f:else>
                                 </f:if>
+
                                 <f:if condition="{webp}">
                                     <source media="(min-width: {media}px)"
                                             srcset="{srcSet}.webp{srcSetx2}{f:if(condition:retina,then:'.webp 2x')}"
@@ -55,15 +71,28 @@
                                         srcset="{srcSet}{srcSetx2}{f:if(condition:retina,then:' 2x')}">
                             </f:for>
                         </f:if>
-                        <f:image src="{src}"
-                                 image="{image}"
-                                 class="{name}__image {class}"
-                                 width="{width}"
-                                 absolute="true"
-                                 cropVariant="{cropVariant}"
-                                 title="{image.title}"
-                                 alt="{image.alternative}"
-                                 loading="{loading}"/>
+                        <f:if condition="{image}">
+                            <f:then>
+                                <f:image image="{image}"
+                                         class="{name}__image {class}"
+                                         width="{width}"
+                                         absolute="true"
+                                         cropVariant="{cropVariant}"
+                                         title="{image.title}"
+                                         alt="{image.alternative}"
+                                         loading="{loading}"/>
+                            </f:then>
+                            <f:else>
+                                <f:image src="{src}"
+                                         class="{name}__image {class}"
+                                         width="{width}"
+                                         absolute="true"
+                                         title="{image.title}"
+                                         alt="{image.alternative}"
+                                         loading="{loading}"/>
+                            </f:else>
+                        </f:if>
+
                     </picture>
 
                 </f:else>

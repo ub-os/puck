@@ -29,16 +29,6 @@ class BaseItemsProcFunc
     }
 
     /**
-     * @param array $params
-     * @return array
-     */
-    protected function getInlineParentRow(array $params): array
-    {
-        return BackendUtility::getRecord($params['inlineParentTableName'], $params['inlineParentUid'], '*', '', true) ?? [];
-    }
-
-
-    /**
      * @param mixed $value
      * @return mixed
      */

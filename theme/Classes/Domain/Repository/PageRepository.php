@@ -117,12 +117,12 @@ class PageRepository extends Repository
         )->execute()->toArray();
         foreach ($pageTree as $k => &$page) {
             if ($depth > 0) {
-                $page->subpages = $this->getPageTree((int)$page->getUid(), $depth-1);
+                $page->childPages = $this->getPageTree((int)$page->getUid(), $depth-1);
             }
         }
         if ($includeStartingPage) {
             $startingPage = $this->findByUid($uid);
-            $startingPage->subpages = $pageTree;
+            $startingPage->childPages = $pageTree;
             return $startingPage;
         }
         return $pageTree;

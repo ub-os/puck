@@ -114,7 +114,6 @@ class Page extends AbstractEntity
      */
     public function __construct() {
         $this->media = new ObjectStorage();
-        $this->subpages = new ObjectStorage();
     }
 
     /**
@@ -122,12 +121,12 @@ class Page extends AbstractEntity
      */
     public function getChildPages(): ?array
     {
-        if ($this->subpages === null) {
+        if ($this->childPages === null) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             $pageRepository = $objectManager->get(PageRepository::class);
-            $this->subpages = $pageRepository->findPagesByPid($this->getUid());
+            $this->childPages = $pageRepository->findPagesByPid($this->getUid());
         }
-        return $this->subpages;
+        return $this->childPages;
     }
 
     /**

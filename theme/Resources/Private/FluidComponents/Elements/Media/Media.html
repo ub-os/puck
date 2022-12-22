@@ -53,7 +53,9 @@
               <f:else if="{type} == 'youtube' || {type} == 'vimeo'">
                 <div class="{name}__file {name}__{type}">
                   <element:media.embed file="{file}"
-                                       width="{width}"/>
+                                       width="{width}"
+                                       webp="{webp}"
+                                       retina="{retina}"/>
                 </div>
               </f:else>
               <f:else>
@@ -65,10 +67,10 @@
               </f:else>
             </f:if>
             <f:if condition="{showTitle} && {file.title}">
-              <div class="{name}__image-title">{file.title}</div>
+              <div class="{name}__file__title">{file.title}</div>
             </f:if>
             <f:if condition="{showDesc} && {file.description}">
-              <figcaption class="{name}__image-desc">{file.description}</figcaption>
+              <figcaption class="{name}__file__desc">{file.description}</figcaption>
             </f:if>
           </div>
         </f:if>

@@ -23,6 +23,6 @@ class CheckUrlResponseViewHelper extends AbstractViewHelper
     )
     {
         $url = $arguments['url'];
-        return strpos(@get_headers($url)[0], '200') === false ? false : true;
+        return strpos(@get_headers($url)[0], '200');
     }
 }

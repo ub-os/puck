@@ -11,13 +11,27 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class InlineMediaItemsProcFunc extends BaseItemsProcFunc
 {
+
+    /**
+     * @param array $params
+     * @return ?array
+     */
+    protected function getInlineParentRow(array $params): ?array
+    {
+        return BackendUtility::getRecord($params['inlineParentTableName'], $params['inlineParentUid'], '*', '', true) ?? null;
+    }
+
     /**
      * @param $params
      * @return void
      */
     public function itemType(&$params): void
     {
-        $ctype = $this->getInlineParentRow($params)['CType'];
+        $parentRow = $this->getInlineParentRow($params);
+        if (!$parentRow) {
+            return;
+        }
+        $ctype = $parentRow['CType'];
         $items = array_filter($params['items'], function ($item) use ($ctype) {
             return $item[1] == str_replace('theme_', '', $ctype);
         });
@@ -31,6 +45,9 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     public function imageorient(&$params): void
     {
         $parentRow = $this->getInlineParentRow($params);
+        if (!$parentRow) {
+            return;
+        }
         // if parent isn't a card/columns/carousel element, do nothing
         if (!GeneralUtility::inList('theme_columns,theme_cards', $this->val($parentRow['CType']))) {
             return;
@@ -57,8 +74,12 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
      */
     public function columnWidth(&$params): void
     {
+        $parentRow = $this->getInlineParentRow($params);
+        if (!$parentRow) {
+            return;
+        }
         // maximum width = container width of parent content element
-        $maximum = $this->getInlineParentRow($params)['container_width'];
+        $maximum = $parentRow['container_width'];
         $items = array_filter($params['items'], function ($item) use ($maximum) {
             return $item[1] <= $maximum;
         });
@@ -111,6 +132,9 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     public function mediaColumnWidth(&$params): void
     {
         $parentRow = $this->getInlineParentRow($params);
+        if (!$parentRow) {
+            return;
+        }
         $columnWidth = $this->getComputedContainerWidth($params);
         if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType'])) && $this->val($params['row']['imageorient']) < 5) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
@@ -140,6 +164,9 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     protected function getComputedContainerWidth($params) : int
     {
         $parentRow = $this->getInlineParentRow($params);
+        if (!$parentRow) {
+            return 12;
+        }
         // if parent is a content element with columns use column width or parent default fallback, else use parent container width
         if (GeneralUtility::inList('theme_columns,theme_cards', $this->val($parentRow['CType']))) {
             return $this->val($params['row']['column_width']) ? : $this->val($this->getInlineParentRow($params)['item_column_width']);

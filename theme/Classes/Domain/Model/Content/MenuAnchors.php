@@ -49,26 +49,4 @@ class MenuAnchors extends Text
         $this->anchors = $anchors;
     }
 
-    /**
-     * Content Element TCA
-     */
-
-    /**
-     * @return string
-     */
-    public function showItem(): string
-    {
-        return '    
-        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        --palette--;;headers,';
-    }
-
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        return [];
-    }
 }

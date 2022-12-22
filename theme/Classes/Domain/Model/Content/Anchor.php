@@ -46,36 +46,4 @@ class Anchor extends AbstractEntity
         $this->elementId = $elementId;
     }
 
-    /**
-     * Content Element TCA
-     */
-
-    /**
-     * @return string
-     */
-    public function showItem(): string
-    {
-        return '
-    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        header, subheader,';
-    }
-
-    /**
-     * @return array
-     */
-    public function columnsOverrides(): array
-    {
-        return [
-            'header' => [
-                'label' => 'Title'
-            ],
-            'subheader' => [
-                'label' => '#',
-                'config' => [
-                    'enableRichtext' => true,
-                ]
-            ]
-        ];
-    }
 }

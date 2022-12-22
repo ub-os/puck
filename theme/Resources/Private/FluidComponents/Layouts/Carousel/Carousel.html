@@ -15,27 +15,27 @@
           <f:format.raw>{content}</f:format.raw>
         </ul>
       </div>
-    </div>
 
-    <f:if condition="{controls}">
-      <div class="{name}__controls {class}">
-        <button class="{name}__controls__prev" aria-controls="{id}" data-go-to="<">
-          <icon:svg icon="arrow-left-regular"/>
-        </button>
-        <button class="{name}__controls__next" aria-controls="{id}" data-go-to=">">
-          <icon:svg icon="arrow-right-regular"/>
-        </button>
-      </div>
-    </f:if>
+      <f:if condition="{controls}">
+        <div class="{name}__controls {class} splide__arrows">
+          <button class="{name}__controls__prev splide__arrow--prev" aria-controls="{id}">
+            <icon:svg icon="arrow-left-regular"/>
+          </button>
+          <button class="{name}__controls__next splide__arrow--next" aria-controls="{id}">
+            <icon:svg icon="arrow-right-regular"/>
+          </button>
+        </div>
+      </f:if>
 
-    <f:if condition="{pagination} && {slideCount}">
-      <div class="{name}__pagination {class}">
-        <f:for each="{ub:array.range(end: '{slideCount}-1')}" as="index">
+      <f:if condition="{pagination} && {slideCount}">
+        <div class="{name}__pagination {class}">
+          <f:for each="{ub:array.range(end: '{slideCount}-1')}" as="index">
             <button class="{name}__pagination__item" aria-controls="{id}" data-go-to="{index}">
             </button>
-        </f:for>
-      </div>
-    </f:if>
+          </f:for>
+        </div>
+      </f:if>
+    </div>
 
   </fc:renderer>
 </fc:component>

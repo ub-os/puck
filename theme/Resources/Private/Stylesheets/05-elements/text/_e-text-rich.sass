@@ -2,8 +2,6 @@
 	&
 		width: 100%
 
-	& p+h2, & p+h3, & p+h4
-
 	p:last-child
 		padding-bottom: 0
 
@@ -12,13 +10,15 @@
 
 	.-large
 		+font-size($fs-h3)
+		line-height: 1.3
 
 	.-footnote
 		+font-size($fs-extra-small)
-		color: lightgrey
 
 	.-quote
-		+font-size($fs-h3)
+		+font-size($fs-h2)
+		font-style: italic
+		line-height: 1.15
 
 	a
 		color: var(--color-link)
@@ -28,8 +28,19 @@
 
 	ul, ol
 		@extend .e-text-list
+		+spacing(bottom, xs)
 
 	table
 		@extend .e-text-table
+		+spacing(bottom, xs)
 
+	* + h2
+		+spacing(top, s, margin)
+	* + h3,
+	* + h4
+		+spacing(top, xs, margin)
+
+	// increase button distance to previous element, if necessary
+	* + p:not(.e-button-group)>[class*='e-button-']
+		//+spacing(top, xs, margin)
 

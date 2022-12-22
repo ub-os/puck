@@ -6,6 +6,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 
 class PosterImageViewHelper extends AbstractViewHelper
 {
@@ -22,10 +23,10 @@ class PosterImageViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     )
     {
-        $poster = $arguments['src'].'.poster.jpg';
-        if (file_exists($poster)) {
-            return $poster;
+        $posterPath = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") ."://{$_SERVER['HTTP_HOST']}/{$arguments['src']}.jpg";
+        if (strpos(@get_headers($posterPath)[0], '200')) {
+            return "{$arguments['src']}.jpg";
         }
-        return null;
+        return false;
     }
 }

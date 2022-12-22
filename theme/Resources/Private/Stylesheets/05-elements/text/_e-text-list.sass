@@ -1,11 +1,10 @@
-$list-offset: 1.6em
-$bullet-width: .66em
-$bullet-height: .66em
-$bullet-color: var(--color-accent)
 
 .e-text-list
+  --width-list-offset: 1.6em
+  --width-list-symbol: .66em
+  --height-list-symbol: .66em
+  --color-list-symbol: var(--color-accent)
   &
-    margin-bottom: 1em
     padding-left: 0
 
   &:last-child
@@ -13,22 +12,23 @@ $bullet-color: var(--color-accent)
 
   &>li
     margin-bottom: .5em
-    padding-left: $list-offset
+    padding-left: var(--width-list-offset)
     &:last-child
       margin-bottom: 0
 
   &>li:before
+    position: relative
+    bottom: .1em
     content: ''
     box-sizing: border-box
     display: inline-block
-    width: $bullet-width
-    height: $bullet-height
-    position: relative
-    bottom: .1em
-    margin-left: - $list-offset
-    margin-right: $list-offset - $bullet-width
+    width: var(--width-list-symbol)
+    height: var(--height-list-symbol)
+    margin-left: - var(--width-list-offset)
+    margin-right: calc( var(--width-list-offset) - var(--width-list-symbol) )
     vertical-align: middle
-    background: $bullet-color
+    color: var(--color-list-symbol)
+    background: var(--color-list-symbol)
 
   &>li>ol
     margin-top: .5em
@@ -44,15 +44,20 @@ $bullet-color: var(--color-accent)
 
 
 ol.e-text-list
+  @for $i from 1 through 20
+    &[start="#{$i}"]
+      $reset: $i - 1
+      counter-reset: ol-counter $reset
   &>li
     counter-increment: ol-counter
+    padding-left: 0
 
   &>li:before
     content: counter(ol-counter)'.'
     height: 100%
     bottom: .05em
     padding-left: 1px
-    color: $bullet-color
+    background: var(--color-list-symbol)
     text-align: center
     font-weight: bold
     background: none

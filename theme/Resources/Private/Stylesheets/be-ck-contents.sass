@@ -1,4 +1,5 @@
 @import '08-utilities/utilities'
+
 @import '00-settings/icon-font'
 
 .cke_editable
@@ -8,17 +9,28 @@
     border-radius: .5em
 
   .-small
+    font-size: .85em
+
+  .-footnote
     font-size: .75em
 
-  .-intro
+  .-intro,
+  .-large
     font-size: 1.25em
 
-  .-big
-    font-size: 1.5em
+  .-quote
+    font-size: 1.25em
+    font-style: italic
 
-  h3
-    text-align: center
+
+  .h2, h2
+    font-size: 1.5em
+    font-weight: bold
+
+  .h3, h3
+    font-size: 1.2em
+    font-weight: bold
 
   [class*="icon--"],
   span.icon--
-
+    padding-inline: .4em

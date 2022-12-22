@@ -1,71 +1,106 @@
+
+
 .d-html .e-button-primary
+  $padding-inline: 1.75em
+  $padding-block: .66em
+  --padding-inline: #{ $padding-inline }
+  --padding-block: #{ $padding-block }
   &
+    // button basic and state styles
     +typo-button
     position: relative
     display: inline-block
     max-width: 100vw
-    padding: .66em 2.33em
+    padding: var(--padding-block) var(--padding-inline)
     text-align: center
     color: var(--color-button)
     background: var(--background-button)
-    border: 2px solid var(--color-button-border)
+    border: var(--border-width-button) solid var(--color-button-border)
     border-radius: var(--border-radius-s)
     cursor: pointer
-    transition: color .15s, filter .15s, transform .2s, box-shadow .15s, border-color .15s, background-color .15s, background-position .25s
-    &:hover
-      color: var(--color-button--hover)
-      background: var(--background-button--hover)
-      border-color: var(--color-button-border--hover)
-    &:after
-      +cover
-      z-index: 0
-      content: ''
-      opacity: 0
-      border-radius: var(--border-radius-s)
-      box-shadow: 0 0 0 10px var(--background-button--hover)
-      transition: opacity .2s
-    &:focus:after,
-    &:active:after
-      opacity: 0.2
+    transition: color .15s, filter .15s, transform .2s, box-shadow .15s, border-color .15s, background-color .15s
+  &:hover,
+  &.--active
+    --color-button: var(--color-button--hover)
+    --background-button: var(--background-button--hover)
+    --color-button-border: var(--color-button-border--hover)
+    color: var(--color-button)
+  &:focus,
+  &:active
+    box-shadow: 0 0 0 10px var(--outline-color-button--focus)
+  &[disabled],
+  &.-disabled
+    opacity: 0.5
+    pointer-events: none
 
+  // "Outline" and "Ghost" button versions
   &.-block
     display: block
     width: 100%
-
   &.-ghost,
-  &.-outline
+  &[data-button-ghost],
+  &.-outline,
+  &[data-button-outline]
     color: var(--background-button)
     background: transparent
-    &:hover
-      color: var(--background-button--hover)
-  &.-ghost
-    padding-inline: .66em
+  &.-ghost,
+  &[data-button-ghost]
+    --padding-inline: #{ $padding-block }
     border-color: transparent
-  &.-outline
+  &.-outline,
+  &[data-button-outline]
     border-color: var(--background-button)
-    &:hover
-      border-color: var(--background-button--hover)
 
+  // Button version that absolutely positions contained icon tag
+  &.-icon,
+  &[data-button-icon]
+    --width-icon: 2.4em
+    --padding-icon-side: calc( var(--padding-inline) + 1em )
+    position: relative
+    padding-right: var(--padding-icon-side)
+    &.-ghost,
+    &[data-button-ghost]
+        --padding-icon-side: calc( var(--padding-inline) + 1.5em )
+    [class*='icon--']
+      +flex(row, center, center)
+      position: absolute
+      right: 0
+      top: 0
+      width: var(--width-icon)
+      height: 100%
+      border-left: var(--border-width-button) solid transparent
+      transition: color .15s, background-color .15s, border-color .15s
 
-  &[disabled],
-  &.-disabled
-    background: lightgrey !important
-    opacity: 1
-    pointer-events: none
+    &[data-button-icon='left']
+      padding-right: var(--padding-inline)
+      padding-left: var(--padding-icon-side)
+      [class*='icon--']
+        left: 0
+        right: unset
+        border-right: var(--border-width-button) solid transparent
+        border-left: none
 
-  &__icon
-    transform: translateY(2px)
-    margin-right: 0.2em
+    // Button icon with background/inverted colors
+    &[data-button-icon-pill]
+      --padding-icon-side: calc( var(--padding-inline) + var(--width-icon) )
+      [class*='icon--']
+        --border-radius: calc( var(--border-radius-s) - var(--border-width-button) )
+        color: var(--background-button)
+        background: var(--color-button)
+        border-left: var(--border-width-button) solid transparent
+        border-radius: 0 var(--border-radius) var(--border-radius) 0
+      &[data-button-icon='left'] [class*='icon--']
+        border-left: none
+        border-right: var(--border-width-button) solid transparent
+        border-radius: var(--border-radius) 0 0 var(--border-radius)
 
-.e-button-primary
-  .e-text-rich * + p &:not(:first-child)
-    +spacing(top, xs, margin)
+      &.-outline,
+      &[data-button-outline]
+        [class*='icon--']
+          color: var(--color-button)
+          background: var(--background-button)
 
-  .e-text-rich p:not(:last-child) &
-    //+spacing(bottom, xs, margin)
-
-  &+&
-    +media(m, up)
-      margin-left: 2em
-    +media(s)
-      +spacing(top, xs, margin)
+      &.-ghost,
+      &[data-button-ghost]
+        [class*='icon--']
+          border-radius: var(--border-radius)
