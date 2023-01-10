@@ -1,29 +1,94 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-navigation"/>
+  <fc:param name="pages" type="string" optional="1" default="1"/>
   <fc:param name="pageUid" type="string" optional="1" default="1"/>
-  <fc:param name="special" type="string" optional="1" default="directory"/>
-  <fc:param name="levels" type="integer" optional="1" default="1"/>
+  <fc:param name="processor" type="string" optional="1" default="tree"/>
+  <fc:param name="depth" type="integer" optional="1" default="1"/>
   <fc:param name="menu" type="Navigation" optional="1"/>
-  <fc:param name="breadcrumbs" type="boolean" optional="1" default="0"/>
   <fc:param name="iconFromTitle" type="boolean" optional="1" default="0"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <f:if condition="{pageUid}">
-      <f:cObject typoscriptObjectPath="lib.menu_{special}"
-                 data="{
-                 pageUid: pageUid,
-                 name: name,
-                 levels: levels,
-                 special: special,
-                 class: class,
-                 breadcrumbs: breadcrumbs,
-                 attributes: attributes,
-                 content: content,
-                 iconFromTitle: iconFromTitle}"/>
+    <f:if condition="!{menu}">
+      <f:variable name="menu"
+                  value="{ub:data.menu(pages:pages, processor:processor, depth:depth)}"/>
     </f:if>
 
+    <nav class="{name} {class}">
+      <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes}>
+        <f:for each="{menu}" as="item" iteration="i">
+          <li class="{name}__item {item.class}">
+            <f:if condition="{i.index} > 0 && {processor} == 'breadcrumb'">❯</f:if>
+            <f:if condition="{i.isLast} && {processor} == 'breadcrumb'">
+              <f:then>
+                      <span class="{name}__link">
+                        <f:format.raw>{item.title}</f:format.raw>
+                      </span>
+              </f:then>
+              <f:else>
+                <f:variable name="mods"
+                            value="{
+                                        rootline: item.isInRootLine,
+                                        current: item.isCurrentPage,
+                                        has-subpages: item.hasSubpages}"/>
+                <f:link.typolink parameter="{item.uid}"
+                                 class="{name}__link {mods -> ub:modClass()}"
+                                 absolute="1"
+                                 additionalAttributes="{aria-label: item.title}">
+                  <f:if condition="{i.index} == 0 && {processor} == 'breadcrumb'">
+                    <icon:svg icon="home" class="{name}__icon"/>
+                  </f:if>
+                  <f:if condition="{iconFromTitle}">
+                    <f:then>
+                      <icon:svg icon="{item.title}" class="{name}__icon"/>
+                    </f:then>
+                    <f:else>
+                      <f:format.raw>{item.title}</f:format.raw>
+                    </f:else>
+                  </f:if>
+                </f:link.typolink>
+              </f:else>
+            </f:if>
+            <f:if condition="{item.hasSubpages}">
+              <f:variable name="subName">{name}__sub</f:variable>
+              <ul class="{subName}__list">
+                <f:for each="{item.subpages}" as="item">
+                  <f:variable name="mods"
+                              value="{
+                                        rootline: item.isInRootLine,
+                                        current: item.isCurrentPage,
+                                        has-subpages: item.hasSubpages}"/>
+                  <li class="{subName}__item">
+                    <f:link.typolink
+                            parameter="{item.link}"
+                            absolute="1"
+                            class="{subName}__link {mods -> ub:modClass()}">
+                      <f:format.raw>{item.title}</f:format.raw>
+                    </f:link.typolink>
+                </f:for>
+              </ul>
+            </f:if>
+          </li>
+        </f:for>
+        <f:format.raw>
+          {content}
+        </f:format.raw>
+      </ul>
+      <f:if condition="{processor} == 'breadcrumb'">
+        <schema:type.breadcrumbList>
+          <f:for each="{menu}" as="item" iteration="i">
+            <schema:type.listItem
+                    -as="itemListElement"
+                    position="{i.cycle}"
+                    name="{item.title}"
+                    item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
+            />
+          </f:for>
+        </schema:type.breadcrumbList>
+      </f:if>
+    </nav>
+    
   </fc:renderer>
 
 </fc:component>

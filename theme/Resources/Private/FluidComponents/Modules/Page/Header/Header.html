@@ -25,7 +25,7 @@
         <div class="{name}-menu__wrap" id="main-menu">
           <f:comment>
               // small navigation with search link that opens modal
-            <element:navigation name="{name}-menu" class="-small" pageUid="{settings.navUid.meta}">
+            <element:navigation name="{name}-menu" class="-small" pages="{settings.navUid.meta}">
               <f:if condition="{data.uid} != 18">
                 <li class="{name}-menu__item">
                   <a href="#" class="{name}-menu__link" aria-controls="header-search-modal">
@@ -36,7 +36,7 @@
             </element:navigation>
           </f:comment>
 
-          <element:navigation name="{name}-menu" class="" pageUid="{settings.navUid.main}"/>
+          <element:navigation name="{name}-menu" class="" pages="{settings.navUid.main}"/>
         </div>
         <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">

@@ -10,12 +10,12 @@
               class="{name}-navigation__wrap"
               top="none">
         <div class="{name}__navigations">
-          <element:navigation name="{name}-navigation" pageUid="{settings.navUid.footer}" class="">
+          <element:navigation name="{name}-navigation" pages="{settings.navUid.footer}" class="">
             <li class="{name}-navigation__item">
               <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookies</button>
             </li>
           </element:navigation>
-          <element:navigation name="{name}-navigation" pageUid="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
+          <element:navigation name="{name}-navigation" pages="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
         </div>
       </layout:section>
       <f:format.raw>{contentElements}</f:format.raw>
