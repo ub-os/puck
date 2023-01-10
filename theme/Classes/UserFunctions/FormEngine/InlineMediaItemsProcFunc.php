@@ -62,7 +62,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
         if (($this->val($params['row']['column_width']) == 0 && $this->val($parentRow['item_column_width']) < 4)
             || ($this->val($params['row']['column_width']) < 4  && $this->val($params['row']['column_width']) != 0)) {
             $items = array_filter($items, function ($item) {
-                return $item[1] > 4;
+                return in_array($item[1], ['above','below']);
             });
         }
         $params['items'] = $items;

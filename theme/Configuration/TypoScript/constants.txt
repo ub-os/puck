@@ -12,13 +12,21 @@ jsProd =  EXT:theme/Resources/Public/js/app.min.js
 ## when set to 0: cache enabled, minified assets are included and compressed
 development = 1
 
-search {
-    pid = 18
-}
+# customsubcategory=pageUids=Page identifiers
+# customsubcategory=appearance=Appearance
 navUid {
+    # cat=theme/pageUids/1; type=int; label=Parent uid of main navigation
     main = 1
-    footer = 7
-    social = 8
-    meta = 9
+    # cat=theme/pageUids/2; type=int; label=Parent uid of footer navigation
+    footer = 5
+    # cat=theme/pageUids/3; type=int; label=Parent uid of social navigation
+    social = 6
+    # cat=theme/pageUids/4; type=int; label=Parent uid of meta navigation
+    meta = 7
 }
+search {
+    # cat=theme/pageUids/5; type=int; label=Uid of search plugin page
+    pid = 0
+}
+# cat=theme/appearance/1; type=int; label=Page grid width in px
 gridWidth = 1300

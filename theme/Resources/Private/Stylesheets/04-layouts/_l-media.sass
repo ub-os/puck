@@ -2,6 +2,8 @@
 
   // image gallery above/below text
   @if $layout == block
+    #{$name}__row
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
 
     #{$name}__media,
     #{$name}__text
@@ -11,17 +13,18 @@
 
     @if $media-pos == above
       #{$name}__media + #{$name}__text
-        +spacing(top, m)
+        //+spacing(top, m)
 
     @if $media-pos == below
       #{$name}__media
         order: 2
       #{$name}__media + #{$name}__text.-bodytext
-        +spacing(bottom, m)
+        //+spacing(bottom, m)
 
   // image column beside text
   @if $layout == inline
     #{$name}__row
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
 
     #{$name}__text,
     #{$name}__media
@@ -29,6 +32,8 @@
         width: 100%
 
     #{$name}__media
+      +media(s)
+        order: 2
       @if $media-pos == right
         +media-up(s)
           order: 2
@@ -40,11 +45,10 @@
       flex-direction: column
 
     #{$name}__row
-      +grid-row($gutter)
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
       display: block
       +media-up(s)
-        +margin-bottom(-$gutter)
-        --grid-gutter-y: 0
+        //--grid-gutter-y: 0
       +media-down(s)
         display: flex
         flex-direction: column-reverse
@@ -52,20 +56,21 @@
     #{$name}__text
       +grid-col(1,1)
       +media-up(s)
-        +margin-bottom($gutter)
+        //+margin-bottom($gutter)
 
     #{$name}__media
       +media-up(s)
-        +margin-bottom($gutter)
+        //+margin-bottom($gutter)
       +media-down(s)
         width: 100%
       @if $media-pos == right
         +media-up(s)
-          +margin-left($gutter)
+          margin-left: var(--grid-gutter-x)
+          margin-bottom: var(--grid-gutter-y)
           float: right
       @if $media-pos == left
         +media-up(s)
-          +margin-right($gutter)
+          margin-right: var(--grid-gutter-x)
           float: left
 
 .l-media

@@ -30,6 +30,10 @@
       +spacing(bottom, l, margin)
 
   // Auto spacing rules
+  .m-page-main &.-bottom-auto:last-of-type
+    +spacing(bottom, xl, padding)
+    margin-bottom: 0
+
   &:not([class*="-background-"])
     &.-bottom-auto + &.-top-auto.-no-h2,
     &.-bottom-auto + .e-anchor + &.-top-auto.-no-h2
@@ -72,7 +76,7 @@
     --color-accent-alt: #{ $lilac-purple }
     --color-link: #{ $lilac-dark-orchid }
     --color-button: #{ $blue-baby-eyes }
-    --color-button--hover: #{ $white }
+    --color-button--hover: #{ $blue-powder }
 
   &.-background-light-2
     --background: #{ $white-dutch }
@@ -96,4 +100,4 @@
     --background-button--hover: #{ $orange-pumpkin }
     --outline-color-button--focus: #{ $orange-mango-tango-30 }
     --color-button: #{ $blue-powder }
-    --color-button--hover: #{ $white }
+    --color-button--hover: #{ $white-dutch }

@@ -5,6 +5,7 @@ if (!defined('TYPO3_MODE')) {
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use HDNET\Autoloader\Loader;
+use UBOS\Theme\Utility\ThemeUtility;
 use UBOS\Theme\Controller\PageController;
 use UBOS\Theme\Controller\ContentController;
 
@@ -29,19 +30,20 @@ ExtensionManagementUtility::addUserTSConfig(
 
 Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
 
-require_once ExtensionManagementUtility::extPath('theme') .'/Configuration/IconRegistry.php';
+require_once ExtensionManagementUtility::extPath('theme') . '/Configuration/IconRegistry.php';
 
-foreach(require ExtensionManagementUtility::extPath('theme') .'/Configuration/Helper/getContentClasses.php' as $content) {
+$contentModels = ThemeUtility::indexContentModels();
+foreach($contentModels as $model) {
     ExtensionManagementUtility::addTypoScript(
         'theme',
         'setup',
-        'tt_content.'.$content['ctype'].'.20  {
+        'tt_content.'.$model['typeKey'].'.20  {
                 userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
                 extensionName = Theme
                 pluginName = Content
                 vendorName = UBOS
                 settings {
-                    contentElement = '.$content['name'].'
+                    contentElement = '.$model['name'].'
                     extensionKey = theme
                     vendorName = UBOS
                 }   

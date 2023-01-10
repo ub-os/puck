@@ -7,13 +7,16 @@
 
     <footer class="{name}">
       <layout:section
-              class="{name}-navigation__wrap"
-              top="none">
+              class="{name}-navigation__wrap -background-dark-1"
+              top="none"
+              bottom="none">
         <div class="{name}__navigations">
           <element:navigation name="{name}-navigation" pages="{settings.navUid.footer}" class="">
-            <li class="{name}-navigation__item">
-              <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookies</button>
-            </li>
+            <f:comment>
+              <li class="{name}-navigation__item">
+                <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookies</button>
+              </li>
+            </f:comment>
           </element:navigation>
           <element:navigation name="{name}-navigation" pages="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
         </div>

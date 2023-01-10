@@ -37,7 +37,7 @@ mod.web_layout.BackendLayouts {
                             1 {
                                 name = Footer
                                 colPos = 3
-                                colspan = 6
+                                colspan = 8
                                 allowed {
                                     CType = theme_text
                                 }
@@ -45,7 +45,7 @@ mod.web_layout.BackendLayouts {
                             2 {
                                 name = Modals
                                 colPos = 9
-                                colspan = 2
+                                colspan = 8
                                 allowed {
                                     CType = theme_modal
                                 }
@@ -80,7 +80,7 @@ mod.web_layout.BackendLayouts {
                             1 {
                                 name = Footer
                                 colPos = 3
-                                colspan = 6
+                                colspan = 8
                                 allowed {
                                     CType = theme_text
                                 }
@@ -88,7 +88,7 @@ mod.web_layout.BackendLayouts {
                             2 {
                                 name = Modals
                                 colPos = 9
-                                colspan = 2
+                                colspan = 8
                                 allowed {
                                     CType = theme_modal
                                 }

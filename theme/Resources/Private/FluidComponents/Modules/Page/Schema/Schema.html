@@ -17,11 +17,13 @@
         -id="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}#website"
         url="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}"
         name="{context.language.websiteTitle}">
-        <schema:type.searchAction
-            -as="potentialAction"
-            query-input="required name=search_term_string"
-            target="{f:uri.page(pageUid: settings.search.pid, absolute: 'true')}s/{searchTermString}">
-        </schema:type.searchAction>
+        <f:comment>
+          <schema:type.searchAction
+                  -as="potentialAction"
+                  query-input="required name=search_term_string"
+                  target="{f:uri.page(pageUid: settings.search.pid, absolute: 'true')}s/{searchTermString}">
+          </schema:type.searchAction>
+        </f:comment>
       </schema:type.webSite>
       <f:if condition="{object.primaryImage}">
         <schema:type.imageObject

@@ -107,7 +107,7 @@ $columns = [
             'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->columnWidth',
             'disableNoMatchingValueElement' => true,
             'items' => [
-                ['auto', 0, 'space_auto'],
+                ['auto', 0, 'auto'],
                 ['2', 2, 'column_width2'],
                 ['3', 3, 'column_width3'],
                 ['4', 4, 'column_width4'],
@@ -185,24 +185,23 @@ $columns = [
             'disableNoMatchingValueElement' => true,
             'items' => [
                 ['Above text', 'above',
-                    'image_orient_top-center',
+                    'media_layout_above',
                 ],
                 ['Below text', 'below',
-                    'image_orient_bottom-center',
+                    'media_layout_below',
                 ],
                 ['Right beside text', 'right',
-                    'image_orient_right-top'
+                    'media_layout_right',
                 ],
                 ['Left beside text', 'left',
-                    'image_orient_left-top'
+                    'media_layout_left',
                 ],
                 ['Right in text', 'right-float',
-                    'image_orient_right-float'
+                    'media_layout_right_float',
                 ],
                 ['Left in text', 'left-float',
-                    'image_orient_left-float'
+                    'media_layout_left_float'
                 ],
-
             ],
             'default' => 'below',
             'fieldWizard' => [

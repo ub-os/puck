@@ -7,11 +7,14 @@
   "require": {
     "php": "8.0",
     "typo3/cms-core": "^11",
+    "typo3/cms-lowlevel": "^11",
     "ichhabrecht/content-defender": "^3.2",
-    "sitegeist/fluid-components": "^3.1",
-    "lochmueller/autoloader": "7.3.7",
-    "brotkrueml/schema": "^2.5",
-    "plan2net/webp": "^4.1"
+    "sitegeist/fluid-components": "^3.4",
+    "lochmueller/autoloader": "^7.4",
+    "brotkrueml/schema": "^2.6",
+    "plan2net/webp": "^4.2",
+    "b13/menus": "^1.0",
+    "eliashaeussler/typo3-warming": "^0"
   },
   "replace": {
     "typo3-ter/theme": "self.version"

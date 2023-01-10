@@ -2,6 +2,7 @@
 namespace UBOS\Theme\ViewHelpers\Data;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -23,6 +24,7 @@ class MenuViewHelper extends AbstractViewHelper
         $this->registerArgument('includeNotInMenu', 'boolean', '', false, false);
         $this->registerArgument('excludeLanguages', 'boolean', '', false, '');
         $this->registerArgument('addAllSiteLanguages', 'boolean', '', false, false);
+        $this->registerArgument('excludeDoktypes', 'boolean', '', false, '199,254,255');
     }
 
     public static function renderStatic(
@@ -42,6 +44,7 @@ class MenuViewHelper extends AbstractViewHelper
                     'depth' => $arguments['depth'],
                     'excludePages' => $arguments['excludePages'],
                     'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
                 break;
             case 'language':
@@ -59,6 +62,7 @@ class MenuViewHelper extends AbstractViewHelper
                     'as' => $as,
                     'excludePages' => $arguments['excludePages'],
                     'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
                 break;
             default:
@@ -67,9 +71,10 @@ class MenuViewHelper extends AbstractViewHelper
                     'as' => $as,
                     'pages' => $arguments['pages'],
                     'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
         }
-        $processorConfiguration = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($processorConfiguration);
+        $processorConfiguration = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($processorConfiguration);
         return $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
 
     }

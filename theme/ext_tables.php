@@ -2,10 +2,14 @@
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use HDNET\Autoloader\Loader;
+use UBOS\Theme\Utility\ThemeUtility;
+
 $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_theme_domain_model_inline_media');
+ExtensionManagementUtility::allowTableOnStandardPages('tx_theme_domain_model_inline_media');
 
 // IS SET IN SYS_TEMPLATES.PHP
 //\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('theme', 'Configuration/TypoScript', 'theme');
@@ -14,4 +18,9 @@ $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/local
 $GLOBALS['TBE_STYLES']['skins']['theme']['name'] = 'Theme';
 $GLOBALS['TBE_STYLES']['skins']['theme']['stylesheetDirectories']['css'] = 'EXT:theme/Resources/Public/css/backend/';
 
-\HDNET\Autoloader\Loader::extTables('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
+$contentModels = ThemeUtility::indexContentModels();
+foreach($contentModels as $model) {
+    $GLOBALS['TCA']['tt_content']['types'][$model['typeKey']]['noAutoloaderOverride'] = true;
+}
+
+Loader::extTables('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));

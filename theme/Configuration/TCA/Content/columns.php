@@ -290,7 +290,6 @@ $columns['column_position'] = [
     ],
 ];
 
-
 $columns['container_position'] = [
     'label' => 'Align',
     'onChange' => 'reload',
@@ -298,9 +297,9 @@ $columns['container_position'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
-            ['Left', 'left', 'left'],
-            ['Center', 'center', 'center'],
-            ['Right', 'right', 'right'],
+            ['Left', 'left', 'align_left'],
+            ['Center', 'center', 'align_center'],
+            ['Right', 'right', 'align_right'],
         ],
         'default' => 'center',
         'fieldWizard' => [
