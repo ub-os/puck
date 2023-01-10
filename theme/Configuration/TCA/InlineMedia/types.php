@@ -52,7 +52,7 @@ $types = [
             'assets' => $overrideCropVariants('default,mobile'),
         ]
     ],
-    'stage_carousel' => [
+    'hero_carousel' => [
         'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
                     item_type,

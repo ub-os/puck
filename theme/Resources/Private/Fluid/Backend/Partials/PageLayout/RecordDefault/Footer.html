@@ -1,7 +1,6 @@
 <f:variable name="show_layout" value="{f:if(condition:'{item.record.layout} != \'default\' && {item.record.layout}',then:1,else:0)}"/>
 <f:variable name="show_frame_class" value="{f:if(condition:'{item.record.frame_class} != \'default\' && {item.record.frame_class}',then:1,else:0)}"/>
 <f:variable name="show_content_type" value="{f:if(condition:'{item.record.content_type} != \'assets\' && {item.record.content_type}',then:1,else:0)}"/>
-<f:variable name="show_imageorient" value="{f:if(condition:'({item.record.assets})',then:1,else:0)}"/>
 <f:variable name="show_space_before" value="{f:if(condition:'{item.record.space_before}',then:1,else:0)}"/>
 <f:variable name="show_space_after" value="{f:if(condition:'{item.record.space_after}',then:1,else:0)}"/>
 <f:variable name="show_container_width" value="{f:if(condition:'{item.record.container_width} && {item.record.container_width} != 12',then:1,else:0)}"/>
@@ -15,8 +14,6 @@
     {show_container_offset} ||
     {show_frame_class} ||
     {show_content_type} ||
-    {show_imageorient} ||
-    {show_imagecols} ||
     {show_space_before} ||
     {show_space_after}
 ">
@@ -39,12 +36,6 @@
             </f:if>
             <f:if condition="{show_content_type}">
                 <f:render section="footer_col" arguments="{col: 'content_type', item: item}"/>
-            </f:if>
-            <f:if condition="{show_imageorient}">
-                <f:render section="footer_col" arguments="{col: 'imageorient', item: item}"/>
-            </f:if>
-            <f:if condition="{show_imagecols}">
-                <f:render section="footer_col" arguments="{col: 'imagecols', item: item}"/>
             </f:if>
             <f:if condition="{show_space_before}">
                 <f:render section="footer_col" arguments="{col: 'space_before', item: item}"/>

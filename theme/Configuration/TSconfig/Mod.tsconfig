@@ -11,7 +11,7 @@ mod.wizards.newContentElement.wizardItems {
     forms.show =
 }
 // Page Backend Layouts
-allowedContent = list, shortcut, html, theme_accordions, theme_anchor, theme_cards, theme_columns, theme_full_width_media, theme_media, theme_menu_anchors, theme_menu_pages, theme_stage, theme_stage_carousel, theme_text
+allowedContent = list, shortcut, html, theme_accordions, theme_anchor, theme_cards, theme_columns, theme_full_width_media, theme_media, theme_menu_anchors, theme_menu_pages, theme_hero, theme_hero_carousel, theme_text
 mod.web_layout.BackendLayouts {
     home {
         title = Home

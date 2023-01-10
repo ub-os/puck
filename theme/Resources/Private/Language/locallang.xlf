@@ -143,13 +143,13 @@
 				<source>Menu of selected pages and subpages of parent pages.</source>
 			</trans-unit>
 
-			<trans-unit id="content.element.stage" resname="content.element.media">
-				<source>Stage</source>
+			<trans-unit id="content.element.hero" resname="content.element.media">
+				<source>Hero</source>
 			</trans-unit>
-			<trans-unit id="wizard.stage" resname="wizard.media">
-				<source>Stage</source>
+			<trans-unit id="wizard.hero" resname="wizard.media">
+				<source>Hero</source>
 			</trans-unit>
-			<trans-unit id="wizard.stage.description" resname="wizard.media.description">
+			<trans-unit id="wizard.hero.description" resname="wizard.media.description">
 				<source>Page introduction with h1-headline.</source>
 			</trans-unit>
 
@@ -173,14 +173,14 @@
 				<source>Columns slider.</source>
 			</trans-unit>
 
-			<trans-unit id="content.element.stage_carousel" resname="content.element.stage_carousel">
-				<source>Stage carousel</source>
+			<trans-unit id="content.element.hero_carousel" resname="content.element.hero_carousel">
+				<source>Hero carousel</source>
 			</trans-unit>
-			<trans-unit id="wizard.stage_carousel" resname="wizard.stage_carousel">
-				<source>Stage carousel</source>
+			<trans-unit id="wizard.hero_carousel" resname="wizard.hero_carousel">
+				<source>Hero carousel</source>
 			</trans-unit>
-			<trans-unit id="wizard.stage_carousel.description" resname="wizard.stage_carousel.description">
-				<source>Stage element slider.</source>
+			<trans-unit id="wizard.hero_carousel.description" resname="wizard.hero_carousel.description">
+				<source>Hero element slider.</source>
 			</trans-unit>
 
 			<trans-unit id="content.element.modal" resname="content.element.modal">

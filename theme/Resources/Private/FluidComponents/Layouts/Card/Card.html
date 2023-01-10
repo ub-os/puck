@@ -4,7 +4,7 @@
   <fc:param name="media" type="array" optional="1"/>
   <fc:param name="mediaSize" type="string" optional="1" default="cover" />
   <fc:param name="mediaWidth" type="string" optional="1" default="" />
-  <fc:param name="orient" type="integer" optional="1" default="5" />
+  <fc:param name="mediaLayout" type="integer" optional="1" default="above" />
   <fc:param name="width" type="integer" optional="1"/>
   <fc:param name="cropVariant" type="string" optional="1" default="default" />
   <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile" />
@@ -13,7 +13,7 @@
 
     <f:variable name="mods"
                 value="{
-                    orient: orient,
+                    layout: mediaLayout,
                     media-size: mediaSize,
                     media-width: mediaWidth}"/>
 

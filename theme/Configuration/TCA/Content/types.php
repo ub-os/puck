@@ -148,7 +148,7 @@ $types['theme_full_width_media'] = [
             --palette--;;headers,
             --palette--;;bodytext,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-            imageorient,
+            media_layout,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -157,19 +157,19 @@ $types['theme_full_width_media'] = [
                 'enableRichtext' => true,
             ]
         ],
-        'imageorient' => [
+        'media_layout' => [
             'config' => [
                 'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
             ]
         ],
         'container_width' => [
-            'displayCond' => 'FIELD:imageorient:>:4',
+            'displayCond' => 'FIELD:media_layout:IN:above,below',
         ],
         'container_offset' => [
-            'displayCond' => 'FIELD:imageorient:>:4',
+            'displayCond' => 'FIELD:media_layout:IN:above,below',
         ],
         'container_position' => [
-            'displayCond' => 'FIELD:imageorient:>:4',
+            'displayCond' => 'FIELD:media_layout:IN:above,below',
         ]
     ]
 ];
@@ -218,7 +218,7 @@ $types['theme_media'] = [
             ],
             'displayCond' => 'FIELD:content_type:=:html'
         ],
-        'imageorient' => [
+        'media_layout' => [
             'onChange' => 'reload',
             'config' => [
             ]
@@ -296,7 +296,7 @@ $types['theme_modal'] = [
     ]
 ];
 
-$types['theme_stage'] = [
+$types['theme_hero'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
@@ -331,7 +331,7 @@ $types['theme_stage'] = [
     ]
 ];
 
-$types['theme_stage_carousel'] = [
+$types['theme_hero_carousel'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
@@ -346,7 +346,7 @@ $types['theme_stage_carousel'] = [
             'config' => [
                 'overrideChildTca' => [
                     'types' => [
-                        '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['stage_carousel'],
+                        '1' => $GLOBALS['TCA']['tx_theme_domain_model_inline_media']['types']['hero_carousel'],
                     ],
                 ]
             ]

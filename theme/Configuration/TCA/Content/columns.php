@@ -13,10 +13,10 @@ $columns['frame_class'] = [
         'renderType' => 'selectSingle',
         'items' => [
             ['Default', 'default'],
-            ['Light blue', 'light-blue'],
-            ['Light turquoise', 'light-turquoise'],
-            ['Light orange', 'light-orange'],
-            ['Dark purple', 'dark-purple'],
+            ['Light blue', 'light-1'],
+            ['Light turquoise', 'light-2'],
+            ['Light orange', 'light-3'],
+            ['Dark purple', 'dark-1'],
         ],
         'default' => 'default'
     ],
@@ -86,36 +86,35 @@ $columns['content_type'] = [
         'default' => 'assets'
     ],
 ];
-$columns['imageorient'] = [
-    'label' => 'Media position',
+$columns['media_layout'] = [
+    'label' => 'Media layout',
     'onChange' => 'reload',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'disableNoMatchingValueElement' => true,
         'items' => [
-            ['default', 0],
-            ['Above text', 5,
-                'image_orient_top-center',
+            ['Above text', 'above',
+                'media_layout_above',
             ],
-            ['Below text', 6,
-                'image_orient_bottom-center',
+            ['Below text', 'below',
+                'media_layout_below',
             ],
-            ['Right beside text', 3,
-                'image_orient_right-top'
+            ['Right beside text', 'right',
+                'media_layout_right',
             ],
-            ['Left beside text', 4,
-                'image_orient_left-top'
+            ['Left beside text', 'left',
+                'media_layout_left',
             ],
-            ['Right in text', 1,
-                'image_orient_right-float'
+            ['Right in text', 'right-float',
+                'media_layout_right_float',
             ],
-            ['Left in text', 2,
-                'image_orient_left-float'
+            ['Left in text', 'left-float',
+                'media_layout_left_float'
             ],
 
         ],
-        'default' => 6,
+        'default' => 'below',
         'fieldWizard' => [
             'selectIcons' => [
                 'disabled' => false,
@@ -123,7 +122,6 @@ $columns['imageorient'] = [
         ],
     ]
 ];
-
 
 $columns['pages'] = [
     'label' => 'Pages',
@@ -159,10 +157,10 @@ $columns['space_before_class'] = [
         'renderType' => 'selectSingle',
         'items' => [
             ['Auto', '',
-                'space_auto'
+                'auto'
             ],
             ['None', 'none',
-                'space_none'
+                'none'
             ],
             ['Small', 'small',
                 'space_small'
@@ -278,10 +276,10 @@ $columns['column_position'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
-            ['Space between', 'space-between', 'space-between'],
-            ['Left', 'left', 'left'],
-            ['Center', 'center', 'center'],
-            ['Right', 'right', 'right'],
+            ['Space between', 'space-between', 'align_space_between'],
+            ['Left', 'left', 'align_left'],
+            ['Center', 'center', 'align_center'],
+            ['Right', 'right', 'align_right'],
         ],
         'default' => 'space-between',
         'fieldWizard' => [
@@ -335,8 +333,8 @@ $columns['card_media_size'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
-            ['Full-width / full-height', 'cover', 'cover'],
-            ['Contained', 'contain', 'contain'],
+            ['Full-width / full-height', 'cover', 'size_cover'],
+            ['Contained', 'contain', 'size_contain'],
         ],
         'default' => 'cover',
         'fieldWizard' => [

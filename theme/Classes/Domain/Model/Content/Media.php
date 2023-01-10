@@ -18,16 +18,11 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
  */
 class Media extends Text
 {
-
     /**
-     * @var int
+     * @var string
+     * @DatabaseField("string")
      */
-    public int $imageorient;
-
-    /**
-     * @var int
-     */
-    public int $imagecols;
+    public string $mediaLayout;
 
     /**
      * @var ?ObjectStorage<FileReference>

@@ -5,17 +5,17 @@
   <fc:renderer>
 
     <layout:section
-            class="{name}__wrap -orient-{object.imageorient}"
+            class="{name}__wrap -layout-{object.mediaLayout}"
             object="{object}"
-            container="{f:if(condition:'{object.imageorient} < 5',then:1,else:0)}"
+            container="{f:if(condition:'{object.mediaLayout} < 5',then:1,else:0)}"
             id="c{object.uid}">
-      <f:if condition="{object.imageorient} < 5">
+      <f:if condition="{object.mediaLayout} < 5">
         <f:then>
-          <layout:row justify="space-between" class="{name}__row -orient-{object.imageorient}">
+          <layout:row justify="space-between" class="{name}__row -layout-{object.mediaLayout}">
             <layout:row.item width="6" attributes="style=position:relative">
               <element:media
                       name="{name}"
-                      class="-orient-{object.imageorient}"
+                      class="-layout-{object.mediaLayout}"
                       file="{object.assets.0}"
                       width="1280"
                       sources="{
@@ -26,7 +26,7 @@
                     }"/>
             </layout:row.item>
             <layout:row.item width="5">
-              <div class="{name}__content -orient-{object.imageorient}">
+              <div class="{name}__content -layout-{object.mediaLayout}">
                 <element:text.header object="{object}"/>
                 <element:text.rich text="{object.bodytext}"/>
               </div>
@@ -35,7 +35,7 @@
         </f:then>
         <f:else>
           <layout:container width="{object.containerWidth}" align="{object.containerPosition}" offset="{object.containerOffset}">
-            <div class="{name}__content -orient-{object.imageorient}">
+            <div class="{name}__content -layout-{object.mediaLayout}">
               <element:text.header object="{object}"/>
               <element:text.rich text="{object.bodytext}"/>
               <f:format.html>{content}</f:format.html>
@@ -43,7 +43,7 @@
           </layout:container>
           <element:media
                   name="{name}"
-                  class="-orient-{object.imageorient}"
+                  class="-layout-{object.mediaLayout}"
                   file="{object.assets.0}"
                   width="2560"
                   sources="{

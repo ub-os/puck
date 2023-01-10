@@ -2,7 +2,7 @@
 
 <f:variable name="name" value="m-form-indexedsearch"/>
 <f:variable name="h1" value="{f:if(condition: searchParams.sword, then: '“{searchParams.sword}”', else: '')}"/>
-<module:stage.default data="{pid: settings.targetPid, header: h1}" />
+<module:hero.content data="{pid: settings.targetPid, header: h1}" />
 <layout:section
         class="{name}__box__wrap"
         container="0">

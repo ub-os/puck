@@ -1,0 +1,42 @@
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="m-hero-carousel"/>
+    <fc:param name="object" type="mixed"/>
+    <fc:renderer>
+
+        <layout:section
+                class="{name}__wrap"
+                object="{object}"
+                top="none"
+                id="c{object.uid}">
+            <layout:carousel class="{name}" id="c{object.uid}-splide" trackOverflow="visible">
+                <f:for each="{object.inlineMedia}" as="item" iteration="i">
+                    <layout:row.item
+                            class="splide__slide {name}__item">
+                        <f:if condition="{item.assets}">
+                            <element:media
+                                    file="{item.assets.0}"
+                                    cropVariant="2:1"
+                                    name="{name}"
+                                    width="{settings.gridWidth}"
+                                    loading="lazy"
+                                    showDesc="1"
+                                    sources="{
+                                        s: {width: 1300, cropVariant: '2:1'},
+                                        xs: {width: 600, cropVariant: '3:2'},
+                                        0: {width: 450, cropVariant: '3:2'}
+                                    }"/>
+                        </f:if>
+                        <div class="{name}__text">
+                            <element:tag is="{f:if(condition:i.index,then:'h2',else:'h1')}"
+                                         class="{name}__headline">
+                                {item.header}
+                            </element:tag>
+                            <element:text.rich class="{name}__bodytext" text="{item.bodytext}"/>
+                        </div>
+                    </layout:row.item>
+                </f:for>
+            </layout:carousel>
+        </layout:section>
+
+    </fc:renderer>
+</fc:component>

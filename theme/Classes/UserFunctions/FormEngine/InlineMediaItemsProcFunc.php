@@ -42,7 +42,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
      * @param $params
      * @return void
      */
-    public function imageorient(&$params): void
+    public function media_layout(&$params): void
     {
         $parentRow = $this->getInlineParentRow($params);
         if (!$parentRow) {
@@ -55,10 +55,10 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
         $items = $params['items'];
         if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType']))) {
             $items = array_filter($items, function ($item) {
-                return $item[1] > 2;
+                return in_array($item[1], ['above','below','left','right']);
             });
         }
-        // if column width is smaller than 4 allow only imageorient "image above" and "image below"
+        // if column width is smaller than 4 allow only media_layout "image above" and "image below"
         if (($this->val($params['row']['column_width']) == 0 && $this->val($parentRow['item_column_width']) < 4)
             || ($this->val($params['row']['column_width']) < 4  && $this->val($params['row']['column_width']) != 0)) {
             $items = array_filter($items, function ($item) {
@@ -93,7 +93,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     public function itemColumnWidth(&$params): void
     {
         $columnWidth = $this->getComputedContainerWidth($params);
-        if ($this->val($params['row']['imageorient']) < 5) {
+        if (in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
             $maximum = $this->val($params['row']['media_column_width']);
         } else {
             $maximum = $columnWidth;
@@ -111,7 +111,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
     public function textColumnWidth(&$params): void
     {
         $columnWidth = $this->getComputedContainerWidth($params);
-        if (in_array($this->val($params['row']['imageorient']), [1,2,5,6])) {
+        if (in_array($this->val($params['row']['media_layout']), ['above','below','left-float','right-float'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
                 return $item[1] === $columnWidth;
             });
@@ -136,20 +136,20 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
             return;
         }
         $columnWidth = $this->getComputedContainerWidth($params);
-        if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType'])) && $this->val($params['row']['imageorient']) < 5) {
+        if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType'])) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
                 return $item[1] <= ($columnWidth - 2);
             });
             return;
         }
-        if ($this->val($params['row']['imageorient']) >= 5) {
+        if (in_array($this->val($params['row']['media_layout']), ['above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
                 return $item[1] === $columnWidth;
             });
             return;
         }
-        if ($this->val($params['row']['imageorient']) < 3) {
-            // if imageorient is float: maximum width = column width - 2
+        if (in_array($this->val($params['row']['media_layout']), ['left-float','right-float'])) {
+            // if media_layout is float: maximum width = column width - 2
             $maximum = $columnWidth - 2;
         } else {
             // maximum width = container width - text width

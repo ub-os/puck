@@ -51,7 +51,7 @@ $columns = [
                 ['Column', 'columns', 'columns_inline_media'],
                 ['Card', 'cards', 'cards_inline_media'],
                 ['Accordion', 'accordions', 'accordions_inline_media'],
-                ['Stage carousel slide', 'stage_carousel', 'stage_carousel_inline_media'],
+                ['Hero carousel slide', 'hero_carousel', 'hero_carousel_inline_media'],
             ],
             'default' => '1'
         ]
@@ -163,10 +163,10 @@ $columns = [
             'type' => 'select',
             'renderType' => 'selectSingle',
             'items' => [
-                ['Space between', 'space-between', 'space-between'],
-                ['Center', 'center', 'center'],
-                ['Left', 'left', 'left'],
-                ['Right', 'right', 'right'],
+                ['Space between', 'space-between', 'align_space_between'],
+                ['Left', 'left', 'align_left'],
+                ['Center', 'center', 'align_center'],
+                ['Right', 'right', 'align_right'],
             ],
             'default' => 'space-between',
             'fieldWizard' => [
@@ -176,37 +176,35 @@ $columns = [
             ],
         ]
     ],
-    'imageorient' => [
-        'label' => 'Media position',
+    'media_layout' => [
+        'label' => 'Media layout',
         'onChange' => 'reload',
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
-            'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->imageorient',
             'disableNoMatchingValueElement' => true,
             'items' => [
-                ['default', 0],
-                ['Above text', 5,
+                ['Above text', 'above',
                     'image_orient_top-center',
                 ],
-                ['Below text', 6,
+                ['Below text', 'below',
                     'image_orient_bottom-center',
                 ],
-                ['Right beside text', 3,
+                ['Right beside text', 'right',
                     'image_orient_right-top'
                 ],
-                ['Left beside text', 4,
+                ['Left beside text', 'left',
                     'image_orient_left-top'
                 ],
-                ['Right in text', 1,
+                ['Right in text', 'right-float',
                     'image_orient_right-float'
                 ],
-                ['Left in text', 2,
+                ['Left in text', 'left-float',
                     'image_orient_left-float'
                 ],
 
             ],
-            'default' => 6,
+            'default' => 'below',
             'fieldWizard' => [
                 'selectIcons' => [
                     'disabled' => false,
@@ -242,8 +240,8 @@ $columns = [
             'type' => 'select',
             'renderType' => 'selectSingle',
             'items' => [
-                ['Full-width / full-height', 'cover', 'cover'],
-                ['Contained', 'contain', 'contain'],
+                ['Full-width / full-height', 'cover', 'size_cover'],
+                ['Contained', 'contain', 'size_contain'],
             ],
             'default' => 'cover',
             'fieldWizard' => [

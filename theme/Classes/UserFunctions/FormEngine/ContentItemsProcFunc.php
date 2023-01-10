@@ -3,7 +3,7 @@ namespace UBOS\Theme\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  *
@@ -18,7 +18,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             'content_type' => ['assets','html']
         ],
         'theme_full_width_media' => [
-            'imageorient' => [3,4,5,6]
+            'media_layout' => ['above','below','left','right']
         ],
     ];
 
@@ -55,8 +55,8 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function itemColumnWidth(&$params): void
     {
-        // maximum width = media element with imageorient beside/float ? media width : container width
-        if ($this->val($params['row']['CType']) === 'theme_media' && $this->val($params['row']['imageorient']) < 5) {
+        // maximum width = media element with media_layout beside/float ? media width : container width
+        if ($this->val($params['row']['CType']) === 'theme_media' && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
             $maximum = $this->val($params['row']['media_column_width']);
         } else {
             $maximum = $this->val($params['row']['container_width']);
@@ -74,7 +74,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     public function textColumnWidth(&$params): void
     {
         // maximum width = container width - media width
-        if ($this->val($params['row']['CType']) === 'theme_media' && in_array($this->val($params['row']['imageorient']), [1,2,5,6])) {
+        if ($this->val($params['row']['CType']) === 'theme_media' && in_array($this->val($params['row']['media_layout']), ['left-float','right-float','above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($params) {
                 return $item[1] == $this->val($params['row']['container_width']);
             });
@@ -94,14 +94,14 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     public function mediaColumnWidth(&$params): void
     {
         // maximum width = container width - media width
-        if ($this->val($params['row']['CType']) === 'theme_media' && $this->val($params['row']['imageorient']) >= 5) {
+        if ($this->val($params['row']['CType']) === 'theme_media' && in_array($this->val($params['row']['media_layout']), ['above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($params) {
                 return $item[1] == $this->val($params['row']['container_width']);
             });
             return;
         }
-        if ($this->val($params['row']['imageorient']) < 3) {
-            // if imageorient is float: maximum width = container width - 2
+        if (in_array($this->val($params['row']['media_layout']), ['left-float','right-float'])) {
+            // if media_layout is float: maximum width = container width - 2
             $maximum = $this->val($params['row']['container_width']) - 2;
         } else {
             // maximum width = container width - text width

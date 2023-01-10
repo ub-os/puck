@@ -21,10 +21,6 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
  */
 class Columns extends Text
 {
-    /**
-     * @var int
-     */
-    public int $imagecols = 0;
 
     /**
      * @var ?ObjectStorage<InlineMedia>

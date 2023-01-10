@@ -24,18 +24,18 @@ $padding-block: 2em
       justify-content: space-between
     &.-media-size-contain
       padding: $padding-block $padding-inline
-    &.-orient-3
+    &.-layout-right
       +media-up(s)
         flex-direction: row
-    &.-orient-4.-media
+    &.-layout-left.-media
       +media-up(s)
         flex-direction: row-reverse
-    &.-orient-5.-media
+    &.-layout-above.-media
       flex-direction: column-reverse
-    &.-orient-6
+    &.-layout-below
       flex-direction: column
-    &.-media-size-cover.-orient-3,
-    &.-media-size-cover.-orient-4
+    &.-media-size-cover.-layout-right,
+    &.-media-size-cover.-layout-left
       align-items: stretch
 
   &__content
@@ -43,16 +43,16 @@ $padding-block: 2em
     width: 100%
     &.-media-size-cover
       padding: $padding-block $padding-inline
-    &.-orient-3,
-    &.-orient-4
+    &.-layout-right,
+    &.-layout-left
       +media-up(s)
         width: 0
         flex-grow: 1
 
   &__figure
     width: 100%
-    &.-media-size-cover.-orient-3,
-    &.-media-size-cover.-orient-4
+    &.-media-size-cover.-layout-right,
+    &.-media-size-cover.-layout-left
       +media-up(s)
         +cover-media
         width: 50%
@@ -60,22 +60,22 @@ $padding-block: 2em
           &.-media-width-#{$i}
             width: calc(100% * #{$i} / var(--grid-columns))
 
-    &.-media-size-contain.-orient-5
+    &.-media-size-contain.-layout-above
       padding-bottom: $padding-block
-    &.-media-size-contain.-orient-6
+    &.-media-size-contain.-layout-below
       padding-top: $padding-block
-    &.-media-size-contain.-orient-3
+    &.-media-size-contain.-layout-right
       +media-up(s)
         padding-left: $padding-inline
       +media(s)
         padding-bottom: $padding-block
-    &.-media-size-contain.-orient-4
+    &.-media-size-contain.-layout-left
       +media-up(s)
         padding-right: $padding-inline
       +media(s)
         padding-bottom: $padding-block
-    &.-media-size-contain.-orient-3,
-    &.-media-size-contain.-orient-4
+    &.-media-size-contain.-layout-right,
+    &.-media-size-contain.-layout-left
       +media-up(s)
         width: calc((100% + #{$padding-inline}) / 2)
         @for $i from 2 through 10

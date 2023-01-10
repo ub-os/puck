@@ -45,15 +45,10 @@ class InlineMedia extends AbstractEntity
      */
     public string $bodytext = '';
     /**
-     * @var int
-     * @DatabaseField("int")
+     * @var string
+     * @DatabaseField("string")
      */
-    public int $imageorient = 0;
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $imagecols = 0;
+    public string $mediaLayout;
     /**
      * @var string
      * @DatabaseField("string")

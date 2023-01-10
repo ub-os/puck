@@ -27,7 +27,7 @@ $ctrl = [
         'accordions' => 'accordions_inline_media',
         'columns' => 'columns_inline_media',
         'cards' => 'cards_inline_media',
-        'stage_carousel' => 'stage_carousel_inline_media',
+        'hero_carousel' => 'hero_carousel_inline_media',
     ],
 ];
 $interface = [

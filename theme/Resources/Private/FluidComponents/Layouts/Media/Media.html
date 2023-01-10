@@ -3,7 +3,7 @@
     <fc:param name="name" type="string" optional="1" default="l-media"/>
     <fc:param name="media" type="array" optional="1"/>
     <fc:param name="text" type="string" optional="1"/>
-    <fc:param name="orient" type="integer" optional="1" default="5" />
+    <fc:param name="layout" type="integer" optional="1" default="above" />
     <fc:param name="justify" type="string" optional="1"/>
     <fc:param name="mediaWidth" type="integer" optional="1" default="5" />
     <fc:param name="textWidth" type="integer" optional="1" default="5" />
@@ -13,7 +13,7 @@
     <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile"/>
     <fc:renderer>
 
-        <div class="{name} -orient-{orient} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
+        <div class="{name} -layout-{layout} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
             <layout:row class="{name}__row" justify="{justify}">
                 <f:if condition="{media}">
                     <layout:row.item class="{name}__media" width="{mediaWidth}">
