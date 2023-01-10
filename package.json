@@ -12,8 +12,8 @@
   "scripts": {
     "watch": "run-p watch:js watch:css",
     "watch:dev": "run-p watch:js:dev watch:css:dev",
-    "build": "run-s createDist build:js build:css build:icons",
-    "build:dev": "run-s createDist build:js:dev build:css:dev build:icons",
+    "build": "run-s createDist build:icons build:js build:css",
+    "build:dev": "run-s createDist build:icons build:js:dev build:css:dev",
     "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && node build/icons.js",
     "build:ctype:configs": "node build/ctype-configs.js",
     "build:ctype:new": "node build/ctype-new.js",
