@@ -679,18 +679,6 @@
 					</relations>
 					<softrefs type="array"></softrefs>
 				</rec>
-				<rec index="36" type="array">
-					<uid>36</uid>
-					<pid>8</pid>
-					<title>milad-fakurian-fWJfsE93q1E-unsplash.jpg</title>
-					<relations index="rels" type="array">
-						<element index="sys_file:8" type="array">
-							<id>8</id>
-							<table>sys_file</table>
-						</element>
-					</relations>
-					<softrefs type="array"></softrefs>
-				</rec>
 				<rec index="37" type="array">
 					<uid>37</uid>
 					<pid>8</pid>
@@ -806,6 +794,30 @@
 					<relations index="rels" type="array">
 						<element index="sys_file:7" type="array">
 							<id>7</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+					<softrefs type="array"></softrefs>
+				</rec>
+				<rec index="48" type="array">
+					<uid>48</uid>
+					<pid>8</pid>
+					<title>rain.vimeo.jpg</title>
+					<relations index="rels" type="array">
+						<element index="sys_file:5" type="array">
+							<id>5</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+					<softrefs type="array"></softrefs>
+				</rec>
+				<rec index="49" type="array">
+					<uid>49</uid>
+					<pid>8</pid>
+					<title>rain.youtube.jpg</title>
+					<relations index="rels" type="array">
+						<element index="sys_file:4" type="array">
+							<id>4</id>
 							<table>sys_file</table>
 						</element>
 					</relations>
@@ -1806,8 +1818,12 @@ At vero eos et accusam ...</title>
 							<id>22</id>
 							<table>tt_content</table>
 						</element>
-						<element index="sys_file_reference:36" type="array">
-							<id>36</id>
+						<element index="sys_file_reference:48" type="array">
+							<id>48</id>
+							<table>sys_file_reference</table>
+						</element>
+						<element index="sys_file_reference:49" type="array">
+							<id>49</id>
 							<table>sys_file_reference</table>
 						</element>
 					</relations>
@@ -2349,6 +2365,23 @@ At vero eos et accusam ...</title>
 					</relations>
 					<softrefs type="array"></softrefs>
 				</rec>
+				<rec index="4" type="array">
+					<uid>4</uid>
+					<pid>0</pid>
+					<title>rain.youtube.jpg</title>
+					<relationLevel>1</relationLevel>
+					<relations index="rels" type="array">
+						<element index="sys_file_storage:1" type="array">
+							<id>1</id>
+							<table>sys_file_storage</table>
+						</element>
+						<element index="sys_file_metadata:4" type="array">
+							<id>4</id>
+							<table>sys_file_metadata</table>
+						</element>
+					</relations>
+					<softrefs type="array"></softrefs>
+				</rec>
 			</table>
 			<table index="sys_file_storage" type="array">
 				<rec index="1" type="array">
@@ -2439,6 +2472,19 @@ At vero eos et accusam ...</title>
 					</relations>
 					<softrefs type="array"></softrefs>
 				</rec>
+				<rec index="4" type="array">
+					<uid>4</uid>
+					<pid>0</pid>
+					<title>rain.youtube.jpg</title>
+					<relationLevel>2</relationLevel>
+					<relations index="rels" type="array">
+						<element index="sys_file:4" type="array">
+							<id>4</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+					<softrefs type="array"></softrefs>
+				</rec>
 			</table>
 		</records>
 		<pid_lookup type="array">
@@ -2453,6 +2499,7 @@ At vero eos et accusam ...</title>
 					<item index="2">1</item>
 					<item index="3">1</item>
 					<item index="5">1</item>
+					<item index="4">1</item>
 				</table>
 				<table index="sys_file_storage" type="array">
 					<item index="1">1</item>
@@ -2464,6 +2511,7 @@ At vero eos et accusam ...</title>
 					<item index="2">1</item>
 					<item index="3">1</item>
 					<item index="5">1</item>
+					<item index="4">1</item>
 				</table>
 			</page_contents>
 			<page_contents index="1" type="array">
@@ -2529,7 +2577,6 @@ At vero eos et accusam ...</title>
 					<item index="33">1</item>
 					<item index="34">1</item>
 					<item index="35">1</item>
-					<item index="36">1</item>
 					<item index="37">1</item>
 					<item index="38">1</item>
 					<item index="39">1</item>
@@ -2540,6 +2587,8 @@ At vero eos et accusam ...</title>
 					<item index="44">1</item>
 					<item index="45">1</item>
 					<item index="47">1</item>
+					<item index="48">1</item>
+					<item index="49">1</item>
 				</table>
 				<table index="tt_content" type="array">
 					<item index="29">1</item>
@@ -2666,6 +2715,10 @@ At vero eos et accusam ...</title>
 			</file>
 			<file index="99b427a2fa21bab7b383b8999eeb853f" type="array">
 				<filename>rain.vimeo.jpg</filename>
+				<filemtime>1673370586</filemtime>
+			</file>
+			<file index="3dc50ae3f91ddd3c81ab0d50d8d626d1" type="array">
+				<filename>rain.youtube.jpg</filename>
 				<filemtime>1673370586</filemtime>
 			</file>
 		</files_fal>
@@ -4918,48 +4971,6 @@ For each website you need a TypoScript template on the main page of your website
 				</field>
 			</related>
 		</tablerow>
-		<tablerow index="sys_file_reference:36" type="array">
-			<fieldlist index="data" type="array">
-				<field index="uid" type="integer">36</field>
-				<field index="pid" type="integer">8</field>
-				<field index="tstamp" type="integer">1673447334</field>
-				<field index="crdate" type="integer">1673447317</field>
-				<field index="cruser_id" type="integer">3</field>
-				<field index="deleted" type="integer">0</field>
-				<field index="hidden" type="integer">0</field>
-				<field index="sys_language_uid" type="integer">0</field>
-				<field index="l10n_parent" type="integer">0</field>
-				<field index="l10n_state" type="NULL"></field>
-				<field index="l10n_diffsource">{&quot;alternative&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;title&quot;:&quot;&quot;,&quot;crop&quot;:&quot;&quot;,&quot;uid_local&quot;:&quot;&quot;,&quot;hidden&quot;:&quot;&quot;,&quot;sys_language_uid&quot;:&quot;&quot;}</field>
-				<field index="t3ver_oid" type="integer">0</field>
-				<field index="t3ver_wsid" type="integer">0</field>
-				<field index="t3ver_state" type="integer">0</field>
-				<field index="t3ver_stage" type="integer">0</field>
-				<field index="uid_local" type="integer">8</field>
-				<field index="uid_foreign" type="integer">23</field>
-				<field index="tablenames">tx_theme_domain_model_inline_media</field>
-				<field index="fieldname">assets</field>
-				<field index="sorting_foreign" type="integer">1</field>
-				<field index="table_local">sys_file</field>
-				<field index="title" type="NULL"></field>
-				<field index="description" type="NULL"></field>
-				<field index="alternative" type="NULL"></field>
-				<field index="link"></field>
-				<field index="crop">{&quot;default&quot;:{&quot;cropArea&quot;:{&quot;height&quot;:0.7496251874062968,&quot;width&quot;:1,&quot;x&quot;:0,&quot;y&quot;:0.14842578710644677},&quot;selectedRatio&quot;:&quot;2:1&quot;,&quot;focusArea&quot;:null},&quot;mobile&quot;:{&quot;cropArea&quot;:{&quot;height&quot;:0.7496251874062968,&quot;width&quot;:1,&quot;x&quot;:0,&quot;y&quot;:0.14992503748125938},&quot;selectedRatio&quot;:&quot;2:1&quot;,&quot;focusArea&quot;:null}}</field>
-				<field index="autoplay" type="integer">0</field>
-			</fieldlist>
-			<related index="rels" type="array">
-				<field index="uid_local" type="array">
-					<type>db</type>
-					<relations index="itemArray" type="array">
-						<element index="0" type="array">
-							<id>8</id>
-							<table>sys_file</table>
-						</element>
-					</relations>
-				</field>
-			</related>
-		</tablerow>
 		<tablerow index="sys_file_reference:37" type="array">
 			<fieldlist index="data" type="array">
 				<field index="uid" type="integer">37</field>
@@ -5374,6 +5385,90 @@ For each website you need a TypoScript template on the main page of your website
 					<relations index="itemArray" type="array">
 						<element index="0" type="array">
 							<id>7</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+				</field>
+			</related>
+		</tablerow>
+		<tablerow index="sys_file_reference:48" type="array">
+			<fieldlist index="data" type="array">
+				<field index="uid" type="integer">48</field>
+				<field index="pid" type="integer">8</field>
+				<field index="tstamp" type="integer">1673474749</field>
+				<field index="crdate" type="integer">1673472688</field>
+				<field index="cruser_id" type="integer">3</field>
+				<field index="deleted" type="integer">0</field>
+				<field index="hidden" type="integer">0</field>
+				<field index="sys_language_uid" type="integer">0</field>
+				<field index="l10n_parent" type="integer">0</field>
+				<field index="l10n_state" type="NULL"></field>
+				<field index="l10n_diffsource">{&quot;alternative&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;title&quot;:&quot;&quot;,&quot;crop&quot;:&quot;&quot;,&quot;uid_local&quot;:&quot;&quot;,&quot;hidden&quot;:&quot;&quot;,&quot;sys_language_uid&quot;:&quot;&quot;}</field>
+				<field index="t3ver_oid" type="integer">0</field>
+				<field index="t3ver_wsid" type="integer">0</field>
+				<field index="t3ver_state" type="integer">0</field>
+				<field index="t3ver_stage" type="integer">0</field>
+				<field index="uid_local" type="integer">5</field>
+				<field index="uid_foreign" type="integer">23</field>
+				<field index="tablenames">tx_theme_domain_model_inline_media</field>
+				<field index="fieldname">assets</field>
+				<field index="sorting_foreign" type="integer">1</field>
+				<field index="table_local">sys_file</field>
+				<field index="title" type="NULL"></field>
+				<field index="description" type="NULL"></field>
+				<field index="alternative" type="NULL"></field>
+				<field index="link"></field>
+				<field index="crop">{&quot;default&quot;:{&quot;cropArea&quot;:{&quot;x&quot;:0.0005,&quot;y&quot;:0.068,&quot;width&quot;:0.999,&quot;height&quot;:0.888},&quot;selectedRatio&quot;:&quot;3:2&quot;,&quot;focusArea&quot;:null},&quot;mobile&quot;:{&quot;cropArea&quot;:{&quot;x&quot;:0,&quot;y&quot;:0.06533333333333333,&quot;width&quot;:0.999,&quot;height&quot;:0.888},&quot;selectedRatio&quot;:&quot;3:2&quot;,&quot;focusArea&quot;:null}}</field>
+				<field index="autoplay" type="integer">0</field>
+			</fieldlist>
+			<related index="rels" type="array">
+				<field index="uid_local" type="array">
+					<type>db</type>
+					<relations index="itemArray" type="array">
+						<element index="0" type="array">
+							<id>5</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+				</field>
+			</related>
+		</tablerow>
+		<tablerow index="sys_file_reference:49" type="array">
+			<fieldlist index="data" type="array">
+				<field index="uid" type="integer">49</field>
+				<field index="pid" type="integer">8</field>
+				<field index="tstamp" type="integer">1673474749</field>
+				<field index="crdate" type="integer">1673472688</field>
+				<field index="cruser_id" type="integer">3</field>
+				<field index="deleted" type="integer">0</field>
+				<field index="hidden" type="integer">0</field>
+				<field index="sys_language_uid" type="integer">0</field>
+				<field index="l10n_parent" type="integer">0</field>
+				<field index="l10n_state" type="NULL"></field>
+				<field index="l10n_diffsource">{&quot;alternative&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;title&quot;:&quot;&quot;,&quot;crop&quot;:&quot;&quot;,&quot;uid_local&quot;:&quot;&quot;,&quot;hidden&quot;:&quot;&quot;,&quot;sys_language_uid&quot;:&quot;&quot;}</field>
+				<field index="t3ver_oid" type="integer">0</field>
+				<field index="t3ver_wsid" type="integer">0</field>
+				<field index="t3ver_state" type="integer">0</field>
+				<field index="t3ver_stage" type="integer">0</field>
+				<field index="uid_local" type="integer">4</field>
+				<field index="uid_foreign" type="integer">23</field>
+				<field index="tablenames">tx_theme_domain_model_inline_media</field>
+				<field index="fieldname">assets</field>
+				<field index="sorting_foreign" type="integer">2</field>
+				<field index="table_local">sys_file</field>
+				<field index="title" type="NULL"></field>
+				<field index="description" type="NULL"></field>
+				<field index="alternative" type="NULL"></field>
+				<field index="link"></field>
+				<field index="crop">{&quot;default&quot;:{&quot;cropArea&quot;:{&quot;x&quot;:0,&quot;y&quot;:0,&quot;width&quot;:1,&quot;height&quot;:1},&quot;selectedRatio&quot;:&quot;free&quot;,&quot;focusArea&quot;:null},&quot;mobile&quot;:{&quot;cropArea&quot;:{&quot;x&quot;:0,&quot;y&quot;:0,&quot;width&quot;:1,&quot;height&quot;:1},&quot;selectedRatio&quot;:&quot;free&quot;,&quot;focusArea&quot;:null}}</field>
+				<field index="autoplay" type="integer">0</field>
+			</fieldlist>
+			<related index="rels" type="array">
+				<field index="uid_local" type="array">
+					<type>db</type>
+					<relations index="itemArray" type="array">
+						<element index="0" type="array">
+							<id>4</id>
 							<table>sys_file</table>
 						</element>
 					</relations>
@@ -8220,7 +8315,7 @@ For each website you need a TypoScript template on the main page of your website
 			<fieldlist index="data" type="array">
 				<field index="uid" type="integer">23</field>
 				<field index="pid" type="integer">8</field>
-				<field index="tstamp" type="integer">1673447334</field>
+				<field index="tstamp" type="integer">1673474749</field>
 				<field index="crdate" type="integer">1673446644</field>
 				<field index="cruser_id" type="integer">3</field>
 				<field index="deleted" type="integer">0</field>
@@ -8243,15 +8338,15 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="media_layout">right-float</field>
 				<field index="layout">0</field>
 				<field index="column_width" type="integer">0</field>
-				<field index="item_column_width" type="integer">5</field>
-				<field index="media_column_width" type="integer">5</field>
+				<field index="item_column_width" type="integer">2</field>
+				<field index="media_column_width" type="integer">4</field>
 				<field index="text_column_width" type="integer">10</field>
 				<field index="column_position">space-between</field>
 				<field index="card_media_size">cover</field>
 				<field index="media_max_height" type="integer">0</field>
 				<field index="item_type">accordions</field>
 				<field index="frame_class">default</field>
-				<field index="assets">1</field>
+				<field index="assets">2</field>
 			</fieldlist>
 			<related index="rels" type="array">
 				<field index="parent_uid" type="array">
@@ -8267,7 +8362,11 @@ For each website you need a TypoScript template on the main page of your website
 					<type>db</type>
 					<relations index="itemArray" type="array">
 						<element index="0" type="array">
-							<id>36</id>
+							<id>48</id>
+							<table>sys_file_reference</table>
+						</element>
+						<element index="1" type="array">
+							<id>49</id>
 							<table>sys_file_reference</table>
 						</element>
 					</relations>
@@ -8443,7 +8542,7 @@ For each website you need a TypoScript template on the main page of your website
 			<fieldlist index="data" type="array">
 				<field index="uid" type="integer">24</field>
 				<field index="pid" type="integer">8</field>
-				<field index="tstamp" type="integer">1673447334</field>
+				<field index="tstamp" type="integer">1673474749</field>
 				<field index="crdate" type="integer">1673446644</field>
 				<field index="cruser_id" type="integer">3</field>
 				<field index="deleted" type="integer">0</field>
@@ -8666,7 +8765,7 @@ For each website you need a TypoScript template on the main page of your website
 			<fieldlist index="data" type="array">
 				<field index="uid" type="integer">25</field>
 				<field index="pid" type="integer">8</field>
-				<field index="tstamp" type="integer">1673447334</field>
+				<field index="tstamp" type="integer">1673474749</field>
 				<field index="crdate" type="integer">1673446644</field>
 				<field index="cruser_id" type="integer">3</field>
 				<field index="deleted" type="integer">0</field>
@@ -11192,7 +11291,7 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="newUntil" type="integer">0</field>
 				<field index="description" type="NULL"></field>
 				<field index="no_search" type="integer">0</field>
-				<field index="SYS_LASTCHANGED" type="integer">1673365770</field>
+				<field index="SYS_LASTCHANGED" type="integer">1673452130</field>
 				<field index="abstract"></field>
 				<field index="module"></field>
 				<field index="extendToSubpages" type="integer">0</field>
@@ -11481,6 +11580,48 @@ For each website you need a TypoScript template on the main page of your website
 				</field>
 			</related>
 		</tablerow>
+		<tablerow index="sys_file:4" type="array">
+			<fieldlist index="data" type="array">
+				<field index="uid">4</field>
+				<field index="pid">0</field>
+				<field index="tstamp">1673370586</field>
+				<field index="last_indexed">0</field>
+				<field index="missing">0</field>
+				<field index="storage">1</field>
+				<field index="type">2</field>
+				<field index="metadata">0</field>
+				<field index="identifier">/placeholder/rain.youtube.jpg</field>
+				<field index="identifier_hash">fba6647c7a0973b6c88337eefe0ba710c5fc8dd9</field>
+				<field index="folder_hash">eb4baf1241917db5719a5608526ae41bc884b1ad</field>
+				<field index="extension">jpg</field>
+				<field index="mime_type">image/jpeg</field>
+				<field index="name">rain.youtube.jpg</field>
+				<field index="sha1">b7b6edb05d6f4ad694aad7eff3096f75b67cc2ac</field>
+				<field index="size">344697</field>
+				<field index="creation_date">1673370586</field>
+				<field index="modification_date">1673370586</field>
+			</fieldlist>
+			<related index="rels" type="array">
+				<field index="storage" type="array">
+					<type>db</type>
+					<relations index="itemArray" type="array">
+						<element index="0" type="array">
+							<id>1</id>
+							<table>sys_file_storage</table>
+						</element>
+					</relations>
+				</field>
+				<field index="metadata" type="array">
+					<type>db</type>
+					<relations index="itemArray" type="array">
+						<element index="0" type="array">
+							<id>4</id>
+							<table>sys_file_metadata</table>
+						</element>
+					</relations>
+				</field>
+			</related>
+		</tablerow>
 		<tablerow index="sys_file_storage:1" type="array">
 			<fieldlist index="data" type="array">
 				<field index="uid">1</field>
@@ -11744,6 +11885,42 @@ For each website you need a TypoScript template on the main page of your website
 				</field>
 			</related>
 		</tablerow>
+		<tablerow index="sys_file_metadata:4" type="array">
+			<fieldlist index="data" type="array">
+				<field index="uid">4</field>
+				<field index="pid">0</field>
+				<field index="tstamp">1673370586</field>
+				<field index="crdate">1673370586</field>
+				<field index="cruser_id">3</field>
+				<field index="sys_language_uid">0</field>
+				<field index="l10n_parent">0</field>
+				<field index="l10n_state" type="NULL"></field>
+				<field index="t3_origuid">0</field>
+				<field index="l10n_diffsource"></field>
+				<field index="t3ver_oid">0</field>
+				<field index="t3ver_wsid">0</field>
+				<field index="t3ver_state">0</field>
+				<field index="t3ver_stage">0</field>
+				<field index="file">4</field>
+				<field index="title" type="NULL"></field>
+				<field index="width">3000</field>
+				<field index="height">2000</field>
+				<field index="description" type="NULL"></field>
+				<field index="alternative" type="NULL"></field>
+				<field index="categories">0</field>
+			</fieldlist>
+			<related index="rels" type="array">
+				<field index="file" type="array">
+					<type>db</type>
+					<relations index="itemArray" type="array">
+						<element index="0" type="array">
+							<id>4</id>
+							<table>sys_file</table>
+						</element>
+					</relations>
+				</field>
+			</related>
+		</tablerow>
 	</records>
 	<files_fal type="array">
 		<file index="0b3d1c4e2c9dc52e423d2b39ae933318" type="array">
@@ -11775,6 +11952,11 @@ For each website you need a TypoScript template on the main page of your website
 			<filename>rain.vimeo.jpg</filename>
 			<filemtime>1673370586</filemtime>
 			<content_sha1>cbde64558af168cf4e06939f3228a5487102c70e</content_sha1>
+		</file>
+		<file index="3dc50ae3f91ddd3c81ab0d50d8d626d1" type="array">
+			<filename>rain.youtube.jpg</filename>
+			<filemtime>1673370586</filemtime>
+			<content_sha1>b7b6edb05d6f4ad694aad7eff3096f75b67cc2ac</content_sha1>
 		</file>
 	</files_fal>
 </T3RecordDocument>

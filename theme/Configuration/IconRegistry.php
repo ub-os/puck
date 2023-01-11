@@ -1,16 +1,20 @@
 <?php
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 
 $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 
 $iconRegistry->registerIcon(
     'ext-news-wizard-icon',
-    BitmapIconProvider::class,
+    SvgIconProvider::class,
     ['source' => 'EXT:news/Resources/Public/icons/Extension.svg']
 );
-
+$iconRegistry->registerIcon(
+    'content-special-shortcut',
+    SvgIconProvider::class,
+    ['source' => 'EXT:theme/Resources/Public/Icons/Content/Shortcut.svg']
+);
 $icons = [
     'Auto',
     'None',
@@ -48,23 +52,10 @@ $icons = [
     'MediaLayoutLeftFloat',
     'MediaLayoutRightFloat'
 ];
-
 foreach ($icons as $item) {
     $iconRegistry->registerIcon(
-        strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $item)),
-        BitmapIconProvider::class,
+        GeneralUtility::camelCaseToLowerCaseUnderscored($item),
+        SvgIconProvider::class,
         ['source' => 'EXT:theme/Resources/Public/Icons/Content/'.$item.'.svg']
     );
 }
-
-/*$iconRegistry->registerIcon(
-    'content-special-html',
-    BitmapIconProvider::class,
-    ['source' => 'EXT:theme/Resources/Public/Icons/Content/Html.svg']
-);*/
-
-$iconRegistry->registerIcon(
-    'content-special-shortcut',
-    BitmapIconProvider::class,
-    ['source' => 'EXT:theme/Resources/Public/Icons/Content/Shortcut.svg']
-);
