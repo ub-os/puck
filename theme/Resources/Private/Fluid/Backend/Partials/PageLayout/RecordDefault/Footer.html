@@ -24,7 +24,7 @@
             value="{f:if(condition:'{item.record.CType} == \'theme_media\' && {item.record.content_type} != \'assets\' && {item.record.content_type}',
             then:1,else:0)}"/>
 <f:variable name="show_media_layout"
-            value="{f:if(condition:'({item.record.CType} == \'theme_media\' || {item.record.CType} == \'theme_full_width_media\') &&  {item.record.content_type}',
+            value="{f:if(condition:'({item.record.CType} == \'theme_media\' || {item.record.CType} == \'theme_full_width_media\' || {item.record.CType} == \'theme_modal\') &&  {item.record.media_layout}',
             then:1,else:0)}"/>
 
 <f:if condition="
@@ -35,12 +35,16 @@
     {show_frame_class} ||
     {show_content_type} ||
     {show_space_before} ||
-    {show_space_after}
+    {show_space_after} ||
+    {show_media_layout}
 ">
     <div class="t3-page-ce-footer">
         <div class="t3-page-ce-info">
             <f:if condition="{show_layout}">
                 <f:render section="footer_col" arguments="{col: 'layout', item: item}"/>
+            </f:if>
+            <f:if condition="{show_media_layout}">
+                <f:render section="footer_col" arguments="{col: 'media_layout', item: item}"/>
             </f:if>
             <f:if condition="{show_frame_class}">
                 <f:render section="footer_col" arguments="{col: 'frame_class', item: item}"/>

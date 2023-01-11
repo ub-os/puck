@@ -27,7 +27,7 @@
             <f:variable name="file" value="{file.originalResource}"/>
           </f:if>
           <f:variable name="type" value="{file.extension}"/>
-          <div class="{name}__figure {class}">
+          <figure class="{name}__figure {class}">
             <f:if condition="{type} == 'jpeg' || {type} == 'jpg' || {type} == 'png' || {type} == 'gif' || {type} == 'webp'">
               <f:then>
                 <element:picture
@@ -72,7 +72,7 @@
             <f:if condition="{showDesc} && {file.description}">
               <figcaption class="{name}__file__desc">{file.description}</figcaption>
             </f:if>
-          </div>
+          </figure>
         </f:if>
       </f:for>
     </f:if>

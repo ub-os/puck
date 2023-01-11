@@ -5,13 +5,13 @@ class Accordion extends Toggleable {
     constructor(target, { ...options }) {
         super(target, { ...options })
     }
-    toggleOn() {
-        super.toggleOn();
+    toggleOn(transition= true) {
+        super.toggleOn(transition);
         this.node.style.height = `${(this.node.scrollHeight).toString()}px`
         this.toggles.forEach(t => t.ariaExpanded = 'true')
     }
-    toggleOff() {
-        super.toggleOff()
+    toggleOff(transition= true) {
+        super.toggleOff(transition)
         this.node.style.height = `0`
         this.toggles.forEach(t => t.ariaExpanded = 'false')
     }

@@ -1,0 +1,84 @@
+base: /
+errorHandling:
+  -
+    errorCode: 404
+    errorHandler: Page
+    errorContentSource: 't3://page?uid=14'
+languages:
+  -
+    title: de
+    enabled: true
+    languageId: 0
+    base: /
+    typo3Language: de
+    locale: de_DE.UTF-8
+    iso-639-1: de
+    navigationTitle: de
+    hreflang: de-DE
+    direction: ltr
+    flag: de
+    websiteTitle: ''
+  -
+    title: en
+    enabled: true
+    base: /en/
+    typo3Language: default
+    locale: en_US.UTF-8
+    iso-639-1: en
+    websiteTitle: ''
+    navigationTitle: en
+    hreflang: en-US
+    direction: ''
+    fallbackType: free
+    fallbacks: ''
+    flag: en-us-gb
+    languageId: 1
+    xml_sitemap_path: /en/sitemap.xml
+rootPageId: 1
+routeEnhancers:
+  PageTypeSuffix:
+    type: PageType
+    limitToPages:
+      - 1
+    map:
+      sitemap-index.xml: 1533906435
+  PageTypeSuffix2:
+    type: PageType
+    default: /
+    index: ''
+    map:
+      /: 0
+  IndexedSearchPlugin:
+    type: Extbase
+    namespace: tx_indexedsearch_pi2
+    routes:
+      -
+        routePath: /s
+        _controller: 'Search::search'
+        _action: 'search::search'
+      -
+        routePath: '/s/{search/sword}'
+        _controller: 'Search::search'
+        _action: 'search::search'
+        requirements:
+          -
+            search/sword: '[^/=?]*'
+    defaultController: 'Search::search'
+    defaultAction: 'search::search'
+routes:
+  -
+    route: sitemap.xml
+    type: uri
+    source: 't3://page?uid=1&type=1533906435&sitemap=pages'
+  -
+    route: en/sitemap.xml
+    type: uri
+    source: 't3://page?uid=1&type=1533906435&sitemap=pages&lang=1'
+settings:
+  redirects:
+    autoUpdateSlugs: true
+    autoCreateRedirects: false
+    redirectTTL: 0
+    httpStatusCode: 307
+websiteTitle: ''
+xml_sitemap_path: sitemap.xml

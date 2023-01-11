@@ -30,7 +30,7 @@ _app.components = {
                 return new ScrollReveal(li, {
                     observationTarget: node,
                     timing: {
-                        delay: 100 + index * 200
+                        delay: 50 + index * 100
                     },
                 }).mount()
             }),
@@ -38,7 +38,7 @@ _app.components = {
                 return new ScrollReveal(media, {
                     observationTarget: node,
                     timing: {
-                        delay: 100 + index * 200
+                        delay: 50 + index * 100
                     },
                 }).mount()
             })

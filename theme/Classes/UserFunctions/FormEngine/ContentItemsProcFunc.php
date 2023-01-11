@@ -20,6 +20,9 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         'theme_full_width_media' => [
             'media_layout' => ['above','below','left','right']
         ],
+        'theme_modal' => [
+            'media_layout' => ['above','below','left','right']
+        ],
     ];
 
     /**
@@ -94,13 +97,16 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     public function mediaColumnWidth(&$params): void
     {
         // maximum width = container width - media width
-        if ($this->val($params['row']['CType']) === 'theme_media' && in_array($this->val($params['row']['media_layout']), ['above','below'])) {
+        if (!in_array($this->val($params['row']['CType']), ['theme_media','theme_modal'])) {
+            return;
+        }
+        if (in_array($this->val($params['row']['media_layout']), ['above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($params) {
                 return $item[1] == $this->val($params['row']['container_width']);
             });
             return;
         }
-        if (in_array($this->val($params['row']['media_layout']), ['left-float','right-float'])) {
+        if (in_array($this->val($params['row']['media_layout']), ['left-float','right-float']) || $this->val($params['row']['CType']) === 'theme_modal') {
             // if media_layout is float: maximum width = container width - 2
             $maximum = $this->val($params['row']['container_width']) - 2;
         } else {

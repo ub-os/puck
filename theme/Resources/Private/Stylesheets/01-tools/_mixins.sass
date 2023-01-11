@@ -69,13 +69,17 @@
   flex: 0 0 auto
   //width: percentage(divide($columns, $custom-grid-columns))
   width: calc(100% * #{$columns} / #{$custom-grid-columns})
+  &>*
+    --grid-columns: #{$columns}
+    --grid-columns-original: #{$columns}
   @each $mb, $value in $columns-mb
     +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
 
-=grid-col-mb($mb, $size, $columns: $grid-columns)
+=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
   +media($mb)
-    width: percentage(divide($size, $columns))
-
+    width: calc(100% * #{$columns} / #{$custom-grid-columns})
+    &>*
+      --grid-columns: #{$columns}
 
 =spacing($side: 'both', $size: 'm', $property: padding, $multiplier: 1)
   $spacing: $multiplier * map-get(sizes(), $size)

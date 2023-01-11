@@ -27,10 +27,9 @@ ExtensionManagementUtility::addPageTSConfig(
 ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:theme/Configuration/TSconfig/User.tsconfig'"
 );
+require_once ExtensionManagementUtility::extPath('theme') . '/Configuration/IconRegistry.php';
 
 Loader::extLocalconf('UBOS', 'theme', array('ContentObjects', 'SmartObjects', 'Plugins'));
-
-require_once ExtensionManagementUtility::extPath('theme') . '/Configuration/IconRegistry.php';
 
 $contentModels = ThemeUtility::indexContentModels();
 foreach($contentModels as $model) {

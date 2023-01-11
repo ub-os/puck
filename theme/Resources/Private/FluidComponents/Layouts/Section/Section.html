@@ -4,7 +4,7 @@
   <fc:param name="id" type="string" optional="1"/>
   <fc:param name="top" type="string" optional="1" default="auto"/>
   <fc:param name="bottom" type="string" optional="1" default="auto"/>
-  <fc:param name="container" type="string" optional="1" default="cols12" />
+  <fc:param name="container" type="boolean" optional="1" default="1" />
   <fc:param name="object" type="mixed" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
@@ -19,7 +19,7 @@
     <section class="{name} {class} {mods -> ub:modClass()} {f:if(condition: '(!{object.header} || {object.headerLayout} > 29) && !{object.headerSpacingOverride}', then: '-no-h2')}"
              id="{id}"
              {attributes}>
-      <f:if condition="{container} == '0'">
+      <f:if condition="!{container}">
         <f:then>
           <f:format.raw>{content}</f:format.raw>
         </f:then>

@@ -42,7 +42,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
      * @param $params
      * @return void
      */
-    public function media_layout(&$params): void
+    public function mediaLayout(&$params): void
     {
         $parentRow = $this->getInlineParentRow($params);
         if (!$parentRow) {
@@ -52,17 +52,18 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
         if (!GeneralUtility::inList('theme_columns,theme_cards', $this->val($parentRow['CType']))) {
             return;
         }
+
         $items = $params['items'];
         if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType']))) {
             $items = array_filter($items, function ($item) {
-                return in_array($item[1], ['above','below','left','right']);
+                return GeneralUtility::inList('above,below,left,right', $item[1]);
             });
         }
         // if column width is smaller than 4 allow only media_layout "image above" and "image below"
         if (($this->val($params['row']['column_width']) == 0 && $this->val($parentRow['item_column_width']) < 4)
             || ($this->val($params['row']['column_width']) < 4  && $this->val($params['row']['column_width']) != 0)) {
             $items = array_filter($items, function ($item) {
-                return in_array($item[1], ['above','below']);
+                return GeneralUtility::inList('above,below', $item[1]);
             });
         }
         $params['items'] = $items;
@@ -136,7 +137,7 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
             return;
         }
         $columnWidth = $this->getComputedContainerWidth($params);
-        if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType'])) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
+        if (GeneralUtility::inList('theme_cards', $this->val($parentRow['CType'])) && in_array($this->val($params['row']['media_layout']), ['left','right'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($columnWidth) {
                 return $item[1] <= ($columnWidth - 2);
             });

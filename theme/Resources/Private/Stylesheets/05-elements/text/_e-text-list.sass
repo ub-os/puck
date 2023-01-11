@@ -24,7 +24,7 @@
     display: inline-block
     width: var(--width-list-symbol)
     height: var(--height-list-symbol)
-    margin-left: - var(--width-list-offset)
+    margin-left: calc( -1 * var(--width-list-offset))
     margin-right: calc( var(--width-list-offset) - var(--width-list-symbol) )
     vertical-align: middle
     color: var(--color-list-symbol)
@@ -50,7 +50,6 @@ ol.e-text-list
       counter-reset: ol-counter $reset
   &>li
     counter-increment: ol-counter
-    padding-left: 0
 
   &>li:before
     content: counter(ol-counter)'.'

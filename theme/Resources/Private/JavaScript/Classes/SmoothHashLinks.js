@@ -4,7 +4,7 @@
 
 export default class SmoothHashLinks {
   constructor(
-      offset = 200) {
+      offset = 100) {
     this.hashLinks = document.querySelectorAll('a[href*="#"]');
     this.offset = offset;
   }

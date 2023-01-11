@@ -6,5 +6,9 @@
   &__headline
     +typo-h3
     color: var(--color-link)
+
+  &__headline + &__body
+    +spacing(top, xs)
+
   &:hover &__headline
     color: var(--color-link--hover)

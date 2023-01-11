@@ -3,25 +3,29 @@ import {Toggleable, toggleEvents} from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
 
 class Modal extends Toggleable {
-    constructor(target, { toggleOffOnOutsideClick = true, ...options }) {
-        super(target, { toggleOffOnOutsideClick, ...options })
+    constructor(target, { moveToModalContainer = true, toggleOffOnOutsideClick = true, ...options }) {
+        super(target, { moveToModalContainer, toggleOffOnOutsideClick, ...options })
+        if (moveToModalContainer) {
+            this.node = document.querySelector('[data-modal-container]').appendChild(this.node)
+        }
         this.previousFocusable = null
         this.focusTrap = new FocusTrap({ node: this.node })
     }
-    toggleOn() {
-        super.toggleOn();
+    toggleOn(transition= true) {
+        super.toggleOn(transition);
         this.node.removeAttribute('aria-hidden')
         this.node.role = 'dialog'
         this.node.ariaModal = 'true'
         this.focusTrap.firstFocusable.focus()
     }
-    toggleOff() {
-        super.toggleOff()
+    toggleOff(transition= true) {
+        super.toggleOff(transition)
         this.node.ariaHidden = 'true'
         this.node.removeAttribute('aria-modal')
         this.node.removeAttribute('role')
         if (this.previousFocusable) this.previousFocusable.focus()
     }
+
     mount() {
         super.mount()
         this.focusTrap.mount()

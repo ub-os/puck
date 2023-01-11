@@ -11,6 +11,7 @@ use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
 use UBOS\Theme\Domain\Model\Page;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 
 /**
  * @DatabaseTable("tt_content")
@@ -76,4 +77,21 @@ class Media extends Text
      * @DatabaseField("int")
      */
     public int $mediaMaxHeight = 0;
+
+    /**
+     * @var string
+     * @Transient
+     */
+    protected string $mediaLayoutDirection = '';
+
+    /**
+     * @return string
+     */
+    public function getMediaLayoutDirection(): string
+    {
+        if (in_array($this->mediaLayout, ['above','below'])) {
+            return 'column';
+        }
+        return 'row';
+    }
 }

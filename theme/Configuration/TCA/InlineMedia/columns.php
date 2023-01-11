@@ -182,6 +182,7 @@ $columns = [
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
+            'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->mediaLayout',
             'disableNoMatchingValueElement' => true,
             'items' => [
                 ['Above text', 'above',

@@ -292,7 +292,12 @@ $types['theme_modal'] = [
             'config' => [
                 'enableRichtext' => true,
             ]
-        ]
+        ],
+        'media_layout' => [
+            'config' => [
+                'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
+            ]
+        ],
     ]
 ];
 

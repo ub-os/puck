@@ -11,27 +11,31 @@
         <f:variable name="options" value="{service:file.extension,id:file.contents,width:width}"/>
         <f:variable name="localPoster" value="{ub:utility.posterImage(src:'fileadmin{file.identifier}')}"/>
         <div aria-controls="{id}" class="{name}" data-video-embed="{options -> f:format.json()}">
-            <f:if condition="{localPoster}">
-                <f:then>
-                    <element:picture
-                            src="{localPoster}"
-                            loading="lazy"
-                            name="{name}"
-                            retina="{retina}"
-                            sources="{
+            <div class="{name}__poster">
+                <f:if condition="{localPoster}">
+                    <f:then>
+                        <element:picture
+                                src="{localPoster}"
+                                loading="lazy"
+                                name="{name}"
+                                retina="{retina}"
+                                sources="{
                         xs: {width: width},
                         0: {width: 450}
                     }"
-                            webp="{webp}"
-                            width="{width}"/>
-                </f:then>
-                <f:else>
-                    <img alt="{file.alternative}"
-                         class="{name}__image"
-                         loading="lazy"
-                         src="{ub:utility.getOnlineMediaPoster(service:file.extension,id:file.contents)}">
-                </f:else>
-            </f:if>
+                                webp="{webp}"
+                                width="{width}"/>
+                    </f:then>
+                    <f:else>
+                        <picture>
+                            <img alt="{file.alternative}"
+                                 class="{name}__image"
+                                 loading="lazy"
+                                 src="{ub:utility.getOnlineMediaPoster(service:file.extension,id:file.contents)}">
+                        </picture>
+                    </f:else>
+                </f:if>
+            </div>
             <f:if condition="!{openInModal}">
                 <div class="{name}__frame" id="{id}">
                 </div>

@@ -44,7 +44,7 @@ class Toggleable {
     if (this.addMatchingHashLinksToToggles) {
       this.toggles = [
         ...this.toggles,
-        ...document.querySelectorAll(`a[href="/#${this.id}"]`)
+        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${window.location.pathname}#${this.id}"], a[href="${window.location.href}#${this.id}"]`)
       ]
     }
     if (!this.toggles.length) {

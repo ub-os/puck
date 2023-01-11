@@ -8,6 +8,7 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 
 /**
  * @DatabaseTable("tx_theme_domain_model_inline_media")
@@ -110,4 +111,20 @@ class InlineMedia extends AbstractEntity
         $this->assets = new ObjectStorage();
     }
 
+    /**
+     * @var string
+     * @Transient
+     */
+    protected string $mediaLayoutDirection = '';
+
+    /**
+     * @return string
+     */
+    public function getMediaLayoutDirection(): string
+    {
+        if (in_array($this->mediaLayout, ['above','below'])) {
+            return 'column';
+        }
+        return 'row';
+    }
 }

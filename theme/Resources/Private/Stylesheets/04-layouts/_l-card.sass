@@ -1,5 +1,3 @@
-$padding-inline: 2em
-$padding-block: 2em
 
 .l-card
   // color variables
@@ -11,6 +9,12 @@ $padding-block: 2em
   --color-accent-alt: #{$blue-cyan-process}
   --color-link: #{$lilac-dark-orchid}
   --color-link--hover: #{$lilac-electric}
+
+  --padding-block: 2em
+  --padding-inline: 2em
+  +media(s)
+    //--padding-block: 1.5em
+    //--padding-inline: 10%
   &
     +flex(column, flex-start, flex-start)
     position: relative
@@ -23,7 +27,7 @@ $padding-block: 2em
       flex-direction: column-reverse
       justify-content: space-between
     &.-media-size-contain
-      padding: $padding-block $padding-inline
+      padding: var(--padding-block) var(--padding-inline)
     &.-layout-right
       +media-up(s)
         flex-direction: row
@@ -42,7 +46,7 @@ $padding-block: 2em
     position: relative
     width: 100%
     &.-media-size-cover
-      padding: $padding-block $padding-inline
+      padding: var(--padding-block) var(--padding-inline)
     &.-layout-right,
     &.-layout-left
       +media-up(s)
@@ -58,26 +62,25 @@ $padding-block: 2em
         width: 50%
         @for $i from 2 through 10
           &.-media-width-#{$i}
-            width: calc(100% * #{$i} / var(--grid-columns))
-
+            width: calc(100% * #{$i} / var(--grid-columns-original))
     &.-media-size-contain.-layout-above
-      padding-bottom: $padding-block
+      padding-bottom: var(--padding-block)
     &.-media-size-contain.-layout-below
-      padding-top: $padding-block
+      padding-top: var(--padding-block)
     &.-media-size-contain.-layout-right
       +media-up(s)
-        padding-left: $padding-inline
+        padding-left: var(--padding-inline)
       +media(s)
-        padding-bottom: $padding-block
+        padding-bottom: var(--padding-block)
     &.-media-size-contain.-layout-left
       +media-up(s)
-        padding-right: $padding-inline
+        padding-right: var(--padding-inline)
       +media(s)
-        padding-bottom: $padding-block
+        padding-bottom: var(--padding-block)
     &.-media-size-contain.-layout-right,
     &.-media-size-contain.-layout-left
       +media-up(s)
-        width: calc((100% + #{$padding-inline}) / 2)
+        width: calc((100% + #{var(--padding-inline)}) / 2)
         @for $i from 2 through 10
           &.-media-width-#{$i}
-            width: calc((100% + #{$padding-inline}) * #{$i} / var(--grid-columns))
+            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))

@@ -42,8 +42,9 @@ class Page extends AbstractEntity
     public string $description = '';
     /**
      * @var string
+     * @DatabaseField(type="string")
      */
-    public string $abstract = '';
+    public string $teaserText = '';
     /**
      * @var string
      */
