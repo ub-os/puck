@@ -1,0 +1,13 @@
+
+// RTE
+RTE.default.preset = puck_default
+RTE.default.buttons.link.relAttribute.enabled = 1
+
+// clean copy
+TCEMAIN.table.pages.disablePrependAtCopy = 1
+TCEMAIN.table.pages.disableHideAtCopy = 1
+TCEMAIN.table.tt_content.disablePrependAtCopy = 1
+TCEMAIN.table.tt_content.disableHideAtCopy = 1
+TCAdefaults.tt_content.imagecols = 1
+
+

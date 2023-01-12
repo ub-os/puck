@@ -5,8 +5,8 @@
   "type": "module",
   "config": {
     "path": {
-      "src": "theme/Resources/Private/",
-      "dist": "theme/Resources/Public/"
+      "src": "puck/Resources/Private/",
+      "dist": "puck/Resources/Public/"
     }
   },
   "scripts": {
@@ -17,10 +17,10 @@
     "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && node build/icons.js",
     "build:ctype:configs": "node build/ctype-configs.js",
     "build:ctype:new": "node build/ctype-new.js",
-    "watch:js": "onchange 'theme/Resources/Private/JavaScript/**/*.js' -- run-s build:js",
-    "watch:css": "onchange 'theme/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
-    "watch:js:dev": "onchange 'theme/Resources/Private/JavaScript/**/*.js' -- run-s build:js:dev",
-    "watch:css:dev": "onchange 'theme/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css:dev",
+    "watch:js": "onchange 'puck/Resources/Private/JavaScript/**/*.js' -- run-s build:js",
+    "watch:css": "onchange 'puck/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
+    "watch:js:dev": "onchange 'puck/Resources/Private/JavaScript/**/*.js' -- run-s build:js:dev",
+    "watch:css:dev": "onchange 'puck/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css:dev",
     "build:js": "run-s build:js:dev uglify",
     "build:css": "run-s build:css:dev minifycss",
     "build:js:dev": "run-s eslint browserify",

@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const contentPath = 'theme/Configuration/_Content';
+const contentPath = 'puck/Configuration/_Content';
 const args = process.argv.slice(2);
 const ctype = args[0];
 const camelCase = args[1];
@@ -34,7 +34,7 @@ if (options.dataProcessing) {
             dataProcessing += `
         ${i+1}0 = TYPO3\\CMS\\Frontend\\DataProcessing\\DatabaseQueryProcessor
         ${i+1}0 {
-            table = tx_theme_domain_model_inline_textmedia
+            table = tx_puck_domain_model_inline_textmedia
             pidInList.field = pid
             where {
                 data = field:uid

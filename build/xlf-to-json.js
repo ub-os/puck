@@ -3,7 +3,7 @@ import xliff from 'xliff';
 import path from 'path';
 
 const extensions = [
-    'theme'
+    'puck'
 ];
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);

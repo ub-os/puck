@@ -3,8 +3,8 @@ import globImporter from 'node-sass-glob-importer';
 import fs from 'fs';
 import path from 'path';
 
-const sourcePath = "./theme/Resources/Private/Stylesheets/";
-const distPath = "./theme/Resources/Public/css/";
+const sourcePath = "./puck/Resources/Private/Stylesheets/";
+const distPath = "./puck/Resources/Public/css/";
 const files = [
   "styles",
   "be-ck-contents",

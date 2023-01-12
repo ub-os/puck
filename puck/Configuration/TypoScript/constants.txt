@@ -1,0 +1,32 @@
+
+confDir = EXT:puck/Configuration
+resDir = EXT:puck/Resources
+
+cssDev = EXT:puck/Resources/Public/css/styles.css
+cssProd = EXT:puck/Resources/Public/css/styles.min.css
+
+jsDev =  EXT:puck/Resources/Public/js/app.js
+jsProd =  EXT:puck/Resources/Public/js/app.min.js
+
+## Development state variable -  Set to 0 in Production!
+## when set to 0: cache enabled, minified assets are included and compressed
+development = 1
+
+# customsubcategory=pageUids=Page identifiers
+# customsubcategory=appearance=Appearance
+navUid {
+    # cat=puck/pageUids/1; type=int; label=Parent uid of main navigation
+    main = 1
+    # cat=puck/pageUids/2; type=int; label=Parent uid of footer navigation
+    footer = 0
+    # cat=puck/pageUids/3; type=int; label=Parent uid of social navigation
+    social = 0
+    # cat=puck/pageUids/4; type=int; label=Parent uid of meta navigation
+    meta = 0
+}
+search {
+    # cat=puck/pageUids/5; type=int; label=Uid of search plugin page
+    pid = 0
+}
+# cat=puck/appearance/1; type=int; label=Page grid width in px
+gridWidth = 1300

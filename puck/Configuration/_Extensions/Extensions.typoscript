@@ -1,0 +1,4 @@
+@import 'EXT:puck/Configuration/_Extensions/_*.typoscript'
+
+module.tx_backend.view.partialRootPaths.100 = EXT:puck/Resources/Private/Fluid/Backend/Partials/
+

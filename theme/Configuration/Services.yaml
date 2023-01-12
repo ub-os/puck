@@ -1,6 +1,0 @@
-services:
-  UBOS\Theme\EventListener\AdditionalPropertiesForSearchAction:
-    tags:
-      - name: event.listener
-        identifier: 'myAdditionalPropertiesForSearchAction'
-        event: Brotkrueml\Schema\Event\RegisterAdditionalTypePropertiesEvent

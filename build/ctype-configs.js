@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const contentPath = 'theme/Configuration/_Content';
+const contentPath = 'puck/Configuration/_Content';
 const excludedCtypes = ['list'];
 if (!fs.existsSync(contentPath+"/_CTypes")){
     fs.mkdirSync(contentPath+"/_CTypes");
@@ -54,8 +54,8 @@ mod.wizards.newContentElement.wizardItems {
         elements {
             ${ctype[0]} {
                 iconIdentifier = ${ctype[0]}
-                title = LLL:EXT:theme/Resources/Private/Language/locallang_ctypes.xlf:${ctype[0]}_title
-                description = LLL:EXT:theme/Resources/Private/Language/locallang_ctypes.xlf:${ctype[0]}_desc
+                title = LLL:EXT:puck/Resources/Private/Language/locallang_ctypes.xlf:${ctype[0]}_title
+                description = LLL:EXT:puck/Resources/Private/Language/locallang_ctypes.xlf:${ctype[0]}_desc
                 tt_content_defValues {
                     CType = ${ctype[0]}
                 }
@@ -98,14 +98,14 @@ foreach ($ctypes as $ctype) {
     \\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility::addTcaSelectItem(
         'tt_content',
         'CType',
-        ['LLL:EXT:theme/Resources/Private/Language/locallang_ctypes.xlf:'.$ctype[0].'_title',$ctype[0],$ctype[0]],
+        ['LLL:EXT:puck/Resources/Private/Language/locallang_ctypes.xlf:'.$ctype[0].'_title',$ctype[0],$ctype[0]],
         'textmedia',
         'after'
     );
 }`;
 let CTypesIconRegistry = `<?php
 $iconRegistry = \\TYPO3\\CMS\\Core\\Utility\\GeneralUtility::makeInstance(\\TYPO3\\CMS\\Core\\Imaging\\IconRegistry::class);
-$extPath = \\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility::extPath('theme');
+$extPath = \\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility::extPath('puck');
 foreach (${CTypesPHPArray} as $ctype) {
     $filePath = '/Resources/Public/images/ctype-icons/default/'.$ctype[1].'.svg';
     if (is_file($extPath.$filePath)) {
@@ -118,7 +118,7 @@ foreach (${CTypesPHPArray} as $ctype) {
         $iconRegistry->registerIcon(
             $ctype[0],
             \\TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider::class,
-            ['source' => 'EXT:theme/Resources/Public/images/ctype-icons/default/Default.svg']
+            ['source' => 'EXT:puck/Resources/Public/images/ctype-icons/default/Default.svg']
         );
     }
 }`;

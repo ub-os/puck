@@ -1,0 +1,21 @@
+plugin.tx_powermail {
+    view {
+        templateRootPaths {
+            100 = EXT:puck/Resource/Private/Fluid/Extensions/Powermail/Templates
+        }
+        partialRootPaths {
+            100 = EXT:puck/Resource/Private/Fluid/Extensions/Powermail/Partials
+        }
+    }
+    settings {
+        javascript {
+            addJQueryFromGoogle = 0
+            addAdditionalJavaScript = 0
+            powermailJQuery >
+        }
+        setup.validation.client = 0
+        setup.spamshield._enable = 1
+        setup.main.optin = 0
+    }
+}
+

@@ -1,0 +1,16 @@
+config.tx_fluidcomponents.settings {
+    namespaces {
+        ubos = UBOS\Puck\ViewHelpers
+    }
+    search {
+        pid = {$search.pid}
+    }
+    navUid {
+        main = {$navUid.main}
+        footer = {$navUid.footer}
+        social = {$navUid.social}
+        meta = {$navUid.meta}
+        language = {$navUid.language}
+    }
+    gridWidth = {$gridWidth}
+}

@@ -1,0 +1,30 @@
+plugin.tx_indexedsearch {
+    settings{
+        targetPid = 14
+        displayAdvancedSearchLink = 0
+        blind.numberOfResults = 200
+    }
+    view {
+        templateRootPaths {
+            1000 = EXT:puck/Resource/Private/Fluid/Extensions/IndexedSearch/Templates/
+        }
+        partialRootPaths {
+            1000 = EXT:puck/Resource/Private/Fluid/Extensions/IndexedSearch/Partials/
+        }
+    }
+    _LOCAL_LANG.default.pi_list_browseresults_page >
+    _LOCAL_LANG.default.pi_list_browseresults_page =
+    _LOCAL_LANG.default.pi_list_browseresults_page (
+
+    )
+
+    _LOCAL_LANG.de.pi_list_browseresults_page >
+    _LOCAL_LANG.de.pi_list_browseresults_page =
+    _LOCAL_LANG.de.pi_list_browseresults_page (
+
+    )
+    pi_list_browseresults_page >
+}
+plugin.tx_fluid {
+
+}

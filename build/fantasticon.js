@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {generateFonts} from "fantasticon";
 
-const resourcePath = 'theme/Resources/Public/';
+const resourcePath = 'puck/Resources/Public/';
 if (!fs.existsSync(resourcePath+"Fonts/Icons")){
     fs.mkdirSync(resourcePath+"Fonts/Icons", { recursive: true });
 }
@@ -25,7 +25,7 @@ generateFonts({
     templates: {
     },
     pathOptions: {
-        scss: `theme/Resources/Private/Stylesheets/00-settings/_icon-font.scss`
+        scss: `puck/Resources/Private/Stylesheets/00-settings/_icon-font.scss`
     },
     codepoints: {
     },

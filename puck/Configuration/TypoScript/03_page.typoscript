@@ -1,0 +1,20 @@
+
+page.20 = USER
+page.20 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Puck
+    pluginName = Page
+    vendorName = UBOS
+    settings {
+        view {
+            templateRootPath = EXT:puck/Resources/Private/Fluid/
+        }
+        navigations {
+            main {
+                uid = 1
+            }
+        }
+
+    }
+}
+

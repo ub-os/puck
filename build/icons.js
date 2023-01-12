@@ -4,7 +4,7 @@ import sassVars from 'get-sass-vars';
 
 const require = createRequire(import.meta.url);
 
-/*const sassVariablesFile = fs.readFile('./theme/Resources/Private/Stylesheets/00-settings/_variables.sass', 'utf8', async (err, data) => {
+/*const sassVariablesFile = fs.readFile('./puck/Resources/Private/Stylesheets/00-settings/_variables.sass', 'utf8', async (err, data) => {
     if (err) {
         console.error(err)
         return
@@ -21,15 +21,15 @@ const require = createRequire(import.meta.url);
     //console.log(data)
 });*/
 
-const themeIcons = require('../theme/Resources/Public/Fonts/Icons/icons.json');
+const puckIcons = require('../puck/Resources/Public/Fonts/Icons/icons.json');
 
-console.log(themeIcons);
-const ckIconPluginDialogFile = './theme/Resources/Public/CkEditorPlugins/insertIcon/dialog.js';
+console.log(puckIcons);
+const ckIconPluginDialogFile = './puck/Resources/Public/CkEditorPlugins/insertIcon/dialog.js';
 fs.readFile(ckIconPluginDialogFile, 'utf8', function (err,data) {
     if (err) {
         return console.log(err);
     }
-    let result = data.replace(/var themeCustom = {.*};+/g, 'var themeCustom = '+JSON.stringify(themeIcons)+';');
+    let result = data.replace(/var puckCustom = {.*};+/g, 'var puckCustom = '+JSON.stringify(puckIcons)+';');
     fs.writeFile(ckIconPluginDialogFile, result, 'utf8', function (err) {
         if (err) return console.log(err);
     });

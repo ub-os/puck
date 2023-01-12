@@ -1,2 +1,0 @@
-@import 'EXT:theme/Configuration/_Libs/*.typoscript'
-@import 'EXT:theme/Configuration/_Extensions/*.typoscript'

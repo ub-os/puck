@@ -1,0 +1,18 @@
+lib.menu = FLUIDTEMPLATE
+lib.menu {
+    templateRootPaths.900 = EXT:puck/Resources/Private/Fluid/Libs/
+    templateName = Menu
+    dataProcessing.10 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+    dataProcessing.10 {
+        levels.field = levels
+        special = directory
+        special.value.field = pageUid
+        as = menu
+    }
+}
+lib.menu_directory =< lib.menu
+lib.menu_directory.dataProcessing.10.special = directory
+lib.menu_rootline =< lib.menu
+lib.menu_rootline.dataProcessing.10.special = rootline
+lib.menu_list =< lib.menu
+lib.menu_list.dataProcessing.10.special = list
