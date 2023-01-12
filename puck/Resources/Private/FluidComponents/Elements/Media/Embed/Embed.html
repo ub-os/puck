@@ -7,9 +7,9 @@
     <fc:param default="1" name="openInModal" optional="1" type="boolean"/>
     <fc:renderer>
 
-        <f:variable name="id">{file.name}-{ub:math.random(min:1000,max:9999)}</f:variable>
+        <f:variable name="id">{file.name}-{puck:math.random(min:1000,max:9999)}</f:variable>
         <f:variable name="options" value="{service:file.extension,id:file.contents,width:width}"/>
-        <f:variable name="localPoster" value="{ub:utility.posterImage(src:'fileadmin{file.identifier}')}"/>
+        <f:variable name="localPoster" value="{puck:utility.posterImage(src:'fileadmin{file.identifier}')}"/>
         <div aria-controls="{id}" class="{name}" data-video-embed="{options -> f:format.json()}">
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
@@ -31,7 +31,7 @@
                             <img alt="{file.alternative}"
                                  class="{name}__image"
                                  loading="lazy"
-                                 src="{ub:utility.getOnlineMediaPoster(service:file.extension,id:file.contents)}">
+                                 src="{puck:utility.getOnlineMediaPoster(service:file.extension,id:file.contents)}">
                         </picture>
                     </f:else>
                 </f:if>

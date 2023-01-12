@@ -17,8 +17,8 @@
                     media-size: mediaSize,
                     media-width: mediaWidth}"/>
 
-    <div class="{name} {mods -> ub:modClass()} {class} {f:if(condition:media.0,then:'-media')}" {attributes}>
-      <div class="{name}__content {mods -> ub:modClass()}">
+    <div class="{name} {mods -> puck:modClass()} {class} {f:if(condition:media.0,then:'-media')}" {attributes}>
+      <div class="{name}__content {mods -> puck:modClass()}">
         <f:format.raw>{content}</f:format.raw>
       </div>
       <f:if condition="{width} > 5 || !{width}">
@@ -26,13 +26,13 @@
           <f:variable name="calcWidth" value="{settings.gridWidth}"/>
         </f:then>
         <f:else>
-          <f:variable name="calcWidth" value="{ub:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+          <f:variable name="calcWidth" value="{puck:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
         </f:else>
       </f:if>
       <f:if condition="{media}">
         <element:media
                 name="{name}"
-                class="{mods -> ub:modClass()}"
+                class="{mods -> puck:modClass()}"
                 file="{media.0}"
                 cropVariant="{cropVariant}"
                 width="{calcWidth}"

@@ -16,7 +16,7 @@
                     top: top,
                     bottom: bottom}"/>
 
-    <section class="{name} {class} {mods -> ub:modClass()} {f:if(condition: '(!{object.header} || {object.headerLayout} > 29) && !{object.headerSpacingOverride}', then: '-no-h2')}"
+    <section class="{name} {class} {mods -> puck:modClass()} {f:if(condition: '(!{object.header} || {object.headerLayout} > 29) && !{object.headerSpacingOverride}', then: '-no-h2')}"
              id="{id}"
              {attributes}>
       <f:if condition="!{container}">

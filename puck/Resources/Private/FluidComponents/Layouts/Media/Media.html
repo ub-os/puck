@@ -22,7 +22,7 @@
                                 <f:variable name="calcWidth" value="{settings.gridWidth}"/>
                             </f:then>
                             <f:else>
-                                <f:variable name="calcWidth" value="{ub:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+                                <f:variable name="calcWidth" value="{puck:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
                             </f:else>
                         </f:if>
                         <layout:row itemWidth="{itemWidth}" justify="{justify}">

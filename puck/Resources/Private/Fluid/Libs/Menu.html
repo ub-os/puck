@@ -16,7 +16,7 @@
                                         current: item.current,
                                         has-subpages: item.hasSubpages}"/>
                         <f:link.typolink parameter="{item.data.uid}"
-                                         class="{data.name}__link {item.class} {mods -> ub:modClass()}"
+                                         class="{data.name}__link {item.class} {mods -> puck:modClass()}"
                                          absolute="1"
                                          additionalAttributes="{aria-label: item.data.title}">
                             <f:if condition="{i.index} == 0 && {data.special} == 'rootline'">
@@ -42,7 +42,7 @@
                                         active: item.active,
                                         current: item.current,
                                         has-subpages: item.hasSubpages}"/>
-                            <li class="{subName}__item {mods -> ub:modClass()}">
+                            <li class="{subName}__item {mods -> puck:modClass()}">
                                 <f:link.typolink
                                         parameter="{item.link}"
                                         absolute="1"

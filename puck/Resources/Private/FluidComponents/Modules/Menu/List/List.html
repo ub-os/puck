@@ -10,7 +10,7 @@
             optional="1"
             default="{type: 'item', class: '', image: 1, body: 1, category: 1, cta: 1, cropVariant: '2:1'}"/>
   <fc:renderer>
-    <f:variable name="itemConfig" value="{ub:array.merge(a:itemConfigDefault,b:itemConfig)}"/>
+    <f:variable name="itemConfig" value="{puck:array.merge(a:itemConfigDefault,b:itemConfig)}"/>
 
     <layout:section
             class="{name}__wrap"

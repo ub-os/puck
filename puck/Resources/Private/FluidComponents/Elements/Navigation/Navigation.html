@@ -12,7 +12,7 @@
 
     <f:if condition="!{menu}">
       <f:variable name="menu"
-                  value="{ub:data.menu(pages:pages, processor:processor, depth:depth)}"/>
+                  value="{puck:data.menu(pages:pages, processor:processor, depth:depth)}"/>
     </f:if>
 
     <nav class="{name} {class}">
@@ -33,7 +33,7 @@
                                         current: item.isCurrentPage,
                                         has-subpages: item.hasSubpages}"/>
                 <f:link.typolink parameter="{item.uid}"
-                                 class="{name}__link {mods -> ub:modClass()}"
+                                 class="{name}__link {mods -> puck:modClass()}"
                                  absolute="1"
                                  additionalAttributes="{aria-label: item.title}">
                   <f:if condition="{i.index} == 0 && {processor} == 'breadcrumb'">
@@ -63,7 +63,7 @@
                     <f:link.typolink
                             parameter="{item.link}"
                             absolute="1"
-                            class="{subName}__link {mods -> ub:modClass()}">
+                            class="{subName}__link {mods -> puck:modClass()}">
                       <f:format.raw>{item.title}</f:format.raw>
                     </f:link.typolink>
                 </f:for>
