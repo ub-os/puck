@@ -884,7 +884,206 @@
 					<pid>5</pid>
 					<title>Text</title>
 					<relations index="rels" type="array"></relations>
-					<softrefs type="array"></softrefs>
+					<softrefs type="array">
+						<softref_element index="bodytext:typolink_tag:1" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>de79c676a0b129b5d94905c7bc305a4b</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:3" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-icon-pill=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>49d68f91e1f8ff8ab94e2a0b06f606ce</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:5" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>4e517d9cf52003cea3256617b112fef0</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:7" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;right&quot; data-button-icon-pill=&quot;1&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>f2497276832e5040e561d0afd47c961e</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:9" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>11e740cd55f00cd134e13c80f82a9572</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:11" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>e451f32ba9dbf5c4e6b84c8c86a3368c</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:13" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>c355c74315faeea2b396f300c9e7bf53</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:15" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>62900e51b7a0d44eb6c2beba283735d2</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:17" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>e927da1cb0e15a5ce9cc4bb8971f9dde</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:19" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>6ce4baacddc619b8bbb6048518abac6b</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:21" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>39c7922c77491d5a9f8e7c92df3d8171</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:23" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>fc33a81acdbd207fedacc17a7ffaa361</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:25" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>8fa063a7a168db63090cb5ac02b6bc19</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:27" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-icon&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>9cb2ff8898afe668fd94136444fbd8e2</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:29" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-icon&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>c3c564c9f98a946ee3a3d92911f1323c</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:31" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-icon&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:12</recordRef>
+								<tokenID>0b75c9ead8b1c85fb3fa9c421d44e9e7</tokenID>
+								<tokenValue>12</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:33" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=5#24&quot;&gt;</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>pages:5</recordRef>
+								<tokenID>6b944624b47c439309ff852308a0fa77</tokenID>
+								<tokenValue>5</tokenValue>
+							</subst>
+						</softref_element>
+						<softref_element index="bodytext:typolink_tag:e86f69d5c5f6db8c2a1db9dc4df56815:33" type="array">
+							<field>bodytext</field>
+							<spKey>typolink_tag</spKey>
+							<matchString>Anchor Content Element: 24</matchString>
+							<subst type="array">
+								<type>db</type>
+								<recordRef>tt_content:24</recordRef>
+								<tokenID>e86f69d5c5f6db8c2a1db9dc4df56815</tokenID>
+								<tokenValue>24</tokenValue>
+							</subst>
+						</softref_element>
+					</softrefs>
 				</rec>
 				<rec index="21" type="array">
 					<uid>21</uid>
@@ -2395,7 +2594,7 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="newUntil" type="integer">0</field>
 				<field index="description" type="NULL"></field>
 				<field index="no_search" type="integer">0</field>
-				<field index="SYS_LASTCHANGED" type="integer">0</field>
+				<field index="SYS_LASTCHANGED" type="integer">1673522512</field>
 				<field index="abstract" type="NULL"></field>
 				<field index="module"></field>
 				<field index="extendToSubpages" type="integer">0</field>
@@ -2928,7 +3127,7 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="newUntil" type="integer">0</field>
 				<field index="description" type="NULL"></field>
 				<field index="no_search" type="integer">0</field>
-				<field index="SYS_LASTCHANGED" type="integer">1673522512</field>
+				<field index="SYS_LASTCHANGED" type="integer">1673524303</field>
 				<field index="abstract" type="NULL"></field>
 				<field index="module"></field>
 				<field index="extendToSubpages" type="integer">0</field>
@@ -5042,7 +5241,7 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="uid" type="integer">22</field>
 				<field index="rowDescription"></field>
 				<field index="pid" type="integer">5</field>
-				<field index="tstamp" type="integer">1673522512</field>
+				<field index="tstamp" type="integer">1673524303</field>
 				<field index="crdate" type="integer">1673522512</field>
 				<field index="cruser_id" type="integer">2</field>
 				<field index="deleted" type="integer">0</field>
@@ -5057,7 +5256,7 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="l10n_source" type="integer">0</field>
 				<field index="l10n_state" type="NULL"></field>
 				<field index="t3_origuid" type="integer">0</field>
-				<field index="l18n_diffsource">{&quot;bodytext&quot;:&quot;&quot;}</field>
+				<field index="l18n_diffsource">{&quot;CType&quot;:&quot;&quot;,&quot;colPos&quot;:&quot;&quot;,&quot;container_width&quot;:&quot;&quot;,&quot;container_position&quot;:&quot;&quot;,&quot;container_offset&quot;:&quot;&quot;,&quot;frame_class&quot;:&quot;&quot;,&quot;header&quot;:&quot;&quot;,&quot;header_layout&quot;:&quot;&quot;,&quot;header_position&quot;:&quot;&quot;,&quot;header_spacing_override&quot;:&quot;&quot;,&quot;subheader&quot;:&quot;&quot;,&quot;bodytext&quot;:&quot;&quot;,&quot;sys_language_uid&quot;:&quot;&quot;,&quot;hidden&quot;:&quot;&quot;,&quot;starttime&quot;:&quot;&quot;,&quot;endtime&quot;:&quot;&quot;,&quot;fe_group&quot;:&quot;&quot;,&quot;editlock&quot;:&quot;&quot;,&quot;rowDescription&quot;:&quot;&quot;}</field>
 				<field index="t3ver_oid" type="integer">0</field>
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
@@ -5070,16 +5269,16 @@ For each website you need a TypoScript template on the main page of your website
 &lt;p class=&quot;-large&quot;&gt;Large paragraph: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
 &lt;p class=&quot;-quote&quot;&gt;Quote: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
 &lt;h3 class=&quot;u-text-left&quot;&gt;Stet clita kasd&lt;/h3&gt;
-&lt;p&gt;At vero eos et accusam et justo duo &lt;a href=&quot;12&quot;&gt;Dolores.com&lt;/a&gt; et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.&lt;/p&gt;
+&lt;p&gt;At vero eos et accusam et justo duo &lt;a href=&quot;t3://page?uid=12&quot;&gt;Dolores.com&lt;/a&gt; et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.&lt;/p&gt;
 &lt;ol&gt; 	&lt;li&gt;Takimata&lt;/li&gt; 	&lt;li&gt;Dolores&lt;/li&gt; 	&lt;li&gt;Gubergren&lt;/li&gt; &lt;/ol&gt;
 
-&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-icon-pill=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;right&quot; data-button-icon-pill=&quot;1&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--envelope-solid&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-ghost=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
-&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
-&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--linkedin&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;12&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-icon&quot; href=&quot;12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-outline=&quot;1&quot; href=&quot;12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-ghost=&quot;1&quot; href=&quot;12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-icon-pill=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;right&quot; data-button-icon-pill=&quot;1&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--envelope-solid&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--linkedin&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-icon&quot; href=&quot;t3://page?uid=12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;/p&gt;
 &lt;p class=&quot;e-button-group&quot;&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;5#24&quot;&gt;Open modal by hash link&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-primary&quot; href=&quot;5&quot;&gt;Open accordion item by hash link&lt;/a&gt;&lt;/p&gt;</field>
+&lt;p&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=5#24&quot;&gt;Open modal by hash link&lt;/a&gt;&amp;nbsp;&lt;/p&gt;</field>
 				<field index="bullets_type" type="integer">0</field>
 				<field index="uploads_description" type="integer">0</field>
 				<field index="uploads_type" type="integer">0</field>
@@ -5144,7 +5343,193 @@ For each website you need a TypoScript template on the main page of your website
 				<field index="parents"></field>
 				<field index="card_media_size">cover</field>
 			</fieldlist>
-			<related index="rels" type="array"></related>
+			<related index="rels" type="array">
+				<field index="bodytext" type="array">
+					<softrefs type="array">
+						<keys type="array">
+							<softref_key index="typolink_tag" type="array">
+								<softref_element index="1" type="array">
+									<matchString>&lt;a href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>de79c676a0b129b5d94905c7bc305a4b</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="3" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-icon-pill=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>49d68f91e1f8ff8ab94e2a0b06f606ce</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="5" type="array">
+									<matchString>&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>4e517d9cf52003cea3256617b112fef0</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="7" type="array">
+									<matchString>&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;right&quot; data-button-icon-pill=&quot;1&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>f2497276832e5040e561d0afd47c961e</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="9" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>11e740cd55f00cd134e13c80f82a9572</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="11" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>e451f32ba9dbf5c4e6b84c8c86a3368c</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="13" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>c355c74315faeea2b396f300c9e7bf53</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="15" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>62900e51b7a0d44eb6c2beba283735d2</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="17" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>e927da1cb0e15a5ce9cc4bb8971f9dde</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="19" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>6ce4baacddc619b8bbb6048518abac6b</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="21" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>39c7922c77491d5a9f8e7c92df3d8171</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="23" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>fc33a81acdbd207fedacc17a7ffaa361</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="25" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>8fa063a7a168db63090cb5ac02b6bc19</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="27" type="array">
+									<matchString>&lt;a class=&quot;e-button-icon&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>9cb2ff8898afe668fd94136444fbd8e2</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="29" type="array">
+									<matchString>&lt;a class=&quot;e-button-icon&quot; data-button-outline=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>c3c564c9f98a946ee3a3d92911f1323c</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="31" type="array">
+									<matchString>&lt;a class=&quot;e-button-icon&quot; data-button-ghost=&quot;1&quot; href=&quot;t3://page?uid=12&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:12</recordRef>
+										<tokenID>0b75c9ead8b1c85fb3fa9c421d44e9e7</tokenID>
+										<tokenValue>12</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="33" type="array">
+									<matchString>&lt;a class=&quot;e-button-primary&quot; href=&quot;t3://page?uid=5#24&quot;&gt;</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>pages:5</recordRef>
+										<tokenID>6b944624b47c439309ff852308a0fa77</tokenID>
+										<tokenValue>5</tokenValue>
+									</subst>
+								</softref_element>
+								<softref_element index="e86f69d5c5f6db8c2a1db9dc4df56815:33" type="array">
+									<matchString>Anchor Content Element: 24</matchString>
+									<subst type="array">
+										<type>db</type>
+										<recordRef>tt_content:24</recordRef>
+										<tokenID>e86f69d5c5f6db8c2a1db9dc4df56815</tokenID>
+										<tokenValue>24</tokenValue>
+									</subst>
+								</softref_element>
+							</softref_key>
+						</keys>
+						<tokenizedContent>&lt;p&gt;Normal paragraph: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
+&lt;p class=&quot;-footnote&quot;&gt;Footnote: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
+&lt;p class=&quot;-large&quot;&gt;Large paragraph: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
+&lt;p class=&quot;-quote&quot;&gt;Quote: kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;
+&lt;h3 class=&quot;u-text-left&quot;&gt;Stet clita kasd&lt;/h3&gt;
+&lt;p&gt;At vero eos et accusam et justo duo &lt;a href=&quot;{softref:de79c676a0b129b5d94905c7bc305a4b}&quot;&gt;Dolores.com&lt;/a&gt; et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.&lt;/p&gt;
+&lt;ol&gt; 	&lt;li&gt;Takimata&lt;/li&gt; 	&lt;li&gt;Dolores&lt;/li&gt; 	&lt;li&gt;Gubergren&lt;/li&gt; &lt;/ol&gt;
+
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-icon-pill=&quot;1&quot; href=&quot;{softref:49d68f91e1f8ff8ab94e2a0b06f606ce}&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:4e517d9cf52003cea3256617b112fef0}&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;-outline e-button-primary&quot; data-button-icon=&quot;right&quot; data-button-icon-pill=&quot;1&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:f2497276832e5040e561d0afd47c961e}&quot;&gt;Button&lt;span class=&quot;char-icon icon--envelope-solid&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;{softref:11e740cd55f00cd134e13c80f82a9572}&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:e451f32ba9dbf5c4e6b84c8c86a3368c}&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-ghost=&quot;1&quot; href=&quot;{softref:c355c74315faeea2b396f300c9e7bf53}&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:62900e51b7a0d44eb6c2beba283735d2}&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:e927da1cb0e15a5ce9cc4bb8971f9dde}&quot;&gt;Button&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:6ce4baacddc619b8bbb6048518abac6b}&quot;&gt;Button&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;-gutter-0 e-button-group&quot;&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;{softref:39c7922c77491d5a9f8e7c92df3d8171}&quot;&gt;Button&lt;span class=&quot;char-icon icon--facebook&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:fc33a81acdbd207fedacc17a7ffaa361}&quot;&gt;Button&lt;span class=&quot;char-icon icon--linkedin&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;a class=&quot;e-button-primary&quot; data-button-icon=&quot;left&quot; href=&quot;{softref:8fa063a7a168db63090cb5ac02b6bc19}&quot;&gt;Button&lt;span class=&quot;char-icon icon--xing&quot;&gt;&amp;shy;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&lt;a class=&quot;e-button-icon&quot; href=&quot;{softref:9cb2ff8898afe668fd94136444fbd8e2}&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-outline=&quot;1&quot; href=&quot;{softref:c3c564c9f98a946ee3a3d92911f1323c}&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;a class=&quot;e-button-icon&quot; data-button-ghost=&quot;1&quot; href=&quot;{softref:0b75c9ead8b1c85fb3fa9c421d44e9e7}&quot;&gt;Icon button&lt;/a&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p class=&quot;e-button-group&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&quot;e-button-primary&quot; href=&quot;{softref:6b944624b47c439309ff852308a0fa77}#{softref:e86f69d5c5f6db8c2a1db9dc4df56815}&quot;&gt;Open modal by hash link&lt;/a&gt;&amp;nbsp;&lt;/p&gt;</tokenizedContent>
+					</softrefs>
+				</field>
+			</related>
 		</tablerow>
 		<tablerow index="tt_content:21" type="array">
 			<fieldlist index="data" type="array">
