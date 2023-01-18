@@ -12,7 +12,6 @@ plugin.tx_form {
         layoutRootPaths.900 = EXT:puck/Resource/Private/Fluid/Extensions/Form/Layouts/
     }
 
-
     settings {
         yamlConfigurations {
             100 = EXT:puck/Configuration/_Extensions/_FormSetup.yaml

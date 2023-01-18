@@ -33,6 +33,38 @@ class MenuPages extends Text
     public string $parents;
 
     /**
+     * @var int
+     */
+    public int $itemColumnWidth = 6;
+
+    /**
+     * @var string
+     * @DatabaseField ("string")
+     */
+    protected string $menuItemConfig = '';
+
+    /**
+     * @return array
+     */
+    public function getMenuItemConfig(): array
+    {
+        $array = explode(',', $this->menuItemConfig);
+        $settings = [];
+        foreach($array as $value) {
+            $settings[$value] = true;
+        }
+        return $settings;
+    }
+
+    /**
+     * @param string $menuItemConfig
+     */
+    public function setMenuItemConfig(string $menuItemConfig): void
+    {
+        $this->menuItemConfig = $menuItemConfig;
+    }
+
+    /**
      * @var ?array
      * @Lazy
      * @Transient

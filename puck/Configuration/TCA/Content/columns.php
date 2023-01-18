@@ -24,6 +24,7 @@ $columns['frame_class'] = [
 
 $columns['layout'] = [
     'label' => 'Layout',
+    'onChange' => 'reload',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
@@ -114,6 +115,7 @@ $columns['media_layout'] = [
             ],
 
         ],
+        'itemsProcFunc' => ContentItemsProcFunc::class . '->mediaLayout',
         'default' => 'below',
         'fieldWizard' => [
             'selectIcons' => [
@@ -254,7 +256,7 @@ $columns['item_column_width'] = [
             ['11', 11, 'column_width11'],
             ['12', 12, 'column_width12'],
         ],
-        'default' => 5,
+        'default' => 6,
         'fieldWizard' => [
             'selectIcons' => [
                 'disabled' => false,
@@ -364,6 +366,24 @@ $columns['media_max_height'] = [
             ],
         ],
     ],
+];
+$columns['menu_item_config'] = [
+    'label' => 'Menu item config',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectMultipleSideBySide',
+        'items' => [
+            ['Teaser text', 'teaserText'],
+            ['Subtitle', 'subtitle'],
+            ['Media', 'media'],
+            ['Category', 'category'],
+            ['Author', 'author'],
+            ['Date (lastUpdated)', 'lastUpdated'],
+            ['Icon', 'icon'],
+            ['Call to action', 'cta']
+        ],
+        'default' => 'teaserText,media',
+    ]
 ];
 
 return $columns;

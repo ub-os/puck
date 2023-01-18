@@ -30,6 +30,12 @@ $palettes['gridCard'] = [
     'showitem' => '
         media_layout, card_media_size, media_column_width'
 ];
+$palettes['gridMenuPages'] = [
+    'label' => 'Layout',
+    'showitem' => '
+        item_column_width, column_position, --linebreak--,
+        media_layout, card_media_size, text_column_width, media_column_width'
+];
 $palettes['appearance'] = [
     'label' => 'Appearance',
     'showitem' => '

@@ -1,6 +1,11 @@
-<f:switch expression="{object.layout}">
-  <f:defaultCase>
-    <module:menu.list object="{object}"
-                      itemConfig="{cta:0,category:0}"/>
-  </f:defaultCase>
-</f:switch>
+<f:if condition="{puck:string.contains(haystack:object.layout,needle:'cards')}">
+  <f:then>
+    <module:menu.cards object="{object}"/>
+  </f:then>
+  <f:else if="{puck:string.contains(haystack:object.layout,needle:'columns')}">
+    <module:menu.columns object="{object}"/>
+  </f:else>
+  <f:else>
+    <f:debug>{object}</f:debug>
+  </f:else>
+</f:if>

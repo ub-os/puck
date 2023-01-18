@@ -2,21 +2,35 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-carousel"/>
   <fc:param name="id" type="string"/>
-  <fc:param name="options" type="array" optional="1"/>
-  <fc:param name="controls" type="boolean" optional="1" default="1"/>
+  <fc:param name="options" type="array" optional="1" default="{puckProp:1}"/>
+  <fc:param name="arrows" type="boolean" optional="1" default="1"/>
   <fc:param name="pagination" type="boolean" optional="1" default="0"/>
-  <fc:param name="slideCount" type="integer" optional="1" default="0"/>
   <fc:param name="trackOverflow" type="string" optional="1" default="hidden"/>
   <fc:renderer>
 
-    <div class="{name} {class} splide" data-carousel="{options}" id="{id}">
+    <f:variable name="defaultOptions"
+                value="{
+                  pagination: pagination,
+                  arrows: arrows,
+                  classes: '{
+                    arrows: \'{name}__arrows\',
+                    arrow: \'{name}__arrow\',
+                    prev: \'{name}__arrow--prev\',
+                    next: \'{name}__arrow--next\',
+                    pagination: \'{name}__pagination\',
+                    page: \'{name}__page\'
+                  }'
+                }"/>
+    <f:variable name="options" value="{puck:array.merge(a:defaultOptions,b:options)}"/>
+
+    <div class="{name} {class} splide" data-carousel="{options -> f:format.json()}" id="{id}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
         <ul class="{name}__list splide__list">
           <f:format.raw>{content}</f:format.raw>
         </ul>
       </div>
 
-      <f:if condition="{controls}">
+      <f:if condition="{arrows}">
         <div class="{name}__controls {class} splide__arrows">
           <button class="{name}__controls__prev splide__arrow--prev" aria-controls="{id}">
             <icon:svg icon="arrow-left-regular"/>
@@ -27,17 +41,10 @@
         </div>
       </f:if>
 
-      <f:if condition="{pagination} && {slideCount}">
-        <div class="{name}__pagination {class}">
-          <f:for each="{puck:array.range(end: '{slideCount}-1')}" as="index">
-            <button class="{name}__pagination__item" aria-controls="{id}" data-go-to="{index}">
-            </button>
-          </f:for>
-        </div>
-      </f:if>
     </div>
 
   </fc:renderer>
 </fc:component>
+
 
 

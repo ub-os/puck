@@ -35,8 +35,8 @@
     margin-bottom: 0
 
   &:not([class*="-background-"])
-    &.-bottom-auto + &.-top-auto.-no-h2,
-    &.-bottom-auto + .e-anchor + &.-top-auto.-no-h2
+    &.-bottom-auto + &.-top-auto.-no-h2-spacing,
+    &.-bottom-auto + .e-anchor + &.-top-auto.-no-h2-spacing
       margin-top: 0
 
   &[class*="-background-"]
@@ -51,7 +51,7 @@
       &.-bottom-auto + .e-anchor + &.-top-auto
         +spacing(top, m, margin, -1)
         padding-top: 0
-        &.-no-h2
+        &.-no-h2-spacing
           +spacing(top, m, margin, -2)
 
   // Backgrounds

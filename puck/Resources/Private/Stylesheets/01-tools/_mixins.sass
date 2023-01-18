@@ -70,7 +70,8 @@
   //width: percentage(divide($columns, $custom-grid-columns))
   width: calc(100% * #{$columns} / #{$custom-grid-columns})
   &>*
-    --grid-columns: #{$columns}
+    @if $columns != #{var(--grid-columns)}
+      --grid-columns: #{$columns}
     --grid-columns-original: #{$columns}
   @each $mb, $value in $columns-mb
     +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))

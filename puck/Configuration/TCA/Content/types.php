@@ -263,16 +263,60 @@ $types['puck_menu_pages'] = [
     'showitem' => '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
-        --palette--;;appearance,
+        --palette--;;gridContainer,
+        --palette--;;appearanceLayout,
         --palette--;;headers,
-        --palette--;;menu_pages,'
+        --palette--;;menu_pages,
+        --div--;Items,
+        --palette--;;gridMenuPages,
+        menu_item_config,'
         .$baseShowItem,
     'columnsOverrides' => [
         'bodytext' => [
             'config' => [
                 'enableRichtext' => true,
             ]
-        ]
+        ],
+        'layout' => [
+            'config' => [
+                'items' => [
+                    ['Default cards', 'default-cards'],
+                    ['Cards (custom settings)', 'cards'],
+                    ['Columns (custom settings)', 'columns'],
+                ],
+                'default' => 'cards'
+            ]
+        ],
+        'menu_item_config' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'item_column_width' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'media_column_width' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'column_position' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'media_layout' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'container_width' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'container_offset' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'container_position' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'card_media_size' => [
+            'displayCond' => 'FIELD:layout:=:cards',
+        ],
+        'text_column_width' => [
+            'displayCond' => 'FIELD:layout:=:columns',
+        ],
     ]
 ];
 

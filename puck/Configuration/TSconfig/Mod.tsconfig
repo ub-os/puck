@@ -42,7 +42,11 @@ mod.web_layout.BackendLayouts {
                                     CType = puck_text
                                 }
                             }
-                            2 {
+                        }
+                    }
+                    3 {
+                        columns {
+                            1 {
                                 name = Modals
                                 colPos = 9
                                 colspan = 8
@@ -85,7 +89,11 @@ mod.web_layout.BackendLayouts {
                                     CType = puck_text
                                 }
                             }
-                            2 {
+                        }
+                    }
+                    3 {
+                        columns {
+                            1 {
                                 name = Modals
                                 colPos = 9
                                 colspan = 8

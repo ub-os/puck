@@ -1,0 +1,69 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-menu-cards"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="news" type="array" optional="1" default="0"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="2:1"/>
+
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:1,else:0)}"
+            id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <f:if condition="{object.menu}">
+        <layout:row class="{name}__row" flexGrow="0" justify="{object.columnPosition}">
+          <f:for each="{object.menu}" as="item" iteration="i">
+            <f:if condition="{item.uid} != {object.pid}">
+              <f:switch expression="{object.layout}">
+
+                <f:case value="default-cards">
+                  <layout:row.item class="{name}__item -stretch-content" width="6">
+                    <layout:card
+                            width="6"
+                            class="{name}__card -layout-{object.layout}"
+                            attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
+                      <module:menu.columns.content
+                              name="{name}"
+                              class="-layout-{object.layout}"
+                              config="{teaserText:1}"
+                              item="{item}"/>
+                    </layout:card>
+                  </layout:row.item>
+                </f:case>
+
+                <f:defaultCase>
+                  <layout:row.item class="{name}__item -stretch-content" width="{object.itemColumnWidth}">
+                    <f:variable name="media" value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
+                    <layout:card
+                            media="{media}"
+                            cropVariant="{cropVariant}"
+                            width="{object.itemColumnWidth}"
+                            mediaSize="{object.cardMediaSize}"
+                            mediaWidth="{object.mediaColumnWidth}"
+                            mediaLayout="{object.mediaLayout}"
+                            class="{name}__card -variant-{object.layout}"
+                            attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
+                      <module:menu.columns.content
+                              name="{name}"
+                              class="-layout-{object.layout}"
+                              config="{object.menuItemConfig}"
+                              item="{item}"/>
+                    </layout:card>
+                  </layout:row.item>
+                </f:defaultCase>
+
+              </f:switch>
+            </f:if>
+          </f:for>
+        </layout:row>
+      </f:if>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+
+

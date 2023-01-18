@@ -70,6 +70,10 @@ class Page extends AbstractEntity
      */
     public string $backendLayout = '';
     /**
+     * @var string
+     */
+    public string $categories = '';
+    /**
      * @var int
      */
     public int $navHide = 0;
@@ -163,6 +167,9 @@ class Page extends AbstractEntity
      */
     protected function getPrimaryImageFromRootLine(int $rootLineIndex = 0): ?FileReference
     {
+        if ($this->media->count() > 0) {
+            return $this->media->current();
+        }
         $rootLine = array_reverse($this->getBreadcrumbs());
         if ($rootLine[$rootLineIndex]->media->count() > 0) {
             return $rootLine[$rootLineIndex]->media->current();

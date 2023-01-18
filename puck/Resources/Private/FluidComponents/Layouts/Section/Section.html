@@ -5,6 +5,7 @@
   <fc:param name="top" type="string" optional="1" default="auto"/>
   <fc:param name="bottom" type="string" optional="1" default="auto"/>
   <fc:param name="container" type="boolean" optional="1" default="1" />
+  <fc:param name="customContainer" type="boolean" optional="1" default="0" />
   <fc:param name="object" type="mixed" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
@@ -14,15 +15,21 @@
                     background: object.frameClass,
                     layout: object.layout,
                     top: top,
-                    bottom: bottom}"/>
+                    bottom: bottom,
+                    no-h2-spacing: object.disableHeaderSpacing}"/>
 
-    <section class="{name} {class} {mods -> puck:modClass()} {f:if(condition: '(!{object.header} || {object.headerLayout} > 29) && !{object.headerSpacingOverride}', then: '-no-h2')}"
+    <section class="{name} {class} {mods -> puck:modClass()}"
              id="{id}"
              {attributes}>
       <f:if condition="!{container}">
         <f:then>
           <f:format.raw>{content}</f:format.raw>
         </f:then>
+        <f:else if="{customContainer}">
+          <layout:container class="{class}__container">
+            <f:format.raw>{content}</f:format.raw>
+          </layout:container>
+        </f:else>
         <f:else>
           <layout:container
                   width="{object.containerWidth}"

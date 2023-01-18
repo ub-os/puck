@@ -1,0 +1,47 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-menu-columns"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="news" type="array" optional="1" default="0"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="2:1"/>
+
+  <fc:renderer>
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <f:if condition="{object.menu}">
+        <layout:row class="{name}__row" flexGrow="0">
+          <f:for each="{object.menu}" as="item" iteration="i">
+            <f:if condition="{item.uid} != {object.pid}">
+              <layout:row.item class="{name}__item -stretch-content" width="{object.itemColumnWidth}">
+                <f:variable name="media" value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
+                <div class="{name}__column" data-link-to="{f:uri.page(pageUid: item.uid)}">
+                  <layout:media
+                          media="{media}"
+                          cropVariant="{cropVariant}"
+                          layout="{object.mediaLayout}"
+                          mediaWidth="{object.mediaColumnWidth}"
+                          itemWidth="{object.medaiColumnWidth}"
+                          textWidth="{object.textColumnWidth}">
+                    <module:menu.columns.content
+                            name="{name}"
+                            class="-layout-{object.layout}"
+                            config="{object.menuItemConfig}"
+                            item="{item}"/>
+                  </layout:media>
+                </div>
+
+              </layout:row.item>
+            </f:if>
+          </f:for>
+        </layout:row>
+      </f:if>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+
+

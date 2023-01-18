@@ -2,8 +2,8 @@ import { $, $$, jsx } from '../General/Aliases';
 
 $$('[data-video-embed]').forEach(node => {
     const data = JSON.parse(node.dataset.videoEmbed);
-    let src = '';
     const id = node.getAttribute('aria-controls');
+    let src = '';
     let appended = false;
     switch (data.service) {
         case 'youtube':
