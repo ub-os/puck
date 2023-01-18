@@ -1,9 +1,9 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-menu-cards"/>
+  <fc:param name="name" type="string" optional="1" default="m-menu-pages"/>
   <fc:param name="object" type="mixed"/>
   <fc:param name="news" type="array" optional="1" default="0"/>
-  <fc:param name="cropVariant" type="string" optional="1" default="2:1"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="3:2"/>
 
   <fc:renderer>
 
@@ -23,14 +23,35 @@
                   <layout:row.item class="{name}__item -stretch-content" width="6">
                     <layout:card
                             width="6"
-                            class="{name}__card -layout-{object.layout}"
+                            class="{name}__card -variant-{object.layout}"
+                            cropVariant="{cropVariant}"
                             attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
-                      <module:menu.columns.content
+                      <module:menu.pages.content
                               name="{name}"
-                              class="-layout-{object.layout}"
                               config="{teaserText:1}"
                               item="{item}"/>
                     </layout:card>
+                  </layout:row.item>
+                </f:case>
+
+
+                <f:case value="columns">
+                  <layout:row.item class="{name}__item -stretch-content" width="{object.itemColumnWidth}">
+                    <f:variable name="media" value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
+                    <div class="{name}__column -variant-{object.layout}" data-link-to="{f:uri.page(pageUid: item.uid)}">
+                      <layout:media
+                              media="{media}"
+                              cropVariant="{cropVariant}"
+                              layout="{object.mediaLayout}"
+                              mediaWidth="{object.mediaColumnWidth}"
+                              itemWidth="{object.mediaColumnWidth}"
+                              textWidth="{object.textColumnWidth}">
+                        <module:menu.pages.content
+                                name="{name}"
+                                config="{object.menuItemConfig}"
+                                item="{item}"/>
+                      </layout:media>
+                    </div>
                   </layout:row.item>
                 </f:case>
 
@@ -46,9 +67,8 @@
                             mediaLayout="{object.mediaLayout}"
                             class="{name}__card -variant-{object.layout}"
                             attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
-                      <module:menu.columns.content
+                      <module:menu.pages.content
                               name="{name}"
-                              class="-layout-{object.layout}"
                               config="{object.menuItemConfig}"
                               item="{item}"/>
                     </layout:card>

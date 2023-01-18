@@ -61,8 +61,10 @@ class PageRepository extends Repository
         foreach ($uidArray as $key => $value) {
             $pidUidConstraints[] = $query->equals('uid', $value);
         }
-        foreach (explode(',', $pidList) as $key => $value) {
-            $pidUidConstraints[] = $query->equals('pid', $value);
+        if ($pidList !== '') {
+            foreach (explode(',', $pidList) as $key => $value) {
+                $pidUidConstraints[] = $query->equals('pid', $value);
+            }
         }
         $constraints = array(
             $query->logicalOr(

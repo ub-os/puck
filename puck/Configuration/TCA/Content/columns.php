@@ -31,6 +31,7 @@ $columns['layout'] = [
         'items' => [
             ['Default', 'default'],
         ],
+        'disableNoMatchingValueElement' => true,
         'default' => 'default'
     ],
 ];

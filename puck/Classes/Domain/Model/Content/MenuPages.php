@@ -18,7 +18,7 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  * @DatabaseTable("tt_content")
  * @WizardTab("02_menu")
  */
-class MenuPages extends Text
+class MenuPages extends Modal
 {
 
     /**

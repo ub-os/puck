@@ -38,12 +38,6 @@ class Media extends Text
     public string $bodytext2;
 
     /**
-     * @var ObjectStorage<Page>
-     * @Lazy
-     */
-    public ObjectStorage $pages;
-
-    /**
      * @var string
      * @DatabaseField("string")
      */
