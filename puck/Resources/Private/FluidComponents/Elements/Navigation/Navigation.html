@@ -26,6 +26,17 @@
                         <f:format.raw>{item.title}</f:format.raw>
                       </span>
               </f:then>
+              <f:else if="{item.language}">
+                <f:variable name="mods"
+                            value="{
+                                    active-lang: item.isActiveLanguage}"/>
+                <f:link.typolink parameter="{item.uid}"
+                                 language="{item.language.languageId}"
+                                 class="{name}__link {mods -> puck:modClass()}"
+                                 absolute="1">
+                  {item.language.title}
+                </f:link.typolink>
+              </f:else>
               <f:else>
                 <f:variable name="mods"
                             value="{
