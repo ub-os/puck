@@ -15,16 +15,16 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     protected array $keepItemsMap = [
         'puck_media' => [
-            'content_type' => ['assets','html']
+            'content_type' => 'assets,html'
         ],
         'puck_full_width_media' => [
-            'media_layout' => ['above','below','left','right']
+            'media_layout' => 'above,below,left,right'
         ],
         'puck_modal' => [
-            'media_layout' => ['above','below','left','right']
+            'media_layout' => 'above,below,left,right'
         ],
         'puck_menu_pages' => [
-            'media_layout' => ['above','below','left','right']
+            'media_layout' => 'above,below,left,right'
         ]
     ];
 
@@ -36,9 +36,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     {
         $keepItems = $this->keepItemsMap[$this->val($params['row']['CType'])][$params['field']];
         if ($keepItems) {
-            $params['items'] = array_filter($params['items'], function ($item) use ($keepItems) {
-                return in_array($item[1], $keepItems);
-            });
+            $params['items'] = $this->filterItemsByValues($params['items'], $keepItems);
         }
     }
 
@@ -65,16 +63,14 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         if ($CType != 'puck_menu_pages') {
             return;
         }
-        $allowed = ['above','below','left','right'];
+        $allowedValues = 'above,below,left,right';
         $itemWidth = $this->val($params['row']['item_column_width']);
         if ($itemWidth < 4) {
-            $allowed = ['above','below'];
+            $allowedValues = 'above,below';
         }
-        $items = array_filter($params['items'], function ($item) use ($allowed) {
-            return in_array($item[1], $allowed);
-        });
-        $params['items'] = $items;
+        $params['items'] = $this->filterItemsByValues($params['items'], $allowedValues);
     }
+
     /**
      * @param $params
      * @return void
@@ -92,6 +88,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         });
         $params['items'] = $items;
     }
+
     /**
      * @param $params
      * @return void
@@ -140,7 +137,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             });
             return;
         }
-        if (in_array($mediaLayout, ['left-float','right-float']) || $CType === 'puck_modal') {
+        if (in_array($mediaLayout, ['left-float','right-float']) || $CType !== 'puck_media' ) {
             // if media_layout is float: maximum width = container width - 2
             $maximum = $containerWidth - 2;
         } else {
@@ -152,5 +149,4 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         });
         $params['items'] = $items;
     }
-
 }

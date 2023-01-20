@@ -5,7 +5,6 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  *
  */
@@ -162,6 +161,10 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
         $params['items'] = $items;
     }
 
+    /**
+     * @param $params
+     * @return int
+     */
     protected function getComputedContainerWidth($params) : int
     {
         $parentRow = $this->getInlineParentRow($params);
@@ -170,9 +173,9 @@ class InlineMediaItemsProcFunc extends BaseItemsProcFunc
         }
         // if parent is a content element with columns use column width or parent default fallback, else use parent container width
         if (GeneralUtility::inList('puck_columns,puck_cards', $this->val($parentRow['CType']))) {
-            return $this->val($params['row']['column_width']) ? : $this->val($this->getInlineParentRow($params)['item_column_width']);
+            return $this->val($params['row']['column_width']) ? : $this->val($parentRow['item_column_width']);
         } else {
-            return $this->val($this->getInlineParentRow($params)['container_width']);
+            return $this->val($parentRow['container_width']);
         }
     }
 }

@@ -2,6 +2,7 @@
 namespace UBOS\Puck\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  *
@@ -10,30 +11,23 @@ class BaseItemsProcFunc
 {
 
     /**
-     * @var array|array[]
+     * @param array $items
+     * @param string $allowedValues
+     * @return array
      */
-    protected array $keepItemsMap = [];
-
-    /**
-     * @param $params
-     * @return void
-     */
-    protected function keepItems(&$params): void
+    protected function filterItemsByValues(array $items, string $allowedValues): array
     {
-        $keepItems = $this->keepItemsMap[$params['field']];
-        if ($keepItems) {
-            $params['items'] = array_filter($params['items'], function ($item) use ($keepItems) {
-                return in_array($item[1], $keepItems);
-            });
-        }
+        return array_filter($items, function ($item) use ($allowedValues) {
+            return GeneralUtility::inList($allowedValues, $item[1]);
+        });
     }
 
+    // workaround for issue: sometimes field values ($params['row'][$fieldName]) are nested as the first element of an array
     /**
      * @param mixed $value
      * @return mixed
      */
-    // workaround for issue: sometimes field values ($params['row'][$fieldName]) are nested as the first element of an array
-    protected function getValueFromArrayOrValue($value): mixed
+    protected function getValueFromArrayOrValue(mixed $value): mixed
     {
         if (!is_array($value)) {
             return $value;
@@ -44,12 +38,12 @@ class BaseItemsProcFunc
         return null;
     }
 
+    // shorthand for getValueFromArrayOrValue
     /**
      * @param mixed $value
      * @return mixed
      */
-    // shorthand for getValueFromArrayOrValue
-    protected function val($value): mixed
+    protected function val(mixed $value): mixed
     {
         return $this->getValueFromArrayOrValue($value);
     }
