@@ -1,0 +1,38 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-control-pagination"/>
+  <fc:param name="page" type="integer" optional="1"/>
+  <fc:param name="current" type="integer" optional="1"/>
+  <fc:param name="mode" type="string" optional="1"/>
+  <fc:param name="actionLink" type="array"/>
+  <fc:renderer>
+
+      <li class="{name}__item">
+        <f:if condition="{page}">
+          <f:if condition="{page} == {current}">
+            <f:then>
+              <button class="{name}__link -disabled">{page}</button>
+            </f:then>
+            <f:else>
+              <f:link.action action="{actionLink.action}"
+                             controller="{actionLink.controller}"
+                             extensionName="{actionLink.extensionName}"
+                             arguments="{puck:array.merge(a:actionLink.arguments,b:'{page:page}')}"
+                             class="{name}__link">
+                <f:switch expression="{mode}">
+                  <f:case value="prev"><</f:case>
+                  <f:case value="next">></f:case>
+                  <f:defaultCase>{page}</f:defaultCase>
+                </f:switch>
+              </f:link.action>
+            </f:else>
+          </f:if>
+        </f:if>
+        <f:if condition="{mode} == 'slide'">
+          ...
+        </f:if>
+      </li>
+
+  </fc:renderer>
+</fc:component>
+

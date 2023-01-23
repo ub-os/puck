@@ -1,6 +1,13 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
   UBOS\Puck\EventListener\AdditionalPropertiesForSearchAction:
     tags:
       - name: event.listener
-        identifier: 'myAdditionalPropertiesForSearchAction'
-        event: Brotkrueml\Schema\Event\RegisterAdditionalTypePropertiesEvent
+        identifier: 'puck/additionalPropertiesForSearchAction'
+  UBOS\Puck\EventListener\ModifyRecordList:
+    tags:
+      - name: event.listener
+        identifier: 'puck/modifyRecordList'
+        method: modifyRecordActions

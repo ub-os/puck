@@ -1,0 +1,32 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-control-pagination"/>
+  <fc:param name="pagination" type="array"/>
+  <fc:param name="actionLink" type="array"/>
+  <fc:renderer>
+
+    <f:if condition="{pagination.first} != {pagination.last}">
+      <ul class="{name}">
+        <f:if condition="{pagination.prev}">
+          <element:control.pagination.item name="{name}" actionLink="{actionLink}" page="{pagination.prev}" mode="prev"/>
+        </f:if>
+        <element:control.pagination.item name="{name}" actionLink="{actionLink}" page="{pagination.first}" current="{pagination.current}"/>
+        <f:if condition="{pagination.slideLeft}">
+          <element:control.pagination.item name="{name}" actionLink="{actionLink}" mode="slide"/>
+        </f:if>
+        <f:for each="{pagination.window}" as="page" iteration="i">
+          <element:control.pagination.item name="{name}" actionLink="{actionLink}" page="{page}" current="{pagination.current}"/>
+        </f:for>
+        <f:if condition="{pagination.slideRight}">
+          <element:control.pagination.item name="{name}" actionLink="{actionLink}" mode="slide"/>
+        </f:if>
+        <element:control.pagination.item name="{name}" actionLink="{actionLink}" page="{pagination.last}" current="{pagination.current}"/>
+        <f:if condition="{pagination.next}">
+          <element:control.pagination.item name="{name}" actionLink="{actionLink}" page="{pagination.next}" mode="next"/>
+        </f:if>
+      </ul>
+    </f:if>
+
+  </fc:renderer>
+</fc:component>
+

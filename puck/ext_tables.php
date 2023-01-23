@@ -11,6 +11,12 @@ $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/local
 
 ExtensionManagementUtility::allowTableOnStandardPages('tx_puck_domain_model_inline_media');
 
+ // Add new page type:
+ $GLOBALS['PAGES_TYPES'][60] = [
+     'type' => 'web',
+     'allowedTables' => '*',
+ ];
+
 // IS SET IN SYS_TEMPLATES.PHP
 //\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('puck', 'Configuration/TypoScript', 'puck');
 //require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('puck') .'/Configuration/_Content/_CTypes/CTypesIconClasses.php';

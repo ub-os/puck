@@ -20,6 +20,12 @@ class MergeViewHelper extends AbstractViewHelper
     ) {
         $a = $arguments['a'];
         $b = $arguments['b'];
+        if ($a == null) {
+            return $b;
+        }
+        if ($b == null) {
+            return $a;
+        }
         if (is_array($a)) {
             return array_merge( $a, $b );
         } else {

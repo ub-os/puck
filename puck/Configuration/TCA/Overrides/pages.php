@@ -1,5 +1,6 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 $cropVariants = require(ExtensionManagementUtility::extPath('puck') . 'Configuration/TCA/Common/CropVariants.php');
 
@@ -7,6 +8,17 @@ $GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
     'label' => 'Teaser text',
     'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
 ];
+
+$GLOBALS['TCA']['pages']['columns']['publish_date'] = [
+    'label' => 'Publish date',
+    'config' => [
+        'type' => 'input',
+        'renderType' => 'inputDateTime',
+        'size' => 16,
+        'eval' => 'datetime',
+    ],
+];
+
 $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
     '3:2' => $cropVariants['3:2'],
     'social' => [
@@ -28,3 +40,53 @@ $GLOBALS['TCA']['pages']['palettes']['title']['showitem'] = '
     title,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,teaser_text';
 $GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '
     media,--linebreak--, icon';
+
+
+$blogDoktype = 60;
+ExtensionManagementUtility::addTcaSelectItem(
+    'pages',
+    'doktype',
+    [
+        'Blog Post',
+        $blogDoktype,
+        'EXT:puck/Resources/Public/Icons/Backend/BlogPost.svg'
+    ],
+    '1',
+    'after'
+);
+
+ArrayUtility::mergeRecursiveWithOverrule(
+    $GLOBALS['TCA']['pages'],
+    [
+        // add icon for new page type:
+        'ctrl' => [
+            'typeicon_classes' => [
+                $blogDoktype => 'blog_post',
+                $blogDoktype . '-contentFromPid' => "apps-pagetree-archive-contentFromPid",
+                $blogDoktype . '-root' => "apps-pagetree-archive-root",
+                $blogDoktype . '-hideinmenu' => "apps-pagetree-archive-hideinmenu",
+            ],
+        ],
+        // add all page standard fields and tabs to your new page type
+        'types' => [
+            $blogDoktype => [
+                'showitem' => $GLOBALS['TCA']['pages']['types'][\TYPO3\CMS\Core\Domain\Repository\PageRepository::DOKTYPE_DEFAULT]['showitem'],
+                'columnsOverrides' => [
+                    'publish_date' => [
+                        'config' => [
+                            'required' => 1,
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+);
+$GLOBALS['TCA']['pages']['palettes']['postTitle']['showitem'] = '
+    title,publish_date,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,teaser_text';
+ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    '--palette--;;postTitle',
+    60,
+    'replace:--palette--;;title'
+);

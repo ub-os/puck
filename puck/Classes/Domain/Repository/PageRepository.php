@@ -13,6 +13,9 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 
 class PageRepository extends Repository
 {
+
+    protected array $allowedDoktypes = [1,4,7,3];
+
     public function initializeObject() {
         $querySettings = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
@@ -23,27 +26,39 @@ class PageRepository extends Repository
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
 
+    public function findAll()
+    {
+        $query = $this->createQuery();
+        return $query->matching(
+            $query->in('doktype', $this->allowedDoktypes),
+        )->execute();
+    }
     public function findPagesByPid(int $pid, $options = [])
     {
         $options = array_merge(
             [
                 'navHide' => 0,
+                'array' => false,
             ],
             $options
         );
         $query = $this->createQuery();
         $constraints = array(
             $query->equals('pid', $pid),
-            $query->lessThan('doktype', 100),
+            $query->in('doktype', $this->allowedDoktypes),
         );
         if ($options['navHide']) {
             $constraints[] = $query->equals('nav_hide', 0);
         }
-        return $query->matching(
+        $result = $query->matching(
             $query->logicalAnd(
                 $constraints
             )
-        )->execute()->toArray();
+        )->execute();
+        if ($options['array']) {
+            return $result->toArray();
+        }
+        return $result;
     }
 
     public function findByUidListAndPidList($uidList, $pidList, $options = [])
@@ -70,7 +85,7 @@ class PageRepository extends Repository
             $query->logicalOr(
                 $pidUidConstraints
             ),
-            $query->lessThan('doktype', 100),
+            $query->in('doktype', $this->allowedDoktypes),
         );
         if ($options['navHide']) {
             $constraints[] = $query->equals('nav_hide', 0);
@@ -114,7 +129,7 @@ class PageRepository extends Repository
         $pageTree = $query->matching(
             $query->logicalAnd(
                 $query->equals('pid', $uid),
-                $query->lessThan('doktype', 100)
+                $query->in('doktype', self::ALLOWED_DOKTYPES),
             )
         )->execute()->toArray();
         foreach ($pageTree as $k => &$page) {

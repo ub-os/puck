@@ -75,6 +75,7 @@ $palettes['bodytext'] = [
     'showitem' => 'bodytext;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext_formlabel',
 ];
 $palettes['menu_pages'] = [
+    'label' => 'Menu',
     'showitem' => 'pages; Selected pages, parents; Parent pages',
     'canNotCollapse' => 1
 ];

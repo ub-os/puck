@@ -1,0 +1,38 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+<div class="callout callout-{f:if(condition:post,then:'success',else:'warning')}">
+    <div class="media">
+        <div class="media-left">
+            <core:icon identifier="blog_post" size="default" />
+        </div>
+        <div class="media-body">
+            <h4 class="callout-title">
+                <f:if condition="{post}">
+                    <f:then>Published</f:then>
+                    <f:else>Deactivated</f:else>
+                </f:if>
+            </h4>
+            <table>
+                <tbody>
+                <style>th {padding-right: 1em}</style>
+                <tr><th>Date</th><td> <f:format.date format="d.m.Y">{row.publish_date}</f:format.date></td></tr>
+                <f:if condition="{row.author}">
+                    <tr><th>Author</th><td> {row.author}</td></tr>
+                </f:if>
+                <f:if condition="{row.categories}">
+                    <tr><th>Author</th><td> {row.categories}</td></tr>
+                </f:if>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="callout-footer" style="padding-top: 1em">
+        <be:link.editRecord uid="{row.uid}" table="pages" class="btn btn-default">
+            <core:icon identifier="actions-open" />
+            Edit post data
+        </be:link.editRecord>
+        <a href="{be:moduleLink(route:'web_list', arguments:'{id:row.pid}')}" class="btn btn-default">
+            <core:icon identifier="actions-list" />
+            Post overview
+        </a>
+    </div>
+</div>

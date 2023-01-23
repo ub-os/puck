@@ -8,3 +8,11 @@ tt_content.puck_menu_pages.20 {
         }
     }
 }
+plugin.tx_puck {
+    view {
+        templateRootPaths.10 = EXT:puck/Resources/Private/Fluid
+        partialRootPaths.10 = EXT:puck/Resources/Private/Fluid/Partials
+        layoutRootPaths.10 = EXT:puck/Resources/Private/Fluid/Layouts
+        defaultPid = auto
+    }
+}

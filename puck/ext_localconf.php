@@ -8,6 +8,7 @@ use HDNET\Autoloader\Loader;
 use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puck\Controller\PageController;
 use UBOS\Puck\Controller\ContentController;
+use UBOS\Puck\Controller\PostController;
 
 ExtensionUtility::configurePlugin(
     'Puck',
@@ -19,6 +20,11 @@ ExtensionUtility::configurePlugin(
     'Content',
     [ContentController::class => 'index'],
 );
+ExtensionUtility::configurePlugin(
+    'Puck',
+    'PostList',
+    [PostController::class => 'list'],
+);
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig'
@@ -29,6 +35,10 @@ ExtensionManagementUtility::addUserTSConfig(
 );
 require_once ExtensionManagementUtility::extPath('puck') . '/Configuration/IconRegistry.php';
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PostHeader::class . '->render';
+ExtensionManagementUtility::addUserTSConfig(
+    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . 60 . ')'
+);
 Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
 
 $contentModels = PuckUtility::indexContentModels();
