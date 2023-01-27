@@ -19,5 +19,5 @@ class Post extends Page
      * @var string
      * @DatabaseField("string")
      */
-    public string $publishDate = '';
+    public string $postDate = '';
 }

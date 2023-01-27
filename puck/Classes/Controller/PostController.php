@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use UBOS\Puck\Domain\Repository\PostRepository;
 use UBOS\Puck\Utility\PuckUtility;
 
@@ -37,19 +37,27 @@ class PostController extends ActionController
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
             : 1;
-        $posts = $this->postRepository->findAll();
-        $pagination = PuckUtility::paginateData($posts, $currentPage, 1);
+        $posts = $this->postRepository->findByListSettings($this->settings);
 
+        // map the plugin tt_content data to MenuPages content object
         $contentObjectData = $this->configurationManager->getContentObject()->data;
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
         $object = $dataMapper->map('UBOS\Puck\Domain\Model\Content\MenuPages', [$contentObjectData])[0];
-        $object->setMenu($pagination['items']->toArray());
-        $object->setMenuItemConfig('media,title,date,categories,teaserText');
-        $object->layout = 'posts-default';
-        $object->itemColumnWidth = 4;
+        $object->layout = $this->settings['template']['layout'];
 
-        $this->view->assign('pagination', $pagination);
+        // paginate the posts (optional) and add them to the MenuPages object
+        $itemsPerPage = $this->settings['pagination']['itemsPerPage'] ?? 12;
+        if ($this->settings['pagination']['active'] && (int)$this->settings['constraints']['limit'] > (int)$itemsPerPage) {
+            $pagination = PuckUtility::paginateQueryResult($posts, $currentPage, $this->settings['pagination']['itemsPerPage']);
+            $object->setMenu($pagination['items']->toArray());
+            $this->view->assign('pagination', $pagination);
+        } else {
+            $object->setMenu($posts->toArray());
+        }
+
         $this->view->assign('object', $object);
         return $this->view->render();
     }
+
+
 }

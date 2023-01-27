@@ -222,7 +222,16 @@
 			<trans-unit id="wizard.full_width_media.description" resname="wizard.full_width_media.description">
 				<source>Media element with 50% or 100% viewport width.</source>
 			</trans-unit>
-			
+
+			<trans-unit id="content.element.postlist" resname="content.element.postlist">
+				<source>Post menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.postlist" resname="wizard.postlist">
+				<source>Post menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.postlist.description" resname="wizard.postlist.description">
+				<source>...</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

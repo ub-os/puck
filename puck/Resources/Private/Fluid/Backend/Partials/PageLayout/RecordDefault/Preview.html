@@ -2,11 +2,16 @@
 
 <f:render partial="PageLayout/Record/{item.record.CType}/Preview" arguments="{_all}" optional="1">
     <a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
-        <f:render section="type" arguments="{CType: item.record.CType, uid: item.record.uid}" />
+        <f:render section="type" arguments="{CType: item.record.CType, uid: item.record.uid, list_type: item.record.list_type}" />
     </a>
     <f:if condition="{item.record.CType} == 'list'">
         <f:then>
-            {item.preview -> f:format.raw()}
+            <f:if condition="{item.record.list_type} == 'puck_postlist'">
+                <f:render section="puck" arguments="{item: item}" />
+            </f:if>
+            <f:else>
+                {item.preview -> f:format.raw()}
+            </f:else>
         </f:then>
         <f:else>
             <f:render section="puck" arguments="{item: item}" />
@@ -35,9 +40,22 @@
 <f:section name="type">
     <p>
         <small>
-            <strong>
-                <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:CType)}" />
-            </strong>
+            <f:if condition="{CType} == 'list'">
+                <f:then>
+                    <f:if condition="{list_type} == 'puck_postlist'">
+                        <core:icon identifier="blog_post"/>
+                    </f:if>
+                    <strong>
+                        <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:list_type)}" />
+                    </strong>
+                </f:then>
+                <f:else>
+                    <strong>
+                        <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:CType)}" />
+                    </strong>
+                </f:else>
+            </f:if>
+
             id:{uid}
         </small>
     </p>

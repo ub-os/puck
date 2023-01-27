@@ -9,8 +9,8 @@ $GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
     'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
 ];
 
-$GLOBALS['TCA']['pages']['columns']['publish_date'] = [
-    'label' => 'Publish date',
+$GLOBALS['TCA']['pages']['columns']['post_date'] = [
+    'label' => 'Date',
     'config' => [
         'type' => 'input',
         'renderType' => 'inputDateTime',
@@ -72,7 +72,7 @@ ArrayUtility::mergeRecursiveWithOverrule(
             $blogDoktype => [
                 'showitem' => $GLOBALS['TCA']['pages']['types'][\TYPO3\CMS\Core\Domain\Repository\PageRepository::DOKTYPE_DEFAULT]['showitem'],
                 'columnsOverrides' => [
-                    'publish_date' => [
+                    'post_date' => [
                         'config' => [
                             'required' => 1,
                         ]
@@ -82,11 +82,13 @@ ArrayUtility::mergeRecursiveWithOverrule(
         ]
     ]
 );
-$GLOBALS['TCA']['pages']['palettes']['postTitle']['showitem'] = '
-    title,publish_date,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,teaser_text';
+$GLOBALS['TCA']['pages']['palettes']['postTitle'] = [
+    'label' => $GLOBALS['TCA']['pages']['palettes']['title']['label'],
+    'showitem' => 'title,post_date,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,teaser_text'
+];
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
     '--palette--;;postTitle',
-    60,
+    $blogDoktype,
     'replace:--palette--;;title'
 );

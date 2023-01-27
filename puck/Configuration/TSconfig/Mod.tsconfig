@@ -5,6 +5,18 @@ mod.wizards.newContentElement.wizardItems {
     }
     02_menu {
         header = Menu
+        elements {
+            puck_postlist {
+                iconIdentifier = blog_post
+                title = Post menu
+                description = Plugin to display a menu of posts.
+                tt_content_defValues {
+                    CType = list
+                    list_type = puck_postlist
+                }
+            }
+        }
+        show := addToList(puck_postlist)
     }
     menu.show =
     common.show =

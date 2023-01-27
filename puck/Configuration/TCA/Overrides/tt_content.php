@@ -31,3 +31,9 @@ ExtensionUtility::registerPlugin(
     'EXT:puck/Resources/Public/Icons/Backend/BlogPost.svg',
     'post'
 );
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_postlist'] = 'pi_flexform';
+
+ExtensionManagementUtility::addPiFlexFormValue(
+    'puck_postlist',
+    'FILE:EXT:puck/Configuration/FlexForms/PostList.xml'
+);

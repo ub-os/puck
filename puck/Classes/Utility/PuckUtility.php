@@ -5,12 +5,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
-
+use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use HDNET\Autoloader\Utility\FileUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 
+/**
+ *
+ */
 class PuckUtility
 {
+    /**
+     * @return array
+     */
     public static function indexContentModels(): array
     {
         $extensionKey = 'puck';
@@ -27,12 +33,19 @@ class PuckUtility
         return $index;
     }
 
-    public static function paginateData($data, $currentPage = 1, $itemsPerPage = 12, $maximumLinks = 3): array
+    /**
+     * @param QueryResult $result
+     * @param int $currentPage
+     * @param int|string $itemsPerPage
+     * @param int $maximumLinks
+     * @return array
+     */
+    public static function paginateQueryResult(QueryResult $result, int $currentPage = 1, int|string $itemsPerPage = 12, int $maximumLinks = 3): array
     {
         $paginator = new QueryResultPaginator(
-            $data,
+            $result,
             $currentPage,
-            $itemsPerPage
+            (int)$itemsPerPage
         );
         $pagination = new NumberedPagination($paginator, $maximumLinks);
         $prevPage = $currentPage > 1
