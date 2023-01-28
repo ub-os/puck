@@ -51,10 +51,14 @@
         +grid-col($i, var(--grid-columns), (ml:($i-ml,var(--grid-columns)), s:(12,12)))
       @if ($i > 5)
         +grid-col($i, var(--grid-columns), (ml:(12,12)))
-
       +media(ml)
         // text elements should take available width, too complicated with media though
         //flex-grow: 1
       img, video
       //width: width-by-cols($i * 1.5)
+  @each $mb, $value in bps-down()
+    @for $i from 1 through 12
+      &.-#{$mb}-#{$i} &__item
+      &__item.-#{$mb}-#{$i}
+        +grid-col-mb($mb, $i, var(--grid-columns))
 

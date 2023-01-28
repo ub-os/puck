@@ -1,11 +1,13 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-row"/>
-  <fc:param name="width" type="integer" optional="1" default=""/>
+  <fc:param name="width" type="string" optional="1"/>
+  <fc:param name="breakpoints" type="array" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <li class="{name}__item {class} -width-{width}" {attributes}>
+    <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
+    <li class="{name}__item {class} -width-{width} {bpClasses}" {attributes}>
       <f:format.raw>{content}</f:format.raw>
     </li>
 

@@ -6,10 +6,12 @@
   <fc:param name="justify" type="string" optional="1" default="center"/>
   <fc:param name="itemWidth" type="integer" optional="1" default=""/>
   <fc:param name="flexGrow" type="integer" optional="1" default="1"/>
+  <fc:param name="breakpoints" type="array" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} -justify-{justify} -flex-grow-{flexGrow}"  {attributes}>
+    <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
+    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} {bpClasses} -justify-{justify} -flex-grow-{flexGrow}"  {attributes}>
       <f:format.raw>{content}</f:format.raw>
     </ul>
 
