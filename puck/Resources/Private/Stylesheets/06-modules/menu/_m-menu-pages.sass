@@ -4,6 +4,17 @@
     &:hover
       transform: translateY(-5px)
 
+  &__column .l-media
+    &__figure
+      transition: transform .25s
+  &__column:hover .l-media
+    &.-layout-above .l-media__figure
+      transform: translateY(5px)
+    &.-layout-below .l-media__figure,
+    &.-layout-left .l-media__figure,
+    &.-layout-right .l-media__figure
+      transform: translateY(-5px)
+
   &__content
     +flex(row,flex-start,flex-start,wrap)
     width: 100%
@@ -13,7 +24,8 @@
     width: 100%
     color: var(--color-link)
 
-  &__card:hover &__headline
+  &__card:hover &__headline,
+  &__column:hover &__headline
     color: var(--color-link--hover)
 
   &__subtitle

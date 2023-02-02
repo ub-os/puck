@@ -3,7 +3,7 @@
   // image gallery above/below text
   @if $layout == block
     #{$name}__row
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
     #{$name}__media,
     #{$name}__text
@@ -24,7 +24,7 @@
   // image column beside text
   @if $layout == inline
     #{$name}__row
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
     #{$name}__text,
     #{$name}__media
@@ -45,7 +45,7 @@
       flex-direction: column
 
     #{$name}__row
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 2 )
+      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
       display: block
       +media-up(s)
         //--grid-gutter-y: 0

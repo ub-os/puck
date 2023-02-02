@@ -4,9 +4,16 @@
 
   &__controls
     +spacing(top, xs)
+    +flex(row,center,center)
+
+    &__prev,
+    &__next
+      margin: 0 .5em
+      color: var(--color-accent)
 
   &__pagination
     +spacing(top, xs)
+    +flex(row,center,center)
 
   &__controls,
   &__pagination
@@ -17,3 +24,23 @@
 
   &__track.-overflow-visible
     overflow: visible
+
+  &__page
+    $width: .75em
+    $margin: .75em
+    position: relative
+    height: $width
+    width: $width
+    margin: $margin * 0.5
+    background: var(--color-accent)
+    border-radius: 100%
+    opacity: 0.5
+    &:before
+      content: ''
+      position: absolute
+      top: $margin * (-0.5)
+      left: $margin * (-0.5)
+      width: $width + $margin
+      height: $width + $margin
+    &.is-active
+      opacity: 1
