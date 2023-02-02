@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PostFolder</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PostFolder" transform="translate(0.000000, 1.000000)" fill-rule="nonzero">
+            <polygon id="Path" fill="#888888" points="0 2 0 14 12.69 14 12.69 3.81 5.08 3.81 3.95 2"></polygon>
+            <g id="BlogPost" transform="translate(2.000000, 0.000000)">
+                <polygon id="Path" fill="#5BA34F" points="0 0 0 14 10.69 14 12 10.582606 12 4 8 0"></polygon>
+                <polygon id="Path" fill="#333333" opacity="0.5" points="3 14 3 13 11 13 11 14"></polygon>
+                <polygon id="Path" fill="#FFFFFF" points="3 13 3 3 8 3 8 4 11 4 11 13"></polygon>
+                <rect id="Rectangle" fill="#333333" x="5" y="5" width="6" height="2"></rect>
+                <rect id="Rectangle" fill="#B9B9B9" x="5" y="8" width="6" height="1"></rect>
+                <rect id="Rectangle" fill="#B9B9B9" x="5" y="10" width="6" height="1"></rect>
+                <polygon id="Path" fill="#FFFFFF" opacity="0.25" points="8 4 8 0 12 4"></polygon>
+                <polygon id="Path" fill="#000000" opacity="0.2" points="11 5 11 10 7 5"></polygon>
+                <path d="M0,0 L0,14 L11,14 L12,10.6808651 L12,3.5 L12,4 L8,0 L0,0 Z M1,1 L7,1 L7,4.57142857 L11,4.57142857 L11,13.5 L1,13.5 L1,1 Z M8,1 L10.5,3.5 L8,3.5 L8,1 Z" id="Shape" fill="#4A8741"></path>
+            </g>
+            <polygon id="Path" fill="#AAAAAA" points="8.26 6.08 6.55 7.4 2.53 7.4 0 14 12.96 14 16 6.08"></polygon>
+        </g>
+    </g>
+</svg>

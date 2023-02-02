@@ -28,9 +28,10 @@ ExtensionUtility::registerPlugin(
     'puck',
     'PostList',
     'Post menu',
-    'EXT:puck/Resources/Public/Icons/Backend/BlogPost.svg',
+    'menu_posts',
     'post'
 );
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['puck_postlist'] = 'pages,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_postlist'] = 'pi_flexform';
 
 ExtensionManagementUtility::addPiFlexFormValue(

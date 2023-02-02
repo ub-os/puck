@@ -3,5 +3,6 @@
 <layout:section object="{frameClass:object.frameClass,disableHeaderSpacing:true}" top="none">
     <element:control.pagination
             pagination="{pagination}"
-            actionLink="{action:'list',controller:'Post'}"/>
+            actionLink="{action:'list',controller:'Post',arguments:arguments,section:'c{object.uid}'}"/>
 </layout:section>
+

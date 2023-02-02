@@ -59,6 +59,9 @@ class PostRepository extends PageRepository
         if ($sC['limit']) {
             $query->setLimit((int)$sC['limit']);
         }
+        if ($sC['offset']) {
+            $query->setOffset((int)$sC['offset']);
+        }
         if ($settings['order']['direction'] == 'asc') {
             $orderDirection = QueryInterface::ORDER_ASCENDING;
         } else {

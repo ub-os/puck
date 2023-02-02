@@ -41,9 +41,9 @@ class PostHeader extends AbstractHeader
         // Check if the page is a post
         if ((int)($this->row['doktype'] ?? 0) === Post::DOKTYPE) {
             // Get the page repository
-            $pageRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(PostRepository::class);
+            $postRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(PostRepository::class);
             return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/Post.html', [
-                'post' => $pageRepository->findByUid($this->id),
+                'post' => $postRepository->findByUid($this->id),
                 'row' => $this->row,
                 'propertyPermissions' => $this->getPropertyPermissions()
             ])->render();

@@ -14,10 +14,10 @@ abstract class AbstractHeader
 {
 
     /** @var int */
-    protected $id = 0;
+    protected int $id = 0;
 
     /** @var array */
-    protected $row = [];
+    protected array $row = [];
 
     public function __construct()
     {

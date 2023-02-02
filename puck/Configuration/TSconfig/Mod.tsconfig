@@ -7,7 +7,7 @@ mod.wizards.newContentElement.wizardItems {
         header = Menu
         elements {
             puck_postlist {
-                iconIdentifier = blog_post
+                iconIdentifier = menu_posts
                 title = Post menu
                 description = Plugin to display a menu of posts.
                 tt_content_defValues {
