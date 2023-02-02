@@ -1,0 +1,7 @@
+routeEnhancers:
+  TrailingSlash:
+    type: PageType
+    default: /
+    index: ''
+    map:
+      /: 0

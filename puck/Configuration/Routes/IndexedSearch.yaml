@@ -1,0 +1,21 @@
+routeEnhancers:
+  IndexedSearchPlugin:
+    type: Extbase
+    namespace: tx_indexedsearch_pi2
+    routes:
+      -
+        routePath: '/{results-label}'
+        _controller: 'Search::search'
+      -
+        routePath: '::{search/sword}'
+        _controller: 'Search::search'
+        requirements:
+          -
+            search/sword: '[^/=?]*'
+    aspects:
+      results-label:
+        type: LocaleModifier
+        default: 'results'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'ergebnisse'

@@ -1,0 +1,38 @@
+routeEnhancers:
+  PostList:
+    type: Extbase
+    extension: Puck
+    plugin: PostList
+    routes:
+      -
+        routePath: '/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
+        _controller: 'Post::list'
+      -
+        routePath: '/{categoryLabel}/{categoryList}'
+        _controller: 'Post::list'
+      -
+        routePath: '/{pageLabel}/{page}'
+        _controller: 'Post::list'
+      -
+        routePath: ''
+    aspects:
+      pageLabel:
+        type: LocaleModifier
+        default: 'page'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'seite'
+      categoryLabel:
+        type: LocaleModifier
+        default: 'categories'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'kategorien'
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'
+      categoryList:
+        type: PersistedAliasMapperOfCommaList
+        tableName: sys_category
+        routeFieldName: slug
