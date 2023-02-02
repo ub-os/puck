@@ -42,9 +42,6 @@
         <small>
             <f:if condition="{CType} == 'list'">
                 <f:then>
-                    <f:if condition="{list_type} == 'puck_postlist'">
-                        <core:icon identifier="blog_post"/>
-                    </f:if>
                     <strong>
                         <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:list_type)}" />
                     </strong>

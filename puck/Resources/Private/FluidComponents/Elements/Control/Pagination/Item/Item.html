@@ -17,11 +17,16 @@
               <f:link.action action="{actionLink.action}"
                              controller="{actionLink.controller}"
                              extensionName="{actionLink.extensionName}"
+                             section="{actionLink.section}"
                              arguments="{puck:array.merge(a:actionLink.arguments,b:'{page:page}')}"
                              class="{name}__link">
                 <f:switch expression="{mode}">
-                  <f:case value="prev"><</f:case>
-                  <f:case value="next">></f:case>
+                  <f:case value="prev">
+                    <icon:svg icon="angle-left-regular" class="{name}__prev"/>
+                  </f:case>
+                  <f:case value="next">
+                    <icon:svg icon="angle-right-regular" class="{name}__next"/>
+                  </f:case>
                   <f:defaultCase>{page}</f:defaultCase>
                 </f:switch>
               </f:link.action>

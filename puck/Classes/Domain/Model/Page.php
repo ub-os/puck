@@ -7,11 +7,12 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\Domain\Model\Category;
 
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
@@ -24,6 +25,11 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  */
 class Page extends AbstractEntity
 {
+    protected PageRepository $pageRepository;
+    public function injectPageRepository(PageRepository $pageRepository)
+    {
+        $this->pageRepository = $pageRepository;
+    }
     /**
      * @var string
      */
@@ -45,6 +51,11 @@ class Page extends AbstractEntity
      * @DatabaseField(type="string")
      */
     public string $teaserText = '';
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $icon = '';
     /**
      * @var string
      */
@@ -70,23 +81,19 @@ class Page extends AbstractEntity
      */
     public string $backendLayout = '';
     /**
-     * @var string
-     */
-    public string $categories = '';
-    /**
      * @var int
      */
     public int $navHide = 0;
+    /**
+     * @var ?ObjectStorage<Category>
+     * @Lazy
+     */
+    public ?ObjectStorage $categories = null;
     /**
      * @var ?ObjectStorage<FileReference>
      * @Lazy
      */
     public ?ObjectStorage $media = null;
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $icon = '';
     /**
      * @var string
      */
@@ -98,28 +105,18 @@ class Page extends AbstractEntity
     /**
      * @var ?array
      * @Transient
-     * @Lazy
      */
     protected ?array $childPages = null;
     /**
      * @var ?array
      * @Transient
-     * @Lazy
      */
     protected ?array $breadcrumbs = null;
     /**
      * @var ?FileReference
      * @Transient
-     * @Lazy
      */
     protected ?FileReference $primaryImage = null;
-
-    /**
-     *
-     */
-    public function __construct() {
-        $this->media = new ObjectStorage();
-    }
 
     /**
      * @return ?array
@@ -127,9 +124,7 @@ class Page extends AbstractEntity
     public function getChildPages(): ?array
     {
         if ($this->childPages === null) {
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $pageRepository = $objectManager->get(PageRepository::class);
-            $this->childPages = $pageRepository->findPagesByPid($this->getUid());
+            $this->childPages = $this->pageRepository->findPagesByPid($this->getUid());
         }
         return $this->childPages;
     }

@@ -19,8 +19,8 @@
       <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes}>
         <f:for each="{menu}" as="item" iteration="i">
           <li class="{name}__item {item.class}">
-            <f:if condition="{i.index} > 0 && {processor} == 'breadcrumb'">❯</f:if>
-            <f:if condition="{i.isLast} && {processor} == 'breadcrumb'">
+            <f:if condition="{i.index} > 0 && {processor} == 'breadcrumbs'">❯</f:if>
+            <f:if condition="{i.isLast} && {processor} == 'breadcrumbs'">
               <f:then>
                       <span class="{name}__link">
                         <f:format.raw>{item.title}</f:format.raw>
@@ -45,7 +45,7 @@
                                  class="{name}__link {mods -> puck:modClass()}"
                                  absolute="1"
                                  additionalAttributes="{aria-label: item.title}">
-                  <f:if condition="{i.index} == 0 && {processor} == 'breadcrumb'">
+                  <f:if condition="{i.index} == 0 && {processor} == 'breadcrumbs'">
                     <icon:svg icon="home" class="{name}__icon"/>
                   </f:if>
                   <f:if condition="{iconFromTitle}">
@@ -83,8 +83,8 @@
           {content}
         </f:format.raw>
       </ul>
-      <f:if condition="{processor} == 'breadcrumb'">
-        <schema:type.breadcrumbList>
+      <f:if condition="{processor} == 'breadcrumbs'">
+        <schema:type.breadcrumbsList>
           <f:for each="{menu}" as="item" iteration="i">
             <schema:type.listItem
                     -as="itemListElement"
@@ -93,7 +93,7 @@
                     item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
             />
           </f:for>
-        </schema:type.breadcrumbList>
+        </schema:type.breadcrumbsList>
       </f:if>
     </nav>
     

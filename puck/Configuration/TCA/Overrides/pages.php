@@ -9,16 +9,6 @@ $GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
     'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
 ];
 
-$GLOBALS['TCA']['pages']['columns']['post_date'] = [
-    'label' => 'Date',
-    'config' => [
-        'type' => 'input',
-        'renderType' => 'inputDateTime',
-        'size' => 16,
-        'eval' => 'datetime',
-    ],
-];
-
 $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
     '3:2' => $cropVariants['3:2'],
     'social' => [
@@ -42,14 +32,32 @@ $GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '
     media,--linebreak--, icon';
 
 
-$blogDoktype = 60;
+
+// Post pages
+$GLOBALS['TCA']['pages']['columns']['post_date'] = [
+    'label' => 'Date',
+    'config' => [
+        'type' => 'input',
+        'renderType' => 'inputDateTime',
+        'size' => 16,
+        'eval' => 'datetime',
+    ],
+];
+$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
+    'Post folder',
+    'posts',
+    'blog_post',
+];
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-posts'] = 'post_folder';
+
+$postDoktype = 60;
 ExtensionManagementUtility::addTcaSelectItem(
     'pages',
     'doktype',
     [
         'Blog Post',
-        $blogDoktype,
-        'EXT:puck/Resources/Public/Icons/Backend/BlogPost.svg'
+        $postDoktype,
+        'blog_post'
     ],
     '1',
     'after'
@@ -61,15 +69,13 @@ ArrayUtility::mergeRecursiveWithOverrule(
         // add icon for new page type:
         'ctrl' => [
             'typeicon_classes' => [
-                $blogDoktype => 'blog_post',
-                $blogDoktype . '-contentFromPid' => "apps-pagetree-archive-contentFromPid",
-                $blogDoktype . '-root' => "apps-pagetree-archive-root",
-                $blogDoktype . '-hideinmenu' => "apps-pagetree-archive-hideinmenu",
+                $postDoktype => 'blog_post',
+                $postDoktype . '-hideinmenu' => "blog_post_hideinmenu",
             ],
         ],
         // add all page standard fields and tabs to your new page type
         'types' => [
-            $blogDoktype => [
+            $postDoktype => [
                 'showitem' => $GLOBALS['TCA']['pages']['types'][\TYPO3\CMS\Core\Domain\Repository\PageRepository::DOKTYPE_DEFAULT]['showitem'],
                 'columnsOverrides' => [
                     'post_date' => [
@@ -89,6 +95,12 @@ $GLOBALS['TCA']['pages']['palettes']['postTitle'] = [
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
     '--palette--;;postTitle',
-    $blogDoktype,
+    $postDoktype,
     'replace:--palette--;;title'
+);
+ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    'php_tree_stop',
+    254,
+    'after:module'
 );

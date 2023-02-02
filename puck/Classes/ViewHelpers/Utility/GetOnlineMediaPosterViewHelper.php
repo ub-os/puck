@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class GetOnlineMediaPosterViewHelper extends AbstractViewHelper
 {
-    private static array $allowedServices = ['youtube', 'vimeo'];
+    public static array $allowedServices = ['youtube', 'vimeo'];
 
     use CompileWithRenderStatic;
     public function initializeArguments()

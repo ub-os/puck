@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-use B13\Menus\DataProcessing\BreadcrumbMenu;
+use B13\Menus\DataProcessing\BreadcrumbsMenu;
 use B13\Menus\DataProcessing\LanguageMenu;
 use B13\Menus\DataProcessing\ListMenu;
 use B13\Menus\DataProcessing\TreeMenu;
@@ -56,8 +56,8 @@ class MenuViewHelper extends AbstractViewHelper
                     'addAllSiteLanguages' => $arguments['addAllSiteLanguages'],
                 ];
                 break;
-            case 'breadcrumb':
-                $dataProcessor = GeneralUtility::makeInstance(BreadcrumbMenu::class);
+            case 'breadcrumbs':
+                $dataProcessor = GeneralUtility::makeInstance(BreadcrumbsMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
                     'excludePages' => $arguments['excludePages'],

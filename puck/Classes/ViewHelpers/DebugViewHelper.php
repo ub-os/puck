@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceInterface;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3Fluid\Fluid\Core\Compiler\TemplateCompiler;
@@ -22,11 +23,8 @@ class DebugViewHelper extends AbstractViewHelper
     use CompileWithContentArgumentAndRenderStatic;
 
     protected $templateParsingPointers = [];
-
     protected $escapeOutput = false;
-
     protected $escapeChildren = false;
-
     protected static $gettableMethodPrefixes = ['get', 'is', 'has'];
 
     protected static $blacklistedMethods = [
@@ -112,7 +110,7 @@ class DebugViewHelper extends AbstractViewHelper
                     trim($pointers[2])
                 );
             }
-            if (TYPO3_MODE === 'FE') {
+            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
                 $representation = static::convertAnything($value, (int) $arguments['maxDepth'], $converted);
                 $json = json_encode($representation, JSON_HEX_QUOT|JSON_INVALID_UTF8_SUBSTITUTE );
                 $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
