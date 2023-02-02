@@ -36,16 +36,20 @@ class PuckUtility
     /**
      * @param QueryResult $result
      * @param int $currentPage
-     * @param int|string $itemsPerPage
+     * @param int $itemsPerPage
      * @param int $maximumLinks
      * @return array
      */
-    public static function paginateQueryResult(QueryResult $result, int $currentPage = 1, int|string $itemsPerPage = 12, int $maximumLinks = 3): array
+    public static function paginateQueryResult(
+        QueryResult $result,
+        int $currentPage = 1,
+        int $itemsPerPage = 12,
+        int $maximumLinks = 3): array
     {
         $paginator = new QueryResultPaginator(
             $result,
             $currentPage,
-            (int)$itemsPerPage
+            $itemsPerPage
         );
         $pagination = new NumberedPagination($paginator, $maximumLinks);
         $prevPage = $currentPage > 1
