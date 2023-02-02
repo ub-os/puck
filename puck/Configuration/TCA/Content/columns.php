@@ -11,6 +11,7 @@ $columns['frame_class'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['Default', 'default'],
             ['Light blue', 'light-1'],
@@ -23,8 +24,9 @@ $columns['frame_class'] = [
 ];
 
 $columns['layout'] = [
-    'label' => 'Layout',
+    'label' => 'Appearance type',
     'onChange' => 'reload',
+    'disableNoMatchingValueElement' => true,
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
@@ -41,6 +43,7 @@ $columns['header_layout'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             // 0 = default
             ['H2', 0],
@@ -63,6 +66,7 @@ $columns['imagecols'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['1', 1],
             ['2', 2],
@@ -79,6 +83,7 @@ $columns['content_type'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['Media files', 'assets'],
             ['Page teaser', 'page'],
@@ -96,11 +101,11 @@ $columns['media_layout'] = [
         'renderType' => 'selectSingle',
         'disableNoMatchingValueElement' => true,
         'items' => [
-            ['Above text', 'above',
-                'media_layout_above',
-            ],
             ['Below text', 'below',
                 'media_layout_below',
+            ],
+            ['Above text', 'above',
+                'media_layout_above',
             ],
             ['Right beside text', 'right',
                 'media_layout_right',
@@ -217,6 +222,7 @@ $columns['container_width'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['4', 4, 'column_width4'],
             ['5', 5, 'column_width5'],
@@ -269,15 +275,16 @@ $columns['item_column_width'] = [
 $columns['text_column_width'] = $columns['item_column_width'];
 $columns['media_column_width'] = $columns['item_column_width'];
 $columns['text_column_width']['label'] = 'Text width';
-$columns['media_column_width']['label'] = 'Media width';
+$columns['media_column_width']['label'] = 'Media gallery width';
 $columns['text_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class.'->textColumnWidth';
 $columns['media_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class.'->mediaColumnWidth';
 
-$columns['column_position'] = [
-    'label' => 'Align items',
+$columns['row_justify'] = [
+    'label' => 'Align horizontally',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['Left', 'left', 'align_left'],
             ['Center', 'center', 'align_center'],
@@ -292,13 +299,32 @@ $columns['column_position'] = [
         ],
     ],
 ];
-
+$columns['row_align'] = [
+    'label' => 'Align vertically',
+    'config' => [
+        'type' => 'select',
+        'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
+        'items' => [
+            ['Top', 'start', 'align_top'],
+            ['Center', 'center', 'align_center_vertical'],
+            ['Bottom', 'end', 'align_bottom'],
+        ],
+        'default' => 'top',
+        'fieldWizard' => [
+            'selectIcons' => [
+                'disabled' => false,
+            ],
+        ],
+    ],
+];
 $columns['container_position'] = [
     'label' => 'Align',
     'onChange' => 'reload',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['Left', 'left', 'align_left'],
             ['Center', 'center', 'align_center'],
@@ -334,6 +360,7 @@ $columns['card_media_size'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
+        'disableNoMatchingValueElement' => true,
         'items' => [
             ['Full-width / full-height', 'cover', 'size_cover'],
             ['Contained', 'contain', 'size_contain'],

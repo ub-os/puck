@@ -62,11 +62,6 @@ class PageController extends ActionController
                 ['dataProcessing.' => $this->settings['dataProcessing'] ?? null],
                 ['data' => $data]
             );
-            //$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            //$pageRepository = $objectManager->get(PageRepository::class);
-            //$menuRepository = $objectManager->get(MenuRepository::class);
-            //$variables['tree_puck'] = $pageRepository->getPageTree($data['uid'], 3, true);
-            //$variables['tree_b13'] = $menuRepository->getPageTree($data['uid'], 3, []);
             $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
             $variables['context'] = [
                 'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),

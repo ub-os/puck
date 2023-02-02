@@ -23,7 +23,6 @@ class Accordions extends Text
      * @var ?ObjectStorage<InlineMedia>
      * @DatabaseField("string")
      * @Cascade("remove")
-     * @Lazy
      */
     public ?ObjectStorage $inlineMedia = null;
 

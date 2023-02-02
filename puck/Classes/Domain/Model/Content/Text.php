@@ -89,7 +89,6 @@ class Text extends AbstractEntity
      * @Transient
      */
     protected ?bool $disableHeaderSpacing = null;
-
     /**
      * @return bool
      */
@@ -100,7 +99,6 @@ class Text extends AbstractEntity
         }
         return $this->disableHeaderSpacing;
     }
-
     /**
      * @param bool $disableHeaderSpacing
      * @return void

@@ -14,7 +14,7 @@
             id="c{object.uid}">
       <element:text.header object="{object}"/>
       <f:if condition="{object.menu}">
-        <layout:row class="{name}__row" flexGrow="0" justify="{object.columnPosition}">
+        <layout:row class="{name}__row" flexGrow="0" justify="{object.rowJustify}" align="{object.rowAlign}">
           <f:for each="{object.menu}" as="item" iteration="i">
             <f:if condition="{item.uid} != {object.pid}">
               <f:switch expression="{object.layout}">

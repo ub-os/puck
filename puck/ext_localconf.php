@@ -2,6 +2,7 @@
 if (!defined('TYPO3_MODE')) {
     die ('Acess denied.');
 }
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use HDNET\Autoloader\Loader;
@@ -34,8 +35,10 @@ ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
 );
 require_once ExtensionManagementUtility::extPath('puck') . '/Configuration/IconRegistry.php';
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PostHeader::class . '->render';
+
 ExtensionManagementUtility::addUserTSConfig(
     'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . 60 . ')'
 );
@@ -95,4 +98,3 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#A46CDC';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/website-logo.svg';
-

@@ -7,12 +7,12 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference ;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use UBOS\Puck\Domain\Repository\ContentRepository;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+use UBOS\Puck\Domain\Repository\ContentRepository;
 
 /**
  * @DatabaseTable("tt_content")
@@ -20,9 +20,13 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
  */
 class MenuAnchors extends Text
 {
+    protected ?ContentRepository $contentRepository = null;
+    public function injectContentRepository(ContentRepository $contentRepository) : void
+    {
+        $this->contentRepository = $contentRepository;
+    }
     /**
      * @var ?array
-     * @Lazy
      * @Transient
      */
     protected ?array $anchors = null;
@@ -33,13 +37,10 @@ class MenuAnchors extends Text
     public function getAnchors(): array
     {
         if ($this->anchors === null) {
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $contentRepository = $objectManager->get(ContentRepository::class);
-            $this->anchors = $contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid)->toArray();
+            $this->anchors = $this->contentRepository->findContentObjectsBy('Anchor', 'pid', $this->pid)->toArray();
         }
         return $this->anchors;
     }
-
     /**
      * @param array $anchors
      * @return void
@@ -48,5 +49,4 @@ class MenuAnchors extends Text
     {
         $this->anchors = $anchors;
     }
-
 }

@@ -9,6 +9,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
@@ -20,7 +21,11 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  */
 class MenuPages extends Modal
 {
-
+    protected ?PageRepository $pageRepository = null;
+    public function injectPageRepository(PageRepository $pageRepository) : void
+    {
+        $this->pageRepository = $pageRepository;
+    }
     /**
      * @var string
      */
@@ -66,7 +71,6 @@ class MenuPages extends Modal
 
     /**
      * @var ?array
-     * @Lazy
      * @Transient
      */
     protected ?array $menu = null;
@@ -77,9 +81,7 @@ class MenuPages extends Modal
     public function getMenu(): array
     {
         if ($this->menu === null) {
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            $pageRepository = $objectManager->get(PageRepository::class);
-            $this->menu = $pageRepository->findByUidListAndPidList($this->pages, $this->parents, ['navHide' => 1, 'orderByUidList' => 1]);
+            $this->menu = $this->pageRepository->findByUidListAndPidList($this->pages, $this->parents, ['navHide' => 1, 'orderByUidList' => 1]);
         }
         return $this->menu;
     }
@@ -92,5 +94,4 @@ class MenuPages extends Modal
     {
         $this->menu = $menu;
     }
-
 }

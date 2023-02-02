@@ -230,10 +230,10 @@ $types['puck_media'] = [
             ]
         ],
         'item_column_width' => [
-            'label' => 'Default media item width',
+            'label' => 'Media item width',
             'displayCond' => 'FIELD:content_type:=:assets',
         ],
-        'column_position' => [
+        'row_justify' => [
             'displayCond' => 'FIELD:content_type:=:assets',
 
         ],
@@ -296,7 +296,7 @@ $types['puck_menu_pages'] = [
         'media_column_width' => [
             'displayCond' => 'FIELD:layout:IN:cards,columns',
         ],
-        'column_position' => [
+        'row_justify' => [
             'displayCond' => 'FIELD:layout:IN:cards,columns',
         ],
         'media_layout' => [

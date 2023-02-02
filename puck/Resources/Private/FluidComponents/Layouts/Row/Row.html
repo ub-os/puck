@@ -4,6 +4,7 @@
   <fc:param name="gutterRem" type="string" optional="1"/>
   <fc:param name="direction" type="string" optional="1" default="row"/>
   <fc:param name="justify" type="string" optional="1" default="center"/>
+  <fc:param name="align" type="string" optional="1" default="flex-start"/>
   <fc:param name="itemWidth" type="integer" optional="1" default=""/>
   <fc:param name="flexGrow" type="integer" optional="1" default="1"/>
   <fc:param name="breakpoints" type="array" optional="1" default="{bp:'auto'}"/>
@@ -11,9 +12,11 @@
   <fc:renderer>
 
     <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
-    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} {bpClasses} -justify-{justify} -flex-grow-{flexGrow}"  {attributes}>
+    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} {bpClasses} -justify-{justify} -align-{align} -flex-grow-{flexGrow}"  {attributes}>
       <f:format.raw>{content}</f:format.raw>
     </ul>
 
   </fc:renderer>
 </fc:component>
+
+

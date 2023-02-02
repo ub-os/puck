@@ -53,8 +53,12 @@ class Media extends Text
      * @var string
      * @DatabaseField("string")
      */
-    public string $columnPosition = '';
-
+    public string $rowJustify = '';
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $rowAlign = '';
     /**
      * @var int
      * @DatabaseField("int")

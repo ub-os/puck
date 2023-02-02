@@ -26,7 +26,6 @@ class Columns extends Text
      * @var ?ObjectStorage<InlineMedia>
      * @DatabaseField("string")
      * @Cascade("remove")
-     * @Lazy
      */
     public ?ObjectStorage $inlineMedia = null;
 
@@ -40,8 +39,12 @@ class Columns extends Text
      * @var string
      * @DatabaseField("string")
      */
-    public string $columnPosition = '';
-
+    public string $rowJustify = '';
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $rowAlign = '';
     /**
      * @var ?array
      * @Transient

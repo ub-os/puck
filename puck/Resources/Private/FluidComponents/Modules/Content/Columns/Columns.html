@@ -26,7 +26,7 @@
         </f:case>
 
         <f:defaultCase>
-          <layout:row justify="{object.columnPosition}" class="{name}__row">
+          <layout:row justify="{object.rowJustify}" align="{object.rowAlign}" class="{name}__row">
             <f:for each="{object.inlineMedia}" as="item" iteration="i">
               <layout:row.item width="{object.columnWidths.{i.index}}">
                 <module:content.columns.item item="{item}"/>

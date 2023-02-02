@@ -7,17 +7,7 @@ $columns = [
         'exclude' => true,
         'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
         'config' => [
-            'type' => 'select',
-            'renderType' => 'selectSingle',
-            'special' => 'languages',
-            'items' => [
-                [
-                    'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                    -1,
-                    'flags-multiple'
-                ]
-            ],
-            'default' => 0,
+            'type' => 'language',
         ],
     ],
     'l10n_parent' => [
@@ -129,7 +119,7 @@ $columns = [
         ],
     ],
     'item_column_width' => [
-        'label' => 'Default media item width',
+        'label' => 'Media item width',
         'onChange' => 'reload',
         'config' => [
             'type' => 'select',
@@ -157,11 +147,12 @@ $columns = [
             ],
         ],
     ],
-    'column_position' => [
+    'row_justify' => [
         'label' => 'Align items',
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
+            'disableNoMatchingValueElement' => true,
             'items' => [
                 ['Left', 'left', 'align_left'],
                 ['Center', 'center', 'align_center'],
@@ -176,6 +167,25 @@ $columns = [
             ],
         ]
     ],
+    'row_align' => [
+        'label' => 'Align vertically',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'disableNoMatchingValueElement' => true,
+            'items' => [
+                ['Top', 'start', 'align_top'],
+                ['Center', 'center', 'align_center_vertical'],
+                ['Bottom', 'end', 'align_bottom'],
+            ],
+            'default' => 'top',
+            'fieldWizard' => [
+                'selectIcons' => [
+                    'disabled' => false,
+                ],
+            ],
+        ],
+    ],
     'media_layout' => [
         'label' => 'Media layout',
         'onChange' => 'reload',
@@ -185,11 +195,11 @@ $columns = [
             'itemsProcFunc' => InlineMediaItemsProcFunc::class.'->mediaLayout',
             'disableNoMatchingValueElement' => true,
             'items' => [
-                ['Above text', 'above',
-                    'media_layout_above',
-                ],
                 ['Below text', 'below',
                     'media_layout_below',
+                ],
+                ['Above text', 'above',
+                    'media_layout_above',
                 ],
                 ['Right beside text', 'right',
                     'media_layout_right',
@@ -239,6 +249,7 @@ $columns = [
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
+            'disableNoMatchingValueElement' => true,
             'items' => [
                 ['Full-width / full-height', 'cover', 'size_cover'],
                 ['Contained', 'contain', 'size_contain'],
@@ -277,7 +288,7 @@ $columns = [
 $columns['media_column_width'] = $columns['item_column_width'];
 $columns['text_column_width'] = $columns['item_column_width'];
 $columns['text_column_width']['label'] = 'Text width';
-$columns['media_column_width']['label'] = 'Media width';
+$columns['media_column_width']['label'] = 'Media gallery width';
 $columns['text_column_width']['config']['itemsProcFunc'] = InlineMediaItemsProcFunc::class.'->textColumnWidth';
 $columns['media_column_width']['config']['itemsProcFunc'] = InlineMediaItemsProcFunc::class.'->mediaColumnWidth';
 

@@ -7,7 +7,9 @@ $palettes = [
                     media_layout,
                     text_column_width, media_column_width,
                     --linebreak--,
-                    item_column_width, column_position, media_max_height,'
+                     row_justify, row_align,
+                    --linebreak--,
+                    item_column_width, media_max_height,'
     ],
     'gridCard' => [
         'label' => 'Layout',

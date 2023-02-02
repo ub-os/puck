@@ -15,7 +15,8 @@ $palettes['gridContainerWidth'] = [
 $palettes['gridColumns'] = [
     'label' => 'Layout',
     'showitem' => '
-        item_column_width, column_position'
+        item_column_width,
+        row_justify, row_align'
 ];
 $palettes['gridMedia'] = [
     'label' => 'Layout',
@@ -23,7 +24,9 @@ $palettes['gridMedia'] = [
         media_layout,
         text_column_width, media_column_width,
         --linebreak--,
-        item_column_width, column_position, media_max_height'
+        row_justify, row_align,
+        --linebreak--,
+        item_column_width, media_max_height'
 ];
 $palettes['gridCard'] = [
     'label' => 'Layout',
@@ -33,7 +36,7 @@ $palettes['gridCard'] = [
 $palettes['gridMenuPages'] = [
     'label' => 'Layout',
     'showitem' => '
-        item_column_width, column_position, --linebreak--,
+        item_column_width, row_justify, row_align --linebreak--,
         media_layout, card_media_size, text_column_width, media_column_width'
 ];
 $palettes['appearance'] = [

@@ -29,7 +29,6 @@ class Anchor extends AbstractEntity
      * @Transient
      */
     protected string $elementId;
-
     /**
      * @return string
      */
@@ -37,7 +36,6 @@ class Anchor extends AbstractEntity
     {
         return urlencode(strtolower($this->subheader)).'-c'.$this->uid;
     }
-
     /**
      * @param string $elementId
      */
@@ -45,5 +43,4 @@ class Anchor extends AbstractEntity
     {
         $this->elementId = $elementId;
     }
-
 }

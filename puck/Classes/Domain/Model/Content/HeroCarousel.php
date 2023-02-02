@@ -13,12 +13,17 @@ use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-
+use UBOS\Puck\Domain\Model\InlineMedia;
 
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class HeroCarousel extends Columns
+class HeroCarousel extends Text
 {
+    /**
+     * @var ?ObjectStorage<InlineMedia>
+     * @Cascade("remove")
+     */
+    public ?ObjectStorage $inlineMedia = null;
 }

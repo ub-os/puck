@@ -79,7 +79,12 @@ class InlineMedia extends AbstractEntity
      * @var string
      * @DatabaseField("string")
      */
-    public string $columnPosition = '';
+    public string $rowJustify = '';
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $rowAlign = '';
     /**
      * @var string
      * @DatabaseField("string")
@@ -106,17 +111,11 @@ class InlineMedia extends AbstractEntity
      * @Lazy
      */
     public ?ObjectStorage $assets = null;
-
-    public function __construct() {
-        $this->assets = new ObjectStorage();
-    }
-
     /**
      * @var string
      * @Transient
      */
     protected string $mediaLayoutDirection = '';
-
     /**
      * @return string
      */
