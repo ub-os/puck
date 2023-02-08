@@ -7,6 +7,8 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
+use UBOS\Puck\Utility\PuckUtility;
+
 class FileViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
@@ -24,33 +26,10 @@ class FileViewHelper extends AbstractViewHelper
     ) {
         $path = $arguments['path'];
         $delimiter = $arguments['delimiter'];
-        $pathExplodeDot = explode('.', $path);
-        $fileExt = end($pathExplodeDot);
-        $contents = file_get_contents(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . $path);
-        switch ($fileExt) {
-            case 'json':
-                $result = json_decode($contents);
-                break;
-            case 'csv':
-                $csv = array_map('str_getcsv', file(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . $path));
-                array_walk($csv, function(&$a) use ($csv) {
-                    $a = array_combine($csv[0], $a);
-                });
-                array_shift($csv); # remove column header
-                $result = $csv;
-                break;
-            case 'xml':
-                $xml = simplexml_load_string($contents, "SimpleXMLElement", LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $result = json_decode($json,TRUE);
-                break;
-            default:
-                if ($delimiter) {
-                    $result = explode($delimiter, $contents);
-                } else {
-                    $result = $contents;
-                }
-        }
-        return $result;
+        return PuckUtility::getArrayFromFile(
+            \TYPO3\CMS\Core\Core\Environment::getPublicPath() . $path,
+            true,
+            $delimiter
+        );
     }
 }
