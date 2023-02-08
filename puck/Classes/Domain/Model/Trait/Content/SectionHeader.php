@@ -33,25 +33,25 @@ trait SectionHeader {
      * @var ?bool
      * @Transient
      */
-    protected ?bool $hasHeaderSpacing = null;
+    protected ?bool $hasNoHeaderSpacing = null;
 
     /**
      * @return bool
      */
-    public function getHasHeaderSpacing(): bool
+    public function getHasNoHeaderSpacing(): bool
     {
-        if ($this->hasHeaderSpacing === null) {
-            $this->hasHeaderSpacing = (!$this->header || $this->headerLayout > 29) && !$this->headerSpacingOverride;
+        if ($this->hasNoHeaderSpacing === null) {
+            $this->hasNoHeaderSpacing = (!$this->header || $this->headerLayout > 29) && !$this->headerSpacingOverride;
         }
-        return $this->hasHeaderSpacing;
+        return $this->hasNoHeaderSpacing;
     }
 
     /**
-     * @param bool $hasHeaderSpacing
+     * @param bool $hasNoHeaderSpacing
      * @return void
      */
-    public function setHasHeaderSpacing(bool $hasHeaderSpacing): void
+    public function setHasNoHeaderSpacing(bool $hasNoHeaderSpacing): void
     {
-        $this->hasHeaderSpacing = $hasHeaderSpacing;
+        $this->hasNoHeaderSpacing = $hasNoHeaderSpacing;
     }
 }
