@@ -12,8 +12,13 @@
               default="{xs: 450, s: 600, sm: 750, m: 900, ml: 1050, l: 1200, xl: 1500, xxl: 1920}"/>
     <fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
     <fc:param name="reserveHeight" type="string" optional="1"/>
+    <fc:param name="additionalAttributes" type="array" optional="1"/>
     <fc:renderer>
 
+        <f:if condition="{image.link}">
+            <f:variable name="href" value="{f:uri.typolink(parameter:image.link)}"/>
+            <f:variable name="additionalAttributes" value="{puck:array.merge(a:additionalAttributes,b:'{data-link-to:href}')}"/>
+        </f:if>
         <f:if condition="!{width}">
             <f:variable name="width" value="{settings.gridWidth}"/>
         </f:if>
@@ -80,7 +85,8 @@
                                          cropVariant="{cropVariant}"
                                          title="{image.title}"
                                          alt="{image.alternative}"
-                                         loading="{loading}"/>
+                                         loading="{loading}"
+                                         additionalAttributes="{additionalAttributes}"/>
                             </f:then>
                             <f:else>
                                 <f:image src="{src}"
@@ -89,7 +95,8 @@
                                          absolute="true"
                                          title="{image.title}"
                                          alt="{image.alternative}"
-                                         loading="{loading}"/>
+                                         loading="{loading}"
+                                         additionalAttributes="{additionalAttributes}"/>
                             </f:else>
                         </f:if>
 
