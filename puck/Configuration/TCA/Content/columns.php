@@ -413,5 +413,13 @@ $columns['menu_item_config'] = [
         'default' => 'teaserText,media',
     ]
 ];
-
+$columns['flex_grow'] = [
+    'label' => 'Grow items',
+    'description' => 'Items will grow to fill the available space',
+    'config' => [
+        'type' => 'check',
+        'renderType' => 'checkboxToggle',
+        'default' => 0,
+    ]
+];
 return $columns;

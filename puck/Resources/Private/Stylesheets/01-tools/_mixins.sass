@@ -67,20 +67,21 @@
   padding-inline: calc(var(--grid-gutter-x) * .5)
   margin-top: var(--grid-gutter-y)
   flex: 0 0 auto
-  //width: percentage(divide($columns, $custom-grid-columns))
+  +grid-col-width($columns, $custom-grid-columns, $columns-mb)
+
+=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
   width: calc(100% * #{$columns} / #{$custom-grid-columns})
   &>*
+    --grid-columns-original: #{$columns}
     @if $columns != #{var(--grid-columns)}
       --grid-columns: #{$columns}
-    --grid-columns-original: #{$columns}
   @each $mb, $value in $columns-mb
     +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
 
 =grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
   +media($mb)
-    width: calc(100% * #{$columns} / #{$custom-grid-columns})
-    &>*
-      --grid-columns: #{$columns}
+    +grid-col-width($columns, $custom-grid-columns)
+
 
 =spacing($side: 'both', $size: 'm', $property: padding, $multiplier: 1)
   $spacing: $multiplier * map-get(sizes(), $size)

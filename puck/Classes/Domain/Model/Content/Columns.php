@@ -46,6 +46,11 @@ class Columns extends Text
      */
     public string $rowAlign = '';
     /**
+     * @var int
+     * @DatabaseField("int")
+     */
+    public int $flexGrow = 0;
+    /**
      * @var ?array
      * @Transient
      */

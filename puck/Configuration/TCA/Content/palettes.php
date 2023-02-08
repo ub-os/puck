@@ -15,7 +15,8 @@ $palettes['gridContainerWidth'] = [
 $palettes['gridColumns'] = [
     'label' => 'Layout',
     'showitem' => '
-        item_column_width,
+        item_column_width,flex_grow,
+        --linebreak--,
         row_justify, row_align'
 ];
 $palettes['gridMedia'] = [
