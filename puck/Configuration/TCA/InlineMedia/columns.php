@@ -3,32 +3,6 @@
 use UBOS\Puck\UserFunctions\FormEngine\InlineMediaItemsProcFunc;
 $columnAssets = $GLOBALS['TCA']['tt_content']['columns']['assets'];
 $columns = [
-    'sys_language_uid' => [
-        'exclude' => true,
-        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-        'config' => [
-            'type' => 'language',
-        ],
-    ],
-    'l10n_parent' => [
-        'displayCond' => 'FIELD:sys_language_uid:>:0',
-        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-        'config' => [
-            'type' => 'select',
-            'renderType' => 'selectSingle',
-            'default' => 0,
-            'items' => [
-                ['', 0],
-            ],
-            'foreign_table' => 'tx_puck_domain_model_inline_media',
-            'foreign_table_where' => 'AND {#tx_puck_domain_model_inline_media}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_inline_media}.{#sys_language_uid} IN (-1,0)',
-        ],
-    ],
-    'l10n_diffsource' => [
-        'config' => [
-            'type' => 'passthrough',
-        ],
-    ],
     'item_type' => [
         'label' => 'Type',
         'config' => [
@@ -148,7 +122,7 @@ $columns = [
         ],
     ],
     'row_justify' => [
-        'label' => 'Align items',
+        'label' => 'Align horizontally',
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
@@ -280,6 +254,32 @@ $columns = [
         ],
     ],
     'parent_table' => [
+        'config' => [
+            'type' => 'passthrough',
+        ],
+    ],
+    'sys_language_uid' => [
+        'exclude' => true,
+        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+        'config' => [
+            'type' => 'language',
+        ],
+    ],
+    'l10n_parent' => [
+        'displayCond' => 'FIELD:sys_language_uid:>:0',
+        'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'default' => 0,
+            'items' => [
+                ['', 0],
+            ],
+            'foreign_table' => 'tx_puck_domain_model_inline_media',
+            'foreign_table_where' => 'AND {#tx_puck_domain_model_inline_media}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_inline_media}.{#sys_language_uid} IN (-1,0)',
+        ],
+    ],
+    'l10n_diffsource' => [
         'config' => [
             'type' => 'passthrough',
         ],
