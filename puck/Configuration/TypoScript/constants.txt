@@ -30,3 +30,7 @@ search {
 }
 # cat=puck/appearance/1; type=int; label=Page grid width in px
 gridWidth = 1300
+# cat=puck/appearance/3; type=options [default]; label=Logo
+logo = default
+# cat=puck/appearance/3; type=options [default]; label=Favicon
+favicon = default
