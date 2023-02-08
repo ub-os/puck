@@ -5,10 +5,22 @@ routeEnhancers:
     plugin: PostList
     routes:
       -
+        routePath: '/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        _controller: 'Post::list'
+      -
+        routePath: '/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}'
+        _controller: 'Post::list'
+      -
         routePath: '/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
         _controller: 'Post::list'
       -
         routePath: '/{categoryLabel}/{categoryList}'
+        _controller: 'Post::list'
+      -
+        routePath: '/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        _controller: 'Post::list'
+      -
+        routePath: '/{authorLabel}/{authorList}'
         _controller: 'Post::list'
       -
         routePath: '/{pageLabel}/{page}'
@@ -24,10 +36,16 @@ routeEnhancers:
             value: 'seite'
       categoryLabel:
         type: LocaleModifier
-        default: 'categories'
+        default: 'category'
         localeMap:
           - locale: 'de_DE.*'
-            value: 'kategorien'
+            value: 'kategorie'
+      authorLabel:
+        type: LocaleModifier
+        default: 'author'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'autor'
       page:
         type: StaticRangeMapper
         start: '1'
@@ -35,4 +53,8 @@ routeEnhancers:
       categoryList:
         type: PersistedAliasMapperOfCommaList
         tableName: sys_category
+        routeFieldName: slug
+      authorList:
+        type: PersistedAliasMapperOfCommaList
+        tableName: tx_puck_domain_model_author
         routeFieldName: slug

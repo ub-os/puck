@@ -8,6 +8,8 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * @DatabaseTable("pages")
  */
@@ -20,4 +22,10 @@ class Post extends Page
      * @DatabaseField("string")
      */
     public string $postDate = '';
+
+    /**
+     * @var ?Author
+     * @DatabaseField("int")
+     */
+    public ?Author $postAuthor = null;
 }

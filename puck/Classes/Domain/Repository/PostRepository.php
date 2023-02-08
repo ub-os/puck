@@ -30,7 +30,7 @@ class PostRepository extends PageRepository
      */
     public function findByListSettings(array $settings) : QueryResult
     {
-        $sC = $settings['constraints'];
+        $demand = $settings['demand'];
         $query = $this->createQuery();
         $constraints = [$query->in('doktype', $this->allowedDoktypes)];
         $pidUidConstraints = [];
@@ -47,20 +47,20 @@ class PostRepository extends PageRepository
         if ($pidUidConstraints) {
             $constraints[] = $query->logicalOr($pidUidConstraints);
         }
-        if ($sC['navHide']) {
+        if ($demand['navHide']) {
             $constraints[] = $query->equals('nav_hide', 0);
         }
-        if ($sC['author']) {
-            $constraints[] = $query->equals('author', $sC['author']);
+        if ($demand['author']) {
+            $constraints[] = $query->equals('post_author', $demand['author']);
         }
-        if ($sC['category']['list'] && $sC['category']['conjunction']) {
-            $constraints[] = $this->createCategoryConstraint($query, $sC['category']['list'], $sC['category']['conjunction']);
+        if ($demand['category']['list'] && $demand['category']['conjunction']) {
+            $constraints[] = $this->createCategoryConstraint($query, $demand['category']['list'], $demand['category']['conjunction']);
         }
-        if ($sC['limit']) {
-            $query->setLimit((int)$sC['limit']);
+        if ($demand['limit']) {
+            $query->setLimit((int)$demand['limit']);
         }
-        if ($sC['offset']) {
-            $query->setOffset((int)$sC['offset']);
+        if ($demand['offset']) {
+            $query->setOffset((int)$demand['offset']);
         }
         if ($settings['order']['direction'] == 'asc') {
             $orderDirection = QueryInterface::ORDER_ASCENDING;

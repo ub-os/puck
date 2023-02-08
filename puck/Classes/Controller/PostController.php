@@ -23,17 +23,20 @@ class PostController extends ActionController
         $this->postRepository = $postRepository;
     }
 
-    public function listAction(?string $categoryList = null, ?string $categoryConjunction = 'or'): string
+    public function listAction(?string $authorList = null, ?string $categoryList = null, ?string $categoryConjunction = 'or'): string
     {
         $settings = $this->settings;
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
             : 1;
-        if ($categoryList && $settings['constraints']['overrideDemand']) {
-            $settings['constraints']['category'] = [
+        if ($categoryList && $settings['demand']['overrideDemand']) {
+            $settings['demand']['category'] = [
                 'list' => $categoryList,
                 'conjunction' => $categoryConjunction
             ];
+        }
+        if ($authorList && $settings['demand']['overrideDemand']) {
+            $settings['demand']['author'] = $authorList;
         }
         $posts = $this->postRepository->findByListSettings($settings);
 
@@ -45,7 +48,7 @@ class PostController extends ActionController
 
         // paginate the posts (optional) and add them to the MenuPages object
         $itemsPerPage = $settings['pagination']['itemsPerPage'] ? (int)$settings['pagination']['itemsPerPage'] : 12;
-        if ($settings['pagination']['active'] && ((int)$settings['constraints']['limit'] > $itemsPerPage) || !(int)$settings['constraints']['limit']) {
+        if ($settings['pagination']['active'] && ((int)$settings['demand']['limit'] > $itemsPerPage) || !(int)$settings['demand']['limit']) {
             $pagination = PuckUtility::paginateQueryResult($posts, $currentPage, $itemsPerPage);
             $object->setMenu($pagination['items']->toArray());
             $this->view->assign('pagination', $pagination);
@@ -59,6 +62,4 @@ class PostController extends ActionController
         $this->view->assign('object', $object);
         return $this->view->render();
     }
-
-
 }

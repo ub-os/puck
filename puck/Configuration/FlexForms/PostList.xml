@@ -38,14 +38,14 @@
                 </el>
             </ROOT>
         </sDEF>
-        <constraints>
+        <demand>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>Constraints</sheetTitle>
+                    <sheetTitle>Demand settings</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <settings.constraints.overrideDemand>
+                    <settings.demand.overrideDemand>
                         <TCEforms>
                             <label>Respect URL parameters</label>
                             <config>
@@ -54,8 +54,8 @@
                                 <default>0</default>
                             </config>
                         </TCEforms>
-                    </settings.constraints.overrideDemand>
-                    <settings.constraints.navHide>
+                    </settings.demand.overrideDemand>
+                    <settings.demand.navHide>
                         <TCEforms>
                             <label>Respect hidden in menus</label>
                             <config>
@@ -64,8 +64,8 @@
                                 <default>1</default>
                             </config>
                         </TCEforms>
-                    </settings.constraints.navHide>
-                    <settings.constraints.limit>
+                    </settings.demand.navHide>
+                    <settings.demand.limit>
                         <TCEforms>
                             <label>Maximum number of posts displayed</label>
                             <config>
@@ -74,8 +74,8 @@
                                 <size>2</size>
                             </config>
                         </TCEforms>
-                    </settings.constraints.limit>
-                    <settings.constraints.offset>
+                    </settings.demand.limit>
+                    <settings.demand.offset>
                         <TCEforms>
                             <label>Number of posts to skip before displaying the first post</label>
                             <config>
@@ -84,16 +84,19 @@
                                 <size>2</size>
                             </config>
                         </TCEforms>
-                    </settings.constraints.offset>
-                    <settings.constraints.author>
+                    </settings.demand.offset>
+                    <settings.demand.author>
                         <TCEforms>
                             <label>Author</label>
                             <config>
-                                <type>input</type>
+                                <type>group</type>
+                                <allowed>tx_puck_domain_model_author</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
                             </config>
                         </TCEforms>
-                    </settings.constraints.author>
-                    <settings.constraints.category.conjunction>
+                    </settings.demand.author>
+                    <settings.demand.category.conjunction>
                         <TCEforms>
                             <label>Category conjunction</label>
                             <config>
@@ -123,8 +126,8 @@
                                 </items>
                             </config>
                         </TCEforms>
-                    </settings.constraints.category.conjunction>
-                    <settings.constraints.category.list>
+                    </settings.demand.category.conjunction>
+                    <settings.demand.category.list>
                         <TCEforms>
                             <label>Categories</label>
                             <config>
@@ -134,10 +137,10 @@
                                 <maxitems>99</maxitems>
                             </config>
                         </TCEforms>
-                    </settings.constraints.category.list>
+                    </settings.demand.category.list>
                 </el>
             </ROOT>
-        </constraints>
+        </demand>
         <order>
             <ROOT>
                 <TCEforms>
@@ -155,6 +158,10 @@
                                     <numIndex index="0">
                                         <numIndex index="0">Date</numIndex>
                                         <numIndex index="1">post_date</numIndex>
+                                    </numIndex>
+                                    <numIndex index="0">
+                                        <numIndex index="0">Last updated</numIndex>
+                                        <numIndex index="1">lastUpdated</numIndex>
                                     </numIndex>
                                     <numIndex index="1">
                                         <numIndex index="0">Record sorting</numIndex>

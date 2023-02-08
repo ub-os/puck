@@ -11,6 +11,7 @@ $GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
 
 $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
     '3:2' => $cropVariants['3:2'],
+    '16:9' => $cropVariants['16:9'],
     'social' => [
         'title' => '1.91:1',
         'allowedAspectRatios' => [
@@ -41,6 +42,15 @@ $GLOBALS['TCA']['pages']['columns']['post_date'] = [
         'renderType' => 'inputDateTime',
         'size' => 16,
         'eval' => 'datetime',
+    ],
+];
+$GLOBALS['TCA']['pages']['columns']['post_author'] = [
+    'label' => 'Author',
+    'config' => [
+        'type' => 'group',
+        'allowed' => 'tx_puck_domain_model_author',
+        'size' => 1,
+        'maxitems' => 1
     ],
 ];
 $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
@@ -90,7 +100,7 @@ ArrayUtility::mergeRecursiveWithOverrule(
 );
 $GLOBALS['TCA']['pages']['palettes']['postTitle'] = [
     'label' => $GLOBALS['TCA']['pages']['palettes']['title']['label'],
-    'showitem' => 'title,post_date,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,teaser_text'
+    'showitem' => 'title,--linebreak--,slug,--linebreak--,nav_title,--linebreak--,subtitle,--linebreak--,post_date,lastUpdated,--linebreak--,teaser_text, post_author'
 ];
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',

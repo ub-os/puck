@@ -42,7 +42,7 @@ class Author extends AbstractEntity
      * @var string
      * @DatabaseField(type="string")
      */
-    public string $page = '';
+    public string $link = '';
     /**
      * @var string
      * @DatabaseField(type="string")
@@ -53,9 +53,4 @@ class Author extends AbstractEntity
      * @DatabaseField(type="string")
      */
     public string $linkXing = '';
-    /**
-     * @var ?ObjectStorage<Post>
-     * @DatabaseField(type="string")
-     */
-    public ?ObjectStorage $posts = null;
 }
