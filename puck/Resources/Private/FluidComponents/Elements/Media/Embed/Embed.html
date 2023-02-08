@@ -9,7 +9,7 @@
 
         <f:variable name="id">{file.name}-{puck:math.random(min:1000,max:9999)}</f:variable>
         <f:variable name="options" value="{service:file.extension,id:file.contents,width:width}"/>
-        <f:variable name="localPoster" value="{puck:utility.posterImage(src:'fileadmin{file.identifier}')}"/>
+        <f:variable name="localPoster" value="{puck:utility.fileExists(src:'fileadmin{file.identifier}.jpg')}"/>
         <div aria-controls="{id}" class="{name}" data-video-embed="{options -> f:format.json()}">
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
@@ -22,7 +22,7 @@
                                 sources="{
                         xs: {width: width},
                         0: {width: 450}
-                    }"
+                        }"
                                 webp="{webp}"
                                 width="{width}"/>
                     </f:then>
