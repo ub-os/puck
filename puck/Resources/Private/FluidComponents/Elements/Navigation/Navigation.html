@@ -84,7 +84,7 @@
         </f:format.raw>
       </ul>
       <f:if condition="{processor} == 'breadcrumbs'">
-        <schema:type.breadcrumbsList>
+        <schema:type.breadcrumbList>
           <f:for each="{menu}" as="item" iteration="i">
             <schema:type.listItem
                     -as="itemListElement"
@@ -93,7 +93,7 @@
                     item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
             />
           </f:for>
-        </schema:type.breadcrumbsList>
+        </schema:type.breadcrumbList>
       </f:if>
     </nav>
     
