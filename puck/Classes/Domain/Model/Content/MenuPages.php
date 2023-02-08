@@ -40,7 +40,7 @@ class MenuPages extends Modal
     /**
      * @var int
      */
-    public int $itemColumnWidth = 6;
+    public int $itemColumnWidth = 0;
 
     /**
      * @var string

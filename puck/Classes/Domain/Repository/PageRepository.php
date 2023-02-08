@@ -11,7 +11,6 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
-
 /**
  *
  */
@@ -134,76 +133,4 @@ class PageRepository extends Repository
         return $queryResult;
     }
 
-    /**
-     * @param int $pid
-     * @param array $options
-     * @return QueryResult|array
-     */
-    public function findPagesByPid(int $pid, array $options = []) : QueryResult|array
-    {
-        $options = array_merge(
-            [
-                'navHide' => 0,
-                'array' => false,
-            ],
-            $options
-        );
-        $query = $this->createQuery();
-        $constraints = array(
-            $query->equals('pid', $pid),
-            $query->in('doktype', $this->allowedDoktypes),
-        );
-        if ($options['navHide']) {
-            $constraints[] = $query->equals('nav_hide', 0);
-        }
-        $result = $query->matching(
-            $query->logicalAnd(
-                $constraints
-            )
-        )->execute();
-        if ($options['array']) {
-            return $result->toArray();
-        }
-        return $result;
-    }
-
-    /**
-     * @param $uid
-     * @return mixed
-     */
-    public function getBreadcrumbsMenu($uid) {
-        return GeneralUtility::makeInstance(DataMapper::class)
-            ->map(
-                $this->objectType,
-                array_reverse(GeneralUtility::makeInstance(RootlineUtility::class, $uid)->get())
-            );
-    }
-
-    /**
-     * @param int $uid
-     * @param int $depth
-     * @param $includeStartingPage
-     * @return mixed
-     */
-    public function getPageTree(int $uid, int $depth, $includeStartingPage = false)
-    {
-        $query = $this->createQuery();
-        $pageTree = $query->matching(
-            $query->logicalAnd(
-                $query->equals('pid', $uid),
-                $query->in('doktype', $this->allowedDoktypes),
-            )
-        )->execute()->toArray();
-        foreach ($pageTree as $k => &$page) {
-            if ($depth > 0) {
-                $page->childPages = $this->getPageTree((int)$page->getUid(), $depth-1);
-            }
-        }
-        if ($includeStartingPage) {
-            $startingPage = $this->findByUid($uid);
-            $startingPage->childPages = $pageTree;
-            return $startingPage;
-        }
-        return $pageTree;
-    }
 }

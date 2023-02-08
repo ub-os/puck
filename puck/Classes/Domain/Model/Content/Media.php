@@ -3,15 +3,14 @@
 namespace UBOS\Puck\Domain\Model\Content;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
-use UBOS\Puck\Domain\Model\Page;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+
+use UBOS\Puck\Domain\Model\Trait\Content\TextMediaLayout;
 
 /**
  * @DatabaseTable("tt_content")
@@ -19,17 +18,8 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
  */
 class Media extends Text
 {
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $mediaLayout;
 
-    /**
-     * @var ?ObjectStorage<FileReference>
-     * @Lazy
-     */
-    public ?ObjectStorage $assets = null;
+    use TextMediaLayout;
 
     /**
      * @var string
@@ -43,53 +33,4 @@ class Media extends Text
      */
     public string $contentType;
 
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $itemColumnWidth = 6;
-
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $rowJustify = '';
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $rowAlign = '';
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $textColumnWidth = 0;
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $mediaColumnWidth = 0;
-
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $mediaMaxHeight = 0;
-
-    /**
-     * @var string
-     * @Transient
-     */
-    protected string $mediaLayoutDirection = '';
-
-    /**
-     * @return string
-     */
-    public function getMediaLayoutDirection(): string
-    {
-        if (in_array($this->mediaLayout, ['above','below'])) {
-            return 'column';
-        }
-        return 'row';
-    }
 }

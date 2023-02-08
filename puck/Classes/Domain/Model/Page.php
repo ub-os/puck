@@ -25,11 +25,13 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  */
 class Page extends AbstractEntity
 {
-    protected PageRepository $pageRepository;
+    protected ?PageRepository $pageRepository;
     public function injectPageRepository(PageRepository $pageRepository)
     {
         $this->pageRepository = $pageRepository;
     }
+
+    public int $doktype = 0;
     /**
      * @var string
      */
@@ -77,10 +79,6 @@ class Page extends AbstractEntity
      */
     public string $layout = '';
     /**
-     * @var string
-     */
-    public string $backendLayout = '';
-    /**
      * @var int
      */
     public int $navHide = 0;
@@ -97,6 +95,10 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
+    protected string $backendLayout = '';
+    /**
+     * @var string
+     */
     protected string $navTitle = '';
     /**
      * @var string
@@ -106,102 +108,61 @@ class Page extends AbstractEntity
      * @var ?array
      * @Transient
      */
-    protected ?array $childPages = null;
-    /**
-     * @var ?array
-     * @Transient
-     */
-    protected ?array $breadcrumbs = null;
-    /**
-     * @var ?FileReference
-     * @Transient
-     */
-    protected ?FileReference $primaryImage = null;
-
-    /**
-     * @return ?array
-     */
-    public function getChildPages(): ?array
-    {
-        if ($this->childPages === null) {
-            $this->childPages = $this->pageRepository->findPagesByPid($this->getUid());
-        }
-        return $this->childPages;
-    }
-
-    /**
-     * @param ?array $childPages
-     */
-    public function setChildPages(?array $childPages): void
-    {
-        $this->childPages = $childPages;
-    }
-
-    /**
-     * @return ?FileReference
-     */
-    public function getPrimaryImage(): ?FileReference
-    {
-        if ($this->primaryImage === null) {
-            $this->primaryImage = $this->getPrimaryImageFromRootLine();
-        }
-        return $this->primaryImage;
-    }
-
-    /**
-     * @param ?FileReference $primaryImage
-     */
-    public function setPrimaryImage(?FileReference $primaryImage): void
-    {
-        $this->primaryImage = $primaryImage;
-    }
-
-    /**
-     * @param int $rootLineIndex
-     * @return ?FileReference
-     */
-    protected function getPrimaryImageFromRootLine(int $rootLineIndex = 0): ?FileReference
-    {
-        if ($this->media->count() > 0) {
-            return $this->media->current();
-        }
-        $rootLine = array_reverse($this->getBreadcrumbs());
-        if ($rootLine[$rootLineIndex]->media->count() > 0) {
-            return $rootLine[$rootLineIndex]->media->current();
-        } else if ($rootLineIndex < (count($rootLine) - 1)) {
-            return $this->getPrimaryImageFromRootLine($rootLineIndex + 1);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getBreadcrumbs(): array
-    {
-        if ($this->breadcrumbs === null) {
-            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $this->getUid());
-            $this->breadcrumbs =($dataMapper->map('UBOS\Puck\Domain\Model\Page', $rootLine->get()));
-        }
-        return $this->breadcrumbs;
-    }
-
-    /**
-     * @param ?array $breadcrumbs
-     */
-    public function setBreadcrumbs(?array $breadcrumbs): void
-    {
-        $this->breadcrumbs = $breadcrumbs;
-    }
-
+    protected ?array $rootLine = null;
     /**
      * @return string
      */
     public function getNavTitle(): string
     {
         return $this->navTitle ? : $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSeoTitle(): string
+    {
+        return $this->seoTitle ? : $this->title;
+    }
+
+    public function getBackendLayout(): string
+    {
+        if ($this->backendLayout === '') {
+            $pageLayoutResolver = GeneralUtility::makeInstance(PageLayoutResolver::class);
+            return $pageLayoutResolver->getLayoutForPage(['backend_layout' => ''], $this->getRootline());
+        }
+        return $this->backendLayout;
+    }
+
+    public function getRootLine(): array
+    {
+        if ($this->rootLine === null) {
+            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $this->getUid());
+            $this->rootLine = $rootLine->get();
+        }
+        return $this->rootLine;
+    }
+
+    /**
+     * @param int $rootLineIndex
+     * @return array
+     */
+    protected function getColumnFromRootLine(string $column, int $rootLineIndex = 0): array
+    {
+        $currentPage = $this->getRootline()[$rootLineIndex];
+        if ($currentPage[$column]) {
+            $column = $currentPage[$column];
+        } else if ($rootLineIndex < (count($this->getRootline()) - 1)) {
+            return $this->getColumnFromRootLine($column, $rootLineIndex + 1);
+        } else {
+            $column = null;
+        }
+        return ['rootLineIndex' => $rootLineIndex, 'column' => $column];
+    }
+
+    public function setBackendLayout(string $backendLayout): void
+    {
+        $this->backendLayout = $backendLayout;
     }
 
     /**
@@ -213,19 +174,19 @@ class Page extends AbstractEntity
     }
 
     /**
-     * @return string
-     */
-    public function getSeoTitle(): string
-    {
-        return $this->seoTitle ? : $this->title;
-    }
-
-    /**
      * @param string $seoTitle
      */
     public function setSeoTitle(string $seoTitle): void
     {
         $this->seoTitle = $seoTitle;
+    }
+
+    /**
+     * @param array|null $rootLine
+     */
+    public function setRootLine(?array $rootLine): void
+    {
+        $this->rootLine = $rootLine;
     }
 
 }

@@ -11,43 +11,23 @@ use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
 use HDNET\Autoloader\Annotation\WizardTab;
 
+use UBOS\Puck\Domain\Model\Trait\Content\SectionHeader;
+use UBOS\Puck\Domain\Model\Trait\Content\ContainerLayout;
+
+
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
 class Text extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public string $header;
+    use SectionHeader;
+    use ContainerLayout;
 
     /**
      * @var string
      */
-    public string $headerLayout;
-
-    /**
-     * @var string
-     */
-    public string $headerPosition;
-
-    /**
-     * @var int
-     * @DatabaseField ("int")
-     */
-    public int $headerSpacingOverride;
-
-    /**
-     * @var string
-     */
-    public string $subheader;
-
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $icon = '';
+    public string $bodytext = '';
 
     /**
      * @var string
@@ -63,48 +43,7 @@ class Text extends AbstractEntity
 
     /**
      * @var string
-     */
-    public string $bodytext = '';
-
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $containerWidth = 12;
-
-    /**
-     * @var string
      * @DatabaseField("string")
      */
-    public string $containerPosition = '';
-
-    /**
-     * @var int
-     * @DatabaseField("int")
-     */
-    public int $containerOffset = 0;
-
-    /**
-     * @var ?bool
-     * @Transient
-     */
-    protected ?bool $disableHeaderSpacing = null;
-    /**
-     * @return bool
-     */
-    public function getDisableHeaderSpacing(): bool
-    {
-        if ($this->disableHeaderSpacing === null) {
-            $this->disableHeaderSpacing = (!$this->header || $this->headerLayout > 29) && !$this->headerSpacingOverride;
-        }
-        return $this->disableHeaderSpacing;
-    }
-    /**
-     * @param bool $disableHeaderSpacing
-     * @return void
-     */
-    public function setDisableHeaderSpacing(bool $disableHeaderSpacing): void
-    {
-        $this->disableHeaderSpacing = $disableHeaderSpacing;
-    }
+    public string $icon = '';
 }
