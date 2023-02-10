@@ -23,7 +23,8 @@ function renderFile(file) {
         file: sassFile,
         importer: globImporter(),
         outFile: cssFile,
-        sourceMap: true
+        sourceMap: true,
+        quietDeps: true,
     }, function(error, result) {
         if(!error){
             ensureDirectoryExistence(cssFile);

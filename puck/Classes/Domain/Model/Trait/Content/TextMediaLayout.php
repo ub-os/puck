@@ -62,7 +62,7 @@ trait TextMediaLayout {
     public function getMediaLayoutDirection(): string
     {
         if (in_array($this->mediaLayout, ['above','below'])) {
-            'column';
+            return 'column';
         }
         return 'row';
     }
