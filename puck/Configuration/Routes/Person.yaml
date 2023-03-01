@@ -1,0 +1,23 @@
+routeEnhancers:
+  PersonList:
+    type: Extbase
+    extension: Puck
+    plugin: PersonList
+    routes:
+      -
+        routePath: '/{pageLabel}/{page}'
+        _controller: 'Person::list'
+      -
+        routePath: '/'
+        _controller: 'Person::list'
+    aspects:
+      pageLabel:
+        type: LocaleModifier
+        default: 'page'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'seite'
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'

@@ -1,9 +1,11 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+$cropVariants = require __DIR__.'/Common/CropVariants.php';
+
 $ctrl = [
     'label' => 'name',
-    'title' => 'Author',
+    'title' => 'Person',
     'tstamp' => 'tstamp',
     'crdate' => 'crdate',
     'cruser_id' => 'cruser_id',
@@ -14,7 +16,7 @@ $ctrl = [
     'languageField' => 'sys_language_uid',
     'transOrigPointerField' => 'l10n_parent',
     'transOrigDiffSourceField' => 'l10n_diffsource',
-    'iconfile' => 'EXT:puck/Resources/Public/Icons/Backend/Author.svg',
+    'iconfile' => 'EXT:puck/Resources/Public/Icons/Backend/Person.svg',
     'enablecolumns' => [
         'disabled' => 'hidden',
     ],
@@ -54,6 +56,16 @@ $columns = [
         'label' => 'Description',
         'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
     ],
+    'position' => [
+        'label' => 'Position',
+        'displayCond' => 'FIELD:is_team_member:REQ:true',
+        'config' => [
+            'type' => 'input',
+            'size' => 30,
+            'eval' => 'trim',
+        ],
+
+    ],
     'email' => [
         'label' => 'Email',
         'config' => [
@@ -62,12 +74,31 @@ $columns = [
             'max' => 255,
         ]
     ],
-    'position' => [
-        'label' => 'Position',
+    'phone' => [
+        'label' => 'Phone',
         'config' => [
             'type' => 'input',
             'size' => 30,
             'eval' => 'trim',
+        ],
+    ],
+    'is_team_member' => [
+        'label' => 'Team member',
+        'onChange' => 'reload',
+        'config' => [
+            'type' => 'check',
+            'default' => 1
+        ],
+    ],
+    'pages' => [
+        'label' => 'Page',
+        'config' => [
+            'type' => 'group',
+            'allowed' => 'pages',
+            'foreign_table' => 'pages',
+            'MM' => 'tx_puck_person_page_mm',
+            'size' => 1,
+            'maxitems' => 1
         ],
     ],
     'link' => [
@@ -91,6 +122,10 @@ $columns = [
             'renderType' => 'inputLink',
         ]
     ],
+    'assets' => [
+        'label' => 'Media',
+        'config' => $GLOBALS['TCA']['tt_content']['columns']['assets']['config'],
+    ],
     'sys_language_uid' => [
         'exclude' => true,
         'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
@@ -107,8 +142,8 @@ $columns = [
             'items' => [
                 ['', 0],
             ],
-            'foreign_table' => 'tx_puck_domain_model_author',
-            'foreign_table_where' => 'AND {#tx_puck_domain_model_author}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_author}.{#sys_language_uid} IN (-1,0)',
+            'foreign_table' => 'tx_puck_domain_model_person',
+            'foreign_table_where' => 'AND {#tx_puck_domain_model_person}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_person}.{#sys_language_uid} IN (-1,0)',
             'default' => 0,
         ],
     ],
@@ -119,16 +154,41 @@ $columns = [
     ],
     'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
 ];
+$columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
+    '1:1' => $cropVariants['1:1'],
+    '4:3' => $cropVariants['4:3'],
+    '3:2' => $cropVariants['3:2'],
+    '2:1' => $cropVariants['2:1'],
+
+];
+$palettes = [
+    'person' => [
+        'label' => 'Person',
+        'showitem' => '
+       name, is_team_member,
+       --linebreak--,
+       slug, 
+       --linebreak--,
+       position,
+       --linebreak--,
+       description,
+    --linebreak--,
+       pages,'
+    ],
+    'contact' => [
+        'label' => 'Contact',
+        'showitem' => '
+        email, phone,
+        --linebreak--,
+        link, link_linkedin, link_xing'
+    ]
+];
 $showItem = '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-        name,
-        slug, 
-        description,
-        email,
-        position,
-        link,
-        link_linkedin,
-        link_xing, 
+        --palette--;;person,
+        --palette--;;contact,    
+    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        assets,     
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
         sys_language_uid, 
         l10n_parent, 
@@ -140,6 +200,7 @@ return [
     'ctrl' => $ctrl,
     'interface' => $interface,
     'columns' => $columns,
+    'palettes' => $palettes,
     'types' => [
         '0' => [
             'showitem' => $showItem,

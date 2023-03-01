@@ -1,0 +1,5 @@
+
+plugin {
+    tx_puck_postlist.view.defaultPid = 1
+    tx_puck_personlist.view.defaultPid = 1
+}
