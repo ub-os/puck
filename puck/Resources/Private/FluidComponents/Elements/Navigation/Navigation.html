@@ -23,7 +23,7 @@
             <f:if condition="{i.isLast} && {processor} == 'breadcrumbs'">
               <f:then>
                       <span class="{name}__link">
-                        <f:format.raw>{item.title}</f:format.raw>
+                        <f:format.raw>{item.nav_title}</f:format.raw>
                       </span>
               </f:then>
               <f:else if="{processor} == 'language'">
@@ -44,16 +44,16 @@
                 <f:link.typolink parameter="{item.uid}"
                                  class="{name}__link {mods -> puck:modClass()}"
                                  absolute="1"
-                                 additionalAttributes="{aria-label: item.title}">
+                                 additionalAttributes="{aria-label: item.nav_title}">
                   <f:if condition="{i.index} == 0 && {processor} == 'breadcrumbs'">
                     <icon:svg icon="home" class="{name}__icon"/>
                   </f:if>
                   <f:if condition="{iconFromTitle}">
                     <f:then>
-                      <icon:svg icon="{item.title -> f:format.case(mode:'lower')}" class="{name}__icon"/>
+                      <icon:svg icon="{item.nav_title -> f:format.case(mode:'lower')}" class="{name}__icon"/>
                     </f:then>
                     <f:else>
-                      <f:format.raw>{item.title}</f:format.raw>
+                      <f:format.raw>{item.nav_title}</f:format.raw>
                     </f:else>
                   </f:if>
                 </f:link.typolink>
@@ -72,7 +72,7 @@
                             parameter="{item.link}"
                             absolute="1"
                             class="{subName}__link {mods -> puck:modClass()}">
-                      <f:format.raw>{item.title}</f:format.raw>
+                      <f:format.raw>{item.nav_title}</f:format.raw>
                     </f:link.typolink>
                 </f:for>
               </ul>
@@ -89,7 +89,7 @@
             <schema:type.listItem
                     -as="itemListElement"
                     position="{i.cycle}"
-                    name="{item.title}"
+                    name="{item.nav_title}"
                     item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
             />
           </f:for>

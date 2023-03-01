@@ -6,10 +6,8 @@ use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
 
 class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
 {
-    protected string $routeListSeparator = '--';
-    /**
-     * {@inheritdoc}
-     */
+    const ROUTE_LIST_SEPARATOR = "--";
+
     public function generate(string $value): ?string
     {
         $results = [];
@@ -23,14 +21,14 @@ class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
             return null;
         }
         return $this->purgeRouteValuePrefix(
-            implode($this->routeListSeparator,$results)
+            implode(self::ROUTE_LIST_SEPARATOR, $results)
         );
     }
     public function resolve(string $value): ?string
     {
         $results = [];
         $value = $this->routeValuePrefix . $this->purgeRouteValuePrefix($value);
-        foreach(explode($this->routeListSeparator,$value) as $val) {
+        foreach(explode(self::ROUTE_LIST_SEPARATOR, $value) as $val) {
             $results[] = $this->findByRouteFieldValue($val);
         }
         foreach($results as $index=>$res) {

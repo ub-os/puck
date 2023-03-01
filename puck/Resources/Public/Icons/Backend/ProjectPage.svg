@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ProjectPage</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ProjectPage" fill-rule="nonzero">
+            <g id="Group" transform="translate(2.000000, 0.000000)">
+                <polygon id="Path" fill="#EFEFEF" points="0 0 0 16 12 16 12 4 8 0"></polygon>
+                <polygon id="Path" opacity="0.65" points="8 4 8 0 12 4"></polygon>
+                <polygon id="Path" fill="#212121" opacity="0.2" points="11 5 11 10 7 5"></polygon>
+                <path d="M0,0 L0,16 L12,16 L12,4 L11.988,4 L11.992,3.992 L8.008,0.006 L8,0.014 L8,0 L0,0 Z M1,1 L7,1 L7,5 L11,5 L11,15 L1,15 L1,1 Z M8,1.412 L10.586,4 L8,4 L8,1.412 Z" id="Shape" fill="#212121" opacity="0.405645461"></path>
+            </g>
+            <g id="Group" transform="translate(5.000000, 5.000000)">
+                <polygon id="Path" fill="#5599FF" points="0 0 11 0 11 11 0 11"></polygon>
+                <polygon id="Path" fill="#FFFFFF" points="1 1 10 1 10 10 1 10"></polygon>
+            </g>
+            <g id="briefcase-solid" transform="translate(7.000000, 7.000000)" fill="#A45A06">
+                <path d="M2.515625,0.7 L4.484375,0.7 C4.54453125,0.7 4.59375,0.7525 4.59375,0.816666667 L4.59375,1.4 L2.40625,1.4 L2.40625,0.816666667 C2.40625,0.7525 2.45546875,0.7 2.515625,0.7 Z M1.75,0.816666667 L1.75,1.4 L0.875,1.4 C0.392382813,1.4 0,1.81854167 0,2.33333333 L0,3.73333333 L2.625,3.73333333 L4.375,3.73333333 L7,3.73333333 L7,2.33333333 C7,1.81854167 6.60761719,1.4 6.125,1.4 L5.25,1.4 L5.25,0.816666667 C5.25,0.366041667 4.90683594,0 4.484375,0 L2.515625,0 C2.09316406,0 1.75,0.366041667 1.75,0.816666667 Z M7,4.2 L4.375,4.2 L4.375,4.66666667 C4.375,4.92479167 4.17949219,5.13333333 3.9375,5.13333333 L3.0625,5.13333333 C2.82050781,5.13333333 2.625,4.92479167 2.625,4.66666667 L2.625,4.2 L0,4.2 L0,6.06666667 C0,6.58145833 0.392382813,7 0.875,7 L6.125,7 C6.60761719,7 7,6.58145833 7,6.06666667 L7,4.2 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

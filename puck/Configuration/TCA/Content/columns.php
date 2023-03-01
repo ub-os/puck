@@ -56,6 +56,9 @@ $columns['header_layout'] = [
             ['H2 in H3-style', 31],
 
             ['Paragraph', 50],
+
+            // 100 is hidden and for backend only
+            ['Hidden', 100],
         ],
         'default' => 0
     ],
@@ -148,6 +151,14 @@ $columns['parents'] = [
         'allowed' => 'pages',
         'size' => 3,
         'maxitems' => 50,
+        'filter' => [
+            [
+                'userFunc' => \UBOS\Puck\UserFunctions\GroupFieldFilter::class . '->defaultLanguageOnly',
+                'parameters' => [
+                    'evaluateLanguage' => '0',
+                ],
+            ],
+        ],
     ],
 ];
 $columns['header_spacing_override'] =  [
@@ -309,6 +320,7 @@ $columns['row_align'] = [
             ['Top', 'start', 'align_top'],
             ['Center', 'center', 'align_center_vertical'],
             ['Bottom', 'end', 'align_bottom'],
+            ['Stretch', 'stretch', 'align_stretch']
         ],
         'default' => 'top',
         'fieldWizard' => [

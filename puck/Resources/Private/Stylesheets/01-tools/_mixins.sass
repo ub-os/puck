@@ -37,10 +37,12 @@
       +media($mb, down)
         +rfs($value * -1, margin-inline)
   @else
+    --gutter-outer: #{ $gutter }
     +rfs($gutter, padding-inline)
     @each $mb, $value in $gutters-mb
       +media($mb, down)
-          +rfs($value, padding-inline)
+        --gutter-outer: #{ $value }
+        +rfs($value, padding-inline)
 
 
 

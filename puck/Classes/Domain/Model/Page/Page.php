@@ -1,36 +1,27 @@
 <?php
 
-namespace UBOS\Puck\Domain\Model;
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\RootlineUtility;
-
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
-use TYPO3\CMS\Extbase\Domain\Model\Category;
+namespace UBOS\Puck\Domain\Model\Page;
 
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\EnableRichText;
-
-use UBOS\Puck\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
+use TYPO3\CMS\Extbase\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
 
 /**
  * @DatabaseTable("pages")
  */
 class Page extends AbstractEntity
 {
-    protected ?PageRepository $pageRepository;
-    public function injectPageRepository(PageRepository $pageRepository)
-    {
-        $this->pageRepository = $pageRepository;
-    }
-
     public int $doktype = 0;
     /**
      * @var string
@@ -129,7 +120,11 @@ class Page extends AbstractEntity
     {
         if ($this->backendLayout === '') {
             $pageLayoutResolver = GeneralUtility::makeInstance(PageLayoutResolver::class);
-            return $pageLayoutResolver->getLayoutForPage(['backend_layout' => ''], $this->getRootline());
+            $this->backendLayout =
+                str_replace(
+                    'pagets__',
+                    '',
+                    $pageLayoutResolver->getLayoutForPage(['backend_layout' => ''], $this->getRootline()));
         }
         return $this->backendLayout;
     }

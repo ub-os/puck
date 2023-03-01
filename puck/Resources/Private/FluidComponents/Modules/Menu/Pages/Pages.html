@@ -1,87 +1,136 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-menu-pages"/>
-  <fc:param name="object" type="mixed"/>
-  <fc:param name="news" type="array" optional="1" default="0"/>
-  <fc:param name="cropVariant" type="string" optional="1" default="3:2"/>
+    <fc:param default="m-menu-pages" name="name" optional="1" type="string"/>
+    <fc:param name="object" type="mixed"/>
+    <fc:param default="0" name="news" optional="1" type="array"/>
+    <fc:param default="3:2" name="cropVariant" optional="1" type="string"/>
 
-  <fc:renderer>
+    <fc:renderer>
 
-    <layout:section
-            class="{name}__wrap"
-            object="{object}"
-            customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:1,else:0)}"
-            id="c{object.uid}">
-      <element:text.header object="{object}"/>
-      <f:if condition="{object.menu}">
-        <layout:row class="{name}__row" flexGrow="0" justify="{object.rowJustify}" align="{object.rowAlign}">
-          <f:for each="{object.menu}" as="item" iteration="i">
-            <f:if condition="{item.uid} != {object.pid}">
-              <f:switch expression="{object.layout}">
+        <layout:section
+                class="{name}__wrap"
+                customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:'',else:name)}"
+                id="c{object.uid}"
+                object="{object}">
+            <element:text.header object="{object}"/>
 
-                <f:case value="default-cards">
-                  <layout:row.item class="{name}__item -stretch-content" width="6">
-                    <layout:card
-                            width="6"
-                            class="{name}__card -variant-{object.layout}"
-                            cropVariant="{cropVariant}"
-                            attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
-                      <module:menu.pages.content
-                              name="{name}"
-                              config="{teaserText:1}"
-                              item="{item}"/>
-                    </layout:card>
-                  </layout:row.item>
-                </f:case>
+            <f:format.raw>{content}</f:format.raw>
 
-                <f:case value="columns">
-                  <layout:row.item class="{name}__item -stretch-content" width="{object.itemColumnWidth}">
-                    <f:variable name="media" value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
-                    <div class="{name}__column -variant-{object.layout}" data-link-to="{f:uri.page(pageUid: item.uid)}">
-                      <layout:media
-                              media="{media}"
-                              cropVariant="{cropVariant}"
-                              layout="{object.mediaLayout}"
-                              mediaWidth="{object.mediaColumnWidth}"
-                              itemWidth="{object.mediaColumnWidth}"
-                              textWidth="{object.textColumnWidth}">
-                        <module:menu.pages.content
-                                name="{name}"
-                                config="{object.menuItemConfig}"
-                                item="{item}"/>
-                      </layout:media>
-                    </div>
-                  </layout:row.item>
-                </f:case>
+            <f:if condition="{object.menu}">
 
-                <f:defaultCase>
-                  <layout:row.item class="{name}__item -stretch-content" width="{object.itemColumnWidth}">
-                    <f:variable name="media" value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
-                    <layout:card
-                            media="{media}"
-                            cropVariant="{cropVariant}"
-                            width="{object.itemColumnWidth}"
-                            mediaSize="{object.cardMediaSize}"
-                            mediaWidth="{object.mediaColumnWidth}"
-                            mediaLayout="{object.mediaLayout}"
-                            class="{name}__card -variant-{object.layout}"
-                            attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}">
-                      <module:menu.pages.content
-                              name="{name}"
-                              config="{object.menuItemConfig}"
-                              item="{item}"/>
-                    </layout:card>
-                  </layout:row.item>
-                </f:defaultCase>
+                <f:if condition="{item.uid} != {object.pid}">
+                    <f:switch expression="{object.layout}">
 
-              </f:switch>
+                        <f:case value="default-cards">
+                            <layout:row align="top" class="{name}__row" flexGrow="0" justify="left">
+                                <f:for as="item" each="{object.menu}" iteration="i">
+                                    <layout:row.item class="{name}__item -stretch-content" width="6">
+                                        <layout:card
+                                                attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}"
+                                                class="{name}__card -variant-{object.layout}"
+                                                cropVariant="{cropVariant}"
+                                                width="6">
+                                            <module:menu.pages.content
+                                                    config="{teaserText:1}"
+                                                    item="{item}"
+                                                    name="{name}"/>
+                                        </layout:card>
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:row>
+                        </f:case>
+
+                        <f:case value="team-cards">
+                            <layout:row align="top" class="{name}__row" flexGrow="0" justify="left">
+                                <f:for as="item" each="{object.menu}" iteration="i">
+                                    <layout:row.item class="{name}__item -stretch-content" width="6">
+                                        <layout:card
+                                                attributes="data-link-to={f:uri.page(pageUid: item.pages.0.uid)}"
+                                                class="{name}__card -variant-{object.layout}">
+                                            <div class="{name}__content">
+                                                <h3 class="{name}__headline">{item.name}</h3>
+                                                <f:if condition="{item.position}">
+                                                    <p class="{name}__position">{item.position}</p>
+                                                </f:if>
+                                                <f:if condition="{item.phone}">
+                                                    <div><a class="{name}__phone"
+                                                            href="tel:{item.phone}">{item.phone}</a></div>
+                                                </f:if>
+                                                <f:if condition="{item.email}">
+                                                    <div>
+                                                        <f:link.email class="{name}__email" email="{item.email}">
+                                                            {item.email}
+                                                        </f:link.email>
+                                                    </div>
+                                                </f:if>
+                                            </div>
+                                        </layout:card>
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:row>
+                        </f:case>
+
+                        <f:case value="columns">
+                            <layout:row align="{object.rowAlign}" class="{name}__row" flexGrow="0"
+                                        justify="{object.rowJustify}">
+                                <f:for as="item" each="{object.menu}" iteration="i">
+                                    <layout:row.item class="{name}__item -stretch-content"
+                                                     width="{object.itemColumnWidth}">
+                                        <f:variable name="media"
+                                                    value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
+                                        <div class="{name}__column -variant-{object.layout}"
+                                             data-link-to="{f:uri.page(pageUid: item.uid)}">
+                                            <layout:media
+                                                    cropVariant="{cropVariant}"
+                                                    itemWidth="{object.mediaColumnWidth}"
+                                                    layout="{object.mediaLayout}"
+                                                    media="{media}"
+                                                    mediaWidth="{object.mediaColumnWidth}"
+                                                    textWidth="{object.textColumnWidth}">
+                                                <module:menu.pages.content
+                                                        config="{object.menuItemConfig}"
+                                                        item="{item}"
+                                                        name="{name}"/>
+                                            </layout:media>
+                                        </div>
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:row>
+                        </f:case>
+
+                        <f:defaultCase>
+                            <layout:row align="{object.rowAlign}" class="{name}__row" flexGrow="0"
+                                        justify="{object.rowJustify}">
+                                <f:for as="item" each="{object.menu}" iteration="i">
+                                    <layout:row.item class="{name}__item -stretch-content"
+                                                     width="{object.itemColumnWidth}">
+                                        <f:variable name="media"
+                                                    value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
+                                        <layout:card
+                                                attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes}"
+                                                class="{name}__card -variant-{object.layout}"
+                                                cropVariant="{cropVariant}"
+                                                media="{media}"
+                                                mediaLayout="{object.mediaLayout}"
+                                                mediaSize="{object.cardMediaSize}"
+                                                mediaWidth="{object.mediaColumnWidth}"
+                                                width="{object.itemColumnWidth}">
+                                            <module:menu.pages.content
+                                                    config="{object.menuItemConfig}"
+                                                    item="{item}"
+                                                    name="{name}"/>
+                                        </layout:card>
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:row>
+                        </f:defaultCase>
+
+                    </f:switch>
+                </f:if>
+
             </f:if>
-          </f:for>
-        </layout:row>
-      </f:if>
-    </layout:section>
+        </layout:section>
 
-  </fc:renderer>
+    </fc:renderer>
 </fc:component>
 
 

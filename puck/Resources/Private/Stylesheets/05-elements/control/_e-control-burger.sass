@@ -1,5 +1,4 @@
 
-
 $header-trans-bp: sm
 $header-color-trans: 0.3s
 $nav-slide-trans: 0.2s
@@ -50,11 +49,11 @@ $slice-degree: 45deg
   &__slice:nth-child(2)
     top: $slice-distance
     opacity: 1
-    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear ($menu-animation-duration / 2), border-color $header-color-trans, background .15s
+    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), border-color $header-color-trans, background .15s
 
   &.--active &__slice:nth-child(2)
     opacity: 0
-    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear ($menu-animation-duration / 2), background .15s
+    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), background .15s
 
   &__slice:nth-child(3)
     top: $slice-distance*2

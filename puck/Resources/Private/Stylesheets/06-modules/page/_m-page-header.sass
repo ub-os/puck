@@ -32,17 +32,17 @@
     transition: width .5s, padding .5s
 
   &__logo
-    --icon-color1: currentColor
-    --icon-color2: currentColor
     z-index: $z-index-header-burger
     max-width: 90%
     height: 5rem
     width: 5rem
     color: $lilac-dark-orchid
+    fill: $lilac-dark-orchid
     outline: none
-    transition: color .4s, transform .4s
+    transition: color .4s, transform .4s, fill .4s
     &:hover
       color: $lilac-electric
+      fill: $lilac-electric
       transform: scale(1.05)
 
   &.--scroll &__logo

@@ -6,25 +6,28 @@
     </a>
     <f:if condition="{item.record.CType} == 'list'">
         <f:then>
-            <f:if condition="{item.record.list_type} == 'puck_postlist'">
-                <f:render section="puck" arguments="{item: item}" />
+            <f:if condition="{puck:string.contains(needle:'puck_',haystack:item.record.list_type)}">
+                <f:render section="preview" arguments="{item: item}" />
             </f:if>
             <f:else>
                 {item.preview -> f:format.raw()}
             </f:else>
         </f:then>
+        <f:else if="{puck:string.contains(needle:'puck_',haystack:item.record.CType)} ">
+            <f:render section="preview" arguments="{item: item}" />
+        </f:else>
         <f:else>
-            <f:render section="puck" arguments="{item: item}" />
+            {item.preview -> f:format.raw()}
         </f:else>
     </f:if>
 </f:render>
 
-<f:section name="puck">
+<f:section name="preview">
     <a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
         <f:render section="main" arguments="{item: item}" />
-        <f:render section="fileThumbs" arguments="{row: item.record, files: item.record.media, field: 'media', table: 'tt_content'}" />
-        <f:render section="fileThumbs" arguments="{row: item.record, files: item.record.image, field: 'image', table: 'tt_content'}" />
-        <f:render section="fileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
+        <f:render partial="PageLayout/RecordDefault/Preview/FileThumbs" arguments="{row: item.record, files: item.record.media, field: 'media', table: 'tt_content'}" />
+        <f:render partial="PageLayout/RecordDefault/Preview/FileThumbs" arguments="{row: item.record, files: item.record.image, field: 'image', table: 'tt_content'}" />
+        <f:render partial="PageLayout/RecordDefault/Preview/FileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
         <f:render section="group" arguments="{group: item.record.pages, table: 'pages', headline: 'Pages'}" />
         <f:render section="group" arguments="{group: item.record.parents, table: 'pages', headline: 'Subpages of'}"/>
         <f:if condition="{item.record.records}">
@@ -33,7 +36,7 @@
                 <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
             </f:for>
         </f:if>
-        <f:render section="items" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
+        <f:render partial="PageLayout/RecordDefault/Preview/InlineMedia" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
     </a>
 </f:section>
 
@@ -43,7 +46,7 @@
             <f:if condition="{CType} == 'list'">
                 <f:then>
                     <strong>
-                        <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:list_type)}" />
+                        Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:list_type)}" />
                     </strong>
                 </f:then>
                 <f:else>
@@ -59,46 +62,18 @@
 </f:section>
 
 <f:section name="main">
-    <f:if condition="{item.record.CType} !== 'anchor'">
+    <f:if condition="{item.record.CType} !== 'puck_anchor'">
         <f:then>
-            <f:variable name="headerType" value="{f:if(condition: '{item.record.header_layout} == 2', then: 'h4', else: 'h2')}"/>
-            <f:render section="text" arguments="{header: item.record.header, headerType: headerType, subheader: item.record.subheader, bodytext: item.record.bodytext}" />
+            <f:variable name="headerType" value="{f:if(condition: '{item.record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
+            <f:if condition="{item.record.header_layout} >= 100">
+                <f:variable name="headerType" value="i"/>
+            </f:if>
+            <f:render partial="PageLayout/RecordDefault/Preview/Text" arguments="{header: item.record.header, headerType: headerType, subheader: item.record.subheader, bodytext: item.record.bodytext}" />
         </f:then>
         <f:else>
-            <strong>{item.record.header}</strong><br>
+            <span>{item.record.header}</span><br>
             <u>#{item.record.subheader -> f:cObject(typoscriptObjectPath:'lib.formatAnchorId')}_c{item.record.uid}</u>
         </f:else>
-    </f:if>
-</f:section>
-
-<f:section name="text">
-    <f:if condition="{subheader}">
-        <p>{subheader -> f:format.raw()}</p>
-    </f:if>
-    <f:if condition="{header}">
-        <{headerType}>{header -> f:format.raw()}</{headerType}>
-    </f:if>
-    <f:if condition="{bodytext}">
-        <div style="padding-bottom: 1em">{bodytext -> f:format.stripTags() -> f:format.nl2br()}</div>
-    </f:if>
-</f:section>
-
-<f:section name="fileThumbs">
-    <f:if condition="{files}">
-        <div class="thumb">
-            <div  style="margin-top: 10px; margin-right: 10px">
-                <f:format.raw>
-                    <puck:utility.backend.thumbCode row="{row}" table="{table}" field="{field}"/>
-                </f:format.raw>
-            </div>
-        </div>
-        <div class="media-desc" style="display: none">
-            <f:for
-                    each="{puck:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
-                    as="fileReference">
-                {fileReference.description}<br>
-            </f:for>
-        </div>
     </f:if>
 </f:section>
 
@@ -112,75 +87,5 @@
                 </li>
             </f:for>
         </ul>
-    </f:if>
-</f:section>
-
-<f:section name="items">
-    <f:if condition="{inline_media}">
-        <f:variable name="items"
-                    value="{puck:utility.backend.getRecords(table: 'tx_puck_domain_model_inline_media', where: 'parent_uid={uid}', sorting: 'sorting')}"/>
-        <div class="panel-group panel-hover">
-            <div class="panel panel-default">
-                <div class="panel-heading row m-0 p-2 g-0 gap-1 align-items-center collapsed"
-                     onclick="event.preventDefault()"
-                     data-bs-toggle="collapse"
-                     data-bs-target="#c{uid}-inline-collapse"
-                     aria-controls="c{uid}-inline-collapse"
-                     aria-expanded="false">
-                    <div class="form-irre-header-cell form-irre-header-icon" style="max-width: 20px">
-                        <span class="caret"></span>
-                    </div>
-                    <div class="col ms-2">
-                        Items (<f:count>{items}</f:count>)
-                        <div class="headers" style="font-weight: normal; color: black;">
-                            <f:for each="{items}" as="item" iteration="i">
-                                <span class="header">
-                                    <f:if condition="{item.header}">
-                                        <f:then>{item.header}</f:then>
-                                        <f:else>{item.bodytext -> f:format.stripTags() -> f:format.crop(maxCharacters:50)}</f:else>
-                                    </f:if></span><f:if condition="!{i.isLast}">,</f:if>
-                            </f:for>
-                        </div>
-                    </div>
-                    <!--                <div class="col-auto">
-                                        <button type="button" class="btn btn-default btn-sm float-end t3js-toggle-recordlist"
-                                                onclick="event.preventDefault()"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#c{uid}-inline-collapse"
-                                                aria-controls="c{uid}-inline-collapse"
-                                                aria-expanded="false">
-                                            <core:icon identifier="actions-chevron-down"/>
-                                        </button>
-                                    </div>-->
-                </div>
-                <div class="item-row panel-collapse collapse" id="c{uid}-inline-collapse" style="padding: 1em">
-                    <f:for each="{items}" as="item" iteration="i">
-                        <div class="item-col -col" style="">
-                            <div class="t3-page-ce-header">
-                                <core:icon identifier="{item.item_type}_inline_media"/>
-                            </div>
-
-                            <div class="t3-page-ce-body">
-
-                                <div class="t3-page-ce-body-inner">
-
-                                    <strong>
-                                        <small>
-                                            <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:CType)}" />
-                                            item
-                                        </small>
-                                    </strong>
-                                    <f:render section="text"
-                                              arguments="{header: item.header, headerType: 'h3', subheader: item.subheader, bodytext: item.bodytext}"/>
-                                    <f:render section="fileThumbs" arguments="{row: item, files: item.assets, field: 'assets', table: 'tx_puck_domain_model_inline_media'}" />
-                                </div>
-                            </div>
-                        </div>
-                    </f:for>
-                </div>
-            </div>
-
-        </div>
-
     </f:if>
 </f:section>

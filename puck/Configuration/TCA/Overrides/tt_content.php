@@ -31,10 +31,22 @@ ExtensionUtility::registerPlugin(
     'menu_posts',
     'post'
 );
+ExtensionUtility::registerPlugin(
+    'puck',
+    'PersonList',
+    'Person menu',
+    'menu_persons',
+    'person'
+);
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['puck_postlist'] = 'pages,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_postlist'] = 'pi_flexform';
-
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['puck_personlist'] = 'pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_personlist'] = 'pi_flexform';
 ExtensionManagementUtility::addPiFlexFormValue(
     'puck_postlist',
     'FILE:EXT:puck/Configuration/FlexForms/PostList.xml'
+);
+ExtensionManagementUtility::addPiFlexFormValue(
+    'puck_personlist',
+    'FILE:EXT:puck/Configuration/FlexForms/PersonList.xml'
 );

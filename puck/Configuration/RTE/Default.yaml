@@ -84,7 +84,7 @@ editor:
       - Anchor
       - Strike
 
-    extraAllowedContent : "span;p span;span(*);i(*); *(*)[data-*]; p[data-*]; a[data-*];"
+    extraAllowedContent : "span(!char-icon); *(*)[data-*]; p[data-*]; a[data-*];"
 
     qtRows: 20
     qtColumns: 6

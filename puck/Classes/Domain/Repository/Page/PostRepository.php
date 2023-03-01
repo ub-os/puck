@@ -1,22 +1,22 @@
 <?php
 
-namespace UBOS\Puck\Domain\Repository;
+namespace UBOS\Puck\Domain\Repository\Page;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use UBOS\Puck\Constants;
 
 /**
  *
  */
 class PostRepository extends PageRepository
 {
-    /**
-     * @var array|int[]
-     */
-    protected array $allowedDoktypes = [60];
+
+    const ALLOWED_DOKTYPES = [Constants::DOKTYPE_POST];
+
     /**
      * @var array
      */
@@ -32,7 +32,7 @@ class PostRepository extends PageRepository
     {
         $demand = $settings['demand'];
         $query = $this->createQuery();
-        $constraints = [$query->in('doktype', $this->allowedDoktypes)];
+        $constraints = [$query->in('doktype', self::ALLOWED_DOKTYPES)];
         $pidUidConstraints = [];
         if ($settings['posts']) {
             foreach (explode(',', $settings['posts']) as $key => $value) {

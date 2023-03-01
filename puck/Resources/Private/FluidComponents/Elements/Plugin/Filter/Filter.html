@@ -1,0 +1,42 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-plugin-filter"/>
+  <fc:param name="filter" type="array"/>
+  <fc:param name="actionLink" type="array"/>
+  <fc:renderer>
+
+    <f:if condition="{filter.categories}">
+      <p class="{name} e-button-group -gutter-0">
+        <f:for each="{filter.categories}" as="category">
+            <f:if condition="{category.uid} != {filter.current}">
+                <f:then>
+                    <f:link.action action="{actionLink.action}"
+                                   controller="{actionLink.controller}"
+                                   extensionName="{actionLink.extensionName}"
+                                   section="{actionLink.section}"
+                                   pageUid="{actionLink.pageUid}"
+                                   arguments="{puck:array.merge(a:actionLink.arguments,b:'{categoryList:category.uid}')}"
+                                   class="{name}__link e-button-primary">
+                        {category.title}
+                    </f:link.action>
+                </f:then>
+                <f:else>
+                    <f:link.action action="{actionLink.action}"
+                                   controller="{actionLink.controller}"
+                                   extensionName="{actionLink.extensionName}"
+                                   section="{actionLink.section}"
+                                   pageUid="{actionLink.pageUid}"
+                                   arguments="{puck:array.unset(array:actionLink.arguments,key:'categoryList')}"
+                                   class="{name}__link e-button-primary --active">
+                        {category.title}
+                    </f:link.action>
+                </f:else>
+            </f:if>
+
+        </f:for>
+      </p>
+    </f:if>
+
+  </fc:renderer>
+</fc:component>
+

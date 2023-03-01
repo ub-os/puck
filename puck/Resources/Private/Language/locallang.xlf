@@ -230,7 +230,27 @@
 				<source>Post menu</source>
 			</trans-unit>
 			<trans-unit id="wizard.postlist.description" resname="wizard.postlist.description">
-				<source>...</source>
+				<source>Plugin to display a menu of posts.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.personlist" resname="content.element.personlist">
+				<source>Person menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.personlist" resname="wizard.personlist">
+				<source>Person menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.personlist.description" resname="wizard.personlist.description">
+				<source>Plugin to display a menu of persons.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.menu_files" resname="content.element.menu_files">
+				<source>File menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_files" resname="wizard.menu_files">
+				<source>File menu</source>
+			</trans-unit>
+			<trans-unit id="wizard.menu_files.description" resname="wizard.menu_files.description">
+				<source>Menu of downloadable files.</source>
 			</trans-unit>
 		</body>
 	</file>

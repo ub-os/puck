@@ -1,4 +1,4 @@
-
+import anime from 'animejs/lib/anime.js';
 import { $, $$, jsx } from '../General/Aliases';
 import App from '../Classes/App';
 import { Toggleable } from '../Classes/Toggleable';
@@ -137,7 +137,6 @@ _app.components = {
             ).mount()
         ]
     })),
-
 }
 _app.mount()
 

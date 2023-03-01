@@ -4,7 +4,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 $ctrl = [
     'label' => 'header',
     'label_alt' => 'subheader,bodytext',
-    'title' => 'Inline items',
+    'title' => 'Inline content',
     'tstamp' => 'tstamp',
     'crdate' => 'crdate',
     'cruser_id' => 'cruser_id',

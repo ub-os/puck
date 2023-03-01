@@ -19,6 +19,8 @@
     &.-width-#{$i} &__inner
       --grid-columns: #{$i}
       max-width: width-by-cols($i)
+      +media(ml)
+        --grid-columns: 12
 
   &.-align-left &__inner
     margin-left: 0

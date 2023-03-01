@@ -2,6 +2,12 @@
 @use "sass:list"
 
 
+@function rem-to-px($rem)
+  @return (math.div($rem,1rem) * $rfs-rem-value) + px
+
+@function px-to-rem($px)
+  @return math.div(math.div($px,1px), $rfs-rem-value) + rem
+
 // computed variables
 @function grid-gutters()
   @return $grid-columns - 1
@@ -35,3 +41,24 @@
   @if $index
     @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
   @return $string
+
+
+@function mapReverse($map)
+  $result: null
+
+  @if type-of($map) == "map"
+    $keys: map-keys($map)
+    $map-reversed: ()
+
+    @for $i from length($keys) through 1
+      $map-reversed: map-merge($map-reversed,(nth($keys, $i): map-get($map, nth($keys, $i))))
+
+    @if type-of($map-reversed) == "map"
+      $result: $map-reversed
+    @else
+      @warn 'There was an error reversing the order of "#{$map}"'
+
+  @else
+    @warn '"#{$map}" is not a valid map'
+
+  @return $result

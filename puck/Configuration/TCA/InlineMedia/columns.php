@@ -151,6 +151,7 @@ $columns = [
                 ['Top', 'start', 'align_top'],
                 ['Center', 'center', 'align_center_vertical'],
                 ['Bottom', 'end', 'align_bottom'],
+                ['Stretch', 'stretch', 'align_stretch']
             ],
             'default' => 'top',
             'fieldWizard' => [
@@ -215,6 +216,20 @@ $columns = [
                     ['40', 40],
                     ['50', 50]
                 ],
+            ],
+        ],
+    ],
+    'responsive_order' => [
+        'label' => 'Responsive order',
+        'description' => 'Order relative to other items on smaller screens only; Lower numbers are displayed first',
+        'config' => [
+            'type' => 'input',
+            'size' => 30,
+            'eval' => 'int',
+            'default' => 0,
+            'range' => [
+                'lower' => -10,
+                'upper' => 10
             ],
         ],
     ],

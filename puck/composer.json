@@ -17,7 +17,8 @@
     "b13/menus": "^1.0",
     "eliashaeussler/typo3-warming": "^0",
     "phpoffice/phpspreadsheet": "^1.27",
-    "georgringer/numbered-pagination": "^1.0"
+    "georgringer/numbered-pagination": "^1.0",
+    "b13/doktypemapper": "^1.1"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

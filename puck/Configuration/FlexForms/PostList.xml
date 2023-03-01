@@ -90,7 +90,7 @@
                             <label>Author</label>
                             <config>
                                 <type>group</type>
-                                <allowed>tx_puck_domain_model_author</allowed>
+                                <allowed>tx_puck_domain_model_person</allowed>
                                 <size>1</size>
                                 <maxitems>1</maxitems>
                             </config>
@@ -159,15 +159,15 @@
                                         <numIndex index="0">Date</numIndex>
                                         <numIndex index="1">post_date</numIndex>
                                     </numIndex>
-                                    <numIndex index="0">
+                                    <numIndex index="1">
                                         <numIndex index="0">Last updated</numIndex>
                                         <numIndex index="1">lastUpdated</numIndex>
                                     </numIndex>
-                                    <numIndex index="1">
+                                    <numIndex index="2">
                                         <numIndex index="0">Record sorting</numIndex>
                                         <numIndex index="1">sorting</numIndex>
                                     </numIndex>
-                                    <numIndex index="2">
+                                    <numIndex index="3">
                                         <numIndex index="0">Title</numIndex>
                                         <numIndex index="1">title</numIndex>
                                     </numIndex>
@@ -265,6 +265,17 @@
                             </config>
                         </TCEforms>
                     </settings.template.categoryFilter>
+                    <settings.template.filterCategories>
+                        <TCEforms>
+                            <label>Filter categories</label>
+                            <config>
+                                <type>category</type>
+                                <size>12</size>
+                                <minitems>0</minitems>
+                                <maxitems>100</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.template.filterCategories>
                 </el>
             </ROOT>
         </template>

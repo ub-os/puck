@@ -1,6 +1,6 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="e-control-pagination"/>
+  <fc:param name="name" type="string" optional="1" default="e-plugin-pagination"/>
   <fc:param name="page" type="integer" optional="1"/>
   <fc:param name="current" type="integer" optional="1"/>
   <fc:param name="mode" type="string" optional="1"/>
@@ -18,6 +18,7 @@
                              controller="{actionLink.controller}"
                              extensionName="{actionLink.extensionName}"
                              section="{actionLink.section}"
+                             pageUid="{actionLink.pageUid}"
                              arguments="{puck:array.merge(a:actionLink.arguments,b:'{page:page}')}"
                              class="{name}__link">
                 <f:switch expression="{mode}">
@@ -32,9 +33,6 @@
               </f:link.action>
             </f:else>
           </f:if>
-        </f:if>
-        <f:if condition="{mode} == 'slide'">
-          ...
         </f:if>
       </li>
 

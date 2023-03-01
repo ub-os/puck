@@ -56,8 +56,24 @@ $types['puck_anchor'] = [
             'label' => 'Title'
         ],
         'subheader' => [
-            'label' => '#',
-        ]
+            'label' => 'URL Segment',
+            'config' => [
+                'type' => 'slug',
+                'generatorOptions' => [
+                    'fields' => ['header'],
+                    'fieldSeparator' => '-',
+                    'replacements' => [
+                        '/' => '',
+                    ],
+                ],
+                'appearance' => [
+                    'prefix' => 'UBOS\\Puck\\UserFunctions\\FormEngine\\SlugPrefix->getHash',
+                ],
+                'fallbackCharacter' => '-',
+                'eval' => 'uniqueInPid',
+                'default' => '',
+            ],
+        ],
     ]
 ];
 
@@ -259,6 +275,32 @@ $types['puck_menu_anchors'] = [
     ]
 ];
 
+$types['puck_menu_files'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            --palette--;;gridContainer,
+            --palette--;;appearanceLayout,
+            --palette--;;headers,
+        --div--;Files,,    
+            --palette--;;menu_files,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'assets' => [
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'assets',
+                [
+                ],
+            )
+        ],
+    ]
+];
+
 $types['puck_menu_pages'] = [
     'showitem' => '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
@@ -420,6 +462,7 @@ $types['puck_text'] = [
         ]
     ]
 ];
+
 
 return $types;
 

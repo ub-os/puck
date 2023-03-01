@@ -32,7 +32,7 @@ function generateFavicons(sourcePath, distPath, fileName) {
                 html += icon+'' +
                     '';
             }
-            fs.writeFile('puck/Configuration/Typoscript/05_favicons.typoscript', `
+            fs.writeFile('puck/Configuration/Typoscript/09_favicons.typoscript', `
 page.headerData.99999999 = TEXT
 page.headerData.99999999.value (
 ${html.replaceAll(distPath, 'typo3conf/ext/'+distPath.replace(fileName, '{$favicon}'))}

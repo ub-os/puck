@@ -1,0 +1,8 @@
+<module:menu.pages object="{object}"/>
+<f:if condition="{pagination}">
+    <layout:section object="{frameClass:object.frameClass,hasNoHeaderSpacing:true}" top="none">
+        <element:plugin.pagination
+                pagination="{pagination}"
+                actionLink="{action:'list',controller:'Person',pageUid:object.pid,arguments:arguments,section:'c{object.uid}'}"/>
+    </layout:section>
+</f:if>

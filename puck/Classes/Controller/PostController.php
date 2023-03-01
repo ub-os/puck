@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use UBOS\Puck\Domain\Repository\PostRepository;
+use UBOS\Puck\Domain\Repository\Page\PostRepository;
 use UBOS\Puck\Utility\PuckUtility;
 
 /**
@@ -21,6 +23,12 @@ class PostController extends ActionController
     public function injectPostRepository(PostRepository $postRepository): void
     {
         $this->postRepository = $postRepository;
+    }
+
+    protected ?CategoryRepository $categoryRepository = null;
+    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
+    {
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function listAction(?string $authorList = null, ?string $categoryList = null, ?string $categoryConjunction = 'or'): string
@@ -55,7 +63,20 @@ class PostController extends ActionController
         } else {
             $object->setMenu($posts->toArray());
         }
-
+        
+        // add filter categories to view
+        if ($settings['template']['categoryFilter'] && $settings['template']['filterCategories']){
+            $query = $this->categoryRepository->createQuery();
+            $query->getQuerySettings()->setRespectStoragePage(false);
+            $constraints = [
+                $query->in('uid', explode(',',$settings['template']['filterCategories'])),
+            ];
+            $filterCategories = $query->matching($query->logicalAnd($constraints))->execute();
+            $this->view->assign('filter', [
+                'categories' => $filterCategories,
+                'current' => $categoryList,
+            ]);
+        }
         $this->view->assign('arguments', [
             'categoryList' => $categoryList,
         ]);

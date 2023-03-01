@@ -5,6 +5,18 @@
   <fc:renderer>
 
     <main class="{name}" id="page-main">
+      <f:if condition="{object.doktype} === 71">
+        <module:hero.content object="{
+            header:object.pagePersons.0.name,
+            bodytext:object.pagePersons.0.bodytext,
+            assets:object.pagePerson.0.assets}"/>
+      </f:if>
+      <f:if condition="{object.doktype} === 60">
+        <module:hero.content object="{
+            header:object.navTitle,
+            subheader: '{object.postDate -> f:format.date(format: \'%d. %B %Y\')}'
+            }"/>
+      </f:if>
       <f:format.raw>{contentElements}</f:format.raw>
     </main>
     <div class="l-modal__backdrop"></div>

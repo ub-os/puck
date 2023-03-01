@@ -10,6 +10,8 @@ use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puck\Controller\PageController;
 use UBOS\Puck\Controller\ContentController;
 use UBOS\Puck\Controller\PostController;
+use UBOS\Puck\Controller\PersonController;
+use UBOS\Puck\Constants;
 
 ExtensionUtility::configurePlugin(
     'Puck',
@@ -26,6 +28,12 @@ ExtensionUtility::configurePlugin(
     'PostList',
     [PostController::class => 'list'],
 );
+ExtensionUtility::configurePlugin(
+    'Puck',
+    'PersonList',
+    [PersonController::class => 'list'],
+);
+
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig'
@@ -37,11 +45,13 @@ ExtensionManagementUtility::addUserTSConfig(
 require_once ExtensionManagementUtility::extPath('puck') . '/Configuration/IconRegistry.php';
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PostHeader::class . '->render';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PageHeader::class . '->render';
 
+// add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(
-    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . 60 . ')'
+    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . Constants::DOKTYPE_POST . ',' . Constants::DOKTYPE_PERSON . ')'
 );
+
 Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
 
 $contentModels = PuckUtility::indexContentModels();

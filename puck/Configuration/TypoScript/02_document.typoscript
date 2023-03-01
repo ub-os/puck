@@ -26,10 +26,18 @@ page.meta {
     keywords.field = keywords
     twitter:card = summary
     og:type = Website
-    og:site_name.data = DB:pages:1:title
+    og:site_name.data = site:websiteTitle
     og:title.field = seo_title
     og:description.field = description
 }
+## page title
+config.noPageTitle = 2
+page.headerData.50 = TEXT
+page.headerData.50.stdWrap.dataWrap = <title>{site:websiteTitle} - {page:title}</title>
+
+[page["seo_title"]]
+    page.headerData.50.stdWrap.dataWrap = <title>{page:seo_title}</title>
+[end]
 [page["og_title"]]
     page.meta.og:title.field = og_title
 [end]
@@ -38,13 +46,6 @@ page.meta {
 [end]
 [!page["og_image"]]
     page.headerData.40 < lib.ogImageFallback
-[end]
-## page title
-[page["seo_title"]]
-    config.noPageTitle = 2
-    page.headerData.50 = TEXT
-    page.headerData.50.field = seo_title
-    page.headerData.50.wrap = <title>|</title>
 [end]
 [backend.user.isLoggedIn]
     page.bodyTagAdd = data-app-debug="1"

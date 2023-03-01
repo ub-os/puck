@@ -8,17 +8,32 @@
   --color-accent-alt: #{$blue-cyan-process}
   --color-link: #{$lilac-dark-orchid}
   --color-link--hover: #{$lilac-electric}
+
   @keyframes modal-open-overlay
     0%
       opacity: 0
     100%
       opacity: 1
 
+  @keyframes modal-close-overlay
+    0%
+      opacity: 1
+    100%
+      opacity: 0
+
   @keyframes modal-open
     0%
       transform: translate(-50%, calc(-50% - 5rem))
     100%
       transform: translate(-50%, -50%)
+
+  @keyframes modal-close
+    0%
+      transform: translate(-50%, -50%)
+      opacity: 1
+    100%
+      transform: translate(-50%, calc(-50% - 3rem))
+      opacity: 0
 
   &__backdrop
     +gutter-outer()
@@ -33,6 +48,9 @@
     .d-html[class*="-modal--active"] &
       display: block
       animation: modal-open-overlay .3s
+    .d-html[class*="-modal--deactivating"] &
+      display: block
+      animation: modal-close-overlay .3s
 
   &
     +center(both)
@@ -55,7 +73,9 @@
       display: block
       animation: modal-open .3s
     &.--deactivating
-      //display: block
+      display: block
+      animation: modal-close .15s
+
     @for $i from 4 through 12
       &.-width-#{$i}
         width: width-by-cols($i)

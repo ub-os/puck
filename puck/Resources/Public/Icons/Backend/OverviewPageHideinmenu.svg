@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>OverviewPageHideinmenu</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6">
+        <g id="OverviewPageHideinmenu" fill-rule="nonzero">
+            <g id="Group" transform="translate(2.000000, 0.000000)">
+                <polygon id="Path" fill="#ABD7FF" points="0 0 0 16 12 16 12 4 8 0"></polygon>
+                <polygon id="Path" opacity="0.65" points="8 4 8 0 12 4"></polygon>
+                <polygon id="Path" fill="#212121" opacity="0.2" points="11 5 11 10 7 5"></polygon>
+                <path d="M0,0 L0,16 L12,16 L12,4 L11.988,4 L11.992,3.992 L8.008,0.006 L8,0.014 L8,0 L0,0 Z M1,1 L7,1 L7,5 L11,5 L11,15 L1,15 L1,1 Z M8,1.412 L10.586,4 L8,4 L8,1.412 Z" id="Shape" fill="#212121" opacity="0.4"></path>
+            </g>
+        </g>
+    </g>
+</svg>

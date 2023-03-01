@@ -23,6 +23,11 @@
                     }"/>
         </f:if>
         <div class="{name}__text">
+            <f:if condition="{object.subheader}">
+                <p class="{name}__topline">
+                    <f:format.raw>{object.subheader}</f:format.raw>
+                </p>
+            </f:if>
             <h1 class="{name}__headline">{object.header}</h1>
             <element:text.rich class="{name}__bodytext" text="{object.bodytext}"/>
         </div>

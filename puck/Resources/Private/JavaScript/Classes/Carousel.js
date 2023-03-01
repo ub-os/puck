@@ -11,6 +11,8 @@ export default class Carousel {
             arrows: true,
             pagination: false,
             autoWidth: true,
+            omitEnd: true,
+            focus: 'left',
             ...options})
     }
     mount() {

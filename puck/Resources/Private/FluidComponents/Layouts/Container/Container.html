@@ -1,13 +1,15 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-container"/>
-  <fc:param name="width" type="integer" optional="1" default="12" />
-  <fc:param name="align" type="string" optional="1" default="center" />
-  <fc:param name="offset" type="integer" optional="1" default="0" />
+  <fc:param name="width" type="integer" optional="1" default="" />
+  <fc:param name="align" type="string" optional="1" default="" />
+  <fc:param name="offset" type="integer" optional="1" default="" />
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
-    <div class="{name} -width-{width} -align-{align} -offset-{offset}">
+    <f:variable name="mods"
+                value="{width: width, align: align, offset: offset}"/>
+    <div class="{name} {mods -> puck:modClass()} {class}">
       <div class="{name}__inner">
         <f:format.raw>{content}</f:format.raw>
       </div>

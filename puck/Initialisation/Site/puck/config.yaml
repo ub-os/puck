@@ -3,7 +3,7 @@ errorHandling:
   -
     errorCode: 404
     errorHandler: Page
-    errorContentSource: 't3://page?uid=14'
+    errorContentSource: 't3://page?uid=7'
 languages:
   -
     title: de
@@ -34,51 +34,21 @@ languages:
     flag: en-us-gb
     languageId: 1
     xml_sitemap_path: /en/sitemap.xml
-rootPageId: 1
-routeEnhancers:
-  PageTypeSuffix:
-    type: PageType
-    limitToPages:
-      - 1
-    map:
-      sitemap-index.xml: 1533906435
-  PageTypeSuffix2:
-    type: PageType
-    default: /
-    index: ''
-    map:
-      /: 0
-  IndexedSearchPlugin:
-    type: Extbase
-    namespace: tx_indexedsearch_pi2
-    routes:
-      -
-        routePath: /s
-        _controller: 'Search::search'
-        _action: 'search::search'
-      -
-        routePath: '/s/{search/sword}'
-        _controller: 'Search::search'
-        _action: 'search::search'
-        requirements:
-          -
-            search/sword: '[^/=?]*'
-    defaultController: 'Search::search'
-    defaultAction: 'search::search'
-routes:
-  -
-    route: sitemap.xml
-    type: uri
-    source: 't3://page?uid=1&type=1533906435&sitemap=pages'
-  -
-    route: en/sitemap.xml
-    type: uri
-    source: 't3://page?uid=1&type=1533906435&sitemap=pages&lang=1'
+rootPageId: 2
 settings:
   redirects:
     autoUpdateSlugs: true
     autoCreateRedirects: false
     redirectTTL: 0
     httpStatusCode: 307
-websiteTitle: ''
+websiteTitle: Puck
 xml_sitemap_path: sitemap.xml
+imports:
+  -
+    resource: 'EXT:puck/Configuration/Routes/Post.yaml'
+  -
+    resource: 'EXT:puck/Configuration/Routes/Person.yaml'
+  -
+    resource: 'EXT:puck/Configuration/Routes/Sitemap.yaml'
+  -
+    resource: 'EXT:puck/Configuration/Routes/TrailingSlash.yaml'

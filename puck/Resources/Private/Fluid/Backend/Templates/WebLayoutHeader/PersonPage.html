@@ -1,0 +1,20 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+<div class="callout callout-info">
+    <div class="media">
+        <div class="media-left">
+            <core:icon identifier="person" size="default" />
+        </div>
+        <div class="media-body">
+            <h4 class="callout-title">
+                Person page
+            </h4>
+            Hero content element is automatically rendered from person data.
+        </div>
+    </div>
+    <div class="callout-footer" style="padding-top: 1em">
+        <be:link.editRecord uid="{page.pagePersons.0.uid}" table="tx_puck_domain_model_person" class="btn btn-default ">
+            <core:icon identifier="actions-open" />
+            Edit person
+        </be:link.editRecord>
+    </div>
+</div>

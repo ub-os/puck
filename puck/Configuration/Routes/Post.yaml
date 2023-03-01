@@ -26,7 +26,8 @@ routeEnhancers:
         routePath: '/{pageLabel}/{page}'
         _controller: 'Post::list'
       -
-        routePath: ''
+        routePath: '/'
+        _controller: 'Post::list'
     aspects:
       pageLabel:
         type: LocaleModifier
@@ -56,5 +57,5 @@ routeEnhancers:
         routeFieldName: slug
       authorList:
         type: PersistedAliasMapperOfCommaList
-        tableName: tx_puck_domain_model_author
+        tableName: tx_puck_domain_model_person
         routeFieldName: slug

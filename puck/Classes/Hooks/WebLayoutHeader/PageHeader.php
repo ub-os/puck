@@ -8,11 +8,10 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use UBOS\Puck\Domain\Model\Post;
+use UBOS\Puck\Constants;
+use UBOS\Puck\Domain\Model\Page\Post;
 
-use UBOS\Puck\Domain\Repository\PostRepository;
-
-class PostHeader extends AbstractHeader
+class PageHeader extends AbstractHeader
 {
     protected function getBackendUser(): BackendUserAuthentication
     {
@@ -38,12 +37,18 @@ class PostHeader extends AbstractHeader
     /** @throws AspectNotFoundException */
     public function render(): string
     {
-        // Check if the page is a post
-        if ((int)($this->row['doktype'] ?? 0) === Post::DOKTYPE) {
-            // Get the page repository
-            $postRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(PostRepository::class);
+        if ((int)($this->row['doktype'] ?? 0) === Constants::DOKTYPE_POST) {
+            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/Post.html', [
-                'post' => $postRepository->findByUid($this->id),
+                'post' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\Post', [$this->row])[0],
+                'row' => $this->row,
+                'propertyPermissions' => $this->getPropertyPermissions()
+            ])->render();
+        }
+        if ((int)($this->row['doktype'] ?? 0) === Constants::DOKTYPE_PERSON) {
+            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+            return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/PersonPage.html', [
+                'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$this->row])[0],
                 'row' => $this->row,
                 'propertyPermissions' => $this->getPropertyPermissions()
             ])->render();

@@ -15,6 +15,6 @@ node_modules
 /puck/Resources/Public/css/
 /puck/Resources/Public/js/
 /puck/Resources/Public/Icons/sprite-sheet.svg
-/puck/Configuration/TypoScript/05_favicons.typoscript
+/puck/Configuration/TypoScript/09_favicons.typoscript
 /puck/Resources/Public/Icons/Favicons/packages/
-/puck/Configuration/TypoScript/05_favicons.typoscript
+/puck/Configuration/TypoScript/09_favicons.typoscript

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Content Controller.
- */
 declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;

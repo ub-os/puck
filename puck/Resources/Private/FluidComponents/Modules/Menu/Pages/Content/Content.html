@@ -11,7 +11,7 @@
         <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
           <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
-        <f:if condition="{item.category} && {config.categories}">
+        <f:if condition="{item.categories} && {config.categories}">
           <div class="{name}__categories">
             <f:for each="{item.categories}" as="cat" iteration="i">
               <span class="{name}__category">{cat.title}</span>{f:if(condition: '!{i.isLast}', then:' |')}
@@ -24,7 +24,7 @@
         <a href="{f:uri.page(pageUid: item.uid)}"
            class="{name}__headline"
            data-link-to-stop="1">
-          {item.title}
+          <f:format.raw>{item.navTitle}</f:format.raw>
         </a>
         <f:if condition="{item.subtitle} && {config.subtitle}">
           <div class="{name}__subtitle">

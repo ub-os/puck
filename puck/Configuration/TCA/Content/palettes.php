@@ -86,5 +86,12 @@ $palettes['menu_pages'] = [
 $palettes['media'] = [
     'showitem' => 'media',
 ];
-
+$palettes['menu_files'] = [
+    'label' => 'Files',
+    'showitem' => 'item_column_width,
+        --linebreak--,
+        assets; Selected files, file_collections,
+        --linebreak--,
+        filelink_sorting, filelink_sorting_direction, target',
+];
 return $palettes;

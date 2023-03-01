@@ -1,15 +1,15 @@
 <?php
 
-namespace UBOS\Puck\Domain\Repository;
-
-use TYPO3\CMS\Extbase\Persistence\Repository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+namespace UBOS\Puck\Domain\Repository\Page;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+use TYPO3\CMS\Extbase\Persistence\Repository;
+use UBOS\Puck\Constants;
 
 /**
  *
@@ -17,10 +17,12 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 class PageRepository extends Repository
 {
 
-    /**
-     * @var array|int[]
-     */
-    protected array $allowedDoktypes = [1,4,7,3];
+    const ALLOWED_DOKTYPES = [
+        1, 4, 7, 3,
+        Constants::DOKTYPE_START,
+        Constants::DOKTYPE_OVERVIEW,
+        Constants::DOKTYPE_PERSON
+    ];
 
     /**
      * @return void
@@ -52,7 +54,7 @@ class PageRepository extends Repository
             $options
         );
         $query = $this->createQuery();
-        $constraints = [$query->in('doktype', $this->allowedDoktypes)];
+        $constraints = [$query->in('doktype', self::ALLOWED_DOKTYPES)];
         if ($options['navHide']) {
             $constraints[] = $query->equals('nav_hide', 0);
         }
@@ -93,18 +95,22 @@ class PageRepository extends Repository
         }
         if ($pidList !== '') {
             foreach (explode(',', $pidList) as $key => $value) {
-                $pidUidConstraints[] = $query->equals('pid', $value);
+                if ($options['navHide']) {
+                    $pidUidConstraints[] = $query->logicalAnd(
+                        $query->equals('pid', $value),
+                        $query->equals('nav_hide', 0),
+                    );
+                } else {
+                    $pidUidConstraints[] = $query->equals('pid', $value);
+                }
             }
         }
         $constraints = array(
             $query->logicalOr(
                 $pidUidConstraints
             ),
-            $query->in('doktype', $this->allowedDoktypes),
+            $query->in('doktype', self::ALLOWED_DOKTYPES),
         );
-        if ($options['navHide']) {
-            $constraints[] = $query->equals('nav_hide', 0);
-        }
         if ($options['limit']) {
             $query->setLimit($options['limit']);
         }
