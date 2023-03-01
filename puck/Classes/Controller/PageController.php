@@ -7,20 +7,16 @@ declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Context\Context;
-
-use TYPO3\CMS\Core\Utility\RootlineUtility;
-//use UBOS\Puck\Domain\Repository\PageRepository;
-//use B13\Menus\Domain\Repository\MenuRepository;
-
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
+use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use UBOS\Puck\Constants;
 
 /**
  * Page Controller.
@@ -39,7 +35,13 @@ class PageController extends ActionController
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $contentObject = new ContentContentObject($contentObjectRenderer);
-            $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page', [$data])[0];
+            if ($data['doktype'] === Constants::DOKTYPE_POST) {
+                $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\Post', [$data])[0];
+            } else if ($data['doktype'] === Constants::DOKTYPE_PERSON) {
+                $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$data])[0];
+            } else {
+                $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\Page', [$data])[0];
+            }
             $backendRows = [
                 ['colPos' => 1, 'slide' => 0],
                 ['colPos' => 3, 'slide' => -1],
