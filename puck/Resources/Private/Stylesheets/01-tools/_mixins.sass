@@ -11,14 +11,14 @@
       @media (min-width: map-get(bps-up(), $size))
         @content
     @else
-      @media (min-width: #{$size}px)
+      @media (min-width: #{$size})
         @content
   @else
     @if map-get(bps-down(), $size)
       @media (max-width: map-get(bps-down(), $size))
         @content
     @else
-      @media (max-width: #{$size}px)
+      @media (max-width: #{$size})
         @content
 
 
