@@ -13,7 +13,7 @@
       flex-direction: row-reverse
     &.-layout-left
       flex-direction: row
-    +media(ml)
+    +media(m)
       --grid-gutter-y: 0
 
   &__content
@@ -37,13 +37,13 @@
   &__figure
     &.-layout-right,
     &.-layout-left
-      +media(ml, up)
+      +media(m, up)
         +cover-media()
         position: absolute
         top: 0
         height: 100%
         width: 50vw
-      +media(ml)
+      +media(m)
         +gutter-outer($gutter-outer, $gutter-outer-mb, true)
 
     &.-layout-right

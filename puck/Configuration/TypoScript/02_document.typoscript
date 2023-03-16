@@ -47,13 +47,6 @@ page.headerData.50.stdWrap.dataWrap = <title>{site:websiteTitle} - {page:title}<
 [!page["og_image"]]
     page.headerData.40 < lib.ogImageFallback
 [end]
-[backend.user.isLoggedIn]
-    page.bodyTagAdd = data-app-debug="1"
-[global]
-
-page.bodyTag >
-page.bodyTagCObject = TEXT
-page.bodyTagCObject.stdWrap.dataWrap = <body class="d-body u-no-transition -layout-{pagelayout} " id="page-{field:uid}">
 
 page.shortcutIcon = typo3conf/ext/puck/Resources/Public/Icons/Favicons/favicon.ico
 

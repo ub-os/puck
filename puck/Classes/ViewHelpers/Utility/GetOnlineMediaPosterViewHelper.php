@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class GetOnlineMediaPosterViewHelper extends AbstractViewHelper
 {
-    public static array $allowedServices = ['youtube', 'vimeo'];
+    const ALLOWED_SERVICES = ['youtube', 'vimeo'];
 
     use CompileWithRenderStatic;
     public function initializeArguments()
@@ -31,11 +31,16 @@ class GetOnlineMediaPosterViewHelper extends AbstractViewHelper
         $id = $arguments['id'];
         $vimeoImageSize = $arguments['vimeoImageSize'];
         $youtubeImageSize = $arguments['youtubeImageSize'];
-        if (!in_array($service, self::$allowedServices)) {
+        if (!in_array($service, self::ALLOWED_SERVICES)) {
             return '';
         }
         if ($service === 'youtube') {
-            return "http://img.youtube.com/vi/$id/$youtubeImageSize.jpg";
+            $resolutions = array('maxresdefault', 'hqdefault', 'mqdefault');
+            foreach($resolutions as $res) {
+                $imgUrl = "https://i.ytimg.com/vi/$id/$res.jpg";
+                if(@getimagesize(($imgUrl)))
+                    return $imgUrl;
+            }
         }
         if ($service === 'vimeo') {
             $data = file_get_contents("http://vimeo.com/api/v2/video/$id.json");

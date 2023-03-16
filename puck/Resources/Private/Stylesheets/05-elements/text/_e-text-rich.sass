@@ -17,8 +17,8 @@
 
 	.-quote
 		+font-size($fs-h3)
+		+padding-left($fs-h3 * 2)
 		position: relative
-		padding-left: 2em
 		padding-top: 1em
 		line-height: 1.25
 		&:before
@@ -29,6 +29,11 @@
 			color: var(--color-accent)
 			font-size: 3em
 			font-weight: 700
+
+	.-quote-attribution
+		+font-size($fs-small)
+		+padding-left($fs-h3 * 2)
+		font-weight: 500
 
 	a
 		color: var(--color-link)

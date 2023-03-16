@@ -252,6 +252,8 @@
 			<trans-unit id="wizard.menu_files.description" resname="wizard.menu_files.description">
 				<source>Menu of downloadable files.</source>
 			</trans-unit>
+
+
 		</body>
 	</file>
 </xliff>

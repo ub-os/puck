@@ -51,15 +51,15 @@
     &__item.-width-#{$i}
       +grid-col($i)
       @if ($i < 3)
-        $i-ml: 4
-        $i-sm: 6
-        +grid-col-width($i, var(--grid-columns), (ml:($i-ml,var(--grid-columns)), sm:($i-sm,var(--grid-columns))))
+        $i-m: 4
+        $i-s: 6
+        +grid-col-width($i, var(--grid-columns), (m:($i-m,var(--grid-columns)), s:($i-s,var(--grid-columns))))
       @if ($i >= 3 and $i < 5)
-        $i-ml: 6
-        +grid-col-width($i, var(--grid-columns), (ml:($i-ml,var(--grid-columns)), s:(12,12)))
+        $i-m: 6
+        +grid-col-width($i, var(--grid-columns), (m:($i-m,var(--grid-columns)), s:(12,12)))
       @if ($i > 4)
-        +grid-col-width($i, var(--grid-columns), (ml:(12,12)))
-      +media(ml)
+        +grid-col-width($i, var(--grid-columns), (m:(12,12)))
+      +media(m)
       // text elements should take available width, too complicated with media though
       //flex-grow: 1
       img, video
@@ -72,5 +72,5 @@
 
   @for $i from -10 through 10
     &__item.-responsive-order-#{$i}
-      +media(ml)
+      +media(m)
         order: $i

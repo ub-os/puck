@@ -1,3 +1,8 @@
+// List module
+mod.web_list {
+    deniedNewTables = tx_puck_domain_model_inline_media
+}
+
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
     01_content {
@@ -8,8 +13,8 @@ mod.wizards.newContentElement.wizardItems {
         elements {
             puck_postlist {
                 iconIdentifier = menu_posts
-                title = Post menu
-                description = Plugin to display a menu of posts.
+                title = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.postlist
+                description = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.postlist.description
                 tt_content_defValues {
                     CType = list
                     list_type = puck_postlist
@@ -17,8 +22,8 @@ mod.wizards.newContentElement.wizardItems {
             }
             puck_personlist {
                 iconIdentifier = menu_persons
-                title = Person menu
-                description = Plugin to display a menu of persons.
+                title = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.personlist
+                description = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.personlist.description
                 tt_content_defValues {
                     CType = list
                     list_type = puck_personlist
@@ -66,9 +71,7 @@ backendLayoutDefaultConfig {
                         name = Main content
                         colPos = 1
                         colspan = 8
-                        allowed {
-                            CType < allowedContent
-                        }
+                        allowed.CType < allowedContent
                     }
                 }
             }
@@ -78,9 +81,9 @@ backendLayoutDefaultConfig {
 #                        name = Footer
 #                        colPos = 3
 #                        colspan = 8
-#                        allowed {
-#                            CType = puck_text
-#                        }
+#                        allowed.CType = puck_text
+#
+#
 #                    }
 #                }
 #            }
@@ -90,9 +93,7 @@ backendLayoutDefaultConfig {
                         name = Modals
                         colPos = 9
                         colspan = 8
-                        allowed {
-                            CType = puck_modal
-                        }
+                        allowed.CType = puck_modal
                     }
                 }
             }
@@ -109,27 +110,27 @@ mod.web_layout.BackendLayouts {
     start {
         title = Start
         config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = 70
+        config.backend_layout.doktype = {$doktype.start}
     }
     overview {
         title = Overview
         config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = 72
+        config.backend_layout.doktype = {$doktype.overview}
     }
     post {
         title = Post
         config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = 60
+        config.backend_layout.doktype = {$doktype.post}
     }
     person {
         title = Person page
         config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = 71
+        config.backend_layout.doktype = {$doktype.person}
     }
     detail-plugin {
         title = Plugin detail page
         config.backend_layout {
-            doktype = 73
+            doktype = {$doktype.detailPlugin}
             colCount = 8
             rows {
                 1 {
@@ -138,9 +139,7 @@ mod.web_layout.BackendLayouts {
                             name = Main content
                             colPos = 1
                             colSpan = 8
-                            allowed {
-                                CType = list
-                            }
+                            allowed.CType = list
                         }
                     }
                 }

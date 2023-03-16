@@ -12,5 +12,12 @@ config.tx_fluidcomponents.settings {
         meta = {$navUid.meta}
         language = {$navUid.language}
     }
+    doktype {
+        start = {$doktype.start}
+        overview = {$doktype.overview}
+        post = {$doktype.post}
+        person = {$doktype.person}
+        detailPlugin = {$doktype.detailPlugin}
+    }
     gridWidth = {$gridWidth}
 }

@@ -12,6 +12,14 @@ jsProd =  EXT:puck/Resources/Public/js/app.min.js
 ## when set to 0: cache enabled, minified assets are included and compressed
 development = 1
 
+doktype {
+    start = 16501
+    overview = 16502
+    post = 16503
+    person = 16504
+    detailPlugin = 16511
+}
+
 # customsubcategory=pageUids=Page identifiers
 # customsubcategory=appearance=Appearance
 navUid {

@@ -1,4 +1,4 @@
-# Vorgehensweise
+# Installation
 
 ## 1. Lokal:
 ### Repository klonen, npm installieren, builden
@@ -11,87 +11,209 @@ npm run build
 npm Version = 18
 
 ## 2. Auf Server
-### 2.1. Inhalt composer.json auf Project Root-Ebene:
+### 2.1. In composer.json auf Project Root-Ebene hinzufügen:
 
-<pre>
-{
-   "name": "typo3/cms-base-distribution",
-   "description" : "TYPO3 CMS Base Distribution",
-   "license": "GPL-2.0-or-later",
-   "config": {
-	  "allow-plugins": {
-		 "typo3/class-alias-loader": true,
-		 "typo3/cms-composer-installers": true
-	  },
-	  "platform": {
-		 "php": "8.0"
-	  },
-	  "sort-packages": true
-   },
-   "repositories": [
-	  {
-		 "type": "path",
-		 "url": "extensions/*",
-		 "options": {
-			"symlink": true
-		 }
-	  }
-   ],
-   "require": {
-	  "b13/menus": "^1.0",
-	  "georgringer/news": "^10.0",
-	  "helhum/typo3-console": "^7.0.2",
-	  "lochmueller/autoloader": "^7.3",
-	  "typo3/cms-backend": "^11.5.0",
-	  "typo3/cms-belog": "^11.5.0",
-	  "typo3/cms-beuser": "^11.5.0",
-	  "typo3/cms-core": "^11.5.0",
-	  "typo3/cms-dashboard": "^11.5.0",
-	  "typo3/cms-extbase": "^11.5.0",
-	  "typo3/cms-extensionmanager": "^11.5.0",
-	  "typo3/cms-felogin": "^11.5.0",
-	  "typo3/cms-filelist": "^11.5.0",
-	  "typo3/cms-fluid": "^11.5.0",
-	  "typo3/cms-fluid-styled-content": "^11.5.0",
-	  "typo3/cms-form": "^11.5.0",
-	  "typo3/cms-frontend": "^11.5.0",
-	  "typo3/cms-impexp": "^11.5.0",
-	  "typo3/cms-info": "^11.5.0",
-	  "typo3/cms-install": "^11.5.0",
-	  "typo3/cms-lowlevel": "^11",
-	  "typo3/cms-recordlist": "^11.5.0",
-	  "typo3/cms-rte-ckeditor": "^11.5.0",
-	  "typo3/cms-seo": "^11.5.0",
-	  "typo3/cms-setup": "^11.5.0",
-	  "typo3/cms-sys-note": "^11.5.0",
-	  "typo3/cms-t3editor": "^11.5.0",
-	  "typo3/cms-tstemplate": "^11.5.0",
-	  "typo3/cms-viewpage": "^11.5.0",
-	  "ubos/puck": "@dev"
-   },
-   "scripts":{
-	  "typo3-cms-scripts": [
-		 "typo3cms install:fixfolderstructure"
-	  ],
-	  "post-autoload-dump": [
-		 "@typo3-cms-scripts"
-	  ]
-   }
-}
-
-</pre>
+```json
+"repositories": [
+  {
+     "type": "path",
+     "url": "extensions/*",
+     "options": {
+        "symlink": true
+     }
+  }
+],
+```
 
 ### 2.2. Auf Server Verzeichnis "extensions" anlegen und hierhin deployer
 
 !! Nach Build!!: Upload der Extension-Verzeichnisse in das Verzeichnis "extensions" auf dem Server
 
-### Composer Installation wie immer
-<pre>composer install</pre>
-bzw. wenn bereits installiert:
-<pre>composer update</pre>
+### Composer Installation
+<pre>composer req ubos/puck:@dev</pre>
+
 ### dann in TYPO3 Database Schema aktualisieren
 
 ### dann im Projektverzeichnis auf dem Server Distributionsscript ausführen für Default-Seiten:
 <pre> vendor/bin/typo3 extension:setup</pre> 
 
+# Neuer Content Element Type
 
+## 1. Model
+
+Neues Model anlegen, z.B. "ProductCards" in "Classes/Domain/Model/Content/ProductCards.php"
+```php
+namespace UBOS\Puck\Domain\Model\Content;
+
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use HDNET\Autoloader\Annotation\DatabaseField;
+use HDNET\Autoloader\Annotation\DatabaseTable;
+use HDNET\Autoloader\Annotation\WizardTab;
+
+/**
+ * @DatabaseTable("tt_content")
+ * @WizardTab("01_content")
+ */
+class ProductCards extends Columns
+{
+    /**
+     * @var string
+     * @DatabaseField("int")
+     */
+    public int $showPrice = 0;
+}
+```
+
+Die neue Model-Klasse extended entweder ein anderes Content-Model oder AbstractEntity.
+
+Annotations:
+- DatabaseTable: Name der Tabelle, in der die Daten gespeichert ("persisted") werden.
+- DatabaseField: Falls die Spalte (im Beispiel: "show_price")($camelCase in model => snake_case in Tabelle) noch nicht in der Tabelle existiert wird sie automatisch angelegt.
+- WizardTab: Tab, in dem das Content Element im New Content Element Wizard angezeigt wird.
+
+Falls durch die Annotations Datenbankänderungen vorgenommen werden müssen (z.B. neue Spalte in Tabelle), muss das Datenbankschema im Typo3 Backend aktualisiert werden: "Admin Tools" -> "Maintenance" -> "Analyze Database Structure".
+
+## 2. TCA
+
+
+### 2.1. Content columns
+Falls wir in unserem Model eine neue Spalte hinzugefügt haben, müssen wir diese auch in dem TCA definieren. 
+
+"Configuration/TCA/Content/columns.php"
+
+Beispiel
+```php
+$columns['show_price'] = [
+    'label' => 'Show price',
+    'config' => [
+        'type' => 'check',
+        'renderType' => 'checkboxToggle',
+        'default' => 0,
+    ]
+];
+```
+
+### 2.1. Content types
+Der Name des neuen "CTypes" ist "puck_" + der Name der Model-Klasse in snake_case.
+Für diesen Type fügen wir die TCA-Definition hinzu.
+
+"Configuration/TCA/Content/types.php"
+
+Beispiel
+```php
+$types['puck_product_cards'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            --palette--;;layout,
+            --palette--;;headers,
+            show_price,
+        --div--;Items,
+            inline_media,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'inline_media' => [
+            'label' => 'Product card items',
+            'config' => [
+                'overrideChildTca' => [
+                    'types' => [
+                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['product_cards'],
+                    ],
+                ]
+            ]
+        ]
+    ]
+];
+```
+
+In unserem Beispiel verweisen wir auf die TCA-Definition für das InlineMedia-Model, da unser Content-Model InlineMedia-Items enthält, die durch das inline_media Feld editiert werden.
+Wir überschreiben hier die TCA-Definition für den Typ "1" ("1" ist der Default-Typ).
+
+Neue InlineMedia types können in "Configuration/TCA/InlineMedia/types.php" definiert werden.
+
+## 3. TSconfig
+
+Der neue Content Element Type muss noch auf die Liste der allowed CTypes der Backend Layouts hinzugefügt werden.
+
+"Configuration/TSconfig/Mod.tsconfig"
+
+Beispiel für Backend Layout "default"
+```typo3_typoscript
+mod.web_layout.BackendLayouts.default.config.backend_layout.allowed.CType := addToList(puck_product_cards)
+```
+
+
+## 4. Backend Resources
+
+### 4.1. Icon
+SVG-Icon unter "Resources/Public/Icons/Content/{modelName}.svg" speichern.
+
+### 4.2. Language file
+"Resources/Private/Language/locallang.xlf" erweitern.
+
+Beispiel
+
+```xml
+<trans-unit id="content.element.product_cards" resname="content.element.product_cards">
+    <source>Product cards</source>
+</trans-unit>
+<trans-unit id="wizard.product_cards" resname="wizard.product_cards">
+    <source>Product cards</source>
+</trans-unit>
+<trans-unit id="wizard.product_cards.description" resname="wizard.product_cards.description">
+    <source>List of product cards.</source>
+</trans-unit>
+```
+
+## 5. Template
+Template unter "Resources/Private/Fluid/Content/{modelName}.html" speichern.
+
+Die Template-Datei sollte ein FluidComponent-Module aufrufen.
+
+Beispiel
+
+```html
+<module:content.productCards object="{object}" />
+```
+Unter Umständen wird eine bereits vorhandene FluidComponent aufgerufen, oder es muss eine neue erstellt werden:
+
+z.B. "Resources/Private/FluidComponents/Modules/Content/ProductCards/ProductCards.html"
+
+```html
+  <fc:param name="name" type="string" optional="1" default="m-content-product-cards"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        object="{object}"
+        id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+
+        <layout:row class="{name}__row">
+            <f:for each="{object.inlineMedia}" as="item" iteration="i">
+                <layout:row.item class="{name}__item"  width="6" >
+                    <h2 class="{name}__headline">
+                        Product: {item.title}
+                    </h2>
+                </layout:row.item>
+            </f:for>
+        </layout:row>
+
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+```
+
+## 6. Styling
+Die SASS-Datei wird analog der FluidComponent benannt und abgelegt,
+
+z.B. "Resources/Private/Stylesheets/06-modules/content/_m-content-product-cards.sass"
+
+```sass
+.m-content-product-cards
+  &__headline
+    +typo-h1
+```

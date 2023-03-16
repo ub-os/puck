@@ -8,13 +8,19 @@
   <fc:renderer>
 
       <div class="{name}__content">
+        <f:if condition="{item.postDate} && {config.postDate}">
+          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
+        </f:if>
         <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
           <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
         <f:if condition="{item.categories} && {config.categories}">
           <div class="{name}__categories">
             <f:for each="{item.categories}" as="cat" iteration="i">
-              <span class="{name}__category">{cat.title}</span>{f:if(condition: '!{i.isLast}', then:' |')}
+              <span class="{name}__category">{cat.title}</span>
+              <f:if condition="!{i.isLast}">
+                <span class="{name}__categories__divider">|</span>
+              </f:if>
             </f:for>
           </div>
         </f:if>

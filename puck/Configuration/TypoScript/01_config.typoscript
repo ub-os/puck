@@ -39,6 +39,7 @@ Umsetzung in TYPO3: UNIBRAND OS
     no_cache = 0
     compressCss = 1
     compressJs = 1
+    disableBodyTag = 1
 }
 [{$development} == 1]
     config.compressCss = 0
