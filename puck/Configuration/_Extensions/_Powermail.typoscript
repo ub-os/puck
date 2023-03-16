@@ -1,10 +1,10 @@
 plugin.tx_powermail {
     view {
         templateRootPaths {
-            100 = EXT:puck/Resource/Private/Fluid/Extensions/Powermail/Templates
+            100 = EXT:puck/Resources/Private/Fluid/Extensions/Powermail/Templates
         }
         partialRootPaths {
-            100 = EXT:puck/Resource/Private/Fluid/Extensions/Powermail/Partials
+            100 = EXT:puck/Resources/Private/Fluid/Extensions/Powermail/Partials
         }
     }
     settings {
