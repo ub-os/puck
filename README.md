@@ -57,7 +57,7 @@ use HDNET\Autoloader\Annotation\WizardTab;
 class ProductCards extends Columns
 {
     /**
-     * @var string
+     * @var int
      * @DatabaseField("int")
      */
     public int $showPrice = 0;
