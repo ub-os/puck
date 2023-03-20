@@ -5,8 +5,10 @@
   <fc:param name="current" type="integer" optional="1"/>
   <fc:param name="mode" type="string" optional="1"/>
   <fc:param name="actionLink" type="array"/>
+  <fc:param name="fetchConfig" type="array" optional="1"/>
   <fc:renderer>
 
+    <f:variable name="arguments" value="{puck:array.merge(a:actionLink.arguments,b:'{page:page}')}" />
       <li class="{name}__item">
         <f:if condition="{page}">
           <f:if condition="{page} == {current}">
@@ -14,12 +16,32 @@
               <button class="{name}__link -disabled">{page}</button>
             </f:then>
             <f:else>
+              <f:if condition="{fetchConfig.rootNodeId} && {fetchConfig.pageType} && {fetchConfig.arguments}">
+                <f:variable name="fetchLink"
+                            value="{f:uri.action(
+                              action:actionLink.action,
+                              controller:actionLink.controller,
+                              extensionName:actionLink.extensionName,
+                              pageUid:actionLink.pageUid,
+                              arguments:'{puck:array.merge(a:arguments,b:fetchConfig.arguments)}',
+                              pageType:fetchConfig.pageType
+                )}"/>
+                <f:variable name="options"
+                            value="{
+                                url:fetchLink,
+                                mode:'replace',
+                                contentId:fetchConfig.rootNodeId,
+                                scrollToContent:1
+                }" />
+              </f:if>
+              <f:variable name="additionalAttributes"></f:variable>
               <f:link.action action="{actionLink.action}"
                              controller="{actionLink.controller}"
                              extensionName="{actionLink.extensionName}"
                              section="{actionLink.section}"
                              pageUid="{actionLink.pageUid}"
-                             arguments="{puck:array.merge(a:actionLink.arguments,b:'{page:page}')}"
+                             arguments="{arguments}"
+                             additionalAttributes="{data-fetch-link:'{options -> f:format.json()}'}"
                              class="{name}__link">
                 <f:switch expression="{mode}">
                   <f:case value="prev">

@@ -17,9 +17,9 @@ const getNode = (target, objectName = '') => {
     let node = undefined
     if (target instanceof Element) {
         node = target
-    } else if (typeof target === 'string' && document.getElementById(target)) {
+    } else if (typeof target === 'string' && target && document.getElementById(target)) {
         node = document.getElementById(target)
-    } else if (typeof target === 'string' && document.querySelector(target)) {
+    } else if (typeof target === 'string' && target && document.querySelector(target)) {
         node = document.querySelector(target)
         if (!node.id) {
             console.error(`${objectName && objectName+': '}Provided target element does not have an id attribute.`)
@@ -31,6 +31,20 @@ const getNode = (target, objectName = '') => {
     }
     return node
 }
+
+const scrollTo = (target, offset = 0) => {
+    const node = getNode(target)
+    if (node && getComputedStyle(node).position !== 'fixed') {
+        const height = node.getBoundingClientRect().top + document.documentElement.scrollTop - offset;
+        console.log({ node, height, offset })
+        window.scrollTo({
+            top: height,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+}
+
 function getParents(target, parentSelector /* optional */) {
     // If no parentSelector defined will bubble up all the way to *document*
     if (parentSelector === undefined) {
@@ -47,6 +61,6 @@ function getParents(target, parentSelector /* optional */) {
     parents.push(parentSelector); // Push that parentSelector you wanted to stop at
     return parents;
 }
-export {noDragClick, getNode, getParents}
+export {noDragClick, getNode, getParents, scrollTo}
 
 

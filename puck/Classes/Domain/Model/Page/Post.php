@@ -25,7 +25,7 @@ class Post extends Page
 
     /**
      * @var ?Person
-     * @DatabaseField("int")
+     * @DatabaseField("string")
      */
     public ?Person $postAuthor = null;
 }

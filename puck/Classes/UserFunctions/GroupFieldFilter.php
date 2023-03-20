@@ -13,8 +13,12 @@ class GroupFieldFilter
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $fieldValues = $parameters['values'];
         foreach($fieldValues as $key=>$val) {
-            $table = explode('_', $val)[0];
-            $uid = explode('_', $val)[1];
+            $valArr = explode('_', $val);
+            if (count($valArr) < 2) {
+                continue;
+            }
+            $table = $valArr[0];
+            $uid = $valArr[1];
             $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
             $result = $queryBuilder
                 ->select('uid', 'sys_language_uid')

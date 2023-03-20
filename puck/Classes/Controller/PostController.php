@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use UBOS\Puck\Domain\Repository\Page\PostRepository;
+use UBOS\Puck\Domain\Model\Content\MenuPages;
 use UBOS\Puck\Utility\PuckUtility;
 
 /**
@@ -31,9 +32,15 @@ class PostController extends ActionController
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function listAction(?string $authorList = null, ?string $categoryList = null, ?string $categoryConjunction = 'or'): string
+    public function listAction(
+        ?string $categoryList = null,
+        ?string $categoryConjunction = 'or',
+        ?string $authorList = null,
+        ?array $settings = null,
+        ?MenuPages $object = null): string
     {
-        $settings = $this->settings;
+        $settings = $settings ?? $this->settings;
+        $this->view->assign('settings', $settings);
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
             : 1;
@@ -51,12 +58,12 @@ class PostController extends ActionController
         // map the plugin tt_content data to MenuPages content object
         $contentObjectData = $this->configurationManager->getContentObject()->data;
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-        $object = $dataMapper->map('UBOS\Puck\Domain\Model\Content\MenuPages', [$contentObjectData])[0];
+        $object = $object ?? $dataMapper->map('UBOS\Puck\Domain\Model\Content\MenuPages', [$contentObjectData])[0];
         $object->layout = $settings['template']['layout'];
 
         // paginate the posts (optional) and add them to the MenuPages object
         $itemsPerPage = $settings['pagination']['itemsPerPage'] ? (int)$settings['pagination']['itemsPerPage'] : 12;
-        if ($settings['pagination']['active'] && ((int)$settings['demand']['limit'] > $itemsPerPage) || !(int)$settings['demand']['limit']) {
+        if ($settings['pagination']['active'] && $posts->count() > $itemsPerPage) {
             $pagination = PuckUtility::paginateQueryResult($posts, $currentPage, $itemsPerPage);
             $object->setMenu($pagination['items']->toArray());
             $this->view->assign('pagination', $pagination);

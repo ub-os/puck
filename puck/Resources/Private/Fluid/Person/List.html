@@ -1,8 +1,20 @@
-<module:menu.pages object="{object}"/>
-<f:if condition="{pagination}">
-    <layout:section object="{frameClass:object.frameClass,hasNoHeaderSpacing:true}" top="none">
+<f:variable name="footerContent">
+    <f:if condition="{pagination}">
         <element:plugin.pagination
                 pagination="{pagination}"
-                actionLink="{action:'list',controller:'Person',pageUid:object.pid,arguments:arguments,section:'c{object.uid}'}"/>
-    </layout:section>
-</f:if>
+                fetchConfig="{
+                    pageType: 16500002,
+                    rootNodeId: 'c{object.uid}',
+                    arguments: '{settings:settings, object:object}'
+                }"
+                actionLink="{
+                    action:'list',
+                    controller:'Person',
+                    pageUid:object.pid,
+                    arguments:arguments}"
+        />
+    </f:if>
+</f:variable>
+<module:menu.pages object="{object}"
+                   footerContent="{footerContent}"/>
+

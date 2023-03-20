@@ -226,6 +226,29 @@
                             </config>
                         </TCEforms>
                     </settings.pagination.itemsPerPage>
+                    <settings.pagination.variant>
+                        <TCEforms>
+                            <label>Pagination variant</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0"></numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Load more</numIndex>
+                                        <numIndex index="1">load-more</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Infinite scroll</numIndex>
+                                        <numIndex index="1">infinite-scroll</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.pagination.variant>
                 </el>
             </ROOT>
         </pagination>

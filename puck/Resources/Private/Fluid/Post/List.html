@@ -1,18 +1,53 @@
+<f:variable name="actionLink"
+            value="{
+            action:'list',
+            controller:'Post',
+            pageUid:object.pid,
+            arguments:arguments}"
+/>
 
-<module:menu.pages object="{object}">
+<f:variable name="headerContent">
     <f:if condition="{filter.categories}">
-            <element:plugin.filter
-                    filter="{filter}"
-                    actionLink="{action:'list',controller:'Post',pageUid:object.pid,arguments:arguments,section:'c{object.uid}'}"/>
+        <element:plugin.filter
+                filter="{filter}"
+                fetchConfig="{
+                pageType: 16500001,
+                rootNodeId: 'c{object.uid}',
+                arguments: '{settings:settings, object:object}'
+                }"
+                actionLink="{actionLink}"
+        />
     </f:if>
-</module:menu.pages>
+</f:variable>
+<f:variable name="footerContent">
+    <f:if condition="{pagination}">
+        <f:switch expression="{settings.pagination.variant}">
+            <f:case value="load-more">
+                <element:plugin.loadMoreButton
+                        pagination="{pagination}"
+                        fetchConfig="{
+                        pageType: 16500001,
+                        listNodeId: 'c{object.uid}-list',
+                        arguments: '{settings:settings, object:object}'
+                    }"
+                        actionLink="{actionLink}"
+                />
+            </f:case>
+            <f:defaultCase>
+                <element:plugin.pagination
+                        pagination="{pagination}"
+                        fetchConfig="{
+                        pageType: 16500001,
+                        rootNodeId: 'c{object.uid}',
+                        arguments: '{settings:settings, object:object}'
+                    }"
+                        actionLink="{actionLink}"
+                />
+            </f:defaultCase>
+        </f:switch>
+    </f:if>
+</f:variable>
 
-<f:if condition="{pagination}">
-    <layout:section object="{frameClass:object.frameClass,hasNoHeaderSpacing:true}" top="none">
-        <element:plugin.pagination
-                pagination="{pagination}"
-                actionLink="{action:'list',controller:'Post',pageUid:object.pid,arguments:arguments,section:'c{object.uid}'}"/>
-    </layout:section>
-</f:if>
-
-
+<module:menu.pages object="{object}"
+                   headerContent="{headerContent}"
+                   footerContent="{footerContent}"/>

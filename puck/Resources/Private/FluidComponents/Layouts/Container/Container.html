@@ -8,8 +8,8 @@
   <fc:renderer>
 
     <f:variable name="mods"
-                value="{width: width, align: align, offset: offset}"/>
-    <div class="{name} {mods -> puck:modClass()} {class}">
+                value="{width: width, align: align}"/>
+    <div class="{name} {mods -> puck:modClass()} -offset-{offset} {class}">
       <div class="{name}__inner">
         <f:format.raw>{content}</f:format.raw>
       </div>

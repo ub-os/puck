@@ -1,11 +1,12 @@
+import { scrollTo } from '../General/Functions.js';
+
 // CLASS SmoothHashLinks
 //# smooth scroll to hash link targets instead of jumping
 //# configurable vertical offset on scroll target for sticky header etc.
 
 export default class SmoothHashLinks {
-  constructor(
-      offset = 100) {
-    this.hashLinks = document.querySelectorAll('a[href*="#"]');
+  constructor({ root = document.body, offset = 150 }) {
+    this.hashLinks = root.querySelectorAll('a[href*="#"]');
     this.offset = offset;
   }
   mount() {
@@ -16,28 +17,13 @@ export default class SmoothHashLinks {
         if(el.pathname === window.location.pathname){
           event.preventDefault();
           const id = href.split('#')[1];
-          if (id && document.getElementById(id) && getComputedStyle(document.getElementById(id)).position !== 'fixed') {
-            const height = document.getElementById(id).getBoundingClientRect().top + document.documentElement.scrollTop - self.offset;
-            window.scrollTo({
-              top: height,
-              left: 0,
-              behavior: 'smooth'
-            });
-          }
+          if (id) scrollTo(id, self.offset);
         }
       };
     });
     window.onload = function () {
       const id = window.top.location.hash.substr(1);
-      if(id && document.getElementById(id)) {
-        const height = document.getElementById(id).getBoundingClientRect().top + document.documentElement.scrollTop - self.offset;
-        if (id) {
-          window.scrollTo({
-            top: height,
-            left: 0,
-          });
-        }
-      }
+      if (id) scrollTo(id, self.offset);
     };
     return this
   }

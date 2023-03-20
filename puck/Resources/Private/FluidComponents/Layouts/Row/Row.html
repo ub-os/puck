@@ -1,6 +1,7 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-row"/>
+  <fc:param name="id" type="string" optional="1"/>
   <fc:param name="gutterRem" type="string" optional="1"/>
   <fc:param name="direction" type="string" optional="1" default="row"/>
   <fc:param name="justify" type="string" optional="1" default="center"/>
@@ -11,9 +12,20 @@
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
+    <f:variable name="mods"
+                value="{
+                item-width: itemWidth,
+                direction: direction,
+                justify: justify,
+                align: align,
+                flex-grow: flex-grow,
+                gutter-rem: gutterRem
+                }"/>
     <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
-    <ul class="{name} {class} -direction-{direction} -item-width-{itemWidth} {bpClasses} -justify-{justify} -align-{align} -flex-grow-{flexGrow}"  {attributes}>
-      <f:format.raw>{content}</f:format.raw>
+    <ul class="{name} {class} {mods -> puck:modClass()} {bpClasses}"
+        id="{id}"
+        {attributes}>
+      {content -> f:format.raw()}
     </ul>
 
   </fc:renderer>

@@ -1,5 +1,3 @@
-
-
 page.20 = USER
 page.20 {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
@@ -18,4 +16,27 @@ page.20 {
 
     }
 }
+
+listPluginBase = PAGE
+listPluginBase {
+    typeNum = 16500000
+    20 = USER
+    20 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = Puck
+        vendorName = UBOS
+    }
+    config {
+        disableAllHeaderCode = 1
+        debug = 0
+        admPanel = 0
+    }
+}
+listPluginPost < listPluginBase
+listPluginPost.typeNum = 16500001
+listPluginPost.20.pluginName = PostList
+
+listPluginPerson < listPluginBase
+listPluginPerson.typeNum = 16500002
+listPluginPerson.20.pluginName = PersonList
 
