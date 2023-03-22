@@ -33,6 +33,9 @@ export default class FetchLink {
       },
       ...timing
     }
+    this.states = {
+      fetching: false,
+    }
   }
 
   replaceContent(html) {
@@ -61,6 +64,10 @@ export default class FetchLink {
     }
     this.node.addEventListener('click', e => {
       e.preventDefault()
+      if (this.states.fetching) {
+        return
+      }
+      this.states.fetching = true
       fetch(this.url).then( response => {
         return response.text()
       }).then( html => {
@@ -88,12 +95,13 @@ export default class FetchLink {
               this.timing
           )
           if (this.node.href) {
-            window.history.replaceState({}, '', this.node.href)
+            window.history.pushState({}, '', this.node.href)
           }
-
+          this.states.fetching = false
         })
 
       }).catch(function (err) {
+        this.states.fetching = false
         console.warn('Link fetch went wrong.', err)
       })
     });

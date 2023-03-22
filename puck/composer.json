@@ -15,6 +15,7 @@
     "brotkrueml/schema": "^2.6",
     "plan2net/webp": "^4.2",
     "b13/menus": "^1.0",
+    "christophlehmann/pagetreefilter": "^1.6",
     "eliashaeussler/typo3-warming": "^0",
     "phpoffice/phpspreadsheet": "^1.27",
     "georgringer/numbered-pagination": "^1.0",

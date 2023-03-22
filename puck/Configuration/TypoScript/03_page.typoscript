@@ -17,8 +17,8 @@ page.20 {
     }
 }
 
-listPluginBase = PAGE
-listPluginBase {
+abstractListPlugin = PAGE
+abstractListPlugin {
     typeNum = 16500000
     20 = USER
     20 {
@@ -32,11 +32,11 @@ listPluginBase {
         admPanel = 0
     }
 }
-listPluginPost < listPluginBase
-listPluginPost.typeNum = 16500001
-listPluginPost.20.pluginName = PostList
+postListPlugin < abstractListPlugin
+postListPlugin.typeNum = 16500001
+postListPlugin.20.pluginName = PostList
 
-listPluginPerson < listPluginBase
-listPluginPerson.typeNum = 16500002
-listPluginPerson.20.pluginName = PersonList
+personListPlugin < abstractListPlugin
+personListPlugin.typeNum = 16500002
+personListPlugin.20.pluginName = PersonList
 

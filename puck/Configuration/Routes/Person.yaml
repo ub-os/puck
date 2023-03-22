@@ -1,4 +1,9 @@
 routeEnhancers:
+  PersonListPageType:
+    type: PageType
+    index: ''
+    map:
+      /personList: 16500002
   PersonList:
     type: Extbase
     extension: Puck

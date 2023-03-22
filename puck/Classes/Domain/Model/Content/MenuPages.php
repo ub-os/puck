@@ -6,6 +6,7 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
 use HDNET\Autoloader\Annotation\WizardTab;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -13,6 +14,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use UBOS\Puck\Domain\Repository\Page\PageRepository;
+
 
 /**
  * @DatabaseTable("tt_content")
@@ -92,5 +94,36 @@ class MenuPages extends Modal
     public function setMenu(array $menu): void
     {
         $this->menu = $menu;
+    }
+
+    /**
+     * @var string
+     */
+    public string $piFlexform = '';
+    /**
+     * @var ?array
+     * @Transient
+     */
+    public ?array $flexformArray = null;
+
+    /**
+     * @return array
+     */
+    public function getFlexformArray(): array
+    {
+        if ($this->flexformArray === null) {
+            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+            $this->flexformArray = $flexformService->convertFlexFormContentToArray($this->piFlexform);
+        }
+        return $this->flexformArray;
+    }
+
+    /**
+     * @param array $flexformArray
+     * @return void
+     */
+    public function setFlexformArray(array $flexformArray): void
+    {
+        $this->flexformArray = $flexformArray;
     }
 }

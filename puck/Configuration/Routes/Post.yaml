@@ -1,4 +1,9 @@
 routeEnhancers:
+  PostListPageType:
+    type: PageType
+    index: ''
+    map:
+      /postList: 16500001
   PostList:
     type: Extbase
     extension: Puck

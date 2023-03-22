@@ -5,6 +5,4 @@ routeEnhancers:
     index: ''
     map:
       /: 0
-      /listPluginPost: 16500001
-      /listPluginPerson: 16500002
 

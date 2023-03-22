@@ -36,10 +36,9 @@ class PostController extends ActionController
         ?string $categoryList = null,
         ?string $categoryConjunction = 'or',
         ?string $authorList = null,
-        ?array $settings = null,
         ?MenuPages $object = null): string
     {
-        $settings = $settings ?? $this->settings;
+        $settings = $object ? $object->getFlexformArray()['settings'] : $this->settings;
         $this->view->assign('settings', $settings);
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
