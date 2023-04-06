@@ -12,6 +12,8 @@
     <fc:param name="mediaMobileMaxVh" type="integer" optional="1" default="0" />
     <fc:param name="cropVariant" type="string" optional="1" default="default"/>
     <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile"/>
+    <fc:param name="showTitle" type="boolean" optional="1" default="1"/>
+    <fc:param name="showDesc" type="boolean" optional="1" default="1"/>
     <fc:renderer>
 
         <div class="{name} -layout-{layout} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
@@ -39,8 +41,8 @@
                                       xs: {width: 600, cropVariant: cropVariantMobile},
                                       0: {width: 450, cropVariant: cropVariantMobile}
                                       }"
-                                            showTitle="1"
-                                            showDesc="1"/>
+                                            showTitle="{showTitle}"
+                                            showDesc="{showDesc}"/>
                                 </layout:row.item>
                             </f:for>
                         </layout:row>
