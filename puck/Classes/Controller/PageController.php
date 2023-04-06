@@ -103,6 +103,11 @@ class PageController extends ActionController
     {
         $this->categoryRepository = $categoryRepository;
     }
+    protected ?PageRepository $pageRepository = null;
+    public function injectPageRepository(PageRepository $pageRepository): void
+    {
+        $this->pageRepository = $pageRepository;
+    }
 
     protected function renderMenu(
         ?string $categoryList = null,
