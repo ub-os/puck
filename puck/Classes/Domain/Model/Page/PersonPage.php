@@ -19,7 +19,7 @@ class PersonPage extends Page
 {
     /**
      * @var ?ObjectStorage<Person>
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
     public ?ObjectStorage $pagePersons = null;

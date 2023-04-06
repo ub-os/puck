@@ -17,63 +17,63 @@ class Person extends AbstractEntity
 {
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $name = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $slug = '';
     /**
      * @var int
-     * @DatabaseField(type="int")
+     * @DatabaseField("int")
      */
     public int $isTeamMember = 0;
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string")
      */
     public string $description = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $position = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $email = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $phone = '';
     /**
      * @var ?ObjectStorage<PersonPage>
-     * @DatabaseField(type="int")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
     public ?ObjectStorage $pages = null;
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
      */
     public string $link = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
      */
     public string $linkLinkedin = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
      */
     public string $linkXing = '';
     /**
      * @var ?ObjectStorage<FileReference>
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public ?ObjectStorage $assets = null;
 }

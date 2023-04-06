@@ -19,13 +19,13 @@ class Post extends Page
 {
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("DateTime")
      */
     public string $postDate = '';
 
     /**
      * @var ?Person
-     * @DatabaseField("string")
+     * @DatabaseField("int")
      */
     public ?Person $postAuthor = null;
 }

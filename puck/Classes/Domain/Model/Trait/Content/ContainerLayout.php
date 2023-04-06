@@ -12,9 +12,9 @@ trait ContainerLayout {
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
-    public string $containerPosition = '';
+    public string $containerPosition;
 
     /**
      * @var int

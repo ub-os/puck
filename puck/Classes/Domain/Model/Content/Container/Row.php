@@ -29,17 +29,14 @@ class Row extends Text
 
     /**
      * @var int
-     * @DatabaseField("int")
      */
     public int $itemColumnWidth = 0;
     /**
      * @var string
-     * @DatabaseField("string")
      */
     public string $rowJustify = '';
     /**
      * @var string
-     * @DatabaseField("string")
      */
     public string $rowAlign = '';
     /**

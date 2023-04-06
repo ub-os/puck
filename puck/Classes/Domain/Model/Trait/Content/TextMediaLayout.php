@@ -9,14 +9,14 @@ trait TextMediaLayout {
 
     /**
      * @var ?ObjectStorage<FileReference>
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
     public ?ObjectStorage $assets = null;
 
     /**
      * @var string
-     * @DatabaseField(type="varchar(255)")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $mediaLayout;
 
@@ -40,13 +40,13 @@ trait TextMediaLayout {
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $rowJustify = '';
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $rowAlign = '';
 
@@ -69,7 +69,7 @@ trait TextMediaLayout {
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $cardMediaSize = '';
 }

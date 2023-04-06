@@ -31,19 +31,19 @@ class Text extends AbstractEntity
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $layout;
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $frameClass = '';
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $icon = '';
 }

@@ -41,12 +41,12 @@ class Page extends AbstractEntity
     public string $description = '';
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
      */
     public string $teaserText = '';
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $icon = '';
     /**

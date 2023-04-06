@@ -24,7 +24,7 @@ class Category extends AbstractEntity
     public ?ObjectStorage $parent = null;
     /**
      * @var string
-     * @DatabaseField(type="string")
+     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
     public string $slug = '';
 }
