@@ -97,11 +97,6 @@ class PageController extends ActionController
             return 'Exception in content rendering: ' . $ex->getMessage();
         }
     }
-    protected ?PageRepository $pageRepository = null;
-    public function injectPostRepository(PageRepository $pageRepository): void
-    {
-        $this->pageRepository = $pageRepository;
-    }
 
     protected ?CategoryRepository $categoryRepository = null;
     public function injectCategoryRepository(CategoryRepository $categoryRepository): void
@@ -121,8 +116,10 @@ class PageController extends ActionController
         $vendorName = $this->settings['vendorName'];
         $name = $this->settings['contentElement'] ?? 'MenuPages';
 
+        // get settings from object if provided
         $settings = $object ? $object->getFlexformArray()['settings'] : $this->settings;
         $this->view->assign('settings', $settings);
+
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
             : 1;
@@ -135,6 +132,8 @@ class PageController extends ActionController
         if ($authorList && $settings['demand']['overrideDemand']) {
             $settings['demand']['author'] = $authorList;
         }
+
+        // get the pages
         $this->pageRepository->setPageObjectType($className);
         $pages = $this->pageRepository->findByListSettings($settings, $allowedDoktypes);
 
@@ -168,6 +167,7 @@ class PageController extends ActionController
             ]);
         }
 
+        // add category to page title
         $pageTitleSuffixCategory = '';
         if ($categoryList) {
             $query = $this->categoryRepository->createQuery();
@@ -182,7 +182,6 @@ class PageController extends ActionController
                     return $category->getTitle();
                 }, $categories));
         }
-
         $titleProvider = GeneralUtility::makeInstance(PuckTitleProvider::class);
         $titleProvider->setTitle($titleProvider->getTitle() . $pageTitleSuffixCategory);
 

@@ -10,8 +10,8 @@ class ExplodeViewHelper extends AbstractViewHelper
     use CompileWithRenderStatic;
     public function initializeArguments()
     {
-        $this->registerArgument('string', 'string', '', false);
-        $this->registerArgument('separator', 'string', '', false);
+        $this->registerArgument('string', 'string', '', true);
+        $this->registerArgument('separator', 'string', '', false, ',');
 
     }
 

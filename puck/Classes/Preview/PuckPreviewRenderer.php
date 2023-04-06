@@ -5,6 +5,7 @@ namespace UBOS\Puck\Preview;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Backend\Preview\PreviewRendererInterface;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
@@ -36,6 +37,14 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             $containerPreviewRenderer = GeneralUtility::makeInstance(ContainerPreviewRenderer::class);
             $containerPreview = $containerPreviewRenderer->renderPageModulePreviewContent($item);
         }
+
+        // add flexform data to the record
+        if ($record['pi_flexform']) {
+            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+            $flexform = $flexformService->convertFlexFormContentToArray($record['pi_flexform']);
+            $record['pi_flexform'] = $flexform;
+        }
+        $item->setRecord($record);
 
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:puck/Resources/Private/Fluid/Backend/Templates/ContentPreview/Content.html'));
