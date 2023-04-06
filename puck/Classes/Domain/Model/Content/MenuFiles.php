@@ -60,7 +60,7 @@ class MenuFiles extends Text
         if ($this->menu === null) {
             $menu = [];
             foreach($this->assets as $fileReference) {
-                $menu[] = $fileReference->getOriginalResource()->getOriginalFile();
+                $menu[] = $fileReference->getOriginalResource();
             }
             foreach($this->fileCollections as $fileCollection) {
                 $menu = array_merge($menu, $fileCollection->getFiles());

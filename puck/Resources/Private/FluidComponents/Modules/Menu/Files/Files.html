@@ -13,7 +13,11 @@
                     <f:for each="{object.menu}" as="item" iteration="i">
                         <layout:row.item class="{name}__item">
                             <f:link.file file="{item}" target="{object.target}" class="e-button-primary {name}__link"  additionalAttributes="{download:1,data-button-icon:'right',data-button-icon-pill:1}">
-                                {item.name} <icon:char icon="arrow-down-regular"/>
+                                <f:if condition="{item.properties.title}">
+                                    <f:then>{item.properties.title}</f:then>
+                                    <f:else>{item.name}</f:else>
+                                </f:if>
+                                <icon:char icon="arrow-down-regular"/>
                             </f:link.file>
                         </layout:row.item>
                     </f:for>
