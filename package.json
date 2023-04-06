@@ -25,7 +25,7 @@
     "build:css": "run-s build:css:dev minifycss",
     "build:js:dev": "run-s eslint browserify",
     "build:css:dev": "run-s dart-sass autoprefixer",
-    "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && node build/icons.js",
+    "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && node build/icons.js && run-s build:css",
     "build:favicons": "node build/favicons.js",
     "build:xlf-to-json": "node build/xlf-to-json.js",
     "build:fantasticon": "node build/fantasticon.js",

@@ -1,0 +1,54 @@
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+
+
+<f:render section="preview" arguments="{item: item}" />
+
+
+<f:section name="preview">
+  <a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
+    <f:render section="main" arguments="{item: item}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.media, field: 'media', table: 'tt_content'}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.image, field: 'image', table: 'tt_content'}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
+    <f:render section="group" arguments="{group: item.record.pages, table: 'pages', headline: 'Pages'}" />
+    <f:render section="group" arguments="{group: item.record.parents, table: 'pages', headline: 'Subpages of'}"/>
+    <f:if condition="{item.record.records}">
+      <em>Shortcut to:</em>
+      <f:for each="{puck:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
+        <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
+      </f:for>
+    </f:if>
+    <f:render partial="InlineMedia" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
+  </a>
+</f:section>
+
+
+<f:section name="main">
+  <f:if condition="{item.record.CType} !== 'puck_anchor'">
+    <f:then>
+      <f:variable name="headerType" value="{f:if(condition: '{item.record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
+      <f:if condition="{item.record.header_layout} >= 100">
+        <f:variable name="headerType" value="i"/>
+      </f:if>
+      <f:render partial="Text" arguments="{header: item.record.header, headerType: headerType, subheader: item.record.subheader, bodytext: item.record.bodytext}" />
+    </f:then>
+    <f:else>
+      <span>{item.record.header}</span><br>
+      <u>#{item.record.subheader -> f:cObject(typoscriptObjectPath:'lib.formatAnchorId')}_c{item.record.uid}</u>
+    </f:else>
+  </f:if>
+</f:section>
+
+<f:section name="group">
+  <f:if condition="{group}">
+    <em>{headline}:</em>
+    <ul>
+      <f:for each="{puck:utility.backend.getRecords(table: table, uids: group)}" as="item">
+        <li>
+          {item.title}
+        </li>
+      </f:for>
+    </ul>
+  </f:if>
+</f:section>

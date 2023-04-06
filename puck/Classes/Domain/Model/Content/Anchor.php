@@ -12,7 +12,7 @@ use HDNET\Autoloader\Annotation\WizardTab;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("02_menu")
+ * @WizardTab("03_menu")
  */
 class Anchor extends AbstractEntity
 {

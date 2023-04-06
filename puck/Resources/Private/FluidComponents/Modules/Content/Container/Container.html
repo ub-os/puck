@@ -1,0 +1,24 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-container"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="children" type="array" optional="1"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        object="{object}"
+        id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+
+      <f:for each="{children}" as="child">
+        {child.renderedContent -> f:format.raw()}
+      </f:for>
+
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -40,6 +40,13 @@ Umsetzung in TYPO3: UNIBRAND OS
     compressCss = 1
     compressJs = 1
     disableBodyTag = 1
+    showWebsiteTitle = 0
+    pageTitleProviders {
+        puck {
+            provider = UBOS\Puck\PageTitle\PuckTitleProvider
+            before = seo
+        }
+    }
 }
 [{$development} == 1]
     config.compressCss = 0

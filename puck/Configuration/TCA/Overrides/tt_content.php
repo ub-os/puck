@@ -1,6 +1,14 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
+use UBOS\Puck\Loader\SmartContentObjectLoader;
+use UBOS\Puck\Preview\PuckPreviewRenderer;
+
+SmartContentObjectLoader::registerTypes();
+SmartContainerContentObjectLoader::registerTypes();
 
 $columns = require __DIR__.'/../Content/columns.php';
 $palettes = require __DIR__.'/../Content/palettes.php';
@@ -13,40 +21,13 @@ foreach($palettes as $name => $palette) {
     $GLOBALS['TCA']['tt_content']['palettes'][$name] = $palette;
 }
 foreach($types as $name => $type) {
-    $GLOBALS['TCA']['tt_content']['types'][$name] = $type;
+    $orgType = $GLOBALS['TCA']['tt_content']['types'][$name] ?? [];
+    ArrayUtility::mergeRecursiveWithOverrule(
+        $orgType,
+        $type,
+        true, true, false
+    );
+    $GLOBALS['TCA']['tt_content']['types'][$name] = $orgType;
 }
 
-ExtensionManagementUtility::addTcaSelectItemGroup(
-    'tt_content',
-    'list_type',
-    'post',
-    'Blog',
-    'after:default'
-);
-
-ExtensionUtility::registerPlugin(
-    'puck',
-    'PostList',
-    'Post menu',
-    'menu_posts',
-    'post'
-);
-ExtensionUtility::registerPlugin(
-    'puck',
-    'PersonList',
-    'Person menu',
-    'menu_persons',
-    'person'
-);
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['puck_postlist'] = 'pages,recursive';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_postlist'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['puck_personlist'] = 'pages,recursive';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['puck_personlist'] = 'pi_flexform';
-ExtensionManagementUtility::addPiFlexFormValue(
-    'puck_postlist',
-    'FILE:EXT:puck/Configuration/FlexForms/PostList.xml'
-);
-ExtensionManagementUtility::addPiFlexFormValue(
-    'puck_personlist',
-    'FILE:EXT:puck/Configuration/FlexForms/PersonList.xml'
-);
+$GLOBALS['TCA']['tt_content']['ctrl']['previewRenderer'] = PuckPreviewRenderer::class;

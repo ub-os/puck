@@ -17,7 +17,7 @@ use UBOS\Puck\Domain\Model\FileCollection;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("02_menu")
+ * @WizardTab("03_menu")
  */
 class MenuFiles extends Text
 {

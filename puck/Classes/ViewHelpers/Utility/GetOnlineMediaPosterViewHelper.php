@@ -43,7 +43,7 @@ class GetOnlineMediaPosterViewHelper extends AbstractViewHelper
             }
         }
         if ($service === 'vimeo') {
-            $data = file_get_contents("http://vimeo.com/api/v2/video/$id.json");
+            $data = file_get_contents("https://vimeo.com/api/v2/video/$id.json");
             $data = json_decode($data);
             return $data[0]->{'thumbnail_'.$vimeoImageSize};
         }

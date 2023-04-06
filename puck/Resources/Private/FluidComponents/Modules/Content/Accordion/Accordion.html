@@ -1,0 +1,36 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-accordion"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <f:variable name="options" value="{groupId: 'c{object.txContainerParent}'}"/>
+    <div class="{name}" id="{object.uid}">
+      <button class="{name}__button"
+              id="{object.uid}-header"
+              aria-controls="{object.uid}-collapse">
+        <span class="{name}__title"><f:format.raw>{object.header}</f:format.raw></span>
+        <span class="{name}__icon"></span>
+      </button>
+      <div class="{name}__collapse"
+           id="{object.uid}-collapse"
+           aria-labelledby="{object.uid}-header"
+           data-accordion="{options -> f:format.json()}">
+        <div class="{name}__content">
+          <layout:media
+                  media="{object.assets}"
+                  text="{object.bodytext}"
+                  layout="{object.mediaLayout}"
+                  justify="{object.rowJustify}"
+                  align="{object.rowAlign}"
+                  mediaWidth="{object.mediaColumnWidth}"
+                  textWidth="{object.textColumnWidth}"
+                  mediaMobileMaxVh="{object.mediaMaxHeight}"
+                  itemWidth="{object.itemColumnWidth}"/>
+        </div>
+      </div>
+    </div>
+
+  </fc:renderer>
+</fc:component>
+

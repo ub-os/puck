@@ -31,13 +31,14 @@ page.meta {
     og:description.field = description
 }
 ## page title
-config.noPageTitle = 2
-page.headerData.50 = TEXT
-page.headerData.50.stdWrap.dataWrap = <title>{site:websiteTitle} - {page:title}</title>
+#config.noPageTitle = 2
+#page.headerData.50 = TEXT
+#page.headerData.50.stdWrap.dataWrap = <title>{site:websiteTitle} - {page:title}</title>
+#
+#[page["seo_title"]]
+#    page.headerData.50.stdWrap.dataWrap = <title>{page:seo_title}</title>
+#[end]
 
-[page["seo_title"]]
-    page.headerData.50.stdWrap.dataWrap = <title>{page:seo_title}</title>
-[end]
 [page["og_title"]]
     page.meta.og:title.field = og_title
 [end]

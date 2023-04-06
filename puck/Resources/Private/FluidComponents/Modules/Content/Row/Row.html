@@ -1,0 +1,40 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-row"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="children" type="array" optional="1"/>
+  <fc:renderer>
+
+    <layout:section
+        class="{name}__wrap"
+        object="{object}"
+        id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+
+      <f:switch expression="{object.layout}">
+
+        <f:case value="carousel">
+          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel">
+            <f:for each="{children}" as="child">
+              {child.renderedContent -> f:format.raw()}
+            </f:for>
+          </layout:carousel>
+        </f:case>
+
+        <f:defaultCase>
+          <layout:row justify="{object.rowJustify}" align="{object.rowAlign}" class="{name}__row" flexGrow="{object.flexGrow}">
+            <f:for each="{children}" as="child">
+              {child.renderedContent -> f:format.raw()}
+            </f:for>
+          </layout:row>
+        </f:defaultCase>
+
+      </f:switch>
+
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

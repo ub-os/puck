@@ -28,7 +28,7 @@ class PostRepository extends PageRepository
      * @param array $settings
      * @return QueryResult
      */
-    public function findByListSettings(array $settings) : QueryResult
+    public function findByListSettings(array $settings, ?array $allowedDoktypes = null) : QueryResult
     {
         $demand = $settings['demand'];
         $query = $this->createQuery();

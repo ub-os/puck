@@ -234,6 +234,7 @@ $columns['container_width'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'disableNoMatchingValueElement' => true,
+        'itemsProcFunc' => ContentItemsProcFunc::class.'->containerWidth',
         'items' => [
             ['4', 4, 'column_width4'],
             ['5', 5, 'column_width5'],

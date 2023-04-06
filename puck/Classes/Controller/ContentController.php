@@ -12,6 +12,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use HDNET\Autoloader\Utility\ClassNamingUtility;
 use HDNET\Autoloader\Utility\ExtendedUtility;
 use HDNET\Autoloader\Utility\ModelUtility;
+use HDNET\Autoloader\Annotation\NoCache;
+use HDNET\Autoloader\Annotation\Plugin;
 
 /**
  * Content Controller.
@@ -20,6 +22,7 @@ class ContentController extends ActionController
 {
     /**
      * Render the content Element via ExtBase.
+     * @Plugin("Content")
      */
     public function indexAction(): string
     {

@@ -16,7 +16,7 @@ use UBOS\Puck\Domain\Repository\ContentRepository;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("02_menu")
+ * @WizardTab("03_menu")
  */
 class MenuAnchors extends Text
 {

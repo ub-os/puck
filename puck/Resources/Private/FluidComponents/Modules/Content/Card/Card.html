@@ -1,0 +1,26 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-content-card"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:row.item class="splide__slide {name}__item" width="{object.containerWidth}">
+      <layout:card
+              media="{object.assets}"
+              cropVariant="default"
+              width="{object.containerWidth}"
+              mediaSize="{object.cardMediaSize}"
+              mediaWidth="{object.mediaColumnWidth}"
+              mediaLayout="{object.mediaLayout}">
+        <element:text.header object="{object}"/>
+        <f:if condition="{object.bodytext}">
+          <element:text.rich text="{object.bodytext}"/>
+        </f:if>
+      </layout:card>
+    </layout:row.item>
+
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -8,12 +8,6 @@
   <fc:renderer>
 
       <div class="{name}__content">
-        <f:if condition="{item.postDate} && {config.postDate}">
-          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
-        </f:if>
-        <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
-          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
-        </f:if>
         <f:if condition="{item.categories} && {config.categories}">
           <div class="{name}__categories">
             <f:for each="{item.categories}" as="cat" iteration="i">
@@ -23,6 +17,12 @@
               </f:if>
             </f:for>
           </div>
+        </f:if>
+        <f:if condition="{item.postDate} && {config.postDate}">
+          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
+        </f:if>
+        <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
+          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
         <f:if condition="{item.icon} && {config.icon}">
           <icon:svg icon="{item.icon}" class="{name}__icon"/>

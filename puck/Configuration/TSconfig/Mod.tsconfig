@@ -1,36 +1,12 @@
-// List module
-mod.web_list {
-    deniedNewTables = tx_puck_domain_model_inline_media
-}
+
 
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
     01_content {
         header = Content
     }
-    02_menu {
+    03_menu {
         header = Menu
-        elements {
-            puck_postlist {
-                iconIdentifier = menu_posts
-                title = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.postlist
-                description = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.postlist.description
-                tt_content_defValues {
-                    CType = list
-                    list_type = puck_postlist
-                }
-            }
-            puck_personlist {
-                iconIdentifier = menu_persons
-                title = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.personlist
-                description = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.personlist.description
-                tt_content_defValues {
-                    CType = list
-                    list_type = puck_personlist
-                }
-            }
-        }
-        show := addToList(puck_postlist, puck_personlist)
     }
     03_presets {
         header = Presets
@@ -59,7 +35,7 @@ mod.wizards.newContentElement.wizardItems {
 }
 
 // Page Backend Layouts
-allowedContent = list, shortcut, html, puck_accordions, puck_anchor, puck_cards, puck_columns, puck_full_width_media, puck_media, puck_menu_anchors, puck_menu_pages, puck_hero, puck_hero_carousel, puck_text, puck_menu_files
+allowedContent = puck_menu_persons, puck_menu_posts, puck_page_list, puck_container, puck_row, list, shortcut, html, puck_accordions, puck_anchor, puck_cards, puck_columns, puck_full_width_media, puck_media, puck_menu_anchors, puck_menu_pages, puck_hero, puck_hero_carousel, puck_text, puck_menu_files
 backendLayoutDefaultConfig {
     backend_layout {
         colCount = 8
@@ -147,5 +123,3 @@ mod.web_layout.BackendLayouts {
         }
     }
 }
-TCEFORM.pages.backend_layout.disabled = 1
-TCEFORM.pages.backend_layout_next_level.disabled = 1

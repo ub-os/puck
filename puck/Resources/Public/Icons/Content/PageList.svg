@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PageList</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PageList" fill-rule="nonzero">
+            <g id="bg">
+                <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+                <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
+                <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            </g>
+            <g id="Group-9" transform="translate(8.000000, 8.000000)">
+                <polygon id="Path" fill="#ECA71B" points="0 0 4 0 4 4 2.4938913 4 0 4"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="6 0 10 0 10 4 8.4938913 4 6 4"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="12 0 16 0 16 4 14.4938913 4 12 4"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="0 6 4 6 4 10 2.4938913 10 0 10"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="6 6 10 6 10 10 8.4938913 10 6 10"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="12 6 16 6 16 10 14.4938913 10 12 10"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="0 12 4 12 4 16 2.4938913 16 0 16"></polygon>
+                <polygon id="Path" fill="#ECA71B" points="6 12 10 12 10 16 8.4938913 16 6 16"></polygon>
+                <polygon id="Path" fill="#FBAA04" points="12 12 16 12 16 16 14.4938913 16 12 16"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

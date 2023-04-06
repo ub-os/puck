@@ -1,0 +1,72 @@
+routeEnhancers:
+  PostMenuPageType:
+    type: PageType
+    index: ''
+    map:
+      /post-menu: 16500001
+  PostMenu:
+    type: Extbase
+    extension: Puck
+    plugin: PostMenu
+    routes:
+      -
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{authorLabel}/{authorList}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/{pluginLabel}/{pageLabel}/{page}'
+        _controller: 'Page::postMenu'
+      -
+        routePath: '/'
+        _controller: 'Page::postMenu'
+    aspects:
+      pluginLabel:
+        type: LocaleModifier
+        default: 'post-menu'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'blog-menu'
+      pageLabel:
+        type: LocaleModifier
+        default: 'page'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'seite'
+      categoryLabel:
+        type: LocaleModifier
+        default: 'category'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'kategorie'
+      authorLabel:
+        type: LocaleModifier
+        default: 'author'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'autor'
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'
+      categoryList:
+        type: PersistedAliasMapperOfCommaList
+        tableName: sys_category
+        routeFieldName: slug
+      authorList:
+        type: PersistedAliasMapperOfCommaList
+        tableName: tx_puck_domain_model_person
+        routeFieldName: slug

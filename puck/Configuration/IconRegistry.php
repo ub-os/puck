@@ -3,7 +3,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
-use HDNET\Autoloader\Utility\FileUtility;
+use UBOS\Puck\Utility\PuckUtility;
 
 $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 $iconRegistry->registerIcon(
@@ -17,7 +17,7 @@ $iconRegistry->registerIcon(
     ['source' => 'EXT:puck/Resources/Public/Icons/Backend/Shortcut.svg']
 );
 $iconsPath = ExtensionManagementUtility::extPath('puck') . 'Resources/Public/Icons/Backend/';
-$icons = FileUtility::getBaseFilesInDir($iconsPath, 'svg');
+$icons = PuckUtility::getBaseFilesInDir($iconsPath, 'svg');
 foreach ($icons as $item) {
     $iconRegistry->registerIcon(
         GeneralUtility::camelCaseToLowerCaseUnderscored($item),

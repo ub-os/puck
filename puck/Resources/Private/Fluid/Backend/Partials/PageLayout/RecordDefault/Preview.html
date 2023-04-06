@@ -10,10 +10,10 @@
                 <f:render section="preview" arguments="{item: item}" />
             </f:if>
             <f:else>
-                {item.preview -> f:format.raw()}
+                <f:debug>{item}</f:debug>
             </f:else>
         </f:then>
-        <f:else if="{puck:string.contains(needle:'puck_',haystack:item.record.CType)} ">
+        <f:else if="{puck:string.contains(needle:'puck_',haystack:item.record.CType)} && {item.record.CType} != 'puck_row'">
             <f:render section="preview" arguments="{item: item}" />
         </f:else>
         <f:else>

@@ -37,7 +37,8 @@ $palettes['gridCard'] = [
 $palettes['gridMenuPages'] = [
     'label' => 'Layout',
     'showitem' => '
-        item_column_width, row_justify, row_align --linebreak--,
+        item_column_width, row_justify, row_align, 
+        --linebreak--,
         media_layout, card_media_size, text_column_width, media_column_width'
 ];
 $palettes['appearance'] = [
@@ -74,6 +75,13 @@ $palettes['headers'] = [
         header_layout, header_position, header_spacing_override, 
         --linebreak--,
         subheader'
+];
+$palettes['childHeader'] = [
+    'label' => 'Headlines',
+    'showitem' => '
+        header,
+        --linebreak--,
+        header_layout, header_position'
 ];
 $palettes['bodytext'] = [
     'showitem' => 'bodytext;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext_formlabel',

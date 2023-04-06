@@ -1,0 +1,53 @@
+<f:variable name="actionLink"
+            value="{
+            action:'menu',
+            controller:'Page',
+            pageUid:object.pid,
+            arguments:arguments}"
+/>
+
+<f:variable name="headerContent">
+    <f:if condition="{filter.categories}">
+        <element:plugin.filter
+                filter="{filter}"
+                fetchConfig="{
+                pageType: 16500000,
+                rootNodeId: 'c{object.uid}',
+                arguments: '{object:object}'
+                }"
+                actionLink="{actionLink}"
+        />
+    </f:if>
+</f:variable>
+<f:variable name="footerContent">
+    <f:if condition="{pagination}">
+        <f:switch expression="{settings.pagination.variant}">
+            <f:case value="load-more">
+                <element:plugin.loadMoreButton
+                        pagination="{pagination}"
+                        fetchConfig="{
+                        pageType: 16500000,
+                        listNodeId: 'c{object.uid}-list',
+                        arguments: '{object:object}'
+                    }"
+                        actionLink="{actionLink}"
+                />
+            </f:case>
+            <f:defaultCase>
+                <element:plugin.pagination
+                        pagination="{pagination}"
+                        fetchConfig="{
+                        pageType: 16500000,
+                        rootNodeId: 'c{object.uid}',
+                        arguments: '{object:object}'
+                    }"
+                        actionLink="{actionLink}"
+                />
+            </f:defaultCase>
+        </f:switch>
+    </f:if>
+</f:variable>
+
+<module:menu.pages object="{object}"
+                   headerContent="{headerContent}"
+                   footerContent="{footerContent}"/>

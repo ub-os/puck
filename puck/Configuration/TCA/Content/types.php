@@ -15,36 +15,6 @@ $cropVariants = require __DIR__.'/../Common/CropVariants.php';
 
 $types = [];
 
-$types['puck_accordions'] = [
-    'showitem' => '
-        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-            --palette--;;general,
-            --palette--;;gridContainer,
-            --palette--;;appearance,
-            --palette--;;headers,
-            --palette--;;bodytext,        
-        --div--;Items,
-            inline_media,'
-        .$baseShowItem,
-    'columnsOverrides' => [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ]
-        ],
-        'inline_media' => [
-            'label' => 'Accordion items',
-            'config' => [
-                'overrideChildTca' => [
-                    'types' => [
-                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['accordions'],
-                    ],
-                ]
-            ]
-        ]
-    ]
-];
-
 $types['puck_anchor'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
@@ -74,84 +44,6 @@ $types['puck_anchor'] = [
                 'default' => '',
             ],
         ],
-    ]
-];
-
-$types['puck_cards'] = [
-    'showitem' => '
-        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-            --palette--;;general,
-            --palette--;;gridContainer,
-            --palette--;;appearanceLayout,
-            --palette--;;headers,
-            --palette--;;bodytext,        
-        --div--;Items,
-            --palette--;;gridColumns,
-            inline_media,'
-        .$baseShowItem,
-    'columnsOverrides' => [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ]
-        ],
-        'layout' => [
-            'config' => [
-                'items' => [
-                    ['Default', 'default'],
-                    ['Carousel', 'carousel']
-                ]
-            ]
-        ],
-        'inline_media' => [
-            'label' => 'Cards items',
-            'config' => [
-                'overrideChildTca' => [
-                    'types' => [
-                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['cards'],
-                    ]
-                ]
-            ]
-        ]
-    ]
-];
-
-$types['puck_columns'] = [
-    'showitem' => '
-        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-            --palette--;;general,
-            --palette--;;gridContainer,
-            --palette--;;appearanceLayout,
-            --palette--;;headers,
-            --palette--;;bodytext,        
-        --div--;Items,
-            --palette--;;gridColumns,
-            inline_media,'
-        .$baseShowItem,
-    'columnsOverrides' => [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ]
-        ],
-        'layout' => [
-            'config' => [
-                'items' => [
-                    ['Default', 'default'],
-                    ['Carousel', 'carousel']
-                ]
-            ]
-        ],
-        'inline_media' => [
-            'label' => 'Columns items',
-            'config' => [
-                'overrideChildTca' => [
-                    'types' => [
-                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['columns'],
-                    ]
-                ]
-            ]
-        ]
     ]
 ];
 
@@ -304,14 +196,15 @@ $types['puck_menu_files'] = [
 $types['puck_menu_pages'] = [
     'showitem' => '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        --palette--;;general,
-        --palette--;;gridContainer,
-        --palette--;;appearanceLayout,
-        --palette--;;headers,
-        --palette--;;menu_pages,
-        --div--;Items,
-        --palette--;;gridMenuPages,
-        menu_item_config,'
+            --palette--;;general,
+            --palette--;;appearanceLayout,
+            --palette--;;headers,
+        --div--;Plugin,
+            pi_flexform,
+        --div--;Layout,
+            --palette--;;gridContainer,
+            --palette--;;gridMenuPages,
+            menu_item_config,'
         .$baseShowItem,
     'columnsOverrides' => [
         'bodytext' => [
@@ -326,7 +219,7 @@ $types['puck_menu_pages'] = [
                     ['Cards (custom settings)', 'cards'],
                     ['Columns (custom settings)', 'columns'],
                 ],
-                'default' => 'cards'
+                'default' => 'default-cards'
             ]
         ],
         'menu_item_config' => [
@@ -339,6 +232,9 @@ $types['puck_menu_pages'] = [
             'displayCond' => 'FIELD:layout:IN:cards,columns',
         ],
         'row_justify' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
+        'row_align' => [
             'displayCond' => 'FIELD:layout:IN:cards,columns',
         ],
         'media_layout' => [
@@ -359,6 +255,58 @@ $types['puck_menu_pages'] = [
         'text_column_width' => [
             'displayCond' => 'FIELD:layout:=:columns',
         ],
+    ]
+];
+
+$types['puck_menu_posts'] = [
+    'showitem' => '    
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+        --palette--;;general,
+        --palette--;;appearanceLayout,
+        --palette--;;headers,
+        --div--;Plugin,
+       pi_flexform,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'layout' => [
+            'config' => [
+                'items' => [
+                    ['Blog cards', 'blog-cards'],
+                ],
+                'default' => 'blog-cards'
+            ]
+        ]
+    ]
+];
+
+$types['puck_menu_persons'] = [
+    'showitem' => '    
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            --palette--;;appearanceLayout,
+            --palette--;;headers,
+        --div--;Plugin,
+            pi_flexform,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'layout' => [
+            'config' => [
+                'items' => [
+                    ['Team cards', 'team-cards'],
+                ],
+                'default' => 'team-cards'
+            ]
+        ]
     ]
 ];
 
@@ -427,21 +375,9 @@ $types['puck_hero_carousel'] = [
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
             --palette--;;layout,
-            --palette--;;headers,
-        --div--;Items,
-            inline_media,'
+            --palette--;;headers,'
         .$baseShowItem,
     'columnsOverrides' => [
-        'inline_media' => [
-            'label' => 'Carousel items',
-            'config' => [
-                'overrideChildTca' => [
-                    'types' => [
-                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['hero_carousel'],
-                    ],
-                ]
-            ]
-        ]
     ]
 ];
 
@@ -462,7 +398,150 @@ $types['puck_text'] = [
         ]
     ]
 ];
+$types['puck_container'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            --palette--;;appearanceLayout,
+            --palette--;;headers,
+            --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainer,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+    ]
+];
 
+$types['puck_row'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            --palette--;;appearanceLayout,
+            --palette--;;headers,
+            --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainer,
+            --palette--;;gridColumns,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'layout' => [
+            'config' => [
+                'items' => [
+                    ['Default', 'default'],
+                    ['Carousel', 'carousel']
+                ]
+            ]
+        ],
+    ]
+];
+
+$types['puck_child_column'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            container_width,
+            --palette--;;childHeader,
+            --palette--;;bodytext,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            --palette--;;gridMedia,
+            assets,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ],
+        ],
+    ]
+];
+
+$types['puck_child_card'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            container_width,
+            --palette--;;childHeader,
+            --palette--;;bodytext,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            --palette--;;gridCard,
+            assets,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'media_layout' => [
+            'config' => [
+                'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
+            ]
+        ],
+    ]
+];
+$types['puck_child_accordion'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            header,
+            --palette--;;bodytext,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            --palette--;;gridMedia,
+            assets,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+    ]
+];
+$types['puck_child_hero_slide'] = [
+    'showitem' => '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+            --palette--;;general,
+            header,
+            --palette--;;bodytext,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            assets,'
+        .$baseShowItem,
+    'columnsOverrides' => [
+        'bodytext' => [
+            'config' => [
+                'enableRichtext' => true,
+            ]
+        ],
+        'assets' => [
+            'config' => [
+                'overrideChildTca' => [
+                    'columns' => [
+                        'crop' => [
+                            'config' => [
+                                'cropVariants' => [
+                                    'default' => ['disabled' => true],
+                                    'mobile' => ['disabled' => true],
+                                    '2:1' => $cropVariants['2:1'],
+                                    '3:2' => $cropVariants['3:2'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            ]
+        ]
+    ]
+];
 
 return $types;
 

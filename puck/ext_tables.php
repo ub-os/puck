@@ -4,13 +4,11 @@ if (!defined('TYPO3_MODE')) {
 }
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use HDNET\Autoloader\Loader;
-use UBOS\Puck\Utility\PuckUtility;
+use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Constants;
 
 $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
-
-ExtensionManagementUtility::allowTableOnStandardPages('tx_puck_domain_model_inline_media');
 
  // Add new page type:
  $GLOBALS['PAGES_TYPES'][Constants::DOKTYPE_POST] = [
@@ -24,7 +22,7 @@ ExtensionManagementUtility::allowTableOnStandardPages('tx_puck_domain_model_inli
 $GLOBALS['TBE_STYLES']['skins']['puck']['name'] = 'Puck';
 $GLOBALS['TBE_STYLES']['skins']['puck']['stylesheetDirectories']['css'] = 'EXT:puck/Resources/Public/css/backend/';
 
-$contentModels = PuckUtility::indexContentModels();
+$contentModels = SmartContentObjectLoader::indexModels();
 foreach($contentModels as $model) {
     $GLOBALS['TCA']['tt_content']['types'][$model['typeKey']]['noAutoloaderOverride'] = true;
 }

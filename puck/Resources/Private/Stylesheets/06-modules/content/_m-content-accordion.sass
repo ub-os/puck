@@ -1,11 +1,12 @@
 
-.m-content-accordions
-  &__item
+.m-content-accordion
+  &
     border-radius: var(--border-radius-s)
 
-  &__item + &__item
+  & + &
     +spacing(top, xs, margin)
 
+    // to do for container
   .e-text-rich + &
     +spacing(top, m)
 

@@ -11,16 +11,14 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
+use UBOS\Puck\Domain\Model\Trait\Content\TextMediaLayout;
+
 /**
  * @DatabaseTable("tt_content")
  * @WizardTab("01_content")
  */
-class Modal extends Media
+class Modal extends Text
 {
-    /**
-     * @var string
-     * @DatabaseField("string")
-     */
-    public string $cardMediaSize = '';
+    use TextMediaLayout;
 
 }

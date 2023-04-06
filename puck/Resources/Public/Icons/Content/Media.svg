@@ -6,7 +6,8 @@
             <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="4 4 28 4 28 28 4 28"></polygon>
             <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999" fill-rule="nonzero"></path>
             <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999" fill-rule="nonzero"></path>
-            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="6 12 14 12 14 24 6 24"></polygon>
+            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="6 12 14 12 14 22 6 22"></polygon>
+            <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="6 22 11 22 11 24 6 24"></polygon>
             <polygon id="Path" fill="#B9B9B9" fill-rule="nonzero" points="6 12 13 12 13 14 6 14"></polygon>
             <g id="img" transform="translate(18.000000, 14.000000)">
                 <g id="Group-Copy" transform="translate(0.000000, 1.000000)"></g>

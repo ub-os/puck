@@ -9,39 +9,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use UBOS\Puck\Domain\Repository\Page\PageRepository;
 
+use UBOS\Puck\Annotation\PluginElement;
+use UBOS\Puck\Domain\Model\Trait\Content\FlexForm;
+use UBOS\Puck\Domain\Model\Trait\Content\TextMediaLayout;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("02_menu")
+ * @WizardTab("03_menu")
+ * @PluginElement(pluginName="PageMenu",piFlexFormValue="FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml")
  */
-class MenuPages extends Modal
+class MenuPages extends Text
 {
-    protected ?PageRepository $pageRepository = null;
-    public function injectPageRepository(PageRepository $pageRepository) : void
-    {
-        $this->pageRepository = $pageRepository;
-    }
-    /**
-     * @var string
-     */
-    public string $pages;
+    use FlexForm;
+    use TextMediaLayout;
 
     /**
-     * @var string
-     * @DatabaseField("string")
+     * @var ?array
+     * @Transient
+     *
      */
-    public string $parents;
-
-    /**
-     * @var int
-     */
-    public int $itemColumnWidth = 0;
+    public ?array $menu = null;
 
     /**
      * @var string
@@ -68,62 +57,5 @@ class MenuPages extends Modal
     public function setMenuItemConfig(string $menuItemConfig): void
     {
         $this->menuItemConfig = $menuItemConfig;
-    }
-
-    /**
-     * @var ?array
-     * @Transient
-     */
-    protected ?array $menu = null;
-
-    /**
-     * @return array
-     */
-    public function getMenu(): array
-    {
-        if ($this->menu === null) {
-            $this->menu = $this->pageRepository->findByUidListAndPidList($this->pages, $this->parents, ['navHide' => 1, 'orderByUidList' => 1]);
-        }
-        return $this->menu;
-    }
-
-    /**
-     * @param array $menu
-     * @return void
-     */
-    public function setMenu(array $menu): void
-    {
-        $this->menu = $menu;
-    }
-
-    /**
-     * @var string
-     */
-    public string $piFlexform = '';
-    /**
-     * @var ?array
-     * @Transient
-     */
-    public ?array $flexformArray = null;
-
-    /**
-     * @return array
-     */
-    public function getFlexformArray(): array
-    {
-        if ($this->flexformArray === null) {
-            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-            $this->flexformArray = $flexformService->convertFlexFormContentToArray($this->piFlexform);
-        }
-        return $this->flexformArray;
-    }
-
-    /**
-     * @param array $flexformArray
-     * @return void
-     */
-    public function setFlexformArray(array $flexformArray): void
-    {
-        $this->flexformArray = $flexformArray;
     }
 }

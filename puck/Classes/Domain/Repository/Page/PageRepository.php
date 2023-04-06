@@ -7,6 +7,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use UBOS\Puck\Constants;
@@ -39,6 +41,10 @@ class PageRepository extends Repository
     protected $defaultOrderings = array(
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
+
+    public function setPageObjectType($className) {
+        $this->objectType = 'UBOS\\Puck\\Domain\\Model\\Page\\'.$className;
+    }
 
     /**
      * @param array $options
@@ -139,4 +145,88 @@ class PageRepository extends Repository
         return $queryResult;
     }
 
+    /**
+     * @param array $settings
+     * @return QueryResult
+     */
+    public function findByListSettings(array $settings, ?array $allowedDoktypes = null) : QueryResult
+    {
+        $demand = $settings['demand'];
+        $query = $this->createQuery();
+        $constraints = [$query->in('doktype', $allowedDoktypes ?? self::ALLOWED_DOKTYPES)];
+        $pidUidConstraints = [];
+        if ($settings['pages']) {
+            foreach (explode(',', $settings['pages']) as $key => $value) {
+                $pidUidConstraints[] = $query->equals('uid', $value);
+            }
+        }
+        if ($settings['parents']) {
+            foreach (explode(',', $settings['parents']) as $key => $value) {
+                $pidUidConstraints[] = $query->equals('pid', $value);
+            }
+        }
+        if ($pidUidConstraints) {
+            $constraints[] = $query->logicalOr($pidUidConstraints);
+        }
+        if ($demand['navHide']) {
+            $constraints[] = $query->equals('nav_hide', 0);
+        }
+        if ($demand['author']) {
+            $constraints[] = $query->equals('post_author', $demand['author']);
+        }
+        if ($demand['category']['list'] && $demand['category']['conjunction']) {
+            $constraints[] = $this->createCategoryConstraint($query, $demand['category']['list'], $demand['category']['conjunction']);
+        }
+        if ($demand['limit']) {
+            $query->setLimit((int)$demand['limit']);
+        }
+        if ($demand['offset']) {
+            $query->setOffset((int)$demand['offset']);
+        }
+        if ($settings['order']['direction'] == 'asc') {
+            $orderDirection = QueryInterface::ORDER_ASCENDING;
+        } else {
+            $orderDirection = QueryInterface::ORDER_DESCENDING;
+        }
+        $query->setOrderings([$settings['order']['field'] => $orderDirection]);
+        return $query->matching($query->logicalAnd($constraints))->execute();
+    }
+
+    /**
+     * Returns a category constraint created by
+     * a given list of categories and a junction string
+     *
+     * @param QueryInterface $query
+     * @param  array $categories
+     * @param  string $conjunction
+     * @return ConstraintInterface|null
+     */
+    protected function createCategoryConstraint(
+        QueryInterface $query,
+                       $categories,
+        string $conjunction,
+    ): ?ConstraintInterface {
+        $constraint = null;
+        $categoryConstraints = [];
+        // If "ignore category selection" is used, nothing needs to be done
+        if (empty($conjunction)) {
+            return null;
+        }
+        if (!is_array($categories)) {
+            $categories = GeneralUtility::intExplode(',', $categories, true);
+        }
+        foreach ($categories as $category) {
+            $categoryConstraints[] = $query->contains('categories', $category);
+
+        }
+        if ($categoryConstraints) {
+            $constraint = match (strtolower($conjunction)) {
+                'or' => $query->logicalOr($categoryConstraints),
+                'and' => $query->logicalAnd($categoryConstraints),
+                'notor' => $query->logicalNot($query->logicalOr($categoryConstraints)),
+                'notand' => $query->logicalNot($query->logicalAnd($categoryConstraints))
+            };
+        }
+        return $constraint;
+    }
 }

@@ -79,7 +79,10 @@
 			<trans-unit id="wizard.01_content.header" resname="tt_content.puck.header">
 				<source>Content</source>
 			</trans-unit>
-			<trans-unit id="wizard.02_menu.header" resname="tt_content.puck.header">
+			<trans-unit id="wizard.02_container.header" resname="tt_content.puck.header">
+				<source>Container</source>
+			</trans-unit>
+			<trans-unit id="wizard.03_menu.header" resname="tt_content.puck.header">
 				<source>Menu</source>
 			</trans-unit>
 
@@ -93,6 +96,7 @@
 				<source>Collapsible text and media elements.</source>
 			</trans-unit>
 
+
 			<trans-unit id="content.element.anchor" resname="content.element.media">
 				<source>Anchor</source>
 			</trans-unit>
@@ -103,6 +107,7 @@
 				<source>Anchor for anchor menu.</source>
 			</trans-unit>
 
+
 			<trans-unit id="content.element.columns" resname="content.element.media">
 				<source>Columns</source>
 			</trans-unit>
@@ -112,6 +117,69 @@
 			<trans-unit id="wizard.columns.description" resname="wizard.media.description">
 				<source>Text and media column layouts.</source>
 			</trans-unit>
+
+			<trans-unit id="content.element.row" resname="content.element.row">
+				<source>Row container</source>
+			</trans-unit>
+			<trans-unit id="wizard.row" resname="wizard.row">
+				<source>Row container</source>
+			</trans-unit>
+			<trans-unit id="wizard.row.description" resname="wizard.row.description">
+				<source>Container for text and media columns and cards. Flexible alignment and individual column widths.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.container" resname="content.element.container">
+				<source>Simple container</source>
+			</trans-unit>
+			<trans-unit id="wizard.container" resname="wizard.container">
+				<source>Simple container</source>
+			</trans-unit>
+			<trans-unit id="wizard.container.description" resname="wizard.container.description">
+				<source>Container for accordions and other block items.</source>
+			</trans-unit>
+
+
+			<trans-unit id="content.element.child_column" resname="content.element.child_column">
+				<source>Column</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_column" resname="wizard.child_column">
+				<source>Column</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_column.description" resname="wizard.child_column.description">
+				<source>Text and media child content element.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.child_card" resname="content.element.child_card">
+				<source>Card</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_card" resname="wizard.child_card">
+				<source>Card</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_card.description" resname="wizard.child_card.description">
+				<source>Card child content element.</source>
+			</trans-unit>
+
+			<trans-unit id="content.element.child_accordion" resname="content.element.child_accordion">
+				<source>Accordion</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_accordion" resname="wizard.child_accordion">
+				<source>Accordion</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_accordion.description" resname="wizard.child_accordion.description">
+				<source>Collapsible text and media element.</source>
+			</trans-unit>
+
+
+			<trans-unit id="content.element.child_hero_slide" resname="content.element.child_hero_slide">
+				<source>Hero slide</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_hero_slide" resname="wizard.child_hero_slide">
+				<source>Hero slide</source>
+			</trans-unit>
+			<trans-unit id="wizard.child_hero_slide.description" resname="wizard.child_hero_slide.description">
+				<source>Slide in hero carousel.</source>
+			</trans-unit>
+
 
 			<trans-unit id="content.element.media" resname="content.element.media">
 				<source>Text and media</source>
@@ -133,14 +201,14 @@
 				<source>Navigation of on-page anchors.</source>
 			</trans-unit>
 
-			<trans-unit id="content.element.menu_pages" resname="content.element.media">
+			<trans-unit id="content.element.menu_pages" resname="content.element.menu_pages">
 				<source>Page menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.menu_pages" resname="wizard.media">
+			<trans-unit id="wizard.menu_pages" resname="wizard.menu_pages">
 				<source>Page menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.menu_pages.description" resname="wizard.media.description">
-				<source>Menu of selected pages and subpages of parent pages.</source>
+			<trans-unit id="wizard.menu_pages.description" resname="wizard.menu_pages.description">
+				<source>Plugin to display a menu of pages. Flexible layouting options.</source>
 			</trans-unit>
 
 			<trans-unit id="content.element.hero" resname="content.element.media">
@@ -223,24 +291,24 @@
 				<source>Media element with 50% or 100% viewport width.</source>
 			</trans-unit>
 
-			<trans-unit id="content.element.postlist" resname="content.element.postlist">
+			<trans-unit id="content.element.menu_posts" resname="content.element.menu_posts">
 				<source>Post menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.postlist" resname="wizard.postlist">
+			<trans-unit id="wizard.menu_posts" resname="wizard.menu_posts">
 				<source>Post menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.postlist.description" resname="wizard.postlist.description">
-				<source>Plugin to display a menu of posts.</source>
+			<trans-unit id="wizard.menu_posts.description" resname="wizard.menu_posts.description">
+				<source>Plugin to display a menu of post pages.</source>
 			</trans-unit>
 
-			<trans-unit id="content.element.personlist" resname="content.element.personlist">
+			<trans-unit id="content.element.menu_persons" resname="content.element.menu_persons">
 				<source>Person menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.personlist" resname="wizard.personlist">
+			<trans-unit id="wizard.menu_persons" resname="wizard.menu_persons">
 				<source>Person menu</source>
 			</trans-unit>
-			<trans-unit id="wizard.personlist.description" resname="wizard.personlist.description">
-				<source>Plugin to display a menu of persons.</source>
+			<trans-unit id="wizard.menu_persons.description" resname="wizard.menu_persons.description">
+				<source>Plugin to display a menu of person pages.</source>
 			</trans-unit>
 
 			<trans-unit id="content.element.menu_files" resname="content.element.menu_files">

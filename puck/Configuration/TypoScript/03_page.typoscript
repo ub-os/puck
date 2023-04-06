@@ -17,14 +17,19 @@ page.20 {
     }
 }
 
-abstractListPlugin = PAGE
-abstractListPlugin {
+pageMenuPlugin = PAGE
+pageMenuPlugin {
     typeNum = 16500000
     20 = USER
     20 {
         userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
         extensionName = Puck
         vendorName = UBOS
+        pluginName = PageMenu
+        settings {
+            extensionKey = Puck
+            vendorName = UBOS
+        }
     }
     config {
         disableAllHeaderCode = 1
@@ -32,11 +37,11 @@ abstractListPlugin {
         admPanel = 0
     }
 }
-postListPlugin < abstractListPlugin
-postListPlugin.typeNum = 16500001
-postListPlugin.20.pluginName = PostList
+postMenuPlugin < pageMenuPlugin
+postMenuPlugin.typeNum = 16500001
+postMenuPlugin.20.pluginName = PostMenu
 
-personListPlugin < abstractListPlugin
-personListPlugin.typeNum = 16500002
-personListPlugin.20.pluginName = PersonList
+personMenuPlugin < pageMenuPlugin
+personMenuPlugin.typeNum = 16500002
+personMenuPlugin.20.pluginName = PersonMenu
 

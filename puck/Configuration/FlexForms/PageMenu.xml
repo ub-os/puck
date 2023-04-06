@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Selection</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.parents>
+                        <TCEforms>
+                            <label>Parents</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>3</size>
+                                <maxitems>50</maxitems>
+                                <minitems>0</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.parents>
+                    <settings.pages>
+                        <TCEforms>
+                            <label>Pages</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>10</size>
+                                <maxitems>100</maxitems>
+                                <minitems>0</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.pages>
+                </el>
+            </ROOT>
+        </sDEF>
+        <demand>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Demand settings</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.demand.overrideDemand>
+                        <TCEforms>
+                            <label>Respect URL parameters</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.overrideDemand>
+                    <settings.demand.navHide>
+                        <TCEforms>
+                            <label>Respect hidden in menus</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.navHide>
+                    <settings.demand.limit>
+                        <TCEforms>
+                            <label>Maximum number of posts displayed</label>
+                            <config>
+                                <type>input</type>
+                                <eval>num</eval>
+                                <size>2</size>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.limit>
+                    <settings.demand.offset>
+                        <TCEforms>
+                            <label>Number of posts to skip before displaying the first post</label>
+                            <config>
+                                <type>input</type>
+                                <eval>num</eval>
+                                <size>2</size>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.offset>
+                    <settings.demand.author>
+                        <TCEforms>
+                            <label>Author</label>
+                            <config>
+                                <type>group</type>
+                                <allowed>tx_puck_domain_model_person</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.author>
+                    <settings.demand.category.conjunction>
+                        <TCEforms>
+                            <label>Category conjunction</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">Ignore categories</numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">OR</numIndex>
+                                        <numIndex index="1">or</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">AND</numIndex>
+                                        <numIndex index="1">and</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">Not OR</numIndex>
+                                        <numIndex index="1">notor</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
+                                        <numIndex index="0">Not AND</numIndex>
+                                        <numIndex index="1">notand</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.category.conjunction>
+                    <settings.demand.category.list>
+                        <TCEforms>
+                            <label>Categories</label>
+                            <config>
+                                <type>category</type>
+                                <size>12</size>
+                                <minitems>0</minitems>
+                                <maxitems>99</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.category.list>
+                </el>
+            </ROOT>
+        </demand>
+        <order>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Order</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.order.field>
+                        <TCEforms>
+                            <label>Order by</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">Record sorting</numIndex>
+                                        <numIndex index="1">sorting</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Last updated</numIndex>
+                                        <numIndex index="1">lastUpdated</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Date</numIndex>
+                                        <numIndex index="1">post_date</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">Title</numIndex>
+                                        <numIndex index="1">title</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.order.field>
+                    <settings.order.direction>
+                        <TCEforms>
+                            <label>Order Direction</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">Descending</numIndex>
+                                        <numIndex index="1">desc</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Ascending</numIndex>
+                                        <numIndex index="1">asc</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.order.direction>
+                </el>
+            </ROOT>
+        </order>
+
+        <pagination>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Pagination</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.pagination.active>
+                        <TCEforms>
+                            <label>Pagination</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </settings.pagination.active>
+                    <settings.pagination.itemsPerPage>
+                        <TCEforms>
+                            <label>Items per page</label>
+                            <config>
+                                <type>input</type>
+                                <eval>num</eval>
+                                <size>2</size>
+                                <default>12</default>
+                            </config>
+                        </TCEforms>
+                    </settings.pagination.itemsPerPage>
+                    <settings.pagination.variant>
+                        <TCEforms>
+                            <label>Pagination variant</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0"></numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Load more</numIndex>
+                                        <numIndex index="1">load-more</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Infinite scroll</numIndex>
+                                        <numIndex index="1">infinite-scroll</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.pagination.variant>
+                </el>
+            </ROOT>
+        </pagination>
+        <template>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Template</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.template.layout>
+                        <TCEforms>
+                            <label>Layout</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Default cards</numIndex>
+                                        <numIndex index="1">default-cards</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Default columns</numIndex>
+                                        <numIndex index="1">default-columns</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.template.layout>
+                    <settings.template.categoryFilter>
+                        <TCEforms>
+                            <label>Show category filter</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.template.categoryFilter>
+                    <settings.template.filterCategories>
+                        <TCEforms>
+                            <label>Filter categories</label>
+                            <config>
+                                <type>category</type>
+                                <size>12</size>
+                                <minitems>0</minitems>
+                                <maxitems>100</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.template.filterCategories>
+                </el>
+            </ROOT>
+        </template>
+
+    </sheets>
+</T3DataStructure>

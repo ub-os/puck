@@ -4,35 +4,18 @@ if (!defined('TYPO3_MODE')) {
 }
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use HDNET\Autoloader\Loader;
-use UBOS\Puck\Utility\PuckUtility;
-use UBOS\Puck\Controller\PageController;
-use UBOS\Puck\Controller\ContentController;
-use UBOS\Puck\Controller\PostController;
-use UBOS\Puck\Controller\PersonController;
-use UBOS\Puck\Constants;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-ExtensionUtility::configurePlugin(
-    'Puck',
-    'Page',
-    [PageController::class => 'index'],
-);
-ExtensionUtility::configurePlugin(
-    'Puck',
-    'Content',
-    [ContentController::class => 'index'],
-);
-ExtensionUtility::configurePlugin(
-    'Puck',
-    'PostList',
-    [PostController::class => 'list'],
-);
-ExtensionUtility::configurePlugin(
-    'Puck',
-    'PersonList',
-    [PersonController::class => 'list'],
-);
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
+use HDNET\Autoloader\Loader;
+use UBOS\Puck\Constants;
+use UBOS\Puck\Loader\SmartContentObjectLoader;
+use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
+
+Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
+SmartContainerContentObjectLoader::addTypesTypoScript();
+SmartContentObjectLoader::addTypesTypoScript();
 
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
@@ -52,27 +35,6 @@ ExtensionManagementUtility::addUserTSConfig(
     'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . Constants::DOKTYPE_POST . ',' . Constants::DOKTYPE_PERSON . ')'
 );
 
-Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
-
-$contentModels = PuckUtility::indexContentModels();
-foreach($contentModels as $model) {
-    ExtensionManagementUtility::addTypoScript(
-        'puck',
-        'setup',
-        'tt_content.'.$model['typeKey'].'.20  {
-                userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-                extensionName = Puck
-                pluginName = Content
-                vendorName = UBOS
-                settings {
-                    contentElement = '.$model['name'].'
-                    extensionKey = puck
-                    vendorName = UBOS
-                }   
-        }',
-        'defaultContentRendering'
-    );
-}
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
@@ -108,3 +70,4 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#A46CDC';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
+

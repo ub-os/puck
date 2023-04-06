@@ -16,7 +16,7 @@ trait TextMediaLayout {
 
     /**
      * @var string
-     * @DatabaseField("string")
+     * @DatabaseField(type="varchar(255)")
      */
     public string $mediaLayout;
 
@@ -66,4 +66,10 @@ trait TextMediaLayout {
         }
         return 'row';
     }
+
+    /**
+     * @var string
+     * @DatabaseField("string")
+     */
+    public string $cardMediaSize = '';
 }
