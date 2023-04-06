@@ -466,6 +466,9 @@ $types['puck_child_column'] = [
                 'enableRichtext' => true,
             ],
         ],
+        'item_column_width' => [
+            'label' => 'Media item width'
+        ]
     ]
 ];
 
@@ -511,6 +514,9 @@ $types['puck_child_accordion'] = [
                 'enableRichtext' => true,
             ]
         ],
+        'item_column_width' => [
+            'label' => 'Media item width'
+        ]
     ]
 ];
 $types['puck_child_hero_slide'] = [

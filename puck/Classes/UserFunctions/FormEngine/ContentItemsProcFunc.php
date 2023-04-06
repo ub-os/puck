@@ -103,7 +103,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     {
         $CType = $this->val($params['row']['CType']);
         // maximum width = media element with media_layout beside/float ? media width : container width
-        if (in_array($CType, ['puck_media','puck_child_column']) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
+        if (in_array($CType, ['puck_media','puck_child_column','puck_child_accordion']) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
             $maximum = $this->val($params['row']['media_column_width']);
         } else {
             $maximum = $this->val($params['row']['container_width']);
@@ -127,7 +127,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             $containerWidth = $this->val($params['row']['item_column_width']);
         }
         // maximum width = container width - media width
-        if (in_array($CType, ['puck_media','puck_menu_pages', 'puck_child_column']) && in_array($mediaLayout, ['left-float','right-float','above','below'])) {
+        if (in_array($CType, ['puck_media','puck_menu_pages', 'puck_child_column', 'puck_child_accordion']) && in_array($mediaLayout, ['left-float','right-float','above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($containerWidth) {
                 return $item[1] == $containerWidth;
             });
@@ -148,7 +148,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     {
         $CType = $this->val($params['row']['CType']);
         // maximum width = container width - media width
-        if (!in_array($CType, ['puck_media','puck_modal','puck_child_column','puck_menu_pages','puck_child_card'])) {
+        if (!in_array($CType, ['puck_media','puck_modal','puck_child_column','puck_menu_pages','puck_child_card','puck_child_accordion'])) {
             return;
         }
         $mediaLayout = $this->val($params['row']['media_layout']);
@@ -162,7 +162,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             });
             return;
         }
-        if (in_array($mediaLayout, ['left-float','right-float']) || $CType !== 'puck_media' ) {
+        if (in_array($mediaLayout, ['left-float','right-float'])) {
             // if media_layout is float: maximum width = container width - 2
             $maximum = $containerWidth - 2;
         } else {
