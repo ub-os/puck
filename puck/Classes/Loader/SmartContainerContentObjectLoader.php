@@ -73,14 +73,18 @@ class SmartContainerContentObjectLoader extends SmartContentObjectLoader
         tt_content.'.$model['typeKey'].'.20  {
                 userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
                 extensionName = Puck
-                pluginName = ContainerContent
+                pluginName = Content
                 vendorName = UBOS
                 settings {
                     contentElement = '.$model['name'].'
                     extensionKey = puck
                     vendorName = UBOS
+                    classPath = Domain/Model/Content/Container/
                     dataProcessing {
                         '.$containerDataProcessing.'
+                    }
+                    view {
+                        templateRootPath = EXT:puck/Resources/Private/Fluid/
                     }
                 }   
         }',

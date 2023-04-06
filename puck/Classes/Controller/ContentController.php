@@ -31,18 +31,8 @@ class ContentController extends ActionController
             $vendorName = $this->settings['vendorName'];
             $name = $this->settings['contentElement'];
             $data = $this->configurationManager->getContentObject()->data;
-            $targetObject = ClassNamingUtility::getFqnByPath($vendorName, $extensionKey, 'Domain/Model/Content/' . $name);
+            $targetObject = ClassNamingUtility::getFqnByPath($vendorName, $extensionKey, ($this->settings['classPath'] ?? 'Domain/Model/Content/') . $name);
             $model = ModelUtility::getModel($targetObject, $data);
-
-            /** @var StandaloneView $view */
-            $view = ExtendedUtility::create(StandaloneView::class);
-            $context = $view->getRenderingContext();
-            $context->setControllerName('Content');
-            $context->setControllerAction($this->settings['contentElement']);
-            $view->setRenderingContext($context);
-
-            $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $dataProcessingAsTypoScriptArray = [];
             if (array_key_exists('dataProcessing', $this->settings)) {
@@ -53,25 +43,19 @@ class ContentController extends ActionController
                 ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
                 ['data' => $data]
             );
+
+            /** @var StandaloneView $view */
+            $view = ExtendedUtility::create(StandaloneView::class);
+            $context = $view->getRenderingContext();
+            $context->setControllerName('Content');
+            $context->setControllerAction($this->settings['contentElement']);
+            $view->setRenderingContext($context);
+
             $variables['settings'] = $this->settings;
             $variables['object'] = $model;
 
-            $viewConfiguration = $configuration['view'] ?? [];
-            $layoutRootPaths = $viewConfiguration['layoutRootPaths'] ?? [];
-            if (!isset($layoutRootPaths[5])) {
-                $layoutRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
-            }
-            $view->setLayoutRootPaths($layoutRootPaths);
-            $partialRootPaths = $viewConfiguration['partialRootPaths'] ?? [];
-            if (!isset($partialRootPaths[5])) {
-                $partialRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
-            }
-            $view->setPartialRootPaths($partialRootPaths);
-            $templateRootPaths = $viewConfiguration['templateRootPaths'] ?? [];
-            if (!isset($templateRootPaths[5])) {
-                $templateRootPaths[5] = 'EXT:' . $this->settings['extensionKey'] . '/Resources/Private/Fluid/';
-            }
-            $view->setTemplateRootPaths($templateRootPaths);
+            $view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
+
             $view->assignMultiple(
                 $variables
             );

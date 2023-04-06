@@ -69,6 +69,9 @@ class SmartContentObjectLoader
                     contentElement = '.$model['name'].'
                     extensionKey = puck
                     vendorName = UBOS
+                    view {
+                        templateRootPath = EXT:puck/Resources/Private/Fluid/
+                    }
                 }   
         }',
                 'defaultContentRendering'
