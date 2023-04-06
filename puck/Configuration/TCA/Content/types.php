@@ -51,12 +51,13 @@ $types['puck_full_width_media'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;gridContainer,
             --palette--;;appearance,
             --palette--;;headers,
             --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainer,
+            media_layout,    
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
-            media_layout,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -86,16 +87,14 @@ $types['puck_media'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;gridContainer,
             --palette--;;appearance,
             --palette--;;headers,
             --palette--;;bodytext,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --div--;Layout,
+            --palette--;;gridContainer,
             --palette--;;gridMedia,
-            assets,
-            pages,
-            bodytext2,
-            content_type,'
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            assets,'
         .$baseShowItem,
     'columnsOverrides' => [
         'bodytext' => [
@@ -171,10 +170,12 @@ $types['puck_menu_files'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;gridContainer,
             --palette--;;appearanceLayout,
             --palette--;;headers,
-        --div--;Files,,    
+        --div--;Layout,
+            --palette--;;gridContainer,
+            item_column_width,
+        --div--;Files,
             --palette--;;menu_files,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -314,11 +315,12 @@ $types['puck_modal'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;gridContainerWidth,
             --palette--;;headers,
             --palette--;;bodytext,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --div--;Layout,
+            --palette--;;gridContainerWidth,
             --palette--;;gridCard,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -385,10 +387,11 @@ $types['puck_text'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;gridContainer,
             --palette--;;appearance,
             --palette--;;headers,
-            --palette--;;bodytext,'
+            --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainer,'
         .$baseShowItem,
     'columnsOverrides' => [
         'bodytext' => [
@@ -449,11 +452,12 @@ $types['puck_child_column'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            container_width,
             --palette--;;childHeader,
             --palette--;;bodytext,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --div--;Layout,
+            --palette--;;gridContainerWidth,
             --palette--;;gridMedia,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -469,11 +473,12 @@ $types['puck_child_card'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            container_width,
             --palette--;;childHeader,
             --palette--;;bodytext,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --div--;Layout,
+            --palette--;;gridContainerWidth,
             --palette--;;gridCard,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
@@ -495,8 +500,9 @@ $types['puck_child_accordion'] = [
             --palette--;;general,
             header,
             --palette--;;bodytext,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+        --div--;Layout,
             --palette--;;gridMedia,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,'
         .$baseShowItem,
     'columnsOverrides' => [
