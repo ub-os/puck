@@ -125,6 +125,7 @@ class PageController extends ActionController
         $settings = $object ? $object->getFlexformArray()['settings'] : $this->settings;
         $this->view->assign('settings', $settings);
 
+        // override settings with arguments if overrideDemand is set
         $currentPage = $this->request->hasArgument('page')
             ? (int)$this->request->getArgument('page')
             : 1;
@@ -138,11 +139,11 @@ class PageController extends ActionController
             $settings['demand']['author'] = $authorList;
         }
 
-        // get the pages
+        // get the page objects
         $this->pageRepository->setPageObjectType($className);
         $pages = $this->pageRepository->findByListSettings($settings, $allowedDoktypes);
 
-        // map the plugin tt_content data to MenuPages content object
+        // map the plugin tt_content data to MenuPages|? content object
         $contentObjectData = $this->configurationManager->getContentObject()->data;
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
         $object = $object ?? $dataMapper->map($vendorName.'\\'.$extensionKey.'\\Domain\\Model\\Content\\'.$name, [$contentObjectData])[0];
@@ -199,11 +200,6 @@ class PageController extends ActionController
 
 
     /**
-     * @param string|null $categoryList
-     * @param string|null $categoryConjunction
-     * @param string|null $authorList
-     * @param MenuPages|null $object
-     * @return string
      * @Plugin("PageMenu")
      */
     public function menuAction(
@@ -216,11 +212,6 @@ class PageController extends ActionController
     }
 
     /**
-     * @param string|null $categoryList
-     * @param string|null $categoryConjunction
-     * @param string|null $authorList
-     * @param MenuPosts|null $object
-     * @return string
      * @Plugin("PostMenu")
      */
     public function postMenuAction(
@@ -233,11 +224,6 @@ class PageController extends ActionController
     }
 
     /**
-     * @param string|null $categoryList
-     * @param string|null $categoryConjunction
-     * @param string|null $authorList
-     * @param MenuPersons|null $object
-     * @return string
      * @Plugin("PersonMenu")
      */
     public function personMenuAction(

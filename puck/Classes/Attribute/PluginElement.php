@@ -2,33 +2,24 @@
 
 declare(strict_types=1);
 
-namespace UBOS\Puck\Annotation;
+namespace UBOS\Puck\Attribute;
 
-/**
- * @Annotation
- * @Target({"CLASS"})
- */
+#[\Attribute]
 class PluginElement
 {
     /**
      * @var array
      */
-    public $pluginName;
+    public string $pluginName;
 
-    public $piFlexFormValue = '';
+    public string $piFlexFormValue;
 
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $values)
+    public function __construct(string $pluginName, string $piFlexFormValue = '')
     {
-        if (isset($values['piFlexFormValue'])) {
-            $this->piFlexFormValue = $values['piFlexFormValue'];
-        }
-        if (isset($values['pluginName'])) {
-            $this->pluginName = $values['pluginName'];
-        } elseif (isset($values['value'])) {
-            $this->pluginName = $values['value'];
-        }
+        $this->pluginName = $pluginName;
+        $this->piFlexFormValue = $piFlexFormValue;
     }
 }

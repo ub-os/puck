@@ -16,27 +16,19 @@ function build() {
     const extensionName = 'puck';
     const paths = {
         model: 'puck/Classes/Domain/Model/Content',
-        tca: 'puck/Configuration/TCA/Content',
+        tca: 'puck/Configuration/TCA/Content/Types',
         template: 'puck/Resources/Private/Fluid/Content',
     };
     const files = {
         model: `${paths.model}/${options.modelName}.php`,
-        tca: `${paths.tca}/types.php`,
+        tca: `${paths.tca}/${extensionName}_${toSnakeCase(options.modelName)}.php`,
         template: `${paths.template}/${options.modelName}.html`,
     };
     const contents = {
         model: fs.readFileSync(`build/content/new/Model.php`, 'utf8')
                 .replace('class Model', `class ${options.modelName}`),
-        tca: fs.readFileSync(files.tca, 'utf8')
-                .replace(
-                    'return $types;',
-                    fs.readFileSync(`build/content/new/tca.php`, 'utf8')
-                        .replace(
-                            'puck_model',
-                            `puck_${toSnakeCase(options.modelName)}`
-                        )+'' +
-                    'return $types;'
-                ),
+        tca: fs.readFileSync(`build/content/new/tca.php`, 'utf8')
+                .replace('puck_model', `${extensionName}_${toSnakeCase(options.modelName)}`),
         template: `<f:debug>{_all}</f:debug>`
     };
 
@@ -56,7 +48,6 @@ function build() {
         Created files:
             - ${files.model}
             - ${files.template}
-        Modified files:
             - ${files.tca}    
    `);
 }

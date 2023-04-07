@@ -42,19 +42,20 @@ npm Version = 18
 ## 1. Model
 
 Neues Model anlegen, z.B. "ProductCards" in "Classes/Domain/Model/Content/ProductCards.php"
+
 ```php
 namespace UBOS\Puck\Domain\Model\Content;
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use HDNET\Autoloader\Annotation\DatabaseField;
 use HDNET\Autoloader\Annotation\DatabaseTable;
-use HDNET\Autoloader\Annotation\WizardTab;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use UBOS\Puck\Attribute\ContentElementWizard;
 
 /**
  * @DatabaseTable("tt_content")
- * @WizardTab("01_content")
  */
-class ProductCards extends Columns
+ #[ContentElementWizard("01_content")]
+class ProductCards extends Text
 {
     /**
      * @var int
@@ -69,7 +70,9 @@ Die neue Model-Klasse extended entweder ein anderes Content-Model oder AbstractE
 Annotations:
 - DatabaseTable: Name der Tabelle, in der die Daten gespeichert ("persisted") werden.
 - DatabaseField: Falls die Spalte (im Beispiel: "show_price")($camelCase in model => snake_case in Tabelle) noch nicht in der Tabelle existiert wird sie automatisch angelegt.
-- WizardTab: Tab, in dem das Content Element im New Content Element Wizard angezeigt wird.
+
+Attributes:
+- ContentElementWizard: Tab, in dem das Content Element im New Content Element Wizard angezeigt wird.
 
 Falls durch die Annotations Datenbankänderungen vorgenommen werden müssen (z.B. neue Spalte in Tabelle), muss das Datenbankschema im Typo3 Backend aktualisiert werden: "Admin Tools" -> "Maintenance" -> "Analyze Database Structure".
 
@@ -97,39 +100,35 @@ $columns['show_price'] = [
 Der Name des neuen "CTypes" ist "puck_" + der Name der Model-Klasse in snake_case.
 Für diesen Type fügen wir die TCA-Definition hinzu.
 
-"Configuration/TCA/Content/types.php"
+z.B. "Configuration/TCA/Content/Types/puck_product_cards.php"
 
 Beispiel
 ```php
-$types['puck_product_cards'] = [
+<?php
+use UBOS\Puck\Utility\TcaUtility;
+
+/**
+ * puck_product_cards
+ */
+return [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;layout,
+            --palette--;;appearanceLayout,
             --palette--;;headers,
-            show_price,
-        --div--;Items,
-            inline_media,'
-        .$baseShowItem,
+            --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainer,'
+        .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [
-        'inline_media' => [
-            'label' => 'Product card items',
+        'bodytext' => [
             'config' => [
-                'overrideChildTca' => [
-                    'types' => [
-                        '1' => $GLOBALS['TCA']['tx_puck_domain_model_inline_media']['types']['product_cards'],
-                    ],
-                ]
+                'enableRichtext' => true,
             ]
         ]
     ]
 ];
 ```
-
-In unserem Beispiel verweisen wir auf die TCA-Definition für das InlineMedia-Model, da unser Content-Model InlineMedia-Items enthält, die durch das inline_media Feld editiert werden.
-Wir überschreiben hier die TCA-Definition für den Typ "1" ("1" ist der Default-Typ).
-
-Neue InlineMedia types können in "Configuration/TCA/InlineMedia/types.php" definiert werden.
 
 ## 3. TSconfig
 

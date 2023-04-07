@@ -4,150 +4,118 @@ namespace UBOS\Puck\Utility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
-use GeorgRinger\NumberedPagination\NumberedPagination;
 
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 /**
  *
  */
-class PuckUtility
+class TcaUtility
 {
+    public const STANDARD_CROP_RATIOS = [
+        'free' => [
+            'title' => 'free',
+            'value' => 'NaN'
+        ],
+        '1:1' => [
+            'title' => '1:1',
+            'value' => 1
+        ],
+        '2:1' => [
+            'title' => '2:1',
+            'value' => 2
+        ],
+        '3:1' => [
+            'title' => '3:1',
+            'value' => 3
+        ],
+        '3:2' => [
+            'title' => '3:2',
+            'value' => 3 / 2
+        ],
+        '4:1' => [
+            'title' => '4:1',
+            'value' => 4
+        ],
+        '4:3' => [
+            'title' => '4:3',
+            'value' => 4 / 3
+        ],
+        '5:2' => [
+            'title' => '5:2',
+            'value' => 5 / 2
+        ],
+        '5:3' => [
+            'title' => '5:3',
+            'value' => 5 / 3
+        ],
+        '5:4' => [
+            'title' => '5:4',
+            'value' => 5 / 4
+        ],
+        '16:9' => [
+            'title' => '16:9',
+            'value' => 16 / 9
+        ],
+        '16:10' => [
+            'title' => '16:10',
+            'value' => 16 / 10
+        ]
+    ];
 
     /**
-     * @param QueryResult $result
-     * @param int $currentPage
-     * @param int $itemsPerPage
-     * @param int $maximumLinks
+     * Return cropVariant array for TCA.
+     * If $allowedRatios isn't set, the identifier is used as ratio
+     * @param string $identifier
+     * @param array|string|null $allowedRatios
      * @return array
+     *
      */
-    public static function paginateQueryResult(
-        QueryResult $result,
-        int $currentPage = 1,
-        int $itemsPerPage = 12,
-        int $maximumLinks = 3): array
+    public static function getCropVariant(string $identifier, array|string|null $allowedRatios = null): array
     {
-        $paginator = new QueryResultPaginator(
-            $result,
-            $currentPage,
-            $itemsPerPage
+        if ($allowedRatios === 'standard') {
+            return [
+                'title' => $identifier,
+                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+            ];
+        }
+        if (!is_array($allowedRatios)) {
+            $allowedRatios = [$identifier];
+        }
+        $allowedAspectRatios = array_map(
+            fn($id) => [
+                'title' => $id,
+                'value' => ((int)explode(':', $id)[0] ?? 1) / ((int)explode(':', $id)[1] ?? 1)
+            ],
+            $allowedRatios
         );
-        $pagination = new NumberedPagination($paginator, $maximumLinks);
-        $prevPage = $currentPage > 1
-            ? $currentPage - 1
-            : 0;
-        $nextPage = $currentPage < $paginator->getNumberOfPages()
-            ? $currentPage + 1
-            : 0;
-        $window = range($pagination->getDisplayRangeStart(), $pagination->getDisplayRangeEnd());
-        if (($key = array_search(1, $window)) !== false) {
-            unset($window[$key]);
-        }
-        if (($key = array_search($paginator->getNumberOfPages(), $window)) !== false) {
-            unset($window[$key]);
-        }
         return [
-                'paginator'=>$paginator,
-                'current'=>$currentPage,
-                'prev'=>$prevPage,
-                'next'=>$nextPage,
-                'first'=>1,
-                'last'=>$paginator->getNumberOfPages(),
-                'window'=>$window,
-                'slideLeft'=>$pagination->getHasLessPages(),
-                'slideRight'=>$pagination->getHasMorePages(),
-                'items'=>$paginator->getPaginatedItems(),
+            'title' => $identifier,
+            'allowedAspectRatios' => [
+                $identifier => $allowedAspectRatios
+            ],
         ];
     }
 
-    /**
-     * @param string $filepath
-     * @param bool $keysFromFirstRow
-     * @param string $delimiter
-     * @return array
-     */
-    public static function getArrayFromFile(string $filepath, bool $keysFromFirstRow = true, string $delimiter = ','): array
+    public static function getCropVariants(array $variants): array
     {
-        $pathExplodeDot = explode('.', $filepath);
-        $fileExt = end($pathExplodeDot);
-        $contents = file_get_contents(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . $filepath);
-        switch ($fileExt) {
-            case 'json':
-                $result = json_decode($contents);
-                break;
-            case 'csv':
-                $array = array_map('str_getcsv', explode("\n", $contents));
-                if ($keysFromFirstRow) {
-                    $headings = array_shift($array);
-                    $headings = array_map(function ($heading) {
-                        $string = str_replace(' ', '_', $heading);
-                        return preg_replace('/[^A-Za-z0-9\-]/', '', strtolower($string));
-                    }, $headings);
-                    array_walk(
-                        $array,
-                        function (&$row) use ($headings) {
-                            $row = array_combine($headings, $row);
-                        }
-                    );
-                }
-                $result = $array;
-                break;
-            case 'xml':
-                $xml = simplexml_load_string($contents, "SimpleXMLElement", LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $result = json_decode($json,TRUE);
-                break;
-            case 'xlsx':
-                $reader = new Xlsx();
-                $reader->setReadDataOnly(true);
-                $spreadsheet = $reader->load(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . $filepath);
-                $sheets = [];
-                $sheetNames = $spreadsheet->getSheetNames();
-                foreach($spreadsheet->getWorksheetIterator() as $index => $worksheet) {
-                    $sheet = $worksheet->toArray();
-                    if ($keysFromFirstRow) {
-                        $headings = array_shift($sheet);
-                        $headings = array_map(function ($heading) {
-                            $string = str_replace(' ', '_', $heading);
-                            return preg_replace('/[^A-Za-z0-9\-]/', '', strtolower($string));
-                        }, $headings);
-                        array_walk(
-                            $sheet,
-                            function (&$row) use ($headings) {
-                                $row = array_combine($headings, $row);
-                            }
-                        );
-                    }
-                    $sheets[$sheetNames[$index]] = $sheet;
-                }
-                if (count($sheetNames) === 1) {
-                    $result = $sheets[$sheetNames[0]];
-                } else {
-                    $result = $sheets;
-                }
-                break;
-            default:
-                if ($delimiter) {
-                    $result = explode($delimiter, $contents);
-                } else {
-                    $result = $contents;
-                }
+        $cropVariants = [];
+        foreach($variants as $variant) {
+            if (isset($variant['identifier'])) {
+                $cropVariants[$variant['identifier']] = self::getCropVariant($variant['identifier'], $variant['allowedRatios']);
+            }
         }
-        return $result;
+        return $cropVariants;
     }
 
-    public static function getBaseFilesInDir(string $dirPath, string $fileExtension): array
+    public static function getContentShowitemBase(): string
     {
-        if (!is_dir($dirPath)) {
-            return [];
-        }
-        $files = GeneralUtility::getFilesInDir($dirPath, $fileExtension);
-        foreach ($files as $key => $file) {
-            $files[$key] = PathUtility::pathinfo($file, PATHINFO_FILENAME);
-        }
-
-        return array_values($files);
+        return '
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+            --palette--;;language,
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+            --palette--;;hidden,
+            --palette--;;access,
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:notes,
+            rowDescription,
+        --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,';
     }
 }

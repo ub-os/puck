@@ -7,6 +7,9 @@ use HDNET\Autoloader\Loader;
 use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Constants;
 
+
+SmartContentObjectLoader::addTypesTSconfig();
+
 $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
 
@@ -27,4 +30,4 @@ foreach($contentModels as $model) {
     $GLOBALS['TCA']['tt_content']['types'][$model['typeKey']]['noAutoloaderOverride'] = true;
 }
 
-Loader::extTables('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
+Loader::extTables('UBOS', 'puck', array('SmartObjects', 'Plugins'));

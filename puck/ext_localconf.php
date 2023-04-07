@@ -14,7 +14,6 @@ use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
 
 Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
-SmartContainerContentObjectLoader::addTypesTypoScript();
 SmartContentObjectLoader::addTypesTypoScript();
 
 // Register tsconfig

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace UBOS\Puck\Attributes;
+namespace UBOS\Puck\Attribute;
 
-#[Attribute]
+#[\Attribute]
 class ContainerElement
 {
     public array $configuration;

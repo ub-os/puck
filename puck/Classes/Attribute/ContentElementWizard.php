@@ -2,33 +2,24 @@
 
 declare(strict_types=1);
 
-namespace UBOS\Puck\Annotation;
+namespace UBOS\Puck\Attribute;
 
-/**
- * @Annotation
- * @Target({"CLASS"})
- */
+#[\Attribute]
 class ContentElementWizard
 {
     /**
      * @var array
      */
-    public $tab;
+    public string $tab;
 
-    public $order;
+    public int $order;
 
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $values)
+    public function __construct(string $tab, int $order = 10)
     {
-        if (isset($values['order'])) {
-            $this->order = $values['order'];
-        }
-        if (isset($values['tab'])) {
-            $this->tab = $values['tab'];
-        } elseif (isset($values['value'])) {
-            $this->tab = $values['value'];
-        }
+        $this->tab = $tab;
+        $this->order = $order;
     }
 }

@@ -2,13 +2,7 @@
 
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
-    01_content {
-        header = Content
-    }
-    03_menu {
-        header = Menu
-    }
-    03_presets {
+    04_presets {
         header = Presets
         elements {
             preset_puck_media_contact {

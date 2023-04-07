@@ -1,37 +1,32 @@
 <?php
 use UBOS\Puck\Utility\TcaUtility;
+use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
 
 /**
- * puck_anchor
+ * puck_child_card
  */
 return [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            header, subheader,'
+            --palette--;;childHeader,
+            --palette--;;bodytext,
+        --div--;Layout,
+            --palette--;;gridContainerWidth,
+            --palette--;;gridCard,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+            assets,'
         .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [
-        'header' => [
-            'label' => 'Title'
-        ],
-        'subheader' => [
-            'label' => 'URL Segment',
+        'bodytext' => [
             'config' => [
-                'type' => 'slug',
-                'generatorOptions' => [
-                    'fields' => ['header'],
-                    'fieldSeparator' => '-',
-                    'replacements' => [
-                        '/' => '',
-                    ],
-                ],
-                'appearance' => [
-                    'prefix' => 'UBOS\\Puck\\UserFunctions\\FormEngine\\SlugPrefix->getHash',
-                ],
-                'fallbackCharacter' => '-',
-                'eval' => 'uniqueInPid',
-                'default' => '',
-            ],
+                'enableRichtext' => true,
+            ]
+        ],
+        'media_layout' => [
+            'config' => [
+                'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
+            ]
         ],
     ]
 ];

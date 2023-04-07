@@ -2,36 +2,30 @@
 use UBOS\Puck\Utility\TcaUtility;
 
 /**
- * puck_anchor
+ * puck_menu_posts
  */
 return [
-    'showitem' => '
+    'showitem' => '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-            --palette--;;general,
-            header, subheader,'
+        --palette--;;general,
+        --palette--;;appearanceLayout,
+        --palette--;;headers,
+        --div--;Plugin,
+       pi_flexform,'
         .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [
-        'header' => [
-            'label' => 'Title'
-        ],
-        'subheader' => [
-            'label' => 'URL Segment',
+        'bodytext' => [
             'config' => [
-                'type' => 'slug',
-                'generatorOptions' => [
-                    'fields' => ['header'],
-                    'fieldSeparator' => '-',
-                    'replacements' => [
-                        '/' => '',
-                    ],
-                ],
-                'appearance' => [
-                    'prefix' => 'UBOS\\Puck\\UserFunctions\\FormEngine\\SlugPrefix->getHash',
-                ],
-                'fallbackCharacter' => '-',
-                'eval' => 'uniqueInPid',
-                'default' => '',
-            ],
+                'enableRichtext' => true,
+            ]
         ],
+        'layout' => [
+            'config' => [
+                'items' => [
+                    ['Blog cards', 'blog-cards'],
+                ],
+                'default' => 'blog-cards'
+            ]
+        ]
     ]
 ];
