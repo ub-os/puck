@@ -6,10 +6,11 @@
             <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
             <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
             <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
-            <polygon id="Path" fill="#9CC8FF" points="4 6 28 6 28 16 4 16"></polygon>
-            <polygon id="Path" fill="#5599FF" points="4 4 28 4 28 14 4 14"></polygon>
-            <polygon id="Path" fill="#FFFFFF" points="7 8 25 8 25 28 7 28"></polygon>
-            <polygon id="Path" fill="#515151" points="9 10 23 10 23 20 9 20"></polygon>
+            <polygon id="Path" fill="#9CC8FF" points="0 6 32 6 32 16 0 16"></polygon>
+            <polygon id="Path" fill="#5599FF" points="0 1 32 1 32 14 0 14"></polygon>
+            <polygon id="Path" fill="#FFFFFF" points="7 9 25 9 25 22 7 22"></polygon>
+            <polygon id="Path" fill="#515151" points="9 11 23 11 23 18 9 18"></polygon>
+            <polygon id="Path" fill="#B9B9B9" points="9 21 23 21 23 28 9 28"></polygon>
         </g>
     </g>
 </svg>
