@@ -1,7 +1,7 @@
 
 <f:if condition="{settings}">
-    <div class="small" style="padding-left: 1em; border-left: 1px solid;">
-        <h6><strong>Settings</strong></h6>
+    <p><em>Options</em></p>
+    <div class="small" style="padding-left: 1em; border-left: 1px solid #FBAA04;">
         <f:render section="recordList" arguments="{records:settings.parents,title:'Subpages of'}"/>
         <f:render section="recordList" arguments="{records:settings.pages,title:'Pages'}"/>
 
@@ -36,7 +36,7 @@
 <f:section name="boolean">
     <f:if condition="{value}">
         <div>
-        {label} <i class="fa fa-check"></i>
+            <span style="display: inline-block; width: 15em;">{label}</span> <i class="fa fa-check"></i>
         </div>
     </f:if>
 </f:section>
@@ -44,7 +44,7 @@
 <f:section name="value">
     <div>
     <f:if condition="{value}">
-        {label}: <strong>{value}</strong>
+        <span style="display: inline-block; width: 15em;">{label}</span> <strong>{value}</strong>
     </f:if>
     </div>
 </f:section>
