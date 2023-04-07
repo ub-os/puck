@@ -4,7 +4,8 @@ import FocusTrap from "./FocusTrap.js";
 
 class Modal extends Toggleable {
     constructor(target, { moveToModalContainer = true, toggleOffOnOutsideClick = true, ...options }) {
-        super(target, { moveToModalContainer, toggleOffOnOutsideClick, ...options })
+        super(target, { toggleOffOnOutsideClick, ...options })
+        Object.assign(this, { moveToModalContainer })
         if (moveToModalContainer) {
             this.node = document.querySelector('[data-modal-container]').appendChild(this.node)
         }

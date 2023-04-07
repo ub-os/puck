@@ -96,6 +96,7 @@ const mountComponents = (target) => {
                             ...JSON.parse(node.dataset.accordion || '{}'),
                             ...{
                                 clickDelay: 150,
+                                useMinHeight: true,
                             }}
                     ).mount()
                 ]

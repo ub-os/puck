@@ -25,7 +25,10 @@ class Toggleable {
         reloadIframeOnToggle = pauseMediaOnToggle
       })
   {
-    Object.assign(this, { active, alwaysActive, groupId, exclusiveGroup, clickDelay, toggleOffOnOutsideClick, toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles, pauseMediaOnToggle, reloadIframeOnToggle })
+    Object.assign(this, {
+      active, alwaysActive, groupId, exclusiveGroup, clickDelay,
+      toggleOffOnOutsideClick, toggleOffOnEsc, toggleOnIfUrlHashMatches,
+      addMatchingHashLinksToToggles, disableToggles, pauseMediaOnToggle, reloadIframeOnToggle })
     this.classes = {
       ...{
         active: '--active',
