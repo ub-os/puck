@@ -436,5 +436,5 @@ $columns['flex_grow'] = [
     ]
 ];
 foreach($columns as $name => $column) {
-    $GLOBALS['TCA']['tt_content']['palettes'][$name] = $column;
+    $GLOBALS['TCA']['tt_content']['columns'][$name] = $column;
 }

@@ -1,7 +1,7 @@
 <?php
 use UBOS\Puck\Utility\TcaUtility;
 
-$GLOBALS['TCA']['tt_content']['columns']['puck_media'] = [
+$GLOBALS['TCA']['tt_content']['types']['puck_media'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
