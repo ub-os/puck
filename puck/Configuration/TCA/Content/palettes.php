@@ -101,4 +101,6 @@ $palettes['menu_files'] = [
         --linebreak--,
         filelink_sorting, filelink_sorting_direction, target',
 ];
-return $palettes;
+foreach($palettes as $name => $palette) {
+    $GLOBALS['TCA']['tt_content']['palettes'][$name] = $palette;
+}

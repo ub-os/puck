@@ -1,10 +1,7 @@
 <?php
 use UBOS\Puck\Utility\TcaUtility;
 
-/**
- * puck_child_column
- */
-return [
+$GLOBALS['TCA']['tt_content']['columns']['puck_child_column'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

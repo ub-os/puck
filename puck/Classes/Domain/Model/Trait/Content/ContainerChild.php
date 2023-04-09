@@ -13,7 +13,7 @@ trait ContainerChild {
     public int $txContainerParent = 0;
 
     /**
-     * @var mixed|null
+     * @var mixed
      * @Transient
      */
     protected mixed $containerParent = null;

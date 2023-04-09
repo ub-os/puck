@@ -1,7 +1,6 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
-$cropVariants = require __DIR__.'/Common/CropVariants.php';
+use UBOS\Puck\Utility\TcaUtility;
 
 $ctrl = [
     'label' => 'name',
@@ -154,13 +153,8 @@ $columns = [
     ],
     'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
 ];
-$columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
-    '1:1' => $cropVariants['1:1'],
-    '4:3' => $cropVariants['4:3'],
-    '3:2' => $cropVariants['3:2'],
-    '2:1' => $cropVariants['2:1'],
+$columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('1:1,4:3,3:2,2:1');
 
-];
 $palettes = [
     'person' => [
         'label' => 'Person',

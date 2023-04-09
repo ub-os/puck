@@ -63,47 +63,80 @@ class TcaUtility
 
     /**
      * Return cropVariant array for TCA.
-     * If $allowedRatios isn't set, the identifier is used as ratio
+     * If $allowedRatios isn't set, the key is used as ratio, e.g. '16:9' => ['title' => '16:9', 'value' => 16/9]
      * @param string $identifier
      * @param array|string|null $allowedRatios
      * @return array
      *
      */
-    public static function getCropVariant(string $identifier, array|string|null $allowedRatios = null): array
+    public static function getCropVariant(string $key, array|string|null $allowedRatios = null, $disabled = false): array
     {
         if ($allowedRatios === 'standard') {
             return [
-                'title' => $identifier,
+                'title' => $key,
+                'disabled' => $disabled,
                 'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
             ];
         }
-        if (!is_array($allowedRatios)) {
-            $allowedRatios = [$identifier];
+        if (is_string($allowedRatios) && isset(explode(',', $allowedRatios)[1]) ) {
+            $allowedRatios = explode(',', $allowedRatios);
         }
-        $allowedAspectRatios = array_map(
-            fn($id) => [
-                'title' => $id,
-                'value' => ((int)explode(':', $id)[0] ?? 1) / ((int)explode(':', $id)[1] ?? 1)
-            ],
-            $allowedRatios
-        );
+        if (!is_array($allowedRatios)) {
+            $allowedRatios = [$key];
+        }
+        $allowedAspectRatios = [];
+        foreach($allowedRatios as $ratio) {
+            $ratioArr = explode(':', $ratio);
+            $dividend = floatval($ratioArr[0]) ?: 1;
+            $divisor = floatval($ratioArr[1]) ?: 1;
+            $allowedAspectRatios[$ratio] = [
+                'title' => $ratio,
+                'value' => $dividend /$divisor
+            ];
+        }
         return [
-            'title' => $identifier,
-            'allowedAspectRatios' => [
-                $identifier => $allowedAspectRatios
-            ],
+            'title' => $key,
+            'disabled' => $disabled,
+            'allowedAspectRatios' => $allowedAspectRatios,
         ];
     }
 
-    public static function getCropVariants(array $variants): array
+    public static function getCropVariants(array|string $variants): array
     {
         $cropVariants = [];
+        if (!is_array($variants)) {
+            $variants = explode(',', $variants);
+        }
         foreach($variants as $variant) {
-            if (isset($variant['identifier'])) {
-                $cropVariants[$variant['identifier']] = self::getCropVariant($variant['identifier'], $variant['allowedRatios']);
-            }
+            $key = $variant['key'] ?? $variant;
+            $cropVariants[$key] = self::getCropVariant($key, $variant['allowedRatios'] ?? null, $variant['disabled'] ?? false);
+
         }
         return $cropVariants;
+    }
+
+    public static function getCropVariantConfigOverride(array|string $variants, array|string $disableVariants): array
+    {
+        $cropVariants = self::getCropVariants($variants);
+        if (!is_array($disableVariants)) {
+            $disableVariants = explode(',', $disableVariants);
+        }
+        foreach($disableVariants as $key) {
+            $cropVariants[$key] = ['disabled' => true];
+        }
+        return [
+            'config' => [
+                'overrideChildTca' => [
+                    'columns' => [
+                        'crop' => [
+                            'config' => [
+                                'cropVariants' => $cropVariants
+                            ],
+                        ],
+                    ],
+                ]
+            ]
+        ];
     }
 
     public static function getContentShowitemBase(): string

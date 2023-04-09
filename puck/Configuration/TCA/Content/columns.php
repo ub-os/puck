@@ -1,8 +1,7 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
-
-$cropVariants = require __DIR__.'/../Common/CropVariants.php';
+use UBOS\Puck\Utility\TcaUtility;
 
 $columns = [];
 
@@ -200,8 +199,8 @@ $columns['space_after_class'] = [
 ];
 $columns['assets'] = $GLOBALS['TCA']['tt_content']['columns']['assets'];
 $columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
-    'default' => $cropVariants['default'],
-    'mobile' => $cropVariants['mobile'],
+    'default' => TcaUtility::getCropVariant('default','standard'),
+    'mobile' => TcaUtility::getCropVariant('mobile','standard'),
 ];
 $columns['bodytext2'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
 
@@ -227,6 +226,7 @@ $columns['inline_media'] = [
         ],
     ],
 ];
+
 $columns['container_width'] = [
     'label' => 'Width',
     'onChange' => 'reload',
@@ -435,4 +435,6 @@ $columns['flex_grow'] = [
         'default' => 0,
     ]
 ];
-return $columns;
+foreach($columns as $name => $column) {
+    $GLOBALS['TCA']['tt_content']['palettes'][$name] = $column;
+}
