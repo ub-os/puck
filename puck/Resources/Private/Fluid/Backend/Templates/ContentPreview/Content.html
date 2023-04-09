@@ -2,7 +2,7 @@
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
 
 
-<f:render section="preview" arguments="{item: item}" />
+<f:render section="preview" arguments="{_all}" />
 
 <f:section name="preview">
   <f:if condition="{item.record.pi_flexform}">
@@ -20,7 +20,7 @@
         <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
       </f:for>
     </f:if>
-    <f:render partial="PageMenuSettings" arguments="{settings:item.record.pi_flexform.settings}"/>
+    <f:render partial="PageMenuSettings" arguments="{settings:item.record.pi_flexform.settings,processed:processedMenuData}"/>
 <!--
     <f:render partial="InlineMedia" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
 -->

@@ -182,12 +182,12 @@
                                 <renderType>selectSingle</renderType>
                                 <items>
                                     <numIndex index="0">
-                                        <numIndex index="0">Descending</numIndex>
-                                        <numIndex index="1">desc</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1">
                                         <numIndex index="0">Ascending</numIndex>
                                         <numIndex index="1">asc</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Descending</numIndex>
+                                        <numIndex index="1">desc</numIndex>
                                     </numIndex>
                                 </items>
                             </config>

@@ -20,11 +20,8 @@
             value="{f:if(condition:'{item.record.container_offset}',
             then:1,else:0)}"/>
 
-<f:variable name="show_content_type"
-            value="{f:if(condition:'{item.record.CType} == \'puck_media\' && {item.record.content_type} != \'assets\' && {item.record.content_type}',
-            then:1,else:0)}"/>
 <f:variable name="show_media_layout"
-            value="{f:if(condition:'({item.record.CType} == \'puck_media\' || {item.record.CType} == \'puck_full_width_media\' || {item.record.CType} == \'puck_modal\') &&  {item.record.media_layout}',
+            value="{f:if(condition:'({item.record.CType} == \'puck_media\' || {item.record.CType} == \'puck_child_column\' || {item.record.CType} == \'puck_child_card\' ||{item.record.CType} == \'puck_full_width_media\' || {item.record.CType} == \'puck_modal\') &&  {item.record.media_layout}',
             then:1,else:0)}"/>
 
 <f:if condition="

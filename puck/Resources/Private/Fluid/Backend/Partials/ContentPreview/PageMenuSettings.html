@@ -1,50 +1,83 @@
 
 <f:if condition="{settings}">
-    <p><em>Options</em></p>
-    <div class="small" style="padding-left: 1em; border-left: 1px solid #FBAA04;">
-        <f:render section="recordList" arguments="{records:settings.parents,title:'Subpages of'}"/>
-        <f:render section="recordList" arguments="{records:settings.pages,title:'Pages'}"/>
-
-        <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
-        <f:render section="boolean" arguments="{value:settings.demand.navHide,label:'Respect hidden in menus'}"/>
-        <f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>
-        <f:render section="value" arguments="{value:settings.demand.offset,label:'Number to skip'}"/>
-<p></p>
-        <f:render section="value" arguments="{value:settings.order.field,label:'Order by'}"/>
-        <f:render section="value" arguments="{value:settings.order.direction,label:'Order direction'}"/>
-<p></p>
-        <f:render section="boolean" arguments="{value:settings.pagination.active,label:'Pagination'}"/>
-        <f:if condition="{settings.pagination.active}">
-            <f:render section="value" arguments="{value:settings.pagination.variant,label:'Pagination variant'}"/>
-        </f:if>
-<p></p>
-        <f:render section="boolean" arguments="{value:settings.template.categoryFilter,label:'Show category filter'}"/>
-    </div>
+    <table class="table table-hover table-condensed">
+        <style>
+            .table tbody,
+            .table thead {
+                //border: 2px solid #ccc;
+            }
+        </style>
+        <thead>
+        <tr>
+            <th colspan="2">
+                <core:icon identifier="content-plugin" />
+                <core:icon identifier="menu_settings" />
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <f:render section="recordList" arguments="{records:processed.parents,title:'Subpages of'}"/>
+            <f:render section="recordList" arguments="{records:processed.pages,title:'Pages'}"/>
+        </tbody>
+        <tbody>
+            <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
+            <f:render section="boolean" arguments="{value:settings.demand.navHide,label:'Respect hidden in menus'}"/>
+            <f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>
+            <f:render section="value" arguments="{value:settings.demand.offset,label:'Number to skip'}"/>
+            <f:render section="recordList" arguments="{records:processed.author,title:'Author'}"/>
+            <f:if condition="{settings.demand.category.conjunction}">
+                <f:render section="value" arguments="{value:settings.demand.category.conjunction,label:'Category conjunction'}"/>
+                <f:render section="recordList" arguments="{records:processed.categories,title:'Categories'}"/>
+            </f:if>
+        </tbody>
+        <tbody>
+            <f:render section="value" arguments="{value:settings.order.field,label:'Order by'}"/>
+            <f:render section="value" arguments="{value:settings.order.direction,label:'Order direction'}"/>
+        </tbody>
+        <tbody>
+            <f:render section="boolean" arguments="{value:settings.pagination.active,label:'Pagination'}"/>
+            <f:if condition="{settings.pagination.active}">
+                <f:render section="value" arguments="{value:settings.pagination.itemsPerPage,label:'Items per page'}"/>
+                <f:render section="value" arguments="{value:settings.pagination.variant,label:'Pagination variant'}"/>
+            </f:if>
+        </tbody>
+        <tbody>
+            <f:render section="boolean" arguments="{value:settings.template.categoryFilter,label:'Show category filter'}"/>
+            <f:if condition="{settings.template.categoryFilter}">
+                <f:render section="recordList" arguments="{records:processed.filter_categories,title:'Filter categories'}"/>
+            </f:if>
+        </tbody>
+    </table>
 </f:if>
 
 <f:section name="recordList">
     <f:if condition="{records}">
-        {title}
-        <ul>
-            <f:for each="{puck:array.explode(string:records)}" as="uid">
-                <li>{uid}</li>
+        <tr>
+            <th style="width:30%">{title}</th>
+            <td>
+            <f:for each="{records}" as="record" iteration="i">
+                    <a aria-label="{record.backend_link_title}" title="{record.backend_link_title}" data-bs-toggle="tooltip" href="{record.backend_link}">
+                        <core:iconForRecord table="{record.table}" row="{record}"/>
+                        {record.title}
+                    </a><f:if condition="!{i.isLast}">, </f:if>
             </f:for>
-        </ul>
+            </td>
+        </tr>
     </f:if>
 </f:section>
 
 <f:section name="boolean">
     <f:if condition="{value}">
-        <div>
-            <span style="display: inline-block; width: 15em;">{label}</span> <i class="fa fa-check"></i>
-        </div>
+        <tr>
+            <th style="width:30%">{label}</th> <td><i class="fa fa-check"></i></td>
+        </tr>
     </f:if>
 </f:section>
 
 <f:section name="value">
-    <div>
     <f:if condition="{value}">
-        <span style="display: inline-block; width: 15em;">{label}</span> <strong>{value}</strong>
+        <tr>
+        <th style="width:30%">{label}</th> <td>{value}</td>
+        </tr>
     </f:if>
-    </div>
 </f:section>
