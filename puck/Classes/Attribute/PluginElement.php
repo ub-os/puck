@@ -7,9 +7,6 @@ namespace UBOS\Puck\Attribute;
 #[\Attribute]
 class PluginElement
 {
-    /**
-     * @var array
-     */
     public string $pluginName;
 
     public string $piFlexFormValue;

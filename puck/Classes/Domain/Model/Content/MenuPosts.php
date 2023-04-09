@@ -15,7 +15,7 @@ use UBOS\Puck\Domain\Model\Trait\Content\FlexForm;
  * @DatabaseTable("tt_content")
  */
 #[ContentElementWizard('03_menu')]
-#[PluginElement(pluginName: 'PostMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
+#[PluginElement('PostMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
 class MenuPosts extends Text
 {
     use FlexForm;

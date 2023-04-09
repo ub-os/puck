@@ -2,6 +2,8 @@
 
 namespace UBOS\Puck\Loader;
 
+use ReflectionClass;
+use ReflectionException;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -15,8 +17,9 @@ use UBOS\Puck\Utility\PuckUtility;
 
 /**
  * Class SmartContentObjectLoader <br>
- * Loads all classes from the puck/Classes/Domain/Model/Content folder
- * and registers them as content elements based on class attributes ContainerElement, ContentElementWizard and PluginElement
+ * Loads all classes from the puck/Classes/Domain/Model/Content folder <br>
+ * Registers them as content elements based on class attributes ContentElementWizard, ContainerElement and PluginElement <br>
+ * Registering them as content elements is done by adding them to the CType select, New Content Element Wizard, defining the frontend typoscript
  */
 class SmartContentObjectLoader
 {
@@ -40,18 +43,21 @@ class SmartContentObjectLoader
         return $index;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function sortModelsByWizardTabAndOrder(array $models): array
     {
         $wizardGroups = [];
         foreach($models as $model) {
             $tab = '01_content';
             $order = 10;
-            $reflectionClass = new \ReflectionClass($model['fullName']);
-            $wizardAttribute = $reflectionClass->getAttributes(ContentElementWizard::class)[0] ?? null;
-            if ($wizardAttribute) {
-                $wizardAttributeInstance = $wizardAttribute->newInstance();
-                $tab = $wizardAttributeInstance->tab ?? $tab;
-                $order = $wizardAttributeInstance->order ?? $order;
+            $refClass = new ReflectionClass($model['fullName']);
+            $refContentElementWizard = $refClass->getAttributes(ContentElementWizard::class)[0] ?? null;
+            if ($refContentElementWizard) {
+                $contentElementWizard = $refContentElementWizard->newInstance();
+                $tab = $contentElementWizard->tab ?? $tab;
+                $order = $contentElementWizard->order ?? $order;
             }
             if (!isset($wizardGroups[$tab])) {
                 $wizardGroups[$tab] = [];
@@ -69,6 +75,9 @@ class SmartContentObjectLoader
         return $wizardGroups;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function registerTypes(): void
     {
         $modelIndex = static::indexModels();
@@ -81,12 +90,12 @@ class SmartContentObjectLoader
                 'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.'.$groupKey.'.header',
             );
             foreach($group as $model) {
-                $reflectionClass = new \ReflectionClass($model['fullName']);
-                $pluginElementAttribute = $reflectionClass->getAttributes(PluginElement::class)[0] ?? null;
-                $containerElementAttribute = $reflectionClass->getAttributes(ContainerElement::class)[0] ?? null;
+                $refClass = new ReflectionClass($model['fullName']);
+                $refPluginElement = $refClass->getAttributes(PluginElement::class)[0] ?? null;
+                $refContainerElement = $refClass->getAttributes(ContainerElement::class)[0] ?? null;
 
-                if ($pluginElementAttribute) {
-                    $piFlexFormValue = $pluginElementAttribute->newInstance()->piFlexFormValue;
+                if ($refPluginElement) {
+                    $piFlexFormValue = $refPluginElement->newInstance()->piFlexFormValue;
                     if ($piFlexFormValue) {
                         ExtensionManagementUtility::addPiFlexFormValue(
                             '*',
@@ -96,8 +105,8 @@ class SmartContentObjectLoader
                     }
                 }
 
-                if ($containerElementAttribute) {
-                    $containerConfiguration = $containerElementAttribute->newInstance()->configuration;
+                if ($refContainerElement) {
+                    $containerConfiguration = $refContainerElement->newInstance()->configuration;
                     if ($containerConfiguration) {
                         GeneralUtility::makeInstance(Registry::class)->configureContainer(
                             (
@@ -132,6 +141,9 @@ class SmartContentObjectLoader
         }
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function addTypesTSconfig(): void
     {
         $modelIndex = static::indexModels();
@@ -158,6 +170,9 @@ class SmartContentObjectLoader
         }
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function addTypesTypoScript(): void
     {
         $modelIndex = static::indexModels();
@@ -165,16 +180,16 @@ class SmartContentObjectLoader
             $pluginName = 'Content';
             $containerDataProcessing = '';
 
-            $reflectionClass = new \ReflectionClass($model['fullName']);
-            $pluginElementAttribute = $reflectionClass->getAttributes(PluginElement::class)[0] ?? null;
-            $containerElementAttribute = $reflectionClass->getAttributes(ContainerElement::class)[0] ?? null;
+            $refClass = new ReflectionClass($model['fullName']);
+            $refPluginElement = $refClass->getAttributes(PluginElement::class)[0] ?? null;
+            $refContainerElement = $refClass->getAttributes(ContainerElement::class)[0] ?? null;
 
-            if ($pluginElementAttribute) {
-                $pluginName = $pluginElementAttribute->newInstance()->pluginName ?? $pluginName;
+            if ($refPluginElement) {
+                $pluginName = $refPluginElement->newInstance()->pluginName ?? $pluginName;
             }
 
-            if ($containerElementAttribute) {
-                $containerConfiguration = $containerElementAttribute->newInstance()->configuration;
+            if ($refContainerElement) {
+                $containerConfiguration = $refContainerElement->newInstance()->configuration;
                 if ($containerConfiguration && is_array($containerConfiguration)) {
                     foreach($containerConfiguration as $row) {
                         foreach($row as $column) {

@@ -16,11 +16,3 @@ plugin.tx_puck {
         defaultPid = auto
     }
 }
-tt_content.puck_page_list.20.puck_postlist = USER
-tt_content.puck_page_list.20.puck_postlist {
-    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-    extensionName = Puck
-    pluginName = PostList
-    vendorName = UBOS
-}
-

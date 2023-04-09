@@ -15,7 +15,7 @@ use UBOS\Puck\Domain\Model\Trait\Content\FlexForm;
  * @DatabaseTable("tt_content")
  */
 #[ContentElementWizard('03_menu')]
-#[PluginElement(pluginName: 'PersonMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
+#[PluginElement('PersonMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
 class MenuPersons extends Text
 {
     use FlexForm;

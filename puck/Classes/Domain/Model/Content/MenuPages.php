@@ -18,7 +18,7 @@ use UBOS\Puck\Domain\Model\Trait\Content\TextMediaLayout;
  * @DatabaseTable("tt_content")
  */
 #[ContentElementWizard('03_menu')]
-#[PluginElement(pluginName: 'PageMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
+#[PluginElement('PageMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
 class MenuPages extends Text
 {
     use FlexForm;

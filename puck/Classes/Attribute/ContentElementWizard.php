@@ -7,9 +7,6 @@ namespace UBOS\Puck\Attribute;
 #[\Attribute]
 class ContentElementWizard
 {
-    /**
-     * @var array
-     */
     public string $tab;
 
     public int $order;
