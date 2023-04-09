@@ -145,7 +145,7 @@ mod.web_layout.BackendLayouts.default.config.backend_layout.allowed.CType := add
 SVG-Icon unter "Resources/Public/Icons/Content/{modelName}.svg" speichern.
 
 ### 4.2. Language file
-"Resources/Private/Language/locallang.xlf" erweitern.
+"Resources/Private/Language/locallang_be.xlf" erweitern.
 
 Beispiel
 

@@ -87,7 +87,7 @@ class SmartContentObjectLoader
                 'tt_content',
                 'CType',
                 $groupKey,
-                'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.'.$groupKey.'.header',
+                'LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$groupKey.'.header',
             );
             foreach($group as $model) {
                 $refClass = new ReflectionClass($model['fullName']);
@@ -112,8 +112,8 @@ class SmartContentObjectLoader
                             (
                             new ContainerConfiguration(
                                 $model['typeKey'], // CType
-                                'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:content.element.' . GeneralUtility::camelCaseToLowerCaseUnderscored($model['name']),
-                                'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.' . GeneralUtility::camelCaseToLowerCaseUnderscored($model['name']).'.description', // description
+                                'LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:content.element.' . GeneralUtility::camelCaseToLowerCaseUnderscored($model['name']),
+                                'LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.' . GeneralUtility::camelCaseToLowerCaseUnderscored($model['name']).'.description', // description
                                 $containerConfiguration // configuration
                             )
                             )
@@ -131,7 +131,7 @@ class SmartContentObjectLoader
                     'tt_content',
                     'CType',
                     [
-                        'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:content.element.'.$model['lowerCaseUnderscored'],
+                        'LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:content.element.'.$model['lowerCaseUnderscored'],
                         $model['typeKey'],
                         $model['lowerCaseUnderscored'],
                         $groupKey
@@ -151,15 +151,15 @@ class SmartContentObjectLoader
         foreach($wizardGroups as $groupKey => $group) {
             ExtensionManagementUtility::addPageTSConfig('
                 mod.wizards.newContentElement.wizardItems.'.$groupKey.' {
-                  header = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.'.$groupKey.'.header
+                  header = LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$groupKey.'.header
                 }
             ');
             foreach($group as $model) {
                 ExtensionManagementUtility::addPageTSConfig('
                 mod.wizards.newContentElement.wizardItems.'.$groupKey.'.elements.'.$model['typeKey'].' {
                         iconIdentifier = '.$model['lowerCaseUnderscored'].'
-                        title = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.'.$model['lowerCaseUnderscored'].'
-                        description = LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.'.$model['lowerCaseUnderscored'].'.description
+                        title = LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$model['lowerCaseUnderscored'].'
+                        description = LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$model['lowerCaseUnderscored'].'.description
                         tt_content_defValues {
                             CType = '.$model['typeKey'].'
                         }

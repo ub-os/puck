@@ -4,7 +4,7 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <layout:row.item class="splide__slide {name}__item" width="{object.containerWidth}">
+    <layout:row.item class="splide__slide {name}__item" width="{object.containerWidth}" attributes="id=c{object.uid}">
       <element:text.header object="{object}"/>
       <layout:media
               media="{object.assets}"

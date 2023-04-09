@@ -5,12 +5,12 @@
         <f:if condition="{item.record.CType} == 'list'">
             <f:then>
                 <strong>
-                    Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.list_type)}" />
+                    Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.list_type)}" />
                 </strong>
             </f:then>
             <f:else>
                 <strong>
-                    <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.CType)}" />
+                    <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.CType)}" />
                 </strong>
             </f:else>
         </f:if>
