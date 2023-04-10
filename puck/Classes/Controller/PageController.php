@@ -46,7 +46,6 @@ class PageController extends ActionController
             $data = $this->configurationManager->getContentObject()->data;
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             $context = GeneralUtility::makeInstance(Context::class);
-            $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $contentObject = new ContentContentObject($contentObjectRenderer);
             if ($data['doktype'] === Constants::DOKTYPE_POST) {
@@ -56,14 +55,26 @@ class PageController extends ActionController
             } else {
                 $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\Page', [$data])[0];
             }
+
+            $variables = [];
+
+            if (array_key_exists('dataProcessing', $this->settings)) {
+                $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+                $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+                $variables = $contentDataProcessor->process(
+                    $this->configurationManager->getContentObject(),
+                    ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
+                    ['data' => $data]
+                );
+            }
+
             $backendRows = [
                 ['colPos' => 1, 'slide' => 0],
                 ['colPos' => 3, 'slide' => -1],
                 ['colPos' => 9, 'slide' => 0]
             ];
-            $contentElements = [];
             foreach($backendRows as $row) {
-                $contentElements['colPos'.$row['colPos']] = $contentObject->render([
+                $variables['contentElements']['colPos'.$row['colPos']] = $contentObject->render([
                     'table' => 'tt_content',
                     'select.' => [
                         'pidInList' => $data['uid'],
@@ -73,11 +84,7 @@ class PageController extends ActionController
                     'slide' => $row['slide']
                 ]);
             }
-            $variables = $contentDataProcessor->process(
-                $this->configurationManager->getContentObject(),
-                ['dataProcessing.' => $this->settings['dataProcessing'] ?? null],
-                ['data' => $data]
-            );
+
             $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
             $variables['context'] = [
                 'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
@@ -87,7 +94,6 @@ class PageController extends ActionController
             ];
             $variables['settings'] = $this->settings;
             $variables['object'] = $model;
-            $variables['contentElements'] = $contentElements;
             $this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
             $this->view->assignMultiple(
                 $variables
@@ -150,7 +156,7 @@ class PageController extends ActionController
 
         //$object->layout = $settings['template']['layout'];
         // paginate the records (optional) and add them to the  object
-        $itemsPerPage = $settings['pagination']['itemsPerPage'] ? (int)$settings['pagination']['itemsPerPage'] : 12;
+        $itemsPerPage = (int)$settings['pagination']['itemsPerPage'] ?: 12;
         if ($settings['pagination']['active'] && $pages->count() > $itemsPerPage) {
             $pagination = PuckUtility::paginateQueryResult($pages, $currentPage, $itemsPerPage);
             $object->menu = $pagination['items']->toArray();

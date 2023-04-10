@@ -33,18 +33,19 @@ class ContentController extends ActionController
             $data = $this->configurationManager->getContentObject()->data;
             $targetObject = ClassNamingUtility::getFqnByPath($vendorName, $extensionKey, ($this->settings['classPath'] ?? 'Domain/Model/Content/') . $name);
             $model = ModelUtility::getModel($targetObject, $data);
-            $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-            $dataProcessingAsTypoScriptArray = [];
-            if (array_key_exists('dataProcessing', $this->settings)) {
-                $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-            }
-            $variables = $contentDataProcessor->process(
-                $this->configurationManager->getContentObject(),
-                ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
-                ['data' => $data]
-            );
 
-            /** @var StandaloneView $view */
+            $variables = [];
+
+            if (array_key_exists('dataProcessing', $this->settings)) {
+                $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+                $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+                $variables = $contentDataProcessor->process(
+                    $this->configurationManager->getContentObject(),
+                    ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
+                    ['data' => $data]
+                );
+            }
+
             $view = ExtendedUtility::create(StandaloneView::class);
             $context = $view->getRenderingContext();
             $context->setControllerName('Content');
