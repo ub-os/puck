@@ -32,6 +32,18 @@
                         actionLink="{actionLink}"
                 />
             </f:case>
+            <f:case value="infinite-scroll">
+                <element:plugin.loadMoreButton
+                        pagination="{pagination}"
+                        trigger="scrollIntoView"
+                        fetchConfig="{
+                        pageType: 16500001,
+                        listNodeId: 'c{object.uid}-list',
+                        arguments: '{object:object}'
+                    }"
+                        actionLink="{actionLink}"
+                />
+            </f:case>
             <f:defaultCase>
                 <element:plugin.pagination
                         pagination="{pagination}"

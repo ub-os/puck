@@ -43,6 +43,9 @@
     &
       display: flex
       flex-direction: column
+      +media-up(s)
+        margin-bottom: calc(-1 * var(--grid-gutter-y) )
+
 
     #{$name}__row
       --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
@@ -56,17 +59,16 @@
     #{$name}__text
       +grid-col(1,1)
       +media-up(s)
-        //+margin-bottom($gutter)
+        margin-bottom: var(--grid-gutter-y)
 
     #{$name}__media
       +media-up(s)
-        //+margin-bottom($gutter)
+        margin-bottom: var(--grid-gutter-y)
       +media-down(s)
         width: 100%
       @if $media-pos == right
         +media-up(s)
           margin-left: var(--grid-gutter-x)
-          margin-bottom: var(--grid-gutter-y)
           float: right
       @if $media-pos == left
         +media-up(s)

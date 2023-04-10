@@ -9,3 +9,11 @@
   word-break: keep-all
   white-space: nowrap
 
+.svg--spinner-circle,
+.icon--spinner-circle:before
+  @keyframes spin
+    0%
+      transform: rotate(0deg)
+    100%
+      transform: rotate(360deg)
+  animation: spin 1.5s linear infinite
