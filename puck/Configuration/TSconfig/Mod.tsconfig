@@ -6,7 +6,7 @@ mod.wizards.newContentElement.wizardItems {
         header = Presets
         elements {
             preset_puck_media_contact {
-                iconIdentifier = tcarecords-tt_content-puck_media
+                iconIdentifier = media
                 title = Text and media: Contact
                 description = Text and media preset for contact element.
                 tt_content_defValues {

@@ -74,22 +74,25 @@ ArrayUtility::mergeRecursiveWithOverrule(
         // add icon for new page type:
         'ctrl' => [
             'typeicon_classes' => [
-                Constants::DOKTYPE_START => 'start_page',
+                (string)Constants::DOKTYPE_START => 'start_page',
                 Constants::DOKTYPE_START . '-hideinmenu' => "start_page_hideinmenu",
                 Constants::DOKTYPE_START . '-root' => "apps-pagetree-page-domain",
 
-                Constants::DOKTYPE_OVERVIEW => 'overview_page',
+                (string)Constants::DOKTYPE_OVERVIEW => 'overview_page',
                 Constants::DOKTYPE_OVERVIEW . '-hideinmenu' => "overview_page_hideinmenu",
                 Constants::DOKTYPE_OVERVIEW . '-root' => "apps-pagetree-page-domain",
 
-                Constants::DOKTYPE_POST => 'blog_post',
+                (string)Constants::DOKTYPE_POST => 'blog_post',
                 Constants::DOKTYPE_POST . '-hideinmenu' => "blog_post_hideinmenu",
                 Constants::DOKTYPE_POST . '-root' => "apps-pagetree-page-domain",
 
-                Constants::DOKTYPE_PERSON => 'person_page',
+                (string)Constants::DOKTYPE_PERSON => 'person_page',
                 Constants::DOKTYPE_PERSON . '-hideinmenu' => "person_page_hideinmenu",
                 Constants::DOKTYPE_PERSON . '-root' => "apps-pagetree-page-domain",
 
+                (string)Constants::DOKTYPE_DETAIL_PLUGIN => 'detail_plugin_page',
+                Constants::DOKTYPE_DETAIL_PLUGIN . '-hideinmenu' => "detail_plugin_page_hideinmenu",
+                Constants::DOKTYPE_DETAIL_PLUGIN . '-root' => "apps-pagetree-page-domain",
             ],
         ],
         // add all page standard fields and tabs to your new page type

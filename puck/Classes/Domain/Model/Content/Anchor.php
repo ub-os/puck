@@ -34,7 +34,8 @@ class Anchor extends AbstractEntity
      */
     public function getElementId(): string
     {
-        return urlencode(strtolower($this->subheader)).'-c'.$this->uid;
+        //return urlencode(strtolower($this->subheader)).'-c'.$this->uid;
+        return $this->subheader;
     }
     /**
      * @param string $elementId

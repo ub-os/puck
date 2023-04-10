@@ -7,7 +7,8 @@ $GLOBALS['TCA']['tt_content']['types']['puck_anchor'] = [
     'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            header, subheader,'
+            header, 
+            subheader,'
         .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [
         'header' => [

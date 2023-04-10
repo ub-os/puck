@@ -80,7 +80,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             if (isset($flexform['settings'][$key]) && !empty($flexform['settings'][$key])) {
                 $uids = explode(',', $flexform['settings'][$key]);
                 foreach ($uids as $uid) {
-                    $page = BackendUtility::getRecord('pages', $uid, 'title,uid', '', true);
+                    $page = BackendUtility::getRecord('pages', $uid, '*', '', true);
                     $page['backend_link'] = $uriBuilder->buildUriFromRoute(
                         'web_layout',
                         ['id' => $page['uid']]
@@ -115,7 +115,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             if (isset($recordGroup['uids']) && !empty($recordGroup['uids'])) {
                 $uids = explode(',', $recordGroup['uids']);
                 foreach ($uids as $uid) {
-                    $record = BackendUtility::getRecord($recordGroup['table'], $uid, 'uid,' . $recordGroup['titleField'], '', true);
+                    $record = BackendUtility::getRecord($recordGroup['table'], $uid, '*', '', true);
                     $record['backend_link'] = $uriBuilder->buildUriFromRoute(
                         'record_edit',
                         [

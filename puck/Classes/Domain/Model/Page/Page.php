@@ -140,6 +140,7 @@ class Page extends AbstractEntity
 
     /**
      * @param int $rootLineIndex
+     * @param string $column
      * @return array
      */
     protected function getColumnFromRootLine(string $column, int $rootLineIndex = 0): array

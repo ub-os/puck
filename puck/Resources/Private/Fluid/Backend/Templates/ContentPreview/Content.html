@@ -38,7 +38,7 @@
     </f:then>
     <f:else>
       <span>{item.record.header}</span><br>
-      <u>#{item.record.subheader -> f:cObject(typoscriptObjectPath:'lib.formatAnchorId')}_c{item.record.uid}</u>
+      <u>#{item.record.subheader}</u>
     </f:else>
   </f:if>
 </f:section>
