@@ -236,6 +236,8 @@ $columns['container_width'] = [
         'disableNoMatchingValueElement' => true,
         'itemsProcFunc' => ContentItemsProcFunc::class.'->containerWidth',
         'items' => [
+            ['2', 2, 'column_width2'],
+            ['3', 3, 'column_width3'],
             ['4', 4, 'column_width4'],
             ['5', 5, 'column_width5'],
             ['6', 6, 'column_width6'],

@@ -25,7 +25,9 @@ export default class FetchLink {
     interSectionObserverOptions = {}
   }) {
     Object.assign(this, {
-      url, mode, contentId, trigger, scrollToContent, scrollOffset, hideAnimationFrames, showAnimationFrames})
+      url, mode, contentId, trigger, scrollToContent,
+      scrollOffset, hideAnimationFrames, showAnimationFrames
+    })
     this.node = getNode(target, 'FetchLink node')
     this.contentNode = getNode(contentId, 'FetchLink contentNode')
     this.timing = {

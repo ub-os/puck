@@ -12,15 +12,12 @@
                 <polygon id="Path" points="0 0 5 0 5 8 0 8"></polygon>
             </g>
             <g id="text" transform="translate(6.000000, 10.000000)" fill="#B9B9B9">
-                <polygon id="Path" points="0 0 7 0 7 8 0 8"></polygon>
+                <polygon id="Path" points="0 0 14 0 14 8 0 8"></polygon>
             </g>
-            <g id="text" transform="translate(15.000000, 10.000000)" fill="#B9B9B9">
-                <polygon id="Path" points="0 0 7 0 7 8 0 8"></polygon>
+            <g id="text" transform="translate(22.000000, 10.000000)" fill="#D7D7D7">
+                <polygon id="Path" points="0 0 6 0 6 8 0 8"></polygon>
             </g>
-            <g id="text" transform="translate(24.000000, 10.000000)" fill="#D7D7D7">
-                <polygon id="Path" points="0 0 4 0 4 8 0 8"></polygon>
-            </g>
-            <g id="Group-13" transform="translate(7.000000, 20.000000)" fill="#FF8700">
+            <g id="Group-13" transform="translate(7.000000, 21.000000)" fill="#FF8700">
                 <polygon id="Path" points="0 0 3 0 3 3 0 3"></polygon>
                 <polygon id="Path" points="5 0 8 0 8 3 5 3"></polygon>
                 <polygon id="Path" points="10 0 13 0 13 3 10 3"></polygon>

@@ -21,9 +21,9 @@ $GLOBALS['TCA']['tt_content']['types']['puck_row'] = [
         'layout' => [
             'config' => [
                 'items' => [
-                    ['Default', 'default'],
-                    ['Carousel', 'carousel']
-                ]
+                    ['Rows', 'default', 'row_layout_row'],
+                    ['Carousel', 'carousel', 'row_layout_carousel']
+                ],
             ]
         ],
     ]

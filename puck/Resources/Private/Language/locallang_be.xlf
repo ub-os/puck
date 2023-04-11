@@ -236,10 +236,10 @@
 
 
 			<trans-unit id="content.element.menu_posts" resname="content.element.menu_posts">
-				<source>Post menu</source>
+				<source>Page menu: posts</source>
 			</trans-unit>
 			<trans-unit id="wizard.menu_posts" resname="wizard.menu_posts">
-				<source>Post menu</source>
+				<source>Page menu: posts</source>
 			</trans-unit>
 			<trans-unit id="wizard.menu_posts.description" resname="wizard.menu_posts.description">
 				<source>Plugin to display a menu of post pages.</source>
@@ -247,10 +247,10 @@
 
 
 			<trans-unit id="content.element.menu_persons" resname="content.element.menu_persons">
-				<source>Person menu</source>
+				<source>Page menu: team</source>
 			</trans-unit>
 			<trans-unit id="wizard.menu_persons" resname="wizard.menu_persons">
-				<source>Person menu</source>
+				<source>Page menu: team</source>
 			</trans-unit>
 			<trans-unit id="wizard.menu_persons.description" resname="wizard.menu_persons.description">
 				<source>Plugin to display a menu of person pages.</source>
