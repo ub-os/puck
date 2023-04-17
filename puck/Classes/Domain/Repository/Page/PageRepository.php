@@ -11,19 +11,22 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use UBOS\Puck\Constants;
 
 /**
  *
  */
 class PageRepository extends Repository
 {
-
+    public const DOKTYPE_START = 16501;
+    public const DOKTYPE_OVERVIEW = 16502;
+    public const DOKTYPE_POST = 16503;
+    public const DOKTYPE_PERSON = 16504;
+    public const DOKTYPE_DETAIL_PLUGIN = 16511;
     const ALLOWED_DOKTYPES = [
         1, 4, 7, 3,
-        Constants::DOKTYPE_START,
-        Constants::DOKTYPE_OVERVIEW,
-        Constants::DOKTYPE_PERSON
+        self::DOKTYPE_START,
+        self::DOKTYPE_OVERVIEW,
+        self::DOKTYPE_PERSON
     ];
 
     /**

@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use UBOS\Puck\Constants;
+use UBOS\Puck\Domain\Repository\Page\PageRepository;
 use UBOS\Puck\Domain\Model\Page\Post;
 
 class PageHeader extends AbstractHeader
@@ -37,7 +37,7 @@ class PageHeader extends AbstractHeader
     /** @throws AspectNotFoundException */
     public function render(): string
     {
-        if ((int)($this->row['doktype'] ?? 0) === Constants::DOKTYPE_POST) {
+        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPE_POST) {
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/Post.html', [
                 'post' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\Post', [$this->row])[0],
@@ -45,7 +45,7 @@ class PageHeader extends AbstractHeader
                 'propertyPermissions' => $this->getPropertyPermissions()
             ])->render();
         }
-        if ((int)($this->row['doktype'] ?? 0) === Constants::DOKTYPE_PERSON) {
+        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPE_PERSON) {
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/PersonPage.html', [
                 'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$this->row])[0],

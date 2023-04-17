@@ -1,9 +1,8 @@
 <?php
 
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use UBOS\Puck\Domain\Repository\Page\PageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use UBOS\Puck\Constants;
 
 require __DIR__.'/../Pages/columns.php';
 require __DIR__.'/../Pages/palettes.php';
@@ -17,7 +16,7 @@ ExtensionManagementUtility::addTcaSelectItem(
     'doktype',
     [
         'Detail plugin page',
-        Constants::DOKTYPE_DETAIL_PLUGIN,
+        PageRepository::DOKTYPE_DETAIL_PLUGIN,
         'detail_plugin_page'
     ],
     '1',
@@ -28,7 +27,7 @@ ExtensionManagementUtility::addTcaSelectItem(
     'doktype',
     [
         'Person page',
-        Constants::DOKTYPE_PERSON,
+        PageRepository::DOKTYPE_PERSON,
         'person_page'
     ],
     '1',
@@ -39,7 +38,7 @@ ExtensionManagementUtility::addTcaSelectItem(
     'doktype',
     [
         'Blog post',
-        Constants::DOKTYPE_POST,
+        PageRepository::DOKTYPE_POST,
         'blog_post'
     ],
     '1',
@@ -50,7 +49,7 @@ ExtensionManagementUtility::addTcaSelectItem(
     'doktype',
     [
         'Overview page',
-        Constants::DOKTYPE_OVERVIEW,
+        PageRepository::DOKTYPE_OVERVIEW,
         'overview_page'
     ],
     '1',
@@ -61,7 +60,7 @@ ExtensionManagementUtility::addTcaSelectItem(
     'doktype',
     [
         'Start page',
-        Constants::DOKTYPE_START,
+        PageRepository::DOKTYPE_START,
         'start_page'
     ],
     '1',
@@ -74,31 +73,31 @@ ArrayUtility::mergeRecursiveWithOverrule(
         // add icon for new page type:
         'ctrl' => [
             'typeicon_classes' => [
-                (string)Constants::DOKTYPE_START => 'start_page',
-                Constants::DOKTYPE_START . '-hideinmenu' => "start_page_hideinmenu",
-                Constants::DOKTYPE_START . '-root' => "apps-pagetree-page-domain",
+                (string)PageRepository::DOKTYPE_START => 'start_page',
+                PageRepository::DOKTYPE_START . '-hideinmenu' => "start_page_hideinmenu",
+                PageRepository::DOKTYPE_START . '-root' => "apps-pagetree-page-domain",
 
-                (string)Constants::DOKTYPE_OVERVIEW => 'overview_page',
-                Constants::DOKTYPE_OVERVIEW . '-hideinmenu' => "overview_page_hideinmenu",
-                Constants::DOKTYPE_OVERVIEW . '-root' => "apps-pagetree-page-domain",
+                (string)PageRepository::DOKTYPE_OVERVIEW => 'overview_page',
+                PageRepository::DOKTYPE_OVERVIEW . '-hideinmenu' => "overview_page_hideinmenu",
+                PageRepository::DOKTYPE_OVERVIEW . '-root' => "apps-pagetree-page-domain",
 
-                (string)Constants::DOKTYPE_POST => 'blog_post',
-                Constants::DOKTYPE_POST . '-hideinmenu' => "blog_post_hideinmenu",
-                Constants::DOKTYPE_POST . '-root' => "apps-pagetree-page-domain",
+                (string)PageRepository::DOKTYPE_POST => 'blog_post',
+                PageRepository::DOKTYPE_POST . '-hideinmenu' => "blog_post_hideinmenu",
+                PageRepository::DOKTYPE_POST . '-root' => "apps-pagetree-page-domain",
 
-                (string)Constants::DOKTYPE_PERSON => 'person_page',
-                Constants::DOKTYPE_PERSON . '-hideinmenu' => "person_page_hideinmenu",
-                Constants::DOKTYPE_PERSON . '-root' => "apps-pagetree-page-domain",
+                (string)PageRepository::DOKTYPE_PERSON => 'person_page',
+                PageRepository::DOKTYPE_PERSON . '-hideinmenu' => "person_page_hideinmenu",
+                PageRepository::DOKTYPE_PERSON . '-root' => "apps-pagetree-page-domain",
 
-                (string)Constants::DOKTYPE_DETAIL_PLUGIN => 'detail_plugin_page',
-                Constants::DOKTYPE_DETAIL_PLUGIN . '-hideinmenu' => "detail_plugin_page_hideinmenu",
-                Constants::DOKTYPE_DETAIL_PLUGIN . '-root' => "apps-pagetree-page-domain",
+                (string)PageRepository::DOKTYPE_DETAIL_PLUGIN => 'detail_plugin_page',
+                PageRepository::DOKTYPE_DETAIL_PLUGIN . '-hideinmenu' => "detail_plugin_page_hideinmenu",
+                PageRepository::DOKTYPE_DETAIL_PLUGIN . '-root' => "apps-pagetree-page-domain",
             ],
         ],
         // add all page standard fields and tabs to your new page type
         'types' => [
-            Constants::DOKTYPE_POST => [
-                'showitem' => $GLOBALS['TCA']['pages']['types'][PageRepository::DOKTYPE_DEFAULT]['showitem'],
+            PageRepository::DOKTYPE_POST => [
+                'showitem' => $GLOBALS['TCA']['pages']['types'][\TYPO3\CMS\Core\Domain\Repository\PageRepository::DOKTYPE_DEFAULT]['showitem'],
                 'columnsOverrides' => [
                     'post_date' => [
                         'config' => [
@@ -107,8 +106,8 @@ ArrayUtility::mergeRecursiveWithOverrule(
                     ]
                 ]
             ],
-            Constants::DOKTYPE_PERSON => [
-                'showitem' => $GLOBALS['TCA']['pages']['types'][PageRepository::DOKTYPE_DEFAULT]['showitem'],
+            PageRepository::DOKTYPE_PERSON => [
+                'showitem' => $GLOBALS['TCA']['pages']['types'][\TYPO3\CMS\Core\Domain\Repository\PageRepository::DOKTYPE_DEFAULT]['showitem'],
             ]
         ]
     ]
@@ -117,14 +116,14 @@ ArrayUtility::mergeRecursiveWithOverrule(
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
     '--palette--;;postTitle',
-    Constants::DOKTYPE_POST,
+    PageRepository::DOKTYPE_POST,
     'replace:--palette--;;title'
 );
 
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
     'page_persons',
-    Constants::DOKTYPE_PERSON,
+    PageRepository::DOKTYPE_PERSON,
     'before:--palette--;;title'
 );
 

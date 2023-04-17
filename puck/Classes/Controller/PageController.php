@@ -26,7 +26,6 @@ use HDNET\Autoloader\Annotation\Plugin;
 
 use UBOS\Puck\PageTitle\PuckTitleProvider;
 use UBOS\Puck\Utility\PuckUtility;
-use UBOS\Puck\Constants;
 use UBOS\Puck\Domain\Model\Content\MenuPages;
 use UBOS\Puck\Domain\Model\Content\MenuPosts;
 use UBOS\Puck\Domain\Model\Content\MenuPersons;
@@ -50,9 +49,9 @@ class PageController extends ActionController
             $context = GeneralUtility::makeInstance(Context::class);
             $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $contentObject = new ContentContentObject($contentObjectRenderer);
-            if ($data['doktype'] === Constants::DOKTYPE_POST) {
+            if ($data['doktype'] === PageRepository::DOKTYPE_POST) {
                 $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\Post', [$data])[0];
-            } else if ($data['doktype'] === Constants::DOKTYPE_PERSON) {
+            } else if ($data['doktype'] === PageRepository::DOKTYPE_PERSON) {
                 $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$data])[0];
             } else {
                 $model = $dataMapper->map('UBOS\Puck\Domain\Model\Page\Page', [$data])[0];
@@ -450,7 +449,7 @@ class PageController extends ActionController
         ?string $authorList = null,
         ?MenuPosts $object = null): string
     {
-        $this->allowedDoktypes = [Constants::DOKTYPE_POST];
+        $this->allowedDoktypes = [PageRepository::DOKTYPE_POST];
         $this->pageObjectType = 'Post';
         $this->pluginPageType = 16500001;
         $this->menuActionName = 'postMenu';
@@ -468,7 +467,7 @@ class PageController extends ActionController
         ?string $authorList = null,
         ?MenuPersons $object = null): string
     {
-        $this->allowedDoktypes = [Constants::DOKTYPE_PERSON];
+        $this->allowedDoktypes = [PageRepository::DOKTYPE_PERSON];
         $this->pageObjectType = 'PersonPage';
         $this->pluginPageType = 16500002;
         $this->menuActionName = 'personMenu';

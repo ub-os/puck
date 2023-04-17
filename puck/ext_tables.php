@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use HDNET\Autoloader\Loader;
 use UBOS\Puck\Loader\SmartContentObjectLoader;
-use UBOS\Puck\Constants;
+ use UBOS\Puck\Domain\Repository\Page\PageRepository;
 
 
 SmartContentObjectLoader::addTypesTSconfig();
@@ -14,7 +14,7 @@ $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/D
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
 
  // Add new page type:
- $GLOBALS['PAGES_TYPES'][Constants::DOKTYPE_POST] = [
+ $GLOBALS['PAGES_TYPES'][PageRepository::DOKTYPE_POST] = [
      'type' => 'web',
      'allowedTables' => '*',
  ];

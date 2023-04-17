@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 use HDNET\Autoloader\Loader;
-use UBOS\Puck\Constants;
+use UBOS\Puck\Domain\Repository\Page\PageRepository;
 use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
 
@@ -32,7 +32,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawFoote
 
 // add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(
-    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . Constants::DOKTYPE_POST . ',' . Constants::DOKTYPE_PERSON . ')'
+    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . PageRepository::DOKTYPE_POST . ',' . PageRepository::DOKTYPE_PERSON . ')'
 );
 
 
