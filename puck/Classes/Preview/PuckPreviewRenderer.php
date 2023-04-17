@@ -92,12 +92,12 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             }
         }
         $recordGroups = [
-          'author' => [
-            'table' => 'tx_puck_domain_model_person',
-            'title' => 'Author',
-            'titleField' => 'name',
-              'uids' => $flexform['settings']['demand']['author']
-          ],
+            'author' => [
+                'table' => 'tx_puck_domain_model_person',
+                'title' => 'Author',
+                'titleField' => 'name',
+                'uids' => $flexform['settings']['demand']['author']
+            ],
             'categories' => [
                 'table' => 'sys_category',
                 'title' => 'Categories',
@@ -106,9 +106,15 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             ],
             'filter_categories' => [
                 'table' => 'sys_category',
-                'title' => 'Categories in filter',
+                'title' => 'Filter categories',
                 'titleField' => 'title',
-                'uids' => $flexform['settings']['template']['filterCategories']
+                'uids' => isset($flexform['settings']['categoryFilter']) ? $flexform['settings']['categoryFilter']['categories'] : ''
+            ],
+            'filter_category_groups' => [
+                'table' => 'sys_category',
+                'title' => 'Filter category groups',
+                'titleField' => 'title',
+                'uids' => isset($flexform['settings']['categoryFilter']) ? $flexform['settings']['categoryFilter']['groupCategories'] : ''
             ],
         ];
         foreach($recordGroups as $key => $recordGroup) {

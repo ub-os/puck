@@ -19,8 +19,6 @@
         <tbody>
             <f:render section="recordList" arguments="{records:processed.parents,title:'Subpages of'}"/>
             <f:render section="recordList" arguments="{records:processed.pages,title:'Pages'}"/>
-        </tbody>
-        <tbody>
             <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
             <f:render section="boolean" arguments="{value:settings.demand.navHide,label:'Respect hidden in menus'}"/>
             <f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>
@@ -43,9 +41,14 @@
             </f:if>
         </tbody>
         <tbody>
-            <f:render section="boolean" arguments="{value:settings.template.categoryFilter,label:'Show category filter'}"/>
-            <f:if condition="{settings.template.categoryFilter}">
+            <f:render section="boolean" arguments="{value:settings.categoryFilter.active,label:'Show category filter'}"/>
+            <f:if condition="{settings.categoryFilter.active}">
+                <f:render section="boolean" arguments="{value:settings.categoryFilter.multiSelect,label:'Enable multi-select in filter'}"/>
+                <f:render section="boolean" arguments="{value:settings.categoryFilter.multiSelectWithinGroup,label:'Enable multi-select within a filter group'}"/>
+                <f:render section="boolean" arguments="{value:settings.categoryFilter.checkPotential,label:'Disable buttons without potential results'}"/>
                 <f:render section="recordList" arguments="{records:processed.filter_categories,title:'Filter categories'}"/>
+                <f:render section="recordList" arguments="{records:processed.filter_category_groups,title:'Filter category groups'}"/>
+
             </f:if>
         </tbody>
     </table>

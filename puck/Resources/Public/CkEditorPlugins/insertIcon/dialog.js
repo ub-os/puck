@@ -32,7 +32,7 @@ function clear(){
 	}
 }
 CKEDITOR.dialog.add('insertIconDialog', function (editor) {
-	var puckCustom = {"angle-down-regular":61697,"angle-left-regular":61698,"angle-right-regular":61699,"angle-up-regular":61700,"arrow-down-regular":61701,"arrow-left-regular":61702,"arrow-right-regular":61703,"arrow-up-regular":61704,"circle-play-duotone":61705,"close":61706,"envelope-solid":61707,"facebook":61708,"instagram":61709,"linkedin":61710,"plus-regular":61711,"spinner-circle":61712,"tiktok":61713,"website-logo":61714,"xing":61715,"youtube":61716};
+	var puckCustom = {"angle-down-regular":61697,"angle-left-regular":61698,"angle-right-regular":61699,"angle-up-regular":61700,"arrow-down-regular":61701,"arrow-left-regular":61702,"arrow-right-regular":61703,"arrow-up-regular":61704,"circle-play-duotone":61705,"close":61706,"envelope-solid":61707,"facebook":61708,"instagram":61709,"linkedin":61710,"plus-regular":61711,"spinner-circle":61712,"tiktok":61713,"website-logo":61714,"xing":61715,"xmark-regular":61716,"youtube":61717};
 
 function puckIcons(custom) {
 	var icons='';

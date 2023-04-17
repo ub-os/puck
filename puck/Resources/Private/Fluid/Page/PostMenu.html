@@ -1,64 +1,28 @@
-<f:variable name="actionLink"
-            value="{
-            action:'postMenu',
-            controller:'Page',
-            pageUid:object.pid,
-            arguments:arguments}"
-/>
+
 <f:variable name="headerContent">
-    <f:if condition="{filter.categories}">
-        <element:plugin.filter
-                filter="{filter}"
-                fetchConfig="{
-                pageType: 16500001,
-                rootNodeId: 'c{object.uid}',
-                arguments: '{object:object}'
-                }"
-                actionLink="{actionLink}"
-        />
-    </f:if>
+    <module:menu.pages.filter categoryFilterLinks="{categoryFilterLinks}" id="c{object.uid}-filter"/>
 </f:variable>
 <f:variable name="footerContent">
     <f:if condition="{pagination}">
         <f:switch expression="{settings.pagination.variant}">
             <f:case value="load-more">
-                <element:plugin.loadMoreButton
+                <module:menu.pages.loadMoreButton
                         pagination="{pagination}"
-                        fetchConfig="{
-                        pageType: 16500001,
-                        listNodeId: 'c{object.uid}-list',
-                        arguments: '{object:object}'
-                    }"
-                        actionLink="{actionLink}"
-                />
+                        loadMoreLink="{loadMoreLink}"/>
             </f:case>
             <f:case value="infinite-scroll">
-                <element:plugin.loadMoreButton
+                <module:menu.pages.loadMoreButton
                         pagination="{pagination}"
-                        trigger="scrollIntoView"
-                        fetchConfig="{
-                        pageType: 16500001,
-                        listNodeId: 'c{object.uid}-list',
-                        arguments: '{object:object}'
-                    }"
-                        actionLink="{actionLink}"
-                />
+                        loadMoreLink="{infiniteScrollLink}"/>
             </f:case>
             <f:defaultCase>
-                <element:plugin.pagination
+                <module:menu.pages.pagination
                         pagination="{pagination}"
-                        fetchConfig="{
-                        pageType: 16500001,
-                        rootNodeId: 'c{object.uid}',
-                        arguments: '{object:object}'
-                    }"
-                        actionLink="{actionLink}"
-                />
+                        paginationLinks="{paginationLinks}"/>
             </f:defaultCase>
         </f:switch>
     </f:if>
 </f:variable>
-
 <module:menu.pages object="{object}"
                    headerContent="{headerContent}"
                    footerContent="{footerContent}"/>
