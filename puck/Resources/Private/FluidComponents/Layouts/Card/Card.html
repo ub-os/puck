@@ -7,7 +7,7 @@
   <fc:param name="mediaWidth" type="integer" optional="1" default="" />
   <fc:param name="mediaLayout" type="string" optional="1" default="above" />
   <fc:param name="cropVariant" type="string" optional="1" default="default" />
-  <fc:param name="cropVariantMobile" type="string" optional="1" default="mobile" />
+  <fc:param name="cropVariantMobile" type="string" optional="1"/>
   <fc:param name="attributes" type="string" optional="1"/>
   <fc:renderer>
 
@@ -16,7 +16,9 @@
                     layout: mediaLayout,
                     media-size: mediaSize,
                     media-width: mediaWidth}"/>
-
+    <f:if condition="!{cropVariantMobile}">
+      <f:variable name="cropVariantMobile" value="{cropVariant}" />
+    </f:if>
     <div class="{name} {mods -> puck:modClass()} {class} {f:if(condition:media.0,then:'-media')}" {attributes}>
       <div class="{name}__content {mods -> puck:modClass()}">
         <f:format.raw>{content}</f:format.raw>

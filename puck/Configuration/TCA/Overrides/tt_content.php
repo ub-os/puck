@@ -16,6 +16,6 @@ $palettes = require $contentTcaPath . '/palettes.php';
 $typeNames = PuckUtility::getBaseFilesInDir($contentTcaPath . '/Types/', 'php');
 foreach ($typeNames as $type) {
     require $contentTcaPath . '/Types/' . $type . '.php';
+    $GLOBALS['TCA']['tt_content']['types'][$type]['previewRenderer'] = PuckPreviewRenderer::class;
 }
 
-$GLOBALS['TCA']['tt_content']['ctrl']['previewRenderer'] = PuckPreviewRenderer::class;

@@ -1,6 +1,7 @@
 
 .l-section
   $backgrounds: 'dark-1', 'light-1', 'light-2', 'light-3'
+  $slanted-backgrounds: 'slant-dark-1'
   &
     +spacing(both, m, margin)
     position: relative
@@ -53,6 +54,27 @@
         padding-top: 0
         &.-no-h2-spacing
           +spacing(top, m, margin, -2)
+
+  @each $bg in $slanted-backgrounds
+    &.-background-#{$bg}
+      +rfs(map-get(sizes(), 'l'), --responsive-slant-section-margin)
+      z-index: 2
+      padding-block: calc( 5em + var(--clip-slant-height) * 0.66)
+      margin-block: calc(var(--responsive-slant-section-margin) - var(--clip-slant-height) * 0.5)
+      clip-path: polygon(0 var(--clip-slant-height), 100% 0, 100% calc(100% - var(--clip-slant-height)), 0% 100%)
+      &:last-child
+        margin-bottom: 0
+        padding-bottom: 5em
+        clip-path: polygon(0 var(--clip-slant-height), 100% 0, 100% 100%, 0% 100%)
+      &.-bottom-auto + &.-top-auto
+        padding-top: calc(var(--responsive-slant-section-margin) + var(--clip-slant-height) * 0.33)
+        &.-no-h2-spacing
+          padding-top: calc(var(--clip-slant-height) * 0.33)
+      @each $bg2 in $slanted-backgrounds
+        &.-bottom-auto + .l-section.-background-#{$bg2}.-top-auto,
+        &.-bottom-auto + .e-anchor + .l-section.-background-#{$bg2}.-top-auto
+          margin-top: calc(-1 * calc(var(--responsive-slant-section-margin) - var(--clip-slant-height) * 0.5) - var(--clip-slant-height))
+
 
   // Backgrounds
   &.-background-dark-1

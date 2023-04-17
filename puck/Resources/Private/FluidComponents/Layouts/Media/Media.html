@@ -48,8 +48,9 @@
                         </layout:row>
                     </layout:row.item>
                 </f:if>
-                <f:if condition="{text} || {content}">
+                <f:if condition="{text} || {content} || {header}">
                     <layout:row.item class="{name}__text" width="{textWidth}">
+                        <f:format.raw>{header}</f:format.raw>
                         <element:text.rich text="{text}"/>
                         <f:format.raw>{content}</f:format.raw>
                     </layout:row.item>

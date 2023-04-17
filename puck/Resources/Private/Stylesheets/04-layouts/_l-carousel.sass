@@ -1,7 +1,5 @@
 .l-carousel
   &
-    --grid-gutter-y: 0
-    margin-inline: calc(var(--grid-gutter-x) * -0.5)
 
   &__controls
     +spacing(top, xs)
@@ -16,15 +14,17 @@
     +spacing(top, xs)
     +flex(row,center,center)
 
-  &__controls,
-  &__pagination
-    margin-inline: calc(var(--grid-gutter-x) / 2)
-
   &__track
-    margin-top: calc( -1 * var(--grid-gutter-y) )
+    margin-block: calc(var(--grid-gutter-y) * -.5)
+    margin-inline: calc(var(--grid-gutter-x) * -.5)
+    overflow: visible
+    overflow-x: clip
+    overflow-y: clip
 
   &__track.-overflow-visible
     overflow: visible
+    overflow-x: visible
+    overflow-y: visible
 
   &__page
     $width: .75em

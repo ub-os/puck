@@ -1,6 +1,14 @@
 .e-button-group
   &
+    --grid-gutter-x: 1.5rem
+    +flex(row,flex-start,flex-start)
     margin: calc( -0.5 * var(--grid-gutter-x) )
+
+  &.u-text-center
+    justify-content: center
+  &.u-text-right
+    justify-content: flex-end
+
 
   & + &
     margin-top: calc( -1 * var(--grid-gutter-x) )

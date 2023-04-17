@@ -28,6 +28,7 @@ require_once ExtensionManagementUtility::extPath('puck') . '/Configuration/IconR
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PageHeader::class . '->render';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawFooterHook'][] = \UBOS\Puck\Hooks\WebLayoutFooter\IncludeJavascript::class . '->loadModules';
 
 // add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(

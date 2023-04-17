@@ -18,10 +18,10 @@ class Category extends AbstractEntity
      */
     public string $title = '';
     /**
-     * @var ObjectStorage|null
+     * @var Category|null
      * @Lazy
      */
-    public ?ObjectStorage $parent = null;
+    public ?Category $parent = null;
     /**
      * @var string
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")

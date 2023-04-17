@@ -15,11 +15,13 @@
     "brotkrueml/schema": "^2.6",
     "plan2net/webp": "^4.2",
     "b13/menus": "^1.0",
+    "b13/container": "^2.2",
+    "b13/doktypemapper": "^1.1",
     "christophlehmann/pagetreefilter": "^1.6",
     "eliashaeussler/typo3-warming": "^0",
     "phpoffice/phpspreadsheet": "^1.27",
     "georgringer/numbered-pagination": "^1.0",
-    "b13/doktypemapper": "^1.1"
+    "kitzberger/doktype-typolink": "^2.0"
   },
   "replace": {
     "typo3-ter/puck": "self.version"
