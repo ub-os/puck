@@ -5,7 +5,7 @@
   "license": "GPL-2.0-or-later",
   "version": "1.0.0",
   "require": {
-    "php": "8.0",
+    "php": "^8",
     "typo3/cms-core": "^11",
     "typo3/cms-lowlevel": "^11",
     "typo3/cms-redirects": "^11",

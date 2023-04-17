@@ -41,14 +41,18 @@ settings:
     autoCreateRedirects: false
     redirectTTL: 0
     httpStatusCode: 307
-websiteTitle: Puck
+websiteTitle: ''
 xml_sitemap_path: sitemap.xml
 imports:
   -
-    resource: 'EXT:puck/Configuration/Routes/Post.yaml'
+    resource: 'EXT:puck/Configuration/Routes/PageMenu.yaml'
   -
-    resource: 'EXT:puck/Configuration/Routes/Person.yaml'
+    resource: 'EXT:puck/Configuration/Routes/PostMenu.yaml'
+  -
+    resource: 'EXT:puck/Configuration/Routes/PersonMenu.yaml'
   -
     resource: 'EXT:puck/Configuration/Routes/Sitemap.yaml'
   -
     resource: 'EXT:puck/Configuration/Routes/TrailingSlash.yaml'
+  -
+    resource: 'EXT:puck/Configuration/Routes/IndexedSearch.yaml'

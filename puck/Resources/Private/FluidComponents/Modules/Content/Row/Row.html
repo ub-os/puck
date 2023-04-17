@@ -1,30 +1,45 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-content-card"/>
+  <fc:param name="name" type="string" optional="1" default="m-content-row"/>
   <fc:param name="object" type="mixed"/>
+  <fc:param name="children" type="array" optional="1"/>
   <fc:renderer>
 
-    <div class="{name}" id="c{object.uid}">
-      <layout:card
-              media="{object.assets}"
-              cropVariant="default"
-              width="{object.containerWidth}"
-              mediaSize="{object.cardMediaSize}"
-              mediaWidth="{object.mediaColumnWidth}"
-              mediaLayout="{object.mediaLayout}">
-        <f:if condition="{object.icon}">
-          <icon:svg icon="{object.icon}" class="{name}__icon"/>
-        </f:if>
-        <element:text.header object="{object}" class="{name}__headline"/>
-        <f:if condition="{object.bodytext}">
-          <element:text.rich text="{object.bodytext}"/>
-        </f:if>
-      </layout:card>
-    </div>
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            id="c{object.uid}">
+      <element:text.header object="{object}"/>
+      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+
+      <f:switch expression="{object.layout}">
+
+        <f:case value="carousel">
+          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel">
+            <f:for each="{children}" as="child">
+              <layout:row.item class="splide__slide {name}__item" width="{child.container_width}">
+                {child.renderedContent -> f:format.raw()}
+              </layout:row.item>
+            </f:for>
+          </layout:carousel>
+        </f:case>
+
+        <f:defaultCase>
+          <layout:row justify="{object.rowJustify}" align="{object.rowAlign}" class="{name}__row" flexGrow="{object.flexGrow}">
+            <f:for each="{children}" as="child">
+              <layout:row.item class="{name}__item" width="{child.container_width}">
+                {child.renderedContent -> f:format.raw()}
+              </layout:row.item>
+            </f:for>
+          </layout:row>
+        </f:defaultCase>
+
+      </f:switch>
+
+    </layout:section>
 
   </fc:renderer>
 </fc:component>
-
 
 
 

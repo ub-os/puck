@@ -4,7 +4,7 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <layout:row.item class="splide__slide {name}__item" width="{object.containerWidth}" attributes="id=c{object.uid}">
+    <div class="{name}" id="c{object.uid}">
       <layout:card
               media="{object.assets}"
               cropVariant="default"
@@ -12,15 +12,18 @@
               mediaSize="{object.cardMediaSize}"
               mediaWidth="{object.mediaColumnWidth}"
               mediaLayout="{object.mediaLayout}">
-        <element:text.header object="{object}"/>
+        <f:if condition="{object.icon}">
+          <icon:svg icon="{object.icon}" class="{name}__icon"/>
+        </f:if>
+        <element:text.header object="{object}" class="{name}__headline"/>
         <f:if condition="{object.bodytext}">
           <element:text.rich text="{object.bodytext}"/>
         </f:if>
       </layout:card>
-    </layout:row.item>
-
+    </div>
 
   </fc:renderer>
 </fc:component>
+
 
 
