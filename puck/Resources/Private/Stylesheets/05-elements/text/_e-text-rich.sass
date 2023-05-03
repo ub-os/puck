@@ -37,6 +37,21 @@
 
 	a
 		color: var(--color-link)
+		&[data-button-icon]
+			display: inline-block
+			position: relative
+			.char-icon
+				position: absolute
+				top: .1em
+		&.-big-green-link,
+		&[data-button-icon='left']
+			padding-left: 1.5em
+			.char-icon
+				left: 0
+		&[data-button-icon='right']
+			padding-right: 1.5em
+			.char-icon
+				right: 0
 
 	a:hover
 		color: var(--color-link--hover)

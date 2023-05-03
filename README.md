@@ -24,6 +24,12 @@ npm Version = 18
   }
 ],
 ```
+und 
+```json
+"platform": {
+  "php": "8.0"
+},
+```
 
 ### 2.2. Auf Server Verzeichnis "extensions" anlegen und hierhin deployer
 

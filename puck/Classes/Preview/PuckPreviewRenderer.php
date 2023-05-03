@@ -130,7 +130,9 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                         ]
                     );
                     $record['table'] = $recordGroup['table'];
-                    $record['title'] = $record[$recordGroup['titleField']];
+                    if ($recordGroup['titleField'] !== 'title' && isset($record[$recordGroup['titleField']])) {
+                        $record['title'] = $record[$recordGroup['titleField']];
+                    }
                     $record['backend_link_title'] = 'Edit record';
                     $processedMenuData[$key][] = $record;
                 }
