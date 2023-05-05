@@ -38,7 +38,7 @@
           </div>
         </f:if>
         <f:if condition="{config.teaserText} && {item.teaserText}">
-          <div class="{name}__body"><f:format.raw>{item.teaserText -> f:format.crop(maxCharacters:200)}</f:format.raw></div>
+          <div class="{name}__teaser-text"><f:format.raw>{item.teaserText -> f:format.crop(maxCharacters:200)}</f:format.raw></div>
         </f:if>
         <f:if condition="{item.author} && {config.author}">
           <div class="{name}__author">

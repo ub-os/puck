@@ -39,6 +39,7 @@ $columns['layout'] = [
 
 $columns['header_layout'] = [
     'label' => 'Headline Type',
+    'onChange' => 'reload',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
@@ -50,6 +51,9 @@ $columns['header_layout'] = [
             // 20-29 reserved for h2 styles, these styles increase spacing to preceeding element
             // for example: ['H2 alternative color', 21],
 
+            // 25-29 reserved for h2 styles that enable subheader
+            ['H2 in topline style', 25],
+
             // 30-39 reserved for h3 styles
             ['H3', 30],
             ['H2 in H3-style', 31],
@@ -60,6 +64,17 @@ $columns['header_layout'] = [
             ['Hidden', 100],
         ],
         'default' => 0
+    ],
+];
+$columns['subheader'] = [
+    'label' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['label'],
+    'config' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['config'],
+    'displayCond' => [
+        'AND' => [
+            'FIELD:header_layout:!=:100',
+            'FIELD:header_layout:>:24',
+            'FIELD:header_layout:<:30',
+        ],
     ],
 ];
 

@@ -1,34 +1,38 @@
 import {getNode} from '../General/Functions'
 
 const toggleEvents = {
-    toggle: new Event('toggle'),
-    toggleOn: new Event('toggleOn'),
-    toggleOff: new Event('toggleOff'),
-    groupToggle: new Event('groupToggle'),
+  toggle: new Event('toggle'),
+  toggleOn: new Event('toggleOn'),
+  toggleOff: new Event('toggleOff'),
+  groupToggle: new Event('groupToggle'),
 }
 
 class Toggleable {
   constructor(target, {
-        toggles,
-        active = false,
-        alwaysActive = false,
-        groupId = null,
-        exclusiveGroup = true,
-        clickDelay = 0,
-        classes = {},
-        toggleOnIfUrlHashMatches = true,
-        toggleOffOnEsc = true,
-        toggleOffOnOutsideClick = false,
-        disableToggles = false,
-        addMatchingHashLinksToToggles = toggleOnIfUrlHashMatches,
-        pauseMediaOnToggle = true,
-        reloadIframeOnToggle = pauseMediaOnToggle
-      })
+    toggles,
+    active = false,
+    alwaysActive = false,
+    groupId = null,
+    exclusiveGroup = true,
+    clickDelay = 0,
+    triggerOn = 'click',
+    classes = {},
+    toggleOnIfUrlHashMatches = true,
+    toggleOffOnEsc = true,
+    toggleOffOnOutsideClick = false,
+    toggleOffOnOutsideClickTarget = null,
+    disableToggles = false,
+    addMatchingHashLinksToToggles = toggleOnIfUrlHashMatches,
+    pauseMediaOnToggle = true,
+    reloadIframeOnToggle = pauseMediaOnToggle,
+    disableToggleOffIfToggleIsntLastUsedToggle = false,
+  })
   {
     Object.assign(this, {
-      active, alwaysActive, groupId, exclusiveGroup, clickDelay,
-      toggleOffOnOutsideClick, toggleOffOnEsc, toggleOnIfUrlHashMatches,
-      addMatchingHashLinksToToggles, disableToggles, pauseMediaOnToggle, reloadIframeOnToggle })
+      active, alwaysActive, groupId, exclusiveGroup, clickDelay, triggerOn,
+      toggleOffOnOutsideClick, toggleOffOnOutsideClickTarget, toggleOffOnEsc,
+      toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles,
+      pauseMediaOnToggle, reloadIframeOnToggle, disableToggleOffIfToggleIsntLastUsedToggle })
     this.classes = {
       ...{
         active: '--active',
@@ -101,13 +105,14 @@ class Toggleable {
     }
   }
   toggle() {
-    if (this.active) {
+    if (this.active && (!this.disableToggleOffIfToggleIsntLastUsedToggle || this.disableToggleOffIfToggleIsntLastUsedToggle && this.currentToggle === this.lastUsedToggle)) {
       this.node.dispatchEvent(toggleEvents.toggleOff)
     } else {
       this.node.dispatchEvent(toggleEvents.toggleOn)
     }
   }
   dispatchToggle(toggle = null, event = toggleEvents.toggle) {
+    if (toggle) this.currentToggle = toggle
     this.node.dispatchEvent(event)
     if (toggle) this.lastUsedToggle = toggle
   }
@@ -115,12 +120,25 @@ class Toggleable {
     this.active ? this.toggleOn(false) : this.toggleOff(false)
     this.toggles.forEach(t => {
       t.setAttribute('aria-controls', this.id)
-      t.addEventListener('click', () => {
-        if (this.disableToggles) return
-        if (t.getAttribute('href') === `/#${this.id}`) {
-          this.dispatchToggle(t, toggleEvents.toggleOn)
-        } else {this.dispatchToggle(t)}
-      })
+      switch (this.triggerOn) {
+        case 'hover':
+          t.addEventListener('mouseenter', () => {
+            if (this.disableToggles) return
+            this.dispatchToggle(t, toggleEvents.toggleOn)
+          })
+          t.addEventListener('mouseleave', () => {
+            if (this.disableToggles) return
+            this.dispatchToggle(t, toggleEvents.toggleOff)
+          })
+          break
+        default:
+          t.addEventListener('click', () => {
+            if (this.disableToggles) return
+            if (t.getAttribute('href') === `/#${this.id}`) {
+              this.dispatchToggle(t, toggleEvents.toggleOn)
+            } else {this.dispatchToggle(t)}
+          })
+      }
     })
     this.node.addEventListener('toggle',  event => {
       if (this.clickDelayTimer === null) {
@@ -139,13 +157,14 @@ class Toggleable {
       })
     }
     if (this.toggleOffOnOutsideClick) {
+      const target = this.toggleOffOnOutsideClickTarget ? getNode(this.toggleOffOnOutsideClickTarget, 'Toggleable') : this.node
       document.addEventListener('click', event => {
         if (this.active) {
           let targetInToggles = false
           this.toggles.forEach(t => {
             if (t.contains(event.target)) targetInToggles = true
           })
-          if (!this.node.contains(event.target) && !targetInToggles) this.node.dispatchEvent(toggleEvents.toggleOff)
+          if (!target.contains(event.target) && !targetInToggles) this.node.dispatchEvent(toggleEvents.toggleOff)
         }
       })
     }

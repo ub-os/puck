@@ -1,22 +1,28 @@
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
-<div class="callout callout-{f:if(condition:post,then:'success',else:'warning')}">
+<div class="callout callout-info">
     <div class="media">
         <div class="media-left">
             <core:icon identifier="blog_post" size="default" />
         </div>
         <div class="media-body">
             <h4 class="callout-title">
-                <f:if condition="{post}">
-                    <f:then>Published</f:then>
-                    <f:else>Deactivated</f:else>
-                </f:if>
+                Post
             </h4>
             <table>
                 <tbody>
                 <style>th {padding-right: 1em}</style>
+                <tr><th>                <f:if condition="{post}">
+                    <f:then>Published</f:then>
+                    <f:else>Deactivated</f:else>
+                </f:if></th></tr>
                 <tr><th>Date</th><td> <f:format.date format="d.m.Y">{row.post_date}</f:format.date></td></tr>
+                <f:if condition="{post.postAuthor}">
+                    <tr><th>Author</th><td>{post.postAuthor.name}</td></tr>
+                </f:if>
                 </tbody>
             </table>
+            <p></p>
+            Hero and author content elements are automatically rendered from page data.
         </div>
     </div>
     <div class="callout-footer" style="padding-top: 1em">

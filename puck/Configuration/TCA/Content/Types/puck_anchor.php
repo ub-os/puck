@@ -16,6 +16,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_anchor'] = [
         ],
         'subheader' => [
             'label' => 'URL Segment',
+            'displayCond' => 'FIELD:CType:=:puck_anchor',
             'config' => [
                 'type' => 'slug',
                 'generatorOptions' => [
