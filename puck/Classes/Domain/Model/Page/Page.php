@@ -74,15 +74,15 @@ class Page extends AbstractEntity
      */
     public int $navHide = 0;
     /**
-     * @var ?ObjectStorage<Category>
+     * @var ObjectStorage<Category>|null
      * @Lazy
      */
-    public ?ObjectStorage $categories = null;
+    public ObjectStorage|null $categories = null;
     /**
-     * @var ?ObjectStorage<FileReference>
+     * @var ObjectStorage<FileReference>|null
      * @Lazy
      */
-    public ?ObjectStorage $media = null;
+    public ObjectStorage|null $media = null;
     /**
      * @var string
      */

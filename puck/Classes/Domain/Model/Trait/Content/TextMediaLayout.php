@@ -8,11 +8,11 @@ use HDNET\Autoloader\Annotation\DatabaseField;
 trait TextMediaLayout {
 
     /**
-     * @var ?ObjectStorage<FileReference>
+     * @var ObjectStorage<FileReference>|null
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
-    public ?ObjectStorage $assets = null;
+    public ObjectStorage|null $assets = null;
 
     /**
      * @var string

@@ -21,16 +21,16 @@ class MenuFiles extends Text
 {
 
     /**
-     * @var ?ObjectStorage<FileReference>
+     * @var ObjectStorage<FileReference>|null
      * @Lazy
      */
-    public ?ObjectStorage $assets = null;
+    public ObjectStorage|null $assets = null;
 
     /**
-     * @var ?ObjectStorage<FileCollection>
+     * @var ObjectStorage<FileCollection>|null
      * @Lazy
      */
-    public ?ObjectStorage $fileCollections = null;
+    public ObjectStorage|null $fileCollections = null;
 
     /**
      * @var string

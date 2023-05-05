@@ -20,9 +20,9 @@ class Hero extends Text
 {
 
     /**
-     * @var ?ObjectStorage<FileReference>
+     * @var ObjectStorage<FileReference>|null
      * @Lazy
      */
-    public ?ObjectStorage $assets = null;
+    public ObjectStorage|null $assets = null;
 
 }

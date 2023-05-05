@@ -18,9 +18,9 @@ use UBOS\Puck\Domain\Model\Person;
 class PersonPage extends Page
 {
     /**
-     * @var ?ObjectStorage<Person>
+     * @var ObjectStorage<Person>|null
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
-    public ?ObjectStorage $pagePersons = null;
+    public ObjectStorage|null $pagePersons = null;
 }

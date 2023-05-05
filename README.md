@@ -27,7 +27,7 @@ npm Version = 18
 und 
 ```json
 "platform": {
-  "php": "8.0"
+  "php": "8.1"
 },
 ```
 

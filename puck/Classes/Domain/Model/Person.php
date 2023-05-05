@@ -51,11 +51,11 @@ class Person extends AbstractEntity
      */
     public string $phone = '';
     /**
-     * @var ?ObjectStorage<PersonPage>
+     * @var ObjectStorage<PersonPage>|null
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      * @Lazy
      */
-    public ?ObjectStorage $pages = null;
+    public ObjectStorage|null $pages = null;
     /**
      * @var string
      * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
@@ -72,8 +72,8 @@ class Person extends AbstractEntity
      */
     public string $linkXing = '';
     /**
-     * @var ?ObjectStorage<FileReference>
+     * @var ObjectStorage<FileReference>|null
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
-    public ?ObjectStorage $assets = null;
+    public ObjectStorage|null $assets = null;
 }
