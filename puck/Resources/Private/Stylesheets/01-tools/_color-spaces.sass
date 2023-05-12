@@ -1,0 +1,105 @@
+=color-space-base
+  // basic
+  --color: #{ $black }
+  --color-alt: #{ $black }
+  --color-headline: #{ $grey-1 }
+  --color-accent: #{ $orange-mango-tango }
+  --color-accent-alt: #{ $blue-cyan-process }
+  --background: #{ $grey-5 }
+  --color-link: #{ $lilac-dark-orchid }
+  --color-link--hover: #{ $lilac-electric }
+  --color-link--disabled: #{ $grey-3 }
+
+  // button
+  --border-width-button: 2px
+  --color-button: var(--background)
+  --color-button--hover: #{ $white }
+  --color-button-border: transparent
+  --color-button-border--hover: transparent
+  --outline-color-button--focus: #{ $lilac-dark-orchid-30 }
+  --background-button: var(--color-link)
+  --background-button--hover: var(--color-link--hover)
+
+  // button alt
+  --color-button-alt: var(--color-button)
+  --color-button-alt--hover: var(--color-button--hover)
+  --color-button-alt-border: var(--color-button-border)
+  --color-button-alt-border--hover: var(--color-button-border--hover)
+  --outline-color-button-alt-focus: var(--outline-color-button--focus)
+  --background-button-alt: var(--background-button)
+  --background-button-alt--hover: var(--background-button--hover)
+
+  // button light
+  --color-button-light: #{ $black }
+  --color-button-light--hover: var(--color-link--hover)
+  --color-button-light-border: transparent
+  --color-button-light-border--hover: transparent
+  --background-button-light: #{ $grey-3 }
+  --background-button-light--hover: #{ $grey-4 }
+
+  // input
+  --color-input: var(--color)
+  --color-input--active: var(--color)
+  --color-input-border: transparent
+  --color-input-border--active: transparent
+  --background-input: var(--background)
+  --background-input--active: var(--background)
+
+  // modal
+  --background-modal: #{ $white }
+  --background-modal-backdrop: #{transparentize($grey-5, 0.5)}
+
+=color-space-card
+  +color-space-base
+  --background: #{ $white }
+
+=color-space-modal
+  +color-space-base
+  --background: var(--background-modal)
+
+=color-space-dark-1
+  --background: #{ $lilac-purple }
+  --color: #{ $white }
+  --color-headline: #{ $orange-mango-tango }
+  --color-accent: #{ $orange-mango-tango }
+  --color-accent-alt: #{ $blue-cyan-process }
+  --color-link: #{ $blue-sky-crayola }
+  --color-link--hover: #{ $blue-electric }
+  --color-button: #{ $lilac-purple }
+  --color-button--hover: #{ $lilac-dark-orchid }
+  --background-button: #{ $blue-sky-crayola }
+  --background-button--hover: #{ $blue-electric }
+  --outline-color-button--focus: #{ $blue-sky-crayola-30 }
+
+=color-space-light-1
+  --background: #{ $blue-baby-eyes }
+  --color-headline: #{ $blue-cyan-process }
+  --color-accent: #{ $lilac-dark-orchid }
+  --color-accent-alt: #{ $lilac-purple }
+  --color-link: #{ $lilac-dark-orchid }
+  --color-button: #{ $blue-baby-eyes }
+  --color-button--hover: #{ $blue-powder }
+
+=color-space-light-2
+  --background: #{ $white-dutch }
+  --color-headline: #{ $orange-mango-tango }
+  --color-accent: #{ $orange-mango-tango }
+  --color-accent-alt: #{ $blue-cyan-process }
+  --color-link: #{ $lilac-dark-orchid }
+  --background-button: #{ $blue-cyan-process }
+  --background-button--hover: #{ $blue-capri }
+  --outline-color-button--focus: #{ $blue-cyan-process-30 }
+  --color-button: #{ $white-dutch }
+  --color-button--hover: #{ mix($white, $white-dutch, 50%) }
+
+=color-space-light-3
+  --background: #{ $blue-powder }
+  --color-headline: #{ $blue-cyan-process }
+  --color-accent: #{ $blue-cyan-process }
+  --color-accent-alt: #{ $lilac-dark-orchid }
+  --color-link: #{ $lilac-dark-orchid }
+  --background-button: #{ $orange-mango-tango }
+  --background-button--hover: #{ $orange-pumpkin }
+  --outline-color-button--focus: #{ $orange-mango-tango-30 }
+  --color-button: #{ $blue-powder }
+  --color-button--hover: #{ $white-dutch }

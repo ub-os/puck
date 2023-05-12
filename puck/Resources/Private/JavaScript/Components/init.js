@@ -8,7 +8,7 @@ import TabPanel from '../Classes/TabPanel';
 import Carousel from '../Classes/Carousel';
 import FakeLink from '../Classes/FakeLink';
 import SmoothHashLinks from "../Classes/SmoothHashLinks";
-import { ScrollReveal } from '../Classes/ScrollReveal';
+import ScrollReveal from '../Classes/ScrollReveal';
 import ScrollSensitive from '../Classes/ScrollSensitive';
 import FetchLink from "../Classes/FetchLink.js";
 import smoothscroll from 'smoothscroll-polyfill';

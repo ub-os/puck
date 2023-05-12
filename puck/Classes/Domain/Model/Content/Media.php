@@ -19,16 +19,4 @@ class Media extends Text
 {
 
     use TextMediaLayout;
-
-    /**
-     * @DatabaseField("string")
-     */
-    public string $bodytext2;
-
-    /**
-     * @var string
-     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
-     */
-    public string $contentType;
-
 }

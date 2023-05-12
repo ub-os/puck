@@ -5,15 +5,7 @@
   <fc:param name="context" type="array"/>
   <fc:renderer>
 
-    <f:variable name="scrollSensitive"
-                value="{
-                  top: {
-                    0: {top: 1, media: 0},
-                    1: {top: 25, media: 600}
-                  }
-                }" />
-    <header class="{name}"
-            data-scroll-sensitive='{scrollSensitive -> f:format.json()}'>
+    <header class="{name} --scroll">
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink
@@ -45,23 +37,28 @@
         </div>
       </div>
     </header>
+    <f:comment>
     <f:variable name="searchName" value="m-form-indexedsearch"/>
     <layout:modal id="header-search-modal"
                   class="{searchName}__modal">
-      <form>
-        <div class="{searchName}__input__wrap">
-          <input type="text"
-                 class="{searchName}__input"
-                 data-search-el="input">
+      <f:form     pluginName="Pi2"
+                  extensionName="indexedsearch"
+                  pageUid="{settings.search.pid}"
+                  controller="Search">
+        <div class="{searchName}__wrap">
+          <f:form.textfield
+                  id="main-menu-search-input"
+                  class="{searchName}__input"
+                  placeholder="Suchbegriff"
+                  name="search[sword]"/>
+           
+          <f:form.submit name="search[submitButton]"
+                         class="{searchName}__submit"
+                         value="{f:translate(extensionName:'puck',key:'search')}"/>
         </div>
-        <div class="{searchName}__submit__wrap">
-          <button type="submit"
-                 class="{searchName}__submit -disabled"
-                 data-search-el="submit"/>
-        </div>
-      </form>
+      </f:form>
     </layout:modal>
-
+    </f:comment>
   </fc:renderer>
 </fc:component>
 

@@ -105,7 +105,7 @@
 
                             <f:case value="columns">
                                 <layout:row class="{name}__row"
-                                            flexGrow="0" align="{object.rowAlign}" justify="{object.rowJustify}"
+                                            flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content"
@@ -136,7 +136,7 @@
 
                             <f:defaultCase>
                                 <layout:row class="{name}__row"
-                                            flexGrow="0" align="{object.rowAlign}" justify="{object.rowJustify}"
+                                            flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content"

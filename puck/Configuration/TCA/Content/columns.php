@@ -94,22 +94,6 @@ $columns['imagecols'] = [
         'default' => 1
     ],
 ];
-$columns['content_type'] = [
-    'label' => 'Content type',
-    'onChange' => 'reload',
-    'config' => [
-        'type' => 'select',
-        'renderType' => 'selectSingle',
-        'disableNoMatchingValueElement' => true,
-        'items' => [
-            ['Media files', 'assets'],
-            ['Page teaser', 'page'],
-            ['Product teaser', 'product'],
-            ['HTML', 'html'],
-        ],
-        'default' => 'assets'
-    ],
-];
 $columns['media_layout'] = [
     'label' => 'Media layout',
     'onChange' => 'reload',
@@ -158,23 +142,6 @@ $columns['pages'] = [
     ],
 ];
 
-$columns['parents'] = [
-    'label' => 'Parent pages',
-    'config' => [
-        'type' => 'group',
-        'allowed' => 'pages',
-        'size' => 3,
-        'maxitems' => 50,
-        'filter' => [
-            [
-                'userFunc' => \UBOS\Puck\UserFunctions\GroupFieldFilter::class . '->defaultLanguageOnly',
-                'parameters' => [
-                    'evaluateLanguage' => '0',
-                ],
-            ],
-        ],
-    ],
-];
 $columns['header_spacing_override'] =  [
     'label' => 'Force spacing',
     'description' => 'Force increased distance to preceding element, even if no h2-style headline is set.',
@@ -217,29 +184,21 @@ $columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['c
     'default' => TcaUtility::getCropVariant('default','standard'),
     'mobile' => TcaUtility::getCropVariant('mobile','standard'),
 ];
-$columns['bodytext2'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
 
 $columns['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
 
-$columns['inline_media'] = [
-    'label' => 'Content items',
-    'config' => [
-        'type' => 'inline',
-        'foreign_field' => 'parent_uid',
-        'foreign_table' => 'tx_puck_domain_model_inline_media',
-        'foreign_table_field' => 'parent_table',
-        'foreign_sortby' => 'sorting',
-        'maxitems' => '30',
-        'minitems' => '0',
-        'appearance' => [
-            'collapseAll' => '1',
-            'enabledControls' => [
-                'dragdrop' => '1',
-            ],
-            'levelLinksPosition' => 'bottom',
-            'useSortable' => '1',
-        ],
-    ],
+$columnWidthItems = [
+    ['12', 12, 'column_width12'],
+    ['11', 11, 'column_width11'],
+    ['10', 10, 'column_width10'],
+    ['9', 9, 'column_width9'],
+    ['8', 8, 'column_width8'],
+    ['7', 7, 'column_width7'],
+    ['6', 6, 'column_width6'],
+    ['5', 5, 'column_width5'],
+    ['4', 4, 'column_width4'],
+    ['3', 3, 'column_width3'],
+    ['2', 2, 'column_width2'],
 ];
 
 $columns['container_width'] = [
@@ -250,19 +209,7 @@ $columns['container_width'] = [
         'renderType' => 'selectSingle',
         'disableNoMatchingValueElement' => true,
         'itemsProcFunc' => ContentItemsProcFunc::class.'->containerWidth',
-        'items' => [
-            ['2', 2, 'column_width2'],
-            ['3', 3, 'column_width3'],
-            ['4', 4, 'column_width4'],
-            ['5', 5, 'column_width5'],
-            ['6', 6, 'column_width6'],
-            ['7', 7, 'column_width7'],
-            ['8', 8, 'column_width8'],
-            ['9', 9, 'column_width9'],
-            ['10', 10, 'column_width10'],
-            ['11', 11, 'column_width11'],
-            ['12', 12, 'column_width12'],
-        ],
+        'items' => $columnWidthItems,
         'default' => 12,
         'fieldWizard' => [
             'selectIcons' => [
@@ -279,19 +226,7 @@ $columns['item_column_width'] = [
         'renderType' => 'selectSingle',
         'itemsProcFunc' => ContentItemsProcFunc::class.'->itemColumnWidth',
         'disableNoMatchingValueElement' => true,
-        'items' => [
-            ['2', 2, 'column_width2'],
-            ['3', 3, 'column_width3'],
-            ['4', 4, 'column_width4'],
-            ['5', 5, 'column_width5'],
-            ['6', 6, 'column_width6'],
-            ['7', 7, 'column_width7'],
-            ['8', 8, 'column_width8'],
-            ['9', 9, 'column_width9'],
-            ['10', 10, 'column_width10'],
-            ['11', 11, 'column_width11'],
-            ['12', 12, 'column_width12'],
-        ],
+        'items' => $columnWidthItems,
         'default' => 6,
         'fieldWizard' => [
             'selectIcons' => [

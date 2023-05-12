@@ -5,9 +5,10 @@ import { scrollTo } from '../General/Functions.js';
 //# configurable vertical offset on scroll target for sticky header etc.
 
 export default class SmoothHashLinks {
-  constructor({ root = document.body, offset = 150 }) {
+  constructor({ root = document.body, offset = 50, activeClass = '--active' }) {
     this.hashLinks = root.querySelectorAll('a[href*="#"]');
     this.offset = offset;
+    this.activeClass = activeClass;
   }
   mount() {
     const self = this;
@@ -17,14 +18,23 @@ export default class SmoothHashLinks {
         if(el.pathname === window.location.pathname){
           event.preventDefault();
           const id = href.split('#')[1];
-          if (id) scrollTo(id, self.offset);
+          if (!id) return;
+          const anchor = document.getElementById(id);
+          if (!anchor) return;
+          if (anchor.hasAttribute('data-menu-anchor')) {
+            scrollTo(document.getElementById(id).nextElementSibling, self.offset);
+          } else {
+            scrollTo(id, self.offset);
+          }
+          history.replaceState({}, '', href);
         }
       };
     });
-    window.onload = function () {
-      const id = window.top.location.hash.substr(1);
+    window.requestAnimationFrame(() => {
+      const id = window.location.hash.substring(1);
+      console.log(id);
       if (id) scrollTo(id, self.offset);
-    };
+    });
     return this
   }
 }

@@ -32,7 +32,7 @@ class Text extends AbstractEntity
      * @var string
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
-    public string $layout;
+    public string $layout = '';
 
     /**
      * @var string

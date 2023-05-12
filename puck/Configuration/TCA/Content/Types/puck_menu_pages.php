@@ -31,6 +31,9 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_pages'] = [
                 'default' => 'default-cards'
             ]
         ],
+        'flex_grow' => [
+            'displayCond' => 'FIELD:layout:IN:cards,columns',
+        ],
         'menu_item_config' => [
             'displayCond' => 'FIELD:layout:IN:cards,columns',
         ],

@@ -51,7 +51,7 @@ class Toggleable {
     if (this.addMatchingHashLinksToToggles) {
       this.toggles = [
         ...this.toggles,
-        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${window.location.pathname}#${this.id}"], a[href="${window.location.href}#${this.id}"]`)
+        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${window.location.pathname}#${this.id}"], a[href="${window.location.origin+window.location.pathname}#${this.id}"]`)
       ]
     }
     if (!this.toggles.length) {
@@ -132,8 +132,10 @@ class Toggleable {
           })
           break
         default:
-          t.addEventListener('click', () => {
+          t.addEventListener('click', (e) => {
             if (this.disableToggles) return
+            console.log(e.target)
+            if (e.target.closest('[data-toggle-stop]')) return
             if (t.getAttribute('href') === `/#${this.id}`) {
               this.dispatchToggle(t, toggleEvents.toggleOn)
             } else {this.dispatchToggle(t)}

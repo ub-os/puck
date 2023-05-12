@@ -19,16 +19,16 @@ class Anchor extends AbstractEntity
     /**
      * @var string
      */
-    public string $header;
+    public string $header = '';
     /**
      * @var string
      */
-    public string $subheader;
+    public string $subheader = '';
     /**
      * @var string
      * @Transient
      */
-    protected string $elementId;
+    protected string $elementId = '';
     /**
      * @return string
      */

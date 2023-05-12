@@ -18,7 +18,7 @@ trait TextMediaLayout {
      * @var string
      * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
-    public string $mediaLayout;
+    public string $mediaLayout = '';
 
     /**
      * @var int

@@ -39,7 +39,9 @@ $palettes['gridMenuPages'] = [
     'showitem' => '
         item_column_width, row_justify, row_align, 
         --linebreak--,
-        media_layout, card_media_size, text_column_width, media_column_width'
+        media_layout, card_media_size, text_column_width, media_column_width,
+        --linebreak--,
+        flex_grow'
 ];
 $palettes['appearance'] = [
     'label' => 'Appearance',
