@@ -62,9 +62,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['n'] = ['GeorgRinger\N
 $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 
-// Set Allowed Media File Extensions
-$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,bmp,png,svg,webp';
-
 // Backend Extension Configuration
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/android-chrome-72x72.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
