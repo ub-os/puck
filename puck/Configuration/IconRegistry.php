@@ -6,7 +6,6 @@ use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 use UBOS\Puck\Loader\IconLoader;
 
 IconLoader::loadBackendIcons();
-IconLoader::loadContentIcons();
 
 $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 $iconRegistry->registerIcon(
