@@ -1,6 +1,7 @@
-import {getNode} from '../General/Functions'
+import {getElement} from '../General/Functions'
+import AbstractComponent from "./AbstractComponent.js";
 
-export default class ScrollSensitive {
+export default class ScrollSensitive extends AbstractComponent {
   static events = {
     addScrollClass: new Event('addScrollClass'),
     removeScrollClass: new Event('removeScrollClass')
@@ -12,9 +13,10 @@ export default class ScrollSensitive {
   }
   static createIntersectionObserver = (options = this.defaultObserverOptions) => {
     const observer =  new IntersectionObserver(
-        entries => {
+        (entries, observer) => {
+          const top = parseInt(options.rootMargin.split('px')[0]) * -1
           entries.forEach(e => {
-            if (e.boundingClientRect.top > 0) {
+            if (e.boundingClientRect.top > top) {
               // do things if below
               e.target.dispatchEvent(this.events.removeScrollClass)
             } else {
@@ -30,7 +32,9 @@ export default class ScrollSensitive {
 
   constructor(target, {
     scrollClass = '--scroll',
-    observerOptions,
+    observerRoot,
+    observerRootMargin,
+    observerThreshold,
     observationTarget,
     cloneElementToRetainFlow = false,
     cloneClass = '-scroll-sense-clone',
@@ -38,37 +42,44 @@ export default class ScrollSensitive {
     scrollParent = window,
     ...options})
   {
-    Object.assign(this, { scrollClass, scrollTop, observerOptions, cloneElementToRetainFlow, scrollParent, ...options })
-    this.node = getNode(target, 'ScrollSensitive')
-    this.observedNode = observationTarget ? getNode(observationTarget, 'ScrollSensitive') : this.node
+    //
+    super(target)
+    Object.assign(this, {
+      scrollClass, scrollTop, observerRoot, observerRootMargin, observerThreshold,
+      observationTarget, cloneElementToRetainFlow, scrollParent, ...options })
+    this.observedElement = observationTarget ? getElement(observationTarget, 'ScrollSensitive') : this.element
     if (cloneElementToRetainFlow) {
-      const clone = this.node.cloneNode(true)
+      const clone = this.element.cloneNode(true)
       clone.classList.add(cloneClass)
-      this.node.parentNode.insertBefore(clone, this.node)
-      this.node = clone
+      this.element.parentElement.insertBefore(clone, this.element)
+      this.element = clone
     }
   }
   mount() {
     if (this.scrollTop) {
       this.scrollParent.addEventListener('scroll', e => {
         if ((this.scrollParent == window && document.documentElement.scrollTop < this.scrollTop) || (this.scrollParent != window && this.scrollParent.scrollTop < this.scrollTop)) {
-          this.node.classList.remove(this.scrollClass);
+          this.element.classList.remove(this.scrollClass);
         } else  {
-          this.node.classList.add(this.scrollClass);
+          this.element.classList.add(this.scrollClass);
         }
       })
       return this
     }
-    if (this.observerOptions) {
-      this.constructor.createIntersectionObserver(this.observerOptions).observe(this.observedNode)
+    if (this.observerRoot || this.observerRootMargin || this.observerThreshold) {
+      this.constructor.createIntersectionObserver({
+        root: this.observerRoot ? getElement(this.observerRoot) : null,
+        rootMargin: this.observerRootMargin || '0px 0px 0px 0px',
+        threshold: this.observerThreshold || [0,1]
+      }).observe(this.observedElement)
     } else {
-      this.constructor.defaultObserver.observe(this.observedNode)
+      this.constructor.defaultObserver.observe(this.observedElement)
     }
-    this.observedNode.addEventListener('addScrollClass', () => {
-      this.node.classList.add(this.scrollClass)
+    this.observedElement.addEventListener('addScrollClass', () => {
+      this.element.classList.add(this.scrollClass)
     })
-    this.observedNode.addEventListener('removeScrollClass', () => {
-      this.node.classList.remove(this.scrollClass)
+    this.observedElement.addEventListener('removeScrollClass', () => {
+      this.element.classList.remove(this.scrollClass)
     })
     return this
   }

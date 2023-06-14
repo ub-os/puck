@@ -1,4 +1,5 @@
-import {getNode} from '../General/Functions'
+import {getElement} from '../General/Functions'
+import AbstractComponent from "./AbstractComponent.js";
 
 const toggleEvents = {
   toggle: new Event('toggle'),
@@ -7,7 +8,13 @@ const toggleEvents = {
   groupToggle: new Event('groupToggle'),
 }
 
-class Toggleable {
+export default class Toggleable extends AbstractComponent{
+  static events = {
+    toggle: new Event('toggle'),
+    toggleOn: new Event('toggleOn'),
+    toggleOff: new Event('toggleOff'),
+    groupToggle: new Event('groupToggle'),
+  }
   constructor(target, {
     toggles,
     active = false,
@@ -18,6 +25,7 @@ class Toggleable {
     triggerOn = 'click',
     classes = {},
     toggleOnIfUrlHashMatches = true,
+    removeMatchingUrlHashOnToggleOff = true,
     toggleOffOnEsc = true,
     toggleOffOnOutsideClick = false,
     toggleOffOnOutsideClickTarget = null,
@@ -25,14 +33,16 @@ class Toggleable {
     addMatchingHashLinksToToggles = toggleOnIfUrlHashMatches,
     pauseMediaOnToggle = true,
     reloadIframeOnToggle = pauseMediaOnToggle,
-    disableToggleOffIfToggleIsntLastUsedToggle = false,
+    disableToggleOffIfToggleNotLastUsedToggle = false,
   })
   {
+    super(target)
     Object.assign(this, {
       active, alwaysActive, groupId, exclusiveGroup, clickDelay, triggerOn,
-      toggleOffOnOutsideClick, toggleOffOnOutsideClickTarget, toggleOffOnEsc,
-      toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles,
-      pauseMediaOnToggle, reloadIframeOnToggle, disableToggleOffIfToggleIsntLastUsedToggle })
+      removeMatchingUrlHashOnToggleOff, toggleOffOnOutsideClick, toggleOffOnOutsideClickTarget,
+      toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles,
+      pauseMediaOnToggle, reloadIframeOnToggle, disableToggleOffIfToggleNotLastUsedToggle })
+
     this.classes = {
       ...{
         active: '--active',
@@ -42,11 +52,9 @@ class Toggleable {
       },
       ...classes
     }
-    this.node = getNode(target, 'Toggleable')
-    this.id = this.node.id
     this.lastUsedToggle = null
     this.clickDelayTimer = null
-    this.groupNode = groupId ? document.getElementById(groupId) : null
+    this.groupElement = groupId ? document.getElementById(groupId) : null
     this.toggles = toggles || document.querySelectorAll(`[aria-controls="${this.id}"]`)
     if (this.addMatchingHashLinksToToggles) {
       this.toggles = [
@@ -59,11 +67,11 @@ class Toggleable {
       console.trace()
     }
     if (this.pauseMediaOnToggle) {
-      this.mediaContent = this.node.querySelectorAll('video, audio')
+      this.mediaContent = this.element.querySelectorAll('video, audio')
     }
   }
   setClass(operation, className) {
-    this.node.classList[operation](className)
+    this.element.classList[operation](className)
     document.documentElement.classList[operation](`--${this.id}-${this.constructor.name.toLowerCase()}${className}`)
     this.toggles.forEach(t => t.classList[operation](className))
   }
@@ -81,9 +89,9 @@ class Toggleable {
     this.active = true
     this.setClass('add', this.classes.active)
     if (transition) this.transitionClass(this.classes.activating)
-    if (this.groupNode) {
-      toggleEvents.groupToggle.activeId = this.id
-      this.groupNode.dispatchEvent(toggleEvents.groupToggle)
+    if (this.groupElement) {
+      Toggleable.events.groupToggle.activeId = this.id
+      this.groupElement.dispatchEvent(Toggleable.events.groupToggle)
     }
   }
   toggleOff(transition= true) {
@@ -95,25 +103,28 @@ class Toggleable {
         if (item.pause) item.pause()
       })
     }
-    if (this.reloadIframeOnToggle && this.node.querySelectorAll('iframe')) {
-      this.node.querySelectorAll('iframe').forEach(item => {
+    if (this.reloadIframeOnToggle && this.element.querySelectorAll('iframe')) {
+      this.element.querySelectorAll('iframe').forEach(item => {
         if (item.src) {
           let src = item.src
           item.src = src
         }
       })
     }
-  }
-  toggle() {
-    if (this.active && (!this.disableToggleOffIfToggleIsntLastUsedToggle || this.disableToggleOffIfToggleIsntLastUsedToggle && this.currentToggle === this.lastUsedToggle)) {
-      this.node.dispatchEvent(toggleEvents.toggleOff)
-    } else {
-      this.node.dispatchEvent(toggleEvents.toggleOn)
+    if (this.removeMatchingUrlHashOnToggleOff && window.location.hash === `#${this.id}`) {
+      window.location.hash = ''
     }
   }
-  dispatchToggle(toggle = null, event = toggleEvents.toggle) {
+  toggle() {
+    if (this.active && (!this.disableToggleOffIfToggleNotLastUsedToggle || this.disableToggleOffIfToggleNotLastUsedToggle && this.currentToggle === this.lastUsedToggle)) {
+      this.element.dispatchEvent(Toggleable.events.toggleOff)
+    } else {
+      this.element.dispatchEvent(Toggleable.events.toggleOn)
+    }
+  }
+  dispatchToggle(toggle = null, event = Toggleable.events.toggle) {
     if (toggle) this.currentToggle = toggle
-    this.node.dispatchEvent(event)
+    this.element.dispatchEvent(event)
     if (toggle) this.lastUsedToggle = toggle
   }
   mount() {
@@ -124,65 +135,63 @@ class Toggleable {
         case 'hover':
           t.addEventListener('mouseenter', () => {
             if (this.disableToggles) return
-            this.dispatchToggle(t, toggleEvents.toggleOn)
+            this.dispatchToggle(t, Toggleable.events.toggleOn)
           })
           t.addEventListener('mouseleave', () => {
             if (this.disableToggles) return
-            this.dispatchToggle(t, toggleEvents.toggleOff)
+            this.dispatchToggle(t, Toggleable.events.toggleOff)
           })
           break
         default:
           t.addEventListener('click', (e) => {
             if (this.disableToggles) return
-            console.log(e.target)
             if (e.target.closest('[data-toggle-stop]')) return
             if (t.getAttribute('href') === `/#${this.id}`) {
-              this.dispatchToggle(t, toggleEvents.toggleOn)
+              this.dispatchToggle(t, Toggleable.events.toggleOn)
             } else {this.dispatchToggle(t)}
           })
       }
     })
-    this.node.addEventListener('toggle',  event => {
+    this.element.addEventListener('toggle',  event => {
       if (this.clickDelayTimer === null) {
         this.toggle()
       }
     })
-    this.node.addEventListener('toggleOn',  event => {
+    this.element.addEventListener('toggleOn',  event => {
       this.toggleOn()
     })
-    this.node.addEventListener('toggleOff',  event => {
+    this.element.addEventListener('toggleOff',  event => {
       this.toggleOff()
     })
-    if (this.groupNode) {
-      this.groupNode.addEventListener('groupToggle', event => {
-        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.id) this.node.dispatchEvent(toggleEvents.toggleOff)
+    if (this.groupElement) {
+      this.groupElement.addEventListener('groupToggle', event => {
+        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.id) this.element.dispatchEvent(Toggleable.events.toggleOff)
       })
     }
     if (this.toggleOffOnOutsideClick) {
-      const target = this.toggleOffOnOutsideClickTarget ? getNode(this.toggleOffOnOutsideClickTarget, 'Toggleable') : this.node
+      const target = this.toggleOffOnOutsideClickTarget ? getElement(this.toggleOffOnOutsideClickTarget, 'Toggleable') : this.element
       document.addEventListener('click', event => {
         if (this.active) {
           let targetInToggles = false
           this.toggles.forEach(t => {
             if (t.contains(event.target)) targetInToggles = true
           })
-          if (!target.contains(event.target) && !targetInToggles) this.node.dispatchEvent(toggleEvents.toggleOff)
+          if (!target.contains(event.target) && !targetInToggles) this.element.dispatchEvent(Toggleable.events.toggleOff)
         }
       })
     }
     if (this.toggleOffOnEsc) {
-      this.node.addEventListener('keydown', event => {
-        if (event.key === 'Escape') this.node.dispatchEvent(toggleEvents.toggleOff)
+      this.element.addEventListener('keydown', event => {
+        if (event.key === 'Escape') this.element.dispatchEvent(Toggleable.events.toggleOff)
       })
     }
     if (this.toggleOnIfUrlHashMatches) {
-      if (window.location.hash === `#${this.id}`) this.node.dispatchEvent(toggleEvents.toggleOn)
+      if (window.location.hash === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       window.addEventListener('hashchange', event => {
-        if (window.location.hash === `#${this.id}`) this.node.dispatchEvent(toggleEvents.toggleOn)
+        if (window.location.hash === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       })
     }
     return this
   }
-}
 
-export {Toggleable, toggleEvents}
+}

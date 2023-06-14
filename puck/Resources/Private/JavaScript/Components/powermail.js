@@ -1,16 +1,16 @@
 import { $, $$, jsx } from '../General/Aliases';
 
-$$('.powermail_morestep').forEach(node => {
+$$('.powermail_morestep').forEach(element => {
     const el = {
-        form: node,
-        formId: node.id,
-        pages: node.$$('[data-powermail-page]'),
+        form: element,
+        formId: element.id,
+        pages: element.$$('[data-powermail-page]'),
         to_page_links: $$('[data-powermail-to-page]'),
         active_page: null,
         active_page_link: null,
         active_page_class: '-active'
     };
-    function getPageNodeById(id) {
+    function getPageElementById(id) {
         return el.form.$(`[data-powermail-page="${id}"]`);
     }
     function getPageHashById(id) {
@@ -20,7 +20,7 @@ $$('.powermail_morestep').forEach(node => {
         return hash.replace('#'+el.formId+'-page-', '');
     }
     function goToPage(id) {
-        let page = getPageNodeById(id);
+        let page = getPageElementById(id);
         if (page) {
             let page_link = $(`[data-powermail-to-page="${id}"]`);
             if (el.active_page && el.active_page_link) {

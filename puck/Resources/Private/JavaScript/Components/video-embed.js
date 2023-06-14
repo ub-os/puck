@@ -1,8 +1,8 @@
 import { $, $$, jsx } from '../General/Aliases';
 
-$$('[data-video-embed]').forEach(node => {
-    const data = JSON.parse(node.dataset.videoEmbed);
-    const id = node.getAttribute('aria-controls');
+$$('[data-video-embed]').forEach(element => {
+    const data = JSON.parse(element.dataset.videoEmbed);
+    const id = element.getAttribute('aria-controls');
     let src = '';
     let appended = false;
     switch (data.service) {
@@ -12,7 +12,7 @@ $$('[data-video-embed]').forEach(node => {
         case 'vimeo':
             src = `https://player.vimeo.com/video/${data.id}?h=70f64fa69b&title=0&byline=0&portrait=0`;
     }
-    node.addEventListener('click', () => {
+    element.addEventListener('click', () => {
         if (!appended) {
             appended = true
             document.getElementById(id).appendChild(

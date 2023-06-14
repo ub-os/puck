@@ -1,7 +1,7 @@
 import { $, $$, jsx } from '../General/Aliases';
 
 function wrap(el, wrapper) {
-  el.parentNode.insertBefore(wrapper, el);
+  el.parentElement.insertBefore(wrapper, el);
   wrapper.appendChild(el);
 }
 

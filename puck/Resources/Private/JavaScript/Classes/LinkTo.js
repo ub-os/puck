@@ -3,23 +3,25 @@
 //# opens url on left click(not drag).
 //# handler stops if event target is within a data-link-to-stop element.
 
-import {noDragClick, getNode} from '../General/Functions';
+import {noDragClick, getElement} from '../General/Functions';
+import AbstractComponent from "./AbstractComponent.js";
 
-export default class FakeLink {
-  constructor(target) {
-    this.node = getNode(target, 'FakeLink');
-    this.node.role = 'link'
+export default class LinkTo extends AbstractComponent{
+  constructor(target, { ...options } = {}) {
+    super(target)
+    Object.assign(this, { ...options })
+    this.element.role = 'link'
   }
   openLink(newTab = false) {
     if (newTab) {
-      window.open(this.node.dataset.linkTo);
+      window.open(this.element.dataset.linkTo);
       window.focus();
     } else {
-      window.location.href = this.node.dataset.linkTo;
+      window.location.href = this.element.dataset.linkTo;
     }
   }
   mount() {
-    noDragClick(this.node, e => {
+    noDragClick(this.element, e => {
       if (!e.target.closest('[data-link-to-stop]')) {
         if (e.button == 0) {
           this.openLink(e.metaKey);

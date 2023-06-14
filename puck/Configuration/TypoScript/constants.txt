@@ -12,6 +12,8 @@ jsProd =  EXT:puck/Resources/Public/js/app.min.js
 ## when set to 0: cache enabled, minified assets are included and compressed
 development = 1
 
+publicResources = typo3conf/ext/puck/Resources/Public
+
 doktype {
     start = 16501
     overview = 16502
@@ -32,12 +34,18 @@ navUid {
     # cat=puck/pageUids/4; type=int; label=Parent uid of meta navigation
     meta = 0
 }
+test {
+    banana = 1
+    apple = 2
+}
 search {
     # cat=puck/pageUids/5; type=int; label=Uid of search plugin page
     pid = 0
 }
 # cat=puck/appearance/1; type=int; label=Page grid width in px
 gridWidth = 1300
+# cat=puck/appearance/2; type=options [main,brand]; label=Page appearance type
+rootLayout = default
 # cat=puck/appearance/3; type=options [default]; label=Logo
 logo = default
 # cat=puck/appearance/3; type=options [default]; label=Favicon

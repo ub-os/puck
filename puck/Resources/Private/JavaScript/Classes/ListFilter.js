@@ -1,27 +1,24 @@
 import { $, $$, jsx } from '../General/Aliases';
-import {getNode} from '../General/Functions';
+import AbstractComponent from "./AbstractComponent.js";
 
 // CLASS ListFilter
-export default class ListFilter {
+export default class ListFilter extends AbstractComponent {
     constructor(
         target,
         {
-            listNode,
-            clearAllNode, 
-            counterNode, 
-            options= {},
-            categories= {}, 
+            listElement,
+            clearAllElement,
+            counterElement,
+            enableTriggerPotential = true,
+            categories= {},
             t3langData = {},
         }) {
-        this.node = getNode(target, 'ListFilter');
+        super(target)
         Object.assign(this, {
-            id: this.node.id,
-            options: {
-                ...{setTriggerPotential: true},
-                ...options},
-            listNode: listNode || this.node.$('[data-filter-list]'),
-            clearAllNode: clearAllNode || this.node.$('[data-filter-clear-all]'),
-            counterNode: counterNode || this.node.$('[data-filter-counter]'),
+            enableTriggerPotential: enableTriggerPotential,
+            listElement: listElement || this.element.$('[data-filter-list]'),
+            clearAllElement: clearAllElement || this.element.$('[data-filter-clear-all]'),
+            counterElement: counterElement || this.element.$('[data-filter-counter]'),
             activeTriggerCounter: 0,
             htmlLang: document.documentElement.lang.substring(0,2),
             urlParams: new URLSearchParams(window.location.search),
@@ -47,10 +44,10 @@ export default class ListFilter {
     }
     createItems() {
         let items = [];
-        $$(`[data-filter-item-of="${this.node.id}"]`).forEach((item,i) => {
+        $$(`[data-filter-item-of="${this.element.id}"]`).forEach((item,i) => {
             items[i] = {
                 data: JSON.parse(item.$('[data-filter-item-data]').textContent),
-                node: item,
+                element: item,
                 active: true
             };
         });
@@ -58,13 +55,13 @@ export default class ListFilter {
     }
     createTriggers() {
         let triggers = {};
-        this.node.$$(`[data-filter-trigger]`).forEach((trigger,i) => {
+        this.element.$$(`[data-filter-trigger]`).forEach((trigger,i) => {
             let trVal = trigger.getAttribute('data-filter-trigger');
             let tr = {
                 category: trVal.split(':')[0],
                 value: trVal.split(':')[1],
                 valArr: trVal.split(':')[1].split(','),
-                node: trigger,
+                element: trigger,
                 potential: [],
                 active: false,
                 enabled: true
@@ -73,7 +70,7 @@ export default class ListFilter {
                 this.toggleTrigger(tr);
             }
             this.setTriggerPotential(tr);
-            tr.node.addEventListener('click', event => {
+            tr.element.addEventListener('click', event => {
                 this.trigger(tr);
             });
             triggers[trVal] = tr;
@@ -96,11 +93,11 @@ export default class ListFilter {
     toggleTrigger(tr) {
         if (tr.active) {
             tr.active = false;
-            tr.node.classList.remove('--active');
+            tr.element.classList.remove('--active');
             this.changeActiveTriggerCounter(-1);
         } else {
             tr.active = true;
-            tr.node.classList.add('--active');
+            tr.element.classList.add('--active');
             this.changeActiveTriggerCounter(1);
         }
         this.state = this.getChangedState(tr, this.state);
@@ -131,7 +128,7 @@ export default class ListFilter {
         return this.urlParams.get(this.t3translate(cat).toLowerCase()) ? this.urlParams.get(this.t3translate(cat).toLowerCase()).split('.').map(x => this.t3transKey(x)) : [];
     }
     filterItems() {
-        this.listNode.animate([
+        this.listElement.animate([
             { opacity: '0' },
             { opacity: '1' },
         ], {
@@ -159,21 +156,22 @@ export default class ListFilter {
     }
     toggleItem(item, check) {
         if (check) {
-            item.node.classList.add('--filter-1');
-            item.node.classList.remove('--filter-0','u-hide');
+            item.element.classList.add('--filter-1');
+            item.element.classList.remove('--filter-0','u-hide');
             item.active = true;
         } else {
-            item.node.classList.remove('--filter-1');
-            item.node.classList.add('--filter-0','u-hide');
+            item.element.classList.remove('--filter-1');
+            item.element.classList.add('--filter-0','u-hide');
             item.active = false;
         }
     }
     setTriggerPotential(tr) {
-        if (this.options.setTriggerPotential) {
+        if (this.enableTriggerPotential) {
             let state = {};
             if (this.state[tr.category].conjunctionEval || tr.active) {
                 state = this.getChangedState(tr, this.state, true);
             } else {
+                // todo better way to create copy?
                 state = JSON.parse(JSON.stringify(this.state));
                 state[tr.category].selected = tr.valArr;
             }
@@ -184,24 +182,24 @@ export default class ListFilter {
                 if (check) { tr.enabled = true; }
             });
             if (tr.enabled) {
-                tr.node.classList.add('--enabled');
-                tr.node.classList.remove('--disabled');
+                tr.element.classList.add('--enabled');
+                tr.element.classList.remove('--disabled');
             } else {
-                tr.node.classList.remove('--enabled');
-                tr.node.classList.add('--disabled');
+                tr.element.classList.remove('--enabled');
+                tr.element.classList.add('--disabled');
             }
         }
     }
     changeActiveTriggerCounter(addend) {
         this.activeTriggerCounter += addend;
-        if (this.counterNode) {
-            this.counterNode.textContent = this.activeTriggerCounter;
+        if (this.counterElement) {
+            this.counterElement.textContent = this.activeTriggerCounter;
             if (this.activeTriggerCounter > 0) {
-                this.clearAllNode.classList.add('--active');
-                this.clearAllNode.classList.remove('--disabled');
+                this.clearAllElement.classList.add('--active');
+                this.clearAllElement.classList.remove('--disabled');
             } else {
-                this.clearAllNode.classList.remove('--active');
-                this.clearAllNode.classList.add('--disabled');
+                this.clearAllElement.classList.remove('--active');
+                this.clearAllElement.classList.add('--disabled');
             }
         }
     }
@@ -242,8 +240,8 @@ export default class ListFilter {
     }
     mount() {
         this.changeActiveTriggerCounter(0);
-        if (this.clearAllNode) {
-            this.clearAllNode.addEventListener('click', event => {
+        if (this.clearAllElement) {
+            this.clearAllElement.addEventListener('click', event => {
                 event.stopPropagation();
                 this.clearAll();
             });

@@ -1,5 +1,5 @@
 
-import {Toggleable, toggleEvents} from "./Toggleable"
+import Toggleable from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
 
 class Modal extends Toggleable {
@@ -7,32 +7,32 @@ class Modal extends Toggleable {
         super(target, { toggleOffOnOutsideClick, ...options })
         Object.assign(this, { moveToModalContainer })
         if (moveToModalContainer) {
-            this.node = document.querySelector('[data-modal-container]').appendChild(this.node)
+            this.element = document.querySelector('[data-modal-container]').appendChild(this.element)
         }
         this.previousFocusable = null
-        this.focusTrap = new FocusTrap({ node: this.node })
+        this.focusTrap = new FocusTrap({ element: this.element })
     }
     toggleOn(transition= true) {
         super.toggleOn(transition);
-        this.node.removeAttribute('aria-hidden')
-        this.node.role = 'dialog'
-        this.node.ariaModal = 'true'
+        this.element.removeAttribute('aria-hidden')
+        this.element.role = 'dialog'
+        this.element.ariaModal = 'true'
         this.focusTrap.firstFocusable.focus()
     }
     toggleOff(transition= true) {
         super.toggleOff(transition)
-        this.node.ariaHidden = 'true'
-        this.node.removeAttribute('aria-modal')
-        this.node.removeAttribute('role')
+        this.element.ariaHidden = 'true'
+        this.element.removeAttribute('aria-modal')
+        this.element.removeAttribute('role')
         if (this.previousFocusable) this.previousFocusable.focus()
     }
 
     mount() {
         super.mount()
         this.focusTrap.mount()
-        this.node.tabIndex = -1
+        this.element.tabIndex = -1
         this.toggles.forEach(t => {
-            if (!this.node.contains(t)) {
+            if (!this.element.contains(t)) {
                 t.addEventListener('click', () => {
                     this.previousFocusable = t
                 })

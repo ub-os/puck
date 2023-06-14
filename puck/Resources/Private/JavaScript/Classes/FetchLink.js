@@ -1,11 +1,12 @@
 // CLASS FetchLink
-//# changes (append or replace) the content of a node with the content of a fetched url
+//# changes (append or replace) the content of a element with the content of a fetched url
 
 import {$, $$} from "../General/Aliases.js";
-import {noDragClick, getNode, scrollTo} from '../General/Functions';
-import {mountComponents} from "../Components/init.js";
+import {noDragClick, getElement, scrollTo} from '../General/Functions';
+import {mountComponents} from "../Components/init";
+import AbstractComponent from "./AbstractComponent";
 
-export default class FetchLink {
+export default class FetchLink extends AbstractComponent{
   constructor(target, {
     url,
     mode,
@@ -24,12 +25,12 @@ export default class FetchLink {
     ],
     interSectionObserverOptions = {}
   }) {
+    super(target)
     Object.assign(this, {
       url, mode, contentId, trigger, scrollToContent,
       scrollOffset, hideAnimationFrames, showAnimationFrames
     })
-    this.node = getNode(target, 'FetchLink node')
-    this.contentNode = getNode(contentId, 'FetchLink contentNode')
+    this.contentElement = getElement(contentId, 'FetchLink contentElement')
     this.timing = {
       ...{
         duration: 500,
@@ -51,20 +52,20 @@ export default class FetchLink {
   }
 
   replaceContent(html) {
-    this.contentNode.innerHTML = html
-    mountComponents(this.contentNode)
+    this.contentElement.innerHTML = html
+    mountComponents(this.contentElement)
   }
 
   appendContent(html, div) {
     const newRoot = div.firstChild
-    this.contentNode.innerHTML = this.contentNode.innerHTML + html
-    mountComponents(this.contentNode)
-    if (this.node.id) {
-      const newFetchButton = newRoot.$(`#${this.node.id}`)
-      const oldFetchButton = $(`#${this.node.id}`)
+    this.contentElement.innerHTML = this.contentElement.innerHTML + html
+    mountComponents(this.contentElement)
+    if (this.element.id) {
+      const newFetchButton = newRoot.$(`#${this.element.id}`)
+      const oldFetchButton = $(`#${this.element.id}`)
       if (oldFetchButton && newFetchButton) {
-        oldFetchButton.parentNode.replaceChild(newFetchButton, oldFetchButton)
-        mountComponents(newFetchButton.parentNode)
+        oldFetchButton.parentElement.replaceChild(newFetchButton, oldFetchButton)
+        mountComponents(newFetchButton.parentElement)
       }
     }
     div.remove()
@@ -83,10 +84,10 @@ export default class FetchLink {
       const newHtml = div.$(`#${this.contentId}`).innerHTML
 
       if (this.scrollToContent) {
-        scrollTo(this.contentNode, this.scrollOffset)
+        scrollTo(this.contentElement, this.scrollOffset)
       }
 
-      const animation = this.contentNode.animate(
+      const animation = this.contentElement.animate(
           this.hideAnimationFrames,
           this.timing)
 
@@ -97,12 +98,12 @@ export default class FetchLink {
         if (this.mode === 'append') {
           this.appendContent(newHtml, div)
         }
-        this.contentNode.animate(
+        this.contentElement.animate(
             this.showAnimationFrames,
             this.timing
         )
-        if (this.node.href) {
-          window.history.pushState({}, '', this.node.href)
+        if (this.element.href) {
+          window.history.pushState({}, '', this.element.href)
         }
         this.states.fetching = false
       })
@@ -114,11 +115,11 @@ export default class FetchLink {
   }
 
   mount() {
-    if (!this.node || !this.url || !this.contentNode) {
-      return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
+    if (!this.element || !this.url || !this.contentElement) {
+      return {error: 'FetchLink: missing element, url or contentElement', fetchLink: this}
     }
     if (this.trigger === 'click') {
-      this.node.addEventListener('click', e => {
+      this.element.addEventListener('click', e => {
         e.preventDefault()
         this.fetch()
       });
@@ -132,7 +133,7 @@ export default class FetchLink {
           }
         })
       }, this.interSectionObserverOptions)
-      observer.observe(this.node)
+      observer.observe(this.element)
     }
     return this
   }

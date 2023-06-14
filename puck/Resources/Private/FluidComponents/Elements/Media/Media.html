@@ -44,8 +44,8 @@
                         sources="{sources}"/>
               </f:then>
               <f:else if="{type} == 'svg'">
-                <f:if condition="{image.link}">
-                  <f:variable name="href" value="{f:uri.typolink(parameter:image.link)}"/>
+                <f:if condition="{file.link}">
+                  <f:variable name="href" value="{f:uri.typolink(parameter:file.link)}"/>
                   <f:variable name="additionalAttributes" value="{puck:array.merge(a:additionalAttributes,b:'{data-link-to:href}')}"/>
                 </f:if>
                 <f:image image="{file}"

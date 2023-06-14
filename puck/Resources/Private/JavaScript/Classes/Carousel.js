@@ -1,14 +1,13 @@
 import Splide from '@splidejs/splide'
-import {getNode} from '../General/Functions';
+import AbstractComponent from "./AbstractComponent.js"
 
-export default class Carousel {
+export default class Carousel extends AbstractComponent {
     constructor(target, {controls, verticalOptions = false, activeClass = '--active', ...options }) {
+        super(target)
         Object.assign(this, {controls, verticalOptions, activeClass, ...options })
-        this.node = getNode(target, 'Carousel')
-        this.id = this.node.id
         this.controls = controls || document.querySelectorAll(`[aria-controls="${this.id}"]`)
         this.biggestSlideHeight = 0
-        this.splide = new Splide(this.node, {
+        this.splide = new Splide(this.element, {
             arrows: true,
             pagination: false,
             autoWidth: true,
@@ -33,8 +32,9 @@ export default class Carousel {
             })
         })
         if (this.verticalOptions) {
+            // todo: replace with window.requestAnimationFrame ?
             window.addEventListener('load', () => {
-                this.node.querySelectorAll('.splide__slide').forEach(slide => {
+                this.element.querySelectorAll('.splide__slide').forEach(slide => {
                     const rect = slide.getBoundingClientRect()
                     if (rect.height > this.biggestSlideHeight) {
                         this.biggestSlideHeight = rect.height
@@ -48,4 +48,5 @@ export default class Carousel {
         }
         return this
     }
+
 }

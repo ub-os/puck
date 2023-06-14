@@ -1,4 +1,5 @@
 import ScrollSensitive from "./ScrollSensitive.js";
+import Component from "../Decorators/Component";
 
 export default class ScrollReveal extends ScrollSensitive {
     static events = {
@@ -72,20 +73,20 @@ export default class ScrollReveal extends ScrollSensitive {
         this.animate()
     }
     animate() {
-        const animation = this.node.animate(this.animation, this.timing)
+        const animation = this.element.animate(this.animation, this.timing)
         animation.addEventListener('finish', () => {
-            this.node.style.opacity = 1
+            this.element.style.opacity = 1
         })
     }
     mount() {
         window.requestAnimationFrame(() => {
-            if (this.observedNode.getBoundingClientRect().top > window.innerHeight) {
-                this.node.style.opacity = 0
+            if (this.observedElement.getBoundingClientRect().top > window.innerHeight) {
+                this.element.style.opacity = 0
                 this.revealed = false
             }
             if (this.revealed) return this
             super.mount()
-            this.observedNode.addEventListener('scrollReveal', () => {
+            this.observedElement.addEventListener('scrollReveal', () => {
                 this.reveal()
             })
             return this

@@ -15,8 +15,8 @@ export default class App {
               a[href="${window.location.pathname}"], 
               [data-link-to="${window.location.href}"], 
               [data-link-to="${window.location.pathname}"]`)
-            currentLinks.forEach(node => {
-                node.addEventListener('click', e => {
+            currentLinks.forEach(element => {
+                element.addEventListener('click', e => {
                     e.preventDefault();
                     window.scrollTo({
                         top: 0,

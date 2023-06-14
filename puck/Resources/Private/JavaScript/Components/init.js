@@ -1,18 +1,17 @@
-import anime from 'animejs/lib/anime.js';
 import { $, $$, jsx } from '../General/Aliases';
 import App from '../Classes/App';
-import { Toggleable } from '../Classes/Toggleable';
+import LinkTo from '../Classes/LinkTo';
+import SmoothHashLinks from "../Classes/SmoothHashLinks";
+import Toggleable from '../Classes/Toggleable';
 import Accordion from '../Classes/Accordion';
 import Modal from '../Classes/Modal';
 import TabPanel from '../Classes/TabPanel';
 import Carousel from '../Classes/Carousel';
-import FakeLink from '../Classes/FakeLink';
-import SmoothHashLinks from "../Classes/SmoothHashLinks";
 import ScrollReveal from '../Classes/ScrollReveal';
 import ScrollSensitive from '../Classes/ScrollSensitive';
 import FetchLink from "../Classes/FetchLink.js";
 import smoothscroll from 'smoothscroll-polyfill';
-import { getNode, scrollTo } from '../General/Functions';
+import { getElement, scrollTo } from '../General/Functions';
 
 smoothscroll.polyfill()
 
@@ -22,25 +21,41 @@ const _app = new App({
 })
 
 const mountComponents = (target) => {
-    const root = getNode(target)
+    const root = getElement(target)
     _app.components.push(
         {
-            smoothHashLinks: new SmoothHashLinks({root: root}).mount(),
+            smoothHashLinks: new SmoothHashLinks({ root }).mount(),
 
-            scrollReveals: [...root.$$('main section')].map(node => {
+            linkTos: LinkTo.createInstancesFromDataAttribute({ root }),
+
+            fetchLinks: FetchLink.createInstancesFromDataAttribute({ root }),
+
+            accordions: Accordion.createInstancesFromDataAttribute({ root, options: {clickDelay: 150, useMinHeight: true} }),
+
+            toggleables: Toggleable.createInstancesFromDataAttribute({ root }),
+
+            tabPanels: TabPanel.createInstancesFromDataAttribute({ root, options: {clickDelay: 150} }),
+
+            modals: Modal.createInstancesFromDataAttribute({ root, options: {clickDelay: 150} }),
+
+            carousels: Carousel.createInstancesFromDataAttribute({ root }),
+
+            scrollSensitives: ScrollSensitive.createInstancesFromDataAttribute({ root }),
+
+            scrollReveals: [...root.$$('main section')].map(element => {
                 return {
-                    section: new ScrollReveal(node, {}).mount(),
-                    listItems: [...node.$$('.l-card, .m-content-accordions__item')].map((li, index) => {
+                    section: new ScrollReveal(element, {}).mount(),
+                    listItems: [...element.$$('.l-card, .m-content-accordions__item')].map((li, index) => {
                         return new ScrollReveal(li, {
-                            observationTarget: node,
+                            observationTarget: element,
                             timing: {
                                 delay: 50 + index * 100
                             },
                         }).mount()
                     }),
-                    media: [...node.$$('.l-media__figure')].map((media, index) => {
+                    media: [...element.$$('.l-media__figure')].map((media, index) => {
                         return new ScrollReveal(media, {
-                            observationTarget: node,
+                            observationTarget: element,
                             timing: {
                                 delay: 50 + index * 100
                             },
@@ -48,114 +63,6 @@ const mountComponents = (target) => {
                     })
                 }
             }),
-
-            burgerMenu: new Toggleable('main-menu',
-                {
-                    clickDelay: 300,
-                    toggleOffOnOutsideClick: true,
-                }).mount(),
-
-            fakeLinks: new Map([...root.$$('[data-link-to]')].map((node, i) => {
-                return [i, new FakeLink(node).mount()]
-            })),
-
-            fetchLinks: new Map([...root.$$('[data-fetch-link]')].map((node, i) => {
-                return [
-                    node.id || i,
-                    new FetchLink(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.fetchLink || '{}'),
-                            ...{
-
-                            }}
-                    ).mount()
-                ]
-            })),
-
-            toggleables: new Map([...root.$$('[data-toggleable]')].map(node => {
-                return [
-                    node.id,
-                    new Toggleable(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.toggleable || '{}'),
-                            ...{
-
-                            }}
-                    ).mount()
-                ]
-            })),
-
-            accordions: new Map([...root.$$('[data-accordion]')].map(node => {
-                return [
-                    node.id,
-                    new Accordion(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.accordion || '{}'),
-                            ...{
-                                clickDelay: 150,
-                                useMinHeight: true,
-                            }}
-                    ).mount()
-                ]
-            })),
-
-            tabPanels: new Map([...root.$$('[data-tab-panel]')].map(node => {
-                return [
-                    node.id,
-                    new TabPanel(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.tabPanel || '{}'),
-                            ...{
-                                clickDelay: 150,
-                            }}
-                    ).mount()
-                ]
-            })),
-
-            modals: new Map([...root.$$('[data-modal]')].map(node => {
-                return [
-                    node.id,
-                    new Modal(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.modal || '{}'),
-                            ...{
-                                clickDelay: 150
-                            }}
-                    ).mount()
-                ]
-            })),
-
-            carousels: new Map([...root.$$('[data-carousel]')].map(node => {
-                return [
-                    node.id,
-                    new Carousel(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.carousel || '{}'),
-                            ...{}
-                        }
-                    ).mount()
-                ]
-            })),
-
-            scrollSensitives: new Map([...root.$$('[data-scroll-sensitive]')].map((node, i) => {
-                return [
-                    node.id || i,
-                    new ScrollSensitive(
-                        node,
-                        {
-                            ...JSON.parse(node.dataset.scrollSensitive),
-                            ...{
-
-                            }}
-                    ).mount()
-                ]
-            })),
         }
     )
 }
@@ -165,9 +72,9 @@ _app.mount()
 
 window.requestAnimationFrame(() => {
     document.body.classList.remove('u-no-transition')
-    $$('.u-initially-hidden').forEach(node => {
-        node.classList.remove('u-initially-hidden')
+    $$('.u-initially-hidden').forEach(element => {
+        element.classList.remove('u-initially-hidden')
     });
 })
 
-export {mountComponents}
+export { mountComponents }

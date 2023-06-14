@@ -32,7 +32,6 @@ export default class SmoothHashLinks {
     });
     window.requestAnimationFrame(() => {
       const id = window.location.hash.substring(1);
-      console.log(id);
       if (id) scrollTo(id, self.offset);
     });
     return this

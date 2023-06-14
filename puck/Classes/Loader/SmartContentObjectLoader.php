@@ -117,7 +117,7 @@ class SmartContentObjectLoader
                                 $containerConfiguration // configuration
                             )
                             )
-                                ->setIcon('EXT:puck/Resources/Public/Icons/Content/'.$model['name'].'.svg')
+                                ->setIcon('EXT:puck/Resources/Public/Icons/Backend/'.$model['name'].'.svg')
                                 ->SetGroup($groupKey)
                                 ->setRegisterInNewContentElementWizard(false)
                         );

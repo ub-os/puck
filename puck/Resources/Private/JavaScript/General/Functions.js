@@ -1,11 +1,11 @@
-const noDragClick = (node, callbackFunc, delta = 6) => {
+const noDragClick = (element, callbackFunc, delta = 6) => {
     let startX;
     let startY;
-    node.addEventListener('mousedown', function (event) {
+    element.addEventListener('mousedown', function (event) {
         startX = event.pageX;
         startY = event.pageY;
     });
-    node.addEventListener('mouseup', function (event) {
+    element.addEventListener('mouseup', function (event) {
         const diffX = Math.abs(event.pageX - startX);
         const diffY = Math.abs(event.pageY - startY);
         if (diffX < delta && diffY < delta) {
@@ -13,15 +13,15 @@ const noDragClick = (node, callbackFunc, delta = 6) => {
         }
     });
 }
-const getNode = (target, objectName = '') => {
-    let node = undefined
+const getElement = (target, objectName = '') => {
+    let element = undefined
     if (target instanceof Element) {
-        node = target
+        element = target
     } else if (typeof target === 'string' && target && document.getElementById(target)) {
-        node = document.getElementById(target)
+        element = document.getElementById(target)
     } else if (typeof target === 'string' && target && document.querySelector(target)) {
-        node = document.querySelector(target)
-        if (!node.id) {
+        element = document.querySelector(target)
+        if (!element.id) {
             console.error(`${objectName && objectName+': '}Provided target element does not have an id attribute.`)
             console.trace()
         }
@@ -29,14 +29,13 @@ const getNode = (target, objectName = '') => {
         console.error(`${objectName && objectName+': '}No valid element or id provided as target.`)
         console.trace()
     }
-    return node
+    return element
 }
 
 const scrollTo = (target, offset = 0) => {
-    const node = getNode(target)
-    if (node && getComputedStyle(node).position !== 'fixed') {
-        const height = node.getBoundingClientRect().top + document.documentElement.scrollTop - offset;
-        console.log({ node, height, offset })
+    const element = getElement(target)
+    if (element && getComputedStyle(element).position !== 'fixed') {
+        const height = element.getBoundingClientRect().top + document.documentElement.scrollTop - offset;
         window.scrollTo({
             top: height,
             left: 0,
@@ -50,9 +49,9 @@ function getParents(target, parentSelector /* optional */) {
     if (parentSelector === undefined) {
         parentSelector = document;
     }
-    const node = getNode(target)
+    const element = getElement(target)
     const parents = [];
-    let p = node.parentNode;
+    let p = element.parentNode;
     while (p !== parentSelector) {
         const o = p;
         parents.push(o);
@@ -98,6 +97,6 @@ function getLineBreaks(node) {
     return lines;
 }
 
-export {noDragClick, getNode, getParents, scrollTo, getLineBreaks}
+export {noDragClick, getElement, getParents, scrollTo, getLineBreaks}
 
 

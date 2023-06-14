@@ -15,7 +15,11 @@
                 additionalAttributes="{aria-label: 'home'}">
           <icon:svg icon="website-logo" class="{name}__logo"/>
         </f:link.typolink>
-        <div class="{name}-menu__wrap" id="main-menu">
+        <div class="{name}-menu__wrap"
+             id="main-menu"
+             data-toggleable='{f:format.json(value:
+             {clickDelay: 300, toggleOffOnOutsideClick: 1}
+             )}'>
           <f:comment>
               // small navigation with search link that opens modal
             <element:navigation name="{name}-menu" class="-small" pages="{settings.navUid.meta}">
@@ -38,26 +42,26 @@
       </div>
     </header>
     <f:comment>
-    <f:variable name="searchName" value="m-form-indexedsearch"/>
-    <layout:modal id="header-search-modal"
-                  class="{searchName}__modal">
-      <f:form     pluginName="Pi2"
-                  extensionName="indexedsearch"
-                  pageUid="{settings.search.pid}"
-                  controller="Search">
-        <div class="{searchName}__wrap">
-          <f:form.textfield
-                  id="main-menu-search-input"
-                  class="{searchName}__input"
-                  placeholder="Suchbegriff"
-                  name="search[sword]"/>
-           
-          <f:form.submit name="search[submitButton]"
-                         class="{searchName}__submit"
-                         value="{f:translate(extensionName:'puck',key:'search')}"/>
-        </div>
-      </f:form>
-    </layout:modal>
+      <f:variable name="searchName" value="m-form-indexedsearch"/>
+      <layout:modal id="header-search-modal"
+                    class="{searchName}__modal">
+        <f:form     pluginName="Pi2"
+                    extensionName="indexedsearch"
+                    pageUid="{settings.search.pid}"
+                    controller="Search">
+          <div class="{searchName}__wrap">
+            <f:form.textfield
+                    id="main-menu-search-input"
+                    class="{searchName}__input"
+                    placeholder="Suchbegriff"
+                    name="search[sword]"/>
+             
+            <f:form.submit name="search[submitButton]"
+                           class="{searchName}__submit"
+                           value="{f:translate(extensionName:'puck',key:'search')}"/>
+          </div>
+        </f:form>
+      </layout:modal>
     </f:comment>
   </fc:renderer>
 </fc:component>

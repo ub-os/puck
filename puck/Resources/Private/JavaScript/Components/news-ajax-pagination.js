@@ -4,10 +4,10 @@ $$('[id^="news-container"] .page-navigation a').forEach((el) => {
   paginationLink(el)
 });
 
-function paginationLink(node) {
-  const ajaxUrl = node.getAttribute('data-link');
-  const container = 'news-container-' + node.getAttribute('data-container');
-  node.onclick = function(e) {
+function paginationLink(element) {
+  const ajaxUrl = element.getAttribute('data-link');
+  const container = 'news-container-' + element.getAttribute('data-container');
+  element.onclick = function(e) {
     if (ajaxUrl !== undefined && ajaxUrl !== '') {
       e.preventDefault();
       fetch(ajaxUrl).then(function(response) {
@@ -28,4 +28,3 @@ function paginationLink(node) {
     }
   };
 }
-

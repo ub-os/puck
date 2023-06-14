@@ -27,9 +27,4 @@ class IconLoader
     {
         self::loadIconsFromPath('Resources/Public/Icons/Backend/');
     }
-
-    public static function loadContentIcons(): void
-    {
-        self::loadIconsFromPath('Resources/Public/Icons/Content/');
-    }
 }

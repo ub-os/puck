@@ -148,7 +148,7 @@ mod.web_layout.BackendLayouts.default.config.backend_layout.allowed.CType := add
 ## 4. Backend Resources
 
 ### 4.1. Icon
-SVG-Icon unter "Resources/Public/Icons/Content/{modelName}.svg" speichern.
+SVG-Icon unter "Resources/Public/Icons/Backend/{modelName}.svg" speichern.
 
 ### 4.2. Language file
 "Resources/Private/Language/locallang_be.xlf" erweitern.
