@@ -19,8 +19,8 @@ class Modal extends Toggleable {
         this.element.ariaModal = 'true'
         this.focusTrap.firstFocusable.focus()
     }
-    toggleOff(transition= true) {
-        super.toggleOff(transition)
+    toggleOff(transition= true, changeUrlHash =  true) {
+        super.toggleOff(transition, changeUrlHash)
         this.element.ariaHidden = 'true'
         this.element.removeAttribute('aria-modal')
         this.element.removeAttribute('role')

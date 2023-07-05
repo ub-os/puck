@@ -4,7 +4,7 @@
   <fc:param name="name" type="string" optional="1" default="m-page-main"/>
   <fc:renderer>
 
-    <f:debug>{settings}</f:debug>
+
     <main class="{name}" id="page-main">
       <f:if condition="{object.doktype} == {settings.doktype.person}">
         <module:hero.content object="{
@@ -19,7 +19,7 @@
             }"/>
       </f:if>
 
-      <f:format.raw>{contentElements}</f:format.raw>
+      {contentElements -> f:format.raw()}
 
       <f:if condition="{object.doktype} == {settings.doktype.post} && {object.postAuthor}">
         <module:content.text

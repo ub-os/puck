@@ -14,6 +14,8 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use UBOS\Puck\Attribute\ContentElementWizard;
 use UBOS\Puck\Attribute\ContainerElement;
+use UBOS\Puck\Attribute\FlexFormProperty;
+use UBOS\Puck\Domain\Model\Trait\Content\FlexForms;
 
 /**
  * @DatabaseTable("tt_content")
@@ -26,6 +28,7 @@ use UBOS\Puck\Attribute\ContainerElement;
 ])]
 class Row extends Text
 {
+    use FlexForms;
     /**
      * @var int
      */
@@ -44,4 +47,10 @@ class Row extends Text
      */
     public int $flexGrow = 0;
 
+    /**
+     * @var string
+     * @DatabaseField ("string", sql="mediumtext")
+     */
+    #[FlexFormProperty('FILE:EXT:puck/Configuration/FlexForms/CarouselOptions.xml')]
+    public string $options = '';
 }

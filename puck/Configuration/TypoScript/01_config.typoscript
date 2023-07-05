@@ -68,3 +68,5 @@ lib.parseFunc_RTE.tags.a.typolink.forceAbsoluteUrl = 1
 lib.parseFunc_RTE.tags.link.typolink.forceAbsoluteUrl = 1
 lib.parseFunc_RTE.tags.a.typolink.forceAbsoluteUrl.scheme = https
 lib.parseFunc_RTE.tags.link.typolink.forceAbsoluteUrl.scheme = https
+
+lib.parseFunc_RTE.externalBlocks.table.stdWrap.HTMLparser.tags.table.fixAttrib.class.list =

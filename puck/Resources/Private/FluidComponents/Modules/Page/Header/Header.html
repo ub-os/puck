@@ -5,7 +5,7 @@
   <fc:param name="context" type="array"/>
   <fc:renderer>
 
-    <header class="{name} --scroll">
+    <header class="{name}" data-scroll-sensitive="{f:format.json(value: {scrollTop: 25})}" data-page-header>
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink

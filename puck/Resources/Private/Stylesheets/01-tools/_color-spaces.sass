@@ -49,14 +49,6 @@
   --background-modal: #{ $white }
   --background-modal-backdrop: #{transparentize($grey-5, 0.5)}
 
-=color-space-card
-  +color-space-base
-  --background: #{ $white }
-
-=color-space-modal
-  +color-space-base
-  --background: var(--background-modal)
-
 =color-space-dark-1
   --background: #{ $lilac-purple }
   --color: #{ $white }
@@ -103,3 +95,15 @@
   --outline-color-button--focus: #{ $orange-mango-tango-30 }
   --color-button: #{ $blue-powder }
   --color-button--hover: #{ $white-dutch }
+
+
+=color-space-card
+  +color-space-base
+  --background: #{ $white }
+
+=color-space-modal
+  +color-space-base
+  --background: var(--background-modal)
+
+=color-space-card-image-background
+  +color-space-dark-1

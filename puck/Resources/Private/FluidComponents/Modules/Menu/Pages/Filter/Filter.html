@@ -49,6 +49,12 @@
                                                  data-fetch-link='{link2.fetchLinkOptions -> f:format.json()}'>
                                                   {link2.title}
                                               </a>
+                                              <element:button.dropdown.option
+                                                href="{link2.url}"
+                                                class="{mods -> puck:modClass()}"
+                                                attributes="data-fetch-link={link2.fetchLinkOptions -> f:format.json()}">
+                                                  {link2.title}
+                                              </element:button.dropdown.option>
                                           </f:else>
                                       </f:if>
                                   </f:for>

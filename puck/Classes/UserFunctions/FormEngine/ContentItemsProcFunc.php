@@ -32,7 +32,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
 
     protected function getContainerParent(array $params): ?array
     {
-        return BackendUtility::getRecord('tt_content', $params['row']['tx_container_parent'], '*', '', true) ?? null;
+        return BackendUtility::getRecord('tt_content', $this->val($params['row']['tx_container_parent']), '*', '', true) ?? null;
     }
 
     protected function getMaxWidth(array $params): int

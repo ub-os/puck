@@ -15,9 +15,15 @@
       <f:switch expression="{object.layout}">
 
         <f:case value="carousel">
-          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel">
+          <layout:carousel id="c{object.uid}-splide" class="{name}__carousel"
+                           align="{object.rowAlign}"
+                           arrows="{object.flexForms.options.carousel.arrows}"
+                           pagination="{object.flexForms.options.carousel.pagination}"
+                           trackOverflow="{object.flexForms.options.carousel.trackOverflow}"
+                           options="{object.flexForms.options.splide}">
             <f:for each="{children}" as="child">
-              <layout:row.item class="splide__slide {name}__item" width="{child.container_width}">
+              <layout:row.item class="splide__slide {name}__item {f:if(condition:'{object.rowAlign} === \'stretch\'', then:'-stretch-content')}"
+                               width="{child.container_width}">
                 {child.renderedContent -> f:format.raw()}
               </layout:row.item>
             </f:for>
@@ -27,7 +33,8 @@
         <f:defaultCase>
           <layout:row justify="{object.rowJustify}" align="{object.rowAlign}" class="{name}__row" flexGrow="{object.flexGrow}">
             <f:for each="{children}" as="child">
-              <layout:row.item class="{name}__item" width="{child.container_width}">
+              <layout:row.item class="{name}__item {f:if(condition:'{object.rowAlign} === \'stretch\'', then:'-stretch-content')}"
+                               width="{child.container_width}">
                 {child.renderedContent -> f:format.raw()}
               </layout:row.item>
             </f:for>

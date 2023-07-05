@@ -191,7 +191,7 @@ class PageRepository extends Repository
         } else {
             $orderDirection = QueryInterface::ORDER_DESCENDING;
         }
-        $query->setOrderings([$settings['order']['field'] => $orderDirection]);
+        $query->setOrderings([$settings['order']['field'] => $orderDirection, 'sorting' => QueryInterface::ORDER_ASCENDING]);
         return $query->matching($query->logicalAnd($constraints))->execute();
     }
 

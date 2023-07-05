@@ -19,7 +19,7 @@
           </div>
         </f:if>
         <f:if condition="{item.postDate} && {config.postDate}">
-          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
+          <time class="{name}__date" datetime="{item.postDate -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
         <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
           <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
@@ -29,6 +29,7 @@
         </f:if>
         <a href="{f:uri.page(pageUid: item.uid)}"
            class="{name}__headline"
+           target="{item.target}"
            data-link-to-stop="1">
           <f:format.raw>{item.navTitle}</f:format.raw>
         </a>
@@ -38,7 +39,7 @@
           </div>
         </f:if>
         <f:if condition="{config.teaserText} && {item.teaserText}">
-          <div class="{name}__teaser-text"><f:format.raw>{item.teaserText -> f:format.crop(maxCharacters:200)}</f:format.raw></div>
+          <div class="{name}__teaser-text"><f:format.raw>{item.teaserText -> f:format.crop(maxCharacters:300)}</f:format.raw></div>
         </f:if>
         <f:if condition="{item.author} && {config.author}">
           <div class="{name}__author">

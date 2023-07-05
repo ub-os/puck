@@ -10,7 +10,9 @@ $GLOBALS['TCA']['tt_content']['types']['puck_row'] = [
             --palette--;;bodytext,
         --div--;Layout,
             --palette--;;gridContainer,
-            --palette--;;gridColumns,'
+            --palette--;;gridColumns,
+        --div--;Advanced,
+            options,'
         .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [
         'bodytext' => [
@@ -22,9 +24,13 @@ $GLOBALS['TCA']['tt_content']['types']['puck_row'] = [
             'config' => [
                 'items' => [
                     ['Rows', 'default', 'row_layout_row'],
-                    ['Carousel', 'carousel', 'row_layout_carousel']
+                    ['Carousel', 'carousel', 'row_layout_carousel'],
                 ],
             ]
         ],
+        'options' => [
+            'label' => 'Carousel options',
+            'displayCond' => 'FIELD:layout:IN:carousel',
+        ]
     ]
 ];

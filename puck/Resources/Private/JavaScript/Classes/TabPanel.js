@@ -13,8 +13,8 @@ class TabPanel extends Toggleable {
         this.element.style.maxHeight = `${(this.element.scrollHeight + 100).toString()}px`
         this.toggles.forEach(t => t.ariaSelected = 'true')
     }
-    toggleOff(transition= true) {
-        super.toggleOff(transition)
+    toggleOff(transition= true, changeUrlHash =  true) {
+        super.toggleOff(transition, changeUrlHash)
         this.element.style.maxHeight = `0`
         this.toggles.forEach(t => t.ariaSelected = 'false')
     }

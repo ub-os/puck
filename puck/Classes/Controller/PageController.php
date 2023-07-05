@@ -17,6 +17,7 @@ use TYPO3\CMS\Extbase\Domain\Model\Category;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -300,6 +301,8 @@ class PageController extends ActionController
         $arguments = $this->request->getArguments();
         unset($arguments['page']);
         unset($arguments['object']);
+
+        $this->categoryRepository->setDefaultOrderings(['title' => QueryInterface::ORDER_ASCENDING]);
         $query = $this->categoryRepository->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         if ($filterSettings['categories']) {

@@ -21,7 +21,7 @@
           <element:navigation name="{name}-navigation" pages="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
         </div>
       </layout:section>
-      <f:format.raw>{contentElements}</f:format.raw>
+      {contentElements -> f:format.raw()}
     </footer>
 
   </fc:renderer>

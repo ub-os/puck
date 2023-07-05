@@ -8,7 +8,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_persons'] = [
             --palette--;;appearanceLayout,
             --palette--;;headers,
             --palette--;;bodytext,
-        --div--;Plugin,
+        --div--;Advanced,
             pi_flexform,'
         .TcaUtility::getContentShowitemBase(),
     'columnsOverrides' => [

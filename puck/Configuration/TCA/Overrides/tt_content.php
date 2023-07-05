@@ -6,12 +6,13 @@ use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Preview\PuckPreviewRenderer;
 use UBOS\Puck\Utility\PuckUtility;
 
-SmartContentObjectLoader::registerTypes();
 
 $contentTcaPath = ExtensionManagementUtility::extPath('puck', 'Configuration/TCA/Content');
 
 $columns = require $contentTcaPath . '/columns.php';
 $palettes = require $contentTcaPath . '/palettes.php';
+
+SmartContentObjectLoader::registerTypes();
 
 $typeNames = PuckUtility::getBaseFilesInDir($contentTcaPath . '/Types/', 'php');
 foreach ($typeNames as $type) {

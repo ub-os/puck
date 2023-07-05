@@ -4,23 +4,25 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <div class="{name}" id="c{object.uid}">
-      <layout:card
-              media="{object.assets}"
-              cropVariant="default"
-              width="{object.containerWidth}"
-              mediaSize="{object.cardMediaSize}"
-              mediaWidth="{object.mediaColumnWidth}"
-              mediaLayout="{object.mediaLayout}">
-        <f:if condition="{object.icon}">
-          <icon:svg icon="{object.icon}" class="{name}__icon"/>
-        </f:if>
+    <layout:card
+            class="{name}"
+            media="{object.assets}"
+            cropVariant="default"
+            width="{object.containerWidth}"
+            mediaSize="{object.cardMediaSize}"
+            mediaWidth="{object.mediaColumnWidth}"
+            mediaLayout="{object.mediaLayout}"
+            attributes="id=c{object.uid}">
+      <f:if condition="{object.icon}">
+        <icon:svg icon="{object.icon}" class="{name}__icon"/>
+      </f:if>
+      <div class="{name}__card__text">
         <element:text.header object="{object}" class="{name}__headline"/>
         <f:if condition="{object.bodytext}">
           <element:text.rich text="{object.bodytext}"/>
         </f:if>
-      </layout:card>
-    </div>
+      </div>
+    </layout:card>
 
   </fc:renderer>
 </fc:component>

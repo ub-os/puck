@@ -16,7 +16,7 @@
     <fc:param name="showDesc" type="boolean" optional="1" default="1"/>
     <fc:renderer>
 
-        <div class="{name} -layout-{layout} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
+        <div class="{name} -layout-{layout} {class} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
             <layout:row class="{name}__row" justify="{justify}" align="{align}">
                 <f:if condition="{media}">
                     <layout:row.item class="{name}__media" width="{mediaWidth}">

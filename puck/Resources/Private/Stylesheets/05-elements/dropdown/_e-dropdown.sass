@@ -1,0 +1,73 @@
+.e-dropdown
+  &
+    position: relative
+
+  &__button
+    @extend .e-button-primary
+    padding-right: calc(var(--padding-inline) + 2em) !important
+    &:hover
+
+    &.--active
+
+    &__icon
+      +center(vertical)
+      right: .45em
+      font-size: 1.5em
+      color: color-mix(in srgb, var(--color-button) 32%, transparent)
+      transition: rotate .15s, color .15s
+
+    &:hover &__icon
+      color: var(--color-button)
+
+    &.--active &__icon
+      rotate: 180deg
+      transform-origin: top
+
+    &.--active:hover &__icon
+
+
+  &__close
+    position: relative
+    top: .1em
+    display: inline-flex
+    padding: .15em .3em
+    margin-block: -0.5em
+    color: color-mix(in srgb, var(--color) 32%, transparent)
+    border-radius: 100%
+    &:hover
+      color: var(--color)
+    //background: var(--color-accent)
+    &__icon
+      height: 1.2em
+
+  &__box
+    position: absolute
+    top: 100%
+    left: 0
+    z-index: 99
+    padding: 1em 0
+    min-width: 15em
+    visibility: hidden
+    background: var(--background)
+    border-radius: var(--border-radius-s)
+    box-shadow: var(--box-shadow-m)
+    opacity: 0
+    transition: opacity .15s
+    &.--active
+      visibility: visible
+      opacity: 1
+
+  &__option
+    display: block
+    padding: .5em 1em
+    color: var(--color-alt)
+    font-weight: 600
+    &:hover:not(.--active)
+      color: var(--color-accent)
+    &.--active
+    //color: var(--color-accent)
+    &.-disabled
+      pointer-events: none
+      opacity: .5
+
+

@@ -18,6 +18,8 @@
     margin-block: calc(var(--grid-gutter-y) * -.5)
     margin-inline: calc(var(--grid-gutter-x) * -.5)
     overflow: visible
+    overflow-x: hidden
+    overflow-y: hidden
     overflow-x: clip
     overflow-y: clip
 
@@ -25,6 +27,19 @@
     overflow: visible
     overflow-x: visible
     overflow-y: visible
+
+  &__list
+    &.-align-start
+      align-items: flex-start
+
+    &.-align-center
+      align-items: center
+
+    &.-align-end
+      align-items: flex-end
+
+    &.-align-stretch
+      align-items: stretch
 
   &__page
     $width: .75em

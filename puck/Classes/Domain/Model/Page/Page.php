@@ -70,6 +70,10 @@ class Page extends AbstractEntity
      */
     public string $layout = '';
     /**
+     * @var string
+     */
+    public string $target = '';
+    /**
      * @var int
      */
     public int $navHide = 0;

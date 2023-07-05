@@ -11,6 +11,7 @@ use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
 use UBOS\Puck\Attribute\ContainerElement;
 use UBOS\Puck\Attribute\ContentElementWizard;
+use UBOS\Puck\Attribute\FlexFormProperty;
 use UBOS\Puck\Attribute\PluginElement;
 use UBOS\Puck\Preview\PuckPreviewRenderer;
 use UBOS\Puck\Utility\PuckUtility;
@@ -91,17 +92,30 @@ class SmartContentObjectLoader
             );
             foreach($group as $model) {
                 $refClass = new ReflectionClass($model['fullName']);
-                $refPluginElement = $refClass->getAttributes(PluginElement::class)[0] ?? null;
+                //$refPluginElement = $refClass->getAttributes(PluginElement::class)[0] ?? null;
                 $refContainerElement = $refClass->getAttributes(ContainerElement::class)[0] ?? null;
 
-                if ($refPluginElement) {
-                    $piFlexFormValue = $refPluginElement->newInstance()->piFlexFormValue;
-                    if ($piFlexFormValue) {
-                        ExtensionManagementUtility::addPiFlexFormValue(
-                            '*',
-                            $piFlexFormValue,
-                            $model['typeKey']
-                        );
+//                if ($refPluginElement) {
+//                    $piFlexFormValue = $refPluginElement->newInstance()->piFlexFormValue;
+//                    if ($piFlexFormValue) {
+//                        ExtensionManagementUtility::addPiFlexFormValue(
+//                            '*',
+//                            $piFlexFormValue,
+//                            $model['typeKey']
+//                        );
+//                    }
+//                }
+
+                foreach ($refClass->getProperties() as $property) {
+                    $refFlexFormProperty = $property->getAttributes(FlexFormProperty::class) ?? null;
+                    if ($refFlexFormProperty) {
+                        $column = GeneralUtility::camelCaseToLowerCaseUnderscored($property->getName());
+                        $flexFormValue = $refFlexFormProperty[0]->newInstance()->flexFormValue;
+                        if ($flexFormValue) {
+                            if (is_array($GLOBALS['TCA']['tt_content']['columns']) && is_array($GLOBALS['TCA']['tt_content']['columns'][$column]['config']['ds'])) {
+                                $GLOBALS['TCA']['tt_content']['columns'][$column]['config']['ds']['*' . ',' . $model['typeKey']] = $flexFormValue;
+                            }
+                        }
                     }
                 }
 

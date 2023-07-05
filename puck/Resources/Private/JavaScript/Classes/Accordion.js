@@ -14,8 +14,8 @@ class Accordion extends Toggleable {
         }
         this.toggles.forEach(t => t.ariaExpanded = 'true')
     }
-    toggleOff(transition= true) {
-        super.toggleOff(transition)
+    toggleOff(transition= true, changeUrlHash =  true) {
+        super.toggleOff(transition, changeUrlHash)
         if (this.useMinHeight) {
             this.element.style.minHeight = `0`
         } else {

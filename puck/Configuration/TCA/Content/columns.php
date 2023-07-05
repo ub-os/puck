@@ -78,6 +78,9 @@ $columns['subheader'] = [
     ],
 ];
 
+$columns['bodytext'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
+$columns['bodytext']['config']['search']['andWhere'] = '';
+
 $columns['imagecols'] = [
     'label' => 'Media per Row',
     'config' => [
@@ -385,6 +388,16 @@ $columns['flex_grow'] = [
         'type' => 'check',
         'renderType' => 'checkboxToggle',
         'default' => 0,
+    ]
+];
+$columns['options'] = [
+    'label' => 'Options',
+    'config' => [
+        'type' => 'flex',
+        'ds' => [
+            'default' => $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds']['default'],
+        ],
+        'ds_pointerField' => 'layout,CType',
     ]
 ];
 foreach($columns as $name => $column) {

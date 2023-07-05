@@ -1,13 +1,6 @@
 import {getElement} from '../General/Functions'
 import AbstractComponent from "./AbstractComponent.js";
 
-const toggleEvents = {
-  toggle: new Event('toggle'),
-  toggleOn: new Event('toggleOn'),
-  toggleOff: new Event('toggleOff'),
-  groupToggle: new Event('groupToggle'),
-}
-
 export default class Toggleable extends AbstractComponent{
   static events = {
     toggle: new Event('toggle'),
@@ -24,6 +17,7 @@ export default class Toggleable extends AbstractComponent{
     clickDelay = 0,
     triggerOn = 'click',
     classes = {},
+    setClassOnParent = false,
     toggleOnIfUrlHashMatches = true,
     removeMatchingUrlHashOnToggleOff = true,
     toggleOffOnEsc = true,
@@ -38,7 +32,7 @@ export default class Toggleable extends AbstractComponent{
   {
     super(target)
     Object.assign(this, {
-      active, alwaysActive, groupId, exclusiveGroup, clickDelay, triggerOn,
+      active, alwaysActive, groupId, exclusiveGroup, clickDelay, triggerOn, setClassOnParent,
       removeMatchingUrlHashOnToggleOff, toggleOffOnOutsideClick, toggleOffOnOutsideClickTarget,
       toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles,
       pauseMediaOnToggle, reloadIframeOnToggle, disableToggleOffIfToggleNotLastUsedToggle })
@@ -72,6 +66,9 @@ export default class Toggleable extends AbstractComponent{
   }
   setClass(operation, className) {
     this.element.classList[operation](className)
+    if (this.setClassOnParent) {
+      this.element.parentNode.classList[operation](className)
+    }
     document.documentElement.classList[operation](`--${this.id}-${this.constructor.name.toLowerCase()}${className}`)
     this.toggles.forEach(t => t.classList[operation](className))
   }
@@ -94,7 +91,7 @@ export default class Toggleable extends AbstractComponent{
       this.groupElement.dispatchEvent(Toggleable.events.groupToggle)
     }
   }
-  toggleOff(transition= true) {
+  toggleOff(transition= true, changeUrlHash = true) {
     this.active = false
     this.setClass('remove', this.classes.active)
     if (transition) this.transitionClass(this.classes.deactivating)
@@ -111,8 +108,8 @@ export default class Toggleable extends AbstractComponent{
         }
       })
     }
-    if (this.removeMatchingUrlHashOnToggleOff && window.location.hash === `#${this.id}`) {
-      window.location.hash = ''
+    if (changeUrlHash && this.removeMatchingUrlHashOnToggleOff && window.location.hash === `#${this.id}`) {
+      history.replaceState("", document.title, window.location.pathname + window.location.search)
     }
   }
   toggle() {
@@ -128,7 +125,7 @@ export default class Toggleable extends AbstractComponent{
     if (toggle) this.lastUsedToggle = toggle
   }
   mount() {
-    this.active ? this.toggleOn(false) : this.toggleOff(false)
+    this.active ? this.toggleOn(false) : this.toggleOff(false, false)
     this.toggles.forEach(t => {
       t.setAttribute('aria-controls', this.id)
       switch (this.triggerOn) {

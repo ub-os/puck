@@ -17,8 +17,13 @@
     --height-page-header: #{$page-header-height--scroll}
     position: fixed
     top: 0
+    &.--scroll-up, &.--scroll-down
+    transition: background .5s, transform .4s
+    &.--scroll-down
+      transform: translateY(-100%)
     +media(sm)
       --height-page-header: #{$page-header-height-mobile}
+
 
   &__container
     +flex(row, space-between, center, nowrap)
@@ -64,11 +69,8 @@
     height: var(--height-page-header)
     background: white
     opacity: 0
-    transform: translateY(-100%)
     transition: opacity .35s, transform 0s .35s, border-color .35s
 
   &.--scroll &__background
     opacity: 1
-    transform: translateY(0%)
-
     transition: transform .35s, border-color .35s

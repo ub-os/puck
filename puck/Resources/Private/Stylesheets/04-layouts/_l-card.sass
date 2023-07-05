@@ -3,6 +3,7 @@
   +color-space-card
   --padding-block: 2em
   --padding-inline: 2em
+  --padding-bottom: var(--padding-block)
   +media(s)
     //--padding-block: 1.5em
     //--padding-inline: 10%
@@ -17,8 +18,12 @@
     &.-media
       flex-direction: column-reverse
       justify-content: space-between
-    &.-media-size-contain
-      padding: var(--padding-block) var(--padding-inline)
+    &.-media-size-background
+      +color-space-card-image-background
+
+    &.-media-size-contain,
+    &.-media-size-background
+      padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
     &.-layout-right
       +media-up(s)
         flex-direction: row
@@ -47,6 +52,16 @@
 
   &__figure
     width: 100%
+
+    &.-media-size-background
+      +cover-media
+      position: absolute
+      z-index: 0
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+
     &.-media-size-cover.-layout-right,
     &.-media-size-cover.-layout-left
       +media-up(s)
@@ -56,19 +71,19 @@
           &.-media-width-#{$i}
             width: calc(100% * #{$i} / var(--grid-columns-original))
     &.-media-size-contain.-layout-above
-      padding-bottom: var(--padding-block)
+      padding-bottom: var(--padding-bottom)
     &.-media-size-contain.-layout-below
       padding-top: var(--padding-block)
     &.-media-size-contain.-layout-right
       +media-up(s)
         padding-left: var(--padding-inline)
       +media(s)
-        padding-bottom: var(--padding-block)
+        padding-bottom: var(--padding-bottom)
     &.-media-size-contain.-layout-left
       +media-up(s)
         padding-right: var(--padding-inline)
       +media(s)
-        padding-bottom: var(--padding-block)
+        padding-bottom: var(--padding-bottom)
     &.-media-size-contain.-layout-right,
     &.-media-size-contain.-layout-left
       +media-up(s)

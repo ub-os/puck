@@ -1,18 +1,16 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-control-to-top"/>
-  <fc:param name="options" type="array" optional="1" default="{top: {0: {top: 500, media: 0}}}"/>
+  <fc:param name="options" type="array" optional="1" default="{scrollTop: 500}"/>
 
   <fc:renderer>
 
-    <a class="{name}"
-            aria-label="{f:translate(extensionName: 'puck', key: 'to-top')}"
-            href="#page-main"
-            data-scroll-sensitive="{options -> f:format.json()}">
+    <div class="{name}"
+         aria-label="{f:translate(extensionName: 'puck', key: 'to-top')}"
+         onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+         data-scroll-sensitive="{options -> f:format.json()}">
       <icon:svg icon="angle-up-regular" class="{name}__icon"/>
-    </a>
+    </div>
 
   </fc:renderer>
 </fc:component>
-
-

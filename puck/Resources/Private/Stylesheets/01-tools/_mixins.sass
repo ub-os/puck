@@ -59,15 +59,15 @@
   --grid-gutter-y: var(--grid-gutter-x)
   display: flex
   flex-wrap: wrap
-  margin-top: calc(-1 * var(--grid-gutter-y))
-  margin-inline: calc(-.5 * var(--grid-gutter-x))
+  margin-bock: calc(var(--grid-gutter-y) * -.5)
+  margin-inline: calc(var(--grid-gutter-x) * -.5)
 
 
 =grid-col($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
   flex-shrink: 0
   max-width: 100%
   padding-inline: calc(var(--grid-gutter-x) * .5)
-  margin-top: var(--grid-gutter-y)
+  margin-block: calc(var(--grid-gutter-y) * .5)
   flex: 0 0 auto
   +grid-col-width($columns, $custom-grid-columns, $columns-mb)
 

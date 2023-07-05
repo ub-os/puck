@@ -6,6 +6,7 @@
   <fc:param name="arrows" type="boolean" optional="1" default="1"/>
   <fc:param name="pagination" type="boolean" optional="1" default="0"/>
   <fc:param name="trackOverflow" type="string" optional="1" default="hidden"/>
+  <fc:param name="align" type="string" optional="1" default="start"/>
   <fc:renderer>
 
     <f:variable name="defaultOptions"
@@ -25,7 +26,7 @@
 
     <div class="{name} {class} splide" data-carousel="{options -> f:format.json()}" id="{id}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
-        <ul class="{name}__list splide__list">
+        <ul class="{name}__list splide__list -align-{align}">
           <f:format.raw>{content}</f:format.raw>
         </ul>
       </div>

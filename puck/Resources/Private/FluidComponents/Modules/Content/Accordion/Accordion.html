@@ -4,7 +4,7 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <f:variable name="options" value="{groupId: 'c{object.txContainerParent}'}"/>
+    <f:variable name="options" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1}"/>
     <div class="{name}" id="{object.uid}">
       <button class="{name}__button"
               id="{object.uid}-header"

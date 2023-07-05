@@ -11,25 +11,19 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use UBOS\Puck\Attribute\ContentElementWizard;
 use UBOS\Puck\Attribute\PluginElement;
-use UBOS\Puck\Domain\Model\Trait\Content\FlexForm;
+use UBOS\Puck\Domain\Model\Trait\Content\PageMenuPlugin;
 use UBOS\Puck\Domain\Model\Trait\Content\TextMediaLayout;
 
 /**
  * @DatabaseTable("tt_content")
  */
 #[ContentElementWizard('03_menu')]
-#[PluginElement('PageMenu', piFlexFormValue: 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
+#[PluginElement('PageMenu')]
 class MenuPages extends Text
 {
-    use FlexForm;
     use TextMediaLayout;
+    use PageMenuPlugin;
 
-    /**
-     * @var ?array
-     * @Transient
-     *
-     */
-    public ?array $menu = null;
 
     /**
      * @var string

@@ -19,10 +19,10 @@
   @return math.div(($page-width - $gutter * grid-gutters()), $grid-columns)
 
 @function bps-up()
-  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'grid-width': grid-width())
+  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': grid-width())
 
 @function bps-down()
-  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'grid-width': (grid-width() - 1))
+  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'xxl': ($bp-xxl - 1), 'grid-width': (grid-width()))
 
 @function sizes()
   @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)

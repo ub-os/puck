@@ -61,8 +61,22 @@
 		+spacing(bottom, xs)
 
 	table
+
+	.row-layout-table
+		tr
+			+flex(row,flex-start,flex-start,nowrap)
+			margin: -.6em
+			+media(sm)
+				flex-wrap: wrap
+			& + tr
+				margin-top: .6em
+		td
+			padding: .6em
+
+	.data-table
 		@extend .e-text-table
 		+spacing(bottom, xs)
+
 
 	* + h2
 		+spacing(top, s, margin)
