@@ -1,14 +1,14 @@
 
 <fc:component>
     <fc:param name="name" type="string" optional="1" default="e-dropdown"/>
-    <fc:param name="attributes" type="string" optional="1"/>
+    <fc:param name="attributes" type="mixed" optional="1"/>
     <fc:param name="href" type="string" optional="1"/>
     <fc:renderer>
 
         <element:tag class="{name}__option {class}"
                      is="{f:if(condition:href,then:'a',else:'button')}"
-                    attributes="{attributes} {f:if(condition:'{href}',then:'href={href}')}">
-            {content}
+                    attributes="{attributes -> puck:attributes()} {f:if(condition:'{href}',then:'href={href}')}">
+            {content -> f:format.raw()}
         </element:tag>
 
     </fc:renderer>

@@ -4,13 +4,13 @@
   <fc:param name="id" type="string" optional="1"/>
   <fc:param name="width" type="integer" optional="1" default="6"/>
   <fc:param name="slots" type="array" optional="1" default="{}"/>
-  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
     <div class="{name} {class} -width-{width}"
          id="{id}"
          data-modal
-         {attributes}>
+         {attributes -> puck:attributes()}>
 
       <f:comment>
         <f:if condition="{slots.header}">

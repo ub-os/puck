@@ -10,7 +10,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_row'] = [
             --palette--;;bodytext,
         --div--;Layout,
             --palette--;;gridContainer,
-            --palette--;;gridColumns,
+            --palette--;;gridColumnsAlignment,
         --div--;Advanced,
             options,'
         .TcaUtility::getContentShowitemBase(),

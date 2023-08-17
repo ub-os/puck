@@ -10,6 +10,7 @@ import Carousel from '../Classes/Carousel';
 import ScrollReveal from '../Classes/ScrollReveal';
 import ScrollSensitive from '../Classes/ScrollSensitive';
 import FetchLink from "../Classes/FetchLink.js";
+import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
 import { getElement, scrollTo } from '../General/Functions';
 
@@ -26,21 +27,23 @@ const mountComponents = (target) => {
         {
             smoothHashLinks: new SmoothHashLinks({ root }).mount(),
 
-            linkTos: LinkTo.createInstancesFromDataAttribute({ root }),
+            linkTos: LinkTo.createInstancesFromDataAttribute({ root, attribute: 'data-link-to' }),
 
-            fetchLinks: FetchLink.createInstancesFromDataAttribute({ root }),
+            fetchLinks: FetchLink.createInstancesFromDataAttribute({ root, attribute: 'data-fetch-link' }),
 
-            accordions: Accordion.createInstancesFromDataAttribute({ root, options: {clickDelay: 150, useMinHeight: true} }),
+            accordions: Accordion.createInstancesFromDataAttribute({ root, attribute: 'data-accordion', options: {clickDelay: 150, useMinHeight: true} }),
 
-            toggleables: Toggleable.createInstancesFromDataAttribute({ root }),
+            toggleables: Toggleable.createInstancesFromDataAttribute({ root, attribute: 'data-toggleable' }),
 
-            tabPanels: TabPanel.createInstancesFromDataAttribute({ root, options: {clickDelay: 150} }),
+            tabPanels: TabPanel.createInstancesFromDataAttribute({ root, attribute: 'data-tab-panel', options: {clickDelay: 150} }),
 
-            modals: Modal.createInstancesFromDataAttribute({ root, options: {clickDelay: 150} }),
+            modals: Modal.createInstancesFromDataAttribute({ root, attribute: 'data-modal', options: {clickDelay: 150} }),
 
-            carousels: Carousel.createInstancesFromDataAttribute({ root }),
+            carousels: Carousel.createInstancesFromDataAttribute({ root, attribute: 'data-carousel' }),
 
-            scrollSensitives: ScrollSensitive.createInstancesFromDataAttribute({ root }),
+            scrollSensitives: ScrollSensitive.createInstancesFromDataAttribute({ root, attribute: 'data-scroll-sensitive' }),
+
+            mediaPlayers: MediaPlayer.createInstancesFromDataAttribute({ root, attribute: 'data-media-player' }),
 
             scrollReveals: [...root.$$('main section')].map(element => {
                 return {

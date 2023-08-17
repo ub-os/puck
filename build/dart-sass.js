@@ -5,19 +5,20 @@ import path from 'path';
 
 const sourcePath = "./puck/Resources/Private/Stylesheets/";
 const distPath = "./puck/Resources/Public/css/";
-const files = [
+const fileNames = [
   "styles",
   "be-ck-contents",
   "backend/general"
 ];
 
-for (let file of files) {
-    renderFile(file);
+ensureDirectoryExistence(distPath);
+for (let fileName of fileNames) {
+    renderFile(fileName);
 }
 
-function renderFile(file) {
-    const sassFile = sourcePath+file+".sass";
-    const cssFile = distPath+file+".css";
+function renderFile(fileName) {
+    const sassFile = sourcePath+fileName+".sass";
+    const cssFile = distPath+fileName+".css";
 
     sass.render({
         file: sassFile,
@@ -26,10 +27,11 @@ function renderFile(file) {
         sourceMap: true,
         quietDeps: true,
     }, function(error, result) {
+        console.log('Building ' + cssFile);
         if(!error){
-            ensureDirectoryExistence(cssFile);
             fs.writeFile(cssFile, result.css, function(err){
-                if(!err){
+                if(!err) {
+                    console.log('Building complete!');
                 } else {
                     console.log(err);
                 }

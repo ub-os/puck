@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Page Controller.
- */
 declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;
@@ -16,8 +13,8 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
-
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -38,6 +35,7 @@ use UBOS\Puck\Domain\Repository\Page\PageRepository;
  */
 class PageController extends ActionController
 {
+
     /**
      * Render the Page via ExtBase.
      * @Plugin("Page")
@@ -117,6 +115,8 @@ class PageController extends ActionController
         $this->pageRepository = $pageRepository;
     }
 
+    protected bool $addPageTitleSuffixOnMenuCategoryPages = true;
+
     protected function renderMenu(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,
@@ -130,8 +130,8 @@ class PageController extends ActionController
         $arguments = $this->request->getArguments();
 
         // get settings from object if provided
-        //$settings = $object ? $object->getFlexformArray()['settings'] : $this->settings;
-        $this->settings = $this->contentObject ? $this->contentObject->getFlexformArray()['settings'] : $this->settings;
+        // $settings = $object ? $object->getFlexformArray()['settings'] : $this->settings;
+        $this->settings = $this->contentObject ? $this->contentObject->getFlexForms()['piFlexform']['settings'] : $this->settings;
 
         $this->view->assign('settings', $this->settings);
 
@@ -157,7 +157,7 @@ class PageController extends ActionController
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
         $this->contentObject = $this->contentObject ?? $dataMapper->map($vendorName.'\\'.$extensionKey.'\\Domain\\Model\\Content\\'.$contentClassName, [$contentObjectData])[0];
 
-        // paginate the records (optional) and add them to the  object
+        // paginate the records (optional) and add them to the object
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
         if ($this->settings['pagination']['active'] && $pages->count() > $itemsPerPage) {
             $pagination = PuckUtility::paginateQueryResult($pages, $currentPage, $itemsPerPage);
@@ -183,7 +183,9 @@ class PageController extends ActionController
         }
 
         // add category to page title
-        $this->addMenuCategorySuffixToPageTitle($categoryList);
+        if ($this->addPageTitleSuffixOnMenuCategoryPages) {
+            $this->addMenuCategorySuffixToPageTitle($categoryList);
+        }
 
         $this->view->assign('arguments', [
             'categoryList' => $categoryList,

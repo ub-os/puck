@@ -31,7 +31,7 @@ export default class SmoothHashLinks {
       };
     });
     window.requestAnimationFrame(() => {
-      const id = window.location.hash.substring(1);
+      const id = window.location.hash.substring(1).split('?')[0];
       if (id) scrollTo(id, self.offset);
     });
     return this

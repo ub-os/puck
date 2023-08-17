@@ -66,7 +66,7 @@
                     </settings.demand.navHide>
                     <settings.demand.limit>
                         <TCEforms>
-                            <label>Maximum number of posts displayed</label>
+                            <label>Maximum number of records displayed</label>
                             <config>
                                 <type>input</type>
                                 <eval>num</eval>
@@ -76,7 +76,7 @@
                     </settings.demand.limit>
                     <settings.demand.offset>
                         <TCEforms>
-                            <label>Number of posts to skip before displaying the first post</label>
+                            <label>Number of records to skip before displaying the first record</label>
                             <config>
                                 <type>input</type>
                                 <eval>num</eval>

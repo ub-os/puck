@@ -1,9 +1,9 @@
 <fc:component>
   <fc:param name="icon" type="string"/>
-  <fc:param name="attributes" type="string" optional="1" default=""/>
+  <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
-    <i class="char-icon icon--{icon} {class}" {attributes}></i>
+    <i class="char-icon icon--{icon} {class}" {attributes -> puck:attributes()}></i>
 
   </fc:renderer>
 </fc:component>

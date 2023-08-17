@@ -1,60 +1,78 @@
-import {getElement} from '../General/Functions'
-import AbstractComponent from "./AbstractComponent.js";
+import { getElement } from '../General/Functions'
+import AbstractComponent from "./AbstractComponent";
+
+const scrollSensitiveObserverMap = new Map()
 
 export default class ScrollSensitive extends AbstractComponent {
-  static events = {
-    addScrollClass: new Event('addScrollClass'),
-    removeScrollClass: new Event('removeScrollClass')
-  }
-  static defaultObserverOptions = {
-    root: null,
-    rootMargin: '0px 0px 0px 0px',
-    threshold: [0,1],
-  }
-  static createIntersectionObserver = (options = this.defaultObserverOptions) => {
-    const observer =  new IntersectionObserver(
-        (entries, observer) => {
-          const top = parseInt(options.rootMargin.split('px')[0]) * -1
-          entries.forEach(e => {
-            if (e.boundingClientRect.top > top) {
-              // do things if below
-              e.target.dispatchEvent(this.events.removeScrollClass)
-            } else {
-              // do things if above
-              e.target.dispatchEvent(this.events.addScrollClass)
-            }
-          })
-        },
-        options)
-    return observer
-  }
-  static defaultObserver = this.createIntersectionObserver()
 
   constructor(target, {
     scrollClass = '--scroll',
-    observerRoot,
-    observerRootMargin,
-    observerThreshold,
-    observationTarget,
+    classes = {},
+    observer = {},
     cloneElementToRetainFlow = false,
     cloneClass = '-scroll-sense-clone',
     scrollTop = 0,
     scrollParent = window,
     ...options})
   {
-    //
     super(target)
-    Object.assign(this, {
-      scrollClass, scrollTop, observerRoot, observerRootMargin, observerThreshold,
-      observationTarget, cloneElementToRetainFlow, scrollParent, ...options })
-    this.observedElement = observationTarget ? getElement(observationTarget, 'ScrollSensitive') : this.element
+    Object.assign(this, { scrollClass, scrollTop, cloneElementToRetainFlow, scrollParent, ...options })
+
+    this.observer = {
+      root: null,
+      rootMargin: '0px 0px 0px 0px',
+      threshold: [0,1],
+      target : null,
+      ...observer
+    }
+    this.classes = {
+      topInsideView: '--top-inside-view',
+      topAboveView: '--top-above-view',
+      topBelowView: '--top-below-view',
+      bottomInsideView: '--bottom-inside-view',
+      bottomAboveView: '--bottom-above-view',
+      bottomBelowView: '--bottom-below-view',
+      ...classes
+    }
+    this.observedElement = this.observer.target ? getElement(this.observer.target, 'ScrollSensitive') : this.element
     if (cloneElementToRetainFlow) {
-      const clone = this.element.cloneNode(true)
+      const clone = this.node.cloneNode(true)
       clone.classList.add(cloneClass)
-      this.element.parentElement.insertBefore(clone, this.element)
+      this.element.parentNode.insertBefore(clone, this.element)
       this.element = clone
     }
   }
+
+  createIntersectionObserver(
+      options,
+      classes,
+      classTarget,
+  ) {
+    const observer =  new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach(e => {
+            for (let side of ['top', 'bottom']) {
+              if (e.boundingClientRect[side] > e.rootBounds.top) {
+                classTarget.classList.remove(classes[side+'AboveView'])
+                if (e.boundingClientRect[side] < e.rootBounds.bottom) {
+                  classTarget.classList.add(classes[side+'InsideView'])
+                  classTarget.classList.remove(classes[side+'BelowView'])
+                } else {
+                  classTarget.classList.add(classes[side+'BelowView'])
+                  classTarget.classList.remove(classes[side+'InsideView'])
+                }
+              } else {
+                classTarget.classList.add(classes[side+'AboveView'])
+                classTarget.classList.remove(classes[side+'InsideView'])
+                classTarget.classList.remove(classes[side+'BelowView'])
+              }
+            }
+          })
+        },
+        options)
+    return observer
+  }
+
   mount() {
     if (this.scrollTop) {
       this.scrollParent.addEventListener('scroll', e => {
@@ -66,21 +84,22 @@ export default class ScrollSensitive extends AbstractComponent {
       })
       return this
     }
-    if (this.observerRoot || this.observerRootMargin || this.observerThreshold) {
-      this.constructor.createIntersectionObserver({
-        root: this.observerRoot ? getElement(this.observerRoot) : null,
-        rootMargin: this.observerRootMargin || '0px 0px 0px 0px',
-        threshold: this.observerThreshold || [0,1]
-      }).observe(this.observedElement)
-    } else {
-      this.constructor.defaultObserver.observe(this.observedElement)
+
+    // stringify the observer options to create a unique key for the map
+    const optionsString = JSON.stringify({
+      observer: this.observer,
+      classes: this.classes
+    })
+    if (!scrollSensitiveObserverMap.get(optionsString)) {
+      scrollSensitiveObserverMap.set(
+          optionsString,
+          this.createIntersectionObserver(
+              this.observer,
+              this.classes,
+              this.element)
+      )
     }
-    this.observedElement.addEventListener('addScrollClass', () => {
-      this.element.classList.add(this.scrollClass)
-    })
-    this.observedElement.addEventListener('removeScrollClass', () => {
-      this.element.classList.remove(this.scrollClass)
-    })
+    scrollSensitiveObserverMap.get(optionsString).observe(this.observedElement)
     return this
   }
 }

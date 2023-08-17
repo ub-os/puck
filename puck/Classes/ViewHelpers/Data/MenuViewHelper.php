@@ -7,6 +7,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 
 use B13\Menus\DataProcessing\BreadcrumbsMenu;
 use B13\Menus\DataProcessing\LanguageMenu;
@@ -22,9 +23,10 @@ class MenuViewHelper extends AbstractViewHelper
         $this->registerArgument('processor', 'string', '', false, 'list');
         $this->registerArgument('excludePages', 'string', '', false, '');
         $this->registerArgument('includeNotInMenu', 'boolean', '', false, false);
-        $this->registerArgument('excludeLanguages', 'boolean', '', false, '');
+        $this->registerArgument('excludeLanguages', 'string', '', false, '');
         $this->registerArgument('addAllSiteLanguages', 'boolean', '', false, false);
-        $this->registerArgument('excludeDoktypes', 'boolean', '', false, '199,254,255');
+        $this->registerArgument('excludeDoktypes', 'string', '', false, '199,254,255');
+        $this->registerArgument('processMedia', 'boolean', '', false, false);
     }
 
     public static function renderStatic(
@@ -75,6 +77,18 @@ class MenuViewHelper extends AbstractViewHelper
                 ];
         }
         $processorConfiguration = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($processorConfiguration);
+        if ($arguments['processMedia']) {
+            $processorConfiguration['dataProcessing.'] = [
+                '10' => 'TYPO3\CMS\Frontend\DataProcessing\FilesProcessor',
+                '10.' => [
+                    'references.' => [
+                        'table' => 'pages',
+                        'fieldName' => 'media',
+                    ],
+                    'as' => 'processedMedia',
+                ],
+            ];
+        }
         return $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
 
     }

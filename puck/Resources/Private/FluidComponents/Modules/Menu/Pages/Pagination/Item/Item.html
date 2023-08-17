@@ -2,6 +2,7 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-plugin-pagination"/>
   <fc:param name="link" type="array"/>
+  <fc:param name="rel" type="string" optional="1" default="nofollow"/>
   <fc:renderer>
 
     <li class="{name}__item">
@@ -11,6 +12,7 @@
         </f:then>
         <f:else>
           <a href="{link.url}"
+             rel="{rel}"
              data-fetch-link='{link.fetchLinkOptions -> f:format.json()}'
              class="{name}__link">
             <f:switch expression="{link.title}">

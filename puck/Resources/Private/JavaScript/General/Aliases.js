@@ -22,7 +22,7 @@ const jsx = (tag, props, ...children) => {
 
   children.forEach((child) => {
     element.appendChild(
-        child.elementType === undefined ? document.createTextEl(child.toString()) : child
+        child.nodeName === undefined ? document.createTextEl(child.toString()) : child
     )
   })
   return element

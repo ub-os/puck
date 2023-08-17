@@ -3,68 +3,62 @@
   <fc:param name="name" type="string" optional="1" default="e-plugin-filter"/>
   <fc:param name="categoryFilterLinks" type="array"/>
     <fc:param name="id" type="string" optional="1"/>
-  <fc:renderer>
+    <fc:param name="rel" type="string" optional="1" default="nofollow"/>
+    <fc:renderer>
 
       <f:if condition="{categoryFilterLinks}">
           <ul class="{name}">
-              <li class="{name}__item">
-                  <div class="{name}__header">
-                      <icon:svg icon="filter" class="{name}__header__icon"/> Filter
-                  </div>
-              </li>
               <f:for each="{categoryFilterLinks}" as="link" iteration="i">
                   <li class="{name}__item">
                   <f:if condition="{link.links}">
                       <f:then>
-                          <f:variable name="options" value="{toggleOffOnOutsideClick: 1}"/>
-                          <div class="e-button-dropdown">
-                              <button class="e-button-dropdown__button" aria-controls="{id}-{i.index}-dropdown">
-                                  {link.title}
-                                    <icon:svg icon="angle-down-regular" class="e-button-dropdown__button__icon"/>
-                              </button>
+                          <f:variable name="outerContent">
                               <f:if condition="{link.closeLink}">
                                   <a href="{link.closeLink.url}"
-                                     class="e-button-dropdown__close"
+                                     rel="{rel}"
+                                     class="e-dropdown__close"
                                      data-fetch-link='{link.closeLink.fetchLinkOptions -> f:format.json()}'>
                                       <icon:svg icon="xmark-regular" />
                                   </a>
                               </f:if>
-                              <div class="e-button-dropdown__box" data-toggleable='{options -> f:format.json()}' id="{id}-{i.index}-dropdown">
-                                  <f:for each="{link.links}" as="link2">
-                                      <f:variable name="mods" value="{-active:link2.active, disabled:link2.hasNoPotential}"/>
-                                      <f:if condition="{link2.active}">
-                                          <f:then>
-                                              <div class="e-button-dropdown__option {mods -> puck:modClass()}">
-                                                  {link2.title}
-                                                  <a href="{link2.url}"
-                                                     class="e-button-dropdown__close"
-                                                     data-fetch-link='{link2.fetchLinkOptions -> f:format.json()}'>
-                                                      <icon:svg icon="xmark-regular" />
-                                                  </a>
-                                              </div>
-                                          </f:then>
-                                          <f:else>
+                          </f:variable>
+                          <element:dropdown
+                                  id="{id}-{i.index}-dropdown"
+                                  label="{link.title}"
+                                  outerContent="{outerContent}">
+                              <f:for each="{link.links}" as="link2">
+                                  <f:variable name="mods" value="{-active:link2.active, disabled:link2.hasNoPotential}"/>
+                                  <f:if condition="{link2.active}">
+                                      <f:then>
+                                          <element:dropdown.option
+                                                  class="{mods -> puck:modClass()}">
+                                              {link2.title}
                                               <a href="{link2.url}"
-                                                 class="e-button-dropdown__option {mods -> puck:modClass()}"
+                                                 rel="{rel}"
+                                                 class="e-dropdown__close"
                                                  data-fetch-link='{link2.fetchLinkOptions -> f:format.json()}'>
-                                                  {link2.title}
+                                                  <icon:svg icon="xmark-regular" />
                                               </a>
-                                              <element:button.dropdown.option
-                                                href="{link2.url}"
-                                                class="{mods -> puck:modClass()}"
-                                                attributes="data-fetch-link={link2.fetchLinkOptions -> f:format.json()}">
-                                                  {link2.title}
-                                              </element:button.dropdown.option>
-                                          </f:else>
-                                      </f:if>
-                                  </f:for>
-                              </div>
-                          </div>
+                                          </element:dropdown.option>
+                                      </f:then>
+                                      <f:else>
+                                          <element:dropdown.option
+                                                  href="{link2.url}"
+                                                  class="{mods -> puck:modClass()}"
+                                                  attributes="rel={rel} data-fetch-link={link2.fetchLinkOptions -> f:format.json()}">
+                                              {link2.title}
+                                          </element:dropdown.option>
+                                      </f:else>
+                                  </f:if>
+                              </f:for>
+
+                          </element:dropdown>
                       </f:then>
 
                       <f:else>
                           <f:variable name="mods" value="{-active:link.active, disabled:link.hasNoPotential}"/>
                           <a href="{link.url}"
+                             rel="{rel}"
                              class="{name}__link e-button-primary -small -light {mods -> puck:modClass()}"
                              data-fetch-link='{link.fetchLinkOptions -> f:format.json()}'>
                               {link.title}

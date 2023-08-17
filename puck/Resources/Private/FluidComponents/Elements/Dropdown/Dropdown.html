@@ -7,10 +7,10 @@
     <fc:param name="outerContent" type="string" optional="1" default=""/>
     <fc:param name="toggleableOptions" type="array" optional="1" default="{toggleOffOnOutsideClick: 1}"/>
     <fc:param name="showSelectedOption" type="boolean" optional="1" default="0"/>
-    <fc:param name="attributes" type="string" optional="1"/>
+    <fc:param name="attributes" type="mixed" optional="1"/>
     <fc:renderer>
 
-        <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes}>
+        <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes -> puck:attributes()}>
             <button class="{name}__button" aria-controls="{id}">
                 {label}
                 {buttonContent -> f:format.raw()}

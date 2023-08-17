@@ -17,7 +17,7 @@ export default class AbstractComponent {
 
     static createInstancesFromDataAttribute({
             root = document,
-            attribute = 'data-' + this.name.replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase(),
+            attribute,
             options = {}
         }) {
         const getOptions = (str, options) => {

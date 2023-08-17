@@ -1,38 +1,42 @@
-import ScrollSensitive from "./ScrollSensitive.js";
-import Component from "../Decorators/Component";
+import AbstractComponent from "./AbstractComponent.js";
 
-export default class ScrollReveal extends ScrollSensitive {
+const scrollRevealObserverMap = new Map()
+
+export default class ScrollReveal extends AbstractComponent {
     static events = {
-        ...super.events,
+        addScrollClass: new Event('addScrollClass'),
+        removeScrollClass: new Event('removeScrollClass'),
         scrollReveal: new Event('scrollReveal'),
     }
-    static defaultObserverOptions = {
-        root: null,
-        rootMargin: '0px 0px -40px 0px',
-        threshold: 0,
-    }
-    static createIntersectionObserver = (options = this.defaultObserverOptions) => {
+    createIntersectionObserver(options) {
         const observer =  new IntersectionObserver(
             ([e]) => {
                 if (e.isIntersecting) {
                     observer.unobserve(e.target)
-                    e.target.dispatchEvent(this.events.scrollReveal)
+                    e.target.dispatchEvent(this.constructor.events.scrollReveal)
                 }
             },
             options)
         return observer
     }
-    static defaultObserver = this.createIntersectionObserver()
 
     constructor(target, {
         preset = 'slide-up',
         presetTranslate = 10,
         animation = null,
+        observer = {},
         timing = {},
         ...options})
     {
-        super(target, { ...options })
+        super(target)
         Object.assign(this, { preset, presetTranslate, animation })
+        this.observer = {
+            root: null,
+            rootMargin: '0px 0px -40px 0px',
+            threshold: [0,1],
+            target : null,
+            ...observer
+        }
         this.timing = {
             duration: 500,
             easing: 'ease-in-out',
@@ -80,13 +84,22 @@ export default class ScrollReveal extends ScrollSensitive {
     }
     mount() {
         window.requestAnimationFrame(() => {
-            if (this.observedElement.getBoundingClientRect().top > window.innerHeight) {
+            if (this.element.getBoundingClientRect().top > window.innerHeight) {
                 this.element.style.opacity = 0
                 this.revealed = false
             }
             if (this.revealed) return this
-            super.mount()
-            this.observedElement.addEventListener('scrollReveal', () => {
+            const optionsString = JSON.stringify({
+                observer: this.observer,
+            })
+            if (!scrollRevealObserverMap.get(optionsString)) {
+                scrollRevealObserverMap.set(
+                    optionsString,
+                    this.createIntersectionObserver(this.observer)
+                )
+            }
+            scrollRevealObserverMap.get(optionsString).observe(this.element)
+            this.element.addEventListener('scrollReveal', () => {
                 this.reveal()
             })
             return this

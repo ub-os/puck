@@ -6,7 +6,7 @@
   <fc:param name="depth" type="integer" optional="1" default="1"/>
   <fc:param name="menu" type="array" optional="1"/>
   <fc:param name="iconFromTitle" type="boolean" optional="1" default="0"/>
-  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
     <f:if condition="!{menu}">
@@ -15,7 +15,7 @@
     </f:if>
 
     <nav class="{name} {class}">
-      <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes}>
+      <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> puck:attributes()}>
         <element:navigation.items name="{name}"
                                   menu="{menu}"
                                   processor="{processor}"

@@ -1,0 +1,80 @@
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="e-media-player" />
+    <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference" />
+    <fc:param name="width" type="integer" optional="1" />
+    <fc:param name="posterWebp" type="boolean" optional="1" default="1" />
+    <fc:param name="posterRetina"type="boolean" optional="1" default="1" />
+    <fc:param name="loadOnClick" type="boolean" optional="1" default="1" />
+    <fc:param name="openInModal" type="boolean" optional="1" default="1" />
+    <fc:param name="options" type="array" optional="1" default="{puckProp:1}" />
+    <fc:renderer>
+
+        <f:variable name="id">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+        <f:variable name="localPoster" value="{puck:utility.fileExists(src:'fileadmin{file.identifier}.jpg')}"/>
+        <f:if condition="{localPoster}">
+            <f:then>
+                <f:variable name="poster" value="{localPoster}"/>
+            </f:then>
+            <f:else>
+                <f:variable name="poster" value="{puck:utility.getOnlineMediaPoster(service:file.extension, id:file.contents)}"/>
+            </f:else>
+        </f:if>
+
+        <f:if condition="{file.extension} === 'youtube' || {file.extension} === 'vimeo'">
+            <f:variable name="embedId" value="{file.contents}"/>
+        </f:if>
+        <f:variable name="options"
+                    value="{puck:array.merge(
+                    a:options,
+                    b:{
+                        filePath:file.publicUrl,
+                        provider:file.extension,
+                        embedId:embedId,
+                        poster:poster,
+                        loadOnClick:loadOnClick,
+                        openInModal:openInModal
+                    }
+                    )}"/>
+
+        <div class="{name}" aria-controls="{f:if(condition:'{openInModal} || {loadOnClick}', then:id)}">
+
+            <div class="{name}__poster">
+                <f:if condition="{localPoster}">
+                    <f:then>
+                        <element:picture
+                                src="{poster}"
+                                loading="lazy"
+                                name="{name}"
+                                webp="{posterWebp}"
+                                retina="{posterRetina}"
+                                width="{width}"
+                                sources="{
+                                xs: {width: width},
+                                0: {width: 450}
+                                }"/>
+                    </f:then>
+                    <f:else>
+                        <picture>
+                            <img alt="{file.alternative}"
+                                 class="{name}__image"
+                                 loading="lazy"
+                                 src="{poster}">
+                        </picture>
+                    </f:else>
+                </f:if>
+            </div>
+            <f:if condition="{openInModal}">
+                <f:then>
+                    <layout:modal id="{id}" attributes='data-media-player={options -> f:format.json()}' width="12" />
+                </f:then>
+                <f:else>
+                    <div id="{id}" class="{name}__frame" data-media-player="{options -> f:format.json()}"></div>
+                </f:else>
+            </f:if>
+            <div class="{name}__button">
+                <icon:svg class="{name}__icon" icon="circle-play-duotone"/>
+            </div>
+        </div>
+
+    </fc:renderer>
+</fc:component>

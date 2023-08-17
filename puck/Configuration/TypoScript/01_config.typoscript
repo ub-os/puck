@@ -56,7 +56,7 @@ Umsetzung in TYPO3: UNIBRAND OS
     config.no_cache = 1
 [global]
 
-//force absolute URLs in Typolinks
+// force absolute URLs in Typolinks
 // parseFunc
 lib.parseFunc.tags.a.typolink.forceAbsoluteUrl = 1
 lib.parseFunc.tags.link.typolink.forceAbsoluteUrl = 1

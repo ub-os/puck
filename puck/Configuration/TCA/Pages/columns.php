@@ -16,6 +16,11 @@ $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'posts',
     'blog_post',
 ];
+$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
+    'Preset folder',
+    'presets',
+    'preset',
+];
 
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
 

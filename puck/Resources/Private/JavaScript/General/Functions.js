@@ -32,8 +32,10 @@ const getElement = (target, objectName = '') => {
     return element
 }
 
+const scrollToEvent = new Event('scrollTo')
 const scrollTo = (target, offset = 0) => {
     const element = getElement(target)
+    document.body.dispatchEvent(scrollToEvent)
     if (element && getComputedStyle(element).position !== 'fixed') {
         const height = element.getBoundingClientRect().top + document.documentElement.scrollTop - offset;
         window.scrollTo({

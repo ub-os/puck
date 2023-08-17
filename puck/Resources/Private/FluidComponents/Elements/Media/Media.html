@@ -14,6 +14,7 @@
   <fc:param name="showDesc" type="boolean" optional="1" default="0"/>
   <fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
   <fc:param name="reserveHeight" type="string" optional="1"/>
+  <fc:param name="usePlayerComponentForLocalVideoFiles" type="boolean" optional="1" default="1"/>
   <fc:renderer>
 
     <f:variable name="filesP" value="{f:if(condition: file, then: '{0: file}', else: files)}"/>
@@ -55,12 +56,12 @@
                          additionalAttributes="{additionalAttributes}"
                          title="{file.title}" alt="{file.alternative}" />
               </f:else>
-              <f:else if="{type} == 'youtube' || {type} == 'vimeo'">
+              <f:else if="{type} == 'youtube' || {type} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({type} == 'mp4' || {type} == 'webm'))">
                 <div class="{name}__file {name}__{type}">
-                  <element:media.embed file="{file}"
-                                       width="{width}"
-                                       webp="{webp}"
-                                       retina="{retina}"/>
+                  <element:media.player file="{file}"
+                                        width="{width}"
+                                        posterWebp="{webp}"
+                                        posterRetina="{retina}"/>
                 </div>
               </f:else>
               <f:else>

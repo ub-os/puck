@@ -2,27 +2,27 @@
 
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
-    04_presets {
-        header = Presets
-        elements {
-            preset_puck_media_contact {
-                iconIdentifier = media
-                title = Text and media: Contact
-                description = Text and media preset for contact element.
-                tt_content_defValues {
-                    CType = puck_media
-                    container_width = 10
-                    text_column_width = 6
-                    media_column_width = 3
-                    item_column_width = 3
-                    row_justify = space-between
-                    media_layout = left
-                    header = Contact
-                }
-            }
-        }
-        show := addToList(preset_puck_media_contact)
-    }
+#    04_presets {
+#        header = Presets
+#        elements {
+#            preset_puck_media_contact {
+#                iconIdentifier = media
+#                title = Text and media: Contact
+#                description = Text and media preset for contact element.
+#                tt_content_defValues {
+#                    CType = puck_media
+#                    container_width = 10
+#                    text_column_width = 6
+#                    media_column_width = 3
+#                    item_column_width = 3
+#                    row_justify = space-between
+#                    media_layout = left
+#                    header = Contact
+#                }
+#            }
+#        }
+#        show := addToList(preset_puck_media_contact)
+#    }
     menu.show =
     common.show =
     forms.show =

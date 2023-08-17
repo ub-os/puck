@@ -96,6 +96,7 @@ export default class Toggleable extends AbstractComponent{
     this.setClass('remove', this.classes.active)
     if (transition) this.transitionClass(this.classes.deactivating)
     if (this.pauseMediaOnToggle && this.mediaContent) {
+      if (this.mediaContent.length === 0) this.mediaContent = this.element.querySelectorAll('video, audio')
       this.mediaContent.forEach(item => {
         if (item.pause) item.pause()
       })
@@ -108,8 +109,8 @@ export default class Toggleable extends AbstractComponent{
         }
       })
     }
-    if (changeUrlHash && this.removeMatchingUrlHashOnToggleOff && window.location.hash === `#${this.id}`) {
-      history.replaceState("", document.title, window.location.pathname + window.location.search)
+    if (changeUrlHash && this.removeMatchingUrlHashOnToggleOff && window.location.hash.split('?')[0] === `#${this.id}`) {
+      history.replaceState("", document.title, location.href.replace(`#${this.id}`, '')) // remove hash from url
     }
   }
   toggle() {
@@ -183,9 +184,9 @@ export default class Toggleable extends AbstractComponent{
       })
     }
     if (this.toggleOnIfUrlHashMatches) {
-      if (window.location.hash === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
+      if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       window.addEventListener('hashchange', event => {
-        if (window.location.hash === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
+        if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       })
     }
     return this

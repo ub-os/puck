@@ -9,6 +9,7 @@ require __DIR__.'/../Pages/palettes.php';
 
 
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-posts'] = 'post_folder';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-presets'] = 'preset_folder';
 
 // types
 ExtensionManagementUtility::addTcaSelectItem(
@@ -115,9 +116,22 @@ ArrayUtility::mergeRecursiveWithOverrule(
 
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
-    '--palette--;;postTitle',
+    '--palette--;;teaser',
+    '',
+    'after:--palette--;;title'
+);
+ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    '--palette--;;meta',
+    '',
+    'after:--palette--;;title'
+);
+
+ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    '--palette--;;postMeta',
     PageRepository::DOKTYPE_POST,
-    'replace:--palette--;;title'
+    'replace:--palette--;;meta'
 );
 
 ExtensionManagementUtility::addToAllTCAtypes(

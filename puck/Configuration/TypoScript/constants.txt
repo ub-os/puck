@@ -10,6 +10,7 @@ jsProd =  EXT:puck/Resources/Public/js/app.min.js
 
 ## Development state variable -  Set to 0 in Production!
 ## when set to 0: cache enabled, minified assets are included and compressed
+
 development = 1
 
 publicResources = typo3conf/ext/puck/Resources/Public

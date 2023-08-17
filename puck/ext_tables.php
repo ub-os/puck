@@ -5,10 +5,8 @@ if (!defined('TYPO3_MODE')) {
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use HDNET\Autoloader\Loader;
 use UBOS\Puck\Loader\SmartContentObjectLoader;
- use UBOS\Puck\Domain\Repository\Page\PageRepository;
-
-
-SmartContentObjectLoader::addTypesTSconfig();
+use UBOS\Puck\Loader\ContentWizardPresetLoader;
+use UBOS\Puck\Domain\Repository\Page\PageRepository;
 
 $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';

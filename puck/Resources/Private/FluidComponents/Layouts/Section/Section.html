@@ -7,7 +7,7 @@
   <fc:param name="container" type="boolean" optional="1" default="1" />
   <fc:param name="customContainer" type="string" optional="1" default="" />
   <fc:param name="object" type="mixed" optional="1"/>
-  <fc:param name="attributes" type="string" optional="1"/>
+  <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
     <f:variable name="mods"
@@ -20,7 +20,7 @@
 
     <section class="{name} {class} {mods -> puck:modClass()}"
              id="{id}"
-             {attributes}>
+             {attributes -> puck:attributes()}>
       <f:if condition="!{container}">
         <f:then>
           <f:format.raw>{content}</f:format.raw>

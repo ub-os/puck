@@ -32,7 +32,7 @@
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes} target={item.target}"
+                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} target={item.target}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     width="6">
@@ -53,7 +53,7 @@
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes} target={item.target}"
+                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} target={item.target}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     width="6">
@@ -74,7 +74,7 @@
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes} target={item.target}"
+                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} target={item.target}"
                                                     class="{name}__card -variant-{object.layout}">
                                                 <f:alias map="{person: item.pagePersons.0}">
                                                     <div class="{name}__content">
@@ -145,7 +145,7 @@
                                             <f:variable name="media"
                                                         value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
                                             <layout:card
-                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} {attributes} target={item.target}"
+                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} target={item.target}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     media="{media}"

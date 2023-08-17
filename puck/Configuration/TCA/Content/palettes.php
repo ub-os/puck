@@ -19,6 +19,13 @@ $palettes['gridColumns'] = [
         --linebreak--,
         row_justify, row_align'
 ];
+$palettes['gridColumnsAlignment'] = [
+    'label' => 'Layout',
+    'showitem' => '
+        flex_grow,
+        --linebreak--,
+        row_justify, row_align'
+];
 $palettes['gridMedia'] = [
     'label' => 'Layout',
     'showitem' => '
