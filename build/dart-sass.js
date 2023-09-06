@@ -29,6 +29,7 @@ function renderFile(fileName) {
     }, function(error, result) {
         console.log('Building ' + cssFile);
         if(!error){
+            fs.mkdirSync(path.dirname(cssFile), {recursive: true})
             fs.writeFile(cssFile, result.css, function(err){
                 if(!err) {
                     console.log('Building complete!');
