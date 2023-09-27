@@ -8,12 +8,11 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
-use HDNET\Autoloader\Annotation\DatabaseTable;
+use UBOS\Puckloader\Attribute\ModelColumn;
 
-/**
- * @DatabaseTable("sys_file_collection")
- */
+use UBOS\Puckloader\Attribute\ModelPersistence;
+
+#[ModelPersistence("sys_file_collection")]
 class FileCollection extends AbstractEntity
 {
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace UBOS\Puck\Domain\Model\Trait\Content;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
+use UBOS\Puckloader\Attribute\ModelColumn;
 
 trait SectionHeader {
     /**
@@ -21,8 +21,8 @@ trait SectionHeader {
 
     /**
      * @var int
-     * @DatabaseField ("int")
      */
+    #[ModelColumn("int")]
     public int $headerSpacingOverride = 0;
 
     /**

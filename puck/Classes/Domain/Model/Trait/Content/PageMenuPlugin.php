@@ -1,7 +1,7 @@
 <?php
 namespace UBOS\Puck\Domain\Model\Trait\Content;
 
-use UBOS\Puck\Attribute\FlexFormProperty;
+use UBOS\Puckloader\Attribute\FlexFormProperty;
 
 trait PageMenuPlugin {
 

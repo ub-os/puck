@@ -52,21 +52,19 @@ Neues Model anlegen, z.B. "ProductCards" in "Classes/Domain/Model/Content/Produc
 ```php
 namespace UBOS\Puck\Domain\Model\Content;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
-use HDNET\Autoloader\Annotation\DatabaseTable;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use UBOS\Puck\Attribute\ContentElementWizard;
+use UBOS\Puckloader\Attribute\ModelColumn;
 
-/**
- * @DatabaseTable("tt_content")
- */
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use UBOS\Puckloader\Attribute\ModelPersistence;
+
+#[ModelPersistence("tt_content")]
  #[ContentElementWizard("01_content")]
 class ProductCards extends Text
 {
     /**
      * @var int
-     * @DatabaseField("int")
      */
+     #[ModelColumn("int")]
     public int $showPrice = 0;
 }
 ```

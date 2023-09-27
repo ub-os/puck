@@ -2,30 +2,29 @@
 
 namespace UBOS\Puck\Domain\Model\Page;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
-use HDNET\Autoloader\Annotation\DatabaseTable;
-use HDNET\Autoloader\Annotation\EnableRichText;
+use UBOS\Puckloader\Attribute\ModelColumn;
+
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 use UBOS\Puck\Domain\Model\Person;
+use UBOS\Puckloader\Attribute\ModelPersistence;
 
-/**
- * @DatabaseTable("pages")
- */
+#[ModelPersistence("pages")]
 class Post extends Page
 {
     /**
      * @var string
-     * @DatabaseField("DateTime")
      */
+    #[ModelColumn("datetime")]
     public string $postDate = '';
 
     /**
      * @var ?Person
-     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
+    #[ModelColumn("string")]
     public ?Person $postAuthor = null;
 }

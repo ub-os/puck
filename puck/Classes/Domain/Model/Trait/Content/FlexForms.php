@@ -5,7 +5,7 @@ use ReflectionClass;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Service\FlexFormService;
-use UBOS\Puck\Attribute\FlexFormProperty;
+use UBOS\Puckloader\Attribute\FlexFormProperty;
 
 trait FlexForms {
 

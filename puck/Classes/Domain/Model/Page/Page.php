@@ -2,9 +2,9 @@
 
 namespace UBOS\Puck\Domain\Model\Page;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
-use HDNET\Autoloader\Annotation\DatabaseTable;
-use HDNET\Autoloader\Annotation\EnableRichText;
+use UBOS\Puckloader\Attribute\ModelColumn;
+
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -16,10 +16,9 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
+use UBOS\Puckloader\Attribute\ModelPersistence;
 
-/**
- * @DatabaseTable("pages")
- */
+#[ModelPersistence("pages")]
 class Page extends AbstractEntity
 {
     public int $doktype = 0;
@@ -41,13 +40,13 @@ class Page extends AbstractEntity
     public string $description = '';
     /**
      * @var string
-     * @DatabaseField("string", sql="varchar(1024) DEFAULT '' NOT NULL")
      */
+    #[ModelColumn("varchar1024")]
     public string $teaserText = '';
     /**
      * @var string
-     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
+    #[ModelColumn("string")]
     public string $icon = '';
     /**
      * @var string
@@ -64,6 +63,7 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
+    #[ModelColumn("datetime", name: "lastUpdated")]
     public string $lastUpdated = '';
     /**
      * @var string

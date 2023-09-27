@@ -3,7 +3,7 @@ namespace UBOS\Puck\Domain\Model\Trait\Content;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Service\FlexFormService;
-use HDNET\Autoloader\Annotation\DatabaseField;
+use UBOS\Puckloader\Attribute\ModelColumn;
 
 trait FlexForm {
 

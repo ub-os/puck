@@ -19,8 +19,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-use HDNET\Autoloader\Annotation\NoCache;
-use HDNET\Autoloader\Annotation\Plugin;
+use UBOS\Puckloader\Attribute\Plugin;
 
 use UBOS\Puck\PageTitle\PuckTitleProvider;
 use UBOS\Puck\Utility\PuckUtility;
@@ -36,10 +35,7 @@ use UBOS\Puck\Domain\Repository\Page\PageRepository;
 class PageController extends ActionController
 {
 
-    /**
-     * Render the Page via ExtBase.
-     * @Plugin("Page")
-     */
+    #[Plugin("Page")]
     public function indexAction(): string
     {
         try {
@@ -432,9 +428,7 @@ class PageController extends ActionController
     protected MenuPages|MenuPosts|MenuPersons|MenuJobPosts|null $contentObject = null;
 
 
-    /**
-     * @Plugin("PageMenu")
-     */
+    #[Plugin("PageMenu")]
     public function menuAction(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,
@@ -445,9 +439,7 @@ class PageController extends ActionController
         return $this->renderMenu($categoryList, $categoryConjunction, $authorList);
     }
 
-    /**
-     * @Plugin("PostMenu")
-     */
+    #[Plugin("PostMenu")]
     public function postMenuAction(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,
@@ -463,9 +455,7 @@ class PageController extends ActionController
 
     }
 
-    /**
-     * @Plugin("PersonMenu")
-     */
+    #[Plugin("PersonMenu")]
     public function personMenuAction(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,

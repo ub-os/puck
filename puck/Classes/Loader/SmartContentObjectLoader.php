@@ -9,10 +9,12 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
-use UBOS\Puck\Attribute\ContainerElement;
-use UBOS\Puck\Attribute\ContentElementWizard;
-use UBOS\Puck\Attribute\FlexFormProperty;
-use UBOS\Puck\Attribute\PluginElement;
+use UBOS\Puckloader\Attribute\ContainerElement;
+use UBOS\Puckloader\Attribute\ContentElementWizard;
+use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puckloader\Attribute\ModelColumn;
+use UBOS\Puckloader\Attribute\FlexFormProperty;
+use UBOS\Puckloader\Attribute\PluginElement;
 use UBOS\Puck\Preview\PuckPreviewRenderer;
 use UBOS\Puck\Utility\PuckUtility;
 

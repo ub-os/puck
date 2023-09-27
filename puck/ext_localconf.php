@@ -5,22 +5,17 @@ if (!defined('TYPO3_MODE')) {
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use HDNET\Autoloader\Loader;
 use UBOS\Puck\Domain\Repository\Page\PageRepository;
-use UBOS\Puck\Loader\SmartContentObjectLoader;
 use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
+use UBOS\Puckloader\Loader;
 
-
-Loader::extLocalconf('UBOS', 'puck', array('ContentObjects', 'SmartObjects', 'Plugins'));
-SmartContentObjectLoader::addTypesTypoScript();
-SmartContentObjectLoader::addTypesTSconfig();
+Loader::loadConf('puck');
 
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig'
     @import 'EXT:puck/Configuration/TSconfig/Mod.tsconfig'"
 );
-//ContentWizardPresetLoader::addPresetTsConfig();
 
 ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
@@ -36,7 +31,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms']['db_new_content_el']['wizardIte
 ExtensionManagementUtility::addUserTSConfig(
     'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . PageRepository::DOKTYPE_POST . ',' . PageRepository::DOKTYPE_PERSON . ')'
 );
-
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';

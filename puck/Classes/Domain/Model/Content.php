@@ -3,11 +3,9 @@
 namespace UBOS\Puck\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use HDNET\Autoloader\Annotation\DatabaseTable;
 
-/**
- * @DatabaseTable("tt_content")
- */
+
+#[ModelPersistence("tt_content")]
 class Content extends AbstractEntity
 {
     /**

@@ -4,26 +4,15 @@ declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use HDNET\Autoloader\Utility\ClassNamingUtility;
-use HDNET\Autoloader\Utility\ExtendedUtility;
-use HDNET\Autoloader\Utility\ModelUtility;
-use HDNET\Autoloader\Annotation\NoCache;
-use HDNET\Autoloader\Annotation\Plugin;
+use UBOS\Puckloader\Attribute\Plugin;
 
 /**
  * Content Controller.
  */
 class ContentController extends ActionController
 {
-    /**
-     * Render the content Element via ExtBase.
-     * @Plugin("Content")
-     */
+/*    #[Plugin("PageMenu")]
     public function indexAction(): string
     {
         try {
@@ -65,5 +54,5 @@ class ContentController extends ActionController
         } catch (\Exception $ex) {
             return 'Exception in content rendering: ' . $ex->getMessage();
         }
-    }
+    }*/
 }

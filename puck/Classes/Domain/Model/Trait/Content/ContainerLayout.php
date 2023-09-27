@@ -1,24 +1,24 @@
 <?php
 namespace UBOS\Puck\Domain\Model\Trait\Content;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
+use UBOS\Puckloader\Attribute\ModelColumn;
 
 trait ContainerLayout {
     /**
      * @var int
-     * @DatabaseField("int")
      */
+    #[ModelColumn("int")]
     public int $containerWidth = 12;
 
     /**
      * @var string
-     * @DatabaseField("string", sql="varchar(255) DEFAULT '' NOT NULL")
      */
+    #[ModelColumn("string")]
     public string $containerPosition = '';
 
     /**
      * @var int
-     * @DatabaseField("int")
      */
+    #[ModelColumn("int")]
     public int $containerOffset = 0;
 }

@@ -2,17 +2,16 @@
 
 namespace UBOS\Puck\Domain\Model\Content;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
-use HDNET\Autoloader\Annotation\DatabaseTable;
+use UBOS\Puckloader\Attribute\ModelColumn;
+
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use UBOS\Puck\Attribute\ContentElementWizard;
+use UBOS\Puckloader\Attribute\ContentElementWizard;
+use UBOS\Puckloader\Attribute\ModelPersistence;
 
-/**
- * @DatabaseTable("tt_content")
- */
+#[ModelPersistence("tt_content")]
 #[ContentElementWizard("01_content")]
 class Model extends Text
 {

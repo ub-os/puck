@@ -1,7 +1,7 @@
 <?php
 namespace UBOS\Puck\Domain\Model\Trait\Content;
 
-use HDNET\Autoloader\Annotation\DatabaseField;
+use UBOS\Puckloader\Attribute\ModelColumn;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 
 
