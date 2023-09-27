@@ -1,7 +1,7 @@
 import {getElement} from '../General/Functions'
 import AbstractComponent from "./AbstractComponent.js";
 
-export default class Toggleable extends AbstractComponent{
+export default class Toggleable extends AbstractComponent {
   static events = {
     toggle: new Event('toggle'),
     toggleOn: new Event('toggleOn'),
@@ -30,13 +30,11 @@ export default class Toggleable extends AbstractComponent{
     disableToggleOffIfToggleNotLastUsedToggle = false,
   })
   {
-    super(target)
-    Object.assign(this, {
+    super(target, {
       active, alwaysActive, groupId, exclusiveGroup, clickDelay, triggerOn, setClassOnParent,
       removeMatchingUrlHashOnToggleOff, toggleOffOnOutsideClick, toggleOffOnOutsideClickTarget,
       toggleOffOnEsc, toggleOnIfUrlHashMatches, addMatchingHashLinksToToggles, disableToggles,
       pauseMediaOnToggle, reloadIframeOnToggle, disableToggleOffIfToggleNotLastUsedToggle })
-
     this.classes = {
       ...{
         active: '--active',
@@ -64,6 +62,8 @@ export default class Toggleable extends AbstractComponent{
       this.mediaContent = this.element.querySelectorAll('video, audio')
     }
   }
+
+
   setClass(operation, className) {
     this.element.classList[operation](className)
     if (this.setClassOnParent) {

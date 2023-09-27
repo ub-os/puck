@@ -1,4 +1,4 @@
-let Plyr =  class {}
+let Plyr = class {}
 //import Plyr from 'plyr';
 import { $, $$, jsx } from '../General/Aliases';
 import AbstractComponent from "./AbstractComponent";
@@ -66,7 +66,6 @@ export default class MediaPlayer extends AbstractComponent {
             </video>
         )
         for (let option of ['controls', 'playsinline', 'autoplay', 'loop', 'muted']) {
-            console.log(option)
             if (this.options[option]) {
                 element.setAttribute(option, this.options[option])
             }
@@ -105,6 +104,7 @@ export default class MediaPlayer extends AbstractComponent {
     mount() {
         if (this.loadOnClick || this.openInModal) {
             this.toggles.forEach(toggle => {
+                toggle.ariaRole = 'button'
                 toggle.addEventListener('click', e => {
                     e.preventDefault()
                     this.addPlayerElement()
