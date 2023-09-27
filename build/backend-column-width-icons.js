@@ -46,5 +46,5 @@ for(let m = 1; m <= n; m++) {
   svgString += '</svg>';
 
   // Write to Backend Icons directory
-  fs.writeFileSync(`puck/Resources/Public/Icons/Backend/GenColumnWidth${m}.svg`, svgString);
+  fs.writeFileSync(`puck/Resources/Public/Icons/Backend/ColumnWidth${m}.svg`, svgString);
 }
