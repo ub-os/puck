@@ -2,21 +2,13 @@
 
 namespace UBOS\Puck\Domain\Model\Content;
 
-use UBOS\Puckloader\Attribute\ModelColumn;
-
-
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use UBOS\Puckloader\Attribute\ContentElementWizard;
-use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puck\Domain\Model\Content\Trait\FlexForms;
 use UBOS\Puckloader\Attribute\ContainerElement;
+use UBOS\Puckloader\Attribute\ContentElementWizard;
 use UBOS\Puckloader\Attribute\FlexFormProperty;
-use UBOS\Puck\Domain\Model\Trait\Content\FlexForms;
+use UBOS\Puckloader\Attribute\ModelColumn;
+use UBOS\Puckloader\Attribute\ModelPersistence;
+
 
 #[ModelPersistence("tt_content")]
 #[ContentElementWizard('01_content', order:31)]

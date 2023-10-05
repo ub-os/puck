@@ -47,7 +47,7 @@ imports:
   -
     resource: 'EXT:puck/Configuration/Routes/PageMenu.yaml'
   -
-    resource: 'EXT:puck/Configuration/Routes/PostMenu.yaml'
+    resource: 'EXT:puck/Configuration/Routes/NewsMenu.yaml'
   -
     resource: 'EXT:puck/Configuration/Routes/PersonMenu.yaml'
   -

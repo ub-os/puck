@@ -1,0 +1,38 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+<div class="callout callout-info">
+    <div class="media">
+        <div class="media-left">
+            <core:icon identifier="news_page" size="default" />
+        </div>
+        <div class="media-body">
+            <h4 class="callout-title">
+                News page
+            </h4>
+            <table>
+                <tbody>
+                <style>th {padding-right: 1em}</style>
+                <tr><th>                <f:if condition="{page}">
+                    <f:then>Published</f:then>
+                    <f:else>Deactivated</f:else>
+                </f:if></th></tr>
+                <tr><th>Date</th><td> <f:format.date format="d.m.Y">{row.post_date}</f:format.date></td></tr>
+                <f:if condition="{page.postAuthor}">
+                    <tr><th>Author</th><td>{page.postAuthor.name}</td></tr>
+                </f:if>
+                </tbody>
+            </table>
+            <p></p>
+            Hero and author content elements are automatically rendered from page data.
+        </div>
+    </div>
+    <div class="callout-footer" style="padding-top: 1em">
+        <be:link.editRecord uid="{row.uid}" table="pages" class="btn btn-default">
+            <core:icon identifier="actions-open" />
+            Edit news data
+        </be:link.editRecord>
+        <a href="{be:moduleLink(route:'web_list', arguments:'{id:row.pid}')}" class="btn btn-default">
+            <core:icon identifier="actions-list" />
+            News overview
+        </a>
+    </div>
+</div>

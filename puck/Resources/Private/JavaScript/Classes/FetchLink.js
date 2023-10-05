@@ -1,12 +1,12 @@
 // CLASS FetchLink
-//# changes (append or replace) the content of a element with the content of a fetched url
+//# changes (append or replace) the content of a node with the content of a fetched url
 
 import {$, $$} from "../General/Aliases.js";
 import {noDragClick, getElement, scrollTo} from '../General/Functions';
-import {mountComponents} from "../Components/init";
-import AbstractComponent from "./AbstractComponent";
+import {mountComponents} from "../Components/init.js";
+import AbstractComponent from "./AbstractComponent.js";
 
-export default class FetchLink extends AbstractComponent{
+export default class FetchLink extends AbstractComponent {
   constructor(target, {
     url,
     mode,
@@ -30,7 +30,7 @@ export default class FetchLink extends AbstractComponent{
       url, mode, contentId, trigger, scrollToContent,
       scrollOffset, hideAnimationFrames, showAnimationFrames
     })
-    this.contentElement = getElement(contentId, 'FetchLink contentElement')
+    this.contentNode = getElement(contentId, 'FetchLink contentNode')
     this.timing = {
       ...{
         duration: 500,
@@ -41,7 +41,7 @@ export default class FetchLink extends AbstractComponent{
     this.interSectionObserverOptions = {
       ...{
         root: null,
-        rootMargin: '0px 0px -40px 0px',
+        rootMargin: '0px 0px 0px 0px',
         threshold: 0
       },
       ...interSectionObserverOptions
@@ -52,20 +52,20 @@ export default class FetchLink extends AbstractComponent{
   }
 
   replaceContent(html) {
-    this.contentElement.innerHTML = html
-    mountComponents(this.contentElement)
+    this.contentNode.innerHTML = html
+    mountComponents(this.contentNode)
   }
 
   appendContent(html, div) {
     const newRoot = div.firstChild
-    this.contentElement.innerHTML = this.contentElement.innerHTML + html
-    mountComponents(this.contentElement)
+    this.contentNode.innerHTML = this.contentNode.innerHTML + html
+    mountComponents(this.contentNode)
     if (this.element.id) {
       const newFetchButton = newRoot.$(`#${this.element.id}`)
       const oldFetchButton = $(`#${this.element.id}`)
       if (oldFetchButton && newFetchButton) {
-        oldFetchButton.parentElement.replaceChild(newFetchButton, oldFetchButton)
-        mountComponents(newFetchButton.parentElement)
+        oldFetchButton.parentNode.replaceChild(newFetchButton, oldFetchButton)
+        mountComponents(newFetchButton.parentNode)
       }
     }
     div.remove()
@@ -76,18 +76,18 @@ export default class FetchLink extends AbstractComponent{
       return
     }
     this.states.fetching = true
-    fetch(this.url).then( response => {
+    fetch(this.url).then(response => {
       return response.text()
-    }).then( html => {
+    }).then(html => {
       const div = document.createElement('div')
       div.innerHTML = html.trim()
       const newHtml = div.$(`#${this.contentId}`).innerHTML
 
       if (this.scrollToContent) {
-        scrollTo(this.contentElement, this.scrollOffset)
+        scrollTo(this.contentNode, this.scrollOffset)
       }
 
-      const animation = this.contentElement.animate(
+      const animation = this.contentNode.animate(
           this.hideAnimationFrames,
           this.timing)
 
@@ -98,25 +98,25 @@ export default class FetchLink extends AbstractComponent{
         if (this.mode === 'append') {
           this.appendContent(newHtml, div)
         }
-        this.contentElement.animate(
+        this.contentNode.animate(
             this.showAnimationFrames,
             this.timing
         )
         if (this.element.href) {
-          window.history.pushState({}, '', this.element.href)
+          window.history.replaceState({}, '', this.element.href)
         }
         this.states.fetching = false
       })
 
-    }).catch(function (err) {
+    }).catch(err => {
       this.states.fetching = false
       console.warn('Link fetch went wrong.', err)
     })
   }
 
   mount() {
-    if (!this.element || !this.url || !this.contentElement) {
-      return {error: 'FetchLink: missing element, url or contentElement', fetchLink: this}
+    if (!this.element || !this.url || !this.contentNode) {
+      return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
     }
     if (this.trigger === 'click') {
       this.element.addEventListener('click', e => {

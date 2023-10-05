@@ -15,7 +15,7 @@ config.tx_fluidcomponents.settings {
     doktype {
         start = {$doktype.start}
         overview = {$doktype.overview}
-        post = {$doktype.post}
+        news = {$doktype.news}
         person = {$doktype.person}
         detailPlugin = {$doktype.detailPlugin}
     }

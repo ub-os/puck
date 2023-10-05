@@ -37,9 +37,9 @@ pageMenuPlugin {
         admPanel = 0
     }
 }
-postMenuPlugin < pageMenuPlugin
-postMenuPlugin.typeNum = 16500001
-postMenuPlugin.20.pluginName = PostMenu
+newsMenuPlugin < pageMenuPlugin
+newsMenuPlugin.typeNum = 16500001
+newsMenuPlugin.20.pluginName = NewsMenu
 
 personMenuPlugin < pageMenuPlugin
 personMenuPlugin.typeNum = 16500002

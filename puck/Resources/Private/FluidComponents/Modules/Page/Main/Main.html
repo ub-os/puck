@@ -12,7 +12,7 @@
             bodytext:object.pagePersons.0.bodytext,
             assets:object.pagePerson.0.assets}"/>
       </f:if>
-      <f:if condition="{object.doktype} == {settings.doktype.post}">
+      <f:if condition="{object.doktype} == {settings.doktype.news}">
         <module:hero.content object="{
             header:object.navTitle,
             subheader: '{object.postDate -> f:format.date(format: \'%d. %B %Y\')}'
@@ -21,7 +21,7 @@
 
       {contentElements -> f:format.raw()}
 
-      <f:if condition="{object.doktype} == {settings.doktype.post} && {object.postAuthor}">
+      <f:if condition="{object.doktype} == {settings.doktype.news} && {object.postAuthor}">
         <module:content.text
                 object="{
                 containerWidth: 8,
@@ -29,7 +29,7 @@
                 headerLayout: 31,
                 frameClass: 'light-1',
                 bodytext: object.postAuthor.description,
-                uid:'post-page-author-teaser'
+                uid:'news-page-author-teaser'
                 }">
           <f:if condition="{object.postAuthor.pages.0}">
             <p>

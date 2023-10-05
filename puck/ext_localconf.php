@@ -2,10 +2,9 @@
 if (!defined('TYPO3_MODE')) {
     die ('Acess denied.');
 }
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use UBOS\Puck\Domain\Repository\Page\PageRepository;
+use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puckloader\Loader;
 
 Loader::loadConf('puck');
@@ -19,7 +18,6 @@ ExtensionManagementUtility::addPageTSConfig(
 ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
 );
-require_once ExtensionManagementUtility::extPath('puck') . '/Configuration/IconRegistry.php';
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PageHeader::class . '->render';
@@ -28,7 +26,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms']['db_new_content_el']['wizardIte
 
 // add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(
-    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . PageRepository::DOKTYPE_POST . ',' . PageRepository::DOKTYPE_PERSON . ')'
+    'options.pageTree.doktypesToShowInNewPageDragArea := addToList(' . PageRepository::DOKTYPES['news'] . ',' . PageRepository::DOKTYPES['person'] . ')'
 );
 
 // Register RTE configuration file

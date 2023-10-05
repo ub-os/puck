@@ -151,4 +151,21 @@ class PuckUtility
         return array_values($files);
     }
 
+    public static function convertZeroStringsToInteger(mixed $value, bool $convertToNull = false): mixed
+    {
+        if (is_array($value)) {
+            $array = [];
+            foreach($value as $key => $value) {
+                $array[$key] = static::convertZeroStringsToInteger($value, $convertToNull);
+            }
+            return $array;
+        } else if ($value === '0') {
+            if ($convertToNull) {
+                return null;
+            }
+            return 0;
+        }
+        return $value;
+    }
+
 }

@@ -18,7 +18,7 @@ publicResources = typo3conf/ext/puck/Resources/Public
 doktype {
     start = 16501
     overview = 16502
-    post = 16503
+    news = 16503
     person = 16504
     detailPlugin = 16511
 }

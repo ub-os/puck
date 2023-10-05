@@ -2,14 +2,14 @@
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puckloader\Loader;
-use UBOS\Puck\Domain\Repository\Page\PageRepository;
 
-$languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
+ use UBOS\Puck\Domain\Repository\PageRepository;
+ use UBOS\Puckloader\Loader;
+
+ $languageFilePrefix = 'LLL:EXT:fluid_styled_content/Resources/Private/Language/Database.xlf:';
 $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:';
 
- $GLOBALS['PAGES_TYPES'][PageRepository::DOKTYPE_POST] = [
+ $GLOBALS['PAGES_TYPES'][PageRepository::DOKTYPES['news']] = [
      'type' => 'web',
      'allowedTables' => '*',
  ];

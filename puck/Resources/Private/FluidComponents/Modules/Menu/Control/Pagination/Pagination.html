@@ -1,0 +1,34 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-menu-control-pagination"/>
+  <fc:param name="pagination" type="UBOS\Puck\Menu\Dto\Pagination"/>
+  <fc:renderer>
+
+    <f:if condition="{pagination.loadMore}">
+        <module:menu.control.loadMoreButton loadMoreItem="{pagination.loadMore}"/>
+    </f:if>
+    <f:if condition="{pagination.first.label} != {pagination.last.label}">
+      <ul class="{name}">
+        <f:if condition="{pagination.prev}">
+          <module:menu.control.pagination.item item="{pagination.prev}"/>
+        </f:if>
+        <module:menu.control.pagination.item item="{pagination.first}"/>
+        <f:if condition="{pagination.separatorLeft}">
+           {pagination.separatorString} 
+        </f:if>
+        <f:for each="{pagination.items}" as="item" iteration="i">
+          <module:menu.control.pagination.item item="{item}"/>
+        </f:for>
+        <f:if condition="{pagination.separatorRight}">
+           {pagination.separatorString} 
+        </f:if>
+        <module:menu.control.pagination.item item="{pagination.last}"/>
+        <f:if condition="{pagination.next}">
+          <module:menu.control.pagination.item item="{pagination.next}"/>
+        </f:if>
+      </ul>
+    </f:if>
+
+  </fc:renderer>
+</fc:component>
+

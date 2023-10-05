@@ -1,29 +1,11 @@
-
 <f:variable name="headerContent">
-    <module:menu.pages.filter categoryFilterLinks="{categoryFilterLinks}"/>
+    <module:menu.control.filter categoryFilter="{categoryFilter}" id="c{object.uid}-filter"/>
 </f:variable>
 <f:variable name="footerContent">
     <f:if condition="{pagination}">
-        <f:switch expression="{settings.pagination.variant}">
-            <f:case value="load-more">
-                <module:menu.pages.loadMoreButton
-                        pagination="{pagination}"
-                        loadMoreLink="{loadMoreLink}"/>
-            </f:case>
-            <f:case value="infinite-scroll">
-                <module:menu.pages.loadMoreButton
-                        pagination="{pagination}"
-                        loadMoreLink="{infiniteScrollLink}"/>
-            </f:case>
-            <f:defaultCase>
-                <module:menu.pages.pagination
-                        pagination="{pagination}"
-                        paginationLinks="{paginationLinks}"/>
-            </f:defaultCase>
-        </f:switch>
+        <module:menu.control.pagination pagination="{pagination}"/>
     </f:if>
 </f:variable>
-
 <module:menu.pages object="{object}"
-                   headerContent="{headerContent}"
-                   footerContent="{footerContent}"/>
+                   headerContent="{headerContent -> f:spaceless()}"
+                   footerContent="{footerContent -> f:spaceless()}"/>

@@ -17,7 +17,6 @@ class Category extends AbstractEntity
     public string $title = '';
     /**
      * @var Category|null
-     * @Lazy
      */
     public ?Category $parent = null;
     /**

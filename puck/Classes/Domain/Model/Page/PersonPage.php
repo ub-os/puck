@@ -2,17 +2,18 @@
 
 namespace UBOS\Puck\Domain\Model\Page;
 
-use UBOS\Puckloader\Attribute\ModelColumn;
-
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use UBOS\Puck\Domain\Model\Person;
+use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puck\Domain\Model\Page;
+use UBOS\Puck\Domain\Model\Person;
+use UBOS\Puck\Domain\Repository\PageRepository;
 
-#[ModelPersistence("pages")]
+#[ModelPersistence(
+    table: "pages",
+    parentClass: Page::class,
+    recordType: PageRepository::DOKTYPES['person'])]
 class PersonPage extends Page
 {
     /**

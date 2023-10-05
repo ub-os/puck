@@ -29,7 +29,7 @@ mod.wizards.newContentElement.wizardItems {
 }
 
 // Page Backend Layouts
-allowedContent = puck_menu_persons, puck_menu_posts, puck_page_list, puck_container, puck_row, list, shortcut, html, puck_accordions, puck_anchor, puck_cards, puck_columns, puck_full_width_media, puck_media, puck_menu_anchors, puck_menu_pages, puck_hero, puck_hero_carousel, puck_text, puck_menu_files
+allowedContent = puck_menu_persons, puck_menu_news, puck_page_list, puck_container, puck_row, list, shortcut, html, puck_accordions, puck_anchor, puck_cards, puck_columns, puck_full_width_media, puck_media, puck_menu_anchors, puck_menu_pages, puck_hero, puck_hero_carousel, puck_text, puck_menu_files
 backendLayoutDefaultConfig {
     backend_layout {
         colCount = 8
@@ -82,15 +82,10 @@ mod.web_layout.BackendLayouts {
         config < backendLayoutDefaultConfig
         config.backend_layout.doktype = {$doktype.start}
     }
-    overview {
-        title = Overview
+    news {
+        title = News
         config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = {$doktype.overview}
-    }
-    post {
-        title = Post
-        config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = {$doktype.post}
+        config.backend_layout.doktype = {$doktype.news}
     }
     person {
         title = Person page

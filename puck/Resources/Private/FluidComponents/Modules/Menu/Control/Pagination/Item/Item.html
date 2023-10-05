@@ -1,0 +1,32 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-menu-control-pagination"/>
+  <fc:param name="item" type="UBOS\Puck\Menu\Dto\PaginationItem"/>
+  <fc:renderer>
+
+    <li class="{name}__item">
+      <f:if condition="{item.active}">
+        <f:then>
+          <button class="{name}__link -disabled">{item.label}</button>
+        </f:then>
+        <f:else>
+          <a href="{item.url}"
+             data-fetch-link='{item.fetchLinkOptions -> f:format.json()}'
+             class="{name}__link">
+            <f:switch expression="{item.label}">
+              <f:case value="<">
+                <icon:svg icon="arrow-left-regular" class="{name}__prev"/>
+              </f:case>
+              <f:case value=">">
+                <icon:svg icon="arrow-right-regular" class="{name}__next"/>
+              </f:case>
+              <f:defaultCase>{item.label}</f:defaultCase>
+            </f:switch>
+          </a>
+        </f:else>
+      </f:if>
+    </li>
+
+  </fc:renderer>
+</fc:component>
+

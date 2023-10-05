@@ -12,9 +12,9 @@ $GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['c
 $GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
 
 $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
-    'Post folder',
-    'posts',
-    'blog_post',
+    'News folder',
+    'news',
+    'news_page',
 ];
 $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'Preset folder',

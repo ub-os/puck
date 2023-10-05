@@ -235,13 +235,13 @@
 			</trans-unit>
 
 
-			<trans-unit id="content.element.menu_posts" resname="content.element.menu_posts">
-				<source>Page menu: posts</source>
+			<trans-unit id="content.element.menu_news" resname="content.element.menu_news">
+				<source>Page menu: news</source>
 			</trans-unit>
-			<trans-unit id="wizard.menu_posts" resname="wizard.menu_posts">
-				<source>Page menu: posts</source>
+			<trans-unit id="wizard.menu_news" resname="wizard.menu_news">
+				<source>Page menu: news</source>
 			</trans-unit>
-			<trans-unit id="wizard.menu_posts.description" resname="wizard.menu_posts.description">
+			<trans-unit id="wizard.menu_news.description" resname="wizard.menu_news.description">
 				<source>Plugin to display a menu of post pages.</source>
 			</trans-unit>
 
@@ -267,6 +267,21 @@
 				<source>Menu of downloadable files.</source>
 			</trans-unit>
 
+			<trans-unit id="doktype.news_page" resname="doktype.news_page">
+				<source>News page</source>
+			</trans-unit>
+
+			<trans-unit id="doktype.person_page" resname="doktype.person_page">
+				<source>Person page</source>
+			</trans-unit>
+
+			<trans-unit id="doktype.start_page" resname="doktype.start_page">
+				<source>Start page</source>
+			</trans-unit>
+
+			<trans-unit id="doktype.plugin_page" resname="doktype.plugin_page">
+				<source>Plugin page</source>
+			</trans-unit>
 
 		</body>
 	</file>

@@ -4,12 +4,11 @@ namespace UBOS\Puck\Hooks\WebLayoutHeader;
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use UBOS\Puck\Domain\Repository\Page\PageRepository;
-use UBOS\Puck\Domain\Model\Page\Post;
+use UBOS\Puck\Domain\Model\Page\NewsPage;
+use UBOS\Puck\Domain\Repository\PageRepository;
 
 class PageHeader extends AbstractHeader
 {
@@ -20,7 +19,7 @@ class PageHeader extends AbstractHeader
 
     protected function getPropertyPermissions(): array
     {
-        $class = Post::class;
+        $class = NewsPage::class;
         $dataMap = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class)->getDataMap($class);
         $backendUserAuthentication = $this->getBackendUser();
 
@@ -37,15 +36,15 @@ class PageHeader extends AbstractHeader
     /** @throws AspectNotFoundException */
     public function render(): string
     {
-        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPE_POST) {
+        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/Post.html', [
-                'post' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\Post', [$this->row])[0],
+            return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/NewsPage.html', [
+                'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\NewsPage', [$this->row])[0],
                 'row' => $this->row,
                 'propertyPermissions' => $this->getPropertyPermissions()
             ])->render();
         }
-        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPE_PERSON) {
+        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/WebLayoutHeader/PersonPage.html', [
                 'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$this->row])[0],
