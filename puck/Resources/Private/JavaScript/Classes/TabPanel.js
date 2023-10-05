@@ -1,6 +1,7 @@
 import Toggleable from "./Toggleable"
 
 class TabPanel extends Toggleable {
+    static displayName = 'TabPanel'
     constructor(target, { ...options }) {
         super(target, { ...options })
         if (!this.groupElement) {

@@ -1,6 +1,7 @@
 import Toggleable from "./Toggleable"
 
 class Accordion extends Toggleable {
+    static displayName = 'Accordion'
     constructor(target, { useMinHeight = false, ...options }) {
         super(target, { ...options })
         Object.assign(this, { useMinHeight })

@@ -3,6 +3,7 @@ import Toggleable from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
 
 class Modal extends Toggleable {
+    static displayName = 'Modal'
     constructor(target, { moveToModalContainer = true, toggleOffOnOutsideClick = true, ...options }) {
         super(target, { toggleOffOnOutsideClick, ...options })
         Object.assign(this, { moveToModalContainer })

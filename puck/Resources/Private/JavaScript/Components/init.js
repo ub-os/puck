@@ -45,7 +45,7 @@ const mountComponents = (target) => {
 
             mediaPlayers: MediaPlayer.createInstancesFromDataAttribute({ root, attribute: 'data-media-player' }),
 
-            scrollReveals: [...root.$$('main section')].map(element => {
+/*            scrollReveals: [...root.$$('main section')].map(element => {
                 return {
                     section: new ScrollReveal(element, {}).mount(),
                     listItems: [...element.$$('.l-card, .m-content-accordions__item')].map((li, index) => {
@@ -65,7 +65,7 @@ const mountComponents = (target) => {
                         }).mount()
                     })
                 }
-            }),
+            }),*/
         }
     )
 }

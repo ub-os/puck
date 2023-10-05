@@ -8,6 +8,7 @@ export default class Toggleable extends AbstractComponent {
     toggleOff: new Event('toggleOff'),
     groupToggle: new Event('groupToggle'),
   }
+  static displayName = 'Toggleable'
   constructor(target, {
     toggles,
     active = false,
@@ -69,7 +70,7 @@ export default class Toggleable extends AbstractComponent {
     if (this.setClassOnParent) {
       this.element.parentNode.classList[operation](className)
     }
-    document.documentElement.classList[operation](`--${this.id}-${this.constructor.name.toLowerCase()}${className}`)
+    document.documentElement.classList[operation](`--${this.id}-${this.constructor.displayName.toLowerCase()}${className}`)
     this.toggles.forEach(t => t.classList[operation](className))
   }
   transitionClass(className) {
