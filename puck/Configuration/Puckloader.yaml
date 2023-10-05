@@ -6,3 +6,4 @@ contentModel:
   partialRootPath: EXT:puck/Resources/Private/Fluid/Partials/
   layoutRootPath: EXT:puck/Resources/Private/Fluid/Layouts/
   previewRenderer: UBOS\Puck\Preview\PuckPreviewRenderer
+iconIdentifierPrefix: ''

@@ -6,7 +6,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use UBOS\Puck\Domain\Repository\Page\PageRepository;
-use UBOS\Puck\Loader\SmartContainerContentObjectLoader;
 use UBOS\Puckloader\Loader;
 
 Loader::loadConf('puck');
