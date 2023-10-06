@@ -1,20 +1,20 @@
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
 
 <a href="{editLink}">
-    <p><small>
+
         <f:if condition="{item.record.CType} == 'list'">
             <f:then>
+                <p><small>
                 <strong>
                     Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.list_type)}" />
                 </strong>
+                </small></p>
             </f:then>
             <f:else>
-                <strong>
-                    <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.CType)}" />
-                </strong>
+<!--                <strong>-->
+<!--                    <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.CType)}" />-->
+<!--                </strong>-->
             </f:else>
         </f:if>
-
-        id:{item.record.uid}
-    </small></p>
+<!--        id:{item.record.uid}-->
 </a>
