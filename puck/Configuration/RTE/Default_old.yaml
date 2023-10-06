@@ -1,0 +1,99 @@
+# Load default processing options
+imports:
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
+  - { resource: "EXT:rte_ckeditor_dl/Configuration/RTE/Plugin.yaml" }
+
+
+# Add configuration for the editor
+# For complete documentation see http://docs.ckeditor.com/#!/api/CKEDITOR.config
+editor:
+  externalPlugins:
+    insertIcon:
+      { resource: "EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/plugin.js" }
+    linebreak:
+      { resource: "EXT:puck/Resources/Public/CkEditorPlugins/linebreak/plugin.js" }
+  config:
+    toolbar:
+    contentsCss:
+      - 'EXT:puck/Resources/Public/css/be-ck-contents.css'
+      - 'EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/insertIcon.css'
+      - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
+
+    stylesSet:
+      #Paragraphs
+      - { name: "Small paragraph", element: "p", attributes: { class: "-small"} }
+      - { name: "Large paragraph", element: "p", attributes: { class: "-large"} }
+      - { name: "Footnote paragraph", element: "p", attributes: { class: "-footnote"} }
+      - { name: "Quote paragraph", element: "p", attributes: { class: "-quote"} }
+      - { name: "Quote attribution paragraph", element: "p", attributes: { class: "-quote-attribution" } }
+      - { name: "Like h2 paragraph", element: "p", attributes: { class: "h2" } }
+      - { name: "Like h3 paragraph", element: "p", attributes: { class: "h3" } }
+      - { name: "Button group", element: "p", attributes: { class: "e-button-group" } }
+      - { name: "Button group without gutter", element: "p", attributes: { class: "-gutter-0 e-button-group" } }
+
+      # Headlines
+
+      # link styles
+      - { name: "Button", element: "a", attributes: { class: "e-button-primary" } }
+      - { name: "Symbol button", element: "a", attributes: { class: "e-button-icon"} }
+      - { name: "Button: outline", element: "a", attributes: { data-button-outline: "1" } }
+      - { name: "Button: ghost", element: "a", attributes: { data-button-ghost: "1"} }
+      - { name: "Button: icon left", element: "a", attributes: { data-button-icon: "left" } }
+      - { name: "Button: icon right", element: "a", attributes: { data-button-icon: "right" } }
+      - { name: "Button: icon framed", element: "a", attributes: { data-button-icon-pill: "1" } }
+
+      #Lists
+
+      #List items
+
+      # Tables
+      - { name: "Row layout table", element: "table", attributes: { class: "row-layout-table"} }
+      - { name: "Data table", element: "table", attributes: { class: "data-table"} }
+
+    format_tags: "p;h2;h3"
+
+    toolbarGroups:
+      - { name: styles, groups: [ Styles, Format ] }
+      - { name: basicstyles, groups: [ basicstyles ] }
+      - { name: paragraph, groups: [ list, align ] }
+      - { name: links, groups: [ links ] }
+      - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
+      - { name: insert, groups: [ insert ] }
+      - { name: linebreak }
+      - { name: tools, groups: [ specialchar ] }
+      - { name: document, groups: [ mode ] }
+
+    alignment:
+      options:
+        - { name: 'left', className: 'u-text-left' },
+        - { name: 'center', className: 'u-text-center' }
+        - { name: 'right', className: 'u-text-right' }
+        - { name: 'justify', className: 'u-text-justify' }
+
+    justifyClasses:
+      - u-text-left
+      - u-text-center
+      - u-text-right
+      - u-text-justify
+
+    extraPlugins:
+      - justify
+      - linebreak
+
+    removePlugins:
+      - media
+
+    removeButtons:
+      - Anchor
+      - Strike
+
+    extraAllowedContent : "span(!char-icon); *(*)[data-*]; p[data-*]; a[data-*];"
+
+    qtRows: 20
+    qtColumns: 6
+
+processing:
+  allowTags:
+    - wbr

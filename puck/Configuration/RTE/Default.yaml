@@ -3,67 +3,71 @@ imports:
   - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
   - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
   - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
-  - { resource: "EXT:rte_ckeditor_dl/Configuration/RTE/Plugin.yaml" }
-
 
 # Add configuration for the editor
 # For complete documentation see http://docs.ckeditor.com/#!/api/CKEDITOR.config
 editor:
-  externalPlugins:
-    insertIcon:
-      { resource: "EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/plugin.js" }
-    linebreak:
-      { resource: "EXT:puck/Resources/Public/CkEditorPlugins/linebreak/plugin.js" }
   config:
-    toolbar:
     contentsCss:
       - 'EXT:puck/Resources/Public/css/be-ck-contents.css'
       - 'EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/insertIcon.css'
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
 
-    stylesSet:
-      #Paragraphs
-      - { name: "Small paragraph", element: "p", attributes: { class: "-small"} }
-      - { name: "Large paragraph", element: "p", attributes: { class: "-large"} }
-      - { name: "Footnote paragraph", element: "p", attributes: { class: "-footnote"} }
-      - { name: "Quote paragraph", element: "p", attributes: { class: "-quote"} }
-      - { name: "Quote attribution paragraph", element: "p", attributes: { class: "-quote-attribution" } }
-      - { name: "Like h2 paragraph", element: "p", attributes: { class: "h2" } }
-      - { name: "Like h3 paragraph", element: "p", attributes: { class: "h3" } }
-      - { name: "Button group", element: "p", attributes: { class: "e-button-group" } }
-      - { name: "Button group without gutter", element: "p", attributes: { class: "-gutter-0 e-button-group" } }
+    style:
+      definitions:
 
-      # Headlines
+        #Headlines
 
-      # link styles
-      - { name: "Button", element: "a", attributes: { class: "e-button-primary" } }
-      - { name: "Symbol button", element: "a", attributes: { class: "e-button-icon"} }
-      - { name: "Button: outline", element: "a", attributes: { data-button-outline: "1" } }
-      - { name: "Button: ghost", element: "a", attributes: { data-button-ghost: "1"} }
-      - { name: "Button: icon left", element: "a", attributes: { data-button-icon: "left" } }
-      - { name: "Button: icon right", element: "a", attributes: { data-button-icon: "right" } }
-      - { name: "Button: icon framed", element: "a", attributes: { data-button-icon-pill: "1" } }
+        #Paragraphs
+        - { name: "Small paragraph", element: "p", classes: [ "-small" ] }
+        - { name: "Large paragraph", element: "p", classes: [ "-large" ] }
+        - { name: "Footnote paragraph", element: "p", classes: [ "-footnote"] }
+        - { name: "Quote paragraph", element: "p", classes: [ "-quote" ] }
+        - { name: "Quote attribution paragraph", element: "p", classes: [ "-quote-attribution" ] }
+        - { name: "Like h2 paragraph", element: "p", classes: [ "h2" ] }
+        - { name: "Like h3 paragraph", element: "p", classes: [ "h3" ] }
+        - { name: "Button group", element: "p", classes: [ "e-button-group" ] }
+        - { name: "Button group without gutter", element: "p", classes: [ "-gutter-0 e-button-group" ] }
 
-      #Lists
+        # Headlines
 
-      #List items
+        # link styles
+        - { name: "Button", element: "a", classes: [ "e-button-primary"] }
+        - { name: "Symbol button", element: "a", classes: [ "e-button-icon"] }
+        - { name: "Button: full-width", element: "a", classes: [ '-block' ] }
+        - { name: "Button: light", element: "a", classes: [ '-light' ] }
+        - { name: "Button: outline", element: "a",classes: [ '-outline' ] }
+        - { name: "Button: ghost", element: "a", classes: [ '-ghost' ] }
+        - { name: "Button: icon left", element: "a", classes: [ '-icon', '-icon-left' ] }
+        - { name: "Button: icon right", element: "a", classes: [ '-icon', '-icon-right' ] }
+        - { name: "Button: icon framed", element: "a", classes: [ '-icon', '-icon-pill' ] }
 
-      # Tables
-      - { name: "Row layout table", element: "table", attributes: { class: "row-layout-table"} }
-      - { name: "Data table", element: "table", attributes: { class: "data-table"} }
+        #Lists
 
-    format_tags: "p;h2;h3"
+        #List items
 
-    toolbarGroups:
-      - { name: styles, groups: [ Styles, Format ] }
-      - { name: basicstyles, groups: [ basicstyles ] }
-      - { name: paragraph, groups: [ list, align ] }
-      - { name: links, groups: [ links ] }
-      - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
-      - { name: insert, groups: [ insert ] }
-      - { name: linebreak }
-      - { name: tools, groups: [ specialchar ] }
-      - { name: document, groups: [ mode ] }
+        # Tables
+        - { name: "Row layout table", element: "table", classes: [ "row-layout-table"] }
+        - { name: "Data table", element: "table", classes: ["data-table"] }
+
+    heading:
+      options:
+        - { model: 'paragraph', title: 'Paragraph' }
+        - { model: 'heading2', view: 'h2', title: 'Heading 2' }
+        - { model: 'heading3', view: 'h3', title: 'Heading 3' }
+
+    toolbar:
+      items:
+        - { name: styles, groups: [ Styles, Format ] }
+        - { name: basicstyles, groups: [ basicstyles ] }
+        - { name: paragraph, groups: [ list, align ] }
+        - { name: links, groups: [ links ] }
+        - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
+        - { name: insert, groups: [ insert ] }
+        - { name: linebreak }
+        - { name: tools, groups: [ specialchar ] }
+        - { name: document, groups: [ mode ] }
+
 
     alignment:
       options:
@@ -72,22 +76,6 @@ editor:
         - { name: 'right', className: 'u-text-right' }
         - { name: 'justify', className: 'u-text-justify' }
 
-    justifyClasses:
-      - u-text-left
-      - u-text-center
-      - u-text-right
-      - u-text-justify
-
-    extraPlugins:
-      - justify
-      - linebreak
-
-    removePlugins:
-      - media
-
-    removeButtons:
-      - Anchor
-      - Strike
 
     extraAllowedContent : "span(!char-icon); *(*)[data-*]; p[data-*]; a[data-*];"
 
