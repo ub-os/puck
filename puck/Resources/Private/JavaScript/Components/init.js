@@ -15,6 +15,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import LayoutRow from '../Classes/LayoutRow';
 import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
+import RichText from "../Classes/RichText.js";
 
 smoothscroll.polyfill()
 
@@ -33,6 +34,8 @@ const mountComponents = (target) => {
             pageHeader: new PageHeader($('[data-page-header]'), { scrollTops: {800: 30} }).mount(),
 
             smoothHashLinks: new SmoothHashLinks({ root }).mount(),
+
+            richTexts: RichText.createInstancesFromDataAttribute({ root, attribute: 'data-rich-text' }),
 
             linkTos: LinkTo.createInstancesFromDataAttribute({ root, attribute: 'data-link-to' }),
 
