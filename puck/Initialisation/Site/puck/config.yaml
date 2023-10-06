@@ -35,12 +35,6 @@ languages:
     languageId: 1
     xml_sitemap_path: /en/sitemap.xml
 rootPageId: 2
-settings:
-  redirects:
-    autoUpdateSlugs: true
-    autoCreateRedirects: false
-    redirectTTL: 0
-    httpStatusCode: 307
 websiteTitle: ''
 xml_sitemap_path: sitemap.xml
 imports:

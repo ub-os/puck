@@ -1,0 +1,5 @@
+redirects:
+  autoUpdateSlugs: true
+  autoCreateRedirects: false
+  redirectTTL: 0
+  httpStatusCode: 307
