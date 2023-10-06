@@ -12,6 +12,7 @@ import ScrollSensitive from '../Classes/ScrollSensitive';
 import FetchLink from "../Classes/FetchLink.js";
 import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
+import LayoutRow from '../Classes/LayoutRow';
 import { getElement, scrollTo } from '../General/Functions';
 
 smoothscroll.polyfill()
@@ -23,8 +24,12 @@ const _app = new App({
 
 const mountComponents = (target) => {
     const root = getElement(target)
+    _app.components.push({
+        layoutRows: LayoutRow.createInstancesFromDataAttribute({ root, attribute: 'data-layout-row' }),
+    })
     _app.components.push(
         {
+
             smoothHashLinks: new SmoothHashLinks({ root }).mount(),
 
             linkTos: LinkTo.createInstancesFromDataAttribute({ root, attribute: 'data-link-to' }),

@@ -25,6 +25,7 @@
     <ul class="{name} {class} {mods -> puck:modClass()} {bpClasses}"
         id="{id}"
         style="{f:if(condition:gutterRem,then:'--grid-gutter-x:{gutterRem}rem')}"
+        data-layout-row
         {attributes -> puck:attributes()}>
       {content -> f:format.raw()}
     </ul>
