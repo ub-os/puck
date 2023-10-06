@@ -39,15 +39,15 @@ page.meta {
 #    page.headerData.50.stdWrap.dataWrap = <title>{page:seo_title}</title>
 #[end]
 
-[page["og_title"]]
-    page.meta.og:title.field = og_title
-[end]
-[page["og_description"]]
-    page.meta.og:description.field = og_description
-[end]
-[!page["og_image"]]
-    page.headerData.40 < lib.ogImageFallback
-[end]
+#[page["og_title"]]
+#    page.meta.og:title.field = og_title
+#[end]
+#[page["og_description"]]
+#    page.meta.og:description.field = og_description
+#[end]
+#[!page["og_image"]]
+#    page.headerData.40 < lib.ogImageFallback
+#[end]
 
 page.shortcutIcon = typo3conf/ext/puck/Resources/Public/Icons/Favicons/favicon.ico
 

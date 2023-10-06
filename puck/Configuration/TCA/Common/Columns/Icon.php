@@ -8,9 +8,9 @@ $iconJsonIterator = new RecursiveIteratorIterator(
     RecursiveIteratorIterator::SELF_FIRST);
 $iconSelectItems = array(['none', '']);
 foreach ($iconJsonIterator as $key => $val) {
-    $iconSelectItems[] = [
+    $iconSelectItems[] = \UBOS\Puckloader\Utility\TcaUtility::selectItemHelper([
         $key, $key, 'EXT:puck/Resources/Public/Icons/Frontend/' . $key . '.svg'
-    ];
+    ]);
 }
 return [
     'label' => 'Icon',

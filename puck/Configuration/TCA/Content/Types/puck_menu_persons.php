@@ -19,9 +19,9 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_persons'] = [
         ],
         'layout' => [
             'config' => [
-                'items' => [
+                'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
                     ['Team cards', 'team-cards'],
-                ],
+                ]),
                 'default' => 'team-cards'
             ]
         ]

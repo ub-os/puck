@@ -22,10 +22,10 @@ $GLOBALS['TCA']['tt_content']['types']['puck_row'] = [
         ],
         'layout' => [
             'config' => [
-                'items' => [
+                'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
                     ['Rows', 'default', 'row_layout_row'],
                     ['Carousel', 'carousel', 'row_layout_carousel'],
-                ],
+                ]),
             ]
         ],
         'options' => [

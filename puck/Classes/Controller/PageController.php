@@ -96,8 +96,8 @@ class PageController extends ActionController
         $context = GeneralUtility::makeInstance(Context::class);
         $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $contentObject = new ContentContentObject($contentObjectRenderer);
-        $contentObject->setContentObjectRenderer($contentObjectRenderer);
         $contentObject->setRequest($this->request);
+        $contentObject->setContentObjectRenderer($contentObjectRenderer);
         $model = $this->pageRepository->findByUid($data['uid']);
 
         $variables = [];

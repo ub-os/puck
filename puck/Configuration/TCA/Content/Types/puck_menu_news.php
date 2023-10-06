@@ -19,9 +19,9 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_news'] = [
         ],
         'layout' => [
             'config' => [
-                'items' => [
+                'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
                     ['Blog cards', 'blog-cards'],
-                ],
+                ]),
                 'default' => 'blog-cards'
             ]
         ]

@@ -5,15 +5,12 @@
 <f:render section="preview" arguments="{_all}" />
 
 <f:section name="preview">
-  <f:if condition="{item.record.pi_flexform}">
-  </f:if>
-  <a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
+  <a href="{editLink}">
+
     <f:render section="main" arguments="{item: item}" />
     <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.media, field: 'media', table: 'tt_content'}" />
     <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.image, field: 'image', table: 'tt_content'}" />
     <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
-<!--    <f:render section="group" arguments="{group: item.record.pages, table: 'pages', headline: 'Pages'}" />
-    <f:render section="group" arguments="{group: item.record.parents, table: 'pages', headline: 'Subpages of'}"/>-->
     <f:if condition="{item.record.records}">
       <em>Shortcut to:</em>
       <f:for each="{puck:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
@@ -21,10 +18,10 @@
       </f:for>
     </f:if>
     <f:render partial="PageMenuSettings" arguments="{settings:item.record.pi_flexform.settings,processed:processedMenuData}"/>
-<!--
-    <f:render partial="InlineMedia" arguments="{inline_media: item.record.inline_media, uid: item.record.uid, CType: item.record.CType, icon: 'InlineTextMedia'}" />
--->
+    <!--
+    -->
   </a>
+
 </f:section>
 
 <f:section name="main">

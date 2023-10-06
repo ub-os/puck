@@ -1,6 +1,6 @@
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
 
-<a href="{be:uri.editRecord(uid: item.record.uid, table:'tt_content')}">
+<a href="{editLink}">
     <p><small>
         <f:if condition="{item.record.CType} == 'list'">
             <f:then>

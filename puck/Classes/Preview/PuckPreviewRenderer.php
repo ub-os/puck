@@ -23,7 +23,16 @@ class PuckPreviewRenderer implements PreviewRendererInterface
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:puck/Resources/Private/Fluid/Backend/Templates/ContentPreview/Header.html'));
         $view->setPartialRootPaths(['EXT:puck/Resources/Private/Fluid/Backend/Partials/ContentPreview/']);
+        $editLink = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', [
+            'edit' => [
+                'tt_content' => [
+                    $item->getRecord()['uid'] => 'edit'
+                ]
+            ],
+            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+        ]);
         $view->assign('item', $item);
+        $view->assign('editLink', $editLink);
 
         return $view->render();
     }
@@ -43,16 +52,27 @@ class PuckPreviewRenderer implements PreviewRendererInterface
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:puck/Resources/Private/Fluid/Backend/Templates/ContentPreview/Content.html'));
         $view->setPartialRootPaths(['EXT:puck/Resources/Private/Fluid/Backend/Partials/ContentPreview/']);
+        $editLink = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', [
+            'edit' => [
+                'tt_content' => [
+                    $record['uid'] => 'edit'
+                ]
+            ],
+            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+        ]);
 
         // add flexform data to the record
         if ($record['pi_flexform']) {
             $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
             $flexform = $flexformService->convertFlexFormContentToArray($record['pi_flexform']);
             $record['pi_flexform'] = $flexform;
-            $view->assign('processedMenuData', $this->getDataForPageMenuFlexFormPreview($flexform));
+            if (in_array($record['CType'], ['puck_menu_pages', 'puck_menu_persons', 'puck_menu_posts', 'puck_menu_downloads'])) {
+                $view->assign('processedMenuData', $this->getDataForPageMenuFlexFormPreview($flexform));
+            }
         }
         $item->setRecord($record);
         $view->assign('item', $item);
+        $view->assign('editLink', $editLink);
 
         return $view->render() . $containerPreview;
     }
@@ -81,6 +101,9 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                 $uids = explode(',', $flexform['settings'][$key]);
                 foreach ($uids as $uid) {
                     $page = BackendUtility::getRecord('pages', $uid, '*', '', true);
+                    if (!$page) {
+                        continue;
+                    }
                     $page['backend_link'] = $uriBuilder->buildUriFromRoute(
                         'web_layout',
                         ['id' => $page['uid']]
@@ -96,7 +119,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                 'table' => 'tx_puck_domain_model_person',
                 'title' => 'Author',
                 'titleField' => 'name',
-                'uids' => $flexform['settings']['demand']['author']
+                'uids' => $flexform['settings']['demand']['author'] ?? ''
             ],
             'categories' => [
                 'table' => 'sys_category',

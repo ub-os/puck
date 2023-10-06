@@ -2,6 +2,8 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+  UBOS\Puck\:
+    resource: '../Classes/*'
   UBOS\Puck\EventListener\AdditionalPropertiesForSearchAction:
     tags:
       - name: event.listener
