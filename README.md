@@ -27,6 +27,8 @@ npm Version = 18
         "type": "git"
     }
 ],
+"prefer-stable": true,
+"minimum-stability": "dev",
 ```
 und 
 ```json
