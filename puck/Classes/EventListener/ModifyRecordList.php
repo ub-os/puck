@@ -2,9 +2,9 @@
 namespace UBOS\Puck\EventListener;
 
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Recordlist\Event\ModifyRecordListHeaderActionsEvent;
-use TYPO3\CMS\Recordlist\Event\ModifyRecordListRecordActionsEvent;
-use TYPO3\CMS\RecordList\Event\ModifyRecordListTableActionsEvent;
+use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListHeaderActionsEvent;
+use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
+use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListTableActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
 use TYPO3\CMS\Core\Imaging\Icon;
