@@ -21,3 +21,7 @@ services:
     tags:
       - name: event.listener
         identifier: 'puck/modifyNewContentElementWizard'
+  UBOS\Puck\EventListener\ModifyPageLayoutContent:
+    tags:
+      - name: event.listener
+        identifier: 'puck/modifyPageLayoutContent'
