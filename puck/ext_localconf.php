@@ -20,7 +20,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOf
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][] = \UBOS\Puck\Hooks\WebLayoutHeader\PageHeader::class . '->render';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawFooterHook'][] = \UBOS\Puck\Hooks\WebLayoutFooter\IncludeJavascript::class . '->loadModules';
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms']['db_new_content_el']['wizardItemsHook'][] = \UBOS\Puck\Hooks\WizardItems\AddPresets::class;
 
 // add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(

@@ -1,25 +1,19 @@
 <?php
-namespace UBOS\Puck\Hooks\WizardItems;
+namespace UBOS\Puck\EventListener;
 
-use TYPO3\CMS\Backend\Wizard\NewContentElementWizardHookInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
+final class ModifyNewContentElementWizard {
 
-class AddPresets implements NewContentElementWizardHookInterface
-{
-    /**
-     *
-     * @param array $wizardItems array of Wizard Items
-     * @param \TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController $parentObject New Content element wizard
-     *
-     * @return    void
-     */
-    public function manipulateWizardItems(&$wizardItems, &$parentObject): void
+    public function __invoke(
+        ModifyNewContentElementWizardItemsEvent $event
+    ): void
     {
+
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilderPages = $connectionPool->getQueryBuilderForTable('pages');
         $queryBuilderPages->getRestrictions()->removeAll();
@@ -53,29 +47,35 @@ class AddPresets implements NewContentElementWizardHookInterface
             ->fetchAll();
         $excludeColumns = 'deleted,colPos,l10n_source,l10n_state,tx_impexp_origuid,t3_origuid,l18n_diffsource,t3ver_oid,t3ver_wsid,t3ver_state,t3ver_stage,l18n_parent,sys_language_uid,uid,pid,rowDescription,tstamp,crdate,cruser_id,starttime,endtime,sorting,hidden,tx_container_parent';
 
-        $newItems = [];
-        $newItems['00_presets'] = [
-            'header' => 'Presets',
-        ];
-
+        $event->setWizardItem(
+            '00_presets',
+            [
+                'header' => 'Presets'
+            ],
+            ['before' => '01_content']
+        );
         foreach($contentElements as $index => $row) {
             $elementKey = 'preset_'.$row['CType'].'_'.$row['uid'];
-
             $modelNameLowercaseUnderscored = str_replace('puck_','',$row['CType']);
-
-            $newItems['00_presets_'.$elementKey] = [
-                'iconIdentifier' => $modelNameLowercaseUnderscored,
-                'title' => 'Preset: '.$row['header'],
-                'description' => 'Custom preset for '.LocalizationUtility::translate('LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$modelNameLowercaseUnderscored).' element.',
-            ];
-
+            $defValues = [];
             foreach($row as $col => $val) {
                 if($val === '' || $val === null || GeneralUtility::inList($excludeColumns, $col)) {
                     continue;
                 }
-                $newItems['00_presets_'.$elementKey]['tt_content_defValues'][$col] = $val;
+                $defValues[$col] = $val;
             }
+
+            $event->setWizardItem(
+                $elementKey,
+                [
+                    'iconIdentifier' => $modelNameLowercaseUnderscored,
+                    'title' => 'Preset: '.$row['header'],
+                    'description' => 'Custom preset for '.LocalizationUtility::translate('LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.'.$modelNameLowercaseUnderscored).' element.',
+                    'tt_content_defValues' => $defValues,
+                ],
+                ['after' => '00_presets']
+            );
         }
-        $wizardItems = $newItems + $wizardItems;
+
     }
 }
