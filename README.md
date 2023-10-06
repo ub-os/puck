@@ -15,13 +15,17 @@ npm Version = 18
 
 ```json
 "repositories": [
-  {
-     "type": "path",
-     "url": "extensions/*",
-     "options": {
-        "symlink": true
-     }
-  }
+    {
+        "type": "path",
+        "url": "extensions/*",
+        "options": {
+          "symlink": true
+      }
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/puckloader.git",
+        "type": "git"
+    }
 ],
 ```
 und 
@@ -72,11 +76,11 @@ class ProductCards extends Text
 Die neue Model-Klasse extended entweder ein anderes Content-Model oder AbstractEntity.
 
 Annotations:
-- DatabaseTable: Name der Tabelle, in der die Daten gespeichert ("persisted") werden.
-- DatabaseField: Falls die Spalte (im Beispiel: "show_price")($camelCase in model => snake_case in Tabelle) noch nicht in der Tabelle existiert wird sie automatisch angelegt.
 
 Attributes:
 - ContentElementWizard: Tab, in dem das Content Element im New Content Element Wizard angezeigt wird.
+- ModelPersistence: Name der Tabelle, in der die Daten gespeichert ("persisted") werden.
+- ModelColumn: Falls die Spalte (im Beispiel: "show_price")($camelCase in model => snake_case in Tabelle) noch nicht in der Tabelle existiert wird sie automatisch angelegt.
 
 Falls durch die Annotations Datenbankänderungen vorgenommen werden müssen (z.B. neue Spalte in Tabelle), muss das Datenbankschema im Typo3 Backend aktualisiert werden: "Admin Tools" -> "Maintenance" -> "Analyze Database Structure".
 
