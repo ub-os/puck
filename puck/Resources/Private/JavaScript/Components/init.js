@@ -13,6 +13,7 @@ import FetchLink from "../Classes/FetchLink.js";
 import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
 import LayoutRow from '../Classes/LayoutRow';
+import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
 
 smoothscroll.polyfill()
@@ -29,6 +30,7 @@ const mountComponents = (target) => {
     })
     _app.components.push(
         {
+            pageHeader: new PageHeader($('[data-page-header]'), { scrollTops: {800: 30} }).mount(),
 
             smoothHashLinks: new SmoothHashLinks({ root }).mount(),
 
