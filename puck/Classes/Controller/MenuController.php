@@ -19,11 +19,12 @@ use UBOS\Puck\Menu\Trait\Controller\PaginationMenu;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 
 use UBOS\Puck\Domain\Repository\PageRepository;
+use UBOS\Puck\Domain\Repository\ContentRepository;
 use UBOS\Puck\Domain\Model\Content\MenuPages;
 use UBOS\Puck\Domain\Model\Content\MenuPersons;
 use UBOS\Puck\Domain\Model\Content\MenuNews;
 
-class PageMenuController extends ActionController
+class MenuController extends ActionController
 {
     use CategoryFilterMenu;
     use PaginationMenu;
@@ -76,6 +77,11 @@ class PageMenuController extends ActionController
     public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
+    }
+    protected ?ContentRepository $contentRepository = null;
+    public function injectContentRepository(ContentRepository $contentRepository) : void
+    {
+        $this->contentRepository = $contentRepository;
     }
 
     protected function renderMenu(
@@ -185,5 +191,19 @@ class PageMenuController extends ActionController
         $this->menuActionName = 'personMenu';
         $this->menuContentObject = $object;
         return $this->renderMenu($categoryList, $categoryConjunction, $authorList);
+    }
+
+    #[Plugin("AnchorMenu")]
+    public function anchorMenuAction(): ResponseInterface
+    {
+        $data = $this->configurationManager->getContentObject()->data;
+        $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+        $variables['object'] = $dataMapper->map($this->settings['modelNamespace'] . $this->settings['modelName'], [$data])[0];
+        $variables['object']->setAnchors($this->contentRepository->findContentObjectsBy('Anchor', 'pid', $data['pid'])->toArray());
+        $variables['settings'] = $this->settings;
+        $this->view->assignMultiple(
+            $variables
+        );
+        return $this->htmlResponse();
     }
 }
