@@ -3,14 +3,20 @@
 	<file source-language="en" datatype="plaintext" original="EXT:puck/Resources/Private/Language/locallang.xlf" date="2022-06-21T09:21:54Z" product-name="puck">
 		<header/>
 		<body>
-			<trans-unit id="displayResults.page" resname="displayResults.page">
-				<source></source>
+			<trans-unit id="page" resname="page">
+				<source>Page</source>
 			</trans-unit>
-			<trans-unit id="displayResults.previous" resname="displayResults.previous">
+			<trans-unit id="previous" resname="previous">
 				<source>Previous</source>
 			</trans-unit>
-			<trans-unit id="displayResults.next" resname="displayResults.next">
+			<trans-unit id="next" resname="next">
 				<source>Next</source>
+			</trans-unit>
+			<trans-unit id="close" resname="close">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="play-video" resname="play-video">
+				<source>Play video</source>
 			</trans-unit>
 			<trans-unit id="back-to" resname="back-to">
 				<source>Back to</source>
@@ -51,31 +57,12 @@
 			<trans-unit id="show-less" resname="show-less">
 				<source>show less</source>
 			</trans-unit>
-			<trans-unit id="product-filter" resname="product-filter">
-				<source>Product filter</source>
-			</trans-unit>
-			<trans-unit id="order-now" resname="order-now">
-				<source>Order now</source>
-			</trans-unit>
 			<trans-unit id="no-results" resname="no-results">
 				<source>No results found.</source>
 			</trans-unit>
 			<trans-unit id="last-updated" resname="last-updated">
 				<source>Last updated on</source>
 			</trans-unit>
-			<trans-unit id="find-out-needs" resname="find-out-needs">
-				<source>Find out needs?</source>
-			</trans-unit>
-			<trans-unit id="select-package-size" resname="select-package-size">
-				<source>Select quantity</source>
-			</trans-unit>
-			<trans-unit id="select-flavor" resname="select-flavor">
-				<source>Select flavour</source>
-			</trans-unit>
-			<trans-unit id="order-now-get-today" resname="order-now-get-today">
-				<source>Order now and get it today</source>
-			</trans-unit>
-
 		</body>
 	</file>
 </xliff>

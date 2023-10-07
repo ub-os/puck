@@ -14,57 +14,70 @@ $slice-degree: 45deg
 
 .e-control-burger
   &
+    +flex(column, space-between, center)
     position: relative
     width: $burger-width
     height: 3rem
+    padding: .3rem
     cursor: pointer
+    border-radius: var(--border-radius-s)
     transition: transform .15s
 
   &.--active
   //transform: scale(.6) translateX(30%)
 
+  &:focus
+    box-shadow: 0 0 0 10px var(--outline-color-button--focus)
+
+
   &__slice
-    display: block
-    position: absolute
-    width: $burger-width
     height: 3px
+    width: 100%
     background: var(--color-link)
-    transform-origin: 50% 50%
-    transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
 
+  //&__slice
+  //  display: block
+  //  position: absolute
+  //  width: $burger-width
+  //  left: .3rem
+  //  height: 3px
+  //  background: var(--color-link)
+  //  transform-origin: 50% 50%
+  //  transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
 
-  &.--active &__slice
-    transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
+  //&__slice:nth-child(1)
+  //  top: 0
+  //  z-index: 2
+  //
+  //&__slice:nth-child(2)
+  //  top: $slice-distance
+  //  opacity: 1
+  //  transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), border-color $header-color-trans, background .15s
+  //
+  //&__slice:nth-child(3)
+  //  top: $slice-distance*2
 
-  &__slice:nth-child(1)
-    top: 0
-    z-index: 2
-
-  &.--active &__slice:nth-child(1)
-    animation: burger-open-top $menu-animation-duration $menu-animation-timing forwards
-
-  &.--deactivating &__slice:nth-child(1)
-    animation: burger-close-top $menu-animation-duration $menu-animation-timing forwards
-
-  &__slice:nth-child(2)
-    top: $slice-distance
-    opacity: 1
-    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), border-color $header-color-trans, background .15s
-
-  &.--active &__slice:nth-child(2)
-    opacity: 0
-    transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), background .15s
-
-  &__slice:nth-child(3)
-    top: $slice-distance*2
-
-  &.--active &__slice:nth-child(3)
-    animation: burger-open-bot $menu-animation-duration $menu-animation-timing forwards
-
-  &.--deactivating &__slice:nth-child(3)
-    animation: burger-close-bot $menu-animation-duration $menu-animation-timing forwards
-
-
+  //
+  //&.--active &__slice:nth-child(1)
+  //  animation: burger-open-top $menu-animation-duration $menu-animation-timing forwards
+  //
+  //&.--deactivating &__slice:nth-child(1)
+  //  animation: burger-close-top $menu-animation-duration $menu-animation-timing forwards
+  //
+  //&.--active &__slice
+  //  transition: transform $menu-animation-duration $menu-animation-timing, border-color $header-color-trans, background .15s
+  //
+  //
+  //&.--active &__slice:nth-child(2)
+  //  opacity: 0
+  //  transition: transform $menu-animation-duration $menu-animation-timing, opacity 0ms linear calc($menu-animation-duration / 2), background .15s
+  //
+  //
+  //&.--active &__slice:nth-child(3)
+  //  animation: burger-open-bot $menu-animation-duration $menu-animation-timing forwards
+  //
+  //&.--deactivating &__slice:nth-child(3)
+  //  animation: burger-close-bot $menu-animation-duration $menu-animation-timing forwards
 
 
 @keyframes burger-open-top

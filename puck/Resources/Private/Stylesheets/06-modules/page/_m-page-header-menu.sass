@@ -49,7 +49,8 @@
 	&.-small
 		+font-size($fs-extra-small)
 
-
+	&__close
+		display: none
 
 //mobile nav
 +media($bp-mobile-nav)
@@ -65,12 +66,13 @@
 			position: fixed
 			top: 0
 			left: 100%
-			z-index: $z-index-header-menu
+			z-index: $z-index-modal
 			width: 100vw
 			max-width: width-by-cols(4, true)
 			max-height: 100dvh
 			overflow: hidden
 			overflow-y: auto
+			visibility: hidden
 			padding-top: var(--height-page-header)
 			background: var(--background-modal)
 			border-bottom-left-radius: var(--border-radius-s)
@@ -82,7 +84,11 @@
 				padding-top: calc(var(--height-page-header) * 1.5)
 				border-bottom-left-radius: 0
 
+
+		&__wrap.--deactivating
+			visibility: visible
 		&__wrap.--active
+			visibility: visible
 			transform: translateX(-100%)
 
 		&__list
@@ -109,3 +115,12 @@
 		.d-html.--main-menu-toggleable--active &__backdrop
 			display: block
 			animation: modal-open-overlay .3s
+
+		&__close
+			display: block
+			position: absolute
+			z-index: 9
+			right: 2.5em
+			top: 1.5em
+			cursor: pointer
+			color: var(--color-link)

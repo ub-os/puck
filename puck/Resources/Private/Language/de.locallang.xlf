@@ -3,17 +3,20 @@
 	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:puck/Resources/Private/Language/locallang.xlf" date="2022-06-21T09:21:54Z" product-name="puck">
 		<header/>
 		<body>
-			<trans-unit id="displayResults.page" resname="displayResults.page">
-				<source></source>
-				<target></target>
+			<trans-unit id="page" resname="page">
+				<target>Seite</target>
 			</trans-unit>
-			<trans-unit id="displayResults.previous" resname="displayResults.previous">
-				<source>Previous</source>
+			<trans-unit id="previous" resname="previous">
 				<target>Vorherige</target>
 			</trans-unit>
-			<trans-unit id="displayResults.next" resname="displayResults.next">
-				<source>Next</source>
+			<trans-unit id="next" resname="next">
 				<target>Nächste</target>
+			</trans-unit>
+			<trans-unit id="close" resname="close">
+				<target>Schließen</target>
+			</trans-unit>
+			<trans-unit id="play-video" resname="play-video">
+				<target>Video abspielen</target>
 			</trans-unit>
 			<trans-unit id="back-to" resname="back-to">
 				<source>Back to</source>
@@ -67,14 +70,6 @@
 				<source>show less</source>
 				<target>weniger anzeigen</target>
 			</trans-unit>
-			<trans-unit id="product-filter" resname="product-filter">
-				<source>Product filter</source>
-				<target>Produktfilter</target>
-			</trans-unit>
-			<trans-unit id="order-now" resname="order-now">
-				<source>Order now</source>
-				<target>Jetzt bestellen</target>
-			</trans-unit>
 			<trans-unit id="no-results" resname="no-results">
 				<source>No results found.</source>
 				<target>Keine Ergebnisse gefunden.</target>
@@ -82,23 +77,6 @@
 			<trans-unit id="last-updated" resname="last-updated">
 				<source>Last updated on</source>
 				<target>Zuletzt geändert am</target>
-			</trans-unit>
-			<trans-unit id="find-out-needs" resname="find-out-needs">
-				<source>Find out needs?</source>
-				<target>Bedarf herausfinden?</target>
-			</trans-unit>
-			<trans-unit id="select-package-size" resname="select-package-size">
-				<source>Select quantity</source>
-				<target>Stückzahl wählen</target>
-			</trans-unit>
-			<trans-unit id="select-flavor" resname="select-flavor">
-				<source>Select flavour</source>
-				<target>Geschmack wählen</target>
-			</trans-unit>
-			<trans-unit id="order-now-get-today" resname="order-now-get-today">
-				<source>Order now and get it today</source>
-				<target>Jetzt bestellen und heute erhalten
-</target>
 			</trans-unit>
 		</body>
 	</file>

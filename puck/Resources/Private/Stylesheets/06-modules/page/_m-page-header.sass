@@ -3,7 +3,7 @@
     position: absolute
     top: 0
     left: 0
-    z-index: $z-index-header
+    z-index: $z-index-modal
     width: 100%
     height: var(--height-page-header)
     background: var(--background)
@@ -12,6 +12,8 @@
 
   .d-html[class*="-modal--active"] &.--scroll
     transform: translateY(-100%)
+  .d-html.--main-menu-modal--active &.--scroll
+    transform: none
 
   &.--scroll
     --height-page-header: #{$page-header-height--scroll}

@@ -17,8 +17,10 @@
         </f:link.typolink>
         <div class="{name}-menu__wrap"
              id="main-menu"
-             data-toggleable='{f:format.json(value:
-             {clickDelay: 300, toggleOffOnOutsideClick: 1}
+             data-modal='{f:format.json(value:{
+             clickDelay: 1000,
+             moveToModalContainer: 0
+             }
              )}'>
           <f:comment>
               // small navigation with search link that opens modal
@@ -32,8 +34,10 @@
               </f:if>
             </element:navigation>
           </f:comment>
-
           <element:navigation name="{name}-menu" class="" pages="{settings.navUid.main}"/>
+          <button class="{name}-menu__close" aria-controls="main-menu" aria-label="{f:translate(key:'close')}">
+            <icon:svg icon="close" />
+          </button>
         </div>
         <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">
