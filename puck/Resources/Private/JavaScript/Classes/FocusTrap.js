@@ -11,7 +11,7 @@ export default class FocusTrap {
 
     updateFocusables() {
         let focusables = [...this.element.querySelectorAll(
-            'button, a[href], input:not([type="hidden"]), select, textarea, [draggable], [tabindex]'
+            'button, a[href], input:not([type="hidden"]), select, textarea, [draggable], [contenteditable], [tabindex], audio[controls] video[controls]'
         )]
         this.focusables = focusables.filter(f =>
             f.tabIndex !== -1 &&
