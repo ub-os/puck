@@ -76,12 +76,17 @@
           --grid-columns-original: #{$i}
 
   &__close
+    +flex(row, center, center)
     position: absolute
     z-index: 9
-    right: 1.5em
+    right: 2.5em
     top: 1.5em
+    width: 1.3em
+    height: 1.3em
     cursor: pointer
     color: var(--color-link)
-
-  &__close:hover
-    color: var(--color-link--hover)
+    border-radius: 100%
+    &:hover
+      color: var(--color-link--hover)
+    &:focus
+      box-shadow: 0 0 0 10px var(--outline-color-button--focus)

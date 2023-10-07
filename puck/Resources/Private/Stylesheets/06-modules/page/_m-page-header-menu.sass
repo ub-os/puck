@@ -50,6 +50,7 @@
 		+font-size($fs-extra-small)
 
 	&__close
+		@extend .l-modal__close
 		display: none
 
 //mobile nav
@@ -117,10 +118,4 @@
 			animation: modal-open-overlay .3s
 
 		&__close
-			display: block
-			position: absolute
-			z-index: 9
-			right: 2.5em
-			top: 1.5em
-			cursor: pointer
-			color: var(--color-link)
+			display: flex
