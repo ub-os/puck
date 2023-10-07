@@ -2,7 +2,7 @@
 import Toggleable from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
 
-class Modal extends Toggleable {
+export default class Modal extends Toggleable {
     static displayName = 'Modal'
     constructor(target, { moveToModalContainer = true, toggleOffOnOutsideClick = true, ...options }) {
         super(target, { toggleOffOnOutsideClick, ...options })
@@ -18,7 +18,7 @@ class Modal extends Toggleable {
         this.element.removeAttribute('aria-hidden')
         this.element.role = 'dialog'
         this.element.ariaModal = 'true'
-        this.focusTrap.firstFocusable.focus()
+        this.focusTrap.getFirstFocusable().focus()
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
@@ -39,9 +39,10 @@ class Modal extends Toggleable {
                 })
             }
         })
+        this.element.addEventListener('focusablesChanged', () => {
+            if (this.active) this.focusTrap.getFirstFocusable().focus()
+        })
         return this
     }
 }
-
-export default Modal
 

@@ -43,7 +43,7 @@ export default class MediaPlayer extends AbstractComponent {
                 default:
                     this.playerElement = this.getHtml5PlayerElement()
             }
-            this.element.appendChild(this.playerElement)
+            this.element.prepend(this.playerElement)
             this.playerElementAdded = true
             if (this.usePlyr) {
                 if (this.options.controls === true || this.options.controls === 1) {
@@ -58,6 +58,7 @@ export default class MediaPlayer extends AbstractComponent {
         const element = (
             <video
                 id={`${this.id}-video`}
+                tabindex={'0'}
                 data-poster={this.poster+''} >
                 <source
                     src={this.filePath}
