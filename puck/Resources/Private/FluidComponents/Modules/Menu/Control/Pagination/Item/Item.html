@@ -7,21 +7,32 @@
     <li class="{name}__item">
       <f:if condition="{item.active}">
         <f:then>
-          <button class="{name}__link -disabled">{item.label}</button>
+          <div class="{name}__link -disabled">{item.label}</div>
         </f:then>
         <f:else>
+          <f:switch expression="{item.label}">
+            <f:case value="<">
+              <f:variable name="label">
+                <icon:svg icon="arrow-left-regular" class="{name}__prev"/>
+              </f:variable>
+              <f:variable name="ariaLabel" value="{f:translate(key:'previous')} {f:translate(key:'page')}" />
+            </f:case>
+            <f:case value=">">
+              <f:variable name="label">
+                <icon:svg icon="arrow-right-regular" class="{name}__next"/>
+              </f:variable>
+              <f:variable name="ariaLabel" value="{f:translate(key:'next')} {f:translate(key:'page')}" />
+            </f:case>
+            <f:defaultCase>
+              <f:variable name="label" value="{item.label}"/>
+              <f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}" />
+            </f:defaultCase>
+          </f:switch>
           <a href="{item.url}"
              data-fetch-link='{item.fetchLinkOptions -> f:format.json()}'
-             class="{name}__link">
-            <f:switch expression="{item.label}">
-              <f:case value="<">
-                <icon:svg icon="arrow-left-regular" class="{name}__prev"/>
-              </f:case>
-              <f:case value=">">
-                <icon:svg icon="arrow-right-regular" class="{name}__next"/>
-              </f:case>
-              <f:defaultCase>{item.label}</f:defaultCase>
-            </f:switch>
+             class="{name}__link"
+            aria-label="{ariaLabel}">
+            {label -> f:format.raw()}
           </a>
         </f:else>
       </f:if>
