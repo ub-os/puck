@@ -11,7 +11,7 @@
                 value="{width: width, align: align}"/>
     <div class="{name} {mods -> puck:modClass()} -offset-{offset} {class}">
       <div class="{name}__inner">
-        <f:format.raw>{content}</f:format.raw>
+        <fc:slot name="content"/>
       </div>
     </div>
 

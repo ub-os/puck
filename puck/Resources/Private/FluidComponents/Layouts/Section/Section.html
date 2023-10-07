@@ -23,11 +23,11 @@
              {attributes -> puck:attributes()}>
       <f:if condition="!{container}">
         <f:then>
-          <f:format.raw>{content}</f:format.raw>
+          <fc:slot name="content"/>
         </f:then>
         <f:else if="{customContainer}">
           <layout:container class="{customContainer}__container">
-            <f:format.raw>{content}</f:format.raw>
+            <fc:slot name="content"/>
           </layout:container>
         </f:else>
         <f:else>
@@ -35,7 +35,7 @@
                   width="{object.containerWidth}"
                   align="{object.containerPosition}"
                   offset="{object.containerOffset}">
-            <f:format.raw>{content}</f:format.raw>
+            <fc:slot name="content"/>
           </layout:container>
         </f:else>
       </f:if>

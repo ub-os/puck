@@ -27,7 +27,7 @@
     <div class="{name} {class} splide" data-carousel="{options -> f:format.json()}" id="{id}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
         <ul class="{name}__list splide__list -align-{align}">
-          <f:format.raw>{content}</f:format.raw>
+          <fc:slot name="content"/>
         </ul>
       </div>
 

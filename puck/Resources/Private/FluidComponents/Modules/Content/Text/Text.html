@@ -10,7 +10,7 @@
             id="c{object.uid}">
         <element:text.header object="{object}"/>
         <element:text.rich text="{object.bodytext}"/>
-        <f:format.raw>{content}</f:format.raw>
+        <fc:slot name="content"/>
     </layout:section>
 
   </fc:renderer>

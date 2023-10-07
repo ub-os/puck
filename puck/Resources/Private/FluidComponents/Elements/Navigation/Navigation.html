@@ -21,9 +21,7 @@
                                   processor="{processor}"
                                   depth="{depth}"
                                   iconFromTitle="{iconFromTitle}"/>
-        <f:format.raw>
-          {content}
-        </f:format.raw>
+        <fc:slot name="content"/>
       </ul>
       <f:if condition="{processor} == 'breadcrumbs'">
         <schema:type.breadcrumbList>

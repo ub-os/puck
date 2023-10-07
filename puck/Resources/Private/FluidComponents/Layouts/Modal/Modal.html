@@ -25,7 +25,7 @@
         </f:if>
       </f:comment>
 
-      <f:format.raw>{content}</f:format.raw>
+      <fc:slot name="content"/>
 
       <button class="{name}__close" aria-controls="{id}" aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />

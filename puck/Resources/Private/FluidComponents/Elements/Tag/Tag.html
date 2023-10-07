@@ -4,7 +4,7 @@
     <fc:renderer>
 
         <{is} class="{class}" {attributes -> puck:attributes()}>
-            <f:format.raw>{content}</f:format.raw>
+            <fc:slot name="content"/>
         </{is}>
 
     </fc:renderer>

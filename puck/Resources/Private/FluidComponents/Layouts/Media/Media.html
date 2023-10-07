@@ -52,7 +52,7 @@
                     <layout:row.item class="{name}__text" width="{textWidth}">
                         <f:format.raw>{header}</f:format.raw>
                         <element:text.rich text="{text}"/>
-                        <f:format.raw>{content}</f:format.raw>
+                        <fc:slot name="content"/>
                     </layout:row.item>
                 </f:if>
             </layout:row>

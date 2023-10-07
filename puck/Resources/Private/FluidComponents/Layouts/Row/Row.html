@@ -27,7 +27,7 @@
         style="{f:if(condition:gutterRem,then:'--grid-gutter-x:{gutterRem}rem')}"
         data-layout-row
         {attributes -> puck:attributes()}>
-      {content -> f:format.raw()}
+      <fc:slot name="content"/>
     </ul>
 
   </fc:renderer>

@@ -1,8 +1,8 @@
 <fc:component>
     <fc:param default="m-menu-pages" name="name" optional="1" type="string"/>
     <fc:param name="object" type="mixed"/>
-    <fc:param name="headerContent" type="string" default="" optional="1"/>
-    <fc:param name="footerContent" type="string" default="" optional="1"/>
+    <fc:param name="headerContent" type="Slot" default="" optional="1"/>
+    <fc:param name="footerContent" type="Slot" default="" optional="1"/>
     <fc:param default="3:2" name="cropVariant" optional="1" type="string"/>
 
     <fc:renderer>
@@ -17,7 +17,7 @@
 
             <div class="{name}__body" id="c{object.uid}-body">
 
-                {headerContent -> f:format.raw()}
+                <fc:slot name="headerContent"/>
 
                 <f:if condition="{object.menu}">
 
@@ -165,9 +165,10 @@
 
                         </f:switch>
                     </f:if>
-
                 </f:if>
-                {footerContent -> f:format.raw()}
+
+                <fc:slot name="footerContent"/>
+
             </div>
 
         </layout:section>

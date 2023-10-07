@@ -3,8 +3,8 @@
     <fc:param name="name" type="string" optional="1" default="e-dropdown"/>
     <fc:param name="id" type="string"/>
     <fc:param name="label" type="string" optional="1" default=""/>
-    <fc:param name="buttonContent" type="string" optional="1" default=""/>
-    <fc:param name="outerContent" type="string" optional="1" default=""/>
+    <fc:param name="buttonContent" type="Slot" optional="1" default=""/>
+    <fc:param name="outerContent" type="Slot" optional="1" default=""/>
     <fc:param name="toggleableOptions" type="array" optional="1" default="{toggleOffOnOutsideClick: 1}"/>
     <fc:param name="showSelectedOption" type="boolean" optional="1" default="0"/>
     <fc:param name="attributes" type="mixed" optional="1"/>
@@ -13,12 +13,12 @@
         <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes -> puck:attributes()}>
             <button class="{name}__button" aria-controls="{id}">
                 {label}
-                {buttonContent -> f:format.raw()}
+                <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
             </button>
-            {outerContent -> f:format.raw()}
+            <fc:slot name="outerContent"/>
             <div class="{name}__box" data-toggleable='{toggleableOptions -> f:format.json()}' id="{id}">
-                {content -> f:format.raw()}
+                <fc:slot name="content"/>
             </div>
         </div>
 

@@ -6,8 +6,7 @@
         <module:menu.control.pagination pagination="{pagination}"/>
     </f:if>
 </f:variable>
-
 <module:menu.pages object="{object}"
-                   headerContent="{headerContent -> f:spaceless()}"
-                   footerContent="{footerContent -> f:spaceless()}"/>
+                   headerContent="{headerContent -> f:spaceless() -> f:format.raw()}"
+                   footerContent="{footerContent -> f:spaceless() -> f:format.raw()}"/>
 
