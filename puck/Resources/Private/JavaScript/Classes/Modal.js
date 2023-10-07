@@ -11,10 +11,11 @@ export default class Modal extends Toggleable {
             this.element = document.querySelector('[data-modal-container]').appendChild(this.element)
         }
         this.previousFocusable = null
-        this.focusTrap = new FocusTrap({ element: this.element })
+        this.focusTrap = new FocusTrap({ element: this.element, active: this.active })
     }
     toggleOn(transition= true) {
         super.toggleOn(transition);
+        this.focusTrap.active = true
         this.element.removeAttribute('aria-hidden')
         this.element.role = 'dialog'
         this.element.ariaModal = 'true'
@@ -22,6 +23,7 @@ export default class Modal extends Toggleable {
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
+        this.focusTrap.active = false
         this.element.ariaHidden = 'true'
         this.element.removeAttribute('aria-modal')
         this.element.removeAttribute('role')

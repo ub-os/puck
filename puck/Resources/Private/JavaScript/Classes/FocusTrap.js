@@ -2,8 +2,9 @@ export default class FocusTrap {
     static events = {
         focusablesChanged: new Event('focusablesChanged')
     }
-    constructor({ element }) {
+    constructor({ element, active = true }) {
         this.element = element
+        this.active = active
         this.focusables = []
         this.mutationObserver = new MutationObserver(this.mutationCallback.bind(this))
         this.updateFocusables()
@@ -36,6 +37,7 @@ export default class FocusTrap {
     mount() {
         this.mutationObserver.observe(this.element, { childList: true, subtree: true })
         this.element.addEventListener('keydown', event => {
+            if (!this.active) return
             if (event.key === 'Tab') {
                 if (event.shiftKey) {
                     if (document.activeElement === this.getFirstFocusable()) {
