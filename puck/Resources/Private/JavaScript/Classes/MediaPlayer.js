@@ -104,7 +104,6 @@ export default class MediaPlayer extends AbstractComponent {
     mount() {
         if (this.loadOnClick || this.openInModal) {
             this.toggles.forEach(toggle => {
-                toggle.ariaRole = 'button'
                 toggle.addEventListener('click', e => {
                     e.preventDefault()
                     this.addPlayerElement()

@@ -3,8 +3,17 @@
     position: relative
     padding-top: 56.25%
     margin: auto
-    overflow: hidden
     cursor: pointer
+
+  &__button
+    position: absolute
+    z-index: 3
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    &:focus
+      box-shadow: 0 0 0 10px var(--outline-color-button--focus)
 
   &__poster
     +cover-media
@@ -24,18 +33,6 @@
   &:hover &__image
     filter: brightness(0.9)
 
-  &__button
-    +center
-    z-index: 2
-    height: 4.2em
-    width: 4.2em
-    padding: .6em
-    border-radius: var(--border-radius-s)
-    transition: --color-icon2 .2s
-
-  &:hover &__button
-    //--color-icon2: white
-
   &__frame,
   &__iframe
     position: absolute
@@ -45,7 +42,12 @@
     height: 100%
 
   &__icon
-    width: 100%
-    height: 100%
+    +center
+    z-index: 2
+    height: 4.2em
+    width: 4.2em
+    padding: .6em
+    border-radius: var(--border-radius-s)
+    transition: --color-icon2 .2s
     color: var(--background)
     fill: var(--color-link)
