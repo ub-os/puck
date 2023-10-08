@@ -74,6 +74,7 @@
       border-left: var(--border-width-button) solid transparent
       transition: color .15s, background-color .15s, border-color .15s
 
+    &.-icon-left,
     &[data-button-icon='left']
       padding-right: var(--padding-inline)
       padding-left: var(--padding-icon-side)
@@ -84,6 +85,7 @@
         border-left: none
 
     // Button icon with background/inverted colors
+    &.-icon-pill,
     &[data-button-icon-pill]
       --padding-icon-side: calc( var(--padding-inline) + var(--width-icon) )
       [class*='icon--']
@@ -92,6 +94,7 @@
         background: var(--color-button)
         border-left: var(--border-width-button) solid transparent
         border-radius: 0 var(--border-radius) var(--border-radius) 0
+      &.-icon-left [class*='icon--'],
       &[data-button-icon='left'] [class*='icon--']
         border-left: none
         border-right: var(--border-width-button) solid transparent
