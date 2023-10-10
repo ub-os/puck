@@ -34,15 +34,15 @@ function generateFavicons(sourcePath, distPath, fileName) {
             }
             fs.writeFile('puck/Configuration/Typoscript/09_favicons.typoscript', `
 page.headerData.99999999 = TEXT
-page.headerData.99999999.value (
-${html.replaceAll(distPath, 'typo3conf/ext/'+distPath.replace(fileName, '{$favicon}'))}
-)`,function(){});
+page.headerData.99999999 {
+    value = '${ html.replaceAll('/' + distPath, '{path: EXT:'+distPath.replace(fileName, '{$favicon}')).replace(/"{path: EXT:([^"]+)"/g, '"{path: EXT:$1}"') }'
+    insertData = 1
+}`,function(){});
         };
     favicons(sourcePath, configuration).then((response,error) => {
         callback(response);
     });
 }
-
 
 const resourcePath = 'puck/Resources/Public/';
 const distPath = `${resourcePath}Icons/Favicons/packages/`;

@@ -13,7 +13,7 @@ jsProd =  EXT:puck/Resources/Public/js/app.min.js
 
 development = 1
 
-publicResources = typo3conf/ext/puck/Resources/Public
+publicResources = EXT:puck/Resources/Public
 
 doktype {
     start = 16501
@@ -34,10 +34,6 @@ navUid {
     social = 0
     # cat=puck/pageUids/4; type=int; label=Parent uid of meta navigation
     meta = 0
-}
-test {
-    banana = 1
-    apple = 2
 }
 search {
     # cat=puck/pageUids/5; type=int; label=Uid of search plugin page

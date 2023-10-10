@@ -37,9 +37,10 @@
                 <f:else>
                     <schema:type.imageObject
                             -as="primaryImageOfPage"
-                            -id="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}typo3conf/ext/puck/Resources/Public/Icons/Logos/default.svg#primaryimage"
-                            url="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}typo3conf/ext/puck/Resources/Public/Icons/Logos/default.svg"
+                            -id="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}#primaryimage"
+                            url="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}"
                             />
+
                 </f:else>
             </f:if>
         </schema:type.webPage>

@@ -49,7 +49,7 @@ page.meta {
     page.headerData.40 < lib.ogImageFallback
 [end]
 
-page.shortcutIcon = typo3conf/ext/puck/Resources/Public/Icons/Favicons/favicon.ico
+page.shortcutIcon = EXT:puck/Resources/Public/Icons/Favicons/favicon.ico
 
 page.headerData.110 = TEXT
 page.headerData.110.value (
