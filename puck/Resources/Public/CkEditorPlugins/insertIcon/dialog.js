@@ -54,31 +54,6 @@ return {
 		type:'hbox',
 		widths:['25%','10%','15%','50%'],
 		children:[
-/*		{
-			type:'text',
-			id:'colorChooser',
-			className:'colorChooser',
-			label:'Color',
-			setup:function(widget){
-			var color = widget.data.color != '' ? widget.data.color:'';
-			this.setValue(color);
-			},
-			commit:function(widget){
-			widget.setData('color', this.getValue());
-			}
-		},
-		{
-			type:'button',label:'Color',style:'margin-top:1.35em',
-			onClick:function(){
-			editor.getColorFromDialog(function(color){
-			document.getElementsByClassName('colorChooser')[0].getElementsByTagName('input')[0].value = color;
-			}, this);
-			}
-		},
-		{
-			type:'text',id:'size',className:'size',label:'Size',setup: function(widget){this.setValue(widget.data.size);},
-			commit: function(widget){widget.setData('size', this.getValue());}
-		},*/
 		{
 			type:'text',id:'faSearch',className:'faSearch',label:'Search',onKeyUp:function(e){searchIcon(e.sender.$.value);}
 		},
@@ -91,53 +66,12 @@ return {
 		type:'hbox',
 		widths:['15%','15%','15%','15%','40%'],
 		children:[
-/*		{
-		type:'select',id:'fixwidth',className:'iconSelect',label:'Fixed Width',items:[['No'],['Yes']],'default':'No',
-			commit:function(widget){widget.setData('fixwidth',this.getValue());}
-		},
-		{
-		type:'select',id:'bordered',className:'iconSelect',label:'Bordered',items:[['No'],['Yes']],'default':'No',
-			commit:function(widget){widget.setData('bordered',this.getValue());}
-		},
-		{
-		type:'select',id:'spinning',className:'iconSelect',label:'Spinning',items:[['No'],['Yes']],'default':'No',
-			commit:function(widget){widget.setData('spinning',this.getValue());}
-		},
-		{
-		type:'select',id:'rotating',className:'iconSelect',label:'Rotating',items:[['No'],['fa-rotate-90'],['fa-rotate-180'],['fa-rotate-270'],['fa-flip-horizontal'],['fa-flip-vertical'],['fa-flip-both']],'default':'No',
-			commit:function(widget){widget.setData('rotating',this.getValue());}
-		},*/
-
 		]
 		},
 		{
 		type:'hbox',
 		widths:['33%','33%','33%'],
-		children:[/*
-		{
-		type:'button',className:'iconSelect',label:'Brands '+Object.keys(faBrands).length,
-			onClick:function(){
-			document.getElementById('ck-insert-icons').innerHTML = faIcons(faBrands,'b');
-			}
-		},
-		{
-		type:'button',className:'iconSelect',label:'Regular '+Object.keys(faRegular).length,
-			onClick:function(){
-			document.getElementById('ck-insert-icons').innerHTML = faIcons(faRegular,'r');
-			}
-		},
-		{
-		type:'button',className:'iconSelect',label:'Solid '+Object.keys(faSolid).length,
-			onClick:function(){
-			document.getElementById('ck-insert-icons').innerHTML = faIcons(faSolid,'s');
-			}
-		},*/
-/*		{
-			type:'button',className:'iconSelect',label:'Puck '+Object.keys(puckCustom).length,
-			onClick:function(){
-				document.getElementById('ck-insert-icons').innerHTML = puckIcons(puckCustom);
-			}
-		}*/
+		children:[
 		]
 		},
 		{type:'html',html:'<div id="ck-insert-icons">' + puckIcons(puckCustom) + '</div>'}
@@ -146,19 +80,7 @@ return {
 	onOk:function () {
 		clear();
 		var dialog = this,icon = editor.document.createElement('span'),cls='';
-/*		if(dialog.getValueOf('icon-library','fixwidth') == "Yes") cls += ' fa-fw';
-		if(dialog.getValueOf('icon-library','bordered') == "Yes") cls += ' fa-border';
-		if(dialog.getValueOf('icon-library','spinning') == "Yes") cls += ' fa-spin';
-		if(dialog.getValueOf('icon-library','rotating') != "No") cls += ' '+dialog.getValueOf('icon-library','rotating');*/
 		icon.setAttribute('class', 'char-icon '+dialog.getValueOf('icon-library','puck-icon')+cls);
-/*		var style='';
-		if(dialog.getValueOf('icon-library','colorChooser') !='')
-		style += 'color:' + dialog.getValueOf('icon-library','colorChooser')+';';
-		if(dialog.getValueOf('icon-library','size') !='')
-		style += 'font-size:' + dialog.getValueOf('icon-library','size') + 'px';
-		if(style) icon.setAttribute('style', style);*/
-
-
 		icon.setAttribute('aria-hidden','true');
 		icon.$.textContent = '­';
 		editor.insertElement(icon);

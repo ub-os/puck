@@ -8,7 +8,11 @@ imports:
 # For complete documentation see http://docs.ckeditor.com/#!/api/CKEDITOR.config
 editor:
   config:
-    contentsCss:
+    importModules:
+      - '@ubos/ckeditor-icons'
+      - '@ubos/ckeditor-icons-puck'
+
+    contentCss:
       - 'EXT:puck/Resources/Public/css/be-ck-contents.css'
       - 'EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/insertIcon.css'
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
@@ -58,16 +62,44 @@ editor:
 
     toolbar:
       items:
-        - { name: styles, groups: [ Styles, Format ] }
-        - { name: basicstyles, groups: [ basicstyles ] }
-        - { name: paragraph, groups: [ list, align ] }
-        - { name: links, groups: [ links ] }
-        - { name: clipboard, groups: [ clipboard, cleanup, undo ] }
-        - { name: insert, groups: [ insert ] }
-        - { name: linebreak }
-        - { name: tools, groups: [ specialchar ] }
-        - { name: document, groups: [ mode ] }
-
+        - clipboard
+        - removeFormat
+        - undo
+        - redo
+        # grouping separator
+        - '|'
+        - find
+        - selectAll
+        - '|'
+        - link
+        - insertTable
+        - tableColumn
+        - tableRow
+        - mergeTableCells
+        - '|'
+        - horizontalLine
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - subscript
+        - superscript
+        - softhyphen
+        - '|'
+        - bulletedList
+        - numberedList
+        - blockQuote
+        - indent
+        - outdent
+        - alignment
+        - '|'
+        - specialCharacters
+        - Icons
+        - '-'
+        - style
+        - heading
+        - showBlocks
+        - sourceEditing
 
     alignment:
       options:
@@ -77,7 +109,7 @@ editor:
         - { name: 'justify', className: 'u-text-justify' }
 
 
-    extraAllowedContent : "span(!char-icon); *(*)[data-*]; p[data-*]; a[data-*];"
+    extraAllowedContent : "span(*); *(*)[data-*]; p[data-*]; a[data-*]; a span;"
 
     qtRows: 20
     qtColumns: 6
@@ -85,3 +117,4 @@ editor:
 processing:
   allowTags:
     - wbr
+    - span

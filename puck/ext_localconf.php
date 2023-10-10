@@ -55,3 +55,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:pu
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#A46CDC';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
 
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['ckeditor_icons']
+    = 'EXT:puck/Resources/Public/CkEditorPlugins/Icons/Theme/editor.css';
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['ckeditor_puck']
+    = 'EXT:puck/Resources/Public/css/be-ck-contents.css';
