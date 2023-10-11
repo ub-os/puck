@@ -155,6 +155,7 @@ class MenuController extends ActionController
         ?string $authorList = null,
         ?MenuPages $object = null): ResponseInterface
     {
+        $this->getMenuRepository()->setAllowedTypes(PageRepository::DEFAULT_ALLOWED_TYPES);
         $this->fetchLinkPageType = 16500000;
         $this->menuActionName = 'menu';
         $this->menuContentObject = $object;

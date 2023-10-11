@@ -27,15 +27,7 @@ class PageRepository extends Repository
         'person' => 16504,
         'plugin' => 16511,
     ];
-
-    /**
-     * @var array
-     */
-    protected $defaultOrderings = array(
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    );
-
-    protected array $allowedTypes = [
+    public const DEFAULT_ALLOWED_TYPES = [
         self::DOKTYPES['default'],
         self::DOKTYPES['shortcut'],
         self::DOKTYPES['link'],
@@ -43,6 +35,14 @@ class PageRepository extends Repository
         self::DOKTYPES['person'],
         self::DOKTYPES['plugin'],
     ];
+    /**
+     * @var array
+     */
+    protected $defaultOrderings = array(
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+    );
+
+    protected array $allowedTypes = self::DEFAULT_ALLOWED_TYPES;
     /**
      * @return array
      */
