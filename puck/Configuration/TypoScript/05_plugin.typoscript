@@ -1,5 +1,13 @@
 
 plugin {
+    tx_puck {
+        view {
+            templateRootPaths.10 = EXT:puck/Resources/Private/Fluid
+            partialRootPaths.10 = EXT:puck/Resources/Private/Fluid/Partials
+            layoutRootPaths.10 = EXT:puck/Resources/Private/Fluid/Layouts
+            defaultPid = auto
+        }
+    }
     tx_puck_newslist.view.defaultPid = 1
     tx_puck_personlist.view.defaultPid = 1
 }
