@@ -13,7 +13,6 @@ editor:
       - '@ubos/ckeditor-puck-icons'
 
     contentsCss:
-      - 'EXT:puck/Resources/Public/Css/be-ck-contents.css'
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
 
     style:
