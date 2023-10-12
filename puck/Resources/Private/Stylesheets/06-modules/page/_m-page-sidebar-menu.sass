@@ -1,0 +1,63 @@
+.m-page-sidebar-menu
+
+  @keyframes sidebar-open
+    0%
+      transform: translateX(0)
+    100%
+      transform: translateX(-100%)
+
+  @keyframes sidebar-close
+    0%
+      transform: translateX(-100%)
+    100%
+      transform: translateX(0)
+
+  &
+    +flex(column-reverse, flex-end, flex-start)
+    padding-top: 0
+
+  &__wrap
+    +flex(column-reverse, flex-start, stretch)
+    +gutter-outer
+    +spacing(bottom, m)
+    position: fixed
+    top: 0
+    left: 100%
+    z-index: $z-index-modal
+    display: none
+    width: 100vw
+    max-width: width-by-cols(3, true)
+    max-height: 100dvh
+    overflow: hidden
+    overflow-y: auto
+    padding-top: var(--height-page-header)
+    background: var(--background-modal)
+    border-bottom-left-radius: var(--border-radius-s)
+    box-shadow: var(--box-shadow-s)
+    transition: height .15s, opacity .2s
+    +media(s)
+      max-width: 100%
+      height: 100%
+      padding-top: calc(var(--height-page-header) * 1.5)
+      border-bottom-left-radius: 0
+    &.--active
+      display: flex
+      transform: translateX(-100%)
+      animation: sidebar-open .3s
+    &.--deactivating
+      display: flex
+      animation: sidebar-close .3s
+
+  &__list
+    width: 100%
+    justify-content: flex-start
+    flex-direction: column
+
+  &__item
+    margin-left: 0
+    margin-bottom: 1em
+
+  &__link
+
+  &__close
+    @extend .l-modal__close

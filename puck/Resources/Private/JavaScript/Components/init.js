@@ -16,6 +16,7 @@ import LayoutRow from '../Classes/LayoutRow';
 import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
 import RichText from "../Classes/RichText.js";
+import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
 
 smoothscroll.polyfill()
 
@@ -54,6 +55,8 @@ const mountComponents = (target) => {
             scrollSensitives: ScrollSensitive.createInstancesFromDataAttribute({ root, attribute: 'data-scroll-sensitive' }),
 
             mediaPlayers: MediaPlayer.createInstancesFromDataAttribute({ root, attribute: 'data-media-player' }),
+
+            responsiveNavigations: ResponsiveNavigation.createInstancesFromDataAttribute({ root, attribute: 'data-responsive-navigation' }),
 
 /*            scrollReveals: [...root.$$('main section')].map(element => {
                 return {

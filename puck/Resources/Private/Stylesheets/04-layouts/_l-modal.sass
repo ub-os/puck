@@ -67,7 +67,8 @@
     &.--deactivating
       display: block
       animation: modal-close .15s
-
+    .--main-menu-modal--active &.--deactivating
+      animation: modal-close .3s
     @for $i from 4 through 12
       &.-width-#{$i}
         width: width-by-cols($i)

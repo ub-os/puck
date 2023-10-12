@@ -1,29 +1,80 @@
-
-import {noDragClick, getElement} from '../General/Functions';
 import AbstractComponent from "./AbstractComponent.js";
+import Modal from "./Modal.js";
+import Listeners from "./Listeners.js";
+import { getElement } from "../General/Functions.js";
 
-export default class LayoutRow extends AbstractComponent{
-  constructor(target, { ...options } = {}) {
+export default class ResponsiveNavigation extends AbstractComponent{
+  constructor(target, {
+      initialClass = '',
+      responsiveClass = '',
+      replaceClass = true,
+      breakpoint = 800,
+      modalOptions = {},
+      observerTarget = null,
+      ...options
+  }) {
     super(target, options)
+    Object.assign(this, {
+      breakpoint, initialClass, responsiveClass, replaceClass,
+      modalOptions: {
+        moveToModalContainer: false,
+        clickDelay: 300,
+        ...modalOptions
+      },
+      observerElement: observerTarget ? getElement(observerTarget) : document.body
+    })
   }
-  changeTagName(element, newTagName) {
-    const newElement = document.createElement(newTagName)
-    for (let attribute of element.attributes) {
-      newElement.attributes.setNamedItem(attribute.cloneNode());
-    }
-    newElement.innerHTML = element.innerHTML
-    element.parentNode.insertBefore(newElement, element)
-    element.remove()
-    return newElement
+
+  replaceNavigationClass(from, to) {
+    if (!this.replaceClass || !from || !to) return
+    this.element.className = this.element.className.replace(from, to)
+    this.element.querySelectorAll(`[class*="${from}"]`).forEach(el => {
+      el.className = el.className.replace(from, to)
+    })
+  }
+
+  mountDesktop() {
+    if (this.state === 'desktop') return
+    this.state = 'desktop'
+    this.destroy()
+    this.replaceNavigationClass(this.responsiveClass, this.initialClass)
+  }
+
+  mountResponsive() {
+    if (this.state === 'responsive') return
+    this.state = 'responsive'
+    this.destroy()
+    this.replaceNavigationClass(this.initialClass, this.responsiveClass)
+    this.responsiveListeners = new Listeners()
+    this.modal = new Modal(this.element, this.modalOptions).mount()
   }
 
   mount() {
-    if (this.element.children.length < 3) {
-      this.element = this.changeTagName(this.element, 'div')
-      this.element.childNodes.forEach( child => {
-        if (child.tagName === 'LI') this.changeTagName(child, 'div')
-      })
+    this.state = 'initial'
+    if (window.innerWidth < this.breakpoint) {
+      this.mountResponsive()
+    } else {
+      this.mountDesktop()
     }
+    this.resizeObserver = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.contentRect.width < this.breakpoint) {
+          this.mountResponsive()
+        } else {
+          this.mountDesktop()
+        }
+      })
+    })
+    this.resizeObserver.observe(this.observerElement)
     return this
+  }
+
+  destroy() {
+    if (this.responsiveListeners) this.responsiveListeners.destroy()
+    if (this.modal) {
+      this.modal.toggleOff()
+      this.modal.destroy()
+      delete this.modal
+    }
   }
 }
