@@ -1,7 +1,7 @@
 {
   "name": "t3init",
   "version": "1.0.0",
-  "description": "ubos typo3 sitepackage",
+  "description": "Puck - TYPO3 site package",
   "type": "module",
   "config": {
     "path": {
