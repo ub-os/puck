@@ -2,11 +2,11 @@
 confDir = EXT:puck/Configuration
 resDir = EXT:puck/Resources
 
-cssDev = EXT:puck/Resources/Public/css/styles.css
-cssProd = EXT:puck/Resources/Public/css/styles.min.css
+cssDev = EXT:puck/Resources/Public/Css/styles.css
+cssProd = EXT:puck/Resources/Public/Css/styles.min.css
 
-jsDev =  EXT:puck/Resources/Public/js/app.js
-jsProd =  EXT:puck/Resources/Public/js/app.min.js
+jsDev =  EXT:puck/Resources/Public/JavaScript/app.js
+jsProd =  EXT:puck/Resources/Public/JavaScript/app.min.js
 
 ## Development state variable -  Set to 0 in Production!
 ## when set to 0: cache enabled, minified assets are included and compressed

@@ -24,13 +24,3 @@ const require = createRequire(import.meta.url);
 const puckIcons = require('../puck/Resources/Public/Fonts/Icons/icons.json');
 
 console.log(puckIcons);
-const ckIconPluginDialogFile = './puck/Resources/Public/CkEditorPlugins/insertIcon/dialog.js';
-fs.readFile(ckIconPluginDialogFile, 'utf8', function (err,data) {
-    if (err) {
-        return console.log(err);
-    }
-    let result = data.replace(/var puckCustom = {.*};+/g, 'var puckCustom = '+JSON.stringify(puckIcons)+';');
-    fs.writeFile(ckIconPluginDialogFile, result, 'utf8', function (err) {
-        if (err) return console.log(err);
-    });
-});
