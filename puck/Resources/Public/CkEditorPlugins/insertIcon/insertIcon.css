@@ -1,8 +1,0 @@
-@import '../../css/be-ck-contents.min.css';
-
-#ck-insert-icons{white-space:normal;width:100%;overflow:auto}
-#ck-insert-icons a{display:inline-block;width:45px;padding:10px 0;vertical-align:top;border: 2px solid transparent;}
-#ck-insert-icons a:hover{border-color:#888}
-#ck-insert-icons a span{font-size:18px;display:block;text-align:center;}
-#ck-insert-icons .cke_dialog_ui_vbox_child {max-height:500px; display:block; overflow:hidden;}
-.iconSelect{display:block !important}

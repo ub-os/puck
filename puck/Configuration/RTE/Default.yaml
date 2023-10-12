@@ -9,7 +9,8 @@ imports:
 editor:
   config:
     importModules:
-
+      - '@ubos/ckeditor-icons'
+      - '@ubos/ckeditor-puck-icons'
 
     contentsCss:
       - 'EXT:puck/Resources/Public/Css/be-ck-contents.css'

@@ -1,19 +1,16 @@
-import { Core } from "@typo3/ckeditor5-bundle.js";
-//import * as jsonData from '../Fonts/Icons/icons.json';
+import { Plugin } from "@ckeditor/ckeditor5-core";
+import ICONS_CODEPOINTS from '../Fonts/Icons/icons.js';
 
-const jsonPath = '../Fonts/Icons/icons.json';
-const arrayImport = await import(jsonPath, { assert: { type: "json" } });
-const jsonData = arrayImport.default
 const iconGroupName = 'Puck';
 const baseClass = 'char-icon';
 const keyClassPrefix = 'icon--';
-export default class IconsPuck extends Core.Plugin {
 
-    static pluginName = 'IconsPuck';
+export default class PuckIcons extends Plugin {
+
+    static pluginName = 'PuckIcons';
     init() {
-        this.addIcons(this.mapIconData(jsonData));
+        this.addIcons(this.mapIconData(ICONS_CODEPOINTS));
     }
-
     addIcons(icons) {
         const plugin = this.editor.plugins.get( 'Icons' );
         plugin.addItems(
@@ -22,9 +19,8 @@ export default class IconsPuck extends Core.Plugin {
             { label: iconGroupName }
         );
     }
-
-    mapIconData(jsonData) {
-        return Object.keys(jsonData).map(key => {
+    mapIconData(data) {
+        return Object.keys(data).map(key => {
             return {
                 key,
                 title: key.replaceAll('-', ' '),
