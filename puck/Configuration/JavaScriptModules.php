@@ -7,6 +7,6 @@ return [
     ],
     'imports' => [
         '@ubos/puck/' => 'EXT:puck/Resources/Public/JavaScript/',
-        '@ubos/ckeditor-puck-icons' => 'EXT:puck/Resources/Public/CkEditorPlugins/PuckIcons.js',
+        '@ubos/ckeditor-puck-icons' => 'EXT:puck/Resources/Public/JavaScript/Plugins/PuckIcons.js',
     ],
 ];

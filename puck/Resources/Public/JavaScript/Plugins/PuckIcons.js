@@ -1,5 +1,5 @@
 import { Plugin } from "@ckeditor/ckeditor5-core";
-import ICONS_CODEPOINTS from '../Fonts/Icons/icons.js';
+import ICONS_CODEPOINTS from '../../Fonts/Icons/icons.js';
 
 const iconGroupName = 'Puck';
 const baseClass = 'char-icon';
