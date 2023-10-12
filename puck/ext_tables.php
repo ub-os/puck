@@ -13,6 +13,6 @@ $frontendLanguageFilePrefix = 'LLL:EXT:frontend/Resources/Private/Language/local
  ];
 
 $GLOBALS['TBE_STYLES']['skins']['puck']['name'] = 'Puck';
-$GLOBALS['TBE_STYLES']['skins']['puck']['stylesheetDirectories']['css'] = 'EXT:puck/Resources/Public/css/backend/';
+$GLOBALS['TBE_STYLES']['skins']['puck']['stylesheetDirectories']['css'] = 'EXT:puck/Resources/Public/Css/backend/';
 
 Loader::loadTables('puck');

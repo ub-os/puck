@@ -9,12 +9,10 @@ imports:
 editor:
   config:
     importModules:
-      - '@ubos/ckeditor-icons'
-      - '@ubos/ckeditor-icons-puck'
 
-    contentCss:
-      - 'EXT:puck/Resources/Public/css/be-ck-contents.css'
-      - 'EXT:puck/Resources/Public/CkEditorPlugins/insertIcon/insertIcon.css'
+
+    contentsCss:
+      - 'EXT:puck/Resources/Public/Css/be-ck-contents.css'
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
 
     style:
@@ -117,4 +115,3 @@ editor:
 processing:
   allowTags:
     - wbr
-    - span

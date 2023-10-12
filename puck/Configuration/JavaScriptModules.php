@@ -6,8 +6,7 @@ return [
         'backend.form',
     ],
     'imports' => [
-        '@ubos/puck/' => 'EXT:puck/Resources/Public/js/',
-        '@ubos/ckeditor-icons' => 'EXT:puck/Resources/Public/CkEditorPlugins/Icons/Icons.js',
-        '@ubos/ckeditor-icons-puck' => 'EXT:puck/Resources/Public/CkEditorPlugins/IconsPuck.js',
+        '@ubos/puck/' => 'EXT:puck/Resources/Public/JavaScript/',
+        '@ubos/ckeditor-puck-icons' => 'EXT:puck/Resources/Public/CkEditorPlugins/PuckIcons.js',
     ],
 ];

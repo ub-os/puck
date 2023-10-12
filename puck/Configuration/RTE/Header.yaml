@@ -11,7 +11,7 @@ editor:
     height: '65px'
     toolbar:
     contentsCss:
-      - 'EXT:puck/Resources/Public/css/be-ck-contents.css'
+      - 'EXT:puck/Resources/Public/Css/be-ck-contents.css'
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
 
     stylesSet:

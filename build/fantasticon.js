@@ -36,4 +36,9 @@ generateFonts({
         relativeFilePath, // `string` - Example: 'foo.svg'
         index // `number` - Example: `0`
     }) => basename.toLowerCase()
-}).then(results => console.log(results.assetsOut.json));
+}).then(results => {
+    // create js file with codepoints
+    const jsString = 'export default '+JSON.stringify(results.codepoints)+';'
+    fs.writeFileSync(`${resourcePath}Fonts/Icons/icons.js`, jsString);
+    console.log(results.assetsOut.json)
+});
