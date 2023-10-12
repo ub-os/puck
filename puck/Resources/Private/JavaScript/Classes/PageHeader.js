@@ -1,6 +1,7 @@
 import { $, $$, jsx } from '../General/Aliases';
 import ScrollSensitive from "../Classes/ScrollSensitive.js";
 import AbstractComponent from "./AbstractComponent.js";
+import Listeners from "./Listeners.js";
 
 export default class PageHeader extends AbstractComponent {
     constructor(target, {
@@ -62,7 +63,8 @@ export default class PageHeader extends AbstractComponent {
         }
     }
     mount() {
-        document.body.addEventListener('scrollTo', e => {
+        this.listeners = new Listeners()
+        this.listeners.add(document.body, 'scrollTo', e => {
             this.paused = true
             this.element.classList.add(this.stateClasses.hidden)
             this.element.classList.remove(this.stateClasses.visible)
@@ -70,8 +72,15 @@ export default class PageHeader extends AbstractComponent {
                 this.paused = false
             }, 1000)
         })
-        window.addEventListener('scroll', this.scrollHandler.bind(this))
+        this.listeners.add(window, 'scroll', this.scrollHandler.bind(this))
         return this
+    }
 
+    destroy() {
+        this.listeners.destroy()
+        this.pageHeaderScrollSensitive.destroy()
+        delete this.pageHeaderScrollSensitive
+        this.element.classList.remove(this.stateClasses.hidden)
+        this.element.classList.remove(this.stateClasses.visible)
     }
 }

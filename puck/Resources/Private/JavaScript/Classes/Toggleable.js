@@ -1,5 +1,6 @@
 import {getElement} from '../General/Functions'
 import AbstractComponent from "./AbstractComponent.js";
+import Listeners from "./Listeners.js";
 
 export default class Toggleable extends AbstractComponent {
   static events = {
@@ -127,22 +128,23 @@ export default class Toggleable extends AbstractComponent {
     if (toggle) this.lastUsedToggle = toggle
   }
   mount() {
+    this.listeners = new Listeners()
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
     this.toggles.forEach(t => {
       t.setAttribute('aria-controls', this.id)
       switch (this.triggerOn) {
         case 'hover':
-          t.addEventListener('mouseenter', () => {
+          this.listeners.add(t, 'mouseenter', () => {
             if (this.disableToggles) return
             this.dispatchToggle(t, Toggleable.events.toggleOn)
           })
-          t.addEventListener('mouseleave', () => {
+          this.listeners.add(t, 'mouseleave', () => {
             if (this.disableToggles) return
             this.dispatchToggle(t, Toggleable.events.toggleOff)
           })
           break
         default:
-          t.addEventListener('click', (e) => {
+          this.listeners.add(t, 'click', e => {
             if (this.disableToggles) return
             if (e.target.closest('[data-toggle-stop]')) return
             if (t.getAttribute('href') === `/#${this.id}`) {
@@ -151,25 +153,27 @@ export default class Toggleable extends AbstractComponent {
           })
       }
     })
-    this.element.addEventListener('toggle',  event => {
+    this.listeners.add(this.element, 'toggle', () => {
       if (this.clickDelayTimer === null) {
         this.toggle()
       }
     })
-    this.element.addEventListener('toggleOn',  event => {
+    this.listeners.add(this.element, 'toggleOn', () => {
       this.toggleOn()
     })
-    this.element.addEventListener('toggleOff',  event => {
+    this.listeners.add(this.element, 'toggleOff', () => {
       this.toggleOff()
     })
     if (this.groupElement) {
-      this.groupElement.addEventListener('groupToggle', event => {
-        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.id) this.element.dispatchEvent(Toggleable.events.toggleOff)
+      this.listeners.add(this.groupElement, 'groupToggle', event => {
+        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.id) {
+          this.element.dispatchEvent(Toggleable.events.toggleOff)
+        }
       })
     }
     if (this.toggleOffOnOutsideClick) {
       const target = this.toggleOffOnOutsideClickTarget ? getElement(this.toggleOffOnOutsideClickTarget, 'Toggleable') : this.element
-      document.addEventListener('click', event => {
+      this.listeners.add(document, 'click', event => {
         if (this.active) {
           let targetInToggles = false
           this.toggles.forEach(t => {
@@ -180,17 +184,20 @@ export default class Toggleable extends AbstractComponent {
       })
     }
     if (this.toggleOffOnEsc) {
-      this.element.addEventListener('keydown', event => {
+      this.listeners.add(this.element, 'keydown', event => {
         if (event.key === 'Escape') this.element.dispatchEvent(Toggleable.events.toggleOff)
       })
     }
     if (this.toggleOnIfUrlHashMatches) {
       if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
-      window.addEventListener('hashchange', event => {
+      this.listeners.add(window, 'hashchange', event => {
         if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       })
     }
     return this
+  }
+  destroy() {
+    this.listeners.destroy()
   }
 
 }

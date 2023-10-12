@@ -14,6 +14,7 @@ export default class AbstractComponent {
     mount() {
         return this
     }
+    destroy() {}
 
     static createInstancesFromDataAttribute({
             root = document,

@@ -1,5 +1,4 @@
 
-import {noDragClick, getElement} from '../General/Functions';
 import AbstractComponent from "./AbstractComponent.js";
 
 export default class LayoutRow extends AbstractComponent{

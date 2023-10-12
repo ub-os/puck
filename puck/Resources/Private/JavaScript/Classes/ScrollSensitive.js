@@ -1,6 +1,6 @@
 import { getElement } from '../General/Functions'
 import AbstractComponent from "./AbstractComponent";
-
+import Listeners from "./Listeners.js";
 const scrollSensitiveObserverMap = new Map()
 
 export default class ScrollSensitive extends AbstractComponent {
@@ -74,8 +74,9 @@ export default class ScrollSensitive extends AbstractComponent {
   }
 
   mount() {
+    this.listeners = new Listeners()
     if (this.scrollTop) {
-      this.scrollParent.addEventListener('scroll', e => {
+      this.listeners.add(this.scrollParent, 'scroll', e => {
         if ((this.scrollParent == window && document.documentElement.scrollTop < this.scrollTop) || (this.scrollParent != window && this.scrollParent.scrollTop < this.scrollTop)) {
           this.element.classList.remove(this.scrollClass);
         } else  {
@@ -86,20 +87,25 @@ export default class ScrollSensitive extends AbstractComponent {
     }
 
     // stringify the observer options to create a unique key for the map
-    const optionsString = JSON.stringify({
+    this.optionsString = JSON.stringify({
       observer: this.observer,
       classes: this.classes
     })
-    if (!scrollSensitiveObserverMap.get(optionsString)) {
+    if (!scrollSensitiveObserverMap.get(this.optionsString)) {
       scrollSensitiveObserverMap.set(
-          optionsString,
+          this.optionsString,
           this.createIntersectionObserver(
               this.observer,
               this.classes,
               this.element)
       )
     }
-    scrollSensitiveObserverMap.get(optionsString).observe(this.observedElement)
+    scrollSensitiveObserverMap.get(this.optionsString).observe(this.observedElement)
     return this
+  }
+
+  destroy() {
+    this.listeners.destroy()
+    scrollSensitiveObserverMap.get(this.optionsString).unobserve(this.observedElement)
   }
 }

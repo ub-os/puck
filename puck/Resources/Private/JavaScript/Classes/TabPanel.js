@@ -26,6 +26,12 @@ class TabPanel extends Toggleable {
         this.toggles.forEach(t => { t.role = 'tab' })
         return this
     }
+    destroy() {
+        super.destroy()
+        this.element.removeAttribute('role')
+        this.groupElement.removeAttribute('role')
+        this.toggles.forEach(t => t.removeAttribute('role'))
+    }
 }
 
 export default TabPanel

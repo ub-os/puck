@@ -28,6 +28,9 @@ class Accordion extends Toggleable {
         super.mount()
         return this
     }
+    destroy() {
+        super.destroy()
+    }
 }
 
 export default Accordion

@@ -1,3 +1,5 @@
+import Listeners from "./Listeners.js";
+
 export default class FocusTrap {
     static events = {
         focusablesChanged: new Event('focusablesChanged')
@@ -23,20 +25,23 @@ export default class FocusTrap {
     }
 
     getFirstFocusable() {
-        return this.focusables[0]
+        return this.focusables[0] || this.element
     }
     getLastFocusable() {
-        return this.focusables[this.focusables.length - 1]
+        return this.focusables[this.focusables.length - 1] || this.element
     }
 
     mutationCallback(mutationsList, observer) {
-        this.updateFocusables()
-        this.element.dispatchEvent(this.constructor.events.focusablesChanged)
+        window.requestAnimationFrame(() => {
+            this.updateFocusables()
+            this.element.dispatchEvent(this.constructor.events.focusablesChanged)
+        })
     }
 
     mount() {
+        this.listeners = new Listeners()
         this.mutationObserver.observe(this.element, { childList: true, subtree: true })
-        this.element.addEventListener('keydown', event => {
+        this.listeners.add(this.element, 'keydown', event => {
             if (!this.active) return
             if (event.key === 'Tab') {
                 if (event.shiftKey) {
@@ -52,5 +57,10 @@ export default class FocusTrap {
                 }
             }
         })
+    }
+
+    destroy() {
+        this.mutationObserver.disconnect()
+        this.listeners.destroy()
     }
 }

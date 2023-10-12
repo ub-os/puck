@@ -1,5 +1,5 @@
 import AbstractComponent from "./AbstractComponent.js";
-
+import Listeners from "./Listeners.js";
 const scrollRevealObserverMap = new Map()
 
 export default class ScrollReveal extends AbstractComponent {
@@ -78,31 +78,39 @@ export default class ScrollReveal extends AbstractComponent {
     }
     animate() {
         const animation = this.element.animate(this.animation, this.timing)
-        animation.addEventListener('finish', () => {
+        this.listeners.add(animation, 'finish', () => {
             this.element.style.opacity = 1
         })
     }
     mount() {
+        this.listeners = new Listeners()
         window.requestAnimationFrame(() => {
             if (this.element.getBoundingClientRect().top > window.innerHeight) {
                 this.element.style.opacity = 0
                 this.revealed = false
             }
             if (this.revealed) return this
-            const optionsString = JSON.stringify({
+            this.optionsString = JSON.stringify({
                 observer: this.observer,
             })
-            if (!scrollRevealObserverMap.get(optionsString)) {
+            if (!scrollRevealObserverMap.get(this.optionsString)) {
                 scrollRevealObserverMap.set(
-                    optionsString,
+                    this.optionsString,
                     this.createIntersectionObserver(this.observer)
                 )
             }
-            scrollRevealObserverMap.get(optionsString).observe(this.element)
-            this.element.addEventListener('scrollReveal', () => {
+            scrollRevealObserverMap.get(this.optionsString).observe(this.element)
+            this.listeners.add(this.element, 'scrollReveal', () => {
                 this.reveal()
             })
             return this
         })
+    }
+
+    destroy() {
+        this.listeners.destroy()
+        if (scrollRevealObserverMap.get(this.optionsString)) {
+            scrollRevealObserverMap.get(this.optionsString).unobserve(this.element)
+        }
     }
 }

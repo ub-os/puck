@@ -17,11 +17,12 @@
         </f:link.typolink>
         <div class="{name}-menu__wrap"
              id="main-menu"
-             data-modal='{f:format.json(value:{
-             clickDelay: 1000,
-             moveToModalContainer: 0
+             data-responsive-navigation="{f:format.json(value:{
+               breakpoint: 1150,
+               initialClass: 'm-page-header-menu',
+               responsiveClass: 'm-page-sidebar-menu'
              }
-             )}'>
+             )}">
           <f:comment>
               // small navigation with search link that opens modal
             <element:navigation name="{name}-menu" class="-small" pages="{settings.navUid.meta}">

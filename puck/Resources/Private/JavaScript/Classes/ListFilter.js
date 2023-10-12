@@ -1,5 +1,6 @@
 import { $, $$, jsx } from '../General/Aliases';
 import AbstractComponent from "./AbstractComponent.js";
+import Listeners from "./Listeners.js";
 
 // CLASS ListFilter
 export default class ListFilter extends AbstractComponent {
@@ -15,7 +16,7 @@ export default class ListFilter extends AbstractComponent {
         }) {
         super(target)
         Object.assign(this, {
-            enableTriggerPotential: enableTriggerPotential,
+            enableTriggerPotential,
             listElement: listElement || this.element.$('[data-filter-list]'),
             clearAllElement: clearAllElement || this.element.$('[data-filter-clear-all]'),
             counterElement: counterElement || this.element.$('[data-filter-counter]'),
@@ -25,7 +26,7 @@ export default class ListFilter extends AbstractComponent {
             currentLang: t3langData[this.htmlLang] ? t3langData[this.htmlLang] : t3langData.en,
             state: this.createStateCategories(categories),
             items: this.createItems(),
-            triggers: this.createTriggers(),
+            triggers: null,
         })
     }
     arrayIsSubset(arr1, arr2) {
@@ -70,7 +71,7 @@ export default class ListFilter extends AbstractComponent {
                 this.toggleTrigger(tr);
             }
             this.setTriggerPotential(tr);
-            tr.element.addEventListener('click', event => {
+            this.listeners.add(tr.element, 'click', event => {
                 this.trigger(tr);
             });
             triggers[trVal] = tr;
@@ -239,15 +240,21 @@ export default class ListFilter extends AbstractComponent {
         return k;
     }
     mount() {
+        this.listeners = new Listeners();
+        this.triggers = this.createTriggers();
         this.changeActiveTriggerCounter(0);
         if (this.clearAllElement) {
-            this.clearAllElement.addEventListener('click', event => {
+            this.listeners.add(this.clearAllElement, 'click', event => {
                 event.stopPropagation();
                 this.clearAll();
-            });
+            })
         }
         this.filterItems();
         return this
+    }
+
+    destroy() {
+        this.listeners.destroy()
     }
 }
 

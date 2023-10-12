@@ -1,5 +1,6 @@
 import Splide from '@splidejs/splide'
 import AbstractComponent from "./AbstractComponent.js"
+import Listeners from "./Listeners.js"
 
 export default class Carousel extends AbstractComponent {
     constructor(target, {controls, verticalOptions = false, activeClass = '--active', ...options }) {
@@ -17,8 +18,9 @@ export default class Carousel extends AbstractComponent {
     }
     mount() {
         this.splide.mount()
+        this.listeners = new Listeners()
         this.controls.forEach(c => {
-            c.addEventListener('click', e => {
+            this.listeners.add(c, 'click', e => {
                 e.preventDefault()
                 this.splide.go(parseInt(c.dataset.goTo))
             })
@@ -48,5 +50,9 @@ export default class Carousel extends AbstractComponent {
         }
         return this
     }
-
+    destroy() {
+        this.splide.destroy()
+        this.listeners.destroy()
+        delete this.splide
+    }
 }

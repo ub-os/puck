@@ -2,7 +2,7 @@ let Plyr = class {}
 //import Plyr from 'plyr';
 import { $, $$, jsx } from '../General/Aliases';
 import AbstractComponent from "./AbstractComponent";
-
+import Listeners from "./Listeners";
 
 export default class MediaPlayer extends AbstractComponent {
     constructor(target, {
@@ -103,9 +103,10 @@ export default class MediaPlayer extends AbstractComponent {
     }
 
     mount() {
+        this.listeners = new Listeners()
         if (this.loadOnClick || this.openInModal) {
             this.toggles.forEach(toggle => {
-                toggle.addEventListener('click', e => {
+                this.listeners.add(toggle, 'click', e => {
                     e.preventDefault()
                     this.addPlayerElement()
                 })
@@ -116,4 +117,11 @@ export default class MediaPlayer extends AbstractComponent {
         return this
     }
 
+    destroy() {
+        this.listeners.destroy()
+        if (this.plyr) {
+            this.plyr.destroy()
+            delete this.plyr
+        }
+    }
 }

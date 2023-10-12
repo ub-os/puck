@@ -2,9 +2,10 @@
 //# changes (append or replace) the content of a node with the content of a fetched url
 
 import {$, $$} from "../General/Aliases.js";
-import {noDragClick, getElement, scrollTo} from '../General/Functions';
+import {getElement, scrollTo} from '../General/Functions';
 import {mountComponents} from "../Components/init.js";
 import AbstractComponent from "./AbstractComponent.js";
+import Listeners from "./Listeners.js";
 
 export default class FetchLink extends AbstractComponent {
   constructor(target, {
@@ -91,7 +92,7 @@ export default class FetchLink extends AbstractComponent {
           this.hideAnimationFrames,
           this.timing)
 
-      animation.addEventListener('finish', () => {
+      this.listeners.add(animation, 'finish', () => {
         if (this.mode === 'replace') {
           this.replaceContent(newHtml)
         }
@@ -115,26 +116,33 @@ export default class FetchLink extends AbstractComponent {
   }
 
   mount() {
+    this.listeners = new Listeners()
     if (!this.element || !this.url || !this.contentNode) {
       return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
     }
     if (this.trigger === 'click') {
-      this.element.addEventListener('click', e => {
+      this.listeners.add(this.element, 'click', e => {
         e.preventDefault()
         this.fetch()
-      });
+      })
     }
     if (this.trigger === 'scrollIntoView') {
-      const observer = new IntersectionObserver(entries => {
+      this.intersectionObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            observer.unobserve(entry.target)
+            this.intersectionObserver.unobserve(entry.target)
             this.fetch()
           }
         })
       }, this.interSectionObserverOptions)
-      observer.observe(this.element)
+      this.intersectionObserver.observe(this.element)
     }
     return this
+  }
+  destroy() {
+    this.listeners.destroy()
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect()
+    }
   }
 }

@@ -1,6 +1,6 @@
-
 import Toggleable from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
+import Listeners from "./Listeners.js";
 
 export default class Modal extends Toggleable {
     static displayName = 'Modal'
@@ -36,15 +36,25 @@ export default class Modal extends Toggleable {
         this.element.tabIndex = -1
         this.toggles.forEach(t => {
             if (!this.element.contains(t)) {
-                t.addEventListener('click', () => {
+                this.listeners.add(t, 'click', () => {
                     this.previousFocusable = t
                 })
             }
         })
-        this.element.addEventListener('focusablesChanged', () => {
+        this.listeners.add(this.element, 'focusablesChanged', event => {
             if (this.active) this.focusTrap.getFirstFocusable().focus()
         })
         return this
+    }
+
+    destroy() {
+        super.destroy()
+        this.focusTrap.destroy()
+        delete this.focusTrap
+        this.element.removeAttribute('tabindex')
+        this.element.removeAttribute('aria-hidden')
+        this.element.removeAttribute('aria-modal')
+        this.element.removeAttribute('role')
     }
 }
 
