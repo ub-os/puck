@@ -23,6 +23,7 @@ generateFonts({
         }
     },
     templates: {
+        scss: `build/templates/fantasticon/scss.hbs`
     },
     pathOptions: {
         scss: `puck/Resources/Private/Stylesheets/00-settings/_icon-font.scss`
@@ -40,5 +41,4 @@ generateFonts({
     // create js file with codepoints
     const jsString = 'export default '+JSON.stringify(results.codepoints)+';'
     fs.writeFileSync(`${resourcePath}Fonts/Icons/icons.js`, jsString);
-    console.log(results.assetsOut.json)
 });

@@ -1,4 +1,4 @@
-import sass from 'sass';
+import * as sass from 'sass';
 import globImporter from 'node-sass-glob-importer';
 import fs from 'fs';
 import path from 'path';

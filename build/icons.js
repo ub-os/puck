@@ -22,5 +22,3 @@ const require = createRequire(import.meta.url);
 });*/
 
 const puckIcons = require('../puck/Resources/Public/Fonts/Icons/icons.json');
-
-console.log(puckIcons);

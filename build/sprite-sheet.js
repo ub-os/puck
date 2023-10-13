@@ -11,7 +11,6 @@ function getIcons(path) {
     });
 }
 const icons = getIcons(iconPath);
-console.log(icons);
 const sprites = svgstore();
 for (let ic of icons) {
     sprites.add(ic.replace('.svg', '').toLowerCase(), fs.readFileSync(iconPath+'/'+ic, 'utf8'));
