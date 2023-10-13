@@ -49,20 +49,20 @@ export default class ResponsiveNavigation extends AbstractComponent{
     this.modal = new Modal(this.element, this.modalOptions).mount()
   }
 
-  mount() {
-    this.state = 'initial'
-    if (window.innerWidth < this.breakpoint) {
+  stateSwitch(windowWidth) {
+    if (windowWidth < this.breakpoint) {
       this.mountResponsive()
     } else {
       this.mountDesktop()
     }
+  }
+
+  mount() {
+    this.state = 'initial'
+    this.stateSwitch(window.innerWidth)
     this.resizeObserver = new ResizeObserver(entries => {
       entries.forEach(entry => {
-        if (entry.contentRect.width < this.breakpoint) {
-          this.mountResponsive()
-        } else {
-          this.mountDesktop()
-        }
+        this.stateSwitch(entry.contentRect.width)
       })
     })
     this.resizeObserver.observe(this.observerElement)
@@ -77,4 +77,5 @@ export default class ResponsiveNavigation extends AbstractComponent{
       delete this.modal
     }
   }
+
 }
