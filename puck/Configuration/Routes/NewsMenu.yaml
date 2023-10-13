@@ -11,28 +11,28 @@ routeEnhancers:
     routes:
       -
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{page}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{authorLabel}/{authorList}/{pageLabel}/{page}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{authorLabel}/{authorList}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/{pluginLabel}/{pageLabel}/{page}'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
       -
         routePath: '/'
-        _controller: 'Page::newsMenu'
+        _controller: 'Menu::newsMenu'
     aspects:
       pluginLabel:
         type: LocaleModifier
