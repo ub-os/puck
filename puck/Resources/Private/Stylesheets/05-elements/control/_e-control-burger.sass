@@ -21,10 +21,10 @@ $slice-degree: 45deg
     height: 3rem
     padding: .5rem
     margin-right: -.5rem
+    color: var(--color-link)
     cursor: pointer
     border-radius: var(--border-radius-s)
     transition: transform .15s, box-shadow .15s
-
   &.--active &__slice:nth-child(1)
     transform: translateY(1rem)
   &.--active &__slice:nth-child(3)
@@ -32,14 +32,11 @@ $slice-degree: 45deg
   &:hover,
   &:focus-visible
     color: var(--color-link--hover)
-  &:focus-visible
-    border-radius: var(--border-radius-s)
-    box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
   &__slice
     height: 3px
     width: 100%
-    background: var(--color-link)
+    background: currentColor
     border-radius: 2px
     transition: transform .15s
 
