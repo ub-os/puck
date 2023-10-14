@@ -64,6 +64,7 @@ export default class Modal extends Toggleable {
     destroy() {
         super.destroy()
         this.focusTrap.destroy()
+        this.listeners.destroy()
         delete this.focusTrap
         this.element.removeAttribute('tabindex')
         this.element.removeAttribute('aria-hidden')

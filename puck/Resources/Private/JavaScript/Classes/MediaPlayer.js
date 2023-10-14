@@ -43,7 +43,7 @@ export default class MediaPlayer extends AbstractComponent {
                 default:
                     this.playerElement = this.getHtml5PlayerElement()
             }
-            this.element.prepend(this.playerElement)
+            this.element.append(this.playerElement)
             this.playerElementAdded = true
             if (this.usePlyr) {
                 if (this.options.controls === true || this.options.controls === 1) {

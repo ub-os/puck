@@ -45,12 +45,12 @@ export default class FocusTrap {
             if (!this.active) return
             if (event.key === 'Tab') {
                 if (event.shiftKey) {
-                    if (document.activeElement === this.getFirstFocusable()) {
+                    if (document.activeElement === this.getFirstFocusable() || document.activeElement === this.element) {
                         event.preventDefault()
                         this.getLastFocusable().focus()
                     }
                 } else {
-                    if (document.activeElement === this.getLastFocusable()) {
+                    if (document.activeElement === this.getLastFocusable() || document.activeElement === this.element) {
                         event.preventDefault()
                         this.getFirstFocusable().focus()
                     }
