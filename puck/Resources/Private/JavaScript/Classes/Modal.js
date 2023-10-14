@@ -7,16 +7,21 @@ export default class Modal extends Toggleable {
     constructor(target, {
         moveToModalContainer = true,
         toggleOffOnOutsideClick = true,
+        backdropClass = 'l-modal__backdrop',
         ...options }) {
         super(target, { toggleOffOnOutsideClick, ...options })
-        Object.assign(this, { moveToModalContainer })
+        Object.assign(this, { moveToModalContainer, backdropClass })
         if (moveToModalContainer) {
             this.element = document.querySelector('[data-modal-container]').appendChild(this.element)
         }
         this.previousFocusable = null
         this.focusTrap = new FocusTrap({ element: this.element, active: this.active })
+        this.backdrop = null
     }
     toggleOn(transition= true) {
+        this.backdrop = document.createElement('div')
+        this.backdrop.classList.add(this.backdropClass)
+        this.element.parentNode.insertBefore(this.backdrop, this.element)
         super.toggleOn(transition);
         this.focusTrap.active = true
         this.element.removeAttribute('aria-hidden')
@@ -29,6 +34,12 @@ export default class Modal extends Toggleable {
         }
     }
     toggleOff(transition= true, changeUrlHash =  true) {
+        if (this.backdrop) {
+            setTimeout(() => {
+                this.backdrop.remove()
+                this.backdrop = null
+            }, this.clickDelay)
+        }
         super.toggleOff(transition, changeUrlHash)
         this.focusTrap.active = false
         this.element.ariaHidden = 'true'
@@ -64,4 +75,3 @@ export default class Modal extends Toggleable {
         this.element.removeAttribute('role')
     }
 }
-
