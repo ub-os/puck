@@ -38,7 +38,7 @@ final class ModifyRecordList {
      * @param ModifyRecordListRecordActionsEvent $event
      * @return void
      */
-    public function modifyRecordActions(ModifyRecordListRecordActionsEvent $event): void
+    public function __invoke(ModifyRecordListRecordActionsEvent $event): void
     {
         $currentTable = $event->getTable();
         if ($currentTable === 'pages') {

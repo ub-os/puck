@@ -11,17 +11,20 @@ services:
   UBOS\Puck\EventListener\AdditionalPropertiesForSearchAction:
     tags:
       - name: event.listener
-        identifier: 'puck/additionalPropertiesForSearchAction'
+        identifier: 'puck-additional-schema-properties'
+
   UBOS\Puck\EventListener\ModifyRecordList:
     tags:
       - name: event.listener
-        identifier: 'puck/modifyRecordList'
-        method: modifyRecordActions
+        identifier: 'puck-record-list'
+
   UBOS\Puck\EventListener\ModifyNewContentElementWizard:
     tags:
       - name: event.listener
-        identifier: 'puck/modifyNewContentElementWizard'
+        # identifier is used to sort the listeners, needs to be before content_defender listener
+        identifier: '01-puck-new-content-element-wizard'
+
   UBOS\Puck\EventListener\ModifyPageLayoutContent:
     tags:
       - name: event.listener
-        identifier: 'puck/modifyPageLayoutContent'
+        identifier: 'puck-page-layout-content'
