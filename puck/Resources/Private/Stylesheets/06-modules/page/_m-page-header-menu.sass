@@ -35,9 +35,12 @@
     padding: .2em 1em
     color: var(--color-link)
     transition: opacity .15s, color .15s
-
-    &:hover
+    &:hover,
+    &:focus-visible
       color: var(--color-link--hover)
+    &:focus-visible
+      border-radius: var(--border-radius-s)
+      box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
   &.-social &__link
 

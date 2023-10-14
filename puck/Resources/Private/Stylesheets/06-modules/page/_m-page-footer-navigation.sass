@@ -36,21 +36,12 @@
 		margin: 0 .66em
 
 	&__link
+		&:hover,
+		&:focus-visible
+
+		&:focus-visible
+			border-radius: var(--border-radius-s)
+			box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 		+media(s)
 			padding: .25em 0
 			display: block
-
-	&__link:hover,
-	&.-small &__link:hover
-
-	&.-small &__link
-
-	&__list.-child-hover &__link:not(:hover)
-		//opacity: .5
-
-	&.-social &__link
-
-	&.-social &__link:hover
-
-	&.-social &__list.-child-hover &__link:not(:hover)
-		//opacity: 1
