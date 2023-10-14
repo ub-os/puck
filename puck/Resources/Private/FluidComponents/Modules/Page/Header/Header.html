@@ -23,6 +23,11 @@
                responsiveClass: 'm-page-sidebar-menu'
              }
              )}">
+          <div class="{name}-menu__header">
+            <button class="{name}-menu__close" aria-controls="main-menu" aria-label="{f:translate(key:'close')}">
+              <icon:char icon="close" />
+            </button>
+          </div>
           <f:comment>
               // small navigation with search link that opens modal
             <element:navigation name="{name}-menu" class="-small" pages="{settings.navUid.meta}">
@@ -36,9 +41,6 @@
             </element:navigation>
           </f:comment>
           <element:navigation name="{name}-menu" class="" pages="{settings.navUid.main}"/>
-          <button class="{name}-menu__close" aria-controls="main-menu" aria-label="{f:translate(key:'close')}">
-            <icon:char icon="close" />
-          </button>
         </div>
         <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">

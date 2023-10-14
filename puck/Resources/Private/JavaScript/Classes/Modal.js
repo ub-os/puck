@@ -27,11 +27,7 @@ export default class Modal extends Toggleable {
         this.element.removeAttribute('aria-hidden')
         this.element.role = 'dialog'
         this.element.ariaModal = 'true'
-        if (this.focusTrap.focusables.length === 1) {
-            this.element.focus()
-        } else {
-            this.focusTrap.getFirstFocusable().focus()
-        }
+        this.element.focus()
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         if (this.backdrop) {

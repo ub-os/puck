@@ -36,7 +36,7 @@ const mountComponents = (target) => {
     })
     _app.components.push(
         {
-            pageHeader: new PageHeader($('[data-page-header]'), { scrollTops: {800: 30} }).mount(),
+            pageHeader: new PageHeader($('[data-page-header]'), { scrollTops: {800: 25} }).mount(),
 
             smoothHashLinks: new SmoothHashLinks({ root }).mount(),
 

@@ -53,8 +53,12 @@
 			.char-icon
 				right: 0
 
-	a:hover
+	a:hover,
+	a:focus-visible
 		color: var(--color-link--hover)
+	a:focus-visible
+		border-radius: var(--border-radius-s)
+		box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
 	ul, ol
 		@extend .e-text-list

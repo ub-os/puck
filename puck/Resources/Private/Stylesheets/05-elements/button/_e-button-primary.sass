@@ -21,12 +21,13 @@
     cursor: pointer
     transition: color .15s, filter .15s, transform .2s, box-shadow .15s, border-color .15s, background-color .15s, background-position .15s
   &:hover,
+  &:focus-visible,
   &.--active
     --color-button: var(--color-button--hover)
     --background-button: var(--background-button--hover)
     --color-button-border: var(--color-button-border--hover)
     color: var(--color-button)
-  &:focus,
+  &:focus-visible,
   &:active
     box-shadow: 0 0 0 4px var(--outline-color-button--focus)
   &[disabled],

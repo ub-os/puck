@@ -8,7 +8,13 @@
     &__prev,
     &__next
       margin: 0 .5em
-      color: var(--color-accent)
+      color: var(--color-link)
+      &:hover,
+      &:focus-visible
+        color: var(--color-link)
+      &:focus-visible
+        border-radius: var(--border-radius-s)
+        box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
   &__pagination
     +spacing(top, xs)
@@ -48,7 +54,7 @@
     height: $width
     width: $width
     margin: $margin * 0.5
-    background: var(--color-accent)
+    background: var(--color-link)
     border-radius: 100%
     opacity: 0.5
     &:before

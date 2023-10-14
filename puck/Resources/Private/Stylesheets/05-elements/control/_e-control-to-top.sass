@@ -17,7 +17,7 @@
     transition: background .15s, transform .25s, opacity .25s, border-color .15s
     @each $mb, $value in $gutter-outer-mb
       +media($mb, down)
-        --position-right: $value
+        --position-right: #{ $value }
     [class*="-modal--active"] &,
     [class*="-modal--deactivating"] &
       opacity: 0

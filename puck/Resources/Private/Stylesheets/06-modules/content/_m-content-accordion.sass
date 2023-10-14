@@ -16,11 +16,14 @@
     justify-content: space-between
     width: 100%
     line-height: 1.5
+    color: var(--color-link)
     transition: color .15s, background-color .15s, transform .15s, border-color .15s
-
-  &__button:hover
-
-  &__button.--active
+    &:hover,
+    &:focus-visible
+      color: var(--color-link--hover)
+    &:focus-visible
+      border-radius: var(--border-radius-s)
+      box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
   &__title
     padding:

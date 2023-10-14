@@ -1,4 +1,5 @@
 
+
 $header-trans-bp: sm
 $header-color-trans: 0.3s
 $nav-slide-trans: 0.2s
@@ -18,15 +19,19 @@ $slice-degree: 45deg
     position: relative
     width: $burger-width
     height: 3rem
-    padding: .3rem
+    padding: .5rem
+    margin-right: -.5rem
     cursor: pointer
     border-radius: var(--border-radius-s)
-    transition: transform .15s
+    transition: transform .15s, box-shadow .15s
 
   &.--active
   //transform: scale(.6) translateX(30%)
-
-  &:focus
+  &:hover,
+  &:focus-visible
+    color: var(--color-link--hover)
+  &:focus-visible
+    border-radius: var(--border-radius-s)
     box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
 
@@ -34,6 +39,7 @@ $slice-degree: 45deg
     height: 3px
     width: 100%
     background: var(--color-link)
+    border-radius: 2px
 
   //&__slice
   //  display: block

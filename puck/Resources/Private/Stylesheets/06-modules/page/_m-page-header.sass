@@ -42,19 +42,23 @@
     align-items: center
     transition: width .5s, padding .5s
 
+  &__anchor
+    color: var(--color-link)
+    fill: var(--color-link)
+    transition: color .4s, transform .4s, fill .4s
+    &:hover,
+    &:focus
+      color: var(--color-link--hover)
+      fill: var(--color-link--hover)
+      transform: scale(1.05)
+
   &__logo
     z-index: $z-index-header-burger
     max-width: 90%
     height: 5rem
     width: 5rem
-    color: var(--color-link)
-    fill: var(--color-link)
     outline: none
-    transition: color .4s, transform .4s, fill .4s
-    &:hover
-      color: var(--color-link--hover)
-      fill: var(--color-link--hover)
-      transform: scale(1.05)
+
 
   &.--scroll &__logo
 
