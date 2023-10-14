@@ -5,3 +5,4 @@ options {
     pageTree.showPageIdWithTitle = 1
     pageTree.showDomainNameWithTitle = 1
 }
+admPanel.hide = 1
