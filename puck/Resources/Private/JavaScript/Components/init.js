@@ -17,6 +17,7 @@ import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
 import RichText from "../Classes/RichText.js";
 import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
+import ScrollbarManager from "../Classes/ScrollbarManager.js";
 
 smoothscroll.polyfill()
 
@@ -27,6 +28,9 @@ const _app = new App({
 
 const mountComponents = (target) => {
     const root = getElement(target)
+    _app.managers.push({
+        scrollBar: new ScrollbarManager({}).mount()
+    })
     _app.components.push({
         layoutRows: LayoutRow.createInstancesFromDataAttribute({ root, attribute: 'data-layout-row' }),
     })

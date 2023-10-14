@@ -1,8 +1,8 @@
 .e-control-to-top
   &
-    +rfs($gutter-outer, right)
+    +rfs($gutter-outer, --position-right)
     position: fixed
-    right: 4rem
+    right: var(--position-right)
     bottom: 4rem
     z-index: $z-index-header
     height: 2.25em
@@ -17,13 +17,19 @@
     transition: background .15s, transform .25s, opacity .25s, border-color .15s
     @each $mb, $value in $gutter-outer-mb
       +media($mb, down)
-        right: $value
+        --position-right: $value
+    [class*="-modal--active"] &,
+    [class*="-modal--deactivating"] &
+      opacity: 0
+      right: calc(var(--position-right) + var(--scrollbar-width))
+
     +media(s)
       display: none
 
   &.--scroll
     opacity: 1
     pointer-events: initial
+    cursor: pointer
     transform: translateY(0px)
 
   &.--scroll:hover

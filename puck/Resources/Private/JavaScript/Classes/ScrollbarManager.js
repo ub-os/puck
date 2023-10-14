@@ -1,52 +1,36 @@
-export default class Listeners {
-
-    #listeners = {} // # in a JS class signifies private
-    #idx = 1
-
-    // add event listener, returns integer ID of new listener
-    add(element, type, listener, useCapture = false) {
-        this.#privateAddEventListener(element, this.#idx, type, listener, useCapture)
-        return this.#idx++
+export default class ScrollbarManager {
+    scrollbarWidth = 0
+    constructor( { updateOnResize = true, ...options} ) {
+        this.updateOnResize = updateOnResize
     }
-
-    // add event listener with custom ID (avoids need to retrieve return ID since you are providing it yourself)
-    addById(element, id, type, listener, useCapture = false) {
-        this.#privateAddEventListener(element, id, type, listener, useCapture)
-        return id
+    getScrollbarWidth = () => {
+        let box = document.createElement('div');
+        box.style.overflow = 'scroll';
+        document.body.appendChild(box);
+        const width = box.offsetWidth - box.clientWidth;
+        document.body.removeChild(box);
+        return width;
     }
-
-    #privateAddEventListener(element, id, type, listener, useCapture) {
-        if (this.#listeners[id]) throw Error(`A listener with id ${id} already exists`)
-        element.addEventListener(type, listener, useCapture)
-        this.#listeners[id] = {element, type, listener, useCapture}
+    updateScrollbarWidth = () => {
+        this.scrollbarWidth = this.getScrollbarWidth()
+        document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
     }
-
-    // remove event listener with given ID, returns ID of removed listener or null (if listener with given ID does not exist)
-    remove(id) {
-        const listen = this.#listeners[id]
-        if (listen) {
-            listen.element.removeEventListener(listen.type, listen.listener, listen.useCapture)
-            delete this.#listeners[id]
+    mount() {
+        this.updateScrollbarWidth()
+        if (this.updateOnResize) {
+            this.resizeObserver = new ResizeObserver(entries => {
+                for (let entry of entries) {
+                    window.requestAnimationFrame(() => {
+                        this.updateScrollbarWidth()
+                    })
+                }
+            })
+            this.resizeObserver.observe(document.documentElement)
         }
-        return listen || null
-    }
-
-    // remove all event listeners
-    removeAll() {
-        for (const id in this.#listeners) {
-            this.remove(id)
-        }
-    }
-    // returns number of events listeners
-    length() {
-        return Object.keys(this.#listeners).length
-    }
-    // returns array of event listener IDs
-    ids() {
-        return Object.keys(this.#listeners)
+        return this
     }
     destroy() {
-        this.removeAll()
+        this.resizeObserver.unobserve(document.documentElement)
+        delete this.resizeObserver
     }
-
 }

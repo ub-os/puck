@@ -37,10 +37,10 @@
     height: 100%
     width: 100vw
     background: var(--background-modal-backdrop)
-    .d-html[class*="-modal--active"] &
+    [class*="-modal--active"] &
       display: block
       animation: modal-open-overlay .3s
-    .d-html[class*="-modal--deactivating"] &
+    [class*="-modal--deactivating"] &
       display: block
       animation: modal-close-overlay .3s
 
@@ -58,7 +58,7 @@
       //right: 2em
     color: var(--color)
     background: var(--background)
-    border-radius: var(--border-radius-m)
+    border-radius: var(--border-radius-s)
     box-shadow: var(--box-shadow-m)
     overflow: hidden
     &.--active
@@ -80,14 +80,19 @@
     +flex(row, center, center)
     position: absolute
     z-index: 9
-    right: 2.5em
-    top: 1.5em
-    width: 1.3em
-    height: 1.3em
+    right: 0
+    top: 0
+    width: 1.75em
+    height: 1.75em
+    font-size: 1.3rem
     cursor: pointer
     color: var(--color-link)
-    border-radius: 100%
-    &:hover
-      color: var(--color-link--hover)
+    background: var(--background)
+    border-top-right-radius: var(--border-radius-s)
+    border-bottom-left-radius: var(--border-radius-s)
+    box-shadow: var(--box-shadow-s)
+    &:hover,
     &:focus
-      box-shadow: 0 0 0 10px var(--outline-color-button--focus)
+      color: var(--background)
+      background: var(--color-link)
+

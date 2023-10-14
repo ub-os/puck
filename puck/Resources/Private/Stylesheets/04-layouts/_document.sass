@@ -1,13 +1,13 @@
 .d-html
 	+color-space-base
 	background: var(--background)
-	scrollbar-gutter: stable
-	&[class*="-modal--active"]
+	overflow-x: hidden
+	&[class*="-modal--active"],
+	&[class*="-modal--deactivating"]
 		overflow: hidden
+		padding-right: var(--scrollbar-width)
 
 .d-body
-
-
-
+	overflow-x: hidden
 
 

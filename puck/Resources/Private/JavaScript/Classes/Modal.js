@@ -4,7 +4,10 @@ import Listeners from "./Listeners.js";
 
 export default class Modal extends Toggleable {
     static displayName = 'Modal'
-    constructor(target, { moveToModalContainer = true, toggleOffOnOutsideClick = true, ...options }) {
+    constructor(target, {
+        moveToModalContainer = true,
+        toggleOffOnOutsideClick = true,
+        ...options }) {
         super(target, { toggleOffOnOutsideClick, ...options })
         Object.assign(this, { moveToModalContainer })
         if (moveToModalContainer) {
@@ -19,7 +22,11 @@ export default class Modal extends Toggleable {
         this.element.removeAttribute('aria-hidden')
         this.element.role = 'dialog'
         this.element.ariaModal = 'true'
-        this.focusTrap.getFirstFocusable().focus()
+        if (this.focusTrap.focusables.length === 1) {
+            this.element.focus()
+        } else {
+            this.focusTrap.getFirstFocusable().focus()
+        }
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)

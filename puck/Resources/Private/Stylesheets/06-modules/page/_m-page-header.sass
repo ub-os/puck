@@ -10,9 +10,13 @@
     border-bottom: 2px solid transparent
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
-  .d-html[class*="-modal--active"] &.--scroll
+  [class*="-modal--active"] &,
+  [class*="-modal--deactivating"] &
+    padding-right: var(--scrollbar-width)
+
+  [class*="-modal--active"] &.--scroll
     transform: translateY(-100%)
-  .d-html.--main-menu-modal--active &.--scroll
+  .--main-menu-modal--active &.--scroll
     transform: none
 
   &.--scroll

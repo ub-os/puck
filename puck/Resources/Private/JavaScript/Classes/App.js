@@ -4,6 +4,7 @@ export default class App {
     constructor({ ...options }) {
         this.options = { ...options }
         this.components = []
+        this.managers = []
     }
     mount() {
         if (this.options.debug) {
