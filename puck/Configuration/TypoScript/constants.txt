@@ -25,6 +25,7 @@ doktype {
 
 # customsubcategory=pageUids=Page identifiers
 # customsubcategory=appearance=Appearance
+
 navUid {
     # cat=puck/pageUids/1; type=int; label=Parent uid of main navigation
     main = 1
@@ -35,6 +36,7 @@ navUid {
     # cat=puck/pageUids/4; type=int; label=Parent uid of meta navigation
     meta = 0
 }
+
 search {
     # cat=puck/pageUids/5; type=int; label=Uid of search plugin page
     pid = 0
@@ -45,5 +47,5 @@ gridWidth = 1300
 rootLayout = default
 # cat=puck/appearance/3; type=options [default]; label=Logo
 logo = default
-# cat=puck/appearance/3; type=options [default]; label=Favicon
+# cat=puck/appearance/4; type=options [default]; label=Favicon
 favicon = default
