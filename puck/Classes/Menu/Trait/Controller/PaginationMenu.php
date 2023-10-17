@@ -2,6 +2,9 @@
 
 namespace UBOS\Puck\Menu\Trait\Controller;
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use GeorgRinger\NumberedPagination\NumberedPagination;
@@ -129,4 +132,23 @@ trait PaginationMenu
         );
     }
 
+    protected function addPaginationLinksToHead(QueryResultPaginator $paginator,  ?array $arguments): void
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $currentPage = intval($arguments['page'] ?? '1');
+        $prevPage = $currentPage > 1
+            ? $currentPage - 1
+            : 0;
+        $nextPage = $currentPage < $paginator->getNumberOfPages()
+            ? $currentPage + 1
+            : 0;
+        if ($prevPage) {
+            $arguments['page'] = $prevPage;
+            $pageRenderer->addHeaderData('<link rel="prev" href="' . $this->buildPaginationUri($arguments) . '" />');
+        }
+        if ($nextPage) {
+            $arguments['page'] = $nextPage;
+            $pageRenderer->addHeaderData('<link rel="next" href="' . $this->buildPaginationUri($arguments) . '" />');
+        }
+    }
 }
