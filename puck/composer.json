@@ -20,7 +20,7 @@
     "eliashaeussler/typo3-warming": "^1",
     "phpoffice/phpspreadsheet": "^1.27",
     "georgringer/numbered-pagination": "^1.0",
-    "oliveoilexpert/puckloader": "^0.1.0",
+    "oliveoilexpert/puckloader": "^0.1.1",
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2"
   },
