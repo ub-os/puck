@@ -62,7 +62,8 @@ class MenuController extends ActionController
                 [
                     'navHide' => $this->settings['demand']['navHide'],
                     'author' => $this->settings['demand']['author'],
-                    'currentPageId' => $this->request->getAttribute('routing')->getPageId()
+                    'currentPageId' => $this->request->getAttribute('routing')->getPageId(),
+                    'allowedTypes' => $this->settings['types']
                 ]
             );
         }
@@ -150,47 +151,14 @@ class MenuController extends ActionController
     }
 
     #[Plugin("PageMenu")]
-    public function menuAction(
+    public function pageMenuAction(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,
         ?string $authorList = null,
         ?MenuPages $object = null): ResponseInterface
     {
-        $this->getMenuRepository()->setAllowedTypes(PageRepository::DEFAULT_ALLOWED_TYPES);
         $this->fetchLinkPageType = 16500000;
-        $this->menuActionName = 'menu';
-        $this->menuContentObject = $object;
-        return $this->renderMenu($categoryList, $categoryConjunction, $authorList);
-    }
-
-    #[Plugin("NewsMenu")]
-    public function newsMenuAction(
-        ?string $categoryList = null,
-        ?string $categoryConjunction = null,
-        ?string $authorList = null,
-        ?MenuNews $object = null): ResponseInterface
-    {
-        $this->getMenuRepository()->setAllowedTypes([
-            PageRepository::DOKTYPES['news'],
-            PageRepository::DOKTYPES['link'],
-            PageRepository::DOKTYPES['shortcut'],
-        ]);
-        $this->fetchLinkPageType = 16500001;
-        $this->menuActionName = 'newsMenu';
-        $this->menuContentObject = $object;
-        return $this->renderMenu($categoryList, $categoryConjunction, $authorList);
-    }
-
-    #[Plugin("PersonMenu")]
-    public function personMenuAction(
-        ?string $categoryList = null,
-        ?string $categoryConjunction = null,
-        ?string $authorList = null,
-        ?MenuPersons $object = null): ResponseInterface
-    {
-        $this->getMenuRepository()->setAllowedTypes([PageRepository::DOKTYPES['person']]);
-        $this->fetchLinkPageType = 16500002;
-        $this->menuActionName = 'personMenu';
+        $this->menuActionName = 'pageMenu';
         $this->menuContentObject = $object;
         return $this->renderMenu($categoryList, $categoryConjunction, $authorList);
     }

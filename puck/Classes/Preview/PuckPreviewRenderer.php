@@ -14,6 +14,7 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 
 use B13\Container\Backend\Preview\ContainerPreviewRenderer;
 use B13\Container\Tca\Registry;
+use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
 
 class PuckPreviewRenderer implements PreviewRendererInterface
 {
@@ -112,6 +113,14 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                     $page['backend_link_title'] = 'Switch to this page';
                     $processedMenuData[$key][] = $page;
                 }
+            }
+        }
+        $doktypes = ['items' => []];
+        (new ContentItemsProcFunc())->doktypes($doktypes);
+        $processedMenuData['doktypeIcons'] = [];
+        foreach($doktypes['items'] as $item) {
+            if (GeneralUtility::inList($flexform['settings']['types'] ?? '', $item['value'])) {
+                $processedMenuData['doktypeIcons'][$item['label']] = $item['icon'];
             }
         }
         $recordGroups = [

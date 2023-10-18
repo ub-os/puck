@@ -8,6 +8,24 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
+                    <settings.types>
+                        <TCEforms>
+                            <label>Allowed types</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectCheckBox</renderType>
+                                <itemsProcFunc>UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc->doktypes
+                                </itemsProcFunc>
+                                <items>
+                                    <numIndex index="0">
+                                        <label>0</label>
+                                        <value>0</value>
+                                    </numIndex>
+                                </items>
+                                <default>1,4,3</default>
+                            </config>
+                        </TCEforms>
+                    </settings.types>
                     <settings.parents>
                         <TCEforms>
                             <label>Parents</label>

@@ -25,6 +25,8 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_pages'] = [
             'config' => [
                 'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
                     ['Default cards', 'default-cards'],
+                    ['Blog cards', 'blog-cards'],
+                    ['Team cards', 'team-cards'],
                     ['Cards (custom settings)', 'cards'],
                     ['Columns (custom settings)', 'columns'],
                 ]),

@@ -76,7 +76,7 @@ class PageRepository extends Repository
     public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
     {
         $constraints = [
-            $query->in('doktype', $this->allowedTypes),
+            $query->in('doktype', explode(',', $settings['allowedTypes']) ?? $this->allowedTypes),
             $query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0))
         ];
         if ($settings['navHide']) {

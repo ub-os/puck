@@ -3,6 +3,7 @@ namespace UBOS\Puck\UserFunctions\FormEngine;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use UBOS\Puck\Domain\Repository\PageRepository;
 
 /**
  *
@@ -208,5 +209,36 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             return $item[1] <= $maximum;
         });
         $params['items'] = $items;
+    }
+
+    public function doktypes(&$params): void
+    {
+        $params['items'] = [
+            [
+                'label' => 'Default',
+                'value' => PageRepository::DOKTYPES['default'],
+                'icon' => 'apps-pagetree-page-default',
+            ],
+            [
+                'label' => 'News',
+                'value' => PageRepository::DOKTYPES['news'],
+                'icon' => 'news_page',
+            ],
+            [
+                'label' => 'Person',
+                'value' => PageRepository::DOKTYPES['person'],
+                'icon' => 'person_page',
+            ],
+            [
+                'label' => 'Shortcut',
+                'value' => PageRepository::DOKTYPES['shortcut'],
+                'icon' => 'apps-pagetree-page-shortcut',
+            ],
+            [
+                'label' => 'External link',
+                'value' => PageRepository::DOKTYPES['link'],
+                'icon' => 'apps-pagetree-page-shortcut-external',
+            ],
+        ];
     }
 }

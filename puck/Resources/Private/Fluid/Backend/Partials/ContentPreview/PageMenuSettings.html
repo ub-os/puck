@@ -17,6 +17,7 @@
         </tr>
         </thead>
         <tbody>
+            <f:render section="icons" arguments="{icons:processed.doktypeIcons,label:'Allowed page types'}"/>
             <f:render section="recordList" arguments="{records:processed.parents,title:'Subpages of'}"/>
             <f:render section="recordList" arguments="{records:processed.pages,title:'Pages'}"/>
             <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
@@ -85,6 +86,20 @@
     <f:if condition="{value}">
         <tr>
         <th style="width:30%">{label}</th> <td>{value}</td>
+        </tr>
+    </f:if>
+</f:section>
+
+<f:section name="icons">
+    <f:if condition="{icons}">
+        <tr>
+            <th style="width:30%">{label}</th>
+            <td>
+                <f:for each="{icons}" as="icon" key="key">
+                    <span title="{key}"><core:icon identifier="{icon}" size="small" /></span>
+                     
+                </f:for>
+            </td>
         </tr>
     </f:if>
 </f:section>
