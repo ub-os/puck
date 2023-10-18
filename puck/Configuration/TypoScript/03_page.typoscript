@@ -37,11 +37,4 @@ pageMenuPlugin {
         admPanel = 0
     }
 }
-newsMenuPlugin < pageMenuPlugin
-newsMenuPlugin.typeNum = 16500001
-newsMenuPlugin.20.pluginName = NewsMenu
-
-personMenuPlugin < pageMenuPlugin
-personMenuPlugin.typeNum = 16500002
-personMenuPlugin.20.pluginName = PersonMenu
 
