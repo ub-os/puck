@@ -3,7 +3,7 @@
     <fc:param name="name" type="string" optional="1" default="l-media"/>
     <fc:param name="media" type="array" optional="1"/>
     <fc:param name="text" type="string" optional="1"/>
-    <fc:param name="layout" type="integer" optional="1" default="above" />
+    <fc:param name="layout" type="string" optional="1" default="above" />
     <fc:param name="justify" type="string" optional="1"/>
     <fc:param name="align" type="string" optional="1"/>
     <fc:param name="mediaWidth" type="integer" optional="1" default="5" />
@@ -48,9 +48,8 @@
                         </layout:row>
                     </layout:row.item>
                 </f:if>
-                <f:if condition="{text} || {content} || {header}">
+                <f:if condition="{text} || {content}">
                     <layout:row.item class="{name}__text" width="{textWidth}">
-                        <f:format.raw>{header}</f:format.raw>
                         <element:text.rich text="{text}"/>
                         <fc:slot name="content"/>
                     </layout:row.item>
