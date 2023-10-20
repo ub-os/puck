@@ -19,10 +19,6 @@ class ObserverManager {
         }
     }
 
-    getMap() {
-        return this.#observerMap
-    }
-
     #id = 0
     #observerMap = new Map();
     #intersectionObservers = new Map();
@@ -192,6 +188,9 @@ class ObserverManager {
             remove: (id) => {
                 this.#unobserve({ id, observerName: 'ResizeObserver' })
             },
+            clearElement: (target) => {
+                this.clearElement(target, ['ResizeObserver'])
+            },
             disconnect: () => {
                 this.#getResizeObserver().disconnect()
             }
@@ -208,6 +207,9 @@ class ObserverManager {
             },
             remove: (id) => {
                 this.#unobserve({ id, observerName: 'IntersectionObserver' })
+            },
+            clearElement: (target) => {
+                this.clearElement(target, ['IntersectionObserver'])
             },
             disconnect:() => {
                 this.#intersectionObservers.forEach(observer => observer.disconnect())
@@ -226,8 +228,26 @@ class ObserverManager {
             remove: (id) => {
                 this.#unobserve({ id, observerName: 'MutationObserver' })
             },
+            clearElement: (target) => {
+                this.clearElement(target, ['MutationObserver'])
+            },
             disconnect: () => {
                 this.#mutationObserver.disconnect()
+            }
+        }
+    }
+
+    clearElement(target, observerNames) {
+        const element = getElement(target)
+        for (let observerName of observerNames) {
+            const dataAttr = this.dataSets[observerName] + 'Ids'
+            if (element.dataset[dataAttr]) {
+                for (let id of element.dataset[dataAttr].split(',')) {
+                    if (!id || id === ',') {
+                        continue
+                    }
+                    this.#unobserve({ id, observerName })
+                }
             }
         }
     }
