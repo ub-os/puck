@@ -6,6 +6,7 @@ import {getElement, scrollTo} from '../General/Functions';
 import {mountComponents} from "../Components/init.js";
 import AbstractComponent from "./AbstractComponent.js";
 import Listeners from "./Listeners.js";
+import { IntersectionManager } from "./ObserverManager.js";
 
 export default class FetchLink extends AbstractComponent {
   constructor(target, {
@@ -127,22 +128,17 @@ export default class FetchLink extends AbstractComponent {
       })
     }
     if (this.trigger === 'scrollIntoView') {
-      this.intersectionObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.intersectionObserver.unobserve(entry.target)
-            this.fetch()
-          }
-        })
+      IntersectionManager.addById('fch-lk-' + this.id, this.element, (entry, observer) => {
+        if (entry.isIntersecting) {
+          this.fetch()
+          IntersectionManager.remove('fch-lk-' + this.id)
+        }
       }, this.interSectionObserverOptions)
-      this.intersectionObserver.observe(this.element)
     }
     return this
   }
   destroy() {
     this.listeners.destroy()
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect()
-    }
+    IntersectionManager.remove('fch-lk-' + this.id)
   }
 }
