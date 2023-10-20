@@ -237,7 +237,7 @@ class ObserverManager {
         }
     }
 
-    clearElement(target, observerNames) {
+    clearElement(target, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
         const element = getElement(target)
         for (let observerName of observerNames) {
             const dataAttr = this.dataSets[observerName] + 'Ids'
