@@ -18,13 +18,18 @@ import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
 import RichText from "../Classes/RichText.js";
 import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
+import { ObserverManager, IntersectionManager } from "../Classes/ObserverManager.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
 
 smoothscroll.polyfill()
-
-const _app = new App({
+console.log(document.puckApp)
+document.puckApp = new App({
     debug: document.body.dataset.appDebug,
     scrollOnCurrentLink: true
+})
+
+document.puckApp.managers.push({
+    scrollBar: new ScrollbarManager({}).mount()
 })
 
 //htmx integration
@@ -39,13 +44,10 @@ htmx.on('htmx:afterSwap', e => {
 
 const mountComponents = (target) => {
     const root = getElement(target)
-    _app.managers.push({
-        scrollBar: new ScrollbarManager({}).mount()
-    })
-    _app.components.push({
+    document.puckApp.components.push({
         layoutRows: LayoutRow.createInstancesFromDataAttribute({ root, attribute: 'data-layout-row' }),
     })
-    _app.components.push(
+    document.puckApp.components.push(
         {
             pageHeader: new PageHeader($('[data-page-header]'), { scrollTops: {800: 25} }).mount(),
 
@@ -98,8 +100,8 @@ const mountComponents = (target) => {
     )
 }
 
-mountComponents(document.body)
-_app.mount()
+mountComponents(document.documentElement)
+document.puckApp.mount()
 
 window.requestAnimationFrame(() => {
     document.body.classList.remove('u-no-transition')

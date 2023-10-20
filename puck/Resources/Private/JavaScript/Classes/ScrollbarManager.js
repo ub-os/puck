@@ -1,9 +1,14 @@
+import { ResizeManager } from "./ObserverManager.js";
+
 export default class ScrollbarManager {
     scrollbarWidth = 0
-    constructor( { updateOnResize = true, ...options} ) {
+    constructor( { updateOnResize = true, ...options } ) {
         this.updateOnResize = updateOnResize
+        // random id
+        this.identifier = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }
     getScrollbarWidth = () => {
+        console.log(this.identifier)
         let box = document.createElement('div');
         box.style.overflow = 'scroll';
         document.body.appendChild(box);
@@ -18,19 +23,15 @@ export default class ScrollbarManager {
     mount() {
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
-            this.resizeObserver = new ResizeObserver(entries => {
-                for (let entry of entries) {
-                    window.requestAnimationFrame(() => {
-                        this.updateScrollbarWidth()
-                    })
-                }
+            ResizeManager.addById('scrollbar-manager', document.documentElement, (entry, observer) => {
+                window.requestAnimationFrame(() => {
+                    this.updateScrollbarWidth()
+                })
             })
-            this.resizeObserver.observe(document.documentElement)
         }
         return this
     }
     destroy() {
-        this.resizeObserver.unobserve(document.documentElement)
-        delete this.resizeObserver
+        ResizeManager.remove('scrollbar-manager')
     }
 }

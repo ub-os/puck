@@ -1,5 +1,7 @@
 import AbstractComponent from "./AbstractComponent.js";
 import Listeners from "./Listeners.js";
+import { IntersectionManager } from "./ObserverManager.js";
+
 const scrollRevealObserverMap = new Map()
 
 export default class ScrollReveal extends AbstractComponent {
@@ -7,17 +9,6 @@ export default class ScrollReveal extends AbstractComponent {
         addScrollClass: new Event('addScrollClass'),
         removeScrollClass: new Event('removeScrollClass'),
         scrollReveal: new Event('scrollReveal'),
-    }
-    createIntersectionObserver(options) {
-        const observer =  new IntersectionObserver(
-            ([e]) => {
-                if (e.isIntersecting) {
-                    observer.unobserve(e.target)
-                    e.target.dispatchEvent(this.constructor.events.scrollReveal)
-                }
-            },
-            options)
-        return observer
     }
 
     constructor(target, {
@@ -90,16 +81,17 @@ export default class ScrollReveal extends AbstractComponent {
                 this.revealed = false
             }
             if (this.revealed) return this
-            this.optionsString = JSON.stringify({
-                observer: this.observer,
+
+            IntersectionManager.addById('scr-rvl-' + this.id, this.element, (entry, observer) => {
+                if (entry.isIntersecting) {
+                    entry.target.dispatchEvent(this.constructor.events.scrollReveal)
+                    IntersectionManager.remove('scr-rvl-' + this.id)
+                }
+                }, {
+                    root: this.observer.root,
+                    rootMargin: this.observer.rootMargin,
+                    threshold: this.observer.threshold
             })
-            if (!scrollRevealObserverMap.get(this.optionsString)) {
-                scrollRevealObserverMap.set(
-                    this.optionsString,
-                    this.createIntersectionObserver(this.observer)
-                )
-            }
-            scrollRevealObserverMap.get(this.optionsString).observe(this.element)
             this.listeners.add(this.element, 'scrollReveal', () => {
                 this.reveal()
             })
@@ -109,8 +101,6 @@ export default class ScrollReveal extends AbstractComponent {
 
     destroy() {
         this.listeners.destroy()
-        if (scrollRevealObserverMap.get(this.optionsString)) {
-            scrollRevealObserverMap.get(this.optionsString).unobserve(this.element)
-        }
+        IntersectionManager.remove('scr-rvl-' + this.id)
     }
 }
