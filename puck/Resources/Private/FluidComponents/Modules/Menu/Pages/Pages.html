@@ -11,6 +11,7 @@
                 class="{name}__wrap"
                 customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:'',else:name)}"
                 id="c{object.uid}"
+                attributes="{'hx-on::after-swap': 'scrollTo(this,100);console.log(this)'}"
                 object="{object}">
             <element:text.header object="{object}"/>
             <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
@@ -31,16 +32,28 @@
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
-                                            <layout:card
-                                                    attributes="data-link-to={f:uri.page(pageUid: item.uid)} target={item.target}"
-                                                    class="{name}__card -variant-{object.layout}"
-                                                    cropVariant="{cropVariant}"
-                                                    width="6">
-                                                <module:menu.pages.content
-                                                        config="{teaserText:1}"
-                                                        item="{item}"
-                                                        name="{name}"/>
-                                            </layout:card>
+                                            <f:variable name="hxAttrs" value="{
+                                                    hx-get: '{f:uri.page(pageUid: item.uid)}',
+                                                    hx-push-url: '{f:uri.page(pageUid: item.uid)}',
+                                                    hx-target: 'body',
+                                                    hx-swap: 'transition:true',
+                                                    'hx-on::after-settle': 'window.scrollTo(0,0)',
+                                                    role: 'link',
+                                                    target: '{item.target}'
+                                                    }"/>
+                                            <form action="{f:uri.page(pageUid: item.uid)}" hx-push-url="true" method="get" hx-trigger="click">
+                                                <layout:card
+                                                        attributes=""
+                                                        class="{name}__card -variant-{object.layout}"
+                                                        cropVariant="{cropVariant}"
+                                                        width="6">
+                                                    <module:menu.pages.content
+                                                            config="{teaserText:1}"
+                                                            item="{item}"
+                                                            name="{name}"/>
+                                                </layout:card>
+                                            </form>
+
                                         </layout:row.item>
                                     </f:for>
                                 </layout:row>

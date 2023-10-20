@@ -30,6 +30,8 @@
         <a href="{f:uri.page(pageUid: item.uid)}"
            class="{name}__headline"
            target="{item.target}"
+           onclick="event.preventDefault()"
+           hx-boost="false"
            data-link-to-stop="1">
           <f:format.raw>{item.navTitle}</f:format.raw>
         </a>

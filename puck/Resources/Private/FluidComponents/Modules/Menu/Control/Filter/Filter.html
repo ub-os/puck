@@ -41,7 +41,12 @@
                                           <f:else>
                                               <a href="{item2.url}"
                                                  class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-fetch-link='{item2.fetchLinkOptions -> f:format.json()}'>
+                                                 hx-boost="false"
+                                                 hx-get="{item2.fetchLinkOptions.url}"
+                                                 hx-swap="outerHTML"
+                                                 hx-target="#{item2.fetchLinkOptions.contentId}"
+                                                 hx-push-url="{item2.url}"
+                                                 >
                                                   {item2.label}
                                               </a>
                                           </f:else>

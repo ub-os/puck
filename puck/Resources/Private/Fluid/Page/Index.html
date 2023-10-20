@@ -1,6 +1,8 @@
 
 <body class="d-body u-no-transition -layout-{object.backendLayout} "
       id="page-{object.uid}"
+      hx-boost="true"
+      hx-swap="transition:true show:window:top"
       {f:if(condition:'{context.backendUser}',then:'data-app-debug="1"')}>
 <!--TYPO3SEARCH_end-->
 <module:page.schema object="{object}" context="{context}"/>

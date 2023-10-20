@@ -13,9 +13,14 @@ export default class SmoothHashLinks {
   mount() {
     const self = this;
     this.hashLinks.forEach(function(el, i) {
-      el.onclick = function(event) {
-        const href = el.href;
-        if(el.pathname === window.location.pathname){
+      if(el.pathname === window.location.pathname) {
+
+        // htmx integration
+        if (el['htmx-internal-data']) { el['htmx-internal-data'].boosted = false; }
+        else { el.setAttribute('hx-boost', 'false')}
+
+        el.onclick = function(event) {
+          const href = el.href;
           event.preventDefault();
           const id = href.split('#')[1];
           if (!id) return;
@@ -27,8 +32,8 @@ export default class SmoothHashLinks {
             scrollTo(id, self.offset);
           }
           history.replaceState({}, '', href);
-        }
-      };
+        };
+      }
     });
     window.requestAnimationFrame(() => {
       const id = window.location.hash.substring(1).split('?')[0];

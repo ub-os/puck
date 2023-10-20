@@ -1,5 +1,6 @@
 import { $, $$, jsx } from '../General/Aliases';
 import App from '../Classes/App';
+import htmx from 'htmx.org/dist/htmx.js';
 import LinkTo from '../Classes/LinkTo';
 import SmoothHashLinks from "../Classes/SmoothHashLinks";
 import Toggleable from '../Classes/Toggleable';
@@ -24,6 +25,16 @@ smoothscroll.polyfill()
 const _app = new App({
     debug: document.body.dataset.appDebug,
     scrollOnCurrentLink: true
+})
+
+//htmx integration
+htmx.on('htmx:afterSwap', e => {
+    if (e.target == document.body) {
+        console.log(e)
+    } else {
+        console.log(e)
+        mountComponents(e.target)
+    }
 })
 
 const mountComponents = (target) => {
