@@ -6,13 +6,14 @@ page.1 = TEXT
 page.includeCSS {
     main = {$cssProd}
 }
-page.includeJSFooter {
+page.includeJS {
     app =  {$jsProd}
-    app.defer = 0
+    app.defer = 1
+    aap.async = 1
 }
 [{$development} == 1]
     page.includeCSS.main = {$cssDev}
-    page.includeJSFooter.app = {$jsDev}
+    page.includeJS.app = {$jsDev}
 [END]
 
 ## Meta

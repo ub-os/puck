@@ -99,6 +99,14 @@ function getLineBreaks(node) {
     return lines;
 }
 
-export {noDragClick, getElement, getParents, scrollTo, getLineBreaks}
+function throttle(f, delay) {
+    let timer = 0;
+    return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => f.apply(this, args), delay);
+    }
+}
+
+export {noDragClick, getElement, getParents, scrollTo, getLineBreaks, throttle}
 
 

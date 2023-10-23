@@ -10,6 +10,7 @@ export default class Toggleable extends AbstractComponent {
     groupToggle: new Event('groupToggle'),
   }
   static displayName = 'Toggleable'
+  windowLocation = document.puckApp?.location || window.location
   constructor(target, {
     toggles,
     active = false,
@@ -53,7 +54,7 @@ export default class Toggleable extends AbstractComponent {
     if (this.addMatchingHashLinksToToggles) {
       this.toggles = [
         ...this.toggles,
-        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${window.location.pathname}#${this.id}"], a[href="${window.location.origin+window.location.pathname}#${this.id}"]`)
+        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${this.windowLocation.pathname}#${this.id}"], a[href="${this.windowLocation.origin+this.windowLocation.pathname}#${this.id}"]`)
       ]
     }
     if (!this.toggles.length) {
@@ -111,8 +112,8 @@ export default class Toggleable extends AbstractComponent {
         }
       })
     }
-    if (changeUrlHash && this.removeMatchingUrlHashOnToggleOff && window.location.hash.split('?')[0] === `#${this.id}`) {
-      history.replaceState("", document.title, location.href.replace(`#${this.id}`, '')) // remove hash from url
+    if (changeUrlHash && this.removeMatchingUrlHashOnToggleOff && this.windowLocation.hash.split('?')[0] === `#${this.id}`) {
+      history.replaceState(history.state, '', location.href.replace(`#${this.id}`, '')) // remove hash from url
     }
   }
   toggle() {
@@ -123,6 +124,7 @@ export default class Toggleable extends AbstractComponent {
     }
   }
   dispatchToggle(toggle = null, event = Toggleable.events.toggle) {
+    console.log('dispatchToggle', {toggle, event})
     if (toggle) this.currentToggle = toggle
     this.element.dispatchEvent(event)
     if (toggle) this.lastUsedToggle = toggle
@@ -147,6 +149,7 @@ export default class Toggleable extends AbstractComponent {
           this.listeners.add(t, 'click', e => {
             if (this.disableToggles) return
             if (e.target.closest('[data-toggle-stop]')) return
+            console.log('toggle', {t, id: this.id})
             if (t.getAttribute('href') === `/#${this.id}`) {
               this.dispatchToggle(t, Toggleable.events.toggleOn)
             } else {this.dispatchToggle(t)}
@@ -189,9 +192,9 @@ export default class Toggleable extends AbstractComponent {
       })
     }
     if (this.toggleOnIfUrlHashMatches) {
-      if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
+      if (this.windowLocation.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       this.listeners.add(window, 'hashchange', event => {
-        if (window.location.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
+        if (this.windowLocation.hash.split('?')[0] === `#${this.id}`) this.element.dispatchEvent(Toggleable.events.toggleOn)
       })
     }
     return this

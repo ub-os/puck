@@ -105,7 +105,7 @@ export default class FetchLink extends AbstractComponent {
             this.timing
         )
         if (this.element.href) {
-          window.history.replaceState({}, '', this.element.href)
+          window.history.replaceState(history.state, '', this.element.href)
         }
         this.states.fetching = false
       })

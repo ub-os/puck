@@ -1,32 +1,20 @@
 import {$, $$} from "../General/Aliases.js";
+import Listeners from "./Listeners.js";
 
 export default class App {
+    components = []
+    managers = []
+    options = {}
+    location = window.location
     constructor({ ...options }) {
         this.options = { ...options }
-        this.components = []
-        this.managers = []
     }
     mount() {
-        if (this.options.debug) {
-            console.log(this);
-        }
-        if (this.options.scrollOnCurrentLink) {
-            const currentLinks = document.querySelectorAll(`
-              a[href="${window.location.href}"], 
-              a[href="${window.location.pathname}"], 
-              [data-link-to="${window.location.href}"], 
-              [data-link-to="${window.location.pathname}"]`)
-            currentLinks.forEach(element => {
-                element.addEventListener('click', e => {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
-                })
-            })
-        }
+        if (this.options.debug) console.log(this)
+        this.listeners = new Listeners()
+        this.listeners.add(window, 'popstate', (e) => {
+            this.location = window.location
+        })
         return this
     }
 }

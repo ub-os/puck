@@ -74,7 +74,6 @@ export default class ScrollSensitive extends AbstractComponent {
       })
       return this
     }
-    console.log(this)
     IntersectionManager.addById('scr-sns-' + this.id, this.observedElement, (entry, observer) => {
       this.observerCallback(entry, observer)
     }, {

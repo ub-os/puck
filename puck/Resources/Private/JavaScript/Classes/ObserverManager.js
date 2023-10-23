@@ -3,9 +3,11 @@ import { getElement } from "../General/Functions.js";
 class ObserverManager {
 
     static #instance = null;
+    static isInstanced = false;
     static get(observer = '') {
         if (!ObserverManager.#instance) {
             ObserverManager.#instance = new ObserverManager();
+            ObserverManager.isInstanced = true;
         }
         switch (observer) {
             case 'resize':
@@ -19,6 +21,17 @@ class ObserverManager {
         }
     }
 
+    static get inst() {
+        return ObserverManager.get()
+    }
+    get observerMap() {
+        return this.#observerMap
+    }
+
+    get mutationObserver() {
+        return this.#mutationObserver
+    }
+
     #id = 0
     #observerMap = new Map();
     #intersectionObservers = new Map();
@@ -26,11 +39,12 @@ class ObserverManager {
     #mutationObserver = null;
     defaultIntersectionOptions = { root: null, rootMargin: '0px', threshold: 0 };
     defaultMutationOptions = { attributes: true, childList: true, subtree: true };
-    dataSets = { ResizeObserver: 'omResi', IntersectionObserver: 'omIn', MutationObserver: 'omMu' }
+    dataSets = { ResizeObserver: 'omResiIds', IntersectionObserver: 'omInIds', MutationObserver: 'omMuIds' }
+    dataAttrs = { ResizeObserver: 'data-om-resi-ids', IntersectionObserver: 'data-om-in-ids', MutationObserver: 'data-om-mu-ids' }
 
     constructor() {
         if (ObserverManager.#instance) {
-            console.warn('ObserverManager is a singleton. Use "ObserverManager.get()" instead of creating a new instance with "new ObserverManager()".');
+            console.warn('ObserverManager is a singleton. Use "ObserverManager.inst" instead of creating a new instance with "new ObserverManager()".');
             return ObserverManager.#instance;
         }
     }
@@ -42,7 +56,7 @@ class ObserverManager {
                 key,
                 new IntersectionObserver((entries, observer) => {
                     for (let entry of entries) {
-                        for (let id of entry.target.dataset[this.dataSets.IntersectionObserver + 'Ids'].split(',')) {
+                        for (let id of entry.target.dataset[this.dataSets.IntersectionObserver].split(',')) {
                             if (!id || id === ',') {
                                 continue
                             }
@@ -65,7 +79,7 @@ class ObserverManager {
         if (!this.#resizeObserver) {
             this.#resizeObserver = new ResizeObserver((entries, observer) => {
                 for (let entry of entries) {
-                    for (let id of entry.target.dataset[this.dataSets.ResizeObserver + 'Ids'].split(',')) {
+                    for (let id of entry.target.dataset[this.dataSets.ResizeObserver].split(',')) {
                         if (!id || id === ',') {
                             continue
                         }
@@ -84,8 +98,11 @@ class ObserverManager {
     #getMutationObserver() {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver((mutations, observer) => {
+                console.log('any manager mutation', mutations)
+                const dataset = this.dataSets.MutationObserver
                 for (let mutation of mutations) {
-                    for (let id of mutation.target.dataset[this.dataSets.MutationObserver + 'Ids'].split(',')) {
+                    const ids = (mutation.target.dataset[dataset] || mutation.target.closest(`[${this.dataAttrs.MutationObserver}]`).dataset[dataset]).split(',')
+                    for (let id of ids) {
                         if (!id || id === ',') {
                             continue
                         }
@@ -110,12 +127,19 @@ class ObserverManager {
          observeMethodOptions = null
      }) {
         const element = getElement(target)
-        const dataAttr = this.dataSets[observer.constructor.name] + 'Ids'
+        const dataAttr = this.dataSets[observer.constructor.name]
         id = id || (this.#id++).toString()
-        element.dataset[dataAttr] = ( element.dataset[dataAttr] || '' ) + id + ','
+        element.dataset[dataAttr] = (element.dataset[dataAttr] || '').replace(id + ',', '') + id + ','
         this.#observerMap.set(id, { element, instanceOptions, fn })
         if (observeMethodOptions) {
+            console.log({observeMethodOptions})
             observer.observe(element, observeMethodOptions)
+            const obsNew = new MutationObserver((mutations, observer) => {
+                fn(mutations, observer)
+            })
+            //console.log({ observer, obsNew })
+            //obsNew.observe(element, observeMethodOptions)
+            console.log(`mutation observing ${id}`, {observer})
         } else {
             observer.observe(element)
         }
@@ -125,10 +149,9 @@ class ObserverManager {
         if (!this.#observerMap.has(id)) {
             return
         }
+        console.log(`unobserving ${observerName} with id ${id}`)
         const obs = this.#observerMap.get(id)
-        const dataAttr = this.dataSets[observerName] + 'Ids'
-        console.log({observerName, dataset: this.dataSets, dataAttr})
-        console.log(obs.element.dataset)
+        const dataAttr = this.dataSets[observerName]
         obs.element.dataset[dataAttr] = obs.element.dataset[dataAttr].replace(id + ',', '')
         if (obs.element.dataset[dataAttr] === '' || obs.element.dataset[dataAttr] === ',') {
             delete obs.element.dataset[dataAttr]
@@ -142,7 +165,7 @@ class ObserverManager {
                 this.#getResizeObserver().unobserve(obs.element)
             }
             if (observerName === 'MutationObserver') {
-                //
+                this.#getMutationObserver().observe(obs.element, { attribute: true, attributeFilter: [] });
             }
         }
         this.#observerMap.delete(id)
@@ -168,6 +191,7 @@ class ObserverManager {
     }
 
     #observeMutation(id, target, fn, options = this.defaultMutationOptions) {
+        console.log({options})
         this.#observe({
             id,
             target,
@@ -192,7 +216,9 @@ class ObserverManager {
                 this.clearElement(target, ['ResizeObserver'])
             },
             disconnect: () => {
-                this.#getResizeObserver().disconnect()
+                if (this.#resizeObserver) {
+                    this.#resizeObserver.disconnect()
+                }
             }
         }
     }
@@ -203,6 +229,7 @@ class ObserverManager {
                 this.#observeIntersection('', target, fn, options)
             },
             addById: (id, target, fn, options = this.defaultIntersectionOptions) => {
+                console.log({options})
                 this.#observeIntersection(id, target, fn, options)
             },
             remove: (id) => {
@@ -212,7 +239,9 @@ class ObserverManager {
                 this.clearElement(target, ['IntersectionObserver'])
             },
             disconnect:() => {
-                this.#intersectionObservers.forEach(observer => observer.disconnect())
+                if (this.#intersectionObservers.size) {
+                    this.#intersectionObservers.forEach(observer => observer.disconnect())
+                }
             }
         }
     }
@@ -232,7 +261,9 @@ class ObserverManager {
                 this.clearElement(target, ['MutationObserver'])
             },
             disconnect: () => {
-                this.#mutationObserver.disconnect()
+                if (this.#mutationObserver) {
+                    this.#mutationObserver.disconnect()
+                }
             }
         }
     }
@@ -240,7 +271,7 @@ class ObserverManager {
     clearElement(target, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
         const element = getElement(target)
         for (let observerName of observerNames) {
-            const dataAttr = this.dataSets[observerName] + 'Ids'
+            const dataAttr = this.dataSets[observerName]
             if (element.dataset[dataAttr]) {
                 for (let id of element.dataset[dataAttr].split(',')) {
                     if (!id || id === ',') {
@@ -252,6 +283,12 @@ class ObserverManager {
         }
     }
 
+    #removeAttrsFromElement(element, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
+        for (let observerName of observerNames) {
+            delete element.dataset[this.dataSets[observerName]]
+        }
+    }
+
     disconnect() {
         this.resize().disconnect()
         this.intersection().disconnect()
@@ -260,10 +297,11 @@ class ObserverManager {
 
     destroy() {
         this.disconnect()
+        this.#id = 0
+        this.#observerMap.forEach((value, key) => {
+            this.#removeAttrsFromElement(value.element)
+        })
         this.#observerMap.clear()
-        this.#intersectionObservers.clear()
-        this.#resizeObserver = null
-        this.#mutationObserver = null
     }
 }
 

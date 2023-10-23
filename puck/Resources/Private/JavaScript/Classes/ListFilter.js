@@ -123,7 +123,7 @@ export default class ListFilter extends AbstractComponent {
         if (!this.state[cat].selected.length) {
             this.urlParams.delete(this.t3translate(cat).toLowerCase());
         }
-        window.history.replaceState({}, '', `${window.location.pathname}?${this.urlParams}`);
+        window.history.replaceState(history.state, '', `${window.location.pathname}?${this.urlParams}`);
     }
     getStateFromParam(cat) {
         return this.urlParams.get(this.t3translate(cat).toLowerCase()) ? this.urlParams.get(this.t3translate(cat).toLowerCase()).split('.').map(x => this.t3transKey(x)) : [];

@@ -73,8 +73,10 @@
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@hotwired/turbo": "^7.3.0",
     "@splidejs/splide": "^4.1.4",
     "animejs": "^3.2.1",
+    "flamethrower-router": "^0.0.0-meme.12",
     "get-sass-vars": "^4.0.0",
     "htmx.org": "^1.9.6",
     "jsx-dom": "^8.0.7",

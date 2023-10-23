@@ -33,7 +33,7 @@ Umsetzung in TYPO3: UNIBRAND OS
     xmlprologue = none
     admPanel = 1
     contentObjectExceptionHandler = 0
-    moveJsFromHeaderToFooter = 1
+    moveJsFromHeaderToFooter = 0
     //concatenateCss = 1
     //concatenateJs = 1
     no_cache = 0

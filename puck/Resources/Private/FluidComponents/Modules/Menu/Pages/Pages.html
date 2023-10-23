@@ -41,7 +41,7 @@
                                                     role: 'link',
                                                     target: '{item.target}'
                                                     }"/>
-                                            <form action="{f:uri.page(pageUid: item.uid)}" hx-push-url="true" method="get" hx-trigger="click">
+                                            <div hx-get="{f:uri.page(pageUid: item.uid)}" hx-push-url="true" hx-trigger="click" hx-target="body" target="{item.target}">
                                                 <layout:card
                                                         attributes=""
                                                         class="{name}__card -variant-{object.layout}"
@@ -52,7 +52,7 @@
                                                             item="{item}"
                                                             name="{name}"/>
                                                 </layout:card>
-                                            </form>
+                                            </div>
 
                                         </layout:row.item>
                                     </f:for>
