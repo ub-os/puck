@@ -21,8 +21,6 @@ export default class Modal extends Toggleable {
     toggleOn(transition= true) {
         this.backdrop = document.createElement('div')
         this.backdrop.classList.add(this.backdropClass)
-        // htmx integration
-        this.backdrop.setAttribute('hx-history', false)
         this.element.parentNode.insertBefore(this.backdrop, this.element)
         super.toggleOn(transition);
         this.focusTrap.active = true

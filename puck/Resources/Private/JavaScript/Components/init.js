@@ -19,7 +19,6 @@ import { ObserverManager } from "../Classes/ObserverManager.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
 import LinkManager from "../Classes/LinkManager.js";
 import * as Turbo from "@hotwired/turbo"
-//import htmx from 'htmx.org';
 
 
 const mountComponents = (target) => {
@@ -92,7 +91,6 @@ const mountBody = () => {
 }
 
 smoothscroll.polyfill()
-//htmx.config.refreshOnHistoryMiss = true
 document.puckApp = new App({
     debug: document.body.dataset.appDebug,
     scrollOnCurrentLink: true
@@ -113,40 +111,6 @@ document.documentElement.addEventListener("turbo:before-render", (event) => {
 })
 document.documentElement.addEventListener("turbo:before-cache", (event) => {
 })
-
-/*htmx.on('htmx:afterSwap', e => {
-    if (e.target === document.body) {
-        console.log('htmx:afterBodySwap', e)
-        console.log(e['detail'])
-        // make the new window location globally available before it is pushed to the history, so it can be used in mountBody()
-        document.puckApp.location = new URL(window.location.origin + e['detail']['pathInfo']['responsePath'])
-        console.log('check location in htmx:afterBodySwap', document.puckApp.location)
-        // if the body is swapped, we clear all components and scroll to top to simulate a fresh page visit, mount
-        document.puckApp.components = []
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'instant'
-        })
-        mountBody()
-    } else {
-        // mount components that are swapped in via htmx ajax requests
-        mountComponents(e.target)
-    }
-})
-htmx.on('htmx:historyRestore', e => {
-    console.log('htmx:historyRestore', e)
-    mountBody()
-})
-htmx.on('htmx:beforeHistorySave', e => {
-    console.log('htmx:beforeHistorySave', e)
-    // remove stuff here that should be removed before the page is cached, e.g. event listeners on the body or document that would get duplicated
-    document.puckApp.components = []
-    ObserverManager.inst.destroy()
-    document.puckApp.managers.scrollbar.destroy()
-    //document.body = document.body.cloneNode(true)
-})*/
-
 
 
 

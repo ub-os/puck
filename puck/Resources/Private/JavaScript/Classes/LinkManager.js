@@ -1,6 +1,5 @@
 import {scrollTo} from '../General/Functions.js';
 import Listeners from "./Listeners.js";
-//import htmx from "htmx.org";
 
 // CLASS SmoothHashLinks
 //# smooth scroll to hash link targets instead of jumping
@@ -11,7 +10,6 @@ export default class LinkManager {
     constructor({
         root = document.body,
         scrollOffset = 50,
-        htmxIntegration = true,
         scrollTopOnCurrentLink = true,
         addLocalClass = true,
         addExternalClass = true,
@@ -20,7 +18,6 @@ export default class LinkManager {
             root,
             scrollOffset,
             scrollTopOnCurrentLink,
-            htmxIntegration,
             addLocalClass,
             addExternalClass
         })
@@ -40,16 +37,6 @@ export default class LinkManager {
         this.root.querySelectorAll('a').forEach(el => {
             const isCurrentLink = this.isCurrentLink(el);
             const isCurrentHashLink = this.isCurrentHashLink(el);
-            // htmx integration
-            // current, current hash and aria-controls links should not get htmx boosted
-            if (isCurrentHashLink || (this.scrollTopOnCurrentLink && isCurrentLink) || el.hasAttribute('aria-controls')) {
-                //el.setAttribute('hx-boost', 'false')
-                if (el['htmx-internal-data']) {
-                    el['htmx-internal-data'].boosted = false;
-                }
-                //htmx.process(el);
-            }
-            //
             if (this.addLocalClass && el.hostname === this.windowLocation.hostname) {
                 el.classList.add('-local');
             }
