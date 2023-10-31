@@ -8,6 +8,9 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
+  UBOS\Puck\PageTitle\PuckTitleProvider:
+    public: true
+
   UBOS\Puck\EventListener\AdditionalPropertiesForSearchAction:
     tags:
       - name: event.listener
