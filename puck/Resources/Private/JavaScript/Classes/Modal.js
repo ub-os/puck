@@ -1,3 +1,4 @@
+import { jsx } from '../General/Aliases';
 import Toggleable from "./Toggleable"
 import FocusTrap from "./FocusTrap.js";
 import Listeners from "./Listeners.js";
@@ -19,8 +20,7 @@ export default class Modal extends Toggleable {
         this.backdrop = null
     }
     toggleOn(transition= true) {
-        this.backdrop = document.createElement('div')
-        this.backdrop.classList.add(this.backdropClass)
+        this.backdrop = ( <div class={this.backdropClass} data-turbo-temporary></div> )
         this.element.parentNode.insertBefore(this.backdrop, this.element)
         super.toggleOn(transition);
         this.focusTrap.active = true

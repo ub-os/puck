@@ -1,3 +1,4 @@
+import { jsx } from '../General/Aliases';
 import { ResizeManager } from "./ObserverManager.js";
 
 export default class ScrollbarManager {
@@ -6,7 +7,7 @@ export default class ScrollbarManager {
         Object.assign(this, { sensorId, updateOnResize, ...options })
     }
     getScrollbarWidth = () => {
-        return (this.outer.getBoundingClientRect().width - this.inner.getBoundingClientRect().width);
+        return (this.sensorElement.getBoundingClientRect().width - this.sensorElement.firstChild.getBoundingClientRect().width);
     }
     updateScrollbarWidth = () => {
         this.scrollbarWidth = this.getScrollbarWidth()
@@ -14,22 +15,23 @@ export default class ScrollbarManager {
     }
     mount() {
         document.getElementById(this.sensorId)?.remove()
-        this.outer = document.createElement('div');
-        this.outer.id = this.sensorId
-        this.outer.setAttribute('style', 'width:50px; visibility:hidden; overflow:scroll; height:0px;')
-        document.body.appendChild(this.outer);
-        this.inner = document.createElement('div');
-        this.outer.appendChild(this.inner);
+        this.sensorElement = (
+            <div id={this.sensorId} data-turbo-temporary
+                 style="width:50px; visibility:hidden; overflow:scroll; height:0px;" >
+                <div></div>
+            </div>
+        )
+        document.body.appendChild(this.sensorElement);
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
-            ResizeManager.addById('scrollbar-manager', this.inner, (entry, observer) => {
+            ResizeManager.addById('scrollbar-manager', this.sensorElement.firstChild, (entry, observer) => {
                 this.updateScrollbarWidth()
             })
         }
         return this
     }
     destroy() {
-        this.outer.remove()
+        this.sensorElement?.remove()
         ResizeManager.remove('scrollbar-manager')
     }
 }

@@ -1,10 +1,6 @@
 import {scrollTo} from '../General/Functions.js';
 import Listeners from "./Listeners.js";
 
-// CLASS SmoothHashLinks
-//# smooth scroll to hash link targets instead of jumping
-//# configurable vertical offset on scroll target for sticky header etc.
-
 export default class LinkManager {
     windowLocation = document.puckApp?.location || window.location
     constructor({

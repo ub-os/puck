@@ -93,7 +93,6 @@ const mountBody = () => {
 smoothscroll.polyfill()
 document.puckApp = new App({
     debug: document.body.dataset.appDebug,
-    scrollOnCurrentLink: true
 })
 
 document.puckApp.mount()
