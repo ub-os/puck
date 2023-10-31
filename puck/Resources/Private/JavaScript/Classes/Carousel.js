@@ -20,6 +20,7 @@ export default class Carousel extends AbstractComponent {
         this.splide.mount()
         this.listeners = new Listeners()
         this.controls.forEach(c => {
+            if (!c.dataset.goTo) return
             this.listeners.add(c, 'click', e => {
                 e.preventDefault()
                 this.splide.go(parseInt(c.dataset.goTo))
