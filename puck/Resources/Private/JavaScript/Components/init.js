@@ -18,6 +18,11 @@ import { getElement, scrollTo } from '../General/Functions';
 import RichText from "../Classes/RichText.js";
 import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
+import PuxLink from "../Classes/Elements/Link"
+import PuxAccordion from "../Classes/Elements/Accordion"
+import PuxCarousel from "../Classes/Elements/Carousel"
+import PuxModal from "../Classes/Elements/Modal"
+import PuxMediaPlayer from "../Classes/Elements/MediaPlayer"
 
 smoothscroll.polyfill()
 

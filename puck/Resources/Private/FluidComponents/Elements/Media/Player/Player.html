@@ -9,7 +9,9 @@
     <fc:param name="options" type="array" optional="1" default="{puckProp:1}" />
     <fc:renderer>
 
-        <f:variable name="id">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+        <f:variable name="modalId">{file.name}-{puck:math.random(min:1000, max:9999)}-modal</f:variable>
+        <f:variable name="playerId">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+
         <f:variable name="localPoster" value="{puck:utility.fileExists(src:'fileadmin{file.identifier}.jpg')}"/>
         <f:if condition="{localPoster}">
             <f:then>
@@ -31,14 +33,13 @@
                         provider:file.extension,
                         embedId:embedId,
                         poster:poster,
-                        loadOnClick:loadOnClick,
-                        openInModal:openInModal
                     }
                     )}"/>
 
         <div class="{name}">
             <button class="{name}__button"
-                    aria-controls="{f:if(condition:'{openInModal} || {loadOnClick}', then:id)}"
+                    aria-controls="{f:if(condition:'{openInModal} || {loadOnClick}', then:modalId, else:playerId)}"
+                    data-controls="{playerId}"
                     aria-label="{f:translate(key:'play-video',extensionName:'puck')}"
             ></button>
             <div class="{name}__poster">
@@ -68,10 +69,12 @@
             </div>
             <f:if condition="{openInModal}">
                 <f:then>
-                    <layout:modal id="{id}" attributes='data-media-player={options -> f:format.json()}' width="12" />
+                    <layout:modal id="{modalId}" width="12">
+                        <pux-media-player id="{playerId}" props="{options -> f:format.json()}"></pux-media-player>
+                    </layout:modal>
                 </f:then>
                 <f:else>
-                    <div id="{id}" class="{name}__frame" data-media-player="{options -> f:format.json()}"></div>
+                    <pux-media-player id="{playerId}" class="{name}__frame" props="{options -> f:format.json()}"></pux-media-player>
                 </f:else>
             </f:if>
             <icon:svg class="{name}__icon" icon="circle-play-duotone"/>

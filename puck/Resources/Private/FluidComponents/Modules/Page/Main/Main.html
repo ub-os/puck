@@ -6,6 +6,8 @@
 
 
     <main class="{name}" id="page-main">
+
+      <pux-link to="/content">Link to content</pux-link>
       <f:if condition="{object.doktype} == {settings.doktype.person}">
         <module:hero.content object="{
             header:object.pagePersons.0.name,
