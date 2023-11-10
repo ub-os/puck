@@ -3,7 +3,7 @@
 //# opens url on left click(not drag).
 //# handler stops if event target is within a data-link-to-stop element.
 
-import {noDragClick, getElement} from '../General/Functions';
+import {noDragClick, getElement} from '../General/Utility';
 import AbstractComponent from "./AbstractComponent.js";
 
 export default class LinkTo extends AbstractComponent{

@@ -16,13 +16,13 @@ const jsx = (tag, props, ...children) => {
 
   Object.entries(props || {}).forEach(([name, value]) => {
     if (name.startsWith('on') && name.toLowerCase() in window)
-      element.addEventListener(name.toLowerCase().substr(2), value)
+      element.addEventListener(name.toLowerCase().substring(2), value)
     else element.setAttribute(name, value.toString())
   })
 
   children.forEach((child) => {
     element.appendChild(
-        child.nodeName === undefined ? document.createTextEl(child.toString()) : child
+        child.nodeName === undefined ? document.createTextNode(child.toString()) : child
     )
   })
   return element

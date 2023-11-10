@@ -1,7 +1,7 @@
 import AbstractComponent from "./AbstractComponent.js";
 import Modal from "./Modal.js";
 import Listeners from "./Listeners.js";
-import { getElement } from "../General/Functions.js";
+import { getElement } from "../General/Utility.js";
 
 export default class ResponsiveNavigation extends AbstractComponent{
   constructor(target, {

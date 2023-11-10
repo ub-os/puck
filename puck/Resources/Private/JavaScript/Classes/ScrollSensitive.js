@@ -1,4 +1,4 @@
-import { getElement } from '../General/Functions'
+import { getElement } from '../General/Utility'
 import AbstractComponent from "./AbstractComponent";
 import Listeners from "./Listeners.js";
 const scrollSensitiveObserverMap = new Map()

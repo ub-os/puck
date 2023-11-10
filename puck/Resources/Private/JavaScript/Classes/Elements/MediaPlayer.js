@@ -2,11 +2,12 @@ import Modal from "./Modal.js";
 
 let Plyr = class {}
 //import Plyr from 'plyr';
-import PropElement from "./PropElement.js";
+import PuxElement from "./PuxElement.js";
 import Listeners from "../Listeners";
 
-export default class MediaPlayer extends PropElement {
+export default class MediaPlayer extends PuxElement {
     static props = {
+        ...PuxElement.props,
         provider: 'mp4',
         width: 1920,
         aspectRatio: 16 / 9,

@@ -1,0 +1,65 @@
+import Modal from "./Modal.js";
+
+export default class BreakpointModal extends Modal {
+  static props = {
+    ...Modal.props,
+    clickDelay: 300,
+    appendToTarget: '',
+    initClass: '',
+    modalClass: '',
+    breakpoint: 800,
+  }
+
+  constructor() {
+    super()
+  }
+
+  replaceClass(from, to) {
+    if (!from || !to) return
+    this.className = this.className.replace(from, to)
+    this.querySelectorAll(`[class*="${from}"]`).forEach(el => {
+      el.setAttribute('class', el.getAttribute('class').replace(from, to))
+    })
+  }
+
+  mountInit() {
+    if (this.state === 'initial') return
+    this.state = 'initial'
+    this.toggleOff()
+    super.destroy()
+    this.replaceClass(this.modalClass, this.initClass)
+  }
+
+  mountModal() {
+    if (this.state === 'modal') return
+    this.state = 'modal'
+    super.mount()
+    this.replaceClass(this.initClass, this.modalClass)
+  }
+
+  stateSwitch() {
+    if (window.innerWidth < this.breakpoint) {
+      this.mountModal()
+    } else {
+      this.mountInit()
+    }
+  }
+
+  mount() {
+    this.observerElement = document.documentElement
+    this.state = 'initial'
+    this.stateSwitch()
+    this.resizeObserver = new ResizeObserver(entries => {
+      this.stateSwitch()
+    })
+    this.resizeObserver.observe(this.observerElement)
+    return this
+  }
+
+  destroy() {
+    super.destroy()
+    this.resizeObserver.unobserve(this.observerElement)
+  }
+}
+
+window.customElements.define('pux-breakpoint-modal', BreakpointModal);

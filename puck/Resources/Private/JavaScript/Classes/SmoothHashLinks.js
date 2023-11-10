@@ -1,4 +1,4 @@
-import { scrollTo } from '../General/Functions.js';
+import { scrollTo } from '../General/Utility.js';
 
 // CLASS SmoothHashLinks
 //# smooth scroll to hash link targets instead of jumping

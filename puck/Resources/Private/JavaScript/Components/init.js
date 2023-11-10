@@ -14,15 +14,78 @@ import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
 import LayoutRow from '../Classes/LayoutRow';
 import PageHeader from "../Classes/PageHeader";
-import { getElement, scrollTo } from '../General/Functions';
+import { getElement, scrollTo } from '../General/Utility';
 import RichText from "../Classes/RichText.js";
 import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
-import PuxLink from "../Classes/Elements/Link"
+//import PuxLink from "../Classes/Elements/Link"
 import PuxAccordion from "../Classes/Elements/Accordion"
 import PuxCarousel from "../Classes/Elements/Carousel"
 import PuxModal from "../Classes/Elements/Modal"
 import PuxMediaPlayer from "../Classes/Elements/MediaPlayer"
+import PuxLink from "../Classes/Elements/PuxLink"
+import PuxElement from "../Classes/Elements/PuxElement.js";
+
+// 1. register all mixins
+PuxLink.registerAsMixin('link')
+
+// 2. register the base element
+window.customElements.define('pux-el', PuxElement);
+
+// 3. register all elements
+PuxLink.registerAsElement('link')
+
+// create pux link element
+const puxLink = document.createElement('pux-link')
+puxLink.setAttribute('to', 'https://www.google.com',)
+puxLink.innerText = 'pux link element'
+
+// create pux link element with jsx
+const puxLinkJsx = <pux-link to={'https://www.google.com'}>pux link element jsx</pux-link>
+
+// create generic pux element with link mixin via use-link attribute
+const puxElWithUseAttr = <pux-el use-link={JSON.stringify({to: 'https://www.google.com'})}>pux element jsx with use link</pux-el>
+
+// create generic pux element with link mixin via use function
+const puxElWithAddedMixin = <pux-el>pux element with added mixin</pux-el>
+puxElWithAddedMixin.use('link', {to: 'https://www.google.com'})
+
+// create div element with link behavior by manually attaching mixin class
+const divLink = <div>div element with attached mixin class</div>
+const puxLinkOnDiv = new PuxLink.MixinClass(divLink, {to: 'https://www.google.com'}).mount()
+
+console.log($('main'))
+
+$('main').append(puxLink)
+$('main').append(puxLinkJsx)
+$('main').append(puxElWithUseAttr)
+$('main').append(puxElWithAddedMixin)
+$('main').append(divLink)
+
+// disable pux link core functionality
+puxLink.destroy()
+
+// enable pux link core functionality (is done automatically when added to dom)
+puxLink.mount()
+
+// enable all pux element mixins (is done automatically when added to dom)
+puxElWithAddedMixin.mountMixins()
+
+// disable all pux element mixins
+puxElWithAddedMixin.destroyMixins()
+
+// disable pux element link mixin
+puxElWithAddedMixin.mixins.link.destroy()
+
+// enable pux element link mixin (is done automatically when added to dom, or when use attribute is added)
+puxElWithAddedMixin.mixins.link.mount()
+
+// disable pux element all mixins and core functionality
+puxElWithAddedMixin.destroyAll()
+
+// enable pux element all mixins and core functionality (is done automatically when added to dom)
+puxElWithAddedMixin.mountAll()
+
 
 smoothscroll.polyfill()
 
@@ -102,4 +165,5 @@ window.requestAnimationFrame(() => {
     });
 })
 
+console.dir(document.querySelectorAll('pux-modal, pux-breakpoint-modal'))
 export { mountComponents }

@@ -1,9 +1,10 @@
 import Splide from '@splidejs/splide'
-import PropElement from "./PropElement.js";
+import PuxElement from "./PuxElement.js";
 import Listeners from "../Listeners.js"
 
-export default class Carousel extends PropElement {
+export default class Carousel extends PuxElement {
     static props = {
+        ...PuxElement.props,
         controlEls: [],
         vertical: false,
         activeClass: '--active',

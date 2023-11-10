@@ -55,6 +55,7 @@ export default class Modal extends Toggleable {
 
     destroy() {
         super.destroy()
+        this.removeAttribute('tabindex')
         if (this.focusTrap) {
             this.focusTrap.destroy()
         }

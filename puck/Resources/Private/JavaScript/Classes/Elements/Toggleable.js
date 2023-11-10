@@ -1,8 +1,8 @@
-import { getElement } from '../../General/Functions'
-import PropElement from "./PropElement.js";
+import { getElement } from '../../General/Utility'
+import PuxElement from "./PuxElement.js";
 import Listeners from "../Listeners.js";
 
-export default class Toggleable extends PropElement {
+export default class Toggleable extends PuxElement {
   static events = {
     toggle: new Event('toggle'),
     toggleOn: new Event('toggleOn'),
@@ -11,6 +11,7 @@ export default class Toggleable extends PropElement {
   }
   static displayName = 'Toggleable'
   static props = {
+    ...PuxElement.props,
     active: false,
     alwaysActive: false,
     groupId: '',
@@ -55,7 +56,7 @@ export default class Toggleable extends PropElement {
     if (this.documentClassing) {
       document.documentElement.classList[operation](`--${this.id}-${this.constructor.displayName.toLowerCase()}${className}`)
     }
-    this.toggles.forEach(t => t.classList[operation](className))
+    (this.toggles || []).forEach(t => t.classList[operation](className))
   }
   transitionClass(className) {
     if (this.clickDelay > 0) {

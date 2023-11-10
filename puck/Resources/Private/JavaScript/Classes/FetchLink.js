@@ -2,7 +2,7 @@
 //# changes (append or replace) the content of a node with the content of a fetched url
 
 import {$, $$} from "../General/Aliases.js";
-import {getElement, scrollTo} from '../General/Functions';
+import {getElement, scrollTo} from '../General/Utility';
 import {mountComponents} from "../Components/init.js";
 import AbstractComponent from "./AbstractComponent.js";
 import Listeners from "./Listeners.js";

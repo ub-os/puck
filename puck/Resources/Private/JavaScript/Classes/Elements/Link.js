@@ -1,16 +1,16 @@
 
-import { noDragClick } from '../../General/Functions';
-import PropElement from "./PropElement.js";
+import { noDragClick } from '../../General/Utility';
+import PuxElement from "./PuxElement.js";
 
-export default class Link extends PropElement {
+export default class Link extends PuxElement {
   static props = {
+    ...PuxElement.props,
     to: '',
     target: ''
   }
 
   constructor() {
     super()
-    this.role = 'link'
   }
 
   openLink(newTab = false) {
@@ -22,6 +22,7 @@ export default class Link extends PropElement {
     }
   }
   mount() {
+    this.role = 'link'
     noDragClick(this, e => {
       if (!e.target.closest('[data-link-stop]')) {
         if (this.target == '_blank') {
@@ -40,4 +41,4 @@ export default class Link extends PropElement {
   }
 }
 
-window.customElements.define('pux-link', Link);
+//window.customElements.define('pux-link', Link);

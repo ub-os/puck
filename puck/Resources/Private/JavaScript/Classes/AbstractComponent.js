@@ -1,4 +1,4 @@
-import {getElement} from '../General/Functions';
+import {getElement} from '../General/Utility';
 
 export default class AbstractComponent {
 
