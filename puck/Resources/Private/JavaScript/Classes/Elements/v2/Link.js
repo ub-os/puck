@@ -1,11 +1,13 @@
 
-import { noDragClick } from '../../General/Utility';
-import PuxBehavior from "./PuxBehaviour.js";
+import { noDragClick } from '../../../General/Utility';
+import AbstractBehavior from "./AbstractBehavior";
 
-export default class PuxLink extends PuxBehavior {
+// extending behavior: don't use constructor, use mount() instead
+// define all properties in static props, they are all available as this.propName
+export default class Link extends AbstractBehavior {
   static props = {
     to: '',
-    target: ''
+    target: '',
   }
   handleClick(e) {
     {
@@ -32,6 +34,7 @@ export default class PuxLink extends PuxBehavior {
     }
   }
   mount() {
+    super.mount()
     this.el.role = 'link'
     noDragClick(this.el, e => this.handleClick(e));
     return this

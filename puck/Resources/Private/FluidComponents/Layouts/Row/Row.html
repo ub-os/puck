@@ -22,13 +22,13 @@
                 gutter-rem: gutterRem
                 }"/>
     <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
-    <ul class="{name} {class} {mods -> puck:modClass()} {bpClasses}"
+    <div class="{name} {class} {mods -> puck:modClass()} {bpClasses}"
         id="{id}"
         style="{f:if(condition:gutterRem,then:'--grid-gutter-x:{gutterRem}rem')}"
         data-layout-row
         {attributes -> puck:attributes()}>
       <fc:slot name="content"/>
-    </ul>
+    </div>
 
   </fc:renderer>
 </fc:component>

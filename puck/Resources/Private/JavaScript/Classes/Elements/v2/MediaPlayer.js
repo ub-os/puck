@@ -1,20 +1,19 @@
-import Modal from "./Modal.js";
 
 let Plyr = class {}
 //import Plyr from 'plyr';
-import PuxElement from "./PuxElement.js";
-import Listeners from "../Listeners";
+import { $, $$, jsx } from '../../../General/Aliases';
+import Listeners from "../../Listeners";
+import AbstractBehavior from "./AbstractBehavior";
 
-export default class MediaPlayer extends PuxElement {
+
+export default class MediaPlayer extends AbstractBehavior {
     static props = {
-        ...PuxElement.props,
         provider: 'mp4',
         width: 1920,
         aspectRatio: 16 / 9,
         embedId: '',
         filePath: '',
         poster: '',
-        modal: true,
         lazyLoad: true,
         // if you want to use Plyr, set usePlyr to true and uncomment the Plyr import above and comment the empty Plyr definition
         /// also uncomment the css import in Resources/Private/Stylesheets/styles.sass
@@ -22,37 +21,32 @@ export default class MediaPlayer extends PuxElement {
         controls: true,
         options: {}
     }
-    constructor() {
-        super()
-    }
-
-    addPlayerElement() {
-        if (!this.playerElementAdded) {
+    addPlayerEl() {
+        if (!this.playerElAdded) {
             switch (this.provider) {
                 case 'youtube':
-                    this.playerElement = this.getYoutubePlayerElement()
+                    this.playerEl = this.getYoutubePlayerEl()
                     break
                 case 'vimeo':
-                    this.playerElement = this.getVimeoPlayerElement()
+                    this.playerEl = this.getVimeoPlayerEl()
                     break
                 default:
-                    this.playerElement = this.getHtml5PlayerElement()
+                    this.playerEl = this.getHtml5PlayerEl()
             }
-            this.append(this.playerElement)
-            this.playerElementAdded = true
+            this.el.append(this.playerEl)
+            this.playerElAdded = true
             if (this.usePlyr) {
                 if (this.options.controls === true || this.options.controls === 1) {
                     this.options.controls = this.plyrDefaultControls
                 }
-                this.plyr = new Plyr(this.playerElement, this.options)
+                this.plyr = new Plyr(this.playerEl, this.options)
             }
         }
     }
-
-    getHtml5PlayerElement() {
-        const element = (
+    getHtml5PlayerEl() {
+        const el = (
             <video
-                id={`${this.id}-video`}
+                id={`${this.el.id}-video`}
                 tabindex={'0'}
                 data-poster={this.poster+''} >
                 <source
@@ -63,18 +57,18 @@ export default class MediaPlayer extends PuxElement {
         )
         for (let option of ['controls', 'playsinline', 'autoplay', 'loop', 'muted']) {
             if (this.options[option]) {
-                element.setAttribute(option, this.options[option])
+                el.setAttribute(option, this.options[option])
             }
         }
-        return element
+        return el
     }
 
-    getYoutubePlayerElement() {
+    getYoutubePlayerEl() {
         return (
-            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''}>
+            <div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
                 <iframe
                     style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
-                    id={`${this.id}-iframe`}
+                    id={`${this.el.id}-iframe`}
                     src={`https://www.youtube-nocookie.com/embed/${this.embedId}?autohide=1&controls=${this.options.controls}&enablejsapi=1`}
                     width={this.width}
                     allowFullScreen={true}
@@ -83,12 +77,12 @@ export default class MediaPlayer extends PuxElement {
         )
     }
 
-    getVimeoPlayerElement() {
+    getVimeoPlayerEl() {
         return (
-            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''}>
+            <div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
                 <iframe
                     style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
-                    id={`${this.id}-iframe`}
+                    id={`${this.el.id}-iframe`}
                     src={`https://player.vimeo.com/video/${this.embedId}?h=70f64fa69b&title=0&byline=0&portrait=0`}
                     width={this.width}
                     allowfullscreen={true}
@@ -100,37 +94,34 @@ export default class MediaPlayer extends PuxElement {
     mount() {
         super.mount()
         this.plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
-        this.playerElementAdded = false
-        this.toggles = document.querySelectorAll(`[aria-controls="${this.id}"], [data-controls="${this.id}"]`)
+        this.playerElAdded = false
+        this.toggles = document.querySelectorAll(`[aria-controls="${this.el.id}"], [data-controls="${this.el.id}"]`)
         this.options = {
             controls: this.controls,
             ...this.options
         }
         this.listeners = new Listeners()
-        if (this.lazyLoad || this.modal) {
+        if (this.lazyLoad) {
             this.toggles.forEach(toggle => {
-                console.log(toggle)
                 this.listeners.add(toggle, 'click', e => {
-                    //e.preventDefault()
-                    console.log('media toggle clicked')
-                    this.addPlayerElement()
+                    console.log('mp togggle click')
+                    this.addPlayerEl()
                 })
             })
         } else {
-            this.addPlayerElement()
+            this.addPlayerEl()
         }
         return this
     }
 
     destroy() {
+        console.log('destroy', this.el.id)
         if (this.listeners) {
             this.listeners.destroy()
         }
         if (this.plyr) {
             this.plyr.destroy()
         }
-        console.log('destroying media player')
     }
 }
 
-window.customElements.define('pux-media-player', MediaPlayer);

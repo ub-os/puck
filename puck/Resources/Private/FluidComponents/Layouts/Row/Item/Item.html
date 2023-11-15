@@ -7,9 +7,9 @@
   <fc:renderer>
 
     <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
-    <li class="{name}__item {class} -width-{width} {bpClasses}" {attributes -> puck:attributes()} data-layout-row-item>
+    <div class="{name}__item {class} -width-{width} {bpClasses}" {attributes -> puck:attributes()} data-layout-row-item>
       <fc:slot name="content"/>
-    </li>
+    </div>
 
   </fc:renderer>
 </fc:component>

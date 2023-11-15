@@ -1,8 +1,8 @@
-import { kebabCase, jsonParseValue } from "../../General/Utility.js";
+import { kebabCase, jsonParse } from "../../../General/Utility.js";
 
 export default class PuxElement extends HTMLElement {
-  static props = {
-    asleep: false
+  static core = {
+    props: {}
   }
   static mixins = {}
   static registerMixin = (name, constructor) => {
@@ -11,7 +11,7 @@ export default class PuxElement extends HTMLElement {
   static get propToAttrName() {
     if (!Object.prototype.hasOwnProperty.call(this, '_propToAttrName')) {
       this._propToAttrName = {}
-      for (let prop in this.props) {
+      for (let prop in this.core.props) {
         this._propToAttrName[prop] = kebabCase(prop)
       }
     }
@@ -20,52 +20,35 @@ export default class PuxElement extends HTMLElement {
   static get attrToPropName() {
     if (!Object.prototype.hasOwnProperty.call(this, '_attrToPropName')) {
       this._attrToPropName = {}
-      for (let prop in this.props) {
+      for (let prop in this.core.props) {
         this._attrToPropName[kebabCase(prop)] = prop
       }
     }
     return this._attrToPropName
   }
   static get observedAttributes(){
-    return Object.keys(this.attrToPropName) + Object.keys(this.mixins).map(mixinName => 'use-' + mixinName);
+      return Object.keys(this.attrToPropName).concat(Object.keys(this.mixins).map(mixinName => 'use-' + mixinName))
   }
   constructor() {
     super()
   }
-  _asleep = false
+  core = {
+    mount: () => {},
+    destroy: () => {}
+  }
   mixins = {}
-  get el() {
-    return this
-  }
-  set asleep(value) {
-    if (!this.asleep === !value) return
-    if (value) {
-      this._asleep = true
-      this.setAttribute('asleep', '')
-      this.destroy()
-    } else {
-      this._asleep = false
-      this.removeAttribute('asleep')
-      this.mount()
-    }
-  }
-  get asleep() {
-    return this._asleep
-  }
   convertToPropValue(prop, val) {
-    switch (typeof this.constructor.props[prop]) {
+    switch (typeof this.constructor.core.props[prop]) {
       case 'boolean':
         return val !== '0' && val !== 'false'
-      case 'number':
-        return parseFloat(val)
       case 'object':
-        return jsonParseValue(val)
+        return jsonParse(val)
       default:
         return val
     }
   }
   convertToAttrValue(prop, val) {
-    switch (typeof this.constructor.props[prop]) {
+    switch (typeof this.constructor.core.props[prop]) {
       case 'boolean':
         return val ? '' : 'false'
       case 'object':
@@ -79,34 +62,30 @@ export default class PuxElement extends HTMLElement {
       this.setAttribute(key, keyValues[key])
     }
   }
-  setProp(prop, value, sync = false) {
-    this[prop] = value
+  setCoreProp(prop, value, sync = false) {
+    this.core[prop] = value
     if (sync) {
       this.setAttribute(this.constructor.propToAttrName[prop], this.convertToAttrValue(prop, value))
     }
   }
-  initProps() {
-    const props = jsonParseValue(this.getAttribute('props'))
-    for (let prop in this.constructor.props) {
-      if (prop in HTMLElement.prototype) {
-        console.warn(
-            `${this.constructor.name}: Property "${prop}" already exists in HTMLElement. Please choose another name. 
-            If you want to use the property in its native way, there is no need to define it in the props object.`);
-      }
+  initCore() {
+    if (!this.constructor.core.prototype) return
+    this.core = new this.constructor.core(this)
+    const props = jsonParse(this.getAttribute('props'))
+    for (let prop in this.constructor.core.props) {
       if (this.hasAttribute(this.constructor.propToAttrName[prop])) {
-        this[prop] = this.convertToPropValue(prop, this.getAttribute(this.constructor.propToAttrName[prop]))
+        this.core[prop] = this.convertToPropValue(prop, this.getAttribute(this.constructor.propToAttrName[prop]))
       } else {
-        this.setProp(prop, props[prop] || this[prop] || this.constructor.props[prop], !!props[prop])
+        this.setCoreProp(prop, props[prop] || this.core[prop] || this.constructor.core.props[prop], !!props[prop])
       }
     }
     this.removeAttribute('props')
   }
-  beforeMount() {
-  }
+  beforeMount() { }
   initMixins() {
     for (let mixinName in this.constructor.mixins) {
       if (this.hasAttribute('use-' + mixinName)) {
-        this.addMixin(mixinName, jsonParseValue(this.getAttribute('use-' + mixinName)))
+        this.addMixin(mixinName, jsonParse(this.getAttribute('use-' + mixinName)))
       }
     }
   }
@@ -127,44 +106,43 @@ export default class PuxElement extends HTMLElement {
       this.mixins[mixinName].destroy()
     }
   }
-  mount() {
-    return this
+  mountCore() {
+    this.core.mount()
+  }
+  destroyCore() {
+    this.core.destroy()
   }
   destroy() {
-  }
-  destroyAll() {
     this.destroyMixins()
-    this.destroy()
+    this.destroyCore()
   }
-  mountAll() {
-    this.mount()
+  mount() {
+    this.mountCore()
     this.mountMixins()
   }
   connectedCallback() {
     this.beforeMount()
-    this.initProps()
+    this.initCore()
     this.initMixins()
-    if (this.asleep) return
-    this.mountAll()
+    this.mount()
   }
   disconnectedCallback() {
-    this.destroyAll()
+    this.destroy()
   }
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return
     const prop = this.constructor.attrToPropName[name]
     const mixin = this.constructor.mixins[name]
     if (prop) {
-      this[prop] = this.convertToPropValue(prop, newVal)
+      this.core[prop] = this.convertToPropValue(prop, newVal)
       return
     }
     if (mixin) {
       if (this.mixins[name]) {
         this.mixins[name].destroy()
       }
-      this.use(name, jsonParseValue(newVal))
+      this.use(name, jsonParse(newVal))
       return
     }
   }
 }
-

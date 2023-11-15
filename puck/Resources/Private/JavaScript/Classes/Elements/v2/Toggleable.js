@@ -1,17 +1,16 @@
-import { getElement } from '../../General/Utility'
-import PuxElement from "./PuxElement.js";
-import Listeners from "../Listeners.js";
+import { getElement } from '../../../General/Utility'
+import Listeners from "../../Listeners.js";
+import AbstractBehavior from "./AbstractBehavior.js";
 
-export default class Toggleable extends PuxElement {
+export default class Toggleable extends AbstractBehavior {
+  static displayName = 'Toggleable'
   static events = {
     toggle: new Event('toggle'),
     toggleOn: new Event('toggleOn'),
     toggleOff: new Event('toggleOff'),
     groupToggle: new Event('groupToggle'),
   }
-  static displayName = 'Toggleable'
   static props = {
-    ...PuxElement.props,
     active: false,
     alwaysActive: false,
     groupId: '',
@@ -45,16 +44,13 @@ export default class Toggleable extends PuxElement {
     // toggle off only works on the toggle that toggled on
     switchToggles: false,
   }
-  constructor() {
-    super()
-  }
   setClass(operation, className) {
-    this.classList[operation](className)
+    this.el.classList[operation](className)
     if (this.parentClassing) {
-      this.parentNode.classList[operation](className)
+      this.el.parentNode.classList[operation](className)
     }
     if (this.documentClassing) {
-      document.documentElement.classList[operation](`--${this.id}-${this.constructor.displayName.toLowerCase()}${className}`)
+      document.documentElement.classList[operation](`--${this.el.id}-${this.constructor.displayName.toLowerCase()}${className}`)
     }
     (this.toggles || []).forEach(t => t.classList[operation](className))
   }
@@ -69,49 +65,49 @@ export default class Toggleable extends PuxElement {
     }
   }
   toggleOn(transition= true) {
-    this.setProp('active', true)
+    this.active = true
     this.setClass('add', this.stateClasses.active)
     if (transition) this.transitionClass(this.stateClasses.activating)
-    if (this.groupElement) {
-      Toggleable.events.groupToggle.activeId = this.id
-      this.groupElement.dispatchEvent(Toggleable.events.groupToggle)
+    if (this.groupEl) {
+      Toggleable.events.groupToggle.activeId = this.el.id
+      this.groupEl.dispatchEvent(Toggleable.events.groupToggle)
     }
   }
   toggleOff(transition= true, changeUrlHash = true) {
-    this.setProp('active', false)
+    this.active = false
     this.setClass('remove', this.stateClasses.active)
     if (transition) this.transitionClass(this.stateClasses.deactivating)
-    if (this.pauseMediaOnOff && this.mediaContent) {
-      if (this.mediaContent.length === 0) this.mediaContent = this.querySelectorAll('video, audio')
-      this.mediaContent.forEach(item => {
+    if (this.pauseMediaOnOff && this.mediaChildren) {
+      this.mediaChildren.forEach(item => {
         if (item.pause) item.pause()
       })
     }
-    if (this.reloadIframeOnOff && this.querySelectorAll('iframe')) {
-      this.querySelectorAll('iframe').forEach(item => {
+    if (this.reloadIframeOnOff && this.iframeChildren) {
+      this.iframeChildren.forEach(item => {
         if (item.src) {
           let src = item.src
           item.src = src
         }
       })
     }
-    if (changeUrlHash && this.urlHashRemove && window.location.hash.split('?')[0] === `#${this.id}`) {
-      history.replaceState("", document.title, location.href.replace(`#${this.id}`, '')) // remove hash from url
+    if (changeUrlHash && this.urlHashRemove && window.location.hash.split('?')[0] === `#${this.el.id}`) {
+      history.replaceState("", document.title, location.href.replace(`#${this.el.id}`, '')) // remove hash from url
     }
   }
   toggle() {
     if (this.active && (!this.switchToggles || this.switchToggles && this.currentToggle === this.lastUsedToggle)) {
-      this.dispatchEvent(Toggleable.events.toggleOff)
+      this.el.dispatchEvent(Toggleable.events.toggleOff)
     } else {
-      this.dispatchEvent(Toggleable.events.toggleOn)
+      this.el.dispatchEvent(Toggleable.events.toggleOn)
     }
   }
   dispatchToggle(toggle = null, event = Toggleable.events.toggle) {
     if (toggle) this.currentToggle = toggle
-    this.dispatchEvent(event)
+    this.el.dispatchEvent(event)
     if (toggle) this.lastUsedToggle = toggle
   }
   mount() {
+    super.mount()
     this.stateClasses = {
       ...{
         active: '--active',
@@ -123,25 +119,28 @@ export default class Toggleable extends PuxElement {
     }
     this.lastUsedToggle = null
     this.clickDelayTimer = null
-    this.groupElement = this.groupId ? document.getElementById(this.groupId) : null
-    this.toggles = document.querySelectorAll(`[aria-controls="${this.id}"]`)
+    this.groupEl = this.groupId ? document.getElementById(this.groupId) : null
+    this.toggles = document.querySelectorAll(`[aria-controls="${this.el.id}"]`)
     if (this.hashLinkToggles) {
       this.toggles = [
         ...this.toggles,
-        ...document.querySelectorAll(`a[href="/#${this.id}"], a[href="${window.location.pathname}#${this.id}"], a[href="${window.location.origin+window.location.pathname}#${this.id}"]`)
+        ...document.querySelectorAll(`a[href="/#${this.el.id}"], a[href="${window.location.pathname}#${this.el.id}"], a[href="${window.location.origin+window.location.pathname}#${this.el.id}"]`)
       ]
     }
     if (!this.toggles.length) {
-      console.warn(`Toggleable: No toggles found for ${this.id}`)
+      console.warn(`Toggleable: No toggles found for ${this.el.id}`)
       console.trace()
     }
     if (this.pauseMediaOnOff) {
-      this.mediaContent = this.querySelectorAll('video, audio')
+      this.mediaChildren = this.el.querySelectorAll('video, audio')
+    }
+    if (this.reloadIframeOnOff) {
+      this.iframeChildren = this.el.querySelectorAll('iframe')
     }
     this.listeners = new Listeners()
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
     this.toggles.forEach(t => {
-      t.setAttribute('aria-controls', this.id)
+      t.setAttribute('aria-controls', this.el.id)
       switch (this.triggerOn) {
         case 'hover':
           this.listeners.add(t, 'mouseenter', () => {
@@ -157,51 +156,51 @@ export default class Toggleable extends PuxElement {
           this.listeners.add(t, 'click', e => {
             if (this.disableToggles) return
             if (e.target.closest('[data-toggle-stop]')) return
-            if (t.getAttribute('href') === `/#${this.id}`) {
+            if (t.getAttribute('href') === `/#${this.el.id}`) {
               this.dispatchToggle(t, Toggleable.events.toggleOn)
             } else {this.dispatchToggle(t)}
           })
       }
     })
-    this.listeners.add(this, 'toggle', () => {
+    this.listeners.add(this.el, 'toggle', () => {
       if (this.clickDelayTimer === null) {
         this.toggle()
       }
     })
-    this.listeners.add(this, 'toggleOn', () => {
+    this.listeners.add(this.el, 'toggleOn', () => {
       this.toggleOn()
     })
-    this.listeners.add(this, 'toggleOff', () => {
+    this.listeners.add(this.el, 'toggleOff', () => {
       this.toggleOff()
     })
-    if (this.groupElement) {
-      this.listeners.add(this.groupElement, 'groupToggle', event => {
-        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.id) {
-          this.dispatchEvent(Toggleable.events.toggleOff)
+    if (this.groupEl) {
+      this.listeners.add(this.groupEl, 'groupToggle', event => {
+        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.el.id) {
+          this.el.dispatchEvent(Toggleable.events.toggleOff)
         }
       })
     }
     if (this.outsideClickOff) {
-      const target = this.outsideTarget ? getElement(this.outsideTarget, 'Toggleable') : this
+      const target = this.outsideTarget ? getElement(this.outsideTarget, 'Toggleable') : this.el
       this.listeners.add(document, 'click', event => {
         if (this.active) {
           let targetInToggles = false
           this.toggles.forEach(t => {
             if (t.contains(event.target)) targetInToggles = true
           })
-          if (!target.contains(event.target) && !targetInToggles) this.dispatchEvent(Toggleable.events.toggleOff)
+          if (!target.contains(event.target) && !targetInToggles) this.el.dispatchEvent(Toggleable.events.toggleOff)
         }
       })
     }
     if (this.escOff) {
-      this.listeners.add(this, 'keydown', event => {
-        if (event.key === 'Escape') this.dispatchEvent(Toggleable.events.toggleOff)
+      this.listeners.add(this.el, 'keydown', event => {
+        if (event.key === 'Escape') this.el.dispatchEvent(Toggleable.events.toggleOff)
       })
     }
     if (this.urlHashOn) {
-      if (window.location.hash.split('?')[0] === `#${this.id}`) this.dispatchEvent(Toggleable.events.toggleOn)
+      if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.el.dispatchEvent(Toggleable.events.toggleOn)
       this.listeners.add(window, 'hashchange', event => {
-        if (window.location.hash.split('?')[0] === `#${this.id}`) this.dispatchEvent(Toggleable.events.toggleOn)
+        if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.el.dispatchEvent(Toggleable.events.toggleOn)
       })
     }
     return this
@@ -212,5 +211,3 @@ export default class Toggleable extends PuxElement {
     }
   }
 }
-
-window.customElements.define('pux-toggleable', Toggleable);

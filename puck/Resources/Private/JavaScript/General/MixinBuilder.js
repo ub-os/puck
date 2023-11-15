@@ -10,3 +10,4 @@ class MixinBuilder {
 const mix = (superclass) => new MixinBuilder(superclass);
 
 export default mix;
+

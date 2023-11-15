@@ -104,7 +104,10 @@ function kebabCase(string) {
     return string.replace(upper, "-$&").replace(/^-/, "").toLowerCase();
 }
 
-function jsonParseValue(val) {
+function json(val) {
+    return JSON.stringify(val)
+}
+function jsonParse(val) {
     let obj = {}
     try {
         obj = JSON.parse(val || '{}')
@@ -114,4 +117,32 @@ function jsonParseValue(val) {
     return obj
 }
 
-export { noDragClick, getElement, getParents, scrollTo, getLineBreaks, kebabCase, jsonParseValue }
+function extendClass(base, extension, exclude = ['length'], protoExclude = []) {
+    const names = getAllPropertyNames(extension)
+    const protoNames = getAllPropertyNames(extension.prototype)
+    console.log({names, protoNames})
+    names.forEach(name => {
+        if (exclude.includes(name)) return
+        base[name] = extension[name]
+    })
+    protoNames.forEach(name => {
+        if (protoExclude.includes(name)) return
+        base.prototype[name] = extension.prototype[name]
+    })
+    return base
+}
+
+function getAllPropertyNames(obj) {
+    const names = Object.getOwnPropertyNames(obj)
+    while (Object.getPrototypeOf(obj) && Object.getPrototypeOf(obj).name !== '' && Object.getPrototypeOf(obj).constructor.name !== 'Object') {
+        const superNames = Object.getOwnPropertyNames(Object.getPrototypeOf(obj))
+        names.push(...superNames)
+        obj = Object.getPrototypeOf(obj)
+    }
+    return [...new Set(names)]
+}
+
+export {
+    noDragClick, getElement, getParents, scrollTo, getLineBreaks,
+    kebabCase, json, jsonParse, extendClass, getAllPropertyNames
+}

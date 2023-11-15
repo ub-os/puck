@@ -1,4 +1,4 @@
-import Modal from "./Modal.js";
+import Modal from "./Modal";
 
 export default class BreakpointModal extends Modal {
   static props = {
@@ -10,14 +10,10 @@ export default class BreakpointModal extends Modal {
     breakpoint: 800,
   }
 
-  constructor() {
-    super()
-  }
-
   replaceClass(from, to) {
     if (!from || !to) return
-    this.className = this.className.replace(from, to)
-    this.querySelectorAll(`[class*="${from}"]`).forEach(el => {
+    this.el.className = this.el.className.replace(from, to)
+    this.el.querySelectorAll(`[class*="${from}"]`).forEach(el => {
       el.setAttribute('class', el.getAttribute('class').replace(from, to))
     })
   }
@@ -62,4 +58,3 @@ export default class BreakpointModal extends Modal {
   }
 }
 
-window.customElements.define('pux-breakpoint-modal', BreakpointModal);

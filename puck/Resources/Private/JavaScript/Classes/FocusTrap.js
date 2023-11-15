@@ -40,7 +40,7 @@ export default class FocusTrap {
 
     mount() {
         this.listeners = new Listeners()
-        this.mutationObserver.observe(this.element, { childList: true, subtree: true })
+        this.mutationObserver.observe(this.element, { childList: true, subtree: true, attributes: true })
         this.listeners.add(this.element, 'keydown', event => {
             if (!this.active) return
             if (event.key === 'Tab') {

@@ -1,23 +1,20 @@
 import Splide from '@splidejs/splide'
-import PuxElement from "./PuxElement.js";
-import Listeners from "../Listeners.js"
+import Listeners from "../../Listeners.js"
+import AbstractBehavior from "./AbstractBehavior.js";
 
-export default class Carousel extends PuxElement {
+export default class Carousel extends AbstractBehavior {
     static props = {
-        ...PuxElement.props,
         controlEls: [],
         vertical: false,
         activeClass: '--active',
         splideOptions: {},
     }
-    constructor() {
-        super()
-    }
     mount() {
-        this.controlEls = document.querySelectorAll(`[aria-controls="${this.id}"]`)
+        super.mount()
+        this.controlEls = document.querySelectorAll(`[aria-controls="${this.el.id}"]`)
         this.listeners = new Listeners()
         this.biggestSlideHeight = 0
-        this.splide = new Splide(this, {
+        this.splide = new Splide(this.el, {
             arrows: true,
             pagination: false,
             autoWidth: true,
@@ -42,7 +39,7 @@ export default class Carousel extends PuxElement {
         if (this.vertical) {
             // todo: replace with window.requestAnimationFrame ?
             window.addEventListener('load', () => {
-                this.querySelectorAll('.splide__slide').forEach(slide => {
+                this.el.querySelectorAll('.splide__slide').forEach(slide => {
                     const rect = slide.getBoundingClientRect()
                     if (rect.height > this.biggestSlideHeight) {
                         this.biggestSlideHeight = rect.height
@@ -61,5 +58,3 @@ export default class Carousel extends PuxElement {
         this.listeners.destroy()
     }
 }
-
-window.customElements.define('pux-carousel', Carousel);

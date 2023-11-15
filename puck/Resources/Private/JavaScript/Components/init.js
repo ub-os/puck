@@ -2,43 +2,53 @@ import { $, $$, jsx } from '../General/Aliases';
 import App from '../Classes/App';
 import LinkTo from '../Classes/LinkTo';
 import SmoothHashLinks from "../Classes/SmoothHashLinks";
-import Toggleable from '../Classes/Toggleable';
-import Accordion from '../Classes/Accordion';
-import Modal from '../Classes/Modal';
-import TabPanel from '../Classes/TabPanel';
-import Carousel from '../Classes/Carousel';
+//import Toggleable from '../Classes/Toggleable';
+//import Accordion from '../Classes/Accordion';
+//import Modal from '../Classes/Modal';
+//import TabPanel from '../Classes/TabPanel';
+//import Carousel from '../Classes/Carousel';
 import ScrollReveal from '../Classes/ScrollReveal';
+import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
 import ScrollSensitive from '../Classes/ScrollSensitive';
 import FetchLink from "../Classes/FetchLink.js";
-import MediaPlayer from "../Classes/MediaPlayer";
+//import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
+
 import LayoutRow from '../Classes/LayoutRow';
 import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Utility';
 import RichText from "../Classes/RichText.js";
-import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
-//import PuxLink from "../Classes/Elements/Link"
-import PuxAccordion from "../Classes/Elements/Accordion"
-import PuxCarousel from "../Classes/Elements/Carousel"
-import PuxModal from "../Classes/Elements/Modal"
-import PuxMediaPlayer from "../Classes/Elements/MediaPlayer"
-import PuxLink from "../Classes/Elements/PuxLink"
-import PuxElement from "../Classes/Elements/PuxElement.js";
+
+import PuxElement from "../Classes/Elements/v2/PuxElement";
+import Modal from "../Classes/Elements/v2/Modal"
+import MediaPlayer from "../Classes/Elements/v2/MediaPlayer"
+import Link from "../Classes/Elements/v2/Link"
+import BreakpointModal from "../Classes/Elements/v2/BreakpointModal";
+
 
 // 1. register all mixins
-PuxLink.registerAsMixin('link')
+Link.registerAsMixin('link')
+Modal.registerAsMixin('modal')
+MediaPlayer.registerAsMixin('media-player')
 
 // 2. register the base element
 window.customElements.define('pux-el', PuxElement);
 
 // 3. register all elements
-PuxLink.registerAsElement('link')
+Link.registerAsElement('link')
+Modal.registerAsElement('modal')
+MediaPlayer.registerAsElement('media-player')
+BreakpointModal.registerAsElement('breakpoint-modal')
+
+
 
 // create pux link element
 const puxLink = document.createElement('pux-link')
 puxLink.setAttribute('to', 'https://www.google.com',)
 puxLink.innerText = 'pux link element'
+
+console.dir(puxLink)
 
 // create pux link element with jsx
 const puxLinkJsx = <pux-link to={'https://www.google.com'}>pux link element jsx</pux-link>
@@ -52,9 +62,7 @@ puxElWithAddedMixin.use('link', {to: 'https://www.google.com'})
 
 // create div element with link behavior by manually attaching mixin class
 const divLink = <div>div element with attached mixin class</div>
-const puxLinkOnDiv = new PuxLink.MixinClass(divLink, {to: 'https://www.google.com'}).mount()
-
-console.log($('main'))
+const puxLinkOnDiv = new Link(divLink, {to: 'https://www.google.com'}).mount()
 
 $('main').append(puxLink)
 $('main').append(puxLinkJsx)
@@ -63,16 +71,16 @@ $('main').append(puxElWithAddedMixin)
 $('main').append(divLink)
 
 // disable pux link core functionality
-puxLink.destroy()
+puxLink.destroyCore()
 
 // enable pux link core functionality (is done automatically when added to dom)
-puxLink.mount()
-
-// enable all pux element mixins (is done automatically when added to dom)
-puxElWithAddedMixin.mountMixins()
+puxLink.mountCore()
 
 // disable all pux element mixins
 puxElWithAddedMixin.destroyMixins()
+
+// enable all pux element mixins (is done automatically when added to dom)
+puxElWithAddedMixin.mountMixins()
 
 // disable pux element link mixin
 puxElWithAddedMixin.mixins.link.destroy()
@@ -81,18 +89,20 @@ puxElWithAddedMixin.mixins.link.destroy()
 puxElWithAddedMixin.mixins.link.mount()
 
 // disable pux element all mixins and core functionality
-puxElWithAddedMixin.destroyAll()
+puxElWithAddedMixin.destroy()
 
 // enable pux element all mixins and core functionality (is done automatically when added to dom)
-puxElWithAddedMixin.mountAll()
+puxElWithAddedMixin.mount()
 
 
 smoothscroll.polyfill()
+
 
 const _app = new App({
     debug: document.body.dataset.appDebug,
     scrollOnCurrentLink: true
 })
+
 
 const mountComponents = (target) => {
     const root = getElement(target)
@@ -110,23 +120,23 @@ const mountComponents = (target) => {
 
             richTexts: RichText.createInstancesFromDataAttribute({ root, attribute: 'data-rich-text' }),
 
-            linkTos: LinkTo.createInstancesFromDataAttribute({ root, attribute: 'data-link-to' }),
+            //linkTos: LinkTo.createInstancesFromDataAttribute({ root, attribute: 'data-link-to' }),
 
             fetchLinks: FetchLink.createInstancesFromDataAttribute({ root, attribute: 'data-fetch-link' }),
 
-            accordions: Accordion.createInstancesFromDataAttribute({ root, attribute: 'data-accordion', options: {clickDelay: 150, useMinHeight: true} }),
+            //accordions: Accordion.createInstancesFromDataAttribute({ root, attribute: 'data-accordion', options: {clickDelay: 150, useMinHeight: true} }),
 
-            toggleables: Toggleable.createInstancesFromDataAttribute({ root, attribute: 'data-toggleable' }),
+            //toggleables: Toggleable.createInstancesFromDataAttribute({ root, attribute: 'data-toggleable' }),
 
-            tabPanels: TabPanel.createInstancesFromDataAttribute({ root, attribute: 'data-tab-panel', options: {clickDelay: 150} }),
+            //tabPanels: TabPanel.createInstancesFromDataAttribute({ root, attribute: 'data-tab-panel', options: {clickDelay: 150} }),
 
-            modals: Modal.createInstancesFromDataAttribute({ root, attribute: 'data-modal', options: {clickDelay: 150} }),
+            //modals: Modal.createInstancesFromDataAttribute({ root, attribute: 'data-modal', options: {clickDelay: 150} }),
 
-            carousels: Carousel.createInstancesFromDataAttribute({ root, attribute: 'data-carousel' }),
+            //carousels: Carousel.createInstancesFromDataAttribute({ root, attribute: 'data-carousel' }),
 
             scrollSensitives: ScrollSensitive.createInstancesFromDataAttribute({ root, attribute: 'data-scroll-sensitive' }),
 
-            mediaPlayers: MediaPlayer.createInstancesFromDataAttribute({ root, attribute: 'data-media-player' }),
+            //mediaPlayers: MediaPlayer.createInstancesFromDataAttribute({ root, attribute: 'data-media-player' }),
 
             responsiveNavigations: ResponsiveNavigation.createInstancesFromDataAttribute({ root, attribute: 'data-responsive-navigation' }),
 
@@ -165,5 +175,4 @@ window.requestAnimationFrame(() => {
     });
 })
 
-console.dir(document.querySelectorAll('pux-modal, pux-breakpoint-modal'))
 export { mountComponents }
