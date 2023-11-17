@@ -2,7 +2,7 @@ import AbstractComponent from "./AbstractComponent.js";
 import Modal from "./Modal.js";
 import Listeners from "./Listeners.js";
 import { getElement } from "../General/Functions.js";
-import { ResizeManager } from "./ObserverManager.js";
+import { ResizeManager } from "./ObserverManagerV2.js";
 
 export default class ResponsiveNavigation extends AbstractComponent {
   constructor(target, {
@@ -61,7 +61,7 @@ export default class ResponsiveNavigation extends AbstractComponent {
   mount() {
     this.state = 'initial'
     this.stateSwitch()
-    ResizeManager.addById('responsive-navigation', this.observerElement, (entry, observer) => {
+    ResizeManager.addById('responsive-navigation' + this.id, this.observerElement, (entry, observer) => {
       this.stateSwitch()
     })
     return this
@@ -78,6 +78,6 @@ export default class ResponsiveNavigation extends AbstractComponent {
 
   destroy() {
     this.reset()
-    ResizeManager.remove('responsive-navigation')
+    ResizeManager.remove('responsive-navigation' + this.id)
   }
 }

@@ -1,12 +1,12 @@
 import { getElement } from "../General/Functions.js";
 
 class ObserverManager {
-    static #instance = null;
+    static ____instance = null;
     static get inst() {
-        if (!ObserverManager.#instance) {
-            ObserverManager.#instance = new ObserverManager();
+        if (!ObserverManager.____instance) {
+            ObserverManager.____instance = new ObserverManager();
         }
-        return ObserverManager.#instance
+        return ObserverManager.____instance
     }
     static get resize() {
         return ObserverManager.inst.resize
@@ -29,16 +29,16 @@ class ObserverManager {
         return "{" + arr.join(",") + "}";
     }
 
-    #id = 0
-    #elId = 0
-    #callbackId = 0
-    #idMap = {}
-    #callbacks = {
+    ____idx = 0
+    ____elIdx = 0
+    ____callbackIdx = 0
+    ____idMap = {}
+    ____callbacks = {
         [IntersectionObserver.name]: [],
         [ResizeObserver.name]: [],
         [MutationObserver.name]: [],
     }
-    #observers = {
+    ____observers = {
         [IntersectionObserver.name]: {},
         [ResizeObserver.name]: {},
         [MutationObserver.name]: {},
@@ -48,56 +48,70 @@ class ObserverManager {
     defaultResizeOptions = { box: 'border-box' }
 
     constructor() {
-        if (ObserverManager.#instance) {
+        if (ObserverManager.____instance) {
             console.warn('ObserverManager is a singleton. Use "ObserverManager.inst()" instead of creating a new instance with "new ObserverManager()".');
-            return ObserverManager.#instance;
+            return ObserverManager.____instance;
         }
     }
 
-    #observe({ obsName, id, target, callbackId, opts }) {
-        if (this.#idMap[id]) {
-            console.warn(`ObserverManager: id "${callbackId}" is already in use. Skipping.`)
+    ____observe({ obsName, id, target, callbackId, opts }) {
+        if (this.____idMap[id]) {
+            console.warn(`ObserverManager: id "${id}" is already in use. Skipping.`)
             return
         }
-        if (!this.#callbacks[callbackId]) {
+        if (!this.____callbacks[obsName][callbackId]) {
             console.warn(`ObserverManager: callbackId "${callbackId}" is not registered. Skipping.`)
             return
         }
         const el = getElement(target)
         if (!el.id) {
-            el.id = 'pux-observer-manager-' + this.#elId++
+            el.id = 'pux-observer-manager-' + this.____elIdx++
         }
-        id = id || (this.#id++).toString()
+        id = id || (this.____idx++).toString()
         const elId = el.id
         let obsId = this.objectIdentifierString(opts)
         if (obsName === MutationObserver.name && opts.subtree) {
             obsId = elId + '---' + obsId
         }
-        this.#idMap[id] = {
+        this.____idMap[id] = {
             elId,
             obsId,
             callbackId,
             obsName,
         }
-        let obs = this.#observers[obsName][obsId]
+/*        if (!this.____elMap[elId]) {
+            this.____elMap[elId] = {
+                ids: [id],
+                callbackIds: [callbackId],
+                [ResizeObserver.name]: [],
+                [IntersectionObserver.name]: [],
+                [MutationObserver.name]: [],
+                [obsName]: [obsId]
+            }
+        } else {
+            this.____elMap[elId].ids.push(id)
+            this.____elMap[elId].callbackIds.push(callbackId)
+            this.____elMap[elId][obsName].push(obsId)
+        }*/
+        let obs = this.____observers[obsName][obsId]
         if (!obs) {
             if (obsName === MutationObserver.name && opts.subtree) {
                 obs = new window[obsName]((mutations, observer) => {
                     observer.puxManager.callbacksByElId[elId].forEach((cbId, i) => {
-                        if (this.#callbacks[obsName][cbId]) {
-                            this.#callbacks[obsName][cbId](mutations, observer, el)
+                        if (this.____callbacks[obsName][cbId]) {
+                            this.____callbacks[obsName][cbId](mutations, observer, el)
                         } else {
-                            this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                            this.____callbackDeletedHandler(observer, elId, i, obsName, obsId)
                         }
                     })
                 })
             } else if (obsName === MutationObserver.name) {
                 obs = new window[obsName]((mutations, observer) => {
                     observer.puxManager.callbacksByElId[mutations[0].target.id].forEach((cbId, i) => {
-                        if (this.#callbacks[obsName][cbId]) {
-                            this.#callbacks[obsName][cbId](mutations, observer, el)
+                        if (this.____callbacks[obsName][cbId]) {
+                            this.____callbacks[obsName][cbId](mutations, observer, el)
                         } else {
-                            this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                            this.____callbackDeletedHandler(observer, elId, i, obsName, obsId)
                         }
                     })
                 })
@@ -105,118 +119,146 @@ class ObserverManager {
                 obs = new window[obsName]((entries, observer) => {
                     for (let entry of entries) {
                         observer.puxManager.callbacksByElId[entry.target.id].forEach((cbId, i) => {
-                            if (this.#callbacks[obsName][cbId]) {
-                                this.#callbacks[obsName][cbId](entry, observer)
+                            if (this.____callbacks[obsName][cbId]) {
+                                this.____callbacks[obsName][cbId](entry, observer)
                             } else {
-                                this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                                this.____callbackDeletedHandler(observer, elId, i, obsName, obsId)
                             }
                         })
                     }},
                     opts)
             }
             obs.puxManager = { callbacksByElId: {} }
-            this.#observers[obsName][obsId] = obs
+            this.____observers[obsName][obsId] = obs
         }
-        const callbacksByElId = this.#observers[obsName][obsId].puxManager.callbacksByElId
+        const callbacksByElId = this.____observers[obsName][obsId].puxManager.callbacksByElId
         if (!callbacksByElId[elId]) {
             callbacksByElId[elId] = []
         }
         callbacksByElId[elId].push(callbackId)
-        this.#observers[obsName][obsId].observe(el, opts)
+        this.____observers[obsName][obsId].observe(el, opts)
         return id
     }
-    
-    #callbackDeletedHandler(observer, elId, i, obsName, obsId) {
+
+    ____callbackDeletedHandler(observer, elId, i, obsName, obsId) {
         observer.puxManager.callbacksByElId[elId].splice(i, 1)
         if (!observer.puxManager.callbacksByElId[elId]) {
             delete observer.puxManager.callbacksByElId[elId]
         }
         if (!Object.keys(observer.puxManager.callbacksByElId).length) {
             observer.disconnect()
-            delete this.#observers[obsName][obsId]
+            delete this.____observers[obsName][obsId]
         }
     }
 
-    #unobserve(id) {
-        const map = this.#idMap[id]
+    ____unobserve(id) {
+        const map = this.____idMap[id]
         if (!map) {
             console.warn(`ObserverManager: id "${id}" does not exist. Skipping detachment.`)
             return
         }
-        const callbacksByElId = this.#observers[map.obsName][map.obsId].puxManager.callbacksByElId
+        const callbacksByElId = this.____observers[map.obsName][map.obsId].puxManager.callbacksByElId
         if (Object.keys(callbacksByElId).length === 1 && callbacksByElId[map.elId].length === 1) {
-            this.#observers[map.obsName][map.obsId].disconnect()
-            delete this.#observers[map.obsName][map.obsId]
+            this.____observers[map.obsName][map.obsId].disconnect()
+            delete this.____observers[map.obsName][map.obsId]
             return
         }
         const fnIndex = callbacksByElId[map.elId].indexOf(map.fn)
         callbacksByElId[map.elId].splice(fnIndex, 1)
         if (!callbacksByElId[map.elId].length) {
-            if (this.#observers[map.obsName][map.obsId].unobserve) {
-                this.#observers[map.obsName][map.obsId].unobserve(document.getElementById(map.elId))
+            if (this.____observers[map.obsName][map.obsId].unobserve) {
+                this.____observers[map.obsName][map.obsId].unobserve(document.getElementById(map.elId))
             }
             delete callbacksByElId[map.elId]
         }
     }
-    #callback(fn, obsName, defaultOpts) {
-        const id = this.#callbackId++
-        this.#callbacks[obsName][id] = fn
+    ____registerCallback(fn, obsName) {
+        const id = this.____callbackIdx++
+        this.____callbacks[obsName][id] = fn
+        return id
+    }
+
+    ____getCallbackObject(id, obsName, defaultOpts) {
         const self = this
         return {
             id,
-            attach(target, opts = defaultOpts) {
-                return self.#observe({ obsName, target, opts, callbackId: id, id: '' })
+            add(target, opts = defaultOpts) {
+                return self.____observe({ obsName, target, opts, callbackId: id, id: '' })
             },
-            attachById(id, target, opts = defaultOpts) {
-                return self.#observe({ obsName, target, opts, callbackId: id, id })
+            addById(id, target, opts = defaultOpts) {
+                return self.____observe({ obsName, target, opts, callbackId: id, id })
             },
-            detach(id) {
-                self.#unobserve(id)
+            remove(id) {
+                self.____unobserve(id)
                 return id
             },
-            disconnect() {
-                delete self.#callbacks[obsName][id]
+            delete() {
+                delete self.____callbacks[obsName][id]
             }
         }
     }
-    #singleManager(obsName, defaultOpts) {
+
+    ____singleManager(obsName, defaultOpts) {
         return {
-            callback: (fn) => {
-                return this.#callback(fn, obsName, defaultOpts)
+            sharedCallback: (fn) => {
+                return this.____getCallbackObject(this.____registerCallback(fn, obsName), obsName, defaultOpts)
+            },
+            add: (target, fn, opts = defaultOpts) => {
+                const callbackId = this.____registerCallback(fn, obsName, defaultOpts)
+                return this.____observe({ obsName, target, opts, callbackId, id: '' })
+            },
+            addById: (id, target, fn, opts = defaultOpts) => {
+                const callbackId = this.____registerCallback(fn, obsName, defaultOpts)
+                return this.____observe({ obsName, target, opts, callbackId, id })
+            },
+            remove: (id) => {
+                this.____unobserve(id)
             },
             disconnectAll: () => {
-                for (let obsId in this.#observers[obsName]) {
-                    this.#observers[obsName][obsId].disconnect()
+                for (let obsId in this.____observers[obsName]) {
+                    this.____observers[obsName][obsId].disconnect()
                 }
-                this.#observers[obsName] = {}
+                this.____observers[obsName] = {}
             }
         }
     }
     get resize() {
         const obsName = ResizeObserver.name
-        return this.#singleManager(obsName, this.defaultResizeOptions)
+        return this.____singleManager(obsName, this.defaultResizeOptions)
     }
 
     get intersection() {
         const obsName = IntersectionObserver.name
-        return this.#singleManager(obsName, this.defaultIntersectionOptions)
+        return this.____singleManager(obsName, this.defaultIntersectionOptions)
     }
 
     get mutation() {
         const obsName = MutationObserver.name
-        return this.#singleManager(obsName, this.defaultMutationOptions)
+        return this.____singleManager(obsName, this.defaultMutationOptions)
     }
 
-
     disconnect() {
-        this.resize.disconnect()
-        this.intersection.disconnect()
-        this.mutation.disconnect()
+        this.resize.disconnectAll()
+        this.intersection.disconnectAll()
+        this.mutation.disconnectAll()
     }
 
     destroy() {
         this.disconnect()
-        this.#observers.clear()
+        this.____idx = 0
+        this.____elIdx = 0
+        this.____callbackIdx = 0
+        this.____idMap = {}
+        this.____callbacks = {
+            [IntersectionObserver.name]: [],
+            [ResizeObserver.name]: [],
+            [MutationObserver.name]: [],
+        }
+        this.____observers = {
+            [IntersectionObserver.name]: {},
+            [ResizeObserver.name]: {},
+            [MutationObserver.name]: {},
+        }
     }
 }
 

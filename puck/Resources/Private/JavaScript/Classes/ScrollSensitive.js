@@ -75,19 +75,17 @@ export default class ScrollSensitive extends AbstractComponent {
       return this
     }
     console.log(this)
-    IntersectionManager.callback((entry, observer) => {
-      this.observerCallback(entry, observer)
-    })
-        .attachById('scr-sns-' + this.id, this.observedElement, {
-          root: this.observer.root,
-          rootMargin: this.observer.rootMargin,
-          threshold: this.observer.threshold
-        })
+    IntersectionManager.addById(
+        'scroll-sense-' + this.id,
+        this.observedElement,
+        (entry, observer) => { this.observerCallback(entry, observer) },
+        { root: this.observer.root, rootMargin: this.observer.rootMargin, threshold: this.observer.threshold}
+    )
     return this
   }
 
   destroy() {
     this.listeners.destroy()
-    IntersectionManager.detach('responsive-navigation')
+    IntersectionManager.remove('scroll-sense-' + this.id)
   }
 }

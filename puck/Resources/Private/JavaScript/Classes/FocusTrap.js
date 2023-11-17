@@ -1,5 +1,5 @@
 import Listeners from "./Listeners.js";
-import { MutationManager } from "./ObserverManager.js";
+import { MutationManager } from "./ObserverManagerV2.js";
 
 export default class FocusTrap {
 
@@ -37,7 +37,8 @@ export default class FocusTrap {
     mount() {
         this.listeners = new Listeners()
         MutationManager.addById('fcs-trp-' + this.id, this.element, (mutations, observer) => {
-            console.log('focus-trap mutation observer')
+            console.log('focus-trap mutation manager')
+            console.log(mutations)
             window.requestAnimationFrame(() => {
                 this.updateFocusables()
                 this.element.dispatchEvent(this.constructor.events.focusablesChanged)

@@ -17,7 +17,7 @@ import PageHeader from "../Classes/PageHeader";
 import { getElement, scrollTo } from '../General/Functions';
 import RichText from "../Classes/RichText.js";
 import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
-import { ObserverManager } from "../Classes/ObserverManager.js";
+import { ObserverManager, ResizeManager, IntersectionManager, MutationManager } from "../Classes/ObserverManagerV2.js";
 import ScrollbarManager from "../Classes/ScrollbarManager.js";
 
 smoothscroll.polyfill()
@@ -98,5 +98,5 @@ window.requestAnimationFrame(() => {
         element.classList.remove('u-initially-hidden')
     });
 })
-
+console.log({ ObserverManager, ResizeManager, IntersectionManager, MutationManager })
 export { mountComponents }
