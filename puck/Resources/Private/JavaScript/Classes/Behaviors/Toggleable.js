@@ -1,6 +1,6 @@
-import { getElement } from '../../../General/Utility'
-import Listeners from "../../Listeners.js";
-import AbstractBehavior from "./AbstractBehavior.js";
+import { getElement } from '../../General/Utility'
+import Listeners from "../Listeners";
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior";
 
 export default class Toggleable extends AbstractBehavior {
   static displayName = 'Toggleable'

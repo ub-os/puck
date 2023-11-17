@@ -1,73 +1,41 @@
-// CLASS FetchLink
-//# changes (append or replace) the content of a node with the content of a fetched url
 
-import {$, $$} from "../General/Aliases.js";
-import {getElement, scrollTo} from '../General/Utility';
-import {mountComponents} from "../Components/init.js";
-import AbstractComponent from "./AbstractComponent.js";
-import Listeners from "./Listeners.js";
-import { IntersectionManager } from "./ObserverManagerV2.js";
+import { $, $$, id$, jsx } from "~/General/Aliases";
+import { getElement, scrollTo } from '~/General/Utility'
+import Listeners from "~/Classes/Listeners"
+import { IntersectionManager } from "~/Classes/ObserverManager.js"
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
-export default class FetchLink extends AbstractComponent {
-  constructor(target, {
-    url,
-    mode,
-    contentId,
-    trigger = 'click',
-    scrollToContent = false,
-    scrollOffset = 100,
-    timing = {},
-    hideAnimationFrames = [
+export default class FetchLink extends AbstractBehavior {
+  static props = {
+    url: '',
+    mode: 'replace',
+    contentId: '',
+    trigger: 'click',
+    scrollToContent: false,
+    scrollOffset: 100,
+    timing: {},
+    hideAnimationFrames: [
       { opacity: 1 },
       { opacity: 0 },
     ],
-    showAnimationFrames = [
+    showAnimationFrames: [
       { opacity: 0 },
       { opacity: 1 },
     ],
-    interSectionObserverOptions = {}
-  }) {
-    super(target)
-    Object.assign(this, {
-      url, mode, contentId, trigger, scrollToContent,
-      scrollOffset, hideAnimationFrames, showAnimationFrames
-    })
-    this.contentNode = getElement(contentId, 'FetchLink contentNode')
-    this.timing = {
-      ...{
-        duration: 500,
-        easing: 'ease-in-out'
-      },
-      ...timing
-    }
-    this.interSectionObserverOptions = {
-      ...{
-        root: null,
-        rootMargin: '0px 0px 0px 0px',
-        threshold: 0
-      },
-      ...interSectionObserverOptions
-    }
-    this.states = {
-      fetching: false,
-    }
+    interSectionObserverOptions: {}
   }
-
   replaceContent(html) {
     this.contentNode.innerHTML = html
-    mountComponents(this.contentNode)
   }
 
   appendContent(html, div) {
     const newRoot = div.firstChild
     this.contentNode.innerHTML = this.contentNode.innerHTML + html
-    mountComponents(this.contentNode)
-    if (this.element.id) {
-      const newFetchButton = newRoot.$(`#${this.element.id}`)
-      const oldFetchButton = $(`#${this.element.id}`)
+    if (this.el.id) {
+      const newFetchButton = newRoot.$(`#${this.el.id}`)
+      const oldFetchButton = id$(this.el.id)
       if (oldFetchButton && newFetchButton) {
         oldFetchButton.parentNode.replaceChild(newFetchButton, oldFetchButton)
-        mountComponents(newFetchButton.parentNode)
       }
     }
     div.remove()
@@ -81,7 +49,7 @@ export default class FetchLink extends AbstractComponent {
     fetch(this.url).then(response => {
       return response.text()
     }).then(html => {
-      const div = document.createElement('div')
+      const div = <div></div>
       div.innerHTML = html.trim()
       const newHtml = div.$(`#${this.contentId}`).innerHTML
 
@@ -104,8 +72,8 @@ export default class FetchLink extends AbstractComponent {
             this.showAnimationFrames,
             this.timing
         )
-        if (this.element.href) {
-          window.history.replaceState({}, '', this.element.href)
+        if (this.el.href) {
+          window.history.replaceState({}, '', this.el.href)
         }
         this.states.fetching = false
       })
@@ -117,24 +85,43 @@ export default class FetchLink extends AbstractComponent {
   }
 
   mount() {
+    this.contentNode = getElement(this.contentId, 'FetchLink contentNode')
+    this.timing = {
+      ...{
+        duration: 500,
+        easing: 'ease-in-out'
+      },
+      ...this.timing
+    }
+    this.interSectionObserverOptions = {
+      ...{
+        root: null,
+        rootMargin: '0px 0px 0px 0px',
+        threshold: 0
+      },
+      ...this.interSectionObserverOptions
+    }
+    this.states = {
+      fetching: false,
+    }
     this.listeners = new Listeners()
-    if (!this.element || !this.url || !this.contentNode) {
+    if (!this.el || !this.url || !this.contentNode) {
       return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
     }
     if (this.trigger === 'click') {
-      this.listeners.add(this.element, 'click', e => {
+      this.listeners.add(this.el, 'click', e => {
         e.preventDefault()
         this.fetch()
       })
     }
     if (this.trigger === 'scrollIntoView') {
       IntersectionManager.addById(
-          'fetch-link-' + this.id,
-          this.element,
+          'fetch-link-' + this.el.id,
+          this.el,
           (entry, observer) => {
             if (entry.isIntersecting) {
               this.fetch()
-              IntersectionManager.remove('fetch-link-' + this.id)
+              IntersectionManager.remove('fetch-link-' + this.el.id)
             }
           },
           this.interSectionObserverOptions
@@ -144,6 +131,6 @@ export default class FetchLink extends AbstractComponent {
   }
   destroy() {
     this.listeners.destroy()
-    IntersectionManager.remove('fetch-link-' + this.id)
+    IntersectionManager.remove('fetch-link-' + this.el.id)
   }
 }

@@ -1,4 +1,5 @@
-import Modal from "./Modal";
+import Modal from "~/Classes/Behaviors/Modal.js";
+import { ResizeManager } from "~/Classes/ObserverManager.js";
 
 export default class BreakpointModal extends Modal {
   static props = {
@@ -42,19 +43,15 @@ export default class BreakpointModal extends Modal {
   }
 
   mount() {
-    this.observerElement = document.documentElement
     this.state = 'initial'
     this.stateSwitch()
-    this.resizeObserver = new ResizeObserver(entries => {
-      this.stateSwitch()
-    })
-    this.resizeObserver.observe(this.observerElement)
+    ResizeManager.addById(`${this.el.id}-breakpoint-modal`, document.documentElement, this.stateSwitch.bind(this))
     return this
   }
 
   destroy() {
     super.destroy()
-    this.resizeObserver.unobserve(this.observerElement)
+    ResizeManager.remove(`${this.el.id}-breakpoint-modal`)
   }
 }
 

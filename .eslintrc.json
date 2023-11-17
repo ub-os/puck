@@ -4,7 +4,8 @@
         "es2021": true
     },
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:import/recommended"
     ],
     "overrides": [
     ],
@@ -17,6 +18,12 @@
     },
     "rules": {
         "no-unused-vars": "off"
+
+    },
+    "settings": {
+        "import/resolver": {
+            "babel-module": {}
+        }
     },
     "ignorePatterns": ["puck/Resources/Private/JavaScript/Classes/Development/Typescript/*.ts"],
     "parser": "@babel/eslint-parser"

@@ -1,10 +1,8 @@
-
 let Plyr = class {}
-//import Plyr from 'plyr';
-import { $, $$, jsx } from '../../../General/Aliases';
-import Listeners from "../../Listeners";
-import AbstractBehavior from "./AbstractBehavior";
-
+//import Plyr from 'plyr'
+import { $, $$, jsx } from '~/General/Aliases'
+import Listeners from "~/Classes/Listeners"
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
 export default class MediaPlayer extends AbstractBehavior {
     static props = {
@@ -96,11 +94,11 @@ export default class MediaPlayer extends AbstractBehavior {
         this.plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
         this.playerElAdded = false
         this.toggles = document.querySelectorAll(`[aria-controls="${this.el.id}"], [data-controls="${this.el.id}"]`)
+        this.listeners = new Listeners()
         this.options = {
             controls: this.controls,
             ...this.options
         }
-        this.listeners = new Listeners()
         if (this.lazyLoad) {
             this.toggles.forEach(toggle => {
                 this.listeners.add(toggle, 'click', e => {

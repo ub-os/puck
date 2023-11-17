@@ -1,7 +1,7 @@
-
-// querySelector and eventListener shorthands
+// document shorthands
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
+const id$ = (id) => document.getElementById(id)
 
 Element.prototype.$ = function(selector) {
   return this.querySelector(selector);
@@ -9,7 +9,6 @@ Element.prototype.$ = function(selector) {
 Element.prototype.$$ = function(selector) {
   return this.querySelectorAll(selector);
 };
-
 // jsx pragma method
 const jsx = (tag, props, ...children) => {
   const element = document.createElement(tag)
@@ -28,5 +27,4 @@ const jsx = (tag, props, ...children) => {
   return element
 }
 
-
-export { $, $$, jsx };
+export { $, $$, id$, jsx };

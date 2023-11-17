@@ -1,9 +1,6 @@
+import { noDragClick } from '~/General/Utility'
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior";
 
-import { noDragClick } from '../../../General/Utility';
-import AbstractBehavior from "./AbstractBehavior";
-
-// extending behavior: don't use constructor, use mount() instead
-// define all properties in static props, they are all available as this.propName
 export default class Link extends AbstractBehavior {
   static props = {
     to: '',

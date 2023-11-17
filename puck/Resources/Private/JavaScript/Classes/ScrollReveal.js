@@ -1,6 +1,6 @@
-import AbstractComponent from "./AbstractComponent.js";
-import Listeners from "./Listeners.js";
-import { IntersectionManager } from "./ObserverManagerV2.js";
+import AbstractComponent from "./AbstractComponent";
+import Listeners from "./Listeners";
+import { IntersectionManager } from "./ObserverManager";
 
 const scrollRevealObserverMap = new Map()
 

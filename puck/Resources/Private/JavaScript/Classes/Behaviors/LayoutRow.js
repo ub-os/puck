@@ -1,4 +1,4 @@
-import AbstractBehavior from "./AbstractBehavior";
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
 export default class LayoutRow extends AbstractBehavior {
   mount() {

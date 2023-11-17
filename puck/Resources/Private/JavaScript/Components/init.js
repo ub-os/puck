@@ -8,23 +8,23 @@ import SmoothHashLinks from "../Classes/SmoothHashLinks";
 //import TabPanel from '../Classes/TabPanel';
 //import Carousel from '../Classes/Carousel';
 import ScrollReveal from '../Classes/ScrollReveal';
-import ResponsiveNavigation from "../Classes/ResponsiveNavigation.js";
+import ResponsiveNavigation from "../Classes/ResponsiveNavigation";
 import ScrollSensitive from '../Classes/ScrollSensitive';
-import FetchLink from "../Classes/FetchLink.js";
+import FetchLink from "../Classes/FetchLink";
 //import MediaPlayer from "../Classes/MediaPlayer";
 import smoothscroll from 'smoothscroll-polyfill';
 
 import LayoutRow from '../Classes/LayoutRow';
 import PageHeader from "../Classes/PageHeader";
-import { getElement, scrollTo } from '../General/Utility';
-import RichText from "../Classes/RichText.js";
-import ScrollbarManager from "../Classes/ScrollbarManager.js";
+import { getElement, scrollTo } from '~/General/Utility'
+import RichText from "../Classes/RichText";
+import ScrollbarManager from "../Classes/ScrollbarManager";
 
-import PuxElement from "../Classes/Elements/v2/PuxElement";
-import Modal from "../Classes/Elements/v2/Modal"
-import MediaPlayer from "../Classes/Elements/v2/MediaPlayer"
-import Link from "../Classes/Elements/v2/Link"
-import BreakpointModal from "../Classes/Elements/v2/BreakpointModal";
+import PuxElement from "../Classes/Behaviors/PuxElement";
+import Modal from "../Classes/Behaviors/Modal"
+import MediaPlayer from "../Classes/Behaviors/MediaPlayer"
+import Link from "../Classes/Behaviors/Link"
+import BreakpointModal from "../Classes/Behaviors/BreakpointModal";
 
 
 // 1. register all mixins

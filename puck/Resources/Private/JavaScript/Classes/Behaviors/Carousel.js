@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide'
-import Listeners from "../../Listeners.js"
-import AbstractBehavior from "./AbstractBehavior.js";
+import Listeners from "~/Classes/Listeners"
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
 export default class Carousel extends AbstractBehavior {
     static props = {

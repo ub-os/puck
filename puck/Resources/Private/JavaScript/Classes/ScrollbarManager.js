@@ -1,4 +1,4 @@
-import { ResizeManager } from "./ObserverManagerV2.js";
+import { ResizeManager } from "./ObserverManager";
 
 export default class ScrollbarManager {
     scrollbarWidth = 0

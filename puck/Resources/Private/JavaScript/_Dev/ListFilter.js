@@ -1,6 +1,6 @@
 import { $, $$, jsx } from '../General/Aliases';
-import AbstractComponent from "./AbstractComponent.js";
-import Listeners from "./Listeners.js";
+import AbstractComponent from "./AbstractComponent";
+import Listeners from "./Listeners";
 
 // CLASS ListFilter
 export default class ListFilter extends AbstractComponent {

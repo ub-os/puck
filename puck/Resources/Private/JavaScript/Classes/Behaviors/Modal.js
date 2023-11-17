@@ -1,6 +1,6 @@
-import { $, $$, jsx } from '../../../General/Aliases';
-import Toggleable from "./Toggleable"
-import FocusTrap from "../../FocusTrap.js";
+import { $, $$, jsx } from '~/General/Aliases';
+import Toggleable from "~/Classes/Behaviors/Toggleable"
+import FocusTrap from "~/Classes/FocusTrap";
 
 export default class Modal extends Toggleable {
     static displayName = 'Modal'

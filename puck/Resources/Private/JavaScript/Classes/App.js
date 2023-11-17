@@ -1,4 +1,4 @@
-import {$, $$} from "../General/Aliases.js";
+import {$, $$} from "../General/Aliases";
 
 export default class App {
     constructor({ ...options }) {

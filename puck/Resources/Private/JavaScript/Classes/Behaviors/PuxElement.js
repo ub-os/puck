@@ -1,4 +1,4 @@
-import { kebabCase, jsonParse } from "../../../General/Utility.js";
+import { kebabCase, jsonParse } from "~/General/Utility";
 
 export default class PuxElement extends HTMLElement {
   static core = {

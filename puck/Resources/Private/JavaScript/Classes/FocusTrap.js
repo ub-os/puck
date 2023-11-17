@@ -1,5 +1,5 @@
-import Listeners from "./Listeners.js";
-import { MutationManager } from "./ObserverManagerV2.js";
+import Listeners from "./Listeners";
+import { MutationManager } from "./ObserverManager";
 
 export default class FocusTrap {
 

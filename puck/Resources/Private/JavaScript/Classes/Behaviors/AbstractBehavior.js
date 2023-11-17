@@ -1,9 +1,18 @@
-import PuxElement from "./PuxElement";
+import PuxElement from "~/Classes/Behaviors/PuxElement.js"
 
 const elementClasses = {}
-
-// don't use constructor, use mount instead
-// define all props in static props, they will be added to the object as this[propName]
+/**
+ * How to use class extending AbstractBehavior:
+ * 1. don't override constructor; put all initialization code in mount method
+ * 2. define props in static props; they will be added to the object as this[propName] by the constructor
+ * 3. define mount method; all functionality, listeners, observers should be added here
+ * 4. define destroy method; all listeners and observers should be removed here
+ * 5. create instance with new MyBehavior(el, props), with props being an object with a subset of the props defined in static props
+ * 6. mount instance with myBehavior.mount()
+ * 7. destroy instance with myBehavior.destroy()
+ * 8. register as mixin with MyBehavior.registerAsMixin('my-behavior') => mixin can be used on pux elements via use-my-behavior attribute
+ * 9. register as html element with MyBehavior.registerAsElement('my-behavior') => element can be used via <pux-my-behavior>my-behavior element</pux-my-behavior>
+ */
 export default class AbstractBehavior {
     static props = { }
     static __id = 0

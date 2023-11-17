@@ -1,4 +1,4 @@
-import Toggleable from "./Toggleable"
+import Toggleable from "~/Classes/Behaviors/Toggleable"
 
 export default class Accordion extends Toggleable {
     static displayName = 'Accordion'
