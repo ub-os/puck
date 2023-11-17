@@ -1,9 +1,10 @@
 import AbstractComponent from "./AbstractComponent.js";
 import Modal from "./Modal.js";
 import Listeners from "./Listeners.js";
-import { getElement } from "../General/Utility.js";
+import { getElement } from "../General/Functions.js";
+import { ResizeManager } from "./ObserverManagerV2.js";
 
-export default class ResponsiveNavigation extends AbstractComponent{
+export default class ResponsiveNavigation extends AbstractComponent {
   constructor(target, {
       initialClass = '',
       responsiveClass = '',
@@ -36,14 +37,14 @@ export default class ResponsiveNavigation extends AbstractComponent{
   mountDesktop() {
     if (this.state === 'desktop') return
     this.state = 'desktop'
-    this.destroy()
+    this.reset()
     this.replaceNavigationClass(this.responsiveClass, this.initialClass)
   }
 
   mountResponsive() {
     if (this.state === 'responsive') return
     this.state = 'responsive'
-    this.destroy()
+    this.reset()
     this.replaceNavigationClass(this.initialClass, this.responsiveClass)
     this.responsiveListeners = new Listeners()
     this.modal = new Modal(this.element, this.modalOptions).mount()
@@ -60,14 +61,13 @@ export default class ResponsiveNavigation extends AbstractComponent{
   mount() {
     this.state = 'initial'
     this.stateSwitch()
-    this.resizeObserver = new ResizeObserver(entries => {
+    ResizeManager.addById('responsive-navigation' + this.id, this.observerElement, (entry, observer) => {
       this.stateSwitch()
     })
-    this.resizeObserver.observe(this.observerElement)
     return this
   }
 
-  destroy() {
+  reset() {
     if (this.responsiveListeners) this.responsiveListeners.destroy()
     if (this.modal) {
       this.modal.toggleOff()
@@ -76,4 +76,8 @@ export default class ResponsiveNavigation extends AbstractComponent{
     }
   }
 
+  destroy() {
+    this.reset()
+    ResizeManager.remove('responsive-navigation' + this.id)
+  }
 }

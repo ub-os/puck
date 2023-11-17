@@ -1,6 +1,9 @@
 import Listeners from "./Listeners.js";
+import { MutationManager } from "./ObserverManagerV2.js";
 
 export default class FocusTrap {
+
+    static id = 0
     static events = {
         focusablesChanged: new Event('focusablesChanged')
     }
@@ -8,7 +11,7 @@ export default class FocusTrap {
         this.element = element
         this.active = active
         this.focusables = []
-        this.mutationObserver = new MutationObserver(this.mutationCallback.bind(this))
+        this.id = FocusTrap.id++
         this.updateFocusables()
     }
 
@@ -31,16 +34,16 @@ export default class FocusTrap {
         return this.focusables[this.focusables.length - 1] || this.element
     }
 
-    mutationCallback(mutationsList, observer) {
-        window.requestAnimationFrame(() => {
-            this.updateFocusables()
-            this.element.dispatchEvent(this.constructor.events.focusablesChanged)
-        })
-    }
-
     mount() {
         this.listeners = new Listeners()
-        this.mutationObserver.observe(this.element, { childList: true, subtree: true, attributes: true })
+        MutationManager.addById('fcs-trp-' + this.id, this.element, (mutations, observer) => {
+            console.log('focus-trap mutation manager')
+            console.log(mutations)
+            window.requestAnimationFrame(() => {
+                this.updateFocusables()
+                this.element.dispatchEvent(this.constructor.events.focusablesChanged)
+            })
+        }, { childList: true, subtree: true, attributes: true })
         this.listeners.add(this.element, 'keydown', event => {
             if (!this.active) return
             if (event.key === 'Tab') {
@@ -60,7 +63,7 @@ export default class FocusTrap {
     }
 
     destroy() {
-        this.mutationObserver.disconnect()
         this.listeners.destroy()
+        MutationManager.remove('fcs-trp-' + this.id)
     }
 }

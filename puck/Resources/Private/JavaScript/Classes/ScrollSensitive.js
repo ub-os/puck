@@ -1,7 +1,7 @@
 import { getElement } from '../General/Utility'
 import AbstractComponent from "./AbstractComponent";
 import Listeners from "./Listeners.js";
-const scrollSensitiveObserverMap = new Map()
+import { IntersectionManager } from "./ObserverManagerV2.js";
 
 export default class ScrollSensitive extends AbstractComponent {
 
@@ -43,36 +43,25 @@ export default class ScrollSensitive extends AbstractComponent {
     }
   }
 
-  createIntersectionObserver(
-      options,
-      classes,
-      classTarget,
-  ) {
-    const observer =  new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach(e => {
-            for (let side of ['top', 'bottom']) {
-              if (e.boundingClientRect[side] > e.rootBounds.top) {
-                classTarget.classList.remove(classes[side+'AboveView'])
-                if (e.boundingClientRect[side] < e.rootBounds.bottom) {
-                  classTarget.classList.add(classes[side+'InsideView'])
-                  classTarget.classList.remove(classes[side+'BelowView'])
-                } else {
-                  classTarget.classList.add(classes[side+'BelowView'])
-                  classTarget.classList.remove(classes[side+'InsideView'])
-                }
-              } else {
-                classTarget.classList.add(classes[side+'AboveView'])
-                classTarget.classList.remove(classes[side+'InsideView'])
-                classTarget.classList.remove(classes[side+'BelowView'])
-              }
-            }
-          })
-        },
-        options)
-    return observer
+  observerCallback(entry, observer) {
+    for (let side of ['top', 'bottom']) {
+      if (entry.boundingClientRect[side] > entry.rootBounds.top) {
+        this.element.classList.remove(this.classes[side+'AboveView'])
+        if (entry.boundingClientRect[side] < entry.rootBounds.bottom) {
+          this.element.classList.add(this.classes[side+'InsideView'])
+          this.element.classList.remove(this.classes[side+'BelowView'])
+        } else {
+          this.element.classList.add(this.classes[side+'BelowView'])
+          this.element.classList.remove(this.classes[side+'InsideView'])
+        }
+      } else {
+        this.element.classList.add(this.classes[side+'AboveView'])
+        this.element.classList.remove(this.classes[side+'InsideView'])
+        this.element.classList.remove(this.classes[side+'BelowView'])
+      }
+    }
   }
-
+  
   mount() {
     this.listeners = new Listeners()
     if (this.scrollTop) {
@@ -85,27 +74,18 @@ export default class ScrollSensitive extends AbstractComponent {
       })
       return this
     }
-
-    // stringify the observer options to create a unique key for the map
-    this.optionsString = JSON.stringify({
-      observer: this.observer,
-      classes: this.classes
-    })
-    if (!scrollSensitiveObserverMap.get(this.optionsString)) {
-      scrollSensitiveObserverMap.set(
-          this.optionsString,
-          this.createIntersectionObserver(
-              this.observer,
-              this.classes,
-              this.element)
-      )
-    }
-    scrollSensitiveObserverMap.get(this.optionsString).observe(this.observedElement)
+    console.log(this)
+    IntersectionManager.addById(
+        'scroll-sense-' + this.id,
+        this.observedElement,
+        (entry, observer) => { this.observerCallback(entry, observer) },
+        { root: this.observer.root, rootMargin: this.observer.rootMargin, threshold: this.observer.threshold}
+    )
     return this
   }
 
   destroy() {
     this.listeners.destroy()
-    scrollSensitiveObserverMap.get(this.optionsString).unobserve(this.observedElement)
+    IntersectionManager.remove('scroll-sense-' + this.id)
   }
 }

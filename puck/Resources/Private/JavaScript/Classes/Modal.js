@@ -56,7 +56,7 @@ export default class Modal extends Toggleable {
             }
         })
         this.listeners.add(this.element, 'focusablesChanged', event => {
-            if (this.active) this.focusTrap.getFirstFocusable().focus()
+            //if (this.active) this.element.focus()
         })
         return this
     }
