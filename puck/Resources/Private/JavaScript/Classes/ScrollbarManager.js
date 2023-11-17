@@ -8,7 +8,6 @@ export default class ScrollbarManager {
         this.identifier = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }
     getScrollbarWidth = () => {
-        console.log(this.identifier)
         let box = document.createElement('div');
         box.style.overflow = 'scroll';
         document.body.appendChild(box);

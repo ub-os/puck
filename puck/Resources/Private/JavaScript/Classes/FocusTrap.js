@@ -37,11 +37,12 @@ export default class FocusTrap {
     mount() {
         this.listeners = new Listeners()
         MutationManager.addById('fcs-trp-' + this.id, this.element, (mutations, observer) => {
+            console.log('focus-trap mutation observer')
             window.requestAnimationFrame(() => {
                 this.updateFocusables()
                 this.element.dispatchEvent(this.constructor.events.focusablesChanged)
             })
-        }, { childList: true, subtree: true })
+        }, { childList: true, subtree: true, attributes: true })
         this.listeners.add(this.element, 'keydown', event => {
             if (!this.active) return
             if (event.key === 'Tab') {

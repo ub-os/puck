@@ -26,6 +26,7 @@ class ObserverManager {
     #mutationObserver = null;
     defaultIntersectionOptions = { root: null, rootMargin: '0px', threshold: 0 };
     defaultMutationOptions = { attributes: true, childList: true, subtree: true };
+    defaultResizeOptions = { box: 'border-box' };
     dataSets = { ResizeObserver: 'omResi', IntersectionObserver: 'omIn', MutationObserver: 'omMu' }
 
     constructor() {
@@ -85,6 +86,7 @@ class ObserverManager {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver((mutations, observer) => {
                 for (let mutation of mutations) {
+                    console.log(mutation)
                     for (let id of mutation.target.dataset[this.dataSets.MutationObserver + 'Ids'].split(',')) {
                         if (!id || id === ',') {
                             continue
@@ -109,15 +111,28 @@ class ObserverManager {
          instanceOptions = null,
          observeMethodOptions = null
      }) {
-        const element = getElement(target)
-        const dataAttr = this.dataSets[observer.constructor.name] + 'Ids'
+        const el = getElement(target)
+
         id = id || (this.#id++).toString()
-        element.dataset[dataAttr] = ( element.dataset[dataAttr] || '' ) + id + ','
-        this.#observerMap.set(id, { element, instanceOptions, fn })
-        if (observeMethodOptions) {
-            observer.observe(element, observeMethodOptions)
+
+        if (!el.puxObserverManagerIds) {
+            el.puxObserverManagerIds = {}
+            if (!el.puxObserverManagerIds[observer.constructor.name]) {
+                el.puxObserverManagerIds[observer.constructor.name] = {}
+            }
+        }
+        if (!el.puxObserverManagerIds[observer.constructor.name][id]) {
+            el.puxObserverManagerIds[observer.constructor.name][id] = id
         } else {
-            observer.observe(element)
+            console.warn('ObserverManager: Element is already observed by this observer with this id. Skipping.')
+            return
+        }
+
+        this.#observerMap.set(id, { el, instanceOptions, fn })
+        if (observeMethodOptions) {
+            observer.observe(el, observeMethodOptions)
+        } else {
+            observer.observe(el)
         }
     }
 
@@ -126,34 +141,33 @@ class ObserverManager {
             return
         }
         const obs = this.#observerMap.get(id)
-        const dataAttr = this.dataSets[observerName] + 'Ids'
-        console.log({observerName, dataset: this.dataSets, dataAttr})
-        console.log(obs.element.dataset)
-        obs.element.dataset[dataAttr] = obs.element.dataset[dataAttr].replace(id + ',', '')
-        if (obs.element.dataset[dataAttr] === '' || obs.element.dataset[dataAttr] === ',') {
-            delete obs.element.dataset[dataAttr]
-            if (observerName === 'IntersectionObserver') {
+
+        delete obs.element.puxObserverManagerIds[observerName][id]
+
+        if (obs.element.puxObserverManagerIds[observerName] === {}) {
+            if (observerName === IntersectionObserver.name) {
                 this.#getIntersectionObserver(obs.instanceOptions).unobserve(obs.element)
                 if (!this.#getIntersectionObserver(obs.instanceOptions).takeRecords().length) {
                     this.#intersectionObservers.delete(JSON.stringify(obs.instanceOptions))
                 }
             }
-            if (observerName === 'ResizeObserver') {
+            if (observerName === ResizeObserver.name) {
                 this.#getResizeObserver().unobserve(obs.element)
             }
-            if (observerName === 'MutationObserver') {
+            if (observerName === MutationObserver.name) {
                 //
             }
         }
         this.#observerMap.delete(id)
     }
 
-    #observeResize(id, target, fn) {
+    #observeResize(id, target, fn, options = this.defaultResizeOptions) {
         this.#observe({
             id,
             target,
             fn,
             observer: this.#getResizeObserver(),
+            observeMethodOptions: options,
         })
     }
 
@@ -179,17 +193,17 @@ class ObserverManager {
 
     resize() {
         return {
-            add: (target, fn) => {
-                this.#observeResize('', target, fn)
+            add: (target, fn, options = this.defaultResizeOptions) => {
+                this.#observeResize('', target, fn, options)
             },
-            addById: (id, target, fn) => {
-                this.#observeResize(id, target, fn)
+            addById: (id, target, fn, options = this.defaultResizeOptions) => {
+                this.#observeResize(id, target, fn, options)
             },
             remove: (id) => {
-                this.#unobserve({ id, observerName: 'ResizeObserver' })
+                this.#unobserve({ id, observerName: ResizeObserver.name })
             },
             clearElement: (target) => {
-                this.clearElement(target, ['ResizeObserver'])
+                this.clearElement(target, [ResizeObserver.name])
             },
             disconnect: () => {
                 this.#getResizeObserver().disconnect()
@@ -206,10 +220,10 @@ class ObserverManager {
                 this.#observeIntersection(id, target, fn, options)
             },
             remove: (id) => {
-                this.#unobserve({ id, observerName: 'IntersectionObserver' })
+                this.#unobserve({ id, observerName: IntersectionObserver.name })
             },
             clearElement: (target) => {
-                this.clearElement(target, ['IntersectionObserver'])
+                this.clearElement(target, [IntersectionObserver.name])
             },
             disconnect:() => {
                 this.#intersectionObservers.forEach(observer => observer.disconnect())
@@ -226,10 +240,10 @@ class ObserverManager {
                 this.#observeMutation(id, target, fn, options)
             },
             remove: (id) => {
-                this.#unobserve({ id, observerName: 'MutationObserver' })
+                this.#unobserve({ id, observerName: MutationObserver.name })
             },
             clearElement: (target) => {
-                this.clearElement(target, ['MutationObserver'])
+                this.clearElement(target, [MutationObserver.name])
             },
             disconnect: () => {
                 this.#mutationObserver.disconnect()
@@ -237,7 +251,7 @@ class ObserverManager {
         }
     }
 
-    clearElement(target, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
+    clearElement(target, observerNames = [ResizeObserver.name, IntersectionObserver.name, MutationObserver.name]) {
         const element = getElement(target)
         for (let observerName of observerNames) {
             const dataAttr = this.dataSets[observerName] + 'Ids'

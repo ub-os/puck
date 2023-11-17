@@ -1,7 +1,7 @@
 import { getElement } from '../General/Functions'
 import AbstractComponent from "./AbstractComponent";
 import Listeners from "./Listeners.js";
-import { IntersectionManager } from "./ObserverManager.js";
+import { IntersectionManager } from "./ObserverManagerV2.js";
 
 export default class ScrollSensitive extends AbstractComponent {
 
@@ -75,18 +75,19 @@ export default class ScrollSensitive extends AbstractComponent {
       return this
     }
     console.log(this)
-    IntersectionManager.addById('scr-sns-' + this.id, this.observedElement, (entry, observer) => {
+    IntersectionManager.callback((entry, observer) => {
       this.observerCallback(entry, observer)
-    }, {
-        root: this.observer.root,
-        rootMargin: this.observer.rootMargin,
-        threshold: this.observer.threshold
     })
+        .attachById('scr-sns-' + this.id, this.observedElement, {
+          root: this.observer.root,
+          rootMargin: this.observer.rootMargin,
+          threshold: this.observer.threshold
+        })
     return this
   }
 
   destroy() {
     this.listeners.destroy()
-    IntersectionManager.remove('responsive-navigation')
+    IntersectionManager.detach('responsive-navigation')
   }
 }
