@@ -26,8 +26,12 @@ export default class PuxElement extends HTMLElement {
     }
     return this._attrToPropName
   }
+  static _observedAttributes = null
   static get observedAttributes(){
-      return Object.keys(this.attrToPropName).concat(Object.keys(this.mixins).map(mixinName => 'use-' + mixinName))
+    if (!this._observedAttributes) {
+      this._observedAttributes = Object.keys(this.attrToPropName).concat(Object.keys(this.mixins).map(mixinName => 'use-' + mixinName))
+    }
+    return this._observedAttributes
   }
   constructor() {
     super()

@@ -120,7 +120,6 @@ function jsonParse(val) {
 function extendClass(base, extension, exclude = ['length'], protoExclude = []) {
     const names = getAllPropertyNames(extension)
     const protoNames = getAllPropertyNames(extension.prototype)
-    console.log({names, protoNames})
     names.forEach(name => {
         if (exclude.includes(name)) return
         base[name] = extension[name]

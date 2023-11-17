@@ -1,5 +1,7 @@
 import PuxElement from "./PuxElement";
 
+const elementClasses = {}
+
 // don't use constructor, use mount instead
 // define all props in static props, they will be added to the object as this[propName]
 export default class AbstractBehavior {
@@ -15,13 +17,13 @@ export default class AbstractBehavior {
     }
     static get Element() {
         const className = this.name + 'Element'
-        if (window[className] !== undefined) return window[className]
+        if (elementClasses[className] !== undefined) return elementClasses[className]
         const Behavior = this
-        window[className] = class extends PuxElement {
+        elementClasses[className] = class extends PuxElement {
             static name = className
             static core = Behavior
         }
-        return window[className]
+        return elementClasses[className]
     }
     constructor(el, props = {}) {
         this.el = el
