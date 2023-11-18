@@ -1,6 +1,6 @@
 import { $, $$, jsx } from '~/General/Aliases'
 import Listeners from "~/Classes/Listeners"
-import ScrollSensitive from "~/Classes/ScrollSensitive";
+import ScrollSensitive from "~/Classes/Behaviors/ScrollSensitive";
 import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
 export default class PageHeader extends AbstractBehavior {

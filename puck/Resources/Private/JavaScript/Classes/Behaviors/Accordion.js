@@ -8,7 +8,7 @@ export default class Accordion extends Toggleable {
     }
     toggleOn(transition= true) {
         super.toggleOn(transition);
-        this.el.style[this.heightPropName] = `${(this.scrollHeight).toString()}px`
+        this.el.style[this.heightPropName] = `${(this.el.scrollHeight).toString()}px`
         this.toggles.forEach(t => t.ariaExpanded = 'true')
     }
     toggleOff(transition= true, changeUrlHash =  true) {

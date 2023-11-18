@@ -1,1 +1,1 @@
-import "./Components/init";
+import "~/init"
