@@ -15,7 +15,7 @@ const elementClasses = {}
  */
 export default class AbstractBehavior {
     static props = { }
-    static __id = 0
+    static #idx = 0
     static registerAsMixin(attrName) {
         PuxElement.registerMixin(attrName, this)
         return this
@@ -37,7 +37,7 @@ export default class AbstractBehavior {
     constructor(el, props = {}) {
         this.el = el
         if (!this.el.id) {
-            this.el.id = 'pux-auto-id-' + AbstractBehavior.__id++
+            this.el.id = 'pux-auto-id-' + AbstractBehavior.#idx++
         }
         for (let key in this.constructor.props) {
             if (props[key] !== undefined) {
@@ -57,7 +57,6 @@ export default class AbstractBehavior {
     mount() { return this }
     destroy() { }
 }
-
 
 
 

@@ -4,7 +4,7 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <f:variable name="options" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1}"/>
+    <f:variable name="props" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1}"/>
     <div class="{name}" id="{object.uid}">
       <button class="{name}__button"
               id="{object.uid}-header"
@@ -15,7 +15,7 @@
       <pux-accordion class="{name}__collapse"
            id="{object.uid}-collapse"
            aria-labelledby="{object.uid}-header"
-           props="{options -> f:format.json()}">
+           props="{props -> f:format.json()}">
         <div class="{name}__content">
           <layout:media
                   media="{object.assets}"

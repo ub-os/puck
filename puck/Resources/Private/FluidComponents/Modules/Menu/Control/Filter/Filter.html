@@ -1,71 +1,90 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-menu-control-filter"/>
-  <fc:param name="categoryFilter" type="UBOS\Puck\Menu\Dto\CategoryFilter"/>
-    <fc:param name="id" type="string" optional="1"/>
-  <fc:renderer>
+    <fc:param default="m-menu-control-filter" name="name" optional="1" type="string"/>
+    <fc:param name="categoryFilter" type="UBOS\Puck\Menu\Dto\CategoryFilter"/>
+    <fc:param name="id" optional="1" type="string"/>
+    <fc:renderer>
 
-      <f:if condition="{categoryFilter.items}">
-          <div class="{name}">
-              <ul class="{name}__list">
-                  <f:for each="{categoryFilter.items}" as="item" iteration="i">
-                      <li class="{name}__item">
-                      <f:if condition="{item.items}">
-                          <f:then>
-                              <f:variable name="buttonContent">
-                                   
-                                  <f:if condition="{item.closeItem}">
-                                      <a href="{item.closeItem.url}"
-                                         class="e-dropdown__close"
-                                         data-toggle-stop
-                                         data-fetch-link='{item.closeItem.fetchLinkOptions -> f:format.json()}'>
-                                          {item.activeItemsUids -> f:count()}
-                                          <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
-                                      </a> 
-                                  </f:if>
-                              </f:variable>
-                              <element:dropdown
-                                      id="{id}-{i.index}-dropdown"
-                                      label="{item.label}"
-                                      buttonContent="{buttonContent -> f:format.raw()}">
-                                  <f:for each="{item.items}" as="item2">
-                                      <f:variable name="mods" value="{-active:item2.active, disabled:item2.hasNoPotential}"/>
-                                      <f:if condition="{item2.active}">
-                                          <f:then>
-                                              <a href="{item2.url}"
-                                                 class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-fetch-link='{item2.fetchLinkOptions -> f:format.json()}'>
-                                                  {item2.label} <icon:char icon="xmark-regular" class="e-button-dropdown__option__close__icon"/>
-                                              </a>
-                                          </f:then>
-                                          <f:else>
-                                              <a href="{item2.url}"
-                                                 class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-fetch-link='{item2.fetchLinkOptions -> f:format.json()}'>
-                                                  {item2.label}
-                                              </a>
-                                          </f:else>
-                                      </f:if>
-                                  </f:for>
-                              </element:dropdown>
-                          </f:then>
+        <f:if condition="{categoryFilter.items}">
+            <div class="{name}">
+                <ul class="{name}__list">
+                    <f:for as="item" each="{categoryFilter.items}" iteration="i">
+                        <li class="{name}__item">
+                            <f:if condition="{item.items}">
+                                <f:then>
+                                    <f:variable name="buttonContent">
+                                         
+                                        <f:if condition="{item.closeItem}">
+                                            <pux-fetch-link
+                                                    class="e-dropdown__close"
+                                                    data-toggle-stop
+                                                    replace-state="{item.closeItem.url}"
+                                                    props='{item.closeItem.fetchLinkOptions -> f:format.json()}'>
+                                                <a href="{item.closeItem.url}">
+                                                    {item.activeItemsUids -> f:count()}
+                                                    <icon:char class="e-dropdown__close__icon" icon="xmark-regular"/>
+                                                </a>
+                                            </pux-fetch-link>
+                                             
+                                        </f:if>
+                                    </f:variable>
+                                    <element:dropdown
+                                            buttonContent="{buttonContent -> f:format.raw()}"
+                                            id="{id}-{i.index}-dropdown"
+                                            label="{item.label}">
+                                        <f:for as="item2" each="{item.items}">
+                                            <f:variable name="mods"
+                                                        value="{-active:item2.active, disabled:item2.hasNoPotential}"/>
+                                            <f:if condition="{item2.active}">
+                                                <f:then>
+                                                    <pux-fetch-link
+                                                            class="e-dropdown__option {mods -> puck:modClass()}"
+                                                            replace-state="{item2.url}"
+                                                            props='{item2.fetchLinkOptions -> f:format.json()}'>
+                                                        <a href="{item2.url}">
+                                                            {item2.label} 
+                                                            <icon:char class="e-button-dropdown__option__close__icon"
+                                                                       icon="xmark-regular"/>
+                                                        </a>
+                                                    </pux-fetch-link>
+                                                </f:then>
+                                                <f:else>
+                                                    <pux-fetch-link
+                                                            class="e-dropdown__option {mods -> puck:modClass()}"
+                                                            replace-state="{item2.url}"
+                                                            props='{item2.fetchLinkOptions -> f:format.json()}'>
+                                                        <a href="{item2.url}">
+                                                            {item2.label}
+                                                        </a>
+                                                    </pux-fetch-link>
+                                                </f:else>
+                                            </f:if>
+                                        </f:for>
+                                    </element:dropdown>
+                                </f:then>
 
-                          <f:else>
-                              <f:variable name="mods" value="{-active:item.active, disabled:item.hasNoPotential, icon: item.active}"/>
-                              <a href="{item.url}"
-                                 class="{name}__link e-button-primary {mods -> puck:modClass()}"
-                                 data-fetch-link='{item.fetchLinkOptions -> f:format.json()}'>
-                                  {item.label}<f:if condition="{item.active}"> <icon:char icon="xmark-regular" /></f:if>
-                              </a>
-                          </f:else>
+                                <f:else>
+                                    <f:variable name="mods"
+                                                value="{-active:item.active, disabled:item.hasNoPotential, icon: item.active}"/>
+                                    <pux-fetch-link
+                                            class="{name}__link e-button-primary {mods -> puck:modClass()}"
+                                            replace-state="{item.url}"
+                                            props='{item.fetchLinkOptions -> f:format.json()}'>
+                                        <a href="{item.url}">
+                                            {item.label}
+                                            <f:if condition="{item.active}"> 
+                                                <icon:char icon="xmark-regular"/>
+                                            </f:if>
+                                        </a>
+                                    </pux-fetch-link>
+                                </f:else>
 
-                      </f:if>
-                      </li>
-                  </f:for>
-              </ul>
-          </div>
-      </f:if>
+                            </f:if>
+                        </li>
+                    </f:for>
+                </ul>
+            </div>
+        </f:if>
 
-  </fc:renderer>
+    </fc:renderer>
 </fc:component>
 

@@ -102,7 +102,6 @@ export default class MediaPlayer extends AbstractBehavior {
         if (this.lazyLoad) {
             this.toggles.forEach(toggle => {
                 this.listeners.add(toggle, 'click', e => {
-                    console.log('mp togggle click')
                     this.addPlayerEl()
                 })
             })
@@ -113,11 +112,10 @@ export default class MediaPlayer extends AbstractBehavior {
     }
 
     destroy() {
-        console.log('destroy', this.el.id)
         if (this.listeners) {
             this.listeners.destroy()
         }
-        if (this.plyr) {
+        if (this.plyr?.destroy) {
             this.plyr.destroy()
         }
     }

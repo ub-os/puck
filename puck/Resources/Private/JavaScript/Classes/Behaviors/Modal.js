@@ -1,6 +1,6 @@
-import { $, $$, jsx } from '~/General/Aliases';
+import { $, $$, jsx } from '~/General/Aliases'
 import Toggleable from "~/Classes/Behaviors/Toggleable"
-import FocusTrap from "~/Classes/FocusTrap";
+import FocusTrap from "~/Classes/Behaviors/FocusTrap"
 
 export default class Modal extends Toggleable {
     static displayName = 'Modal'
@@ -37,9 +37,10 @@ export default class Modal extends Toggleable {
 
     mount() {
         if (this.appendToTarget && !this.el.parentNode.matches(this.appendToTarget)) {
-            //document.querySelector(this.appendToTarget).appendChild(this.el)
+            document.querySelector(this.appendToTarget).appendChild(this.el)
+            return
         }
-        this.focusTrap = new FocusTrap({ element: this.el, active: this.active })
+        this.focusTrap = new FocusTrap(this.el, { active: this.active })
         this.backdrop = null
         super.mount()
         this.focusTrap.mount()

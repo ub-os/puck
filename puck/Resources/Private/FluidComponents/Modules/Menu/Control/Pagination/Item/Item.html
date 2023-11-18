@@ -28,12 +28,15 @@
               <f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}" />
             </f:defaultCase>
           </f:switch>
-          <a href="{item.url}"
-             data-fetch-link='{item.fetchLinkOptions -> f:format.json()}'
+          <pux-fetch-link
+             props='{item.fetchLinkOptions -> f:format.json()}'
+             replace-state="{item.url}"
              class="{name}__link"
-            aria-label="{ariaLabel}">
-            {label -> f:format.raw()}
-          </a>
+             aria-label="{ariaLabel}">
+            <a href="{item.url}">
+              {label -> f:format.raw()}
+            </a>
+          </pux-fetch-link>
         </f:else>
       </f:if>
     </li>

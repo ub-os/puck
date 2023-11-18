@@ -1,13 +1,10 @@
+import { $, $$, jsx } from "~/General/Aliases.js";
+import Link from "~/Classes/Behaviors/Link.js";
 
 // create pux link element
-import Link from "~/Classes/Behaviors/Link.js";
-import {$} from "~/General/Aliases.js";
-
 const puxLink = document.createElement('pux-link')
 puxLink.setAttribute('to', 'https://www.google.com',)
 puxLink.innerText = 'pux link element'
-
-console.dir(puxLink)
 
 // create pux link element with jsx
 const puxLinkJsx = <pux-link to={'https://www.google.com'}>pux link element jsx</pux-link>

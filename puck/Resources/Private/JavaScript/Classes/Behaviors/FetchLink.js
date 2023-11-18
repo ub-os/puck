@@ -14,15 +14,17 @@ export default class FetchLink extends AbstractBehavior {
     scrollToContent: false,
     scrollOffset: 100,
     timing: {},
-    hideAnimationFrames: [
+    disableAnchors: true,
+    hideFrames: [
       { opacity: 1 },
       { opacity: 0 },
     ],
-    showAnimationFrames: [
+    showFrames: [
       { opacity: 0 },
       { opacity: 1 },
     ],
-    interSectionObserverOptions: {}
+    replaceState: '',
+    intersectionOptions: {}
   }
   replaceContent(html) {
     this.contentNode.innerHTML = html
@@ -58,7 +60,7 @@ export default class FetchLink extends AbstractBehavior {
       }
 
       const animation = this.contentNode.animate(
-          this.hideAnimationFrames,
+          this.hideFrames,
           this.timing)
 
       this.listeners.add(animation, 'finish', () => {
@@ -69,11 +71,11 @@ export default class FetchLink extends AbstractBehavior {
           this.appendContent(newHtml, div)
         }
         this.contentNode.animate(
-            this.showAnimationFrames,
+            this.showFrames,
             this.timing
         )
-        if (this.el.href) {
-          window.history.replaceState({}, '', this.el.href)
+        if (this.replaceState) {
+          window.history.replaceState({}, '', this.replaceState)
         }
         this.states.fetching = false
       })
@@ -86,6 +88,7 @@ export default class FetchLink extends AbstractBehavior {
 
   mount() {
     this.contentNode = getElement(this.contentId, 'FetchLink contentNode')
+    this.el.role = 'button'
     this.timing = {
       ...{
         duration: 500,
@@ -93,13 +96,13 @@ export default class FetchLink extends AbstractBehavior {
       },
       ...this.timing
     }
-    this.interSectionObserverOptions = {
+    this.intersectionOptions = {
       ...{
         root: null,
         rootMargin: '0px 0px 0px 0px',
         threshold: 0
       },
-      ...this.interSectionObserverOptions
+      ...this.intersectionOptions
     }
     this.states = {
       fetching: false,
@@ -107,6 +110,13 @@ export default class FetchLink extends AbstractBehavior {
     this.listeners = new Listeners()
     if (!this.el || !this.url || !this.contentNode) {
       return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
+    }
+    if (this.disableAnchors) {
+      this.el.$$(`a`).forEach(anchor => {
+        this.listeners.add(anchor, 'click', e => {
+          e.preventDefault()
+        })
+      })
     }
     if (this.trigger === 'click') {
       this.listeners.add(this.el, 'click', e => {
@@ -124,7 +134,7 @@ export default class FetchLink extends AbstractBehavior {
               IntersectionManager.remove('fetch-link-' + this.el.id)
             }
           },
-          this.interSectionObserverOptions
+          this.intersectionOptions
       )
     }
     return this

@@ -23,15 +23,15 @@ export default class BreakpointModal extends Modal {
     if (this.state === 'initial') return
     this.state = 'initial'
     this.toggleOff()
-    super.destroy()
     this.replaceClass(this.modalClass, this.initClass)
+    super.destroy()
   }
 
   mountModal() {
     if (this.state === 'modal') return
     this.state = 'modal'
-    super.mount()
     this.replaceClass(this.initClass, this.modalClass)
+    super.mount()
   }
 
   stateSwitch() {

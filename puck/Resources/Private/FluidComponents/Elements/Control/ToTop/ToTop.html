@@ -1,14 +1,15 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="e-control-to-top"/>
-  <fc:param name="options" type="array" optional="1" default="{scrollTop: 500}"/>
+  <fc:param name="props" type="array" optional="1" default="{scrollTop: 500}"/>
 
   <fc:renderer>
 
     <div class="{name}"
          aria-label="{f:translate(extensionName: 'puck', key: 'to-top')}"
          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-         data-scroll-sensitive="{options -> f:format.json()}">
+         tabindex="-1"
+         use-scroll-sensitive="{props -> f:format.json()}">
       <icon:svg icon="angle-up-regular" class="{name}__icon"/>
     </div>
 

@@ -30,7 +30,7 @@ export default class LinkManager {
 
     mount() {
         this.listeners = new Listeners();
-        this.root.$$('a, pux-link').forEach(el => {
+        this.root.$$('a').forEach(el => {
             const isCurrentLink = this.isCurrentLink(el);
             const isCurrentHashLink = this.isCurrentHashLink(el);
             if (this.addLocalClass && el.hostname === this.windowLocation.hostname) {

@@ -1,17 +1,25 @@
 const noDragClick = (element, callbackFunc, delta = 6) => {
     let startX;
     let startY;
-    element.addEventListener('mousedown', function (event) {
+    const mouseDownHandler = (event) => {
         startX = event.pageX;
         startY = event.pageY;
-    });
-    element.addEventListener('mouseup', function (event) {
+    }
+    const mouseUpHandler = (event) => {
         const diffX = Math.abs(event.pageX - startX);
         const diffY = Math.abs(event.pageY - startY);
         if (diffX < delta && diffY < delta) {
             callbackFunc(event);
         }
-    });
+    }
+    element.addEventListener('mousedown', mouseDownHandler);
+    element.addEventListener('mouseup', mouseUpHandler);
+    return {
+        remove: () => {
+            element.removeEventListener('mousedown', mouseDownHandler);
+            element.removeEventListener('mouseup', mouseUpHandler);
+        }
+    }
 }
 const getElement = (target, objectName = '') => {
     let element = undefined

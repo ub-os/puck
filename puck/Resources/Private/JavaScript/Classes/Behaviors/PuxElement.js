@@ -9,29 +9,30 @@ export default class PuxElement extends HTMLElement {
     this.mixins[name] = constructor
   }
   static get propToAttrName() {
-    if (!Object.prototype.hasOwnProperty.call(this, '_propToAttrName')) {
-      this._propToAttrName = {}
+    if (!Object.prototype.hasOwnProperty.call(this, '___propToAttrName')) {
+      this.___propToAttrName = {}
       for (let prop in this.core.props) {
-        this._propToAttrName[prop] = kebabCase(prop)
+        this.___propToAttrName[prop] = kebabCase(prop)
       }
     }
-    return this._propToAttrName
+    return this.___propToAttrName
   }
   static get attrToPropName() {
-    if (!Object.prototype.hasOwnProperty.call(this, '_attrToPropName')) {
-      this._attrToPropName = {}
+    if (!Object.prototype.hasOwnProperty.call(this, '___attrToPropName')) {
+      this.___attrToPropName = {}
       for (let prop in this.core.props) {
-        this._attrToPropName[kebabCase(prop)] = prop
+        this.___attrToPropName[kebabCase(prop)] = prop
       }
     }
-    return this._attrToPropName
+    return this.___attrToPropName
   }
-  static _observedAttributes = null
+  static ___observedAttributes = null
   static get observedAttributes(){
-    if (!this._observedAttributes) {
-      this._observedAttributes = Object.keys(this.attrToPropName).concat(Object.keys(this.mixins).map(mixinName => 'use-' + mixinName))
+    if (!this.___observedAttributes) {
+      const genericAttributes = ['asleep']
+      this.___observedAttributes = Object.keys(this.attrToPropName).concat(Object.keys(this.mixins).map(mixinName => 'use-' + mixinName)).concat(genericAttributes)
     }
-    return this._observedAttributes
+    return this.___observedAttributes
   }
   constructor() {
     super()
@@ -135,10 +136,23 @@ export default class PuxElement extends HTMLElement {
   }
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return
+    if (name === 'asleep') {
+      const isAsleep = (newVal !== null && newVal !== 'false' && newVal !== '0')
+      const wasAsleep = (oldVal !== null && oldVal !== 'false' && oldVal !== '0')
+      if (isAsleep && !wasAsleep) {
+        this.destroy()
+      }
+      if (!isAsleep && wasAsleep) {
+        this.mount()
+      }
+      return
+    }
     const prop = this.constructor.attrToPropName[name]
     const mixin = this.constructor.mixins[name]
     if (prop) {
       this.core[prop] = this.convertToPropValue(prop, newVal)
+      this.core.destroy()
+      this.core.mount()
       return
     }
     if (mixin) {

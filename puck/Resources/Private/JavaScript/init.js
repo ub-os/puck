@@ -16,14 +16,17 @@ import LayoutRow from '~/Classes/Behaviors/LayoutRow'
 import PageHeader from "~/Classes/Behaviors/PageHeader"
 import RichText from "~/Classes/Behaviors/RichText"
 import MediaPlayer from "~/Classes/Behaviors/MediaPlayer"
+import FocusTrap from "~/Classes/Behaviors/FocusTrap"
 import ScrollReveal from '~/Classes/Behaviors/ScrollReveal'
 import ScrollSensitive from '~/Classes/Behaviors/ScrollSensitive'
+import { ObserverManager } from "~/Classes/ObserverManager.js";
 
 smoothscroll.polyfill();
 
 // 1. register behaviors as mixins
 [ Toggleable, Accordion, Modal, BreakpointModal, TabPanel, Carousel, Link, FetchLink,
-    LayoutRow, PageHeader, RichText, MediaPlayer, ScrollReveal, ScrollSensitive ].forEach(Behavior => {
+    LayoutRow, PageHeader, RichText, MediaPlayer, ScrollReveal, ScrollSensitive, FocusTrap ].forEach(Behavior => {
+    // todo: name will me mangled in production
     Behavior.registerAsMixin(kebabCase(Behavior.name))
 })
 
@@ -31,8 +34,9 @@ smoothscroll.polyfill();
 window.customElements.define('pux-el', PuxElement);
 
 // 3. register behaviors as elements
-[ Accordion, Modal, BreakpointModal, TabPanel, Carousel, Link, FetchLink,
+[ Toggleable, Accordion, Modal, BreakpointModal, TabPanel, Carousel, Link, FetchLink,
     LayoutRow, RichText, MediaPlayer ].forEach(Behavior => {
+    // todo: name will me mangled in production
     Behavior.registerAsElement(kebabCase(Behavior.name))
 })
 
@@ -46,6 +50,8 @@ const _puckApp = {
     }
 }
 console.log(_puckApp)
+console.dir(ObserverManager)
+console.dir(HTMLAnchorElement)
 
 window.requestAnimationFrame(() => {
     document.body.classList.remove('u-no-transition')

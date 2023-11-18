@@ -74,16 +74,21 @@ export default class ScrollReveal extends AbstractBehavior {
                 this.revealed = false
             }
             if (this.revealed) return this
-            IntersectionManager.addById('scroll-reveal-' + this.el.id, this.el, (entry, observer) => {
-                if (entry.isIntersecting) {
-                    entry.target.dispatchEvent(this.constructor.events.scrollReveal)
-                    IntersectionManager.remove('scroll-reveal-' + this.el.id)
+            IntersectionManager.addById(
+                'scroll-reveal-' + this.el.id,
+                this.el,
+                (entry, observer) => {
+                    if (entry.isIntersecting) {
+                        entry.target.dispatchEvent(this.constructor.events.scrollReveal)
+                        IntersectionManager.remove('scroll-reveal-' + this.el.id)
+                    }
+                },
+                {
+                    root: this.observer.root,
+                    rootMargin: this.observer.rootMargin,
+                    threshold: this.observer.threshold
                 }
-            }, {
-                root: this.observer.root,
-                rootMargin: this.observer.rootMargin,
-                threshold: this.observer.threshold
-            })
+            )
             this.listeners.add(this.el, 'scrollReveal', () => {
                 this.reveal()
             })
