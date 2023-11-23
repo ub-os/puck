@@ -124,6 +124,7 @@ export default class PuxElement extends HTMLElement {
   mount() {
     this.mountCore()
     this.mountMixins()
+    return this
   }
   connectedCallback() {
     this.beforeMount()

@@ -71,7 +71,7 @@
             <icon:svg class="{name}__icon" icon="circle-play-duotone"/>
             <f:if condition="{openInModal}">
                 <f:then>
-                    <layout:modal attributes='use-media-player={props -> f:format.json()}' id="{id}" width="12"/>
+                    <layout:modal attributes='data-use-media-player={props -> f:format.json()}' id="{id}" width="12"/>
                 </f:then>
                 <f:else>
                     <pux-media-player class="{name}__frame" id="{id}"

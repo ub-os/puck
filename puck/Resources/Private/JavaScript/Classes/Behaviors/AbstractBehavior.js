@@ -1,4 +1,5 @@
 import PuxElement from "~/Classes/Behaviors/PuxElement.js"
+import NativePuxElement from "~/Classes/Behaviors/NativePuxElement"
 
 const elementClasses = {}
 /**

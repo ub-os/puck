@@ -32,7 +32,6 @@ export default class Link extends AbstractBehavior {
   }
   mount() {
     super.mount()
-    this.el.role = 'link'
     this.noDragClick = noDragClick(this.el, e => this.handleClick(e))
     return this
   }

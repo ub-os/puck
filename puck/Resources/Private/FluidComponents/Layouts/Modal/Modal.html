@@ -7,7 +7,7 @@
   <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
-    <pux-modal class="{name} {class} -width-{width}"
+    <div data-pux-el data-use-modal class="{name} {class} -width-{width}"
          id="{id}"
          {attributes -> puck:attributes()}>
 
@@ -30,7 +30,7 @@
       </button>
       <fc:slot name="content"/>
 
-    </pux-modal>
+    </div>
 
   </fc:renderer>
 </fc:component>

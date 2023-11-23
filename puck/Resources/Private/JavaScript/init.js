@@ -1,9 +1,11 @@
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, id$, jsx } from '~/General/Aliases'
-import { kebabCase } from "~/General/Utility"
+import { kebabCase, jsonParse } from "~/General/Utility"
+import { ObserverManager, MutationManager } from "~/Classes/ObserverManager"
 import ScrollbarManager from "~/Classes/ScrollbarManager"
 import LinkManager from "~/Classes/LinkManager"
 import PuxElement from "~/Classes/Behaviors/PuxElement"
+import NativePuxElement from "~/Classes/Behaviors/NativePuxElement"
 import Toggleable from '~/Classes/Behaviors/Toggleable'
 import Accordion from '~/Classes/Behaviors/Accordion'
 import Modal from "~/Classes/Behaviors/Modal"
@@ -19,7 +21,6 @@ import MediaPlayer from "~/Classes/Behaviors/MediaPlayer"
 import FocusTrap from "~/Classes/Behaviors/FocusTrap"
 import ScrollReveal from '~/Classes/Behaviors/ScrollReveal'
 import ScrollSensitive from '~/Classes/Behaviors/ScrollSensitive'
-import { ObserverManager } from "~/Classes/ObserverManager.js";
 
 smoothscroll.polyfill();
 
@@ -40,15 +41,42 @@ window.customElements.define('pux-el', PuxElement);
     Behavior.registerAsElement(kebabCase(Behavior.name))
 })
 
+// 4. mount mixins  on built-in elements
+const observeNativeElements = () => {
+    MutationManager.addById(
+        'native-pux-el-dom-change',
+        document.body,
+        mutations => {
+            mutations.forEach(mutation => {
+                if (mutation.type !== 'childList') return
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE && node.hasAttribute('data-pux-el')) {
+                        node.puxEl = new NativePuxElement(node).mount()
+                    }
+                })
+                mutation.removedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE && node.hasAttribute('data-pux-el')) {
+                        node.puxEl.destroy()
+                    }
+                })
+            })
+        },
+        { childList: true, subtree: true },
+    )
+    $$('[data-pux-el]').forEach(el => {
+        el.puxEl = new NativePuxElement(el).mount()
+    })
+}
+observeNativeElements()
+
 
 const _puckApp = {
     managers: {
         scrollbar: new ScrollbarManager({}).mount(),
         link: new LinkManager({}).mount(),
     },
-    getBehaviors: () => {
-    }
 }
+
 console.log(_puckApp)
 console.dir(ObserverManager)
 console.dir(HTMLAnchorElement)

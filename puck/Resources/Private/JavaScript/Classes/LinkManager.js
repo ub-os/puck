@@ -10,6 +10,7 @@ export default class LinkManager {
         scrollTopOnCurrentLink = true,
         addLocalClass = true,
         addExternalClass = true,
+        spreadLinks = true
     }) {
         Object.assign(this, {
             root,
