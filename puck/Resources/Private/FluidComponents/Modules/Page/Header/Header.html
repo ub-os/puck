@@ -15,12 +15,12 @@
                 additionalAttributes="{aria-label: 'home'}">
           <icon:svg icon="website-logo" class="{name}__logo"/>
         </f:link.typolink>
-        <div class="{name}-menu__wrap"
+        <pux-breakpoint-modal class="{name}-menu__wrap"
              id="main-menu"
-             data-responsive-navigation="{f:format.json(value:{
+             props="{f:format.json(value:{
                breakpoint: 1150,
-               initialClass: 'm-page-header-menu',
-               responsiveClass: 'm-page-sidebar-menu'
+               initClass: 'm-page-header-menu',
+               modalClass: 'm-page-sidebar-menu'
              }
              )}">
           <div class="{name}-menu__header">
@@ -41,7 +41,8 @@
             </element:navigation>
           </f:comment>
           <element:navigation name="{name}-menu" class="" pages="{settings.navUid.main}"/>
-        </div>
+        </pux-breakpoint-modal>
+
         <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">
           <element:control.burger/>

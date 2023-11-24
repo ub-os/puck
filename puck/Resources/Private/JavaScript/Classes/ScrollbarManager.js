@@ -1,34 +1,37 @@
-import { jsx } from '../General/Aliases';
-import { ResizeManager } from "./ObserverManager.js";
+import { $, $$, id$, jsx } from "~/General/Aliases";
+import { ResizeManager } from "./ObserverManager";
 
 export default class ScrollbarManager {
-    constructor( { sensorId = 'scrollbar-width-sensor', updateOnResize = true, ...options } ) {
+    scrollbarWidth = 0
+    constructor({ sensorId = 'scrollbar-width-sensor', updateOnResize = true, ...options }) {
         Object.assign(this, { sensorId, updateOnResize, ...options })
     }
-    get scrollbarWidth() {
-        return (this.sensorElement.getBoundingClientRect().width - this.sensorElement.firstChild.getBoundingClientRect().width);
+    getScrollbarWidth = () => {
+        return (this.sensorEl.getBoundingClientRect().width - this.sensorEl.firstChild.getBoundingClientRect().width);
     }
     updateScrollbarWidth = () => {
+        this.scrollbarWidth = this.getScrollbarWidth()
         document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
     }
     mount() {
-        this.sensorElement = (
-            <div id={this.sensorId} data-turbo-restore-excluded
+        id$(this.sensorId)?.remove()
+        this.sensorEl = (
+            <div id={this.sensorId} data-turbo-temporary
                  style="width:50px; visibility:hidden; overflow:scroll; height:0px;" >
                 <div></div>
             </div>
         )
-        document.body.appendChild(this.sensorElement);
+        document.body.appendChild(this.sensorEl);
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
-            ResizeManager.addById('scrollbar-manager', this.sensorElement.firstChild, (entry, observer) => {
+            ResizeManager.addById('scrollbar-manager', this.sensorEl.firstChild, (entry, observer) => {
                 this.updateScrollbarWidth()
             })
         }
         return this
     }
     destroy() {
-        this.sensorElement?.remove()
+        this.sensorEl?.remove()
         ResizeManager.remove('scrollbar-manager')
     }
 }

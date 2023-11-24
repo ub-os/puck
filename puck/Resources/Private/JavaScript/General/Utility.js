@@ -1,17 +1,25 @@
 const noDragClick = (element, callbackFunc, delta = 6) => {
     let startX;
     let startY;
-    element.addEventListener('mousedown', function (event) {
+    const mouseDownHandler = (event) => {
         startX = event.pageX;
         startY = event.pageY;
-    });
-    element.addEventListener('mouseup', function (event) {
+    }
+    const mouseUpHandler = (event) => {
         const diffX = Math.abs(event.pageX - startX);
         const diffY = Math.abs(event.pageY - startY);
         if (diffX < delta && diffY < delta) {
             callbackFunc(event);
         }
-    });
+    }
+    element.addEventListener('mousedown', mouseDownHandler);
+    element.addEventListener('mouseup', mouseUpHandler);
+    return {
+        remove: () => {
+            element.removeEventListener('mousedown', mouseDownHandler);
+            element.removeEventListener('mouseup', mouseUpHandler);
+        }
+    }
 }
 const getElement = (target, objectName = '') => {
     let element = undefined
@@ -108,5 +116,49 @@ function throttle(f, delay) {
 }
 
 export {noDragClick, getElement, getParents, scrollTo, getLineBreaks, throttle}
+function kebabCase(string) {
+    const upper = /(?<!\p{Uppercase_Letter})\p{Uppercase_Letter}|\p{Uppercase_Letter}(?!\p{Uppercase_Letter})/gu;
+    return string.replace(upper, "-$&").replace(/^-/, "").toLowerCase();
+}
 
+function json(val) {
+    return JSON.stringify(val)
+}
+function jsonParse(val) {
+    let obj = {}
+    try {
+        obj = JSON.parse(val || '{}')
+    } catch (e) {
+        return {}
+    }
+    return obj
+}
 
+function extendClass(base, extension, exclude = ['length'], protoExclude = []) {
+    const names = getAllPropertyNames(extension)
+    const protoNames = getAllPropertyNames(extension.prototype)
+    names.forEach(name => {
+        if (exclude.includes(name)) return
+        base[name] = extension[name]
+    })
+    protoNames.forEach(name => {
+        if (protoExclude.includes(name)) return
+        base.prototype[name] = extension.prototype[name]
+    })
+    return base
+}
+
+function getAllPropertyNames(obj) {
+    const names = Object.getOwnPropertyNames(obj)
+    while (Object.getPrototypeOf(obj) && Object.getPrototypeOf(obj).name !== '' && Object.getPrototypeOf(obj).constructor.name !== 'Object') {
+        const superNames = Object.getOwnPropertyNames(Object.getPrototypeOf(obj))
+        names.push(...superNames)
+        obj = Object.getPrototypeOf(obj)
+    }
+    return [...new Set(names)]
+}
+
+export {
+    noDragClick, getElement, getParents, scrollTo, getLineBreaks,
+    kebabCase, json, jsonParse, extendClass, getAllPropertyNames
+}

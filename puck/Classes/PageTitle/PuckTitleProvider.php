@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace UBOS\Puck\PageTitle;
 
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\DebugUtility;
-
-use UBOS\Puck\Constants;
 
 final class PuckTitleProvider extends AbstractPageTitleProvider
 {
-    public const SITE_TITLE = Constants::SITE_TITLE;
-
     public const TITLE_DIVIDER = ' | ';
 
     public function __construct(
+        private readonly SiteFinder $siteFinder
     ) {
-        $this->title = $this->getTitle();
     }
 
     public function getTitle(): string
@@ -29,7 +26,8 @@ final class PuckTitleProvider extends AbstractPageTitleProvider
         if ($page['seo_title']) {
             return $page['seo_title'];
         }
-        return $page['title'] . self::TITLE_DIVIDER . self::SITE_TITLE;
+        $siteTitle = $GLOBALS['TSFE']->getLanguage()->getWebsiteTitle() ?: $GLOBALS['TSFE']->getSite()->getAttribute('websiteTitle');
+        return $page['title'] . self::TITLE_DIVIDER . $siteTitle;
     }
 
     public function setTitle(string $title): void

@@ -1,42 +1,45 @@
 import Splide from '@splidejs/splide'
-import AbstractComponent from "./AbstractComponent.js"
-import Listeners from "./Listeners.js"
+import Listeners from "~/Classes/Listeners"
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior"
 
-export default class Carousel extends AbstractComponent {
-    constructor(target, {controls, verticalOptions = false, activeClass = '--active', ...options }) {
-        super(target)
-        Object.assign(this, {controls, verticalOptions, activeClass, ...options })
-        this.controls = controls || document.querySelectorAll(`[aria-controls="${this.id}"]`)
+export default class Carousel extends AbstractBehavior {
+    static props = {
+        controlEls: [],
+        vertical: false,
+        activeClass: '--active',
+        splideOptions: {},
+    }
+    mount() {
+        super.mount()
+        this.controlEls = document.querySelectorAll(`[aria-controls="${this.el.id}"]`)
+        this.listeners = new Listeners()
         this.biggestSlideHeight = 0
-        this.splide = new Splide(this.element, {
+        this.splide = new Splide(this.el, {
             arrows: true,
             pagination: false,
             autoWidth: true,
             omitEnd: true,
             focus: 'left',
-            ...options})
-    }
-    mount() {
-        this.splide.mount()
-        this.listeners = new Listeners()
-        this.controls.forEach(c => {
+            ...this.splideOptions }).mount()
+        this.controlEls.forEach(c => {
+            if (!c.dataset.goTo) return
             this.listeners.add(c, 'click', e => {
                 e.preventDefault()
                 this.splide.go(parseInt(c.dataset.goTo))
             })
         })
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
-            this.controls.forEach(c => {
+            this.controlEls.forEach(c => {
                 c.classList.remove(this.activeClass)
                 if (c.dataset.goTo == newIndex) {
                     c.classList.add(this.activeClass)
                 }
             })
         })
-        if (this.verticalOptions) {
+        if (this.vertical) {
             // todo: replace with window.requestAnimationFrame ?
             window.addEventListener('load', () => {
-                this.element.querySelectorAll('.splide__slide').forEach(slide => {
+                this.el.querySelectorAll('.splide__slide').forEach(slide => {
                     const rect = slide.getBoundingClientRect()
                     if (rect.height > this.biggestSlideHeight) {
                         this.biggestSlideHeight = rect.height
@@ -53,6 +56,5 @@ export default class Carousel extends AbstractComponent {
     destroy() {
         this.splide.destroy()
         this.listeners.destroy()
-        delete this.splide
     }
 }

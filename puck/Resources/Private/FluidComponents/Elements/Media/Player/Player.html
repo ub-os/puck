@@ -1,60 +1,62 @@
 <fc:component>
-    <fc:param name="name" type="string" optional="1" default="e-media-player" />
-    <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference" />
-    <fc:param name="width" type="integer" optional="1" />
-    <fc:param name="posterWebp" type="boolean" optional="1" default="1" />
-    <fc:param name="posterRetina"type="boolean" optional="1" default="1" />
-    <fc:param name="loadOnClick" type="boolean" optional="1" default="1" />
-    <fc:param name="openInModal" type="boolean" optional="1" default="1" />
-    <fc:param name="options" type="array" optional="1" default="{puckProp:1}" />
+    <fc:param default="e-media-player" name="name" optional="1" type="string"/>
+    <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference"/>
+    <fc:param name="width" optional="1" type="integer"/>
+    <fc:param default="1" name="posterWebp" optional="1" type="boolean"/>
+    <fc:param default="1" name="posterRetina" optional="1" type="boolean"/>
+    <fc:param default="1" name="loadOnClick" optional="1" type="boolean"/>
+    <fc:param default="1" name="openInModal" optional="1" type="boolean"/>
+    <fc:param default="{puckProp:1}" name="props" optional="1" type="array"/>
     <fc:renderer>
 
-        <f:variable name="id">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+        <f:variable name="id">{file.name}-{puck:math.random(min:1000, max:9999)}</f:variable>
+        <f:variable name="playerId">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+
         <f:variable name="localPoster" value="{puck:utility.fileExists(src:'fileadmin{file.identifier}.jpg')}"/>
         <f:if condition="{localPoster}">
             <f:then>
                 <f:variable name="poster" value="{localPoster}"/>
             </f:then>
             <f:else>
-                <f:variable name="poster" value="{puck:utility.getOnlineMediaPoster(service:file.extension, id:file.contents)}"/>
+                <f:variable name="poster"
+                            value="{puck:utility.getOnlineMediaPoster(service:file.extension, id:file.contents)}"/>
             </f:else>
         </f:if>
 
         <f:if condition="{file.extension} === 'youtube' || {file.extension} === 'vimeo'">
             <f:variable name="embedId" value="{file.contents}"/>
         </f:if>
-        <f:variable name="options"
+        <f:variable name="props"
                     value="{puck:array.merge(
-                    a:options,
+                    a:props,
                     b:{
                         filePath:file.publicUrl,
                         provider:file.extension,
                         embedId:embedId,
                         poster:poster,
-                        loadOnClick:loadOnClick,
-                        openInModal:openInModal
                     }
                     )}"/>
 
         <div class="{name}">
-            <button class="{name}__button"
-                    aria-controls="{f:if(condition:'{openInModal} || {loadOnClick}', then:id)}"
-                    aria-label="{f:translate(key:'play-video',extensionName:'puck')}"
+            <button aria-controls="{id}"
+                 aria-label="{f:translate(key:'play-video',extensionName:'puck')}"
+                 class="{name}__button"
             ></button>
+
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
                     <f:then>
                         <element:picture
-                                src="{poster}"
                                 loading="lazy"
                                 name="{name}"
-                                webp="{posterWebp}"
                                 retina="{posterRetina}"
-                                width="{width}"
                                 sources="{
-                                xs: {width: width},
-                                0: {width: 450}
-                                }"/>
+                                    xs: {width: width},
+                                    0: {width: 450}
+                                    }"
+                                src="{poster}"
+                                webp="{posterWebp}"
+                                width="{width}"/>
                     </f:then>
                     <f:else>
                         <picture>
@@ -66,15 +68,16 @@
                     </f:else>
                 </f:if>
             </div>
+            <icon:svg class="{name}__icon" icon="circle-play-duotone"/>
             <f:if condition="{openInModal}">
                 <f:then>
-                    <layout:modal id="{id}" attributes='data-media-player={options -> f:format.json()}' width="12" />
+                    <layout:modal attributes='data-use-media-player={props -> f:format.json()}' id="{id}" width="12"/>
                 </f:then>
                 <f:else>
-                    <div id="{id}" class="{name}__frame" data-media-player="{options -> f:format.json()}"></div>
+                    <pux-media-player class="{name}__frame" id="{id}"
+                                      props="{props -> f:format.json()}"></pux-media-player>
                 </f:else>
             </f:if>
-            <icon:svg class="{name}__icon" icon="circle-play-duotone"/>
         </div>
 
     </fc:renderer>

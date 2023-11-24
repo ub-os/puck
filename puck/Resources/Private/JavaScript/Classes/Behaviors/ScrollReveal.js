@@ -1,42 +1,19 @@
-import AbstractComponent from "./AbstractComponent.js";
-import Listeners from "./Listeners.js";
-import { IntersectionManager } from "./ObserverManager.js";
+import Listeners from "~/Classes/Listeners"
+import { IntersectionManager } from "~/Classes/ObserverManager"
+import AbstractBehavior from "~/Classes/Behaviors/AbstractBehavior";
 
-const scrollRevealObserverMap = new Map()
-
-export default class ScrollReveal extends AbstractComponent {
+export default class ScrollReveal extends AbstractBehavior {
     static events = {
         addScrollClass: new Event('addScrollClass'),
         removeScrollClass: new Event('removeScrollClass'),
         scrollReveal: new Event('scrollReveal'),
     }
-
-    constructor(target, {
-        preset = 'slide-up',
-        presetTranslate = 10,
-        animation = null,
-        observer = {},
-        timing = {},
-        ...options})
-    {
-        super(target)
-        Object.assign(this, { preset, presetTranslate, animation })
-        this.observer = {
-            root: null,
-            rootMargin: '0px 0px -40px 0px',
-            threshold: [0,1],
-            target : null,
-            ...observer
-        }
-        this.timing = {
-            duration: 500,
-            easing: 'ease-in-out',
-            ...timing
-        }
-        this.revealed = true
-        if (!this.animation) {
-            this.animation = this.getAnimationPresets(this.preset)
-        }
+    static props = {
+        preset: 'slide-up',
+        presetTranslate: 10,
+        animation: null,
+        observer: {},
+        timing: {},
     }
     getAnimationPresets(preset) {
         const presets = {
@@ -68,31 +45,51 @@ export default class ScrollReveal extends AbstractComponent {
         this.animate()
     }
     animate() {
-        const animation = this.element.animate(this.animation, this.timing)
+        const animation = this.el.animate(this.animation, this.timing)
         this.listeners.add(animation, 'finish', () => {
-            this.element.style.opacity = 1
+            this.el.style.opacity = 1
         })
     }
     mount() {
+        this.observer = {
+            root: null,
+            rootMargin: '0px 0px -40px 0px',
+            threshold: [0,1],
+            target : null,
+            ...this.observer
+        }
+        this.timing = {
+            duration: 500,
+            easing: 'ease-in-out',
+            ...this.timing
+        }
+        this.revealed = true
+        if (!this.animation) {
+            this.animation = this.getAnimationPresets(this.preset)
+        }
         this.listeners = new Listeners()
         window.requestAnimationFrame(() => {
-            if (this.element.getBoundingClientRect().top > window.innerHeight) {
-                this.element.style.opacity = 0
+            if (this.el.getBoundingClientRect().top > window.innerHeight) {
+                this.el.style.opacity = 0
                 this.revealed = false
             }
             if (this.revealed) return this
-
-            IntersectionManager.addById('scr-rvl-' + this.id, this.element, (entry, observer) => {
-                if (entry.isIntersecting) {
-                    entry.target.dispatchEvent(this.constructor.events.scrollReveal)
-                    IntersectionManager.remove('scr-rvl-' + this.id)
-                }
-                }, {
+            IntersectionManager.addById(
+                'scroll-reveal-' + this.el.id,
+                this.el,
+                (entry, observer) => {
+                    if (entry.isIntersecting) {
+                        entry.target.dispatchEvent(this.constructor.events.scrollReveal)
+                        IntersectionManager.remove('scroll-reveal-' + this.el.id)
+                    }
+                },
+                {
                     root: this.observer.root,
                     rootMargin: this.observer.rootMargin,
                     threshold: this.observer.threshold
-            })
-            this.listeners.add(this.element, 'scrollReveal', () => {
+                }
+            )
+            this.listeners.add(this.el, 'scrollReveal', () => {
                 this.reveal()
             })
             return this
@@ -101,6 +98,6 @@ export default class ScrollReveal extends AbstractComponent {
 
     destroy() {
         this.listeners.destroy()
-        IntersectionManager.remove('scr-rvl-' + this.id)
+        IntersectionManager.remove('scroll-reveal-' + this.el.id)
     }
 }

@@ -20,10 +20,10 @@ class MergeViewHelper extends AbstractViewHelper
     ) {
         $a = $arguments['a'];
         $b = $arguments['b'];
-        if ($a == null) {
+        if (!$a) {
             return $b;
         }
-        if ($b == null) {
+        if (!$b) {
             return $a;
         }
         if (is_array($a)) {

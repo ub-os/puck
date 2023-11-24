@@ -1,7 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:variable name="name" value="indexedsearch"/>
 
-<li class="{name}__item" data-link-to="{row.pathUri}">
+<pux-link class="{name}__item" to="{row.pathUri}" role="listitem">
   <h3 class="{name}__item__header">
     <span class="{row.CSSsuffix}">{row.title -> f:format.raw()}</span>
   </h3>
@@ -23,5 +23,5 @@
       </f:for>
     </ul>
   </f:if>
-</li>
+</pux-link>
 </html>

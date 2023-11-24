@@ -16,7 +16,6 @@ const args = process.argv.slice(2);
 const options = {
     uglify: args.includes('uglify'),
 };
-
 ensureDirectoryExistence(distPath);
 for (let fileName of fileNames) {
     renderFile(fileName);
@@ -29,14 +28,7 @@ function renderFile(fileName) {
     const sourceMapFilePath = distPath + fileName + '.js.map';
 
     const b = browserify(srcFilePath, { debug: true })
-        .transform(babelify, {
-            presets: ['@babel/preset-env'],
-            plugins: [
-                ['@babel/plugin-transform-react-jsx', { pragma: 'jsx' }],
-                ['@babel/plugin-proposal-decorators', { version: '2023-01' }],
-            ],
-            comments: false,
-        });
+        .transform(babelify);
 
     const bundleStream = b.bundle()
         .pipe(exorcist(sourceMapFilePath)) // Pipe the bundle through exorcist to generate the source map file

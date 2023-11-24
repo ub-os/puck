@@ -1,14 +1,16 @@
-import {scrollTo} from '../General/Functions.js';
-import Listeners from "./Listeners.js";
+import { $, $$, id$ } from '~/General/Aliases'
+import { scrollTo } from '~/General/Utility'
+import Listeners from '~/Classes/Listeners'
 
 export default class LinkManager {
-    windowLocation = document.puckApp?.location || window.location
+    windowLocation = window.location
     constructor({
         root = document.body,
         scrollOffset = 50,
         scrollTopOnCurrentLink = true,
         addLocalClass = true,
         addExternalClass = true,
+        spreadLinks = true
     }) {
         Object.assign(this, {
             root,
@@ -20,17 +22,16 @@ export default class LinkManager {
     }
 
     isCurrentLink(el) {
-        return !el.hash && el.pathname === this.windowLocation.pathname
+        return !el.hash && (el.href === this.windowLocation.href || el.href === this.windowLocation.pathname || el.to === this.windowLocation.href || el.to === this.windowLocation.pathname)
     }
 
     isCurrentHashLink(el) {
-        return el.hash && el.pathname === this.windowLocation.pathname
+        return el.hash?.substring(1).split('?')[0] && el.pathname === this.windowLocation.pathname
     }
 
     mount() {
         this.listeners = new Listeners();
-        console.log('check location in LinkManager', this.windowLocation)
-        this.root.querySelectorAll('a').forEach(el => {
+        this.root.$$('a').forEach(el => {
             const isCurrentLink = this.isCurrentLink(el);
             const isCurrentHashLink = this.isCurrentHashLink(el);
             if (this.addLocalClass && el.hostname === this.windowLocation.hostname) {
@@ -55,7 +56,7 @@ export default class LinkManager {
             if (isCurrentHashLink) {
                 const id = el.hash.substring(1).split('?')[0];
                 if (!id) return
-                const anchor = document.getElementById(id);
+                const anchor = id$(id)
                 if (!anchor) return
                 this.listeners.add(el, 'click', e => {
                     e.preventDefault();
@@ -80,3 +81,4 @@ export default class LinkManager {
         this.listeners.destroy()
     }
 }
+

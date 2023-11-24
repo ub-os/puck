@@ -1,306 +1,281 @@
-import { getElement } from "../General/Functions.js";
+import { getElement } from "../General/Utility";
 
 class ObserverManager {
-
     static #instance = null;
-    static isInstanced = false;
-    static get(observer = '') {
+    static get inst() {
         if (!ObserverManager.#instance) {
             ObserverManager.#instance = new ObserverManager();
-            ObserverManager.isInstanced = true;
         }
-        switch (observer) {
-            case 'resize':
-                return ObserverManager.#instance.resize()
-            case 'intersection':
-                return ObserverManager.#instance.intersection()
-            case 'mutation':
-                return ObserverManager.#instance.mutation()
-            default:
-                return ObserverManager.#instance
+        return ObserverManager.#instance
+    }
+    static get resize() {
+        return ObserverManager.inst.resize
+    }
+    static get intersection() {
+        return ObserverManager.inst.intersection
+    }
+    static get mutation() {
+        return ObserverManager.inst.mutation
+    }
+    objectIdentifierString(obj){
+        const sortedKeys = Object.keys(obj).sort()
+        const arr = []
+        sortedKeys.forEach((key, i) => {
+            let val = obj[key]
+            key = JSON.stringify(key);
+            val = JSON.stringify(val);
+            arr.push(key + ':' + val);
+        })
+        return "{" + arr.join(",") + "}";
+    }
+
+    #idx = 0
+    #elIdx = 0
+    #callbackIdx = 0
+    #idMap = {}
+    #callbacks = {
+        [IntersectionObserver.name]: [],
+        [ResizeObserver.name]: [],
+        [MutationObserver.name]: [],
+    }
+    #observers = {
+        [IntersectionObserver.name]: {},
+        [ResizeObserver.name]: {},
+        [MutationObserver.name]: {},
+    }
+    defaultIntersectionOptions = { root: null, rootMargin: '0px', threshold: 0 }
+    defaultMutationOptions = { attributes: true, childList: true, subtree: true }
+    defaultResizeOptions = { box: 'border-box' }
+
+    get properties() {
+        return {
+            idx: this.#idx,
+            elIdx: this.#elIdx,
+            callbackIdx: this.#callbackIdx,
+            idMap: this.#idMap,
+            callbacks: this.#callbacks,
+            observers: this.#observers,
         }
     }
-
-    static get inst() {
-        return ObserverManager.get()
-    }
-    get observerMap() {
-        return this.#observerMap
-    }
-
-    get mutationObserver() {
-        return this.#mutationObserver
-    }
-
-    #id = 0
-    #observerMap = new Map();
-    #intersectionObservers = new Map();
-    #resizeObserver = null;
-    #mutationObserver = null;
-    defaultIntersectionOptions = { root: null, rootMargin: '0px', threshold: 0 };
-    defaultMutationOptions = { attributes: true, childList: true, subtree: true };
-    dataSets = { ResizeObserver: 'omResiIds', IntersectionObserver: 'omInIds', MutationObserver: 'omMuIds' }
-    dataAttrs = { ResizeObserver: 'data-om-resi-ids', IntersectionObserver: 'data-om-in-ids', MutationObserver: 'data-om-mu-ids' }
-
     constructor() {
         if (ObserverManager.#instance) {
-            console.warn('ObserverManager is a singleton. Use "ObserverManager.inst" instead of creating a new instance with "new ObserverManager()".');
+            console.warn('ObserverManager is a singleton. Use "ObserverManager.inst()" instead of creating a new instance with "new ObserverManager()".');
             return ObserverManager.#instance;
         }
     }
 
-    #getIntersectionObserver(options) {
-        const key = JSON.stringify(options)
-        if (!this.#intersectionObservers.has(key)) {
-            this.#intersectionObservers.set(
-                key,
-                new IntersectionObserver((entries, observer) => {
-                    for (let entry of entries) {
-                        for (let id of entry.target.dataset[this.dataSets.IntersectionObserver].split(',')) {
-                            if (!id || id === ',') {
-                                continue
-                            }
-                            const observation = this.#observerMap.get(id)
-                            if (!observation) {
-                                continue
-                            }
-                            if (observation.instanceOptions === options) {
-                                observation.fn(entry, observer)
-                            }
-                        }
-                    }
-                }, options)
-            );
-        }
-        return this.#intersectionObservers.get(key);
-    }
-
-    #getResizeObserver() {
-        if (!this.#resizeObserver) {
-            this.#resizeObserver = new ResizeObserver((entries, observer) => {
-                for (let entry of entries) {
-                    for (let id of entry.target.dataset[this.dataSets.ResizeObserver].split(',')) {
-                        if (!id || id === ',') {
-                            continue
-                        }
-                        const observation = this.#observerMap.get(id)
-                        if (!observation) {
-                            continue
-                        }
-                        observation.fn(entry, observer)
-                    }
-                }
-            })
-        }
-        return this.#resizeObserver;
-    }
-
-    #getMutationObserver() {
-        if (!this.#mutationObserver) {
-            this.#mutationObserver = new MutationObserver((mutations, observer) => {
-                const dataset = this.dataSets.MutationObserver
-                for (let mutation of mutations) {
-                    const ids = (mutation.target.dataset[dataset] || mutation.target.closest(`[${this.dataAttrs.MutationObserver}]`).dataset[dataset]).split(',')
-                    for (let id of ids) {
-                        if (!id || id === ',') {
-                            continue
-                        }
-                        const observation = this.#observerMap.get(id)
-                        if (!observation) {
-                            continue
-                        }
-                        observation.fn(mutation, observer)
-                    }
-                }
-            })
-        }
-        return this.#mutationObserver
-    }
-
-    #observe({
-         id,
-         observer,
-         target,
-         fn,
-         instanceOptions = null,
-         observeMethodOptions = null
-     }) {
-        const element = getElement(target)
-        const dataAttr = this.dataSets[observer.constructor.name]
-        id = id || (this.#id++).toString()
-        element.dataset[dataAttr] = (element.dataset[dataAttr] || '').replace(id + ',', '') + id + ','
-        this.#observerMap.set(id, { element, instanceOptions, fn })
-        if (observeMethodOptions) {
-            observer.observe(element, observeMethodOptions)
-            const obsNew = new MutationObserver((mutations, observer) => {
-                fn(mutations, observer)
-            })
-            //obsNew.observe(element, observeMethodOptions)
-        } else {
-            observer.observe(element)
-        }
-    }
-
-    #unobserve({ id, observerName }) {
-        if (!this.#observerMap.has(id)) {
+    #observe({ obsName, id, target, callbackId, opts }) {
+        if (this.#idMap[id]) {
+            console.warn(`ObserverManager: id "${id}" is already in use. Skipping.`)
             return
         }
-        const obs = this.#observerMap.get(id)
-        const dataAttr = this.dataSets[observerName]
-        obs.element.dataset[dataAttr] = obs.element.dataset[dataAttr].replace(id + ',', '')
-        if (obs.element.dataset[dataAttr] === '' || obs.element.dataset[dataAttr] === ',') {
-            delete obs.element.dataset[dataAttr]
-            if (observerName === 'IntersectionObserver') {
-                this.#getIntersectionObserver(obs.instanceOptions).unobserve(obs.element)
-                if (!this.#getIntersectionObserver(obs.instanceOptions).takeRecords().length) {
-                    this.#intersectionObservers.delete(JSON.stringify(obs.instanceOptions))
-                }
+        if (!this.#callbacks[obsName][callbackId]) {
+            console.warn(`ObserverManager: callbackId "${callbackId}" is not registered. Skipping.`)
+            return
+        }
+        const el = getElement(target)
+        if (!el.id) {
+            el.id = 'pux-observer-manager-' + this.#elIdx++
+        }
+        id = id || (this.#idx++).toString()
+        const elId = el.id
+        let obsId = this.objectIdentifierString(opts)
+        if (obsName === MutationObserver.name && opts.subtree) {
+            obsId = elId + '---' + obsId
+        }
+        this.#idMap[id] = {
+            elId,
+            obsId,
+            callbackId,
+            obsName,
+        }
+/*        if (!this.#elMap[elId]) {
+            this.#elMap[elId] = {
+                ids: [id],
+                callbackIds: [callbackId],
+                [ResizeObserver.name]: [],
+                [IntersectionObserver.name]: [],
+                [MutationObserver.name]: [],
+                [obsName]: [obsId]
             }
-            if (observerName === 'ResizeObserver') {
-                this.#getResizeObserver().unobserve(obs.element)
+        } else {
+            this.#elMap[elId].ids.push(id)
+            this.#elMap[elId].callbackIds.push(callbackId)
+            this.#elMap[elId][obsName].push(obsId)
+        }*/
+        let obs = this.#observers[obsName][obsId]
+        if (!obs) {
+            if (obsName === MutationObserver.name && opts.subtree) {
+                obs = new window[obsName]((mutations, observer) => {
+                    observer.callbacksByElId[elId].forEach((cbId, i) => {
+                        if (this.#callbacks[obsName][cbId]) {
+                            this.#callbacks[obsName][cbId](mutations, observer, el)
+                        } else {
+                            this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                        }
+                    })
+                })
+            } else if (obsName === MutationObserver.name) {
+                obs = new window[obsName]((mutations, observer) => {
+                    observer.callbacksByElId[mutations[0].target.id].forEach((cbId, i) => {
+                        if (this.#callbacks[obsName][cbId]) {
+                            this.#callbacks[obsName][cbId](mutations, observer, el)
+                        } else {
+                            this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                        }
+                    })
+                })
+            } else {
+                obs = new window[obsName]((entries, observer) => {
+                    for (let entry of entries) {
+                        observer.callbacksByElId[entry.target.id].forEach((cbId, i) => {
+                            if (this.#callbacks[obsName][cbId]) {
+                                this.#callbacks[obsName][cbId](entry, observer)
+                            } else {
+                                this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+                            }
+                        })
+                    }},
+                    opts)
             }
-            if (observerName === 'MutationObserver') {
-                this.#getMutationObserver().observe(obs.element, { attribute: true, attributeFilter: [] });
+            obs.callbacksByElId = {}
+            this.#observers[obsName][obsId] = obs
+        }
+        const callbacksByElId = this.#observers[obsName][obsId].callbacksByElId
+        if (!callbacksByElId[elId]) {
+            callbacksByElId[elId] = []
+        }
+        callbacksByElId[elId].push(callbackId)
+        this.#observers[obsName][obsId].observe(el, opts)
+        return id
+    }
+
+    #callbackDeletedHandler(observer, elId, i, obsName, obsId) {
+        observer.callbacksByElId[elId].splice(i, 1)
+        if (!observer.callbacksByElId[elId]) {
+            delete observer.callbacksByElId[elId]
+        }
+        if (!Object.keys(observer.callbacksByElId).length) {
+            observer.disconnect()
+            delete this.#observers[obsName][obsId]
+        }
+    }
+
+    #unobserve(id) {
+        const map = this.#idMap[id]
+        if (!map) {
+            console.warn(`ObserverManager: id "${id}" does not exist. Skipping detachment.`)
+            return
+        }
+        const callbacksByElId = this.#observers[map.obsName][map.obsId].callbacksByElId
+        if (Object.keys(callbacksByElId).length === 1 && callbacksByElId[map.elId].length === 1) {
+            this.#observers[map.obsName][map.obsId].disconnect()
+            delete this.#observers[map.obsName][map.obsId]
+            return
+        }
+        const fnIndex = callbacksByElId[map.elId].indexOf(map.fn)
+        callbacksByElId[map.elId].splice(fnIndex, 1)
+        if (!callbacksByElId[map.elId].length) {
+            if (this.#observers[map.obsName][map.obsId].unobserve) {
+                this.#observers[map.obsName][map.obsId].unobserve(document.getElementById(map.elId))
+            }
+            delete callbacksByElId[map.elId]
+        }
+    }
+
+    #registerCallback(fn, obsName) {
+        const id = this.#callbackIdx++
+        this.#callbacks[obsName][id] = fn
+        return id
+    }
+
+    #getCallbackObject(id, obsName, defaultOpts) {
+        const self = this
+        return {
+            id,
+            add(target, opts = defaultOpts) {
+                return self.#observe({ obsName, target, opts, callbackId: id, id: '' })
+            },
+            addById(id, target, opts = defaultOpts) {
+                return self.#observe({ obsName, target, opts, callbackId: id, id })
+            },
+            remove(id) {
+                self.#unobserve(id)
+                return id
+            },
+            delete() {
+                delete self.#callbacks[obsName][id]
             }
         }
-        this.#observerMap.delete(id)
     }
 
-    #observeResize(id, target, fn) {
-        this.#observe({
-            id,
-            target,
-            fn,
-            observer: this.#getResizeObserver(),
-        })
-    }
-
-    #observeIntersection(id, target, fn, options = this.defaultIntersectionOptions) {
-        this.#observe({
-            id,
-            target,
-            fn,
-            observer: this.#getIntersectionObserver(options),
-            instanceOptions: options,
-        })
-    }
-
-    #observeMutation(id, target, fn, options = this.defaultMutationOptions) {
-        this.#observe({
-            id,
-            target,
-            fn,
-            observer: this.#getMutationObserver(),
-            observeMethodOptions: options
-        })
-    }
-
-    resize() {
+    #singleManager(obsName, defaultOpts) {
         return {
-            add: (target, fn) => {
-                this.#observeResize('', target, fn)
+            sharedCallback: (fn) => {
+                return this.#getCallbackObject(this.#registerCallback(fn, obsName), obsName, defaultOpts)
             },
-            addById: (id, target, fn) => {
-                this.#observeResize(id, target, fn)
+            add: (target, fn, opts = defaultOpts) => {
+                const callbackId = this.#registerCallback(fn, obsName, defaultOpts)
+                return this.#observe({ obsName, target, opts, callbackId, id: '' })
+            },
+            addById: (id, target, fn, opts = defaultOpts) => {
+                const callbackId = this.#registerCallback(fn, obsName, defaultOpts)
+                return this.#observe({ obsName, target, opts, callbackId, id })
             },
             remove: (id) => {
-                this.#unobserve({ id, observerName: 'ResizeObserver' })
+                this.#unobserve(id)
             },
-            clearElement: (target) => {
-                this.clearElement(target, ['ResizeObserver'])
-            },
-            disconnect: () => {
-                if (this.#resizeObserver) {
-                    this.#resizeObserver.disconnect()
+            disconnectAll: () => {
+                for (let obsId in this.#observers[obsName]) {
+                    this.#observers[obsName][obsId].disconnect()
                 }
+                this.#observers[obsName] = {}
             }
         }
     }
-
-    intersection() {
-        return {
-            add: (target, fn, options = this.defaultIntersectionOptions) => {
-                this.#observeIntersection('', target, fn, options)
-            },
-            addById: (id, target, fn, options = this.defaultIntersectionOptions) => {
-                this.#observeIntersection(id, target, fn, options)
-            },
-            remove: (id) => {
-                this.#unobserve({ id, observerName: 'IntersectionObserver' })
-            },
-            clearElement: (target) => {
-                this.clearElement(target, ['IntersectionObserver'])
-            },
-            disconnect:() => {
-                if (this.#intersectionObservers.size) {
-                    this.#intersectionObservers.forEach(observer => observer.disconnect())
-                }
-            }
-        }
+    get resize() {
+        const obsName = ResizeObserver.name
+        return this.#singleManager(obsName, this.defaultResizeOptions)
     }
 
-    mutation() {
-        return {
-            add: (target, fn, options = this.defaultMutationOptions) => {
-                this.#observeMutation('', target, fn, options)
-            },
-            addById: (id, target, fn, options = this.defaultMutationOptions) => {
-                this.#observeMutation(id, target, fn, options)
-            },
-            remove: (id) => {
-                this.#unobserve({ id, observerName: 'MutationObserver' })
-            },
-            clearElement: (target) => {
-                this.clearElement(target, ['MutationObserver'])
-            },
-            disconnect: () => {
-                if (this.#mutationObserver) {
-                    this.#mutationObserver.disconnect()
-                }
-            }
-        }
+    get intersection() {
+        const obsName = IntersectionObserver.name
+        return this.#singleManager(obsName, this.defaultIntersectionOptions)
     }
 
-    clearElement(target, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
-        const element = getElement(target)
-        for (let observerName of observerNames) {
-            const dataAttr = this.dataSets[observerName]
-            if (element.dataset[dataAttr]) {
-                for (let id of element.dataset[dataAttr].split(',')) {
-                    if (!id || id === ',') {
-                        continue
-                    }
-                    this.#unobserve({ id, observerName })
-                }
-            }
-        }
-    }
-
-    #removeAttrsFromElement(element, observerNames = ['ResizeObserver', 'IntersectionObserver', 'MutationObserver']) {
-        for (let observerName of observerNames) {
-            delete element.dataset[this.dataSets[observerName]]
-        }
+    get mutation() {
+        const obsName = MutationObserver.name
+        return this.#singleManager(obsName, this.defaultMutationOptions)
     }
 
     disconnect() {
-        this.resize().disconnect()
-        this.intersection().disconnect()
-        this.mutation().disconnect()
+        this.resize.disconnectAll()
+        this.intersection.disconnectAll()
+        this.mutation.disconnectAll()
     }
 
     destroy() {
         this.disconnect()
-        this.#id = 0
-        this.#observerMap.forEach((value, key) => {
-            this.#removeAttrsFromElement(value.element)
-        })
-        this.#observerMap.clear()
+        this.#idx = 0
+        this.#elIdx = 0
+        this.#callbackIdx = 0
+        this.#idMap = {}
+        this.#callbacks = {
+            [IntersectionObserver.name]: [],
+            [ResizeObserver.name]: [],
+            [MutationObserver.name]: [],
+        }
+        this.#observers = {
+            [IntersectionObserver.name]: {},
+            [ResizeObserver.name]: {},
+            [MutationObserver.name]: {},
+        }
     }
 }
 
-const ResizeManager = ObserverManager.get('resize')
-const IntersectionManager = ObserverManager.get('intersection')
-const MutationManager = ObserverManager.get('mutation')
+const ResizeManager = ObserverManager.resize
+const IntersectionManager = ObserverManager.intersection
+const MutationManager = ObserverManager.mutation
 
 export { ObserverManager, ResizeManager, IntersectionManager, MutationManager }
 

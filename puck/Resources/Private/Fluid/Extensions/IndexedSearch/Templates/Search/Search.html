@@ -17,11 +17,11 @@
         {result.searchedInSectionInfo}
         <f:if condition="{result.count} > 0">
             <f:then>
-                <ul class="{name}__list">
+                <div class="{name}__list" role="list">
                     <f:for each="{result.rows}" as="row">
                         <f:render partial="Searchresult" arguments="{row: row}" />
                     </f:for>
-                </ul>
+                </div>
                 <div class="{name}__pagination">
                     <is:pageBrowsing lang="de" numberOfResults="{result.count}" maximumNumberOfResultPages="{settings.page_links}" currentPage="{searchParams.pointer}" resultsPerPage="{searchParams.numberOfResults}" />
                 </div>
