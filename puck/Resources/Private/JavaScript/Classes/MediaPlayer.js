@@ -60,7 +60,7 @@ export default class MediaPlayer extends AbstractComponent {
                 id={`${this.id}-video`}
                 tabindex={'0'}
                 data-poster={this.poster+''}
-                data-turbo-temporary>
+                data-turbo-restore-excluded>
                 <source
                     src={this.filePath}
                     type={'video/' + this.provider}
@@ -77,7 +77,7 @@ export default class MediaPlayer extends AbstractComponent {
 
     getYoutubePlayerElement() {
         return (
-            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''} data-turbo-temporary>
+            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''} data-turbo-restore-excluded>
                 <iframe
                     style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
                     id={`${this.id}-iframe`}
@@ -91,7 +91,7 @@ export default class MediaPlayer extends AbstractComponent {
 
     getVimeoPlayerElement() {
         return (
-            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''} data-turbo-temporary>
+            <div style={!this.usePlyr ? `padding-top: ${100 / this.iframeAspectRatio}%;` : ''} data-turbo-restore-excluded>
                 <iframe
                     style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
                     id={`${this.id}-iframe`}

@@ -1,9 +1,9 @@
 <f:variable name="headerContent">
-    <module:menu.control.filter categoryFilter="{categoryFilter}" id="c{object.uid}-filter"/>
+    <module:menu.control.filter categoryFilter="{categoryFilter}" sectionId="c{object.uid}"/>
 </f:variable>
 <f:variable name="footerContent">
     <f:if condition="{pagination}">
-        <module:menu.control.pagination pagination="{pagination}"/>
+        <module:menu.control.pagination pagination="{pagination}" sectionId="c{object.uid}"/>
     </f:if>
 </f:variable>
 <module:menu.pages object="{object}"

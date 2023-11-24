@@ -20,11 +20,11 @@ export default class LinkManager {
     }
 
     isCurrentLink(el) {
-        return !el.hash && (el.href === this.windowLocation.href || el.href === this.windowLocation.pathname || el.dataset.hxGet === this.windowLocation.href || el.dataset.hxGet === this.windowLocation.pathname)
+        return !el.hash && el.pathname === this.windowLocation.pathname
     }
 
     isCurrentHashLink(el) {
-        return el.hash.substring(1).split('?')[0] && el.pathname === this.windowLocation.pathname
+        return el.hash && el.pathname === this.windowLocation.pathname
     }
 
     mount() {

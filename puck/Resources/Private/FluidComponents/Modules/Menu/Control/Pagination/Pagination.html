@@ -2,6 +2,7 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-menu-control-pagination"/>
   <fc:param name="pagination" type="UBOS\Puck\Menu\Dto\Pagination"/>
+  <fc:param name="sectionId" type="string" optional="1"/>
   <fc:renderer>
 
     <f:if condition="{pagination.loadMore}">
@@ -10,21 +11,21 @@
     <f:if condition="{pagination.first.label} != {pagination.last.label}">
       <ul class="{name}">
         <f:if condition="{pagination.prev}">
-          <module:menu.control.pagination.item item="{pagination.prev}"/>
+          <module:menu.control.pagination.item item="{pagination.prev}"  sectionId="{sectionId}"/>
         </f:if>
-        <module:menu.control.pagination.item item="{pagination.first}"/>
+        <module:menu.control.pagination.item item="{pagination.first}"  sectionId="{sectionId}"/>
         <f:if condition="{pagination.separatorLeft}">
            {pagination.separatorString} 
         </f:if>
         <f:for each="{pagination.items}" as="item" iteration="i">
-          <module:menu.control.pagination.item item="{item}"/>
+          <module:menu.control.pagination.item item="{item}"  sectionId="{sectionId}"/>
         </f:for>
         <f:if condition="{pagination.separatorRight}">
            {pagination.separatorString} 
         </f:if>
-        <module:menu.control.pagination.item item="{pagination.last}"/>
+        <module:menu.control.pagination.item item="{pagination.last}"  sectionId="{sectionId}"/>
         <f:if condition="{pagination.next}">
-          <module:menu.control.pagination.item item="{pagination.next}"/>
+          <module:menu.control.pagination.item item="{pagination.next}"  sectionId="{sectionId}"/>
         </f:if>
       </ul>
     </f:if>

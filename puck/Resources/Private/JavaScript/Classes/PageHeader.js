@@ -26,7 +26,7 @@ export default class PageHeader extends AbstractComponent {
         this.lastScrollTop = 0
         this.ticking = false
         this.paused = false
-        this.lastScrollDirection = 'down'
+        this.lastScrollDirection = 'up'
         this.lastState = 'visible'
         for (let breakpoint in this.scrollTops) {
             if (window.innerWidth > breakpoint) {
@@ -36,8 +36,11 @@ export default class PageHeader extends AbstractComponent {
         this.pageHeaderScrollSensitive = new ScrollSensitive(this.element, { scrollTop: this.scrollTop }).mount()
     }
     checkScrollDirection() {
-        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop
+        const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        const difference = Math.abs(currentScrollTop - this.lastScrollTop)
+        if (difference < 5) return this.lastScrollDirection
         const scrollDirection = currentScrollTop > this.lastScrollTop ? 'down' : 'up'
+        this.lastScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         return scrollDirection
     }
 
@@ -46,7 +49,6 @@ export default class PageHeader extends AbstractComponent {
             window.requestAnimationFrame(() => {
                 const scrollDirection = this.checkScrollDirection()
                 const newState = scrollDirection === 'down' && this.lastScrollTop > this.minScrollForHide ? 'hidden' : 'visible'
-                this.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop
                 this.ticking = false
                 this.lastScrollDirection = scrollDirection
                 if (this.lastState === newState) return

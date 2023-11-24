@@ -98,7 +98,6 @@ class ObserverManager {
     #getMutationObserver() {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver((mutations, observer) => {
-                console.log('any manager mutation', mutations)
                 const dataset = this.dataSets.MutationObserver
                 for (let mutation of mutations) {
                     const ids = (mutation.target.dataset[dataset] || mutation.target.closest(`[${this.dataAttrs.MutationObserver}]`).dataset[dataset]).split(',')
@@ -132,14 +131,11 @@ class ObserverManager {
         element.dataset[dataAttr] = (element.dataset[dataAttr] || '').replace(id + ',', '') + id + ','
         this.#observerMap.set(id, { element, instanceOptions, fn })
         if (observeMethodOptions) {
-            console.log({observeMethodOptions})
             observer.observe(element, observeMethodOptions)
             const obsNew = new MutationObserver((mutations, observer) => {
                 fn(mutations, observer)
             })
-            //console.log({ observer, obsNew })
             //obsNew.observe(element, observeMethodOptions)
-            console.log(`mutation observing ${id}`, {observer})
         } else {
             observer.observe(element)
         }
@@ -149,7 +145,6 @@ class ObserverManager {
         if (!this.#observerMap.has(id)) {
             return
         }
-        console.log(`unobserving ${observerName} with id ${id}`)
         const obs = this.#observerMap.get(id)
         const dataAttr = this.dataSets[observerName]
         obs.element.dataset[dataAttr] = obs.element.dataset[dataAttr].replace(id + ',', '')
@@ -191,7 +186,6 @@ class ObserverManager {
     }
 
     #observeMutation(id, target, fn, options = this.defaultMutationOptions) {
-        console.log({options})
         this.#observe({
             id,
             target,
@@ -229,7 +223,6 @@ class ObserverManager {
                 this.#observeIntersection('', target, fn, options)
             },
             addById: (id, target, fn, options = this.defaultIntersectionOptions) => {
-                console.log({options})
                 this.#observeIntersection(id, target, fn, options)
             },
             remove: (id) => {

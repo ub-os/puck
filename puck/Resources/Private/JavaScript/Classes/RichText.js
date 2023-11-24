@@ -14,7 +14,7 @@ export default class RichText extends AbstractComponent {
       a.classList.add( location.hostname === a.hostname || !a.hostname.length ? '-local' : '-external' )
     })
     this.element.querySelectorAll('table').forEach(table => {
-      const wrapper = (<div class={'table-wrapper'} data-turbo-temporary></div>)
+      const wrapper = (<div class={'table-wrapper'} data-turbo-restore-excluded></div>)
       this.wrap(table, wrapper)
     })
     return this

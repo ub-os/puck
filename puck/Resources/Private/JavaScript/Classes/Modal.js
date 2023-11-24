@@ -20,7 +20,7 @@ export default class Modal extends Toggleable {
         this.backdrop = null
     }
     toggleOn(transition= true) {
-        this.backdrop = ( <div class={this.backdropClass} data-turbo-temporary></div> )
+        this.backdrop = ( <div class={this.backdropClass} data-turbo-restore-excluded></div> )
         this.element.parentNode.insertBefore(this.backdrop, this.element)
         super.toggleOn(transition);
         this.focusTrap.active = true

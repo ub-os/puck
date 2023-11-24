@@ -61,12 +61,10 @@ export default class ResponsiveNavigation extends AbstractComponent {
   mount() {
     const observer = new MutationObserver((mutations, observer) => {
       for (let mutation of mutations) {
-        console.log('without manager on nav-mutations')
       }
     })
     observer.observe(this.element, { childList: false, subtree: false, attributes: true })
     MutationManager.addById('nav-mutations', this.element, (mutation, observer) => {
-      console.log('MutationManager on nav-mutations')
     }, { childList: false, subtree: false, attributes: true })
     this.state = 'initial'
     this.stateSwitch()
