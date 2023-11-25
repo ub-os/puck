@@ -79,6 +79,7 @@ export default class ScrollSensitive extends AbstractBehavior {
 
   destroy() {
     this.listeners.destroy()
+    this.el.classList.remove(this.scrollClass)
     IntersectionManager.remove('scroll-sensitive-' + this.el.id)
   }
 }

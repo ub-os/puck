@@ -11,7 +11,7 @@ export default class Modal extends Toggleable {
         backdropClass: 'l-modal__backdrop',
     }
     toggleOn(transition= true) {
-        this.backdrop = <div class={this.backdropClass}></div>
+        this.backdrop = <div class={this.backdropClass} data-turbo-render-excluded></div>
         this.el.parentNode.insertBefore(this.backdrop, this.el)
         super.toggleOn(transition);
         this.focusTrap.active = true

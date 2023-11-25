@@ -141,6 +141,7 @@ export default class Toggleable extends AbstractBehavior {
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
     this.toggles.forEach(t => {
       t.setAttribute('aria-controls', this.el.id)
+      t.hash = ''
       switch (this.triggerOn) {
         case 'hover':
           this.listeners.add(t, 'mouseenter', () => {
@@ -156,6 +157,7 @@ export default class Toggleable extends AbstractBehavior {
           this.listeners.add(t, 'click', e => {
             if (this.disableToggles) return
             if (e.target.closest('[data-toggle-stop]')) return
+            e.preventDefault()
             if (t.getAttribute('href') === `/#${this.el.id}`) {
               this.dispatchToggle(t, Toggleable.events.toggleOn)
             } else {this.dispatchToggle(t)}

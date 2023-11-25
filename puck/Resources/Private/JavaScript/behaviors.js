@@ -21,6 +21,7 @@ import MediaPlayer from "~/Classes/Behaviors/MediaPlayer"
 import FocusTrap from "~/Classes/Behaviors/FocusTrap"
 import ScrollReveal from '~/Classes/Behaviors/ScrollReveal'
 import ScrollSensitive from '~/Classes/Behaviors/ScrollSensitive'
+import App from "~/Classes/Application"
 
 smoothscroll.polyfill();
 
@@ -42,9 +43,9 @@ window.customElements.define('pux-el', PuxElement);
 })
 
 // 4. mount mixins  on built-in elements
-const observeNativeElements = () => {
+const startBuiltIntElementConnection = () => {
     MutationManager.addById(
-        'native-pux-el-dom-change',
+        'built-in-element-connection',
         document.body,
         mutations => {
             mutations.forEach(mutation => {
@@ -67,25 +68,21 @@ const observeNativeElements = () => {
         el.puxEl = new NativePuxElement(el).mount()
     })
 }
-observeNativeElements()
 
-
-const _puckApp = {
-    managers: {
-        scrollbar: new ScrollbarManager({}).mount(),
-        link: new LinkManager({}).mount(),
-    },
+const startManagers = () => {
+    App.managers.scrollbar = new ScrollbarManager({}).mount()
+    App.managers.link = new LinkManager({}).mount()
 }
 
-console.log(_puckApp)
-console.dir(ObserverManager)
-console.dir(HTMLAnchorElement)
+const startBody = () => {
+    App.observerManager.inst
+    startBuiltIntElementConnection()
+    startManagers()
+    window.requestAnimationFrame(() => {
+        document.body.classList.remove('u-no-transition')
+        $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
+    })
+    console.log(App)
+}
 
-window.requestAnimationFrame(() => {
-    document.body.classList.remove('u-no-transition')
-    $$('.u-initially-hidden').forEach(element => {
-        element.classList.remove('u-initially-hidden')
-    });
-})
-
-export default _puckApp
+export default startBody

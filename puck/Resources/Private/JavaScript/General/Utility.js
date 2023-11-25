@@ -115,7 +115,6 @@ function throttle(f, delay) {
     }
 }
 
-export {noDragClick, getElement, getParents, scrollTo, getLineBreaks, throttle}
 function kebabCase(string) {
     const upper = /(?<!\p{Uppercase_Letter})\p{Uppercase_Letter}|\p{Uppercase_Letter}(?!\p{Uppercase_Letter})/gu;
     return string.replace(upper, "-$&").replace(/^-/, "").toLowerCase();
@@ -159,6 +158,6 @@ function getAllPropertyNames(obj) {
 }
 
 export {
-    noDragClick, getElement, getParents, scrollTo, getLineBreaks,
+    noDragClick, getElement, getParents, scrollTo, getLineBreaks, throttle,
     kebabCase, json, jsonParse, extendClass, getAllPropertyNames
 }

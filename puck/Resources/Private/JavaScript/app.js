@@ -1,1 +1,1 @@
-import "~/init"
+import "~/turbo.js"

@@ -14,9 +14,8 @@ export default class ScrollbarManager {
         document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
     }
     mount() {
-        id$(this.sensorId)?.remove()
         this.sensorEl = (
-            <div id={this.sensorId} data-turbo-temporary
+            <div id={this.sensorId} data-turbo-render-excluded
                  style="width:50px; visibility:hidden; overflow:scroll; height:0px;" >
                 <div></div>
             </div>
