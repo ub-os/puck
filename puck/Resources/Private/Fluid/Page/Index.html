@@ -1,7 +1,8 @@
 
 <body class="d-body u-no-transition -layout-{object.backendLayout} "
       id="body"
-      {f:if(condition:'{context.backendUser}',then:'data-app-debug="1"')}>
+      data-controller="anchor-behavior"
+      {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
 <!--TYPO3SEARCH_end-->
 <module:page.schema object="{object}" context="{context}"/>
 <module:page.header object="{object}" context="{context}"/>

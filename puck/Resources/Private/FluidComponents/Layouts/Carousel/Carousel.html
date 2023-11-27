@@ -23,10 +23,11 @@
                   }'
                 }"/>
 
-    <pux-carousel class="{name} {class} splide"
-                  id="{id}"
-                  props="{options -> f:format.json()}"
-                  splide-options="{puck:array.merge(a:defaultSplideOptions,b:options.splideOptions) -> f:format.json()}">
+    <div class="{name} {class} splide"
+         id="{id}"
+         data-controller="carousel"
+         data-carousel="{options -> f:format.json()}"
+         data-carousel-splide-options="{puck:array.merge(a:defaultSplideOptions,b:options.splideOptions) -> f:format.json()}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
         <ul class="{name}__list splide__list -align-{align}">
           <fc:slot name="content"/>
@@ -44,7 +45,7 @@
         </div>
       </f:if>
 
-    </pux-carousel>
+    </div>
 
   </fc:renderer>
 </fc:component>

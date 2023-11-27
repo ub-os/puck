@@ -1,14 +1,32 @@
 import * as Turbo from "@hotwired/turbo"
-import { $, $$, jsx } from '~/General/Aliases'
-import App from '~/Classes/Application'
-import startBody from '~/behaviors'
+import smoothscroll from 'smoothscroll-polyfill'
+import { $, $$, jsx } from '~/Utility/DomUtility'
+import Logger from '~/Service/Logger'
+import App from '~/Application/Application'
 
 
+smoothscroll.polyfill();
 
-const docEl = document.documentElement
+const doc = document.documentElement
 let visitIsFrameAction = false
 let visitIsRestoration = false
 let renderIsPostPreviewRender = false
+
+const newBodyMount = () => {
+    App.connectControllers()
+    App.services.scrollbarWidth.start()
+    window.requestAnimationFrame(() => {
+        document.body.classList.remove('u-no-transition')
+        $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
+    })
+    Logger.console.log(App)
+}
+
+const newBodyCleanup = (newBody) => {
+    App.reset()
+    newBody.$$('[data-turbo-render-excluded]').forEach(el => el.remove())
+    newBody.$$('.--scroll').forEach(el => el.classList.remove('--scroll'))
+}
 
 const frameExitAnimation = (
     event,
@@ -45,76 +63,68 @@ const frameViewTransition = (event) => {
     }
 }
 
-docEl.addEventListener("turbo:click", (event) => {
-    console.log(event.type, event)
+doc.addEventListener("turbo:click", (event) => {
+    Logger.console.log(event.type, event)
     if (event.target.hash && event.target.pathname === window.location.pathname) {
         event.preventDefault()
     }
+    visitIsFrameAction = false
     if (event.target.hasAttribute('data-turbo-action') && event.target.getAttribute('data-turbo-frame') !== '_top') {
         visitIsFrameAction = true
-        setTimeout(() => {
-            visitIsFrameAction = false
-        }, 2000)
     }
 })
-docEl.addEventListener("turbo:before-fetch-request", (event) => {
-    console.log('before-fetch-request', event)
+doc.addEventListener("turbo:before-fetch-request", (event) => {
+    Logger.console.log('before-fetch-request', event)
     //frameExitAnimation(event.target)
 })
-docEl.addEventListener("turbo:before-frame-render", (event) => {
-    console.log(event.type, event)
+doc.addEventListener("turbo:before-frame-render", (event) => {
+    Logger.console.log(event.type, event)
     //frameEnterAnimation(event.target)
     frameViewTransition(event)
 })
-docEl.addEventListener("turbo:frame-render", (event) => {
-    console.log(event.type, event)
+doc.addEventListener("turbo:frame-render", (event) => {
+    Logger.console.log(event.type, event)
 })
-docEl.addEventListener("turbo:frame-load", (event) => {
-    console.log(event.type, event)
+doc.addEventListener("turbo:frame-load", (event) => {
+    Logger.console.log(event.type, event)
 })
-docEl.addEventListener("turbo:visit", (event) => {
-    console.log(event.type, event)
+doc.addEventListener("turbo:visit", (event) => {
+    Logger.console.log(event.type, event)
     if (event.detail.action == 'restore') {
         visitIsRestoration = true
     }
 })
 
-let visitFrameActionCacheExcluded = []
-docEl.addEventListener("turbo:before-cache", (event) => {
-    console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
-
+doc.addEventListener("turbo:before-cache", (event) => {
+    Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
     if (visitIsFrameAction) {
     }
 })
-docEl.addEventListener("turbo:before-render", (event) => {
-    console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
+doc.addEventListener("turbo:before-render", (event) => {
+    Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
     if (!visitIsFrameAction) {
-        App.observerManager.destroy()
         event.preventDefault()
-        event.detail.newBody.$$('[data-turbo-render-excluded]').forEach(el => el.remove())
-        event.detail.newBody.$$('.--scroll').forEach(el => el.classList.remove('--scroll'))
-        event.detail.resume()
-    }
-    if (!visitIsFrameAction && !visitIsRestoration) {
-        //frameEnterAnimation(event.target)
+        newBodyCleanup(event.detail.newBody)
         frameViewTransition(event)
     }
+    if (!visitIsFrameAction && !visitIsRestoration) {
+    }
 })
-docEl.addEventListener("turbo:render", (event) => {
-    console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
+doc.addEventListener("turbo:render", (event) => {
+    Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
 })
-docEl.addEventListener("turbo:load", (event) => {
-    console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
+doc.addEventListener("turbo:load", (event) => {
+    Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
     window.dispatchEvent(new Event('scroll'))
 
     if (visitIsFrameAction) {
         visitIsFrameAction = false
     } else {
-        startBody()
+        newBodyMount()
     }
 
     if (visitIsRestoration) visitIsRestoration = false
-    renderIsPostPreviewRender = docEl.hasAttribute('data-turbo-preview')
+    renderIsPostPreviewRender = doc.hasAttribute('data-turbo-preview')
 })
 
 

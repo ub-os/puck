@@ -6,10 +6,11 @@
         <div class="{name}__wrap">
             <f:if condition="!{loadMoreItem.disabled}">
                 <f:then>
-                    <pux-fetch-link
+                    <button
                             class="{name}__button e-button-primary -ghost"
                             id="{loadMoreItem.fetchLinkOptions.contentId}-load-more-button"
-                            props='{loadMoreItem.fetchLinkOptions -> f:format.json()}'>
+                            data-controller="fetch-link"
+                            data-fetch-link='{loadMoreItem.fetchLinkOptions -> f:format.json()}'>
                         <f:switch expression="{loadMoreItem.fetchLinkOptions.trigger}">
                             <f:case value="scrollIntoView">
                                 <icon:svg icon="spinner-circle"/>
@@ -18,7 +19,7 @@
                                 <icon:svg icon="plus-regular"/>
                             </f:defaultCase>
                         </f:switch>
-                    </pux-fetch-link>
+                    </button>
                 </f:then>
                 <f:else>
                     <button class="e-button-primary -disabled"

@@ -7,7 +7,8 @@
   <fc:param name="attributes" type="mixed" optional="1"/>
   <fc:renderer>
 
-    <div data-pux-el data-use-modal class="{name} {class} -width-{width}"
+    <div data-controller="modal"
+         class="{name} {class} -width-{width}"
          id="{id}"
          {attributes -> puck:attributes()}>
 

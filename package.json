@@ -32,13 +32,13 @@
     "build:sprite-sheet": "node build/sprite-sheet.js",
     "build:content:new": "node build/content/new.js",
     "dart-sass": "node build/dart-sass.js",
-    "createDist": "mkdir -p ${npm_package_config_path_dist}JavaScript && mkdir -p ${npm_package_config_path_dist}Css",
+    "createDist": "mkdir -p ${npm_package_config_path_dist}JavaScript/dist && mkdir -p ${npm_package_config_path_dist}Css/dist",
     "jshint": "jshint ${npm_package_config_path_src}JavaScript/**/*.js",
     "eslint": "eslint ${npm_package_config_path_src}JavaScript/**/*.js",
-    "browserify": "browserify -t [ babelify --presets [ @babel/preset-env ] ] -d ${npm_package_config_path_src}JavaScript/app.js > ${npm_package_config_path_dist}JavaScript/app.js",
-    "uglify": "uglifyjs ${npm_package_config_path_dist}JavaScript/app.js --compress --mangle -o ${npm_package_config_path_dist}JavaScript/app.min.js",
-    "autoprefixer": "postcss ${npm_package_config_path_dist}Css/styles.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/styles.css",
-    "minifycss": "css-minify -d ${npm_package_config_path_dist}Css -o ${npm_package_config_path_dist}Css"
+    "browserify": "browserify -t [ babelify --presets [ @babel/preset-env ] ] -d ${npm_package_config_path_src}JavaScript/puck.js > ${npm_package_config_path_dist}JavaScript/dist/puck.js",
+    "uglify": "uglifyjs ${npm_package_config_path_dist}JavaScript/dist/puck.js --compress --mangle -o ${npm_package_config_path_dist}JavaScript/dist/puck.min.js",
+    "autoprefixer": "postcss ${npm_package_config_path_dist}Css/dist/puck.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/dist/puck.css",
+    "minifycss": "css-minify -d ${npm_package_config_path_dist}Css/dist -o ${npm_package_config_path_dist}Css/dist"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",

@@ -12,10 +12,11 @@
         <span class="{name}__title"><f:format.raw>{object.header}</f:format.raw></span>
         <span class="{name}__icon"></span>
       </button>
-      <pux-accordion class="{name}__collapse"
+      <div class="{name}__collapse"
            id="{object.uid}-collapse"
            aria-labelledby="{object.uid}-header"
-           props="{props -> f:format.json()}">
+           data-controller="accordion"
+           data-accordion="{props -> f:format.json()}">
         <div class="{name}__content">
           <layout:media
                   media="{object.assets}"
@@ -28,7 +29,7 @@
                   mediaMobileMaxVh="{object.mediaMaxHeight}"
                   itemWidth="{object.itemColumnWidth}"/>
         </div>
-      </pux-accordion>
+      </div>
     </div>
 
   </fc:renderer>

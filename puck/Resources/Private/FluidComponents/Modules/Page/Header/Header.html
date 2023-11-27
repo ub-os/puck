@@ -5,7 +5,7 @@
   <fc:param name="context" type="array"/>
   <fc:renderer>
 
-    <header class="{name}" data-pux-el data-use-page-header="{f:format.json(value:{scrollTops:{0:0,800:25}})}">
+    <header class="{name}" id="header" data-controller="page-header" data-page-header="{f:format.json(value:{scrollTops:{0:0,800:25}})}">
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink
@@ -15,9 +15,10 @@
                 additionalAttributes="{aria-label: 'home'}">
           <icon:svg icon="website-logo" class="{name}__logo"/>
         </f:link.typolink>
-        <pux-breakpoint-modal class="{name}-menu__wrap"
+        <div class="{name}-menu__wrap"
              id="main-menu"
-             props="{f:format.json(value:{
+             data-controller="breakpoint-modal"
+             data-breakpoint-modal="{f:format.json(value:{
                breakpoint: 1150,
                initClass: 'm-page-header-menu',
                modalClass: 'm-page-sidebar-menu'
@@ -41,7 +42,7 @@
             </element:navigation>
           </f:comment>
           <element:navigation name="{name}-menu" class="" pages="{settings.navUid.main}"/>
-        </pux-breakpoint-modal>
+        </div>
 
         <div class="{name}-menu__backdrop"></div>
         <div class="{name}__burger">

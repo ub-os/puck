@@ -6,9 +6,9 @@ import { minify } from 'uglify-js';
 import exorcist from 'exorcist';
 
 const sourcePath = './puck/Resources/Private/JavaScript/';
-const distPath = './puck/Resources/Public/JavaScript/';
+const distPath = './puck/Resources/Public/JavaScript/dist/';
 const fileNames = [
-    'app',
+    'puck',
     'web-layout-remember-scroll-pos',
 ];
 

@@ -10,7 +10,7 @@ generateFonts({
     outputDir: `${resourcePath}Fonts/Icons`, // (required)
     assetTypes: ['scss', 'json', 'html', 'css'],
     fontTypes: ['ttf', 'woff', 'woff2'],
-    fontsUrl: '../Fonts/Icons',
+    fontsUrl: '../../Fonts/Icons',
     prefix: 'icon-',
     tag: '*',
     formatOptions: {

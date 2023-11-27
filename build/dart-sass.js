@@ -4,9 +4,9 @@ import fs from 'fs';
 import path from 'path';
 
 const sourcePath = "./puck/Resources/Private/Stylesheets/";
-const distPath = "./puck/Resources/Public/Css/";
+const distPath = "./puck/Resources/Public/Css/dist/";
 const fileNames = [
-  "styles",
+  "puck",
   "be-ck-contents",
   "backend/general"
 ];
