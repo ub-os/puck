@@ -1,12 +1,15 @@
 .m-menu-control-pagination
   &
+    +font-size($fs-h4)
     +spacing(top, s)
     +flex(row,center,center)
 
   &__item
-    margin: 0 .25em
 
   &__link
+    display: block
+    padding: 0.25em .5em
+    margin: 0 .25em
     color: var(--color-link)
     &.-disabled
       color: var(--color-accent)
