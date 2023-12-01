@@ -11,7 +11,6 @@
                 class="{name}__wrap"
                 customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:'',else:name)}"
                 id="c{object.uid}"
-                attributes="{'hx-on::after-swap': 'scrollTo(this,100);console.log(this)'}"
                 object="{object}">
             <element:text.header object="{object}"/>
             <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
