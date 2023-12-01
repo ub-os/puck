@@ -66,7 +66,8 @@
       animation: modal-open .3s
     &.--deactivating
       display: block
-      animation: modal-close .15s
+      opacity: 0
+      animation: modal-close .2s
     .--main-menu-modal--active &.--deactivating
       animation: modal-close .3s
     @for $i from 4 through 12
