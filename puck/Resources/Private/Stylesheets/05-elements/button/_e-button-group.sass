@@ -2,7 +2,7 @@
   &
     --grid-gutter-x: 1.5rem
     +flex(row,flex-start,center)
-    margin: calc( -0.5 * var(--grid-gutter-x) )
+    margin: calc(var(--grid-gutter-x) * -0.5)
 
   &.u-text-center
     justify-content: center
@@ -11,10 +11,10 @@
 
 
   & + &
-    margin-top: calc( -1 * var(--grid-gutter-x) )
+    margin-top: calc(var(--grid-gutter-x) * -1)
 
   [class*='e-button-']
-    margin: calc( 0.5 * var(--grid-gutter-x) )
+    margin: calc(var(--grid-gutter-x)  * 0.5)
     &:hover,
     &:focus,
     &:active,
@@ -31,11 +31,11 @@
       &:last-child
         border-top-left-radius: 0
         border-bottom-left-radius: 0
-        margin-left: calc( -0.5 * var(--border-width-button) )
+        margin-left: calc(var(--border-width-button) * -0.5)
       &:first-child
         border-top-right-radius: 0
         border-bottom-right-radius: 0
-        margin-right: calc( -0.5 * var(--border-width-button) )
+        margin-right: calc(var(--border-width-button) * -0.5)
       &:not(:first-child):not(:last-child)
         border-radius: 0
-        margin-inline: calc( -0.5 * var(--border-width-button) )
+        margin-inline: calc(var(--border-width-button) * -0.5)

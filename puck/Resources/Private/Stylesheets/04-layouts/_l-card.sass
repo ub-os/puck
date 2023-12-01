@@ -27,15 +27,14 @@
     &.-layout-right
       +media-up(s)
         flex-direction: row
-    &.-layout-left.-media
+    &.-layout-left:where(.-media)
       +media-up(s)
         flex-direction: row-reverse
-    &.-layout-above.-media
+    &.-layout-above:where(.-media)
       flex-direction: column-reverse
     &.-layout-below
       flex-direction: column
-    &.-media-size-cover.-layout-right,
-    &.-media-size-cover.-layout-left
+    &.-media-size-cover:where(.-layout-right, .-layout-left)
       align-items: stretch
 
   &__content
@@ -62,32 +61,35 @@
       width: 100%
       height: 100%
 
-    &.-media-size-cover.-layout-right,
-    &.-media-size-cover.-layout-left
+    &.-media-size-cover:where(.-layout-right, .-layout-left)
       +media-up(s)
         +cover-media
         width: 50%
         @for $i from 2 through 10
           &.-media-width-#{$i}
             width: calc(100% * #{$i} / var(--grid-columns-original))
-    &.-media-size-contain.-layout-above
+
+    &.-media-size-contain:where(.-layout-above)
       padding-bottom: var(--padding-bottom)
-    &.-media-size-contain.-layout-below
+
+    &.-media-size-contain:where(.-layout-below)
       padding-top: var(--padding-block)
-    &.-media-size-contain.-layout-right
+
+    &.-media-size-contain:where(.-layout-right, .-layout-left)
+      +media-up(s)
+        width: calc((100% + #{var(--padding-inline)}) / 2)
+        @for $i from 2 through 10
+          &:where(.-media-width-#{$i})
+            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))
+
+    &.-media-size-contain:where(.-layout-right)
       +media-up(s)
         padding-left: var(--padding-inline)
       +media(s)
         padding-bottom: var(--padding-bottom)
-    &.-media-size-contain.-layout-left
+
+    &.-media-size-contain:where(.-layout-left)
       +media-up(s)
         padding-right: var(--padding-inline)
       +media(s)
         padding-bottom: var(--padding-bottom)
-    &.-media-size-contain.-layout-right,
-    &.-media-size-contain.-layout-left
-      +media-up(s)
-        width: calc((100% + #{var(--padding-inline)}) / 2)
-        @for $i from 2 through 10
-          &.-media-width-#{$i}
-            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))

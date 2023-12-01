@@ -31,28 +31,26 @@
       +spacing(bottom, l, margin)
 
   // Auto spacing rules
-  .m-page-main &.-bottom-auto:last-of-type
+  .m-page-main &:where(.-bottom-auto:last-of-type)
     +spacing(bottom, xl, padding)
     margin-bottom: 0
 
-  &:not([class*="-background-"])
-    &.-bottom-auto + &.-top-auto.-no-h2-spacing,
-    &.-bottom-auto + .e-anchor + &.-top-auto.-no-h2-spacing
+  &:where(:not([class*="-background-"]))
+    &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + &:where(.-top-auto.-no-h2-spacing)
       margin-top: 0
 
-  &[class*="-background-"]
+  &:where([class*="-background-"])
     +spacing(both, m, padding, 2)
     & + &,
-    & + .e-anchor + &
+    &:where( + .e-anchor) + &
       +spacing(top, m, margin, -1)
 
   @each $bg in $backgrounds
-    &.-background-#{$bg}
-      &.-bottom-auto + &.-top-auto,
-      &.-bottom-auto + .e-anchor + &.-top-auto
+    &:where(.-background-#{$bg})
+      &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + &:where(.-top-auto)
         +spacing(top, m, margin, -1)
         padding-top: 0
-        &.-no-h2-spacing
+        &:where(.-no-h2-spacing)
           +spacing(top, m, margin, -2)
 
   @each $bg in $slanted-backgrounds
@@ -69,13 +67,12 @@
         margin-bottom: 0
         padding-bottom: 5em
         clip-path: polygon(0 var(--clip-slant-height), 100% 2px, 100% 100%, 0% 100%)
-      &.-bottom-auto + &.-top-auto
+      &:where(.-bottom-auto) + &:where(.-top-auto)
         padding-top: calc(var(--responsives-slant-section-margin) + var(--clip-slant-height) * 0.33)
-        &.-no-h2-spacing
+        &:where(.-no-h2-spacing)
           padding-top: calc(var(--clip-slant-height) * 0.33)
       @each $bg2 in $slanted-backgrounds
-        &.-bottom-auto + .l-section.-background-#{$bg2}.-top-auto,
-        &.-bottom-auto + .e-anchor + .l-section.-background-#{$bg2}.-top-auto
+        &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + .l-section:where(.-background-#{$bg2}.-top-auto)
           margin-top: calc(-1 * calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5) - var(--clip-slant-height))
 
 

@@ -1,12 +1,14 @@
 .l-row
   &
     +grid-row()
-    &.u-justify-left
-      img, video
-        margin-left: 0
-    &.u-justify-right
-      img, video
-        margin-right: 0
+
+  &:where(.u-justify-left)
+    img, video
+      margin-left: 0
+
+  &:where(.u-justify-right)
+    img, video
+      margin-right: 0
 
   &.-align-start
     align-items: flex-start
@@ -37,18 +39,9 @@
     &.-stretch-content
       display: flex
       flex-direction: column
-  &.-flex-grow-0 &__item
-    flex-grow: 0
-  &.-flex-grow-1 &__item,
-  &.-flex-grow &__item
-    flex-grow: 1
-
 
   @for $i from 1 through 12
-    &.-item-width-#{$i}.-flex-grow-0 &__item,
-    &.-flex-grow-0 &__item.-width-#{$i}
-      flex-grow: 0
-    &.-item-width-#{$i} &__item,
+    &:where(.-item-width-#{$i}) > &__item,
     &__item.-width-#{$i}
       +grid-col($i)
       @if ($i < 3)
@@ -65,9 +58,16 @@
       //flex-grow: 1
       img, video
   //width: width-by-cols($i * 1.5)
+
+  &:where(.-flex-grow-0) > &__item
+    flex-grow: 0
+
+  &:where(.-flex-grow-1, .-flex-grow) > &__item
+    flex-grow: 1
+
   @each $mb, $value in mapReverse(bps-down())
     @for $i from 1 through 12
-      &.-#{$mb}-#{$i} &__item
+      &:where(.-#{$mb}-#{$i}) > &__item
       &__item.-#{$mb}-#{$i}
         +grid-col-mb($mb, $i, var(--grid-columns))
 

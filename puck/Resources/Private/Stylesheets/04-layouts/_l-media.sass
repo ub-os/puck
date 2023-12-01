@@ -89,7 +89,7 @@
   &.-layout-below
     +media-layout(block,below)
 
-  &.-mobile-max-height &__figure &__file
+  &:where(.-mobile-max-height) &__file
     +media(s)
       max-height: var(--max-height-media-mobile)
       width: auto
