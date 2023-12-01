@@ -9,6 +9,7 @@
     "typo3/cms-core": "^11 || ^12",
     "typo3/cms-lowlevel": "^11 || ^12",
     "typo3/cms-redirects": "^11 || ^12",
+    "typo3/cms-recycler": "^11 || ^12",
     "ichhabrecht/content-defender": "^3.4",
     "sitegeist/fluid-components": "^3.6",
     "brotkrueml/schema": "^2.6",
