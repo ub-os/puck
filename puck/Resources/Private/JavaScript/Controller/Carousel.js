@@ -20,14 +20,7 @@ export default class Carousel extends AbstractController {
             autoWidth: true,
             omitEnd: true,
             focus: 'left',
-            ...this.splideOptions }).mount()
-        this.controlEls.forEach(c => {
-            if (!c.dataset.goTo) return
-            this.listeners.add(c, 'click', e => {
-                e.preventDefault()
-                this.splide.go(parseInt(c.dataset.goTo))
-            })
-        })
+            ...this.splideOptions })
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
             this.controlEls.forEach(c => {
                 c.classList.remove(this.activeClass)
@@ -36,6 +29,17 @@ export default class Carousel extends AbstractController {
                 }
             })
         })
+        this.splide.on( 'pagination:mounted', function ( data ) {
+            data.list.setAttribute('data-turbo-render-excluded', '')
+        } )
+        this.controlEls.forEach(c => {
+            if (!c.dataset.goTo) return
+            this.listeners.add(c, 'click', e => {
+                e.preventDefault()
+                this.splide.go(parseInt(c.dataset.goTo))
+            })
+        })
+        this.splide.mount()
         if (this.vertical) {
             // todo: replace with window.requestAnimationFrame ?
             window.addEventListener('load', () => {
