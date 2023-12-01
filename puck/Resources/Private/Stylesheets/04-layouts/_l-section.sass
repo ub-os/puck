@@ -36,7 +36,8 @@
     margin-bottom: 0
 
   &:where(:not([class*="-background-"]))
-    &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + &:where(.-top-auto.-no-h2-spacing)
+    &:where(.-bottom-auto) + &:where(.-top-auto.-no-h2-spacing),
+    &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto.-no-h2-spacing)
       margin-top: 0
 
   &:where([class*="-background-"])
@@ -47,7 +48,8 @@
 
   @each $bg in $backgrounds
     &:where(.-background-#{$bg})
-      &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + &:where(.-top-auto)
+      &:where(.-bottom-auto) + &:where(.-top-auto)
+      &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto)
         +spacing(top, m, margin, -1)
         padding-top: 0
         &:where(.-no-h2-spacing)
@@ -72,7 +74,8 @@
         &:where(.-no-h2-spacing)
           padding-top: calc(var(--clip-slant-height) * 0.33)
       @each $bg2 in $slanted-backgrounds
-        &:where(.-bottom-auto, .-bottom-auto + .e-anchor) + .l-section:where(.-background-#{$bg2}.-top-auto)
+        &:where(.-bottom-auto) + .l-section:where(.-background-#{$bg2}.-top-auto),
+        &:where(.-bottom-auto) + :where(.e-anchor) + .l-section:where(.-background-#{$bg2}.-top-auto)
           margin-top: calc(-1 * calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5) - var(--clip-slant-height))
 
 
