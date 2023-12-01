@@ -26,7 +26,7 @@ generateFonts({
         scss: `build/templates/fantasticon/scss.hbs`
     },
     pathOptions: {
-        scss: `puck/Resources/Private/Stylesheets/00-settings/_icon-font.scss`
+        scss: `puck/Resources/Private/Stylesheets/02-generic/_icon-font.scss`
     },
     codepoints: {
     },

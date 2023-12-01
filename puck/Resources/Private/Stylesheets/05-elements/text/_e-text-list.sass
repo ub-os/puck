@@ -43,16 +43,14 @@
     .d-body &>li:before
       transform: scale(.6)
 
-
-ol.e-text-list
   @for $i from 1 through 20
-    &[start="#{$i}"]
+    &:is(ol)[start="#{$i}"]
       $reset: $i - 1
       counter-reset: ol-counter $reset
-  &>li
+  &:is(ol)>li
     counter-increment: ol-counter
 
-  &>li:before
+  &:is(ol)>li:before
     content: counter(ol-counter)'.'
     height: 100%
     bottom: .05em
