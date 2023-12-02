@@ -4,8 +4,8 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <f:variable name="props" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1}"/>
-    <div class="{name}" id="{object.uid}">
+    <f:variable name="props" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1, duration:150}"/>
+    <div class="{name}" id="c{object.uid}">
       <button class="{name}__button"
               id="{object.uid}-header"
               aria-controls="{object.uid}-collapse">
