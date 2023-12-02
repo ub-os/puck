@@ -1,4 +1,4 @@
-import { $target } from '~/Utility/DomUtility'
+import { $, $$, $id, $target } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners";
 import AbstractController from "~/Application/AbstractController";
 
@@ -39,6 +39,8 @@ export default class Toggleable extends AbstractController {
     escOff: true,
     // toggle off on outside click
     outClickOff: false,
+    // toggle off on scroll
+    scrollOff: false,
     // target which is checked for outside click
     outTarget: null,
     // media is paused on toggle off
@@ -120,12 +122,12 @@ export default class Toggleable extends AbstractController {
       ...this.constructor.props.classes,
       ...this.classes
     }
-    this.groupEl = this.groupId ? document.getElementById(this.groupId) : null
-    this.toggles = document.querySelectorAll(`[aria-controls="${this.el.id}"], [data-toggle-for="${this.el.id}"]`)
+    this.groupEl = this.groupId ? $id(this.groupId) : null
+    this.toggles = $$(`[aria-controls="${this.el.id}"], [data-toggle-for="${this.el.id}"]`)
     if (this.hashToggles) {
       this.toggles = [
         ...this.toggles,
-        ...document.querySelectorAll(`a[href="/#${this.el.id}"], a[href="${window.location.pathname}#${this.el.id}"], a[href="${window.location.origin+window.location.pathname}#${this.el.id}"]`)
+        ...$$(`a[href="/#${this.el.id}"], a[href="${window.location.pathname}#${this.el.id}"], a[href="${window.location.origin+window.location.pathname}#${this.el.id}"]`)
       ]
     }
     if (!this.toggles.length) {
@@ -133,10 +135,10 @@ export default class Toggleable extends AbstractController {
       console.trace()
     }
     if (this.pauseMediaOnOff) {
-      this.mediaChildren = this.el.querySelectorAll('video, audio')
+      this.mediaChildren = this.el.$$('video, audio')
     }
     if (this.reloadIframeOnOff) {
-      this.iframeChildren = this.el.querySelectorAll('iframe')
+      this.iframeChildren = this.el.$$('iframe')
     }
     this.listeners = new Listeners()
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
@@ -198,6 +200,11 @@ export default class Toggleable extends AbstractController {
     if (this.escOff) {
       this.listeners.add(this.el, 'keydown', event => {
         if (event.key === 'Escape') this.el.dispatchEvent(Toggleable.events.toggleOff)
+      })
+    }
+    if (this.scrollOff) {
+      this.listeners.add(window, 'scroll', () => {
+        if (this.active) this.el.dispatchEvent(Toggleable.events.toggleOff)
       })
     }
     if (this.urlHashOn) {
