@@ -9,7 +9,8 @@
          aria-label="{f:translate(extensionName: 'puck', key: 'to-top')}"
          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
          tabindex="-1"
-         use-scroll-sensitive="{props -> f:format.json()}">
+         data-controller="scroll-sensitive"
+         data-scroll-sensitive="{props -> f:format.json()}">
       <icon:svg icon="angle-up-regular" class="{name}__icon"/>
     </div>
 
