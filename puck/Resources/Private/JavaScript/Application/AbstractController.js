@@ -78,15 +78,11 @@ export default class AbstractController {
     initialize()  { return this }
     connect() { return this }
     disconnect() { return this }
-    reconnect() {
-        this.disconnect()
-        this.connect()
-        return this
-    }
     attributeChanged(name, oldVal, newVal) {
         if (name === `data-${kebabCase(this.constructor.identifier)}-update`) {
             this.el.removeAttribute(name)
-            this.reconnect()
+            this.disconnect()
+            this.connect()
             return
         }
         const prop = this.constructor.attrToPropName[name]
