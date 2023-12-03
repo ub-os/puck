@@ -120,7 +120,7 @@ class MenuController extends ActionController
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
         if ($this->settings['pagination']['active'] && $records->count() > $itemsPerPage) {
             $paginator = $this->createPaginator($records, $itemsPerPage);
-            $numberedPaginator = $this->createNumberedPaginator($paginator);
+            $numberedPaginator = $this->createSlidingWindowPagination($paginator);
             $this->addPaginationLinksToHead($paginator, $this->request->getArguments());
             $this->view->assign('pagination', $this->buildPagination(
                 $paginator,

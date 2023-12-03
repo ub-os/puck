@@ -7,7 +7,7 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
-use GeorgRinger\NumberedPagination\NumberedPagination;
+use TYPO3\CMS\Core\Pagination\SlidingWindowPagination;
 use UBOS\Puck\Menu\Dto\Pagination;
 use UBOS\Puck\Menu\Dto\PaginationItem;
 use UBOS\Puck\Menu\Dto\FetchLinkOptions;
@@ -43,76 +43,68 @@ trait PaginationMenu
         );
     }
 
-    public function createNumberedPaginator(
+    public function createSlidingWindowPagination(
         QueryResultPaginator $paginator,
         int $maximumLinks = 3
-    ): NumberedPagination
+    ): SlidingWindowPagination
     {
-        return new NumberedPagination($paginator, $maximumLinks);
+        return new SlidingWindowPagination($paginator, $maximumLinks);
     }
 
     public function buildPagination(
         QueryResultPaginator $paginator,
-        NumberedPagination $numberedPaginator,
+        SlidingWindowPagination $slidingWindowPagination,
         string $type = 'pagination',
         ): Pagination
     {
-        $arguments = $this->request->getArguments();
-        $currentPage = intval($arguments['page'] ?? '1');
-        $prevPage = $currentPage > 1
-            ? $currentPage - 1
-            : 0;
-        $nextPage = $currentPage < $paginator->getNumberOfPages()
-            ? $currentPage + 1
-            : 0;
-        $separatorLeft = $numberedPaginator->getDisplayRangeStart() > 2;
-        $separatorRight = ($paginator->getNumberOfPages() - $numberedPaginator->getDisplayRangeEnd()) > 1;
-        $itemsPages = $paginator->getNumberOfPages() > 2
+        $itemsPages = $slidingWindowPagination->getLastPageNumber() > 2
             ? range(
-            $separatorLeft
-                ? $numberedPaginator->getDisplayRangeStart()
+                $slidingWindowPagination->getHasLessPages()
+                ? $slidingWindowPagination->getDisplayRangeStart()
                 : 2,
-            $separatorRight
-                ? $numberedPaginator->getDisplayRangeEnd()
-                : $paginator->getNumberOfPages() - 1
+                $slidingWindowPagination->getHasMorePages()
+                ? $slidingWindowPagination->getDisplayRangeEnd()
+                : $slidingWindowPagination->getLastPageNumber() - 1
             )
             : [];
-
-        unset($arguments['object']);
-        $arguments['page'] = $nextPage;
-
+        $loadMoreArgs = $this->request->getArguments();
+        unset($loadMoreArgs['object']);
+        $loadMoreArgs['page'] = $slidingWindowPagination->getNextPageNumber();
         return match($type) {
             'load-more', 'infinite-scroll' => new Pagination(
                 loadMore: new PaginationItem(
                     label: '+',
-                    url: $this->buildPaginationUri($arguments),
+                    url: $this->buildPaginationUri($loadMoreArgs),
                     fetchLinkOptions: new FetchLinkOptions(
-                        url: $this->buildPaginationUri($arguments, true),
+                        url: $this->buildPaginationUri($loadMoreArgs, true),
                         contentId: 'c' . $this->contentObject->getUid() . '-list',
                         mode: 'append',
                         scrollToContent: 0,
                         trigger: $type === 'infinite-scroll' ? 'scrollIntoView' : 'click',
                     ),
-                    disabled: !$nextPage
+                    disabled: !$slidingWindowPagination->getNextPageNumber()
                 )
             ),
             default => new Pagination(
-                prev: $prevPage ? $this->buildPaginationItem($prevPage, '<') : null,
-                next: $nextPage ? $this->buildPaginationItem($nextPage, '>') : null,
-                first: $this->buildPaginationItem(1),
-                last: $this->buildPaginationItem($paginator->getNumberOfPages()),
+                prev: $this->buildPaginationItem($slidingWindowPagination->getPreviousPageNumber(), '<'),
+                next: $this->buildPaginationItem($slidingWindowPagination->getNextPageNumber(), '>'),
+                first: $this->buildPaginationItem($slidingWindowPagination->getFirstPageNumber()),
+                last: $this->buildPaginationItem($slidingWindowPagination->getLastPageNumber()),
                 items: array_map(function($page) {
                     return $this->buildPaginationItem($page);
                 }, $itemsPages),
-                currentPage: $currentPage,
-                separatorLeft: $separatorLeft,
-                separatorRight: $separatorRight,
+                currentPage: $slidingWindowPagination->getPaginator()->getCurrentPageNumber(),
+                separatorLeft: $slidingWindowPagination->getHasLessPages(),
+                separatorRight: $slidingWindowPagination->getHasMorePages(),
             )
         };
     }
 
-    protected function buildPaginationItem(int $page, string $label = ''): ?PaginationItem
+    protected function buildPaginationItem(?int $page, string $label = ''): ?PaginationItem
     {
+        if (!$page) {
+            return null;
+        }
         $arguments = $this->request->getArguments();
         $active = $page == intval($arguments['page'] ?? '1');
         unset($arguments['object']);

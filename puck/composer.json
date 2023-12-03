@@ -6,24 +6,23 @@
   "version": "1.0.0",
   "require": {
     "php": "^8",
+    "phpoffice/phpspreadsheet": "^1.27",
     "typo3/cms-core": "^11 || ^12",
     "typo3/cms-lowlevel": "^11 || ^12",
     "typo3/cms-redirects": "^11 || ^12",
     "typo3/cms-recycler": "^11 || ^12",
     "ichhabrecht/content-defender": "^3.4",
     "sitegeist/fluid-components": "^3.6",
+    "christophlehmann/pagetreefilter": "^2.0",
+    "eliashaeussler/typo3-warming": "^1",
     "brotkrueml/schema": "^2.6",
     "plan2net/webp": "^5.0",
     "b13/menus": "^1.0",
     "b13/container": "^2.3",
-    "b13/doktypemapper": "^1.1",
-    "christophlehmann/pagetreefilter": "^2.0",
-    "eliashaeussler/typo3-warming": "^1",
-    "phpoffice/phpspreadsheet": "^1.27",
-    "georgringer/numbered-pagination": "^1.0",
     "oliveoilexpert/puckloader": "^0.1.1",
     "t3/scroll": "^2",
-    "oliveoilexpert/ckeditor-icons": "^0.2"
+    "oliveoilexpert/ckeditor-icons": "^0.2",
+    "kitzberger/doktype-typolink": "^3"
   },
   "replace": {
     "typo3-ter/puck": "self.version"
