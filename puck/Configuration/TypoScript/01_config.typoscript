@@ -48,7 +48,7 @@ Umsetzung in TYPO3: UNIBRAND OS
         }
     }
 }
-[{$development} == 1]
+[applicationContext == "Development"]
     config.compressCss = 0
     config.compressJs = 0
 [END]
