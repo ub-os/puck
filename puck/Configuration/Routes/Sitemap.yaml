@@ -4,7 +4,7 @@ routeEnhancers:
     limitToPages:
       - 2
     map:
-      sitemap.xml: 1533906435
+      .xml: 1533906435
   Sitemap:
     type: Simple
     routePath: '{sitemap}'
@@ -12,5 +12,6 @@ routeEnhancers:
       sitemap:
         type: StaticValueMapper
         map:
-          pages: pages
+          sitemap-index: ''
+          sitemap: pages
 
