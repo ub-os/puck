@@ -64,15 +64,11 @@ trait CategoryFilterMenu
 
         // create category query
         $this->getCategoryRepository()->setDefaultOrderings($order);
-        $query = $this->getCategoryRepository()->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(false);
 
         // build items from categories
         if ($filterCategories) {
-            $filterCategories = $query
-                ->matching($query->in('uid', explode(',',$filterCategories)))
-                ->execute();
-            foreach($filterCategories->toArray() as $category) {
+            $categories = $this->getCategoryRepository()->findByUidList($filterCategories)->toArray();
+            foreach($categories as $category) {
                 $filter->items[] = $this->buildCategoryFilterItem(
                     $categoryList,
                     $category,
@@ -84,18 +80,13 @@ trait CategoryFilterMenu
 
         // build items from parent categories
         if ($groupCategories) {
-
-            $groupFilterCategories = $query
-                ->matching($query->in('uid', explode(',',$groupCategories)))
-                ->execute();
-            foreach($groupFilterCategories->toArray() as $category) {
+            $groupFilterCategories = $this->getCategoryRepository()->findByUidList($groupCategories)->toArray();
+            foreach($groupFilterCategories as $category) {
                 $groupItem = new CategoryFilterItem(
                     label: $category->title,
                 );
 
-                $subCategories = $query
-                    ->matching($query->equals('parent', $category->getUid()))
-                    ->execute();
+                $subCategories = $this->getCategoryRepository()->findByParent($category->getUid());
                 foreach($subCategories->toArray() as $subCategory) {
                     if (GeneralUtility::inList($categoryList, (string)$subCategory->getUid())) {
                         $groupItem->activeItemsUids[] = $subCategory->getUid();
@@ -114,9 +105,7 @@ trait CategoryFilterMenu
                         $categoryListSettingsName);
 
                     if ($groupDepth === 2) {
-                        $subCategories2 = $query
-                            ->matching($query->equals('parent', $subCategory->getUid()))
-                            ->execute();
+                        $subCategories2 = $this->getCategoryRepository()->findByParent($subCategory->getUid());
                         $item->activeItemsUids[] = $subCategory->getUid();
                         foreach($subCategories2->toArray() as $subCategory2) {
                             if (GeneralUtility::inList($categoryList, (string)$subCategory2->getUid())) {
@@ -151,7 +140,6 @@ trait CategoryFilterMenu
                             );
                         }
                     }
-
                     $groupItem->items[] = $item;
                 }
                 if ($groupItem->activeItemsUids) {
