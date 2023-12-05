@@ -2,7 +2,6 @@
 
 namespace UBOS\Puck\Menu\Trait\Repository;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -49,7 +48,7 @@ trait FindByMenuDemand
             $query->setOffset($demand->offset);
         }
         $orderDirection = $demand->orderDirection === 'desc' ? QueryInterface::ORDER_DESCENDING : QueryInterface::ORDER_ASCENDING;
-        $query->setOrderings([$demand->orderField => $orderDirection, 'sorting' => QueryInterface::ORDER_ASCENDING]);
+        $query->setOrderings([$demand->orderField => $orderDirection, 'sorting' => $orderDirection]);
         if (!$constraints) {
             $constraints[] = $query->greaterThan('uid', 0);
         }

@@ -3,14 +3,14 @@ routeEnhancers:
     type: PageType
     index: ''
     map:
-      /page-menu: 16500000
+      /page-menu.fragment.html: 16500000
   PageMenu:
     type: Extbase
     extension: Puck
     plugin: PageMenu
     routes:
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{pageLabel}/{page}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}'
@@ -19,10 +19,10 @@ routeEnhancers:
         routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}'
+        routePath: '/{pluginLabel}/{authorLabel}/{authorList}/{pageLabel}/{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/{pluginLabel}/{authorLabel}/{authorList}'
@@ -33,6 +33,7 @@ routeEnhancers:
       -
         routePath: '/'
         _controller: 'Menu::pageMenu'
+
     aspects:
       pluginLabel:
         type: LocaleModifier

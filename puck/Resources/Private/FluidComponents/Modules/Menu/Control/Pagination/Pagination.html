@@ -13,7 +13,9 @@
         <f:if condition="{pagination.prev}">
           <module:menu.control.pagination.item item="{pagination.prev}"  sectionId="{sectionId}"/>
         </f:if>
-        <module:menu.control.pagination.item item="{pagination.first}"  sectionId="{sectionId}"/>
+        <f:if condition="{pagination.first}">
+          <module:menu.control.pagination.item item="{pagination.first}"  sectionId="{sectionId}"/>
+        </f:if>
         <f:if condition="{pagination.separatorLeft}">
            {pagination.separatorString} 
         </f:if>
@@ -23,7 +25,9 @@
         <f:if condition="{pagination.separatorRight}">
            {pagination.separatorString} 
         </f:if>
-        <module:menu.control.pagination.item item="{pagination.last}"  sectionId="{sectionId}"/>
+        <f:if condition="{pagination.last}">
+          <module:menu.control.pagination.item item="{pagination.last}"  sectionId="{sectionId}"/>
+        </f:if>
         <f:if condition="{pagination.next}">
           <module:menu.control.pagination.item item="{pagination.next}"  sectionId="{sectionId}"/>
         </f:if>
