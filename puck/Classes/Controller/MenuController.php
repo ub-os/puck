@@ -7,7 +7,7 @@ namespace UBOS\Puck\Controller;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use UBOS\Puck\Domain\Repository\CategoryRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 use UBOS\Puckloader\Attribute\Plugin;
@@ -16,6 +16,7 @@ use UBOS\Puck\Menu\Dto\MenuDemand;
 use UBOS\Puck\Menu\CategoryFilterBuilder;
 use UBOS\Puck\Menu\PaginationBuilder;
 use UBOS\Puck\Domain\Repository\PageRepository;
+use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\ContentRepository;
 use UBOS\Puck\Domain\Model\Content\MenuPages;
 use UBOS\Puck\Domain\Model\Content\MenuPersons;
