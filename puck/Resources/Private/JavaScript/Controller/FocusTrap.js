@@ -1,9 +1,9 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
 import { MutationManager } from "~/Service/ObserverCollector";
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class FocusTrap extends AbstractController {
+export default class FocusTrap extends Controller {
     static events = {
         focusablesChanged: new Event('focusables-changed'),
         updateFocusables: new Event('update-focusables')

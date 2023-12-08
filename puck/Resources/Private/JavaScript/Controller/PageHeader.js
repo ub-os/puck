@@ -1,9 +1,9 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
 import ScrollSensitive from "~/Controller/ScrollSensitive";
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class PageHeader extends AbstractController {
+export default class PageHeader extends Controller {
     static props = {
         scrollTops: {
             0: 1

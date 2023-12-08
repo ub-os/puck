@@ -1,9 +1,9 @@
 import Splide from '@splidejs/splide'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class Carousel extends AbstractController {
+export default class Carousel extends Controller {
     static props = {
         vertical: false,
         activeClass: '--active',

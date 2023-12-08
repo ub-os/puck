@@ -1,8 +1,8 @@
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners";
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class Toggleable extends AbstractController {
+export default class Toggleable extends Controller {
   static displayName = 'Toggleable'
   static events = {
     toggle: new Event('toggle'),

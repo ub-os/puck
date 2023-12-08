@@ -1,8 +1,8 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
-import AbstractController from '~/Application/AbstractController'
+import Controller from '~/Application/Controller.js'
 import Listeners from '~/Service/Listeners'
 
-export default class AnchorBehavior extends AbstractController {
+export default class AnchorBehavior extends Controller {
     static props = {
         scrollOffset: 0,
         scrollTopOnCurrentLink: true,

@@ -2,9 +2,9 @@ let Plyr = class {}
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class MediaPlayer extends AbstractController {
+export default class MediaPlayer extends Controller {
     static props = {
         provider: 'mp4',
         width: 1920,

@@ -1,9 +1,9 @@
 import Listeners from "~/Service/Listeners"
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
 
-export default class ScrollReveal extends AbstractController {
+export default class ScrollReveal extends Controller {
     static events = {
         addScrollClass: new Event('add-scroll-class'),
         removeScrollClass: new Event('remove-scroll-class'),

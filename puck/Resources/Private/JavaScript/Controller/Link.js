@@ -1,8 +1,8 @@
 import * as Turbo from "@hotwired/turbo"
 import { noDragClick } from '~/Utility/DomUtility'
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class Link extends AbstractController {
+export default class Link extends Controller {
   static props = {
     to: '',
     target: '',

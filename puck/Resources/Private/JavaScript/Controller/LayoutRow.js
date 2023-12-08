@@ -1,6 +1,6 @@
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class LayoutRow extends AbstractController {
+export default class LayoutRow extends Controller {
   connect() {
     if (this.el.children.length < 3) return this
     this.el.setAttribute('role', 'list')

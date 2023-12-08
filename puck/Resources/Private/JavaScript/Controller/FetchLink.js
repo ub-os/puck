@@ -1,9 +1,9 @@
 import { $, $$, $id, jsx, $target, scrollTo } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
 import { IntersectionManager } from "~/Service/ObserverCollector.js"
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
-export default class FetchLink extends AbstractController {
+export default class FetchLink extends Controller {
   static props = {
     url: '',
     mode: 'replace',

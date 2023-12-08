@@ -1,6 +1,6 @@
 import { kebabCase, jsonParse } from "~/Utility/StringUtility";
 
-export default class AbstractController {
+export default class Controller {
     static props = {}
     static identifier = null
     static registerCallback() { }
@@ -87,10 +87,15 @@ export default class AbstractController {
         }
         const prop = this.constructor.attrToPropName[name]
         if (!prop) return
+        let newPropVal;
         if (newVal === null || newVal === undefined) {
-            this[`#${prop}`] = this.constructor.props[prop]
-            return
+            newPropVal = this.constructor.props[prop]
+        } else {
+            newPropVal = this.constructor.convertToPropValue(prop, newVal)
         }
-        this[`#${prop}`] = this.constructor.convertToPropValue(prop, newVal)
+        this[`#${prop}`] = newPropVal
+        if (this[`${prop}Changed`] && typeof this[`${prop}Changed`] === 'function') {
+            this[`${prop}Changed`](this.constructor.convertToPropValue(prop, oldVal), newPropVal)
+        }
     }
 }

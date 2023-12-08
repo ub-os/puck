@@ -1,10 +1,10 @@
 import { $, $$, jsx, $target } from '~/Utility/DomUtility'
 import Listeners from "~/Service/Listeners"
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import AbstractController from "~/Application/AbstractController";
+import Controller from "~/Application/Controller.js";
 
 
-export default class ScrollSensitive extends AbstractController {
+export default class ScrollSensitive extends Controller {
   static props = {
     classes: {
       topInsideView: '--top-inside-view',
