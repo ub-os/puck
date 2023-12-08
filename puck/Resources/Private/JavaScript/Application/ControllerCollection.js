@@ -1,4 +1,5 @@
-import {kebabCase} from "~/Utility/StringUtility.js";
+import { kebabCase } from "~/Utility/StringUtility.js";
+import { $$ } from "~/Utility/DomUtility.js";
 
 export default class ControllerCollection {
     static controllers = {}
@@ -52,11 +53,15 @@ export default class ControllerCollection {
         return this
     }
     connectedCallback() {
-        this.list.forEach(controller => controller.connect())
+        this.list.forEach(controller => {
+            controller.connect()
+        })
         return this
     }
     disconnectedCallback() {
-        this.list.forEach(controller => controller.disconnect())
+        this.list.forEach(controller => {
+            controller.disconnect()
+        })
         return this
     }
     attributeChangedCallback(name, oldVal, newVal) {
