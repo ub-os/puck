@@ -17,6 +17,7 @@ ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
 );
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBOS\Puck\Routing\Aspect\NothingMapper::class;
 
 // add new doktypes to the new page drag area
 ExtensionManagementUtility::addUserTSConfig(
