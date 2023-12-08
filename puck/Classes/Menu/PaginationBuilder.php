@@ -20,7 +20,6 @@ class PaginationBuilder
         'pageArgumentKey' => 'page',
         'itemsPerPage' => 12,
         'maximumLinks' => 3,
-        'active' => true,
         'variant' => ''
     ];
     protected ?SlidingWindowPagination $slidingWindowPagination = null;
@@ -34,7 +33,7 @@ class PaginationBuilder
     ) {
     }
 
-    public function configure(array $settings): PaginationBuilder
+    public function configure(array $settings): self
     {
         $this->settings = array_merge($this->settings, $settings);
         $this->slidingWindowPagination = null;
@@ -44,19 +43,16 @@ class PaginationBuilder
     public function getSlidingWindowPagination(): SlidingWindowPagination
     {
         if (!$this->slidingWindowPagination) {
-            $this->slidingWindowPagination = $this->buildSlidingWindowPagination();
+            $paginator = new QueryResultPaginator(
+                $this->result,
+                intval($this->request->getArguments()[$this->settings['pageArgumentKey']] ?? '1'),
+                $this->settings['itemsPerPage']
+            );
+            $this->slidingWindowPagination = new SlidingWindowPagination($paginator, $this->settings['maximumLinks']);
         }
         return $this->slidingWindowPagination;
     }
-    protected function buildSlidingWindowPagination(): SlidingWindowPagination
-    {
-        $paginator = new QueryResultPaginator(
-            $this->result,
-            intval($this->request->getArguments()[$this->settings['pageArgumentKey']] ?? '1'),
-            $this->settings['itemsPerPage']
-        );
-        return new SlidingWindowPagination($paginator, $this->settings['maximumLinks']);
-    }
+
 
     protected function buildUri(array $arguments, bool $isFetchUri = false): string
     {
@@ -137,7 +133,7 @@ class PaginationBuilder
         return $this->getSlidingWindowPagination()->getPaginator()->getPaginatedItems();
     }
 
-    public function addPaginationLinksToHead(): PaginationBuilder
+    public function addPaginationLinksToHead(): self
     {
         $arguments = $this->request->getArguments();
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

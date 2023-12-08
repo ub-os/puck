@@ -8,9 +8,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use UBOS\Puck\Menu\Trait\Repository\FindByMenuDemand;
+use UBOS\Puck\Menu\MenuDemandRepository;
+use UBOS\Puck\Menu\FindByMenuDemand;
 
-class PageRepository extends Repository
+class PageRepository extends Repository implements MenuDemandRepository
 {
     use FindByMenuDemand;
 

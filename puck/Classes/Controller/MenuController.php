@@ -57,18 +57,14 @@ class MenuController extends ActionController
         ?MenuPages $object = null): ResponseInterface
     {
         if ($object) {
-            // get settings from object if provided
-            $this->settings = $object->getFlexForms()['piFlexform']['settings'];
+            $this->settings = array_merge($this->settings, $object->getFlexForms()['piFlexform']['settings']);
         } else {
-            // map the plugin tt_content data to MenuPages content object
             $contentObjectData =$this->request->getAttribute('currentContentObject')->data;
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            $contentClassName = $this->settings['contentElement'] ?? 'MenuPages';
-            $object = $dataMapper->map('UBOS\\Puck\\Domain\\Model\\Content\\'.$contentClassName, [$contentObjectData])[0];
+            $object = $dataMapper->map(MenuPages::class, [$contentObjectData])[0];
         }
 
-        // prepare settings for demand
-        if ($categoryList && $this->settings['demand']['overrideDemand']) {
+        if ($this->settings['demand']['overrideDemand']) {
             $categoryList && $this->settings['demand']['category']['list'] = $categoryList;
             $categoryConjunction && $this->settings['demand']['category']['conjunction'] = $categoryConjunction;
             $authorList && $this->settings['demand']['author'] = $authorList;
@@ -79,7 +75,6 @@ class MenuController extends ActionController
 
         $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand());
 
-        // paginate the records (optional) and add them to the  object
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
         if ($this->settings['pagination']['active'] && $records->count() > $itemsPerPage) {
             $paginationBuilder = new PaginationBuilder(
@@ -106,9 +101,9 @@ class MenuController extends ActionController
                 request: $this->request,
                 uriBuilder: $this->uriBuilder,
                 categoryRepository: $this->categoryRepository,
+                menuActionName: 'pageMenu',
                 menuRepository: $this->pageRepository,
                 menuDemand: $this->getMenuDemand(),
-                menuActionName: 'pageMenu',
                 menuContentObjectUid: $object->getUid(),
                 fetchLinkPageType: 16500000,
             );

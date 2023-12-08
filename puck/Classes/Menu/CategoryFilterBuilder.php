@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\RepositoryInterface;
 use UBOS\Puck\Domain\Model\Category;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Menu\Dto\MenuDemand;
@@ -24,29 +25,61 @@ class CategoryFilterBuilder
         'multiSelectWithinGroup' => false,
         'checkPotential' => false,
         'unsetArguments' => ['page', 'object'],
-        'categoryListArgumentKey' => 'categoryList',
-        'categoryListDemandKey' => 'categoryList',
+        'categoryArgumentKey' => 'categoryList',
+        'categoryDemandKey' => 'categoryList',
         'groupDepth' => 1,
         'categoryOrder' => ['sorting' => QueryInterface::ORDER_ASCENDING],
         'buildSecondLevelOfInactiveParent' => false,
+        'elements' => [
+            [
+                'uid' => '',
+                'category' => null,
+                'multiSelect' => false,
+                'disabled' => true,
+                'tree' => [
+                    [
+                        'multiSelect' => true,
+                        'disabled' => false,
+                    ]
+                ],
+                'treeDepth' => 2,
+            ],
+            []
+        ]
     ];
+
+
+    protected array $filterElementConfiguration = [
+        'uid' => '',
+        'category' => null,
+        'multiSelect' => false,
+        'buildTreeDepth' => 1,
+        'disabledTreeDepth' => 0,
+        'buildTreeDepthBelowDisabled' => 0,
+        'siblings' => ''
+    ];
+
+    protected array $filterConfiguration = [
+        'elementConfigurations' => [],
+    ];
+
     protected string $activeCategories = '';
     public function __construct(
         protected Request $request,
         protected UriBuilder $uriBuilder,
         protected CategoryRepository $categoryRepository,
-        protected $menuRepository,
-        protected MenuDemand $menuDemand,
         protected string $menuActionName,
+        protected ?MenuDemandRepository $menuRepository = null,
+        protected ?MenuDemand $menuDemand = null,
         protected int $menuContentObjectUid = 0,
         protected int $fetchLinkPageType = 0,
     ) {
     }
 
-    public function configure(array $settings): CategoryFilterBuilder
+    public function configure(array $settings): self
     {
         $this->settings = array_merge($this->settings, $settings);
-        $this->activeCategories = $this->request->getArguments()[$this->settings['categoryListArgumentKey']] ?? '';
+        $this->activeCategories = $this->request->getArguments()[$this->settings['categoryArgumentKey']] ?? '';
         return $this;
     }
     
@@ -62,6 +95,21 @@ class CategoryFilterBuilder
             ->setTargetPageType($isFetchUri ? $this->fetchLinkPageType : 0)
             ->uriFor($this->menuActionName, $arguments);
     }
+
+    public function build2(): ?CategoryFilter
+    {
+        if (!$this->settings['elements']) {
+            return null;
+        }
+        $filter = new CategoryFilter();
+        $activeCategoryArray = $this->activeCategories ? explode(',', $this->activeCategories) : [];
+        $arguments = $this->request->getArguments();
+        foreach($this->settings['unsetArguments'] as $unsetArgument) {
+            unset($arguments[$unsetArgument]);
+        }
+        $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);
+        return $filter;
+    }
     
     public function build(): ?CategoryFilter
     {
@@ -73,16 +121,13 @@ class CategoryFilterBuilder
         );
         $currentCategories = $this->activeCategories ? explode(',', $this->activeCategories) : [];
 
-        // remove page and object arguments from uri
         $arguments = $this->request->getArguments();
         foreach($this->settings['unsetArguments'] as $unsetArgument) {
             unset($arguments[$unsetArgument]);
         }
 
-        // create category query
         $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);
 
-        // build items from categories
         if ($this->settings['categories']) {
             $categories = $this->categoryRepository->findByUidList($this->settings['categories'])->toArray();
             foreach($categories as $category) {
@@ -90,7 +135,6 @@ class CategoryFilterBuilder
             }
         }
 
-        // build items from parent categories
         if ($this->settings['groupCategories']) {
             $groupFilterCategories = $this->categoryRepository->findByUidList($this->settings['groupCategories'])->toArray();
             foreach($groupFilterCategories as $category) {
@@ -106,9 +150,12 @@ class CategoryFilterBuilder
                 }
                 foreach($subCategories->toArray() as $subCategory) {
                     $newActiveUids = $currentCategories;
+                    // if !multiselectWithinGroup and multiselect and group has actives
+                    // => goal: remove other actives from current group, but not from other groups
                     if (!($this->settings['multiSelectWithinGroup'] ?? false) && $this->settings['multiSelect'] && $groupItem->activeItemsUids) {
                         $newActiveUids = array_diff($currentCategories, array_diff($groupItem->activeItemsUids, [$subCategory->getUid()]));
                     }
+
                     $item = $this->buildItem(
                         $subCategory,
                         implode(',',$newActiveUids),
@@ -136,7 +183,7 @@ class CategoryFilterBuilder
 
                         if ($item->active) {
                             $closeArguments = $arguments;
-                            $closeArguments[$this->settings['categoryListArgumentKey']] = implode(',', array_diff($currentCategories, $item->activeItemsUids)) ?: null;
+                            $closeArguments[$this->settings['categoryArgumentKey']] = implode(',', array_diff($currentCategories, $item->activeItemsUids)) ?: null;
                             $item->closeItem = new CategoryFilterItem(
                                 label: $item->label,
                                 url: $this->buildUri($closeArguments),
@@ -149,10 +196,11 @@ class CategoryFilterBuilder
                     }
                     $groupItem->items[] = $item;
                 }
+
                 if ($groupItem->activeItemsUids) {
                     $groupItem->active = true;
                     $closeArguments = $arguments;
-                    $closeArguments[$this->settings['categoryListArgumentKey']] = implode(',', array_diff($currentCategories, $groupItem->activeItemsUids)) ?: null;
+                    $closeArguments[$this->settings['categoryArgumentKey']] = implode(',', array_diff($currentCategories, $groupItem->activeItemsUids)) ?: null;
                     $groupItem->closeItem = new CategoryFilterItem(
                         label: $groupItem->label,
                         url: $this->buildUri($closeArguments),
@@ -162,6 +210,7 @@ class CategoryFilterBuilder
                         )
                     );
                 }
+
                 $filter->items[] = $groupItem;
             }
         }
@@ -204,16 +253,14 @@ class CategoryFilterBuilder
             }
         }
         if ($unsetCategory) {
-            unset($arguments[$this->settings['categoryListArgumentKey']]);
+            unset($arguments[$this->settings['categoryArgumentKey']]);
         } else {
-            $arguments[$this->settings['categoryListArgumentKey']] = $newCategoryList;
+            $arguments[$this->settings['categoryArgumentKey']] = $newCategoryList;
         }
 
-        if ($this->settings['checkPotential']) {
+        if ($this->settings['checkPotential'] && $this->menuRepository && $this->menuDemand) {
             $potentialDemand = $this->menuDemand;
-            $potentialDemand->categoryList = $arguments['categoryList'] ?? '';
-            $potentialDemand->categoryList2 = $arguments['categoryList2'] ?? '';
-            $potentialDemand->{$this->settings['categoryListDemandKey']} = $newCategoryList;
+            $potentialDemand->{$this->settings['categoryDemandKey']} = $newCategoryList;
             $potentialDemand->limit = 1;
             $hasNoPotential = !$this->menuRepository->findByMenuDemand($potentialDemand)->getFirst();
         }
@@ -231,7 +278,7 @@ class CategoryFilterBuilder
         );
     }
 
-    public function addCategorySuffixToPageTitle(): CategoryFilterBuilder
+    public function addCategorySuffixToPageTitle(): self
     {
         if (!$this->activeCategories) {
             return $this;

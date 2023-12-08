@@ -15,6 +15,17 @@ class MenuDemand
         public string $categoryConjunction = 'or',
         public string $categoryList2 = '',
         public string $categoryConjunction2 = 'or',
+        public array $categoryBuckets = [
+            'category' => [
+                'uids' => '',
+                'conjunction' => 'or'
+            ],
+            'category2' => [
+                'uids' => '',
+                'conjunction' => 'or'
+            ]
+        ],
+        public string $bucketConjunction = 'and',
         public string $orderField = 'sorting',
         public string $orderDirection = 'asc',
         public array $additionalSettings = []
