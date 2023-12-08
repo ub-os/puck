@@ -2,7 +2,10 @@ options {
     //clearCache.all = 0
     //clearCache.pages = 0
     clearCache.system = 1
-    pageTree.showPageIdWithTitle = 1
-    pageTree.showDomainNameWithTitle = 1
+    pageTree {
+        showPageIdWithTitle = 1
+        showDomainNameWithTitle = 1
+        excludeDoktypes = 16503
+    }
 }
 admPanel.hide = 1
