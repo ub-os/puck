@@ -8,7 +8,7 @@
     <f:if condition="{pagination.loadMore}">
         <module:menu.control.loadMoreButton loadMoreItem="{pagination.loadMore}"/>
     </f:if>
-    <f:if condition="{pagination.first.label} != {pagination.last.label}">
+    <f:if condition="{pagination.items}">
       <ul class="{name}">
         <f:if condition="{pagination.prev}">
           <module:menu.control.pagination.item item="{pagination.prev}"  sectionId="{sectionId}"/>

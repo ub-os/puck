@@ -17,6 +17,7 @@
                                   <f:if condition="{item.closeItem}">
                                       <a href="{item.closeItem.url}"
                                          class="e-dropdown__close"
+                                         data-turbo-action="advance"
                                          >
                                           {item.activeItemsUids -> f:count()}
                                           <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
@@ -33,6 +34,7 @@
                                           <f:then>
                                               <a href="{item2.url}"
                                                  class="e-dropdown__option {mods -> puck:modClass()}"
+                                                 data-turbo-action="advance"
                                                  >
                                                   {item2.label} <icon:char icon="xmark-regular" class="e-button-dropdown__option__close__icon"/>
                                               </a>
@@ -40,7 +42,9 @@
                                           <f:else>
                                               <a href="{item2.url}"
                                                  class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 >
+                                                 data-fetch-href="{item2.fetchLinkOptions.url}"
+                                                 data-turbo-action="advance"
+                                              >
                                                   {item2.label}
                                               </a>
                                           </f:else>
@@ -53,6 +57,7 @@
                               <f:variable name="mods" value="{-active:item.active, disabled:item.hasNoPotential, icon: item.active}"/>
                               <a href="{item.url}"
                                  class="{name}__link e-button-primary {mods -> puck:modClass()}"
+                                 data-turbo-action="advance"
                                  >
                                   {item.label}<f:if condition="{item.active}"> <icon:char icon="xmark-regular" /></f:if>
                               </a>
