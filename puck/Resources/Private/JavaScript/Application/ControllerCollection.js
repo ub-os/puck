@@ -6,14 +6,10 @@ export default class ControllerCollection {
     static #idx = 0
     static processControllerProps(identifier, constructor) {
         constructor.propToAttrName = {}
-        for (let prop in constructor.props) {
-            constructor.propToAttrName[prop] = `data-${identifier}-${kebabCase(prop)}`
-        }
         constructor.attrToPropName = {}
         for (let prop in constructor.props) {
+            constructor.propToAttrName[prop] = `data-${identifier}-${kebabCase(prop)}`
             constructor.attrToPropName[`data-${identifier}-${kebabCase(prop)}`] = prop
-        }
-        for (let prop in constructor.props) {
             Object.defineProperty(constructor.prototype, prop, {
                 get() {
                     return this[`#${prop}`]
@@ -21,6 +17,16 @@ export default class ControllerCollection {
                 set(val) {
                     this.setProp(prop, val, true)
                 }
+            })
+        }
+        for (let target in constructor.targets) {
+            Object.defineProperty(constructor.prototype, target + "Targets", {
+                get() {
+                    return [
+                        ...$$(`[data-controller-target="${target}@${identifier}#${this.el.id}"]`),
+                        ...this.el.$$(`[data-controller-target="${target}@${identifier}"]`)
+                    ]
+                },
             })
         }
     }

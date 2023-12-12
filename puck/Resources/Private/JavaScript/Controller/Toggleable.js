@@ -143,8 +143,8 @@ export default class Toggleable extends Controller {
     this.listeners = new Listeners()
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
     this.toggles.forEach(t => {
-      if (!t.getAttribute('aria-controls')) t.setAttribute('aria-controls', this.el.id)
-      t.hash = ''
+      //if (!t.getAttribute('aria-controls')) t.setAttribute('aria-controls', this.el.id)
+      //t.hash = ''
       switch (this.trigger) {
         case 'hover':
           this.listeners.add(t, 'mouseenter', () => {

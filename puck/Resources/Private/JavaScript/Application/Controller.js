@@ -1,4 +1,5 @@
 import { kebabCase, jsonParse } from "~/Utility/StringUtility";
+import { $$ } from "~/Utility/DomUtility";
 
 export default class Controller {
     static props = {}
@@ -57,6 +58,12 @@ export default class Controller {
     set el(el) {
         this._el = el
     }
+    get hashLinks() {
+        return [...$$(`a[href*="#${this.el.id}"]`)].filter(a => a.location.pathname === window.location.pathname)
+    }
+/*    get ariaControls() {
+        return [...$$(`[aria-controls="${this.el.id}"]`)]
+    }*/
     setProp(prop, val, sync = false) {
         this[`#${prop}`] = val
         if (!sync) return
@@ -75,6 +82,7 @@ export default class Controller {
         }
         this.el.setAttribute(attrName, writeVal)
     }
+
     initialize()  { return this }
     connect() { return this }
     disconnect() { return this }
@@ -93,9 +101,9 @@ export default class Controller {
         } else {
             newPropVal = this.constructor.convertToPropValue(prop, newVal)
         }
-        this[`#${prop}`] = newPropVal
-        if (this[`${prop}Changed`] && typeof this[`${prop}Changed`] === 'function') {
-            this[`${prop}Changed`](this.constructor.convertToPropValue(prop, oldVal), newPropVal)
+        if (typeof this[`${prop}Changed`] === 'function') {
+            this[`${prop}Changed`](this[`#${prop}`], newPropVal)
         }
+        this[`#${prop}`] = newPropVal
     }
 }
