@@ -7,14 +7,14 @@
     <f:variable name="props" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1, duration:150}"/>
     <div class="{name}" id="c{object.uid}">
       <button class="{name}__button"
-              id="{object.uid}-header"
-              aria-controls="{object.uid}-collapse">
+              id="c{object.uid}-header"
+              data-action="click->toggle@accordion#c{object.uid}-collapse">
         <span class="{name}__title"><f:format.raw>{object.header}</f:format.raw></span>
         <span class="{name}__icon"></span>
       </button>
       <div class="{name}__collapse"
-           id="{object.uid}-collapse"
-           aria-labelledby="{object.uid}-header"
+           id="c{object.uid}-collapse"
+           aria-labelledby="c{object.uid}-header"
            data-controller="accordion"
            data-accordion="{props -> f:format.json()}">
         <div class="{name}__content">

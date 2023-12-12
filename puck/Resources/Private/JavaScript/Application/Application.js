@@ -19,13 +19,16 @@ class Application {
         return $$('[data-controller]')
     }
     get controllerTargets() {
-        return $$('[data-controller-target]')
+        return $$('[data-target]')
     }
     get ariaControls() {
         return $$('[aria-controls]')
     }
     get hashLinks() {
         return $$('a[href*="#"]')
+    }
+    get actionElements() {
+        return $$('[data-action]')
     }
     connectControllers() {
         MutationManager.addById(
@@ -38,6 +41,7 @@ class Application {
         this.controllerTargets.forEach(el => this.connectControllerTarget(el))
         //this.ariaControls.forEach(el => this.connectAriaControl(el))
         this.hashLinks.forEach(el => this.connectHashLink(el))
+        this.actionElements.forEach(el => this.connectActionElement(el))
     }
 
     childListObserverControllerHandler(mutations) {
@@ -49,10 +53,10 @@ class Application {
             })
             mutation.removedNodes.forEach(node => {
                 if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-controller-target')) this.disconnectControllerTarget(node)
+                if (node.hasAttribute('data-target')) this.disconnectControllerTarget(node)
                 //if (node.hasAttribute('aria-controls')) this.disconnectAriaControl(node)
                 if (node.hash) this.disconnectHashLink(node)
-                node.$$('[data-controller-target]').forEach(el => this.disconnectControllerTarget(el))
+                node.$$('[data-target]').forEach(el => this.disconnectControllerTarget(el))
                 //node.$$('[aria-controls]').forEach(el => this.disconnectAriaControl(el))
                 node.$$('[href*="#"]').forEach(el => this.disconnectHashLink(el))
             })
@@ -60,10 +64,12 @@ class Application {
         mutations.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-controller-target')) this.connectControllerTarget(node)
+                if (node.hasAttribute('data-target')) this.connectControllerTarget(node)
+                if (node.hasAttribute('data-action')) this.connectActionElement(node)
                 //if (node.hasAttribute('aria-controls')) this.connectAriaControl(node)
                 if (node.hash) this.connectHashLink(node)
-                node.$$('[data-controller-target]').forEach(el => this.connectControllerTarget(el))
+                node.$$('[data-target]').forEach(el => this.connectControllerTarget(el))
+                node.$$('[data-action]').forEach(el => this.connectActionElement(el))
                 //node.$$('[aria-controls]').forEach(el => this.connectAriaControl(el))
                 node.$$('[href*="#"]').forEach(el => this.connectHashLink(el))
             })
@@ -72,6 +78,48 @@ class Application {
                 if (node.hasAttribute('data-controller')) this.disconnectControllerElement(node)
                 node.$$('[data-controller]').forEach(el => this.disconnectControllerElement(el))
             })
+        })
+    }
+
+    connectActionElement(el) {
+        console.log('connecting action', el)
+        el.dataset.action.split(' ').forEach(descriptor => {
+            const split = {}
+            split['->'] = descriptor.split('->')
+            const event = split['->'][0]
+            //if (!event) return
+            split['@'] = split['->'][1].split('@')
+            const method = split['@'][0]
+            //if (!method) return
+            split['#'] = split['@'][1].split('#')
+            const controller = split['#'][0]
+            const id = split['#'][1]
+           // if (!controller || !id) return
+            const controllerEl = $id(id)
+            //if (!controllerEl) return
+            const controllerInstance = controllerEl.controllerCollection.map.get(controller)
+            //if (!controllerInstance || typeof controllerInstance[method] !== 'function') return
+            console.log({ event, method, id, controller, controllerEl, controllerInstance })
+            const listenerOptions = {}
+            if (el.dataset[`action:event:${controller}`]) {
+                el.dataset[`action:event:${controller}`].split(' ').forEach(key => {
+                    listenerOptions[key] = true
+                })
+            }
+            el.addEventListener(event, e => {
+                //e.type = event
+                e.actionElement = el
+                e.params = {}
+                console.log({...el.dataset})
+
+                Object.entries({...el.dataset}).forEach(([key, value]) => {
+                    if (key.startsWith(`action:${controller}:`)) {
+                        e.params[key.replace(`action:${controller}:`, '')] = value
+                    }
+                })
+                console.log(e)
+                controllerInstance[method](e)
+            }, listenerOptions)
         })
     }
 
@@ -95,7 +143,7 @@ class Application {
                 ? $id(controllerElId)
                 : targetEl.closest(`[data-controller="${controllerName}"], [data-controller^="${controllerName} "], [data-controller*=" ${controllerName} "], [data-controller$=" ${controllerName}"]`)
             if (!controllerEl) return
-            const controller = controllerEl.controllerCollection.list.find(controller => controller.constructor.identifier === controllerName)
+            const controller = controllerEl.controllerCollection.map.get(controllerName)
             if (!controller) return
             return {
                 targetName,
@@ -116,7 +164,7 @@ class Application {
         console.log('connecting aria-control', targetEl)
         const controllerEl = $id(targetEl.getAttribute('aria-controls'))
         if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.list.forEach(controller => {
+        controllerEl.controllerCollection.map.forEach(controller => {
             if (typeof controller['ariaControlConnected'] === 'function') {
                 controller['ariaControlConnected'](targetEl)
             }
@@ -127,7 +175,7 @@ class Application {
         console.log('connecting hash link', targetEl)
         const controllerEl = $id(targetEl.hash.replace('#', '').split('?')[0])
         if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.list.forEach(controller => {
+        controllerEl.controllerCollection.map.forEach(controller => {
             if (typeof controller['hashLinkConnected'] === 'function') {
                 controller['hashLinkConnected'](targetEl)
             }
@@ -159,7 +207,7 @@ class Application {
     disconnectAriaControl(targetEl) {
         const controllerEl = $id(targetEl.getAttribute('aria-controls'))
         if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.list.forEach(controller => {
+        controllerEl.controllerCollection.map.forEach(controller => {
             if (typeof controller['ariaControlDisconnected'] === 'function') {
                 controller['ariaControlDisconnected'](targetEl)
             }
@@ -168,7 +216,7 @@ class Application {
     disconnectHashLink(targetEl) {
         const controllerEl = $id(targetEl.hash.replace('#', '').split('?')[0])
         if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.list.forEach(controller => {
+        controllerEl.controllerCollection.map.forEach(controller => {
             if (typeof controller['hashLinkDisconnected'] === 'function') {
                 controller['hashLinkDisconnected'](targetEl)
             }

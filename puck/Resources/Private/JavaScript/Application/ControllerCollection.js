@@ -8,8 +8,8 @@ export default class ControllerCollection {
         constructor.propToAttrName = {}
         constructor.attrToPropName = {}
         for (let prop in constructor.props) {
-            constructor.propToAttrName[prop] = `data-${identifier}-${kebabCase(prop)}`
-            constructor.attrToPropName[`data-${identifier}-${kebabCase(prop)}`] = prop
+            constructor.propToAttrName[prop] = `data-${identifier}:${kebabCase(prop)}`
+            constructor.attrToPropName[`data-${identifier}:${kebabCase(prop)}`] = prop
             Object.defineProperty(constructor.prototype, prop, {
                 get() {
                     return this[`#${prop}`]
@@ -23,8 +23,8 @@ export default class ControllerCollection {
             Object.defineProperty(constructor.prototype, target + "Targets", {
                 get() {
                     return [
-                        ...$$(`[data-controller-target="${target}@${identifier}#${this.el.id}"]`),
-                        ...this.el.$$(`[data-controller-target="${target}@${identifier}"]`)
+                        ...$$(`[data-target="${target}@${identifier}#${this.el.id}"]`),
+                        ...this.el.$$(`[data-target="${target}@${identifier}"]`)
                     ]
                 },
             })
@@ -36,7 +36,7 @@ export default class ControllerCollection {
         constructor.registerCallback()
         this.controllers[identifier] = constructor
     }
-    list = []
+    map = new Map()
     /**
      * @type {HTMLElement}
      */
@@ -51,7 +51,7 @@ export default class ControllerCollection {
                 console.warn(`Controller ${identifier} not found, skipping.`)
                 return
             }
-            this.list.push(new ControllerCollection.controllers[identifier](this.el))
+            this.map.set(identifier, new ControllerCollection.controllers[identifier](this.el))
         })
     }
     addController(identifier) {
@@ -59,20 +59,20 @@ export default class ControllerCollection {
         return this
     }
     connectedCallback() {
-        this.list.forEach(controller => {
+        this.map.forEach(controller => {
             controller.connect()
         })
         return this
     }
     disconnectedCallback() {
-        this.list.forEach(controller => {
+        this.map.forEach(controller => {
             controller.disconnect()
         })
         return this
     }
     attributeChangedCallback(name, oldVal, newVal) {
         if (oldVal === newVal) return this
-        this.list.forEach(controller => controller.attributeChanged(name, oldVal, newVal))
+        this.map.forEach(controller => controller.attributeChanged(name, oldVal, newVal))
         return this
     }
 }
