@@ -119,7 +119,7 @@ doc.addEventListener("turbo:load", (event) => {
 
     if (visitIsFrameAction) {
         visitIsFrameAction = false
-    } else {
+    } else if (!doc.hasAttribute('data-turbo-preview')) {
         newBodyMount()
     }
 
