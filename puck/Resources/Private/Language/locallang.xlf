@@ -63,6 +63,9 @@
 			<trans-unit id="last-updated" resname="last-updated">
 				<source>Last updated on</source>
 			</trans-unit>
+			<trans-unit id="cookie-settings" resname="cookie-settings">
+				<source>Cookie settings</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -78,6 +78,9 @@
 				<source>Last updated on</source>
 				<target>Zuletzt geändert am</target>
 			</trans-unit>
+			<trans-unit id="cookie-settings" resname="cookie-settings">
+				<target>Cookie Einstellungen</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
