@@ -22,7 +22,7 @@ class MenuViewHelper extends AbstractViewHelper
         $this->registerArgument('depth', 'integer', '', false, 1);
         $this->registerArgument('processor', 'string', '', false, 'list');
         $this->registerArgument('excludePages', 'string', '', false, '');
-        $this->registerArgument('includeNotInMenu', 'boolean', '', false, false);
+        $this->registerArgument('includeNotInMenu', 'boolean', '', false, null);
         $this->registerArgument('excludeLanguages', 'string', '', false, '');
         $this->registerArgument('addAllSiteLanguages', 'boolean', '', false, false);
         $this->registerArgument('excludeDoktypes', 'string', '', false, '199,254,255');
@@ -45,7 +45,7 @@ class MenuViewHelper extends AbstractViewHelper
                     'entryPoints' => $arguments['pages'],
                     'depth' => $arguments['depth'],
                     'excludePages' => $arguments['excludePages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
                     'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
                 break;
@@ -53,7 +53,7 @@ class MenuViewHelper extends AbstractViewHelper
                 $dataProcessor = GeneralUtility::makeInstance(LanguageMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
-                    'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? true,
                     'excludeLanguages' => $arguments['excludeLanguages'],
                     'addAllSiteLanguages' => $arguments['addAllSiteLanguages'],
                 ];
@@ -63,7 +63,7 @@ class MenuViewHelper extends AbstractViewHelper
                 $processorConfiguration = [
                     'as' => $as,
                     'excludePages' => $arguments['excludePages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
                     'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
                 break;
@@ -72,7 +72,7 @@ class MenuViewHelper extends AbstractViewHelper
                 $processorConfiguration = [
                     'as' => $as,
                     'pages' => $arguments['pages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'],
+                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
                     'excludeDoktypes' => $arguments['excludeDoktypes'],
                 ];
         }
