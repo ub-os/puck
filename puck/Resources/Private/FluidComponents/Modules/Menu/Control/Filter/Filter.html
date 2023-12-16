@@ -7,7 +7,10 @@
 
       <f:if condition="{categoryFilter.items}">
           <div class="{name}">
-              <ul class="{name}__list">
+              <ul class="{name}__list"
+                  data-hx-select="#{sectionId}"
+                  data-hx-target="#{sectionId}"
+              >
                   <f:for each="{categoryFilter.items}" as="item" iteration="i">
                       <li class="{name}__item">
                       <f:if condition="{item.items}">
@@ -17,8 +20,8 @@
                                   <f:if condition="{item.closeItem}">
                                       <a href="{item.closeItem.url}"
                                          class="e-dropdown__close"
-                                         data-turbo-action="advance"
-                                         >
+                                         data-hx-get="{item.closeItem.fetchLinkOptions.url}"
+                                         data-hx-push-url="{item.closeItem.url}">
                                           {item.activeItemsUids -> f:count()}
                                           <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
                                       </a> 
@@ -34,17 +37,16 @@
                                           <f:then>
                                               <a href="{item2.url}"
                                                  class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-turbo-action="advance"
-                                                 >
+                                                 data-hx-get="{item2.fetchLinkOptions.url}"
+                                                 data-hx-push-url="{item2.url}">
                                                   {item2.label} <icon:char icon="xmark-regular" class="e-button-dropdown__option__close__icon"/>
                                               </a>
                                           </f:then>
                                           <f:else>
                                               <a href="{item2.url}"
                                                  class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-fetch-href="{item2.fetchLinkOptions.url}"
-                                                 data-turbo-action="advance"
-                                              >
+                                                 data-hx-get="{item2.fetchLinkOptions.url}"
+                                                 data-hx-push-url="{item2.url}">
                                                   {item2.label}
                                               </a>
                                           </f:else>
@@ -57,8 +59,8 @@
                               <f:variable name="mods" value="{-active:item.active, disabled:item.hasNoPotential, icon: item.active}"/>
                               <a href="{item.url}"
                                  class="{name}__link e-button-primary {mods -> puck:modClass()}"
-                                 data-turbo-action="advance"
-                                 >
+                                 data-hx-get="{item.fetchLinkOptions.url}"
+                                 data-hx-push-url="{item.url}">
                                   {item.label}<f:if condition="{item.active}"> <icon:char icon="xmark-regular" /></f:if>
                               </a>
                           </f:else>

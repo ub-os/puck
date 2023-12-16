@@ -37,7 +37,7 @@ export default class Carousel extends Controller {
             })
         })
         this.splide.on( 'pagination:mounted', function ( data ) {
-            data.list.setAttribute('data-turbo-render-excluded', '')
+            data.list.setAttribute('data-render-excluded', '')
         } )
         this.splide.mount()
         if (this.vertical) {

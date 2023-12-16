@@ -11,7 +11,9 @@
     <fc:renderer>
 
         <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes -> puck:attributes()}>
-            <button class="{name}__button" aria-controls="{id}">
+            <button class="{name}__button"
+                    data-action="click->toggle@toggleable#{id}"
+                    data-target="toggle@toggleable#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>

@@ -45,13 +45,13 @@ export default class MainNav extends Controller {
         this.modalController.disconnect()
       }
       window.requestAnimationFrame(() => {
-        ResizeManager.addById(`${this.el.id}-breakpoint-modal`, document.documentElement, this.stateSwitch.bind(this))
+        ResizeManager.addById(`main-nav-${this.el.id}`, document.body, this.stateSwitch.bind(this))
       })
     })
     return this
   }
 
   disconnect() {
-    ResizeManager.remove(`${this.el.id}-breakpoint-modal`)
+    ResizeManager.remove(`main-nav-${this.el.id}`)
   }
 }

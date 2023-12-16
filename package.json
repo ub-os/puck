@@ -80,6 +80,7 @@
     "@splidejs/splide": "^4.1.4",
     "animejs": "^3.2.1",
     "get-sass-vars": "^4.0.0",
+    "htmx.org": "^1.9.9",
     "jsx-dom": "^8.0.7",
     "node-sass-variables": "^0.0.5",
     "normalize.css": "^8.0.1",

@@ -62,8 +62,8 @@ export default class PageHeader extends Controller {
         }
         this.listeners.add(document.body, 'scrollTo', e => {
             this.paused = true
-            this.el.classList.add(this.classes.hidden)
-            this.el.classList.remove(this.classes.visible)
+            this.el.classList.add(this.downClass)
+            this.el.classList.remove(this.upClass)
             setTimeout(() => {
                 this.paused = false
             }, 1000)
@@ -74,7 +74,7 @@ export default class PageHeader extends Controller {
 
     disconnect() {
         this.listeners.destroy()
-        this.el.classList.remove(this.classes.hidden)
-        this.el.classList.remove(this.classes.visible)
+        this.el.classList.remove(this.downClass)
+        this.el.classList.remove(this.upClass)
     }
 }

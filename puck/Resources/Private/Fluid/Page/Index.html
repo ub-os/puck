@@ -2,15 +2,18 @@
 <body class="d-body u-no-transition -layout-{object.backendLayout} "
       id="body"
       data-controller="anchor-behavior scrollbar-width"
+      data-hx-boost="true"
       {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
-<!--TYPO3SEARCH_end-->
-<module:page.schema object="{object}" context="{context}"/>
-<module:page.header object="{object}" context="{context}"/>
-<!--TYPO3SEARCH_begin-->
-<module:page.main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
-<!--TYPO3SEARCH_end-->
-<module:page.footer object="{object}" contentElements="{contentElements.colPos3}"/>
-<element:control.toTop/>
-<div data-modal-container>
-    <f:format.raw>{contentElements.colPos9}</f:format.raw>
+<div data-hx-boost-swap-target>
+    <!--TYPO3SEARCH_end-->
+    <module:page.schema object="{object}" context="{context}"/>
+    <module:page.header object="{object}" context="{context}"/>
+    <!--TYPO3SEARCH_begin-->
+    <module:page.main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
+    <!--TYPO3SEARCH_end-->
+    <module:page.footer object="{object}" contentElements="{contentElements.colPos3}"/>
+    <element:control.toTop/>
+    <div data-modal-container>
+        <f:format.raw>{contentElements.colPos9}</f:format.raw>
+    </div>
 </div>

@@ -29,11 +29,11 @@
               <f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}" />
             </f:defaultCase>
           </f:switch>
-          <a href="{item.url}#{sectionId}"
+          <a href="{item.url}"
+             aria-label="{ariaLabel}"
              class="{name}__link"
-             data-fetch-href="{item.fetchLinkOptions.url}"
-             data-turbo-action="advance"
-            aria-label="{ariaLabel}">
+             data-hx-get="{item.fetchLinkOptions.url}"
+             data-hx-push-url="{item.url}">
             {label -> f:format.raw()}
           </a>
         </f:else>

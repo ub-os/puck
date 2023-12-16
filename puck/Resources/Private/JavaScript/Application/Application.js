@@ -78,7 +78,7 @@ class Application {
     get controllerElements() {
         return $$('[data-controller]')
     }
-    get controllerTargets() {
+    get targetElements() {
         return $$('[data-target]')
     }
     get actionElements() {
@@ -92,12 +92,15 @@ class Application {
             { childList: true, subtree: true },
         )
         this.controllerElements.forEach(el => this.connectControllerElement(el))
-        this.controllerTargets.forEach(el => this.connectTargetElement(el))
+        this.targetElements.forEach(el => this.connectTargetElement(el))
         this.actionElements.forEach(el => this.connectActionElement(el))
     }
 
     disconnect() {
         MutationManager.remove('body-childList-observer')
+        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
+        this.targetElements.forEach(el => this.disconnectTargetElement(el))
+        this.actionElements.forEach(el => this.disconnectActionElement(el))
     }
 
     elementConnectionHandler(mutations) {
@@ -127,7 +130,7 @@ class Application {
         if (!el.id) {
             el.id = `_action${this.#actionIdx++}`
         }
-        console.log(`connecting action on #${el.id}`)
+        //console.log(`connecting action on #${el.id}`)
         el.dataset.action.split(' ').forEach(descriptor => {
             const [
                 event,
@@ -172,7 +175,7 @@ class Application {
     }
 
     disconnectActionElement(el) {
-        console.log(`disconnecting action on #${el.id}`)
+        //console.log(`disconnecting action on #${el.id}`)
         if (!el.actionSettings) return
         Object.entries(el.actionSettings).forEach(([identifier, settings]) => {
             el.removeEventListener(settings.event,settings.listener, settings.listenerOptions);
@@ -208,7 +211,7 @@ class Application {
             el.id = `_target${this.#targetIdx++}`
         }
         this.getTargetData(el).forEach(({ name, controller }) => {
-            console.log(`connecting target on #${controller.el.id}`)
+            //console.log(`connecting target on #${controller.el.id}`)
             controller[`${name}Targets`].set(el.id, el)
             if (typeof controller[`${name}Connected`] == 'function') {
                 controller[`${name}Connected`](el)
@@ -250,15 +253,15 @@ class Application {
             this.controllerObserver.observe(el, { attributes: true, attributeOldValue: true })
         }
         el.controllersAreConnected = true
-        console.log(`connecting '${el.dataset.controller}' ond #${el.id}`)
+        //console.log(`connecting '${el.dataset.controller}' ond #${el.id}`)
         el.controllerInstances.forEach(controller => {
             controller.connect()
         })
     }
     disconnectControllerElement(el) {
-        console.log(`disconnecting '${el.dataset.controller}' ond #${el.id}`)
+        //console.log(`disconnecting '${el.dataset.controller}' ond #${el.id}`)
         el.controllersAreConnected = false
-        el.controllerInstances.forEach(controller => {
+        el.controllerInstances?.forEach(controller => {
             controller.disconnect()
         })
         delete el.controllerInstances
@@ -287,7 +290,7 @@ class Application {
             }
             if (!mutation.attributeName.startsWith(`data-`)) return
             const newVal = mutation.target.getAttribute(mutation.attributeName)
-            mutation.target.controllerInstances.forEach(controller => {
+            mutation.target.controllerInstances?.forEach(controller => {
                 controller.__attributeChanged(mutation.attributeName, mutation.oldValue, newVal)
             })
         })

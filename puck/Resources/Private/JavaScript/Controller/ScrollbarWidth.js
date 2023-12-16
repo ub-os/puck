@@ -19,7 +19,7 @@ export default class ScrollbarWidth extends Controller {
             this.sensorEl = $id(this.sensorId)
         } else {
             this.sensorEl = (
-                <div id={this.sensorId} data-turbo-render-excluded
+                <div id={this.sensorId} data-render-excluded
                      style="width:50px; visibility:hidden; overflow:scroll; height:0px;" >
                     <div></div>
                 </div>

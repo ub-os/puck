@@ -15,7 +15,8 @@ export default class Modal extends Toggleable {
     }
     static injects = ['focus-trap']
     toggleOn(transition= true) {
-        this.backdropEl = <div class={this.backdropClass} data-turbo-render-excluded></div>
+        console.log('toggle on modal')
+        this.backdropEl = <div class={this.backdropClass} data-render-excluded></div>
         this.el.parentNode.insertBefore(this.backdropEl, this.el)
         super.toggleOn(transition);
         this.focusTrapController.active = true
@@ -25,12 +26,11 @@ export default class Modal extends Toggleable {
         this.el.focus()
     }
     toggleOff(transition= true, changeUrlHash =  true) {
-        if (this.backdropEl) {
-            setTimeout(() => {
-                this.backdropEl.remove()
-                this.backdropEl = null
-            }, this.duration)
-        }
+        console.log('toggle off modal')
+        setTimeout(() => {
+            this.backdropEl?.remove()
+            this.backdropEl = null
+        }, this.duration)
         super.toggleOff(transition, changeUrlHash)
         this.focusTrapController.active = false
         this.el.ariaHidden = 'true'

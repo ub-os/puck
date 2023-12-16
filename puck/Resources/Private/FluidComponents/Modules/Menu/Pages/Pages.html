@@ -15,7 +15,7 @@
             <element:text.header object="{object}"/>
             <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
 
-            <turbo-frame class="{name}__body" id="c{object.uid}-body">
+            <div class="{name}__body" id="c{object.uid}-body">
 
                 <fc:slot name="headerContent"/>
 
@@ -50,7 +50,7 @@
                             <f:case value="blog-cards">
                                 <layout:row class="{name}__row"
                                             flexGrow="0" justify="left" align="top"
-                                            attributes="data-turbo-frame=_top"
+
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
@@ -72,7 +72,7 @@
                             <f:case value="team-cards">
                                 <layout:row class="{name}__row"
                                             align="top" flexGrow="0" justify="left"
-                                            attributes="data-turbo-frame=_top"
+
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
@@ -109,7 +109,7 @@
                             <f:case value="columns">
                                 <layout:row class="{name}__row"
                                             flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
-                                            attributes="data-turbo-frame=_top"
+
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content"
@@ -142,7 +142,7 @@
                             <f:defaultCase>
                                 <layout:row class="{name}__row"
                                             flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
-                                            attributes="data-turbo-frame=_top"
+
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content"
@@ -174,7 +174,7 @@
 
                 <fc:slot name="footerContent"/>
 
-            </turbo-frame>
+            </div>
 
         </layout:section>
 

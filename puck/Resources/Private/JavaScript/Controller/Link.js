@@ -1,4 +1,4 @@
-import * as Turbo from "@hotwired/turbo"
+//import * as Turbo from "@hotwired/turbo"
 import { noDragClick } from '~/Utility/DomUtility'
 import Controller from "~/Application/Controller.js";
 
@@ -28,15 +28,11 @@ export default class Link extends Controller {
       window.open(this.to)
       window.focus()
     } else {
-      if (Turbo.session.drive) {
-        Turbo.visit(this.to)
-        return
-      }
-      window.location.href = this.to
+      //window.location.href = this.to
     }
   }
   connect() {
-    this.noDragClick = noDragClick(this.el, e => this.handleClick(e))
+    //this.noDragClick = noDragClick(this.el, e => this.handleClick(e))
     return this
   }
   disconnect() {
