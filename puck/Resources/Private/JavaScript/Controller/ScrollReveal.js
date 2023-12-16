@@ -1,7 +1,6 @@
-import Listeners from "~/Service/Listeners"
+import ListenerCollector from "~/Service/ListenerCollector.js"
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import Controller from "~/Application/Controller.js";
-
+import Controller from "~/Application/Controller";
 
 export default class ScrollReveal extends Controller {
     static events = {
@@ -68,7 +67,6 @@ export default class ScrollReveal extends Controller {
         if (!this.animation) {
             this.animation = this.getAnimationPresets(this.preset)
         }
-        this.listeners = new Listeners()
         window.requestAnimationFrame(() => {
             if (this.el.getBoundingClientRect().top > window.innerHeight) {
                 this.el.style.opacity = 0

@@ -3,7 +3,7 @@ import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import Logger from '~/Service/Logger'
 import App from '~/Application/Application'
-
+import '~/register'
 
 smoothscroll.polyfill();
 
@@ -13,8 +13,7 @@ let visitIsRestoration = false
 let renderIsPostPreviewRender = false
 
 const newBodyMount = () => {
-    App.connectControllers()
-    App.services.scrollbarWidth.start()
+    App.connect()
     window.requestAnimationFrame(() => {
         document.body.classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
@@ -114,6 +113,7 @@ doc.addEventListener("turbo:render", (event) => {
     Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
 })
 doc.addEventListener("turbo:load", (event) => {
+    console.time('load')
     Logger.console.log(event.type, { event, visitIsFrameAction, visitIsRestoration, renderIsPostPreviewRender })
     window.dispatchEvent(new Event('scroll'))
 
@@ -121,7 +121,17 @@ doc.addEventListener("turbo:load", (event) => {
         visitIsFrameAction = false
     } else if (!doc.hasAttribute('data-turbo-preview')) {
         newBodyMount()
+        console.log('test action removal')
+        $$('[data-action]').forEach(el => {
+            const parent = el.parentNode
+            const before = el.nextSibling
+            // remove
+            el.remove()
+            // add back in
+            parent.insertBefore(el, before)
+        })
     }
+    console.timeEnd('load')
 
     if (visitIsRestoration) visitIsRestoration = false
     renderIsPostPreviewRender = doc.hasAttribute('data-turbo-preview')

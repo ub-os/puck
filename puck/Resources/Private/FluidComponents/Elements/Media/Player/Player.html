@@ -39,10 +39,9 @@
 
         <div class="{name}">
             <button class="{name}__button"
-                    aria-controls="{id}"
-                    data-toggle-for="{id}-modal"
+                    data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
+                    aria-controls="{id}-modal"
                     aria-label="{f:translate(key:'play-video',extensionName:'puck')}"></button>
-
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
                     <f:then>

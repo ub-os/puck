@@ -1,237 +1,303 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
+import {camelCase, kebabCase} from "~/Utility/StringUtility"
 import { ObserverCollector, MutationManager } from "~/Service/ObserverCollector"
-import ScrollbarWidth from "~/Service/ScrollbarWidth"
-import ControllerCollection from "~/Application/ControllerCollection"
+import Controller from "~/Application/Controller"
+import AttributeConverter from "~/Application/AttributeConverter";
 
 class Application {
-    static #instance = null;
-    static get inst() {
-        if (!Application.#instance) {
-            Application.#instance = new Application();
-        }
-        return Application.#instance
-    }
+    #controllerIdx = 0
+    #targetIdx = 0
+    #actionIdx = 0
+    controllerRegister = {}
     services = {
         observerCollector: ObserverCollector.inst,
-        scrollbarWidth: new ScrollbarWidth({}).start()
     }
+    register(identifier, constructor) {
+        this.processController(identifier, constructor)
+        constructor.registerCallback()
+        this.controllerRegister[identifier] = constructor
+    }
+    processController(identifier, constructor) {
+        constructor.writePropKey = {}
+        constructor.readPropKey = {}
+        constructor.identifier = identifier
+        constructor.props = {
+            ...Controller.props,
+            ...constructor.props,
+        }
+        constructor.__attributeConverter = new AttributeConverter(constructor.props)
+        constructor.writeProp = (propName, val) => constructor.__attributeConverter.write(propName, val)
+        constructor.readProp = (propName, val) => constructor.__attributeConverter.read(propName, val)
+        for (let prop in constructor.props) {
+            constructor.writePropKey[prop] = `data-${identifier}:${kebabCase(prop)}`
+            constructor.readPropKey[`data-${identifier}:${kebabCase(prop)}`] = prop
+            Object.defineProperty(constructor.prototype, prop, {
+                get() {
+                    return this[`#${prop}`]
+                },
+                set(val) {
+                    this.__setProp(prop, val, true)
+                }
+            })
+        }
+        const convertToObj = arr => {
+            return arr.reduce((result, key) => {
+                if (typeof key !== 'string') {
+                    console.warn(`Invalid identifier ${key} on ${identifier}, skipping.`)
+                    return result
+                }
+                result[key] = {}
+                return result
+            }, {})
+        }
+        if (Array.isArray(constructor.targets)) {
+            constructor.targets = convertToObj(constructor.targets)
+        }
+        if (Array.isArray(constructor.injects)) {
+            constructor.injects = convertToObj(constructor.injects)
+        }
+        if (Array.isArray(constructor.actions)) {
+            constructor.actions = convertToObj(constructor.actions)
+        }
+        for (let target of Object.keys(constructor.targets)) {
+            Object.defineProperty(constructor.prototype, `${target}Target`, {
+                get() {
+                    return this[`${target}Targets`].values()?.next()?.value
+                },
+            })
+        }
+        for (let injectIdentifier of Object.keys(constructor.injects)) {
+            Object.defineProperty(constructor.prototype, `${camelCase(injectIdentifier)}Controller`, {
+                get() {
+                    return this.el.controllerInstances.get(injectIdentifier)
+                },
+            })
+        }
+    }
+
     get controllerElements() {
         return $$('[data-controller]')
     }
     get controllerTargets() {
         return $$('[data-target]')
     }
-    get ariaControls() {
-        return $$('[aria-controls]')
-    }
-    get hashLinks() {
-        return $$('a[href*="#"]')
-    }
     get actionElements() {
         return $$('[data-action]')
     }
-    connectControllers() {
+    connect() {
         MutationManager.addById(
-            'body-controller-children-observer',
+            'body-childList-observer',
             document.body,
-            mutations => this.childListObserverControllerHandler(mutations),
+            mutations => this.elementConnectionHandler(mutations),
             { childList: true, subtree: true },
         )
         this.controllerElements.forEach(el => this.connectControllerElement(el))
-        this.controllerTargets.forEach(el => this.connectControllerTarget(el))
-        //this.ariaControls.forEach(el => this.connectAriaControl(el))
-        this.hashLinks.forEach(el => this.connectHashLink(el))
+        this.controllerTargets.forEach(el => this.connectTargetElement(el))
         this.actionElements.forEach(el => this.connectActionElement(el))
     }
 
-    childListObserverControllerHandler(mutations) {
+    disconnect() {
+        MutationManager.remove('body-childList-observer')
+    }
+
+    elementConnectionHandler(mutations) {
         mutations.forEach(mutation => {
+            mutation.removedNodes.forEach(node => {
+                if (node.nodeType !== Node.ELEMENT_NODE) return
+                if (node.hasAttribute('data-action')) this.disconnectActionElement(node)
+                node.$$('[data-action]').forEach(child => this.disconnectActionElement(child))
+                if (node.hasAttribute('data-target')) this.disconnectTargetElement(node)
+                node.$$('[data-target]').forEach(child => this.disconnectTargetElement(child))
+                if (node.hasAttribute('data-controller')) this.disconnectControllerElement(node)
+                node.$$('[data-controller]').forEach(child => this.disconnectControllerElement(child))
+            })
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType !== Node.ELEMENT_NODE) return
                 if (node.hasAttribute('data-controller')) this.connectControllerElement(node)
-                node.$$('[data-controller]').forEach(el => this.connectControllerElement(el))
-            })
-            mutation.removedNodes.forEach(node => {
-                if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-target')) this.disconnectControllerTarget(node)
-                //if (node.hasAttribute('aria-controls')) this.disconnectAriaControl(node)
-                if (node.hash) this.disconnectHashLink(node)
-                node.$$('[data-target]').forEach(el => this.disconnectControllerTarget(el))
-                //node.$$('[aria-controls]').forEach(el => this.disconnectAriaControl(el))
-                node.$$('[href*="#"]').forEach(el => this.disconnectHashLink(el))
-            })
-        })
-        mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-target')) this.connectControllerTarget(node)
+                node.$$('[data-controller]').forEach(child => this.connectControllerElement(child))
+                if (node.hasAttribute('data-target')) this.connectTargetElement(node)
+                node.$$('[data-target]').forEach(child => this.connectTargetElement(child))
                 if (node.hasAttribute('data-action')) this.connectActionElement(node)
-                //if (node.hasAttribute('aria-controls')) this.connectAriaControl(node)
-                if (node.hash) this.connectHashLink(node)
-                node.$$('[data-target]').forEach(el => this.connectControllerTarget(el))
-                node.$$('[data-action]').forEach(el => this.connectActionElement(el))
-                //node.$$('[aria-controls]').forEach(el => this.connectAriaControl(el))
-                node.$$('[href*="#"]').forEach(el => this.connectHashLink(el))
-            })
-            mutation.removedNodes.forEach(node => {
-                if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-controller')) this.disconnectControllerElement(node)
-                node.$$('[data-controller]').forEach(el => this.disconnectControllerElement(el))
+                node.$$('[data-action]').forEach(child => this.connectActionElement(child))
             })
         })
     }
 
     connectActionElement(el) {
-        console.log('connecting action', el)
+        if (!el.id) {
+            el.id = `_action${this.#actionIdx++}`
+        }
+        console.log(`connecting action on #${el.id}`)
         el.dataset.action.split(' ').forEach(descriptor => {
-            const split = {}
-            split['->'] = descriptor.split('->')
-            const event = split['->'][0]
-            //if (!event) return
-            split['@'] = split['->'][1].split('@')
-            const method = split['@'][0]
-            //if (!method) return
-            split['#'] = split['@'][1].split('#')
-            const controller = split['#'][0]
-            const id = split['#'][1]
-           // if (!controller || !id) return
-            const controllerEl = $id(id)
-            //if (!controllerEl) return
-            const controllerInstance = controllerEl.controllerCollection.map.get(controller)
-            //if (!controllerInstance || typeof controllerInstance[method] !== 'function') return
-            console.log({ event, method, id, controller, controllerEl, controllerInstance })
-            const listenerOptions = {}
-            if (el.dataset[`action:event:${controller}`]) {
-                el.dataset[`action:event:${controller}`].split(' ').forEach(key => {
-                    listenerOptions[key] = true
-                })
+            const [
+                event,
+                method,
+                identifier,
+                id
+            ] = descriptor.split(/->|@|#/);
+            const controllerElement = id ? $id(id) : el.closest(`[data-controller]`)
+            const controller = controllerElement?.controllerInstances?.get(identifier)
+            if (!method || !controller || typeof controller[method] !== 'function') return
+            if (el.actionSettings?.[identifier]) {
+                console.log(`Action ${identifier} already connected to ${el.id}`)
+                return
             }
-            el.addEventListener(event, e => {
-                //e.type = event
+            !el.actionSettings ? el.actionSettings = {} : null
+            el.actionSettings[identifier] = {
+                event,
+                listenerOptions: {},
+            }
+            ;['capture', 'once', 'passive'].forEach(opt => {
+                const value = el.dataset[`${identifier}:event:${opt}`]
+                el.actionSettings[identifier].listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
+            })
+            const attributeConverter = new AttributeConverter(controller.constructor.actions?.[method] || {})
+            el.actionSettings[identifier].listener = e => {
+                if (!controllerElement.controllersAreConnected) return
+                el.hasAttribute(`data-${identifier}:event:prevent`) ? e.preventDefault() : null
+                el.hasAttribute(`data-${identifier}:event:stop`) ? e.stopPropagation() : null
                 e.actionElement = el
-                e.params = {}
-                console.log({...el.dataset})
-
+                const params = attributeConverter.props
                 Object.entries({...el.dataset}).forEach(([key, value]) => {
-                    if (key.startsWith(`action:${controller}:`)) {
-                        e.params[key.replace(`action:${controller}:`, '')] = value
+                    if (key.startsWith(`${identifier}:param:`)) {
+                        const propName = camelCase(key.replace(`${identifier}:param:`, ''))
+                        params[propName] = attributeConverter.read(propName, value)
                     }
                 })
-                console.log(e)
-                controllerInstance[method](e)
-            }, listenerOptions)
+                controller[method](e, params)
+            }
+            el.addEventListener(event, el.actionSettings[identifier].listener, el.actionSettings[identifier].listenerOptions)
         })
+        this.actionObserver.observe(el, { attributes: true, attributeOldValue: true })
     }
 
-    disconnectControllers() {
-        MutationManager.remove('body-controller-children-observer')
-        this.controllerElements.forEach(el => {
-            this.disconnectControllerElement(el)
+    disconnectActionElement(el) {
+        console.log(`disconnecting action on #${el.id}`)
+        if (!el.actionSettings) return
+        Object.entries(el.actionSettings).forEach(([identifier, settings]) => {
+            el.removeEventListener(settings.event,settings.listener, settings.listenerOptions);
         })
+        delete el.actionSettings
     }
 
-    getControllerInformationForTarget(targetEl) {
-        return targetEl.dataset.controllerTarget.split(' ').map(targetDefinition => {
-            const [
-                targetName,
-                controllerName,
-                controllerElId
-            ] = targetDefinition.split('#').join('@').split('@')
-            if (!controllerName || !targetName) return
-            const controllerEl =
-                controllerElId
-                ? $id(controllerElId)
-                : targetEl.closest(`[data-controller="${controllerName}"], [data-controller^="${controllerName} "], [data-controller*=" ${controllerName} "], [data-controller$=" ${controllerName}"]`)
-            if (!controllerEl) return
-            const controller = controllerEl.controllerCollection.map.get(controllerName)
-            if (!controller) return
-            return {
-                targetName,
-                controller
-            }
-        }).filter(Boolean)
-    }
-
-    connectControllerTarget(targetEl) {
-        console.log('connecting target', targetEl)
-        this.getControllerInformationForTarget(targetEl).forEach(information => {
-            if (typeof information.controller[information.targetName + 'Connected'] === 'function') {
-                information.controller[information.targetName + 'Connected'](targetEl)
-            }
-        })
-    }
-    connectAriaControl(targetEl) {
-        console.log('connecting aria-control', targetEl)
-        const controllerEl = $id(targetEl.getAttribute('aria-controls'))
-        if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.map.forEach(controller => {
-            if (typeof controller['ariaControlConnected'] === 'function') {
-                controller['ariaControlConnected'](targetEl)
-            }
-        })
-    }
-
-    connectHashLink(targetEl) {
-        console.log('connecting hash link', targetEl)
-        const controllerEl = $id(targetEl.hash.replace('#', '').split('?')[0])
-        if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.map.forEach(controller => {
-            if (typeof controller['hashLinkConnected'] === 'function') {
-                controller['hashLinkConnected'](targetEl)
-            }
-        })
-    }
-    connectControllerElement(el) {
-        if (!el.controllerCollection) {
-            el.controllerCollection = new ControllerCollection(el)
-        }
-        el.controllerCollection.connectedCallback()
-        MutationManager.addById(`controller-attribute-observer-${el.id}`, el, mutations => {
+    actionObserver = new MutationObserver(
+        mutations => {
+            const target = mutations[0].target
+            let hasEventModifier = false
             mutations.forEach(mutation => {
-                if (mutation.type !== 'attributes') return
-                el.controllerCollection.attributeChangedCallback(
-                    mutation.attributeName,
-                    mutation.oldValue,
-                    mutation.target.getAttribute(mutation.attributeName)
-                )
+                if (mutation.attributeName.includes(`:event:`)) hasEventModifier = true
+                if (mutation.attributeName === `data-action`) {
+                    this.disconnectActionElement(target)
+                    this.connectActionElement(target)
+                }
             })
-        }, { attributes: true, attributeOldValue: true })
-    }
-    disconnectControllerTarget(targetEl) {
-        this.getControllerInformationForTarget(targetEl).forEach(information => {
-            if (typeof information.controller[information.targetName + 'Disconnected'] === 'function') {
-                information.controller[information.targetName + 'Disconnected'](targetEl)
+            if (!hasEventModifier) return
+            Object.entries(target.actionSettings).forEach(([identifier, settings]) => {
+                target.removeEventListener(settings.event, settings.listener, settings.listenerOptions)
+                ;['capture', 'once', 'passive'].forEach(opt => {
+                    const value = target.dataset[`${identifier}:event:${opt}`]
+                    settings.listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
+                })
+                target.addEventListener(settings.event, settings.listener, settings.listenerOptions)
+            })
+        }
+    )
+
+    connectTargetElement(el) {
+        if (!el.id) {
+            el.id = `_target${this.#targetIdx++}`
+        }
+        this.getTargetData(el).forEach(({ name, controller }) => {
+            console.log(`connecting target on #${controller.el.id}`)
+            controller[`${name}Targets`].set(el.id, el)
+            if (typeof controller[`${name}Connected`] == 'function') {
+                controller[`${name}Connected`](el)
             }
         })
     }
-    disconnectAriaControl(targetEl) {
-        const controllerEl = $id(targetEl.getAttribute('aria-controls'))
-        if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.map.forEach(controller => {
-            if (typeof controller['ariaControlDisconnected'] === 'function') {
-                controller['ariaControlDisconnected'](targetEl)
+    disconnectTargetElement(el) {
+        this.getTargetData(el).forEach(({ name, controller }) => {
+            controller[`${name}Targets`].delete(el.id)
+            if (typeof controller[`${name}Disconnected`] == 'function') {
+                controller[`${name}Disconnected`](el)
             }
         })
     }
-    disconnectHashLink(targetEl) {
-        const controllerEl = $id(targetEl.hash.replace('#', '').split('?')[0])
-        if (!controllerEl || !controllerEl.controllerCollection) return
-        controllerEl.controllerCollection.map.forEach(controller => {
-            if (typeof controller['hashLinkDisconnected'] === 'function') {
-                controller['hashLinkDisconnected'](targetEl)
+    getTargetData(el) {
+        return el.dataset.target.split(' ').reduce((result, descriptor) => {
+            const [
+                name,
+                identifier,
+                id
+            ] = descriptor.split(/@|#/);
+            if (!name || !identifier ) return
+            const controllerElement = id ? $id(id) : el.closest(`[data-controller]`)
+            const controller = controllerElement?.controllerInstances?.get(identifier)
+            if (controller) result.push({ name, controller })
+            return result
+        }, [])
+    }
+
+    connectControllerElement(el) {
+        if (!el.controllerInstances) {
+            el.controllerInstances = new Map()
+            if (!el.id) {
+                el.id = `_controller${this.#controllerIdx++}`
             }
+            el.dataset.controller?.split(' ').forEach(identifier => {
+                this.injectController(el, identifier)
+            })
+            this.controllerObserver.observe(el, { attributes: true, attributeOldValue: true })
+        }
+        el.controllersAreConnected = true
+        console.log(`connecting '${el.dataset.controller}' ond #${el.id}`)
+        el.controllerInstances.forEach(controller => {
+            controller.connect()
         })
     }
     disconnectControllerElement(el) {
-        el.controllerCollection?.disconnectedCallback()
+        console.log(`disconnecting '${el.dataset.controller}' ond #${el.id}`)
+        el.controllersAreConnected = false
+        el.controllerInstances.forEach(controller => {
+            controller.disconnect()
+        })
+        delete el.controllerInstances
     }
+
+    injectController(el, identifier, props = {}) {
+        if (!this.controllerRegister[identifier]) {
+            console.warn(`Controller ${identifier} not found in register, skipping.`)
+            return
+        }
+        if (el.controllerInstances.has(identifier)) {
+            console.warn(`Controller ${identifier} already used on this element, overriding.`)
+        }
+        Object.entries(this.controllerRegister[identifier].injects).forEach(([injectIdentifier, injectProps]) => {
+            this.injectController(el, injectIdentifier, injectProps)
+        })
+        el.controllerInstances.set(identifier, new this.controllerRegister[identifier](el, props))
+    }
+
+    controllerObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.attributeName === 'data-controller') {
+                this.disconnectControllerElement(mutation.target)
+                this.connectControllerElement(mutation.target)
+                return
+            }
+            if (!mutation.attributeName.startsWith(`data-`)) return
+            const newVal = mutation.target.getAttribute(mutation.attributeName)
+            mutation.target.controllerInstances.forEach(controller => {
+                controller.__attributeChanged(mutation.attributeName, mutation.oldValue, newVal)
+            })
+        })
+    })
+
     reset() {
-        this.services.observerCollector.reset()
-        this.disconnectControllers()
+        this.services.observerCollector?.reset()
+        this.disconnect()
     }
 }
 
-
-
-const App = Application.inst
+const App = new Application()
 export default App

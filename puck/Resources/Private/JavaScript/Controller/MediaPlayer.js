@@ -1,9 +1,10 @@
 let Plyr = class {}
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import Listeners from "~/Service/Listeners"
+import ListenerCollector from "~/Service/ListenerCollector.js"
 import Controller from "~/Application/Controller.js";
 
+const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
 export default class MediaPlayer extends Controller {
     static props = {
         provider: 'mp4',
@@ -13,16 +14,16 @@ export default class MediaPlayer extends Controller {
         filePath: '',
         poster: '',
         lazyLoad: true,
+        loaded: false,
         // if you want to use Plyr, set usePlyr to true and uncomment the Plyr import above and comment the empty Plyr definition
         /// also uncomment the css import in Resources/Private/Stylesheets/puck.sass
         usePlyr: false,
         controls: true,
-        options: {}
+        videoAttributes: '',
+        plyrOptions: {}
     }
     addPlayerEl() {
-        if (this.playerElAdded) {
-            return
-        }
+        if (this.loaded) return
         switch (this.provider) {
             case 'youtube':
                 this.playerEl = this.getYoutubePlayerEl()
@@ -34,33 +35,36 @@ export default class MediaPlayer extends Controller {
                 this.playerEl = this.getHtml5PlayerEl()
         }
         this.el.append(this.playerEl)
-        this.playerElAdded = true
+        this.loaded = true
         this.el.dispatchEvent(new Event('update-focusables', { bubbles: true }))
         if (this.usePlyr) {
-            if (this.options.controls === true || this.options.controls === 1) {
-                this.options.controls = this.plyrDefaultControls
+            let plyrOptions = this.plyrOptions
+            if (this.controls) {
+                plyrOptions = {
+                    controls: plyrDefaultControls,
+                    ...plyrOptions
+                }
             }
-            this.plyr = new Plyr(this.playerEl, this.options)
+            this.plyr = new Plyr(this.playerEl, plyrOptions)
         }
     }
     getHtml5PlayerEl() {
-        const el = (
+        const attributes = {}
+        this.videoAttributes.split(' ').forEach(attr => {
+            if (attr) attributes[attr] = ''
+        })
+        return (
             <video
                 id={`${this.el.id}-video`}
                 tabindex={'0'}
-                data-poster={this.poster+''} >
+                data-poster={this.poster}
+                {...attributes}>
                 <source
                     src={this.filePath}
                     type={'video/' + this.provider}
                     width={this.width} />
             </video>
         )
-        for (let option of ['controls', 'playsinline', 'autoplay', 'loop', 'muted']) {
-            if (this.options[option]) {
-                el.setAttribute(option, this.options[option])
-            }
-        }
-        return el
     }
 
     getYoutubePlayerEl() {
@@ -69,7 +73,7 @@ export default class MediaPlayer extends Controller {
                 <iframe
                     style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
                     id={`${this.el.id}-iframe`}
-                    src={`https://www.youtube-nocookie.com/embed/${this.embedId}?autohide=1&controls=${this.options.controls}&enablejsapi=1`}
+                    src={`https://www.youtube-nocookie.com/embed/${this.embedId}?autohide=1&controls=${this.controls}&enablejsapi=1`}
                     width={this.width}
                     allowFullScreen={true}
                 />
@@ -91,31 +95,16 @@ export default class MediaPlayer extends Controller {
         )
     }
 
+    initialize() {
+        if (this.controls) this.videoAttributes += ' controls'
+    }
+
     connect() {
-        this.plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
-        this.playerElAdded = false
-        this.toggles = $$(`[aria-controls="${this.el.id}"], [data-controls="${this.el.id}"]`)
-        this.listeners = new Listeners()
-        this.options = {
-            controls: this.controls,
-            ...this.options
-        }
-        if (this.lazyLoad) {
-            this.toggles.forEach(toggle => {
-                this.listeners.add(toggle, 'click', e => {
-                    this.addPlayerEl()
-                })
-            })
-        } else {
-            this.addPlayerEl()
-        }
+        if (!this.lazyLoad) this.addPlayerEl()
         return this
     }
 
     disconnect() {
-        if (this.listeners) {
-            this.listeners.destroy()
-        }
         if (this.plyr?.destroy) {
             this.plyr.destroy()
         }

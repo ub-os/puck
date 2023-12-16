@@ -1,19 +1,21 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import Listeners from "~/Service/Listeners"
+import ListenerCollector from "~/Service/ListenerCollector.js"
 import ScrollSensitive from "~/Controller/ScrollSensitive";
 import Controller from "~/Application/Controller.js";
 
+/**
+ * @property {ScrollSensitive} scrollSensitiveController
+ */
 export default class PageHeader extends Controller {
     static props = {
         scrollTops: {
             0: 1
         },
         minScrollForHide: 100,
-        classes: {
-            hidden: '--scroll-down',
-            visible: '--scroll-up',
-        }
+        downClass: '--scroll-down',
+        upClass: '--scroll-up',
     }
+    static injects = ['scroll-sensitive']
     checkScrollDirection() {
         const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         const difference = Math.abs(currentScrollTop - this.lastScrollTop)
@@ -32,11 +34,11 @@ export default class PageHeader extends Controller {
                 if (this.lastState === newState) return
                 this.lastState = newState
                 if (scrollDirection === 'down' && this.lastScrollTop > this.minScrollForHide) {
-                    this.el.classList.add(this.classes.hidden)
-                    this.el.classList.remove(this.classes.visible)
+                    this.el.classList.add(this.downClass)
+                    this.el.classList.remove(this.upClass)
                 } else {
-                    this.el.classList.add(this.classes.visible)
-                    this.el.classList.remove(this.classes.hidden)
+                    this.el.classList.add(this.upClass)
+                    this.el.classList.remove(this.downClass)
                 }
             })
             this.ticking = true;
@@ -47,22 +49,17 @@ export default class PageHeader extends Controller {
     paused = false
     lastScrollDirection = 'up'
     lastState = 'visible'
+
     connect() {
-        this.classes = {
-            ...this.constructor.props.classes,
-            ...this.classes
-        }
         this.scrollTops = {
             ...this.constructor.props.scrollTops,
             ...this.scrollTops
         }
         for (let breakpoint in this.scrollTops) {
             if (window.innerWidth > breakpoint) {
-                this.scrollTop = this.scrollTops[breakpoint]
+                this.scrollSensitiveController.scrollTop = this.scrollTops[breakpoint]
             }
         }
-        this.scrollSensitive = new ScrollSensitive(this.el, { scrollTop: this.scrollTop }).connect()
-        this.listeners = new Listeners()
         this.listeners.add(document.body, 'scrollTo', e => {
             this.paused = true
             this.el.classList.add(this.classes.hidden)
@@ -77,7 +74,6 @@ export default class PageHeader extends Controller {
 
     disconnect() {
         this.listeners.destroy()
-        this.scrollSensitive.disconnect()
         this.el.classList.remove(this.classes.hidden)
         this.el.classList.remove(this.classes.visible)
     }

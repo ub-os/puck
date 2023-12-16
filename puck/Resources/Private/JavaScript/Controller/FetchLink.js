@@ -1,5 +1,5 @@
 import { $, $$, $id, jsx, $target, scrollTo } from '~/Utility/DomUtility'
-import Listeners from "~/Service/Listeners"
+import ListenerCollector from "~/Service/ListenerCollector.js"
 import { IntersectionManager } from "~/Service/ObserverCollector.js"
 import Controller from "~/Application/Controller.js";
 
@@ -106,7 +106,6 @@ export default class FetchLink extends Controller {
     this.states = {
       fetching: false,
     }
-    this.listeners = new Listeners()
     if (!this.el || !this.url || !this.contentNode) {
       return {error: 'FetchLink: missing node, url or contentNode', fetchLink: this}
     }

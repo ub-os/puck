@@ -1,109 +1,94 @@
 import { kebabCase, jsonParse } from "~/Utility/StringUtility";
-import { $$ } from "~/Utility/DomUtility";
+import ListenerCollector from "~/Service/ListenerCollector.js";
 
 export default class Controller {
     static props = {}
+    static targets = {}
+    static injects = {}
+    static actions = {}
     static identifier = null
     static registerCallback() { }
-    static convertToPropValue(prop, val) {
-        switch (typeof this.props[prop]) {
-            case 'boolean':
-                return val !== '0' && val !== 'false'
-            case 'object':
-                return jsonParse(val)
-            case 'number':
-                return Number(val.replace(/_/g, ""))
-            default:
-                return val
-        }
-    }
-    static convertToAttrValue(prop, val) {
-        switch (typeof this.props[prop]) {
-            case 'boolean':
-                return val ? '' : 'false'
-            case 'object':
-                return JSON.stringify(val)
-            case 'string':
-                return val
-            default:
-                return val.toString()
-        }
-    }
     constructor(el, argProps = {}) {
         this.el = el
-        const attrProps = jsonParse(this.el.getAttribute('data-' + kebabCase(this.constructor.identifier)))
+        this.identifier = this.constructor.identifier
+        const attrProps = jsonParse(this.el.getAttribute('data-' + this.identifier))
         for (let prop in this.constructor.props) {
-            if (this.el.hasAttribute(this.constructor.propToAttrName[prop])) {
-                this.setProp(prop, this.constructor.convertToPropValue(prop, this.el.getAttribute(this.constructor.propToAttrName[prop])), false)
+            const attr = this.constructor.writePropKey[prop]
+            if (this.el.hasAttribute(attr)) {
+                this.__setProp(prop, this.constructor.readProp(prop, this.el.getAttribute(attr)), false)
+            } else if (Object.prototype.hasOwnProperty.call(attrProps, prop)) {
+                this.__setProp(prop, attrProps[prop], true)
+            } else if (Object.prototype.hasOwnProperty.call(argProps, prop)) {
+                this.__setProp(prop, argProps[prop], true)
             } else {
-                const val =
-                    Object.prototype.hasOwnProperty.call(attrProps, prop)
-                    ? attrProps[prop]
-                    : Object.prototype.hasOwnProperty.call(argProps, prop)
-                        ? argProps[prop]
-                        : this.constructor.props[prop]
-                this.setProp(prop, val, true)
+                this.__setProp(prop, this.constructor.props[prop], false)
             }
         }
-        this.el.removeAttribute('data-' + kebabCase(this.constructor.identifier))
+        for (let target of Object.keys(this.constructor.targets)) {
+            this[`${target}Targets`] = new Map()
+        }
+        this.el.removeAttribute('data-' + this.identifier)
         this.initialize()
     }
-    /**
-     * @type {HTMLElement}
-     */
-    _el = null
-    get el() {
-        return this._el
-    }
-    set el(el) {
-        this._el = el
-    }
-    get hashLinks() {
-        return [...$$(`a[href*="#${this.el.id}"]`)].filter(a => a.location.pathname === window.location.pathname)
-    }
-/*    get ariaControls() {
-        return [...$$(`[aria-controls="${this.el.id}"]`)]
-    }*/
-    setProp(prop, val, sync = false) {
+    __setProp(prop, val, sync = true) {
+        if (val === this[`#${prop}`]) return
+        if (!sync) {
+            const oldVal = this[`#${prop}`]
+            this[`#${prop}`] = val
+            if (typeof this[`${prop}Changed`] === 'function') {
+                this[`${prop}Changed`](oldVal, val)
+            }
+            return
+        }
         this[`#${prop}`] = val
-        if (!sync) return
-        const writeVal = this.constructor.convertToAttrValue(prop, val)
-        const attrName = this.constructor.propToAttrName[prop]
+        const writeVal = this.constructor.writeProp(prop, val)
+        const writeName = this.constructor.writePropKey[prop]
         if (
             typeof this.constructor.props[prop] === 'object'
-            && writeVal === this.constructor.convertToAttrValue(prop, this.constructor.props[prop])
+            && writeVal === this.constructor.writeProp(prop, this.constructor.props[prop])
         ) {
-            this.el.removeAttribute(attrName)
+            this.el.removeAttribute(writeName)
             return
         }
         if (val === this.constructor.props[prop]) {
-            this.el.removeAttribute(attrName)
+            this.el.removeAttribute(writeName)
             return
         }
-        this.el.setAttribute(attrName, writeVal)
+        this.el.setAttribute(writeName, writeVal)
     }
 
-    initialize()  { return this }
-    connect() { return this }
-    disconnect() { return this }
-    attributeChanged(name, oldVal, newVal) {
-        if (name === `data-${kebabCase(this.constructor.identifier)}-update`) {
-            this.el.removeAttribute(name)
+    __attributeChanged(attrName, oldVal, newVal) {
+        if (attrName === `data-${this.identifier}-update`) {
+            this.el.removeAttribute(attrName)
             this.disconnect()
             this.connect()
             return
         }
-        const prop = this.constructor.attrToPropName[name]
+        const prop = this.constructor.readPropKey[attrName]
         if (!prop) return
         let newPropVal;
         if (newVal === null || newVal === undefined) {
             newPropVal = this.constructor.props[prop]
         } else {
-            newPropVal = this.constructor.convertToPropValue(prop, newVal)
-        }
-        if (typeof this[`${prop}Changed`] === 'function') {
-            this[`${prop}Changed`](this[`#${prop}`], newPropVal)
+            newPropVal = this.constructor.readProp(prop, newVal)
         }
         this[`#${prop}`] = newPropVal
+        if (typeof this[`${prop}Changed`] === 'function') {
+            this[`${prop}Changed`](this.constructor.read(oldVal), newPropVal)
+        }
+
     }
+    /**
+     * @type {HTMLElement}
+     */
+    __el = null
+
+    listeners = new ListenerCollector()
+    identifier = null
+    get el() { return this.__el }
+    set el(el) { this.__el = el }
+    initialize()  { return this }
+    connect() { return this }
+    disconnect() { return this }
+
 }

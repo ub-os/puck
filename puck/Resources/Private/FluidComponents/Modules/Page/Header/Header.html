@@ -5,7 +5,10 @@
   <fc:param name="context" type="array"/>
   <fc:renderer>
 
-    <header class="{name}" id="header" data-controller="page-header" data-page-header="{f:format.json(value:{scrollTops:{0:0,800:25}})}">
+    <header class="{name}" id="header"
+            data-controller="page-header"
+            data-page-header:scroll-tops="{f:format.json(value:{0:0,800:25})}"
+            data-scroll-sensitive:scroll-top="25">
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink
@@ -16,16 +19,19 @@
           <icon:svg icon="website-logo" class="{name}__logo"/>
         </f:link.typolink>
         <div class="{name}-menu__wrap"
-             id="main-menu"
-             data-controller="breakpoint-modal"
-             data-breakpoint-modal="{f:format.json(value:{
-               breakpoint: 1150,
-               initClass: 'm-page-header-menu',
-               modalClass: 'm-page-sidebar-menu'
-             }
-             )}">
+             id="main-nav"
+             data-controller="main-nav"
+             data-main-nav:breakpoint="1150"
+             data-main-nav:init-class="m-page-header-menu"
+             data-main-nav:modal-class="m-page-sidebar-menu"
+             data-modal:duration="300"
+             data-modal:append-to
+        >
           <div class="{name}-menu__header">
-            <button class="{name}-menu__close" aria-controls="main-menu" aria-label="{f:translate(key:'close')}">
+            <button class="{name}-menu__close"
+                    data-action="click->toggle@modal"
+                    aria-controls="main-nav"
+                    aria-label="{f:translate(key:'close')}">
               <icon:char icon="close" />
             </button>
           </div>
@@ -60,7 +66,7 @@
                     controller="Search">
           <div class="{searchName}__wrap">
             <f:form.textfield
-                    id="main-menu-search-input"
+                    id="main-nav-search-input"
                     class="{searchName}__input"
                     placeholder="Suchbegriff"
                     name="search[sword]"/>

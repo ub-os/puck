@@ -5,12 +5,15 @@ export default class TabPanel extends Toggleable {
     toggleOn(transition= true) {
         super.toggleOn(transition)
         this.el.style.maxHeight = `${(this.el.scrollHeight + 100).toString()}px`
-        this.toggles.forEach(t => t.ariaSelected = 'true')
+        this.toggleTargets.forEach(t => t.ariaSelected = 'true')
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
         this.el.style.maxHeight = `0`
-        this.toggles.forEach(t => t.ariaSelected = 'false')
+        this.toggleTargets.forEach(t => t.ariaSelected = 'false')
+    }
+    toggleConnected(el) {
+        el.role = 'tab'
     }
     connect() {
         super.connect()
@@ -19,13 +22,12 @@ export default class TabPanel extends Toggleable {
         }
         this.el.role = 'tabpanel'
         this.groupEl.role = 'tablist'
-        this.toggles.forEach(t => { t.role = 'tab' })
         return this
     }
     disconnect() {
         super.disconnect()
         this.el.removeAttribute('role')
         this.groupEl.removeAttribute('role')
-        this.toggles.forEach(t => t.removeAttribute('role'))
+        this.toggleTargets.forEach(t => t.removeAttribute('role'))
     }
 }

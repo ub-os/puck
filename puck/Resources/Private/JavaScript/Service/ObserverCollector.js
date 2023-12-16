@@ -31,7 +31,11 @@ class ObserverCollector {
 
     #idx = 0
     #elIdx = 0
-    #callbackIdx = 0
+    #callbackIdx = {
+        [IntersectionObserver.name]: 0,
+        [ResizeObserver.name]: 0,
+        [MutationObserver.name]: 0,
+    }
     #idMap = {}
     #callbacks = {
         [IntersectionObserver.name]: [],
@@ -167,7 +171,7 @@ class ObserverCollector {
             return
         }
         const callbacksByElId = this.#observers[map.obsName][map.obsId].callbacksByElId
-        if (Object.keys(callbacksByElId).length === 1 && callbacksByElId[map.elId].length === 1) {
+        if (Object.keys(callbacksByElId).length < 2 && callbacksByElId[map.elId].length < 2) {
             this.#observers[map.obsName][map.obsId].disconnect()
             delete this.#observers[map.obsName][map.obsId]
             return
@@ -183,7 +187,7 @@ class ObserverCollector {
     }
 
     #registerCallback(fn, obsName) {
-        const id = this.#callbackIdx++
+        const id = this.#callbackIdx[obsName]++
         this.#callbacks[obsName][id] = fn
         return id
     }
@@ -257,7 +261,11 @@ class ObserverCollector {
         this.disconnect()
         this.#idx = 0
         this.#elIdx = 0
-        this.#callbackIdx = 0
+        this.#callbackIdx = {
+            [IntersectionObserver.name]: 0,
+            [ResizeObserver.name]: 0,
+            [MutationObserver.name]: 0,
+        }
         this.#idMap = {}
         this.#callbacks = {
             [IntersectionObserver.name]: [],

@@ -1,6 +1,6 @@
 import { $, $$, jsx } from '../General/Aliases';
 import AbstractComponent from "./AbstractComponent";
-import Listeners from "./Listeners";
+import Listeners from "./ListenerCollector";
 
 // CLASS ListFilter
 export default class ListFilter extends AbstractComponent {
@@ -240,7 +240,6 @@ export default class ListFilter extends AbstractComponent {
         return k;
     }
     mount() {
-        this.listeners = new Listeners();
         this.triggers = this.createTriggers();
         this.changeActiveTriggerCounter(0);
         if (this.clearAllElement) {

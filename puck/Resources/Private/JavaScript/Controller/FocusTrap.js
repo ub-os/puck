@@ -1,5 +1,5 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import Listeners from "~/Service/Listeners"
+import ListenerCollector from "~/Service/ListenerCollector.js"
 import { MutationManager } from "~/Service/ObserverCollector";
 import Controller from "~/Application/Controller.js";
 
@@ -9,7 +9,7 @@ export default class FocusTrap extends Controller {
         updateFocusables: new Event('update-focusables')
     }
     static props = {
-        active: true,
+        active: false,
         updateFocusOn: 'event' // event, mutation
     }
 
@@ -25,18 +25,16 @@ export default class FocusTrap extends Controller {
             window.getComputedStyle(f,null).display !== 'none')
     }
 
-    getFirstFocusable() {
+    get firstFocusable() {
         return this.focusables[0] || this.el
     }
-    getLastFocusable() {
+    get lastFocusable() {
         return this.focusables[this.focusables.length - 1] || this.el
     }
 
     connect() {
         this.focusables = []
         this.updateFocusables()
-        this.listeners = new Listeners()
-        
         if (this.updateFocusOn === 'mutation') {
             MutationManager.addById('focus-trap-' + this.el.id, this.el, (mutations, observer) => {
                 window.requestAnimationFrame(() => {
@@ -57,14 +55,14 @@ export default class FocusTrap extends Controller {
             if (!this.active) return
             if (event.key === 'Tab') {
                 if (event.shiftKey) {
-                    if (document.activeElement === this.getFirstFocusable() || document.activeElement === this.el) {
+                    if (document.activeElement === this.firstFocusable || document.activeElement === this.el) {
                         event.preventDefault()
-                        this.getLastFocusable().focus()
+                        this.lastFocusable.focus()
                     }
                 } else {
-                    if (document.activeElement === this.getLastFocusable() || document.activeElement === this.el) {
+                    if (document.activeElement === this.lastFocusable || document.activeElement === this.el) {
                         event.preventDefault()
-                        this.getFirstFocusable().focus()
+                        this.firstFocusable.focus()
                     }
                 }
             }

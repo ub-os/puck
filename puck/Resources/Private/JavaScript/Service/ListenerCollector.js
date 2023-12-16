@@ -1,4 +1,4 @@
-export default class Listeners {
+export default class ListenerCollector {
 
     #listeners = {} // # in a JS class signifies private
     #idx = 1

@@ -8,7 +8,7 @@
   <fc:renderer>
 
     <div data-controller="modal"
-         data-modal-duration="300"
+         data-modal:duration="300"
          class="{name} {class} -width-{width}"
          id="{id}"
          {attributes -> puck:attributes()}>
@@ -27,7 +27,9 @@
       </f:comment>
 
 
-      <button class="{name}__close" aria-controls="{id}" aria-label="{f:translate(key:'close')}">
+      <button class="{name}__close"
+              data-action="click->toggle@modal#{id}"
+              aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />
       </button>
       <fc:slot name="content"/>

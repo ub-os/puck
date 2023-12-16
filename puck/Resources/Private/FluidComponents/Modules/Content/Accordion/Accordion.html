@@ -4,11 +4,11 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <f:variable name="props" value="{groupId: 'c{object.txContainerParent}', setClassOnParent:1, duration:150}"/>
     <div class="{name}" id="c{object.uid}">
       <button class="{name}__button"
               id="c{object.uid}-header"
-              data-action="click->toggle@accordion#c{object.uid}-collapse">
+              data-action="click->toggle@accordion#c{object.uid}-collapse"
+              data-target="toggle@accordion#c{object.uid}-collapse">
         <span class="{name}__title"><f:format.raw>{object.header}</f:format.raw></span>
         <span class="{name}__icon"></span>
       </button>
@@ -16,7 +16,10 @@
            id="c{object.uid}-collapse"
            aria-labelledby="c{object.uid}-header"
            data-controller="accordion"
-           data-accordion="{props -> f:format.json()}">
+           data-accordion:group-id="c{object.txContainerParent}"
+           data-accordion:duration="150"
+           data-accordion:parent-classing
+      >
         <div class="{name}__content">
           <layout:media
                   media="{object.assets}"

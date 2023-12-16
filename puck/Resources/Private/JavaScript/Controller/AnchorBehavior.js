@@ -1,6 +1,6 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 import Controller from '~/Application/Controller.js'
-import Listeners from '~/Service/Listeners'
+import ListenerCollector from '~/Service/ListenerCollector.js'
 
 export default class AnchorBehavior extends Controller {
     static props = {
@@ -19,7 +19,6 @@ export default class AnchorBehavior extends Controller {
     }
 
     connect() {
-        this.listeners = new Listeners()
         this.scrollOffset = this.scrollOffset || getComputedStyle(document.documentElement).getPropertyValue('--scroll-to-offset') || 0
         this.el.$$('a').forEach(el => {
             const isCurrentLink = this.isCurrentLink(el);
@@ -30,8 +29,7 @@ export default class AnchorBehavior extends Controller {
             if (this.externalClass && el.hostname !== window.location.hostname) {
                 el.classList.add(this.externalClass);
             }
-            // skip listeners for links with aria-controls attribute, they should be handled by other classes
-            if (el.getAttribute('aria-controls')) return;
+            if (el.getAttribute('data-action')) return
             if (this.scrollTopOnCurrentLink && isCurrentLink) {
                 this.listeners.add(el, 'click', e => {
                     e.preventDefault();
@@ -49,20 +47,21 @@ export default class AnchorBehavior extends Controller {
                 const anchor = $id(id)
                 if (!anchor) return
                 this.listeners.add(el, 'click', e => {
-                    e.preventDefault();
+                    e.preventDefault()
+                    anchor.dispatchEvent(new Event('hash-link-clicked'))
                     if (anchor.hasAttribute('data-menu-anchor')) {
                         scrollTo(anchor.nextElementSibling, this.scrollOffset);
                     } else {
                         scrollTo(anchor, this.scrollOffset);
                     }
-                    history.replaceState(history.state, '', el.href);
+                    history.replaceState(history.state, document.title, el.href)
                 })
             }
         })
         // scroll to hash id on page load
         window.requestAnimationFrame(() => {
             const id = window.location.hash.substring(1).split('?')[0];
-            //if (id) scrollTo(id, this.scrollOffset);
+            if (id) scrollTo(id, this.scrollOffset);
         });
         return this
     }
