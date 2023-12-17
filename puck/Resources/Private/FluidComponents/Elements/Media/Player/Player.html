@@ -38,38 +38,37 @@
                     )}"/>
 
         <div class="{name}">
-            <button class="{name}__button"
-                    data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
-                    aria-controls="{id}-modal"
-                    aria-label="{f:translate(key:'play-video',extensionName:'puck')}"></button>
+            <div class="{name}__button"
+                 role="button"
+                 data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
+                 aria-controls="{id}-modal"
+                 aria-label="{f:translate(key:'play-video',extensionName:'puck')}"></div>
 
-            <f:comment>
-                <div class="{name}__poster">
-                    <f:if condition="{localPoster}">
-                        <f:then>
-                            <element:picture
-                                    loading="lazy"
-                                    name="{name}"
-                                    retina="{posterRetina}"
-                                    sources="{
-                                    xs: {width: width},
-                                    0: {width: 450}
-                                    }"
-                                    src="{poster}"
-                                    webp="{posterWebp}"
-                                    width="{width}"/>
-                        </f:then>
-                        <f:else>
-                            <picture>
-                                <img alt="{file.alternative}"
-                                     class="{name}__image"
-                                     loading="lazy"
-                                     src="{poster}">
-                            </picture>
-                        </f:else>
-                    </f:if>
-                </div>
-            </f:comment>
+            <div class="{name}__poster">
+                <f:if condition="{localPoster}">
+                    <f:then>
+                        <element:picture
+                                loading="lazy"
+                                name="{name}"
+                                retina="{posterRetina}"
+                                sources="{
+                                xs: {width: width},
+                                0: {width: 450}
+                                }"
+                                src="{poster}"
+                                webp="{posterWebp}"
+                                width="{width}"/>
+                    </f:then>
+                    <f:else>
+                        <picture>
+                            <img alt="{file.alternative}"
+                                 class="{name}__image"
+                                 loading="lazy"
+                                 src="{poster}">
+                        </picture>
+                    </f:else>
+                </f:if>
+            </div>
             <icon:svg class="{name}__icon" icon="circle-play-duotone"/>
             <f:if condition="{openInModal}">
                 <f:then>

@@ -14,17 +14,17 @@
     height: 100%
 
   &__poster
-    +cover-media
     position: absolute
     right: 0
     top: 0
     height: 100%
     width: 100%
+    overflow: hidden
 
   &__image
-    //position: absolute
-    //top: 0
-    //width: 100%
+    object-fit: cover
+    object-position: center
+    aspect-ratio: 16/9
     filter: brightness(0.75)
     transition: filter .2s
 
@@ -40,8 +40,14 @@
     height: 100%
 
   &__modal__frame
+    position: relative
     aspect-ratio: 16/9
     background: black
+
+  &__loading-indicator
+    +center(both)
+    font-size: 2em
+    color: white
 
   &__icon
     +center
