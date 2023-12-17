@@ -1,9 +1,13 @@
 .m-menu-control-filter
+  &
+    +spacing(bottom, s)
+
   &__list
     +flex(row,flex-start,flex-start)
+    margin-inline: -.25em
 
   &__item
-    margin: 0 .25em
+    margin-inline: .25em
 
   &__link
     color: var(--color-link)
