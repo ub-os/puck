@@ -9,12 +9,13 @@ htmx.config.scrollBehavior = 'auto'
 htmx.config.defaultSwapStyle = 'outerHTML'
 htmx.config.globalViewTransitions = true
 
+let isInitialLoad = true
+
 smoothscroll.polyfill()
 
 const doc = document.documentElement
 
 const mountBody = () => {
-    App.connect()
     window.requestAnimationFrame(() => {
         document.body.classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
@@ -23,22 +24,25 @@ const mountBody = () => {
 }
 
 const clearBody = () => {
-    App.reset()
-    $$('[data-render-excluded]').forEach(el => el.remove())
+    //$$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
+    App.disconnect()
 }
 
-const dispatchBodyEvent = event => {
-    if (event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-swap-target')) {
-        const bodyEvent = new Event(`${event.type}:body`)
-        bodyEvent.detail = event.detail
-        doc.dispatchEvent(bodyEvent)
-    }
+const isBodyEvent = event => {
+    return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-swap-target')
+}
+
+const logEvent = (event, eventTypeSuffix = '') => {
+    Logger.console.log(`%c${event.type}${eventTypeSuffix}`, "color:lightgreen", event)
 }
 
 doc.addEventListener("htmx:beforeRequest", (event) => {
-    Logger.console.log(event.type, event)
-    dispatchBodyEvent(event)
+    if (isBodyEvent(event)) {
+        logEvent(event, ':body')
+    } else {
+        logEvent(event)
+    }
     const targetAnchor = event.detail.elt.closest('a')
     if (targetAnchor?.hash && targetAnchor.pathname === window.location.pathname) {
         event.preventDefault()
@@ -46,45 +50,48 @@ doc.addEventListener("htmx:beforeRequest", (event) => {
     //frameExitAnimation(event.target)
 })
 doc.addEventListener("htmx:beforeSwap", (event) => {
-    Logger.console.log(event.type, event)
-    dispatchBodyEvent(event)
+    if (isBodyEvent(event)) {
+        logEvent(event, ':body')
+    } else {
+        logEvent(event)
+    }
     if (event.target.hasAttribute('data-hx-target-scroll')) {
         scrollTo(event.target)
     }
     //frameEnterAnimation(event.target)
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
-    Logger.console.log(event.type, event)
-    dispatchBodyEvent(event)
+    if (isBodyEvent(event)) {
+        logEvent(event, ':body')
+        clearBody()
+    } else {
+        logEvent(event)
+    }
 })
 doc.addEventListener("htmx:load", (event) => {
-    Logger.console.log(event.type, event)
-    dispatchBodyEvent(event)
+    if (isInitialLoad) {
+        isInitialLoad = false
+        logEvent(event, ':initial')
+        console.time('load')
+        App.connect()
+        mountBody()
+        console.timeEnd('load')
+    } else if (isBodyEvent(event)) {
+        logEvent(event, ':body')
+        console.time('load')
+        mountBody()
+        console.timeEnd('load')
+    } else {
+        logEvent(event)
+    }
 })
 doc.addEventListener("htmx:beforeHistorySave", (event) => {
-    Logger.console.log(event.type, event)
+    logEvent(event)
 })
 doc.addEventListener("htmx:historyRestore", (event) => {
-    Logger.console.log(event.type, event)
+    logEvent(event);
+    $$('[data-render-excluded]').forEach(el => el.remove())
 })
-doc.addEventListener("htmx:beforeRequest:body", (event) => {
-    Logger.console.log(event.type, event)
-})
-doc.addEventListener("htmx:beforeSwap:body", (event) => {
-    Logger.console.log(event.type, event)
-    //document.body.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'ease-in-out', fill: 'forwards' })
-})
-doc.addEventListener("htmx:afterSwap:body", (event) => {
-    Logger.console.log(event.type, event)
-    //document.body.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease-in-out', fill: 'forwards' })
-})
-doc.addEventListener("htmx:load:body", (event) => {
-    Logger.console.log(event.type, event)
-    console.time('load')
-    clearBody()
-    //window.dispatchEvent(new Event('scroll'))
-    mountBody()
-    console.timeEnd('load')
 
 /*  console.log('test action removal')
     $$('[data-action]').forEach(el => {
@@ -95,7 +102,6 @@ doc.addEventListener("htmx:load:body", (event) => {
         // add back in
         parent.insertBefore(el, before)
     })*/
-})
 
 
 

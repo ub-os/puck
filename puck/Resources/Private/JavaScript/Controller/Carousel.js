@@ -36,7 +36,8 @@ export default class Carousel extends Controller {
                 }
             })
         })
-        this.splide.on( 'pagination:mounted', function ( data ) {
+        this.splide.on( 'pagination:mounted', data => {
+            console.log(`pagination on carousel added ${this.el.id}`)
             data.list.setAttribute('data-render-excluded', '')
         } )
         this.splide.mount()

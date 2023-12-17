@@ -85,23 +85,28 @@ class Application {
         return $$('[data-action]')
     }
     connect() {
-        MutationManager.addById(
-            'body-childList-observer',
-            document.body,
-            mutations => this.elementConnectionHandler(mutations),
-            { childList: true, subtree: true },
-        )
         this.controllerElements.forEach(el => this.connectControllerElement(el))
         this.targetElements.forEach(el => this.connectTargetElement(el))
         this.actionElements.forEach(el => this.connectActionElement(el))
+        this.domObserver.observe(document.body, { childList: true, subtree: true })
     }
 
     disconnect() {
-        MutationManager.remove('body-childList-observer')
-        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
+        this.services.observerCollector?.clear()
+        this.#controllerIdx = 0
+        this.#targetIdx = 0
+        this.#actionIdx = 0
+        //this.domObserver.takeRecords()
+        //this.controllerObserver.disconnect()
+        //this.actionObserver.disconnect()
         this.targetElements.forEach(el => this.disconnectTargetElement(el))
         this.actionElements.forEach(el => this.disconnectActionElement(el))
+        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
     }
+
+    domObserver = new MutationObserver(mutations => {
+        this.elementConnectionHandler(mutations)
+    })
 
     elementConnectionHandler(mutations) {
         mutations.forEach(mutation => {
@@ -130,6 +135,8 @@ class Application {
         if (!el.id) {
             el.id = `_action${this.#actionIdx++}`
         }
+        console.warn(`connecting action on #${el.id}`)
+
         //console.log(`connecting action on #${el.id}`)
         el.dataset.action.split(' ').forEach(descriptor => {
             const [
@@ -156,6 +163,7 @@ class Application {
             })
             const attributeConverter = new AttributeConverter(controller.constructor.actions?.[method] || {})
             el.actionSettings[identifier].listener = e => {
+                console.log(`Action ${identifier} triggered on #${el.id}`)
                 if (!controllerElement.controllersAreConnected) return
                 el.hasAttribute(`data-${identifier}:event:prevent`) ? e.preventDefault() : null
                 el.hasAttribute(`data-${identifier}:event:stop`) ? e.stopPropagation() : null
@@ -296,9 +304,8 @@ class Application {
         })
     })
 
-    reset() {
-        this.services.observerCollector?.reset()
-        this.disconnect()
+    clearObservers() {
+        this.services.observerCollector?.clear()
     }
 }
 

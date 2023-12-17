@@ -179,7 +179,7 @@ class ObserverCollector {
         const fnIndex = callbacksByElId[map.elId].indexOf(map.fn)
         callbacksByElId[map.elId].splice(fnIndex, 1)
         if (!callbacksByElId[map.elId].length) {
-            if (this.#observers[map.obsName][map.obsId].unobserve) {
+            if (this.#observers[map.obsName][map.obsId].unobserve && document.getElementById(map.elId)) {
                 this.#observers[map.obsName][map.obsId].unobserve(document.getElementById(map.elId))
             }
             delete callbacksByElId[map.elId]
@@ -228,6 +228,9 @@ class ObserverCollector {
             remove: (id) => {
                 this.#unobserve(id)
             },
+            has: (id) => {
+                return !!this.#idMap[id]
+            },
             disconnectAll: () => {
                 for (let obsId in this.#observers[obsName]) {
                     this.#observers[obsName][obsId].disconnect()
@@ -257,7 +260,8 @@ class ObserverCollector {
         this.mutation.disconnectAll()
     }
 
-    reset() {
+    clear() {
+        console.log('clearing observer collector')
         this.disconnect()
         this.#idx = 0
         this.#elIdx = 0
@@ -272,6 +276,9 @@ class ObserverCollector {
             [ResizeObserver.name]: [],
             [MutationObserver.name]: [],
         }
+        Object.entries(this.#observers[MutationObserver.name]).forEach(([obsId, obs]) => {
+            obs.takeRecords()
+        })
         this.#observers = {
             [IntersectionObserver.name]: {},
             [ResizeObserver.name]: {},

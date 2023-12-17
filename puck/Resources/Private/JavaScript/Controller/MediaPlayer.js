@@ -22,6 +22,7 @@ export default class MediaPlayer extends Controller {
         videoAttributes: '',
         plyrOptions: {}
     }
+
     addPlayerEl() {
         if (this.loaded) return
         switch (this.provider) {
@@ -36,7 +37,7 @@ export default class MediaPlayer extends Controller {
         }
         this.el.append(this.playerEl)
         this.loaded = true
-        this.el.dispatchEvent(new Event('update-focusables', { bubbles: true }))
+        this.el.dispatchEvent(new Event('update-focusables', {bubbles: true}))
         if (this.usePlyr) {
             let plyrOptions = this.plyrOptions
             if (this.controls) {
@@ -48,6 +49,7 @@ export default class MediaPlayer extends Controller {
             this.plyr = new Plyr(this.playerEl, plyrOptions)
         }
     }
+
     getHtml5PlayerEl() {
         const attributes = {}
         this.videoAttributes.split(' ').forEach(attr => {
