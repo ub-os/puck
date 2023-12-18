@@ -16,25 +16,3 @@ page.20 {
 
     }
 }
-
-pageMenuPlugin = PAGE
-pageMenuPlugin {
-    typeNum = 16500000
-    20 = USER
-    20 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        extensionName = Puck
-        vendorName = UBOS
-        pluginName = PageMenu
-        settings {
-            extensionKey = Puck
-            vendorName = UBOS
-        }
-    }
-    config {
-        disableAllHeaderCode = 1
-        debug = 0
-        admPanel = 0
-    }
-}
-
