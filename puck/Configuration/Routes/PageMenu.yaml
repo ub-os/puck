@@ -1,9 +1,4 @@
 routeEnhancers:
-  PageMenuPageType:
-    type: PageType
-    index: ''
-    map:
-      /page-menu.fragment.html: 16500000
   PageMenu:
     type: Extbase
     extension: Puck
@@ -29,6 +24,9 @@ routeEnhancers:
         _controller: 'Menu::pageMenu'
       -
         routePath: '/{pluginLabel}/{pageLabel}/{page}'
+        _controller: 'Menu::pageMenu'
+      -
+        routePath: '/{pluginLabel}/c{object}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/'
@@ -71,3 +69,5 @@ routeEnhancers:
         type: PersistedAliasMapperOfCommaList
         tableName: tx_puck_domain_model_person
         routeFieldName: slug
+      object:
+        type: NothingMapper

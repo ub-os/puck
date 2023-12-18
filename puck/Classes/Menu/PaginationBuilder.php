@@ -79,10 +79,10 @@ class PaginationBuilder
                     url: $this->buildUri($loadMoreArgs),
                     fetchLinkOptions: new FetchLinkOptions(
                         url: $this->buildUri($loadMoreArgs, true),
-                        contentId: 'c' . $this->contentObject->getUid() . '-list',
+                        contentId: 'c' . $this->menuContentObjectUid . '-list',
                         mode: 'append',
                         scrollToContent: 0,
-                        trigger: $this->settings['variant'] === 'infinite-scroll' ? 'scrollIntoView' : 'click',
+                        trigger: $this->settings['variant'] === 'infinite-scroll' ? 'intersect' : 'click',
                     ),
                     disabled: !$swp->getNextPageNumber()
                 )

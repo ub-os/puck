@@ -1,31 +1,29 @@
 <fc:component>
     <fc:param name="name" type="string" optional="1" default="m-menu-control-load-more-button" />
     <fc:param name="loadMoreItem" type="UBOS\Puck\Menu\Dto\PaginationItem"/>
+    <fc:param name="sectionId" type="string" optional="1"/>
     <fc:renderer>
 
-        <div class="{name}__wrap">
+        <div class="{name}__wrap"
+             id="{sectionId}-pagination">
             <f:if condition="!{loadMoreItem.disabled}">
-                <f:then>
-                    <button
-                            class="{name}__button e-button-primary -ghost"
-                            id="{loadMoreItem.fetchLinkOptions.contentId}-load-more-button"
-                            data-controller="fetch-link"
-                            data-fetch-link='{loadMoreItem.fetchLinkOptions -> f:format.json()}'>
-                        <f:switch expression="{loadMoreItem.fetchLinkOptions.trigger}">
-                            <f:case value="scrollIntoView">
-                                <icon:svg icon="spinner-circle"/>
-                            </f:case>
-                            <f:defaultCase>
-                                <icon:svg icon="plus-regular"/>
-                            </f:defaultCase>
-                        </f:switch>
-                    </button>
-                </f:then>
-                <f:else>
-                    <button class="e-button-primary -disabled"
-                            id="{loadMoreItem.fetchLinkOptions.contentId}-load-more-button"
-                            style="display: none"></button>
-                </f:else>
+                <button
+                        class="{name}__button e-button-primary -ghost"
+                        data-hx-get="{loadMoreItem.fetchLinkOptions.url}"
+                        data-hx-trigger="{loadMoreItem.fetchLinkOptions.trigger}"
+                        data-hx-swap="beforeend"
+                        data-hx-target="#{sectionId}-list"
+                        data-hx-select="#{sectionId}-list>*"
+                        data-hx-select-oob="#{sectionId}-pagination,#{sectionId}-filter">
+                    <f:switch expression="{loadMoreItem.fetchLinkOptions.trigger}">
+                        <f:case value="intersect">
+                            <icon:svg icon="spinner-circle"/>
+                        </f:case>
+                        <f:defaultCase>
+                            <icon:svg icon="plus-regular"/>
+                        </f:defaultCase>
+                    </f:switch>
+                </button>
             </f:if>
         </div>
 

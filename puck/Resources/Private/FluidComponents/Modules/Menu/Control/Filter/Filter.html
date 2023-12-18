@@ -6,11 +6,13 @@
   <fc:renderer>
 
       <f:if condition="{categoryFilter.items}">
-          <div class="{name}">
-              <ul class="{name}__list"
-                  data-hx-select="#{sectionId}"
-                  data-hx-target="#{sectionId}"
-              >
+          <div class="{name}"
+               id="{sectionId}-filter"
+               data-hx-select="#{sectionId}-list"
+               data-hx-target="#{sectionId}-list"
+               data-hx-select-oob="#{sectionId}-filter,#{sectionId}-pagination"
+          >
+              <ul class="{name}__list">
                   <f:for each="{categoryFilter.items}" as="item" iteration="i">
                       <li class="{name}__item">
                       <f:if condition="{item.items}">

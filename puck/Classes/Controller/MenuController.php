@@ -49,7 +49,9 @@ class MenuController extends ActionController
     {
     }
 
-    #[Plugin("PageMenu")]
+
+    protected int $pageMenuFragmentTypeNum = 16500000;
+    #[Plugin("PageMenu", typeNum: 16500000)]
     public function pageMenuAction(
         ?string $categoryList = null,
         ?string $categoryConjunction = null,
@@ -59,7 +61,7 @@ class MenuController extends ActionController
         if ($object) {
             $this->settings = array_merge($this->settings, $object->getFlexForms()['piFlexform']['settings']);
         } else {
-            $contentObjectData =$this->request->getAttribute('currentContentObject')->data;
+            $contentObjectData = $this->request->getAttribute('currentContentObject')->data;
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
             $object = $dataMapper->map(MenuPages::class, [$contentObjectData])[0];
         }
@@ -83,7 +85,7 @@ class MenuController extends ActionController
                 uriBuilder: $this->uriBuilder,
                 menuActionName: 'pageMenu',
                 menuContentObjectUid: $object->getUid(),
-                fetchLinkPageType: 16500000,
+                fetchLinkPageType: $this->pageMenuFragmentTypeNum,
             );
             $pagination = $paginationBuilder
                 ->configure($this->settings['pagination'])
@@ -115,6 +117,7 @@ class MenuController extends ActionController
 
         }
         $this->view->assign('object', $object);
+        $this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
         $this->view->assign('settings', $this->settings);
         return $this->htmlResponse();
     }

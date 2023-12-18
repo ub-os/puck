@@ -6,12 +6,14 @@
   <fc:renderer>
 
     <f:if condition="{pagination.loadMore}">
-        <module:menu.control.loadMoreButton loadMoreItem="{pagination.loadMore}"/>
+        <module:menu.control.loadMoreButton loadMoreItem="{pagination.loadMore}" sectionId="{sectionId}"/>
     </f:if>
     <f:if condition="{pagination.items}">
       <ul class="{name}"
-          data-hx-select="#{sectionId}"
-          data-hx-target="#{sectionId}">
+          id="{sectionId}-pagination"
+          data-hx-select="#{sectionId}-list"
+          data-hx-target="#{sectionId}-list"
+          data-hx-select-oob="#{sectionId}-filter,#{sectionId}-pagination">
         <f:if condition="{pagination.prev}">
           <module:menu.control.pagination.item item="{pagination.prev}"  sectionId="{sectionId}"/>
         </f:if>
