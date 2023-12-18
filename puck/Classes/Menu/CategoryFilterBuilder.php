@@ -2,6 +2,7 @@
 
 namespace UBOS\Puck\Menu;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
@@ -25,8 +26,7 @@ class CategoryFilterBuilder
         'multiSelectWithinGroup' => false,
         'checkPotential' => false,
         'unsetArguments' => ['page', 'object'],
-        'categoryArgumentKey' => 'categoryList',
-        'categoryDemandKey' => 'categoryList',
+        'categoryDemandKey' => 'categories',
         'groupDepth' => 1,
         'categoryOrder' => ['sorting' => QueryInterface::ORDER_ASCENDING],
         'buildSecondLevelOfInactiveParent' => false,
@@ -79,7 +79,7 @@ class CategoryFilterBuilder
     public function configure(array $settings): self
     {
         $this->settings = array_merge($this->settings, $settings);
-        $this->activeCategories = $this->request->getArguments()[$this->settings['categoryArgumentKey']] ?? '';
+        $this->activeCategories = $this->request->hasArgument('demand') ? $this->request->getArgument('demand')[$this->settings['categoryDemandKey']] ?? '' : '';
         return $this;
     }
     
@@ -183,7 +183,15 @@ class CategoryFilterBuilder
 
                         if ($item->active) {
                             $closeArguments = $arguments;
-                            $closeArguments[$this->settings['categoryArgumentKey']] = implode(',', array_diff($currentCategories, $item->activeItemsUids)) ?: null;
+                            if (!is_array($closeArguments['demand'])) {
+                                $closeArguments['demand'] = [];
+                            }
+                            $newDemandCategory = implode(',', array_diff($currentCategories, $item->activeItemsUids)) ?: null;
+                            if ($newDemandCategory) {
+                                $closeArguments['demand'][$this->settings['categoryDemandKey']] = $newDemandCategory;
+                            } else {
+                                unset($closeArguments['demand'][$this->settings['categoryDemandKey']]);
+                            }
                             $item->closeItem = new CategoryFilterItem(
                                 label: $item->label,
                                 url: $this->buildUri($closeArguments),
@@ -199,8 +207,17 @@ class CategoryFilterBuilder
 
                 if ($groupItem->activeItemsUids) {
                     $groupItem->active = true;
+
                     $closeArguments = $arguments;
-                    $closeArguments[$this->settings['categoryArgumentKey']] = implode(',', array_diff($currentCategories, $groupItem->activeItemsUids)) ?: null;
+                    if (!is_array($closeArguments['demand'])) {
+                        $closeArguments['demand'] = [];
+                    }
+                    $newDemandCategory = implode(',', array_diff($currentCategories, $groupItem->activeItemsUids)) ?: null;
+                    if ($newDemandCategory) {
+                        $closeArguments['demand'][$this->settings['categoryDemandKey']] = $newDemandCategory;
+                    } else {
+                        unset($closeArguments['demand'][$this->settings['categoryDemandKey']]);
+                    }
                     $groupItem->closeItem = new CategoryFilterItem(
                         label: $groupItem->label,
                         url: $this->buildUri($closeArguments),
@@ -253,9 +270,9 @@ class CategoryFilterBuilder
             }
         }
         if ($unsetCategory) {
-            unset($arguments[$this->settings['categoryArgumentKey']]);
+            unset($arguments['demand'][$this->settings['categoryDemandKey']]);
         } else {
-            $arguments[$this->settings['categoryArgumentKey']] = $newCategoryList;
+            $arguments['demand'][$this->settings['categoryDemandKey']] = $newCategoryList;
         }
 
         if ($this->settings['checkPotential'] && $this->menuRepository && $this->menuDemand) {

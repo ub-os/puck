@@ -11,9 +11,9 @@ class MenuDemand
         public string $records = '',
         public ?int $limit = null,
         public int $offset = 0,
-        public string $categoryList = '',
+        public string $categories = '',
         public string $categoryConjunction = 'or',
-        public string $categoryList2 = '',
+        public string $categories2 = '',
         public string $categoryConjunction2 = 'or',
         public array $categoryBuckets = [
             'category' => [
@@ -37,15 +37,14 @@ class MenuDemand
     {
         $demand = new MenuDemand();
         $settings = PuckUtility::convertZeroStringsToInteger($settings, true);
-        $demand->parents = $settings['parents'] ?? $demand->parents;
-        $demand->records = $settings['records'] ?? $demand->records;
-        $demand->records = $settings['pages'] ?? $demand->records;
+        $demand->parents = $settings['demand']['parents'] ?? $demand->parents;
+        $demand->records = $settings['demand']['records'] ?? $demand->records;
         $demand->limit = (int)$settings['demand']['limit'] ?? $demand->limit;
         $demand->offset = (int)$settings['demand']['offset'] ?? $demand->offset;
-        $demand->categoryList = $settings['demand']['category']['list'] ?? $demand->categoryList;
-        $demand->categoryConjunction = $settings['demand']['category']['conjunction'] ?? $demand->categoryConjunction;
-        $demand->categoryList2 = $settings['demand']['category']['list2'] ?? $demand->categoryList2;
-        $demand->categoryConjunction2 = $settings['demand']['category']['conjunction2'] ?? $demand->categoryConjunction2;
+        $demand->categories = $settings['demand']['categories'] ?? $demand->categories;
+        $demand->categoryConjunction = $settings['demand']['categoryConjunction'] ?? $demand->categoryConjunction;
+        $demand->categories2 = $settings['demand']['categories2'] ?? $demand->categories2;
+        $demand->categoryConjunction2 = $settings['demand']['categoryConjunction2'] ?? $demand->categoryConjunction2;
         $demand->orderField = $settings['order']['field'] ?? $demand->orderField;
         $demand->orderDirection = $settings['order']['direction'] ?? $demand->orderDirection;
         $demand->additionalSettings = $additionalSettings;

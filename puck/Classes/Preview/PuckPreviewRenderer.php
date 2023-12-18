@@ -98,8 +98,8 @@ class PuckPreviewRenderer implements PreviewRendererInterface
         $processedMenuData = [];
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         foreach(['pages', 'parents'] as $key) {
-            if (isset($flexform['settings'][$key]) && !empty($flexform['settings'][$key])) {
-                $uids = explode(',', $flexform['settings'][$key]);
+            if (isset($flexform['settings']['demand'][$key]) && !empty($flexform['settings']['demand'][$key])) {
+                $uids = explode(',', $flexform['settings']['demand'][$key]);
                 foreach ($uids as $uid) {
                     $page = BackendUtility::getRecord('pages', $uid, '*', '', true);
                     if (!$page) {
@@ -119,7 +119,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
         (new ContentItemsProcFunc())->doktypes($doktypes);
         $processedMenuData['doktypeIcons'] = [];
         foreach($doktypes['items'] as $item) {
-            if (GeneralUtility::inList($flexform['settings']['types'] ?? '', $item['value'])) {
+            if (GeneralUtility::inList($flexform['settings']['demand']['types'] ?? '', $item['value'])) {
                 $processedMenuData['doktypeIcons'][$item['label']] = $item['icon'];
             }
         }
@@ -128,13 +128,13 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                 'table' => 'tx_puck_domain_model_person',
                 'title' => 'Author',
                 'titleField' => 'name',
-                'uids' => $flexform['settings']['demand']['author'] ?? ''
+                'uids' => $flexform['settings']['demand']['authors'] ?? ''
             ],
             'categories' => [
                 'table' => 'sys_category',
                 'title' => 'Categories',
                 'titleField' => 'title',
-                'uids' => $flexform['settings']['demand']['category']['list']
+                'uids' => $flexform['settings']['demand']['categories']
             ],
             'filter_categories' => [
                 'table' => 'sys_category',

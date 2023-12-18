@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
 
 class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
 {
-    const ROUTE_LIST_SEPARATOR = "--";
+    const ROUTE_LIST_SEPARATOR = ".";
 
     public function generate(string $value): ?string
     {

@@ -5,40 +5,39 @@ routeEnhancers:
     plugin: PageMenu
     routes:
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}/{pageLabel}/{pageLabel}/{page}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{authorLabel}/{authorList}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{authorLabel}_{demand/authors}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}/{pageLabel}/{page}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{authorLabel}/{authorList}/{pageLabel}/{page}'
+        routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{categoryLabel}/{categoryList}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{authorLabel}/{authorList}'
+        routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/{pageLabel}/{page}'
+        routePath: '/~{pluginPrefix}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/{pluginLabel}/c{object}'
+        routePath: '/~{pluginPrefix}/c{object}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/'
         _controller: 'Menu::pageMenu'
-
     aspects:
-      pluginLabel:
+      pluginPrefix:
         type: LocaleModifier
-        default: 'page-menu'
+        default: 'menu'
         localeMap:
           - locale: 'de_DE.*'
-            value: 'seiten-menu'
+            value: 'menu'
       pageLabel:
         type: LocaleModifier
         default: 'page'
@@ -61,13 +60,13 @@ routeEnhancers:
         type: StaticRangeMapper
         start: '1'
         end: '1000'
-      categoryList:
+      object:
+        type: NothingMapper
+      demand/categories:
         type: PersistedAliasMapperOfCommaList
         tableName: sys_category
         routeFieldName: slug
-      authorList:
+      demand/authors:
         type: PersistedAliasMapperOfCommaList
         tableName: tx_puck_domain_model_person
         routeFieldName: slug
-      object:
-        type: NothingMapper

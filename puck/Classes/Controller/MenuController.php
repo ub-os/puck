@@ -32,9 +32,9 @@ class MenuController extends ActionController
                 $this->settings,
                 [
                     'navHide' => $this->settings['demand']['navHide'],
-                    'author' => $this->settings['demand']['author'],
+                    'author' => $this->settings['demand']['authors'],
                     'currentPageId' => $this->request->getAttribute('routing')->getPageId(),
-                    'allowedTypes' => $this->settings['types']
+                    'allowedTypes' => $this->settings['demand']['types']
                 ]
             );
         }
@@ -53,9 +53,8 @@ class MenuController extends ActionController
     protected int $pageMenuFragmentTypeNum = 16500000;
     #[Plugin("PageMenu", typeNum: 16500000)]
     public function pageMenuAction(
-        ?string $categoryList = null,
-        ?string $categoryConjunction = null,
-        ?string $authorList = null,
+        ?array $demand = null,
+        ?array $categories = null,
         ?MenuPages $object = null): ResponseInterface
     {
         if ($object) {
@@ -67,12 +66,7 @@ class MenuController extends ActionController
         }
 
         if ($this->settings['demand']['overrideDemand']) {
-            $categoryList && $this->settings['demand']['category']['list'] = $categoryList;
-            $categoryConjunction && $this->settings['demand']['category']['conjunction'] = $categoryConjunction;
-            $authorList && $this->settings['demand']['author'] = $authorList;
-        }
-        if (!$this->settings['demand']['category']['conjunction']) {
-            $this->settings['demand']['category']['conjunction'] = 'or';
+            $this->settings['demand'] = array_merge($this->settings['demand'], $demand ?? []);
         }
 
         $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand());

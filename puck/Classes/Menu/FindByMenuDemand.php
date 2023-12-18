@@ -18,6 +18,7 @@ trait FindByMenuDemand
 
     public function findByMenuDemand(MenuDemand $demand) : QueryResult
     {
+
         $query = $this->createQuery();
         $constraints = $this->additionalMenuDemandConstraints($query, $demand->additionalSettings);
         $pidUidConstraints = [];
@@ -35,11 +36,11 @@ trait FindByMenuDemand
             // to do update, logicalOr needs multiple arguments of type ConstraintInterface
             $constraints[] = $query->logicalOr(...$pidUidConstraints);
         }
-        if ($demand->categoryList) {
-            $constraints[] = $this->createCategoryConstraint($query, $demand->categoryList, $demand->categoryConjunction);
+        if ($demand->categories) {
+            $constraints[] = $this->createCategoryConstraint($query, $demand->categories, $demand->categoryConjunction);
         }
-        if ($demand->categoryList2) {
-            $constraints[] = $this->createCategoryConstraint($query,   $demand->categoryList2, $demand->categoryConjunction2);
+        if ($demand->categories2) {
+            $constraints[] = $this->createCategoryConstraint($query,   $demand->categories2, $demand->categoryConjunction2);
         }
         if ($demand->limit) {
             $query->setLimit($demand->limit);
