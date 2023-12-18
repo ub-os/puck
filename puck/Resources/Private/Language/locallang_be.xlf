@@ -283,6 +283,17 @@
 				<source>Plugin page</source>
 			</trans-unit>
 
+			<trans-unit id="plugin.page_menu" resname="plugin.page_menu">
+				<source>Page menu</source>
+			</trans-unit>
+
+			<trans-unit id="plugin.page" resname="plugin.page">
+				<source>Page</source>
+			</trans-unit>
+
+			<trans-unit id="plugin.anchor_menu" resname="plugin.anchor_menu">
+				<source>Anchor menu</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
