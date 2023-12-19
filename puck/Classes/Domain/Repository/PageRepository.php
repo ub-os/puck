@@ -77,14 +77,14 @@ class PageRepository extends Repository implements MenuDemandRepository
     public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
     {
         $constraints = [
-            $query->in('doktype', explode(',', $settings['allowedTypes']) ?? $this->allowedTypes),
+            $query->in('doktype', explode(',', $settings['types']) ?? $this->allowedTypes),
             $query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0))
         ];
         if ($settings['navHide']) {
             $constraints[] = $query->equals('nav_hide', 0);
         }
-        if ($settings['author']) {
-            $constraints[] = $query->equals('post_author', $settings['author']);
+        if ($settings['authors']) {
+            $constraints[] = $query->equals('post_author', $settings['authors']);
         }
         return $constraints;
 

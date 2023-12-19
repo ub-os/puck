@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
@@ -31,10 +32,10 @@ class MenuController extends ActionController
             $this->menuDemand = MenuDemand::createFromSettingsArray(
                 $this->settings,
                 [
+                    'types' => $this->settings['demand']['types'],
                     'navHide' => $this->settings['demand']['navHide'],
-                    'author' => $this->settings['demand']['authors'],
+                    'authors' => $this->settings['demand']['authors'],
                     'currentPageId' => $this->request->getAttribute('routing')->getPageId(),
-                    'allowedTypes' => $this->settings['demand']['types']
                 ]
             );
         }
@@ -49,12 +50,10 @@ class MenuController extends ActionController
     {
     }
 
-
     protected int $pageMenuFragmentTypeNum = 16500000;
     #[Plugin("PageMenu", typeNum: 16500000)]
     public function pageMenuAction(
         ?array $demand = null,
-        ?array $categories = null,
         ?MenuPages $object = null): ResponseInterface
     {
         if ($object) {
@@ -66,7 +65,7 @@ class MenuController extends ActionController
         }
 
         if ($this->settings['demand']['overrideDemand']) {
-            $this->settings['demand'] = array_merge($this->settings['demand'], $demand ?? []);
+            ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
         }
 
         $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand());

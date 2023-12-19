@@ -113,7 +113,7 @@
                             </config>
                         </TCEforms>
                     </settings.demand.authors>
-                    <settings.demand.categoryConjunction>
+                    <settings.demand.categories.0.conjunction>
                         <TCEforms>
                             <label>Category conjunction</label>
                             <config>
@@ -139,8 +139,8 @@
                                 </items>
                             </config>
                         </TCEforms>
-                    </settings.demand.categoryConjunction>
-                    <settings.demand.categories>
+                    </settings.demand.categories.0.conjunction>
+                    <settings.demand.categories.0.uids>
                         <TCEforms>
                             <label>Categories</label>
                             <config>
@@ -150,7 +150,7 @@
                                 <maxitems>99</maxitems>
                             </config>
                         </TCEforms>
-                    </settings.demand.categories>
+                    </settings.demand.categories.0.uids>
                 </el>
             </ROOT>
         </demand>
@@ -282,38 +282,6 @@
                             </config>
                         </TCEforms>
                     </settings.categoryFilter.active>
-                    <settings.categoryFilter.multiSelect>
-                        <TCEforms>
-                            <label>Enable multi-select</label>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                            <onChange>reload</onChange>
-                        </TCEforms>
-                    </settings.categoryFilter.multiSelect>
-                    <settings.categoryFilter.multiSelectWithinGroup>
-                        <TCEforms>
-                            <label>Enable multi-select within a filter group</label>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                            <displayCond>FIELD:settings.categoryFilter.multiSelect:REQ:true</displayCond>
-                        </TCEforms>
-                    </settings.categoryFilter.multiSelectWithinGroup>
-                    <settings.categoryFilter.checkPotential>
-                        <TCEforms>
-                            <label>Disable buttons without potential results</label>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                        </TCEforms>
-                    </settings.categoryFilter.checkPotential>
                     <settings.categoryFilter.categories>
                         <TCEforms>
                             <label>Filter categories</label>
@@ -325,10 +293,31 @@
                             </config>
                         </TCEforms>
                     </settings.categoryFilter.categories>
-                    <settings.categoryFilter.groupCategories>
+                    <settings.categoryFilter.multiSelect>
                         <TCEforms>
-                            <label>Filter category groups</label>
-                            <description>Creates filter groups from subcategories of selected categories.</description>
+                            <label>Enable multi-select</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>1</default>
+                            </config>
+                            <onChange>reload</onChange>
+                        </TCEforms>
+                    </settings.categoryFilter.multiSelect>
+                    <settings.categoryFilter.checkPotential>
+                        <TCEforms>
+                            <label>Disable buttons without potential results</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.categoryFilter.checkPotential>
+                    <settings.categoryFilter.treeCategories>
+                        <TCEforms>
+                            <label>Filter tree root categories</label>
+                            <description>Creates filter tree from child categories of selected categories.</description>
                             <config>
                                 <type>category</type>
                                 <size>12</size>
@@ -336,7 +325,59 @@
                                 <maxitems>100</maxitems>
                             </config>
                         </TCEforms>
-                    </settings.categoryFilter.groupCategories>
+                    </settings.categoryFilter.treeCategories>
+                    <settings.categoryFilter.buildTree>
+                        <TCEforms>
+                            <label>Max. tree depth</label>
+                            <description>1 means only children of selected categories are built, 2 means children of children are built, etc.</description>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">1</numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.categoryFilter.buildTree>
+                    <settings.categoryFilter.disabledTree>
+                        <TCEforms>
+                            <label>Disabled tree depth</label>
+                            <description>Disables filter functionality for tree categories. 1 means the root categories are disabled, 2 means the roots' children are also disabled, etc.</description>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">1</numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.categoryFilter.disabledTree>
+                    <settings.categoryFilter.multiSelectTree>
+                        <TCEforms>
+                            <label>Multi-select tree depth</label>
+                            <description>Enables multi-select within a set of children or root categories. 1 means the root categories are not exclusive, 2 means all children of roots are not exclusive, etc.</description>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">1</numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">2</numIndex>
+                                        <numIndex index="1">2</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.categoryFilter.multiSelectTree>
                 </el>
             </ROOT>
         </filter>

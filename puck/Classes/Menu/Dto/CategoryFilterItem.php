@@ -11,7 +11,7 @@ class CategoryFilterItem
         public bool                $active = false,
         public bool                $disabled = false,
         public bool                $hasNoPotential = false,
-        public array               $activeItemsUids = [],
+        public array               $activeChildren = [],
         /**
          * @var CategoryFilterItem[]
          */

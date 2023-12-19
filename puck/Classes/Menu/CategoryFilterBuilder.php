@@ -19,49 +19,26 @@ use UBOS\Puck\PageTitle\PuckTitleProvider;
 class CategoryFilterBuilder
 {
     protected array $settings = [
-        'categories' => '',
-        'groupCategories' => '',
         'active' => true,
-        'multiSelect' => false,
-        'multiSelectWithinGroup' => false,
+        'categories' => '',
+        'treeCategories' => '',
+        'multiSelect' => true,
+        // levels deep tree is built below a parent category
+        'buildTree' => 1,
+        // levels deep items are disabled, negative values invert selection
+        'disabledTree' => 1,
+        // levels deep tree is multiselectable, negative values invert selection
+        'multiSelectTree' => 1,
+        // dont build tree below inactive category
+        'buildTreeBelowEnabledInactive' => false,
+        // check if there are any results for a category
         'checkPotential' => false,
+        // other arguments to remove when building a filter uri
         'unsetArguments' => ['page', 'object'],
-        'categoryDemandKey' => 'categories',
-        'groupDepth' => 1,
+        'demandCategoriesKey' => '0',
         'categoryOrder' => ['sorting' => QueryInterface::ORDER_ASCENDING],
-        'buildSecondLevelOfInactiveParent' => false,
-        'elements' => [
-            [
-                'uid' => '',
-                'category' => null,
-                'multiSelect' => false,
-                'disabled' => true,
-                'tree' => [
-                    [
-                        'multiSelect' => true,
-                        'disabled' => false,
-                    ]
-                ],
-                'treeDepth' => 2,
-            ],
-            []
-        ]
     ];
 
-
-    protected array $filterElementConfiguration = [
-        'uid' => '',
-        'category' => null,
-        'multiSelect' => false,
-        'buildTreeDepth' => 1,
-        'disabledTreeDepth' => 0,
-        'buildTreeDepthBelowDisabled' => 0,
-        'siblings' => ''
-    ];
-
-    protected array $filterConfiguration = [
-        'elementConfigurations' => [],
-    ];
 
     protected string $activeCategories = '';
     public function __construct(
@@ -79,7 +56,10 @@ class CategoryFilterBuilder
     public function configure(array $settings): self
     {
         $this->settings = array_merge($this->settings, $settings);
-        $this->activeCategories = $this->request->hasArgument('demand') ? $this->request->getArgument('demand')[$this->settings['categoryDemandKey']] ?? '' : '';
+        $this->activeCategories =
+            $this->request->hasArgument('demand')
+                ? $this->request->getArgument('demand')['categories'][$this->settings['demandCategoriesKey']]['uids'] ?? ''
+                : '';
         return $this;
     }
     
@@ -90,194 +70,136 @@ class CategoryFilterBuilder
             $arguments['object'] = $this->menuContentObjectUid;
         }
         return $this->uriBuilder
+            // todo: check if reset() is necessary
             ->reset()
             ->setCreateAbsoluteUri(!$isFetchUri)
             ->setTargetPageType($isFetchUri ? $this->fetchLinkPageType : 0)
             ->uriFor($this->menuActionName, $arguments);
     }
 
-    public function build2(): ?CategoryFilter
-    {
-        if (!$this->settings['elements']) {
-            return null;
-        }
-        $filter = new CategoryFilter();
-        $activeCategoryArray = $this->activeCategories ? explode(',', $this->activeCategories) : [];
-        $arguments = $this->request->getArguments();
-        foreach($this->settings['unsetArguments'] as $unsetArgument) {
-            unset($arguments[$unsetArgument]);
-        }
-        $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);
-        return $filter;
-    }
-    
-    public function build(): ?CategoryFilter
-    {
-        if (!$this->settings['active'] || (!$this->settings['categories'] && !$this->settings['groupCategories'])) {
-            return null;
-        }
-        $filter = new CategoryFilter(
-            groupDepth: $this->settings['groupDepth'],
-        );
-        $currentCategories = $this->activeCategories ? explode(',', $this->activeCategories) : [];
-
-        $arguments = $this->request->getArguments();
-        foreach($this->settings['unsetArguments'] as $unsetArgument) {
-            unset($arguments[$unsetArgument]);
-        }
-
-        $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);
-
-        if ($this->settings['categories']) {
-            $categories = $this->categoryRepository->findByUidList($this->settings['categories'])->toArray();
-            foreach($categories as $category) {
-                $filter->items[] = $this->buildItem($category);
-            }
-        }
-
-        if ($this->settings['groupCategories']) {
-            $groupFilterCategories = $this->categoryRepository->findByUidList($this->settings['groupCategories'])->toArray();
-            foreach($groupFilterCategories as $category) {
-                $groupItem = new CategoryFilterItem(
-                    label: $category->title,
-                );
-
-                $subCategories = $this->categoryRepository->findByParent($category->getUid());
-                foreach($subCategories->toArray() as $subCategory) {
-                    if (GeneralUtility::inList($this->activeCategories, (string)$subCategory->getUid())) {
-                        $groupItem->activeItemsUids[] = $subCategory->getUid();
-                    }
-                }
-                foreach($subCategories->toArray() as $subCategory) {
-                    $newActiveUids = $currentCategories;
-                    // if !multiselectWithinGroup and multiselect and group has actives
-                    // => goal: remove other actives from current group, but not from other groups
-                    if (!($this->settings['multiSelectWithinGroup'] ?? false) && $this->settings['multiSelect'] && $groupItem->activeItemsUids) {
-                        $newActiveUids = array_diff($currentCategories, array_diff($groupItem->activeItemsUids, [$subCategory->getUid()]));
-                    }
-
-                    $item = $this->buildItem(
-                        $subCategory,
-                        implode(',',$newActiveUids),
-                    );
-
-                    if ($this->settings['groupDepth'] === 2) {
-                        $subCategories2 = $this->categoryRepository->findByParent($subCategory->getUid());
-                        $item->activeItemsUids[] = $subCategory->getUid();
-                        foreach($subCategories2->toArray() as $subCategory2) {
-                            if (GeneralUtility::inList($this->activeCategories, (string)$subCategory2->getUid())) {
-                                $item->active = true;
-                                $item->activeItemsUids[] = $subCategory2->getUid();
-                                $groupItem->activeItemsUids[] = $subCategory2->getUid();
-
-                            }
-                        }
-                        if ($this->settings['buildSecondLevelOfInactiveParent'] || $item->active) {
-                            foreach($subCategories2->toArray() as $subCategory2) {
-                                $item->items[] = $this->buildItem(
-                                    $subCategory2,
-                                    '',
-                                    (string)$subCategory->getUid());
-                            }
-                        }
-
-                        if ($item->active) {
-                            $closeArguments = $arguments;
-                            if (!is_array($closeArguments['demand'])) {
-                                $closeArguments['demand'] = [];
-                            }
-                            $newDemandCategory = implode(',', array_diff($currentCategories, $item->activeItemsUids)) ?: null;
-                            if ($newDemandCategory) {
-                                $closeArguments['demand'][$this->settings['categoryDemandKey']] = $newDemandCategory;
-                            } else {
-                                unset($closeArguments['demand'][$this->settings['categoryDemandKey']]);
-                            }
-                            $item->closeItem = new CategoryFilterItem(
-                                label: $item->label,
-                                url: $this->buildUri($closeArguments),
-                                fetchLinkOptions: new FetchLinkOptions(
-                                    url: $this->buildUri($closeArguments, true),
-                                    contentId: 'c' . $this->menuContentObjectUid,
-                                )
-                            );
-                        }
-                    }
-                    $groupItem->items[] = $item;
-                }
-
-                if ($groupItem->activeItemsUids) {
-                    $groupItem->active = true;
-
-                    $closeArguments = $arguments;
-                    if (!is_array($closeArguments['demand'])) {
-                        $closeArguments['demand'] = [];
-                    }
-                    $newDemandCategory = implode(',', array_diff($currentCategories, $groupItem->activeItemsUids)) ?: null;
-                    if ($newDemandCategory) {
-                        $closeArguments['demand'][$this->settings['categoryDemandKey']] = $newDemandCategory;
-                    } else {
-                        unset($closeArguments['demand'][$this->settings['categoryDemandKey']]);
-                    }
-                    $groupItem->closeItem = new CategoryFilterItem(
-                        label: $groupItem->label,
-                        url: $this->buildUri($closeArguments),
-                        fetchLinkOptions: new FetchLinkOptions(
-                            url: $this->buildUri($closeArguments, true),
-                            contentId: 'c' . $this->menuContentObjectUid,
-                        )
-                    );
-                }
-
-                $filter->items[] = $groupItem;
-            }
-        }
-
-        return $filter;
-    }
-
-    protected function buildItem(
+    public function buildTree(
         Category $category,
-        string $overrideActiveCategories = '',
-        string $categoryListInsteadOfUnset = ''
+        int $buildTree,
+        int $disabledTree,
+        int $multiSelectTree,
+        array $activeSiblings = [],
+        string $enabledParent = '',
+    ) : CategoryFilterItem
+    {
+        $disabled = $disabledTree > 0;
+        $multiSelect = $multiSelectTree > 0;
+        $isActive = $this->activeCategories && GeneralUtility::inList($this->activeCategories, (string)$category->getUid());
+        if (!$buildTree || (!$this->settings['buildTreeBelowEnabledInactive'] && !$disabled && !$isActive)) {
+            return $this->buildFilterItem(
+                $category,
+                $disabled,
+                $multiSelect,
+                [],
+                $activeSiblings,
+                $enabledParent
+            );
+        }
+
+        $activeChildren = [];
+        $subCategories = $this->categoryRepository->findByParent($category->getUid());
+        foreach($subCategories->toArray() as $subCategory) {
+            if (GeneralUtility::inList($this->activeCategories, (string)$subCategory->getUid())) {
+                $activeChildren[] = $subCategory->getUid();
+            }
+        }
+
+        $item = $this->buildFilterItem(
+            $category,
+            $disabled,
+            $multiSelect,
+            $activeChildren,
+            $activeSiblings,
+            $enabledParent
+        );
+
+        foreach($subCategories->toArray() as $subCategory) {
+            $item->children[] = $this->buildTree(
+                $subCategory,
+                $buildTree--,
+                $this->getTreeIteratorAdvancement($disabledTree),
+                $this->getTreeIteratorAdvancement($multiSelectTree),
+                $activeChildren,
+                enabledParent: !$disabled ? (string)$category->getUid() : '',
+            );
+        }
+        return $item;
+    }
+
+    protected function buildFilterItem(
+        Category $category,
+        bool $disabled = false,
+        bool $multiSelect = false,
+        array $activeChildren = [],
+        array $activeSiblings = [],
+        string $enabledParent = '',
     ): CategoryFilterItem
     {
-        $activeCategories = $overrideActiveCategories ?: $this->activeCategories;
-        $isActive = $activeCategories && in_array($category->getUid(), explode(',', $activeCategories));
-        $newCategoryList = (string)$category->getUid();
-        $unsetCategory = false;
-        // remove page and object arguments from uri
         $arguments = $this->request->getArguments();
+        $uid = (string)$category->getUid();
         foreach($this->settings['unsetArguments'] as $unsetArgument) {
             unset($arguments[$unsetArgument]);
         }
 
-        if ($isActive && !$this->settings['multiSelect']) {
-            if ($categoryListInsteadOfUnset) {
-                $newCategoryList = $categoryListInsteadOfUnset;
+        $isActive = $this->activeCategories && GeneralUtility::inList($this->activeCategories, $uid);
+
+        if ($activeChildren) {
+            $closeArguments = $arguments;
+            $closeList = implode(',', array_diff(explode(',', $this->activeCategories), $activeChildren));
+            if ($closeList) {
+                $closeArguments['demand']['categories'][$this->settings['demandCategoriesKey']]['uids'] = $closeList;
             } else {
-                $unsetCategory = true;
+                unset($closeArguments['demand']['categories'][$this->settings['demandCategoriesKey']]['uids']);
             }
+            $closeUrl = $this->buildUri($closeArguments);
+            $closeItem = new CategoryFilterItem(
+                label: (string)count($activeChildren),
+                url: $closeUrl,
+                fetchLinkOptions: new FetchLinkOptions(
+                    url: ($this->menuContentObjectUid && $this->fetchLinkPageType) ? $this->buildUri($closeArguments, true) : $closeUrl,
+                    contentId: 'c' . $this->menuContentObjectUid,
+                ),
+            );
         }
-        if ($this->settings['multiSelect']) {
-            if ($isActive) {
-                if ($this->activeCategories == $category->getUid() || !$this->activeCategories) {
-                    $unsetCategory = true;
-                } else {
-                    $newCategoryList = implode(',', array_diff(explode(',', $this->activeCategories), [$category->getUid()]));
-                }
+
+        if ($disabled) {
+            return new CategoryFilterItem(
+                label: $category->title,
+                active: $isActive,
+                activeChildren: $activeChildren,
+                closeItem: $closeItem ?? null,
+            );
+        }
+
+        if ($isActive) {
+            if ($this->activeCategories == (string)$category->getUid() || !$this->settings['multiSelect']) {
+                $newList = $enabledParent;
             } else {
-                $newCategoryList = $this->activeCategories ? $this->activeCategories . ',' . $newCategoryList : $newCategoryList;
+                $newList = implode(',', array_diff(explode(',', $this->activeCategories), [$uid]));
             }
-        }
-        if ($unsetCategory) {
-            unset($arguments['demand'][$this->settings['categoryDemandKey']]);
         } else {
-            $arguments['demand'][$this->settings['categoryDemandKey']] = $newCategoryList;
+            if (!$this->settings['multiSelect']) {
+                $newList = $uid;
+            } else if ($multiSelect) {
+                $newList = $this->activeCategories ? $this->activeCategories . ',' . $uid : $uid;
+            } else {
+                $newList = implode(',', array_diff(explode(',', $this->activeCategories), $activeSiblings)) . ',' . $uid;
+            }
+        }
+
+        if ($newList) {
+            $arguments['demand']['categories'][$this->settings['demandCategoriesKey']]['uids'] = $newList;
+        } else {
+            unset($arguments['demand']['categories'][$this->settings['demandCategoriesKey']]['uids']);
         }
 
         if ($this->settings['checkPotential'] && $this->menuRepository && $this->menuDemand) {
             $potentialDemand = $this->menuDemand;
-            $potentialDemand->{$this->settings['categoryDemandKey']} = $newCategoryList;
+            $potentialDemand->categories[$this->settings['demandCategoriesKey']]['uids'] = $newList;
             $potentialDemand->limit = 1;
             $hasNoPotential = !$this->menuRepository->findByMenuDemand($potentialDemand)->getFirst();
         }
@@ -292,9 +214,64 @@ class CategoryFilterBuilder
             ),
             active: $isActive,
             hasNoPotential: $hasNoPotential ?? false,
+            activeChildren: $activeChildren,
+            closeItem: $closeItem ?? null,
         );
     }
 
+
+    public function getTreeIteratorAdvancement(int $level): int
+    {
+        if ($level > 1) {
+            $level--;
+        } else if ($level == 1) {
+            $level -= 2;
+        } else if ($level < -1) {
+            $level++;
+        } else if ($level == -1) {
+            $level += 2;
+        }
+        return $level;
+    }
+    
+    public function build(): ?CategoryFilter
+    {
+        if (!$this->settings['active'] || (!$this->settings['categories'] && !$this->settings['treeCategories'])) {
+            return null;
+        }
+        $filter = new CategoryFilter(
+            buildTree: (int)$this->settings['buildTree'],
+        );
+
+        $arguments = $this->request->getArguments();
+        foreach($this->settings['unsetArguments'] as $unsetArgument) {
+            unset($arguments[$unsetArgument]);
+        }
+
+        $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);
+
+        if ($this->settings['categories']) {
+            $categories = $this->categoryRepository->findByUidList($this->settings['categories'])->toArray();
+            foreach($categories as $category) {
+                $filter->items[] = $this->buildFilterItem($category);
+            }
+        }
+
+        if ($this->settings['treeCategories']) {
+            $treeCategories = $this->categoryRepository->findByUidList($this->settings['treeCategories'])->toArray();
+            foreach($treeCategories as $category) {
+                $filter->items[] = $this->buildTree(
+                    $category,
+                    (int)$this->settings['buildTree'],
+                    (int)$this->settings['disabledTree'],
+                    (int)$this->settings['multiSelectTree']
+                );
+            }
+        }
+
+        return $filter;
+    }
+    
     public function addCategorySuffixToPageTitle(): self
     {
         if (!$this->activeCategories) {

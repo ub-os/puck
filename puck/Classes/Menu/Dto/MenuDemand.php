@@ -2,6 +2,7 @@
 
 namespace UBOS\Puck\Menu\Dto;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Utility\PuckUtility;
 
 class MenuDemand
@@ -11,24 +12,13 @@ class MenuDemand
         public string $records = '',
         public ?int $limit = null,
         public int $offset = 0,
-        public string $categories = '',
-        public string $categoryConjunction = 'or',
-        public string $categories2 = '',
-        public string $categoryConjunction2 = 'or',
-        public array $categoryBuckets = [
-            'category' => [
-                'uids' => '',
-                'conjunction' => 'or'
-            ],
-            'category2' => [
-                'uids' => '',
-                'conjunction' => 'or'
-            ]
+        public array $categories = [
+            //'0' => [ 'uids' => '', 'conjunction' => 'or' ]
         ],
-        public string $bucketConjunction = 'and',
+        public string $categoriesConjunction = 'and',
         public string $orderField = 'sorting',
         public string $orderDirection = 'asc',
-        public array $additionalSettings = []
+        public array $additionalSettings = [],
     )
     {
     }
@@ -42,9 +32,7 @@ class MenuDemand
         $demand->limit = (int)$settings['demand']['limit'] ?? $demand->limit;
         $demand->offset = (int)$settings['demand']['offset'] ?? $demand->offset;
         $demand->categories = $settings['demand']['categories'] ?? $demand->categories;
-        $demand->categoryConjunction = $settings['demand']['categoryConjunction'] ?? $demand->categoryConjunction;
-        $demand->categories2 = $settings['demand']['categories2'] ?? $demand->categories2;
-        $demand->categoryConjunction2 = $settings['demand']['categoryConjunction2'] ?? $demand->categoryConjunction2;
+        $demand->categoriesConjunction = $settings['demand']['categoriesConjunction'] ?? $demand->categoriesConjunction;
         $demand->orderField = $settings['order']['field'] ?? $demand->orderField;
         $demand->orderDirection = $settings['order']['direction'] ?? $demand->orderDirection;
         $demand->additionalSettings = $additionalSettings;

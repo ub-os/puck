@@ -2,6 +2,7 @@
 
 namespace UBOS\Puck\Menu;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -36,12 +37,22 @@ trait FindByMenuDemand
             // to do update, logicalOr needs multiple arguments of type ConstraintInterface
             $constraints[] = $query->logicalOr(...$pidUidConstraints);
         }
-        if ($demand->categories) {
-            $constraints[] = $this->createCategoryConstraint($query, $demand->categories, $demand->categoryConjunction);
+
+        $categoriesConstraints = [];
+        foreach ($demand->categories as $key => $group) {
+            if ($group['uids'] ?? '') {
+                $categoriesConstraints[] = $this->createCategoryConstraint($query, $group['uids'] ?? '', $group['conjunction'] ?? 'or');
+            }
         }
-        if ($demand->categories2) {
-            $constraints[] = $this->createCategoryConstraint($query,   $demand->categories2, $demand->categoryConjunction2);
+        if ($categoriesConstraints) {
+            $constraints[] = match (strtolower($demand->categoriesConjunction)) {
+                'or' => $query->logicalOr(...$categoriesConstraints),
+                'and' => $query->logicalAnd(...$categoriesConstraints),
+                'notor' => $query->logicalNot($query->logicalOr(...$categoriesConstraints)),
+                'notand' => $query->logicalNot($query->logicalAnd(...$categoriesConstraints))
+            };
         }
+
         if ($demand->limit) {
             $query->setLimit($demand->limit);
         }

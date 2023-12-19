@@ -134,7 +134,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                 'table' => 'sys_category',
                 'title' => 'Categories',
                 'titleField' => 'title',
-                'uids' => $flexform['settings']['demand']['categories']
+                'uids' => $flexform['settings']['demand']['categories']['0']['uids'] ?? ''
             ],
             'filter_categories' => [
                 'table' => 'sys_category',
@@ -146,7 +146,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
                 'table' => 'sys_category',
                 'title' => 'Filter category groups',
                 'titleField' => 'title',
-                'uids' => isset($flexform['settings']['categoryFilter']) ? $flexform['settings']['categoryFilter']['groupCategories'] : ''
+                'uids' => isset($flexform['settings']['categoryFilter']) ? $flexform['settings']['categoryFilter']['treeCategories'] : ''
             ],
         ];
         foreach($recordGroups as $key => $recordGroup) {

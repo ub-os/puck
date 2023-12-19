@@ -15,7 +15,7 @@
               <ul class="{name}__list">
                   <f:for each="{categoryFilter.items}" as="item" iteration="i">
                       <li class="{name}__item">
-                      <f:if condition="{item.items}">
+                      <f:if condition="{item.children}">
                           <f:then>
                               <f:variable name="buttonContent">
                                    
@@ -24,7 +24,7 @@
                                          class="e-dropdown__close"
                                          data-hx-get="{item.closeItem.fetchLinkOptions.url}"
                                          data-hx-push-url="{item.closeItem.url}">
-                                          {item.activeItemsUids -> f:count()}
+                                          {item.activeChildren -> f:count()}
                                           <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
                                       </a> 
                                   </f:if>
@@ -33,26 +33,17 @@
                                       id="{sectionId}-filter-{i.index}-dropdown"
                                       label="{item.label}"
                                       buttonContent="{buttonContent -> f:format.raw()}">
-                                  <f:for each="{item.items}" as="item2">
-                                      <f:variable name="mods" value="{-active:item2.active, disabled:item2.hasNoPotential}"/>
-                                      <f:if condition="{item2.active}">
-                                          <f:then>
-                                              <a href="{item2.url}"
-                                                 class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-hx-get="{item2.fetchLinkOptions.url}"
-                                                 data-hx-push-url="{item2.url}">
-                                                  {item2.label} <icon:char icon="xmark-regular" class="e-button-dropdown__option__close__icon"/>
-                                              </a>
-                                          </f:then>
-                                          <f:else>
-                                              <a href="{item2.url}"
-                                                 class="e-dropdown__option {mods -> puck:modClass()}"
-                                                 data-hx-get="{item2.fetchLinkOptions.url}"
-                                                 data-hx-push-url="{item2.url}">
-                                                  {item2.label}
-                                              </a>
-                                          </f:else>
-                                      </f:if>
+                                  <f:for each="{item.children}" as="childItem">
+                                      <f:variable name="mods" value="{-active:childItemactive, disabled:childItem.hasNoPotential}"/>
+                                          <a href="{childItem.url}"
+                                             class="e-dropdown__option {mods -> puck:modClass()}"
+                                             data-hx-get="{childItem.fetchLinkOptions.url}"
+                                             data-hx-push-url="{childItem.url}">
+                                              {childItem.label}
+                                              <f:if condition="{childItem.active}">
+                                                 <icon:char icon="xmark-regular" class="e-button-dropdown__option__close__icon"/>
+                                              </f:if>
+                                          </a>
                                   </f:for>
                               </element:dropdown>
                           </f:then>

@@ -9,7 +9,7 @@ class CategoryFilter
          * @var CategoryFilterItem[]
          */
         public array $items = [],
-        public int $groupDepth = 1
+        public int $buildTree = 1
     )
     {
     }

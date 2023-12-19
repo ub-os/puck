@@ -5,19 +5,19 @@ routeEnhancers:
     plugin: PageMenu
     routes:
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{authorLabel}_{demand/authors}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{authorLabel}_{demand/authors}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}/{pageLabel}_{page}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories}'
+        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}'
@@ -60,9 +60,7 @@ routeEnhancers:
         type: StaticRangeMapper
         start: '1'
         end: '1000'
-      object:
-        type: NothingMapper
-      demand/categories:
+      demand/categories/0/uids:
         type: PersistedAliasMapperOfCommaList
         tableName: sys_category
         routeFieldName: slug
