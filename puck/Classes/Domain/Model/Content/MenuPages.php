@@ -2,6 +2,7 @@
 
 namespace UBOS\Puck\Domain\Model\Content;
 
+use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use UBOS\Puck\Domain\Model\Content\Trait\FlexForms;
 use UBOS\Puck\Domain\Model\Content\Trait\TextMediaLayout;
 use UBOS\Puckloader\Attribute\ContentElementWizard;

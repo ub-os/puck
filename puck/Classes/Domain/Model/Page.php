@@ -186,4 +186,9 @@ class Page extends AbstractEntity
         $this->rootLine = $rootLine;
     }
 
+    public function getLinkParameter(): string
+    {
+        return $this->getUid();
+    }
+
 }

@@ -47,7 +47,7 @@ ExtensionManagementUtility::addToAllTCAtypes(
 
 ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
-    '--palette--;;postMeta',
+    'url, --palette--;;postMeta',
     PageRepository::DOKTYPES['news'],
     'replace:--palette--;;meta'
 );
