@@ -6,6 +6,7 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -22,29 +23,30 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  */
 class PageController extends ActionController
 {
-    protected ?PageRepository $pageRepository = null;
-    public function injectPageRepository(PageRepository $pageRepository): void
+    public function __construct(
+        protected PageRepository $pageRepository,
+        protected ContentObjectRenderer $contentObjectRenderer,
+    )
     {
-        $this->pageRepository = $pageRepository;
     }
+
     #[Plugin("Page")]
     public function indexAction(): ResponseInterface
     {
-        $data = $this->configurationManager->getContentObject()->data;
+        $data = $this->request->getAttribute('currentContentObject')->data;
         $context = GeneralUtility::makeInstance(Context::class);
-        $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $contentObject = new ContentContentObject($contentObjectRenderer);
+        $contentObject = new ContentContentObject();
         $contentObject->setRequest($this->request);
-        $contentObject->setContentObjectRenderer($contentObjectRenderer);
+        $contentObject->setContentObjectRenderer($this->contentObjectRenderer);
         $model = $this->pageRepository->findByUid($data['uid']);
 
         $variables = [];
 
         if (array_key_exists('dataProcessing', $this->settings)) {
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-            $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+            $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
             $variables = $contentDataProcessor->process(
-                $this->configurationManager->getContentObject(),
+                $this->request->getAttribute('currentContentObject'),
                 ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
                 ['data' => $data]
             );
