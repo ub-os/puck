@@ -52,9 +52,12 @@ $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 
 // Backend Extension Configuration
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['ckeditor_puck'] = 'EXT:puck/Resources/Public/Css/be-ck-contents.css';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/android-chrome-72x72.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#A46CDC';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
 
-$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['ckeditor_puck'] = 'EXT:puck/Resources/Public/Css/be-ck-contents.css';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['doktype_typolink']['enableMiddleware'] = true;
+
+
