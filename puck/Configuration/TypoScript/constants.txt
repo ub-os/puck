@@ -11,8 +11,6 @@ jsProd =  EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
 ## Development state variable -  Set to 0 in Production!
 ## when set to 0: cache enabled, minified assets are included and compressed
 
-development = 1
-
 publicResources = EXT:puck/Resources/Public
 
 doktype {
@@ -41,9 +39,8 @@ search {
     # cat=puck/pageUids/5; type=int; label=Uid of search plugin page
     pid = 0
 }
-# cat=puck/appearance/1; type=int; label=Page grid width in px
 gridWidth = 1300
-# cat=puck/appearance/2; type=options [main,brand]; label=Page appearance type
+# cat=puck/appearance/2; type=options [default]; label=Root layout
 rootLayout = default
 # cat=puck/appearance/3; type=options [default]; label=Logo
 logo = default
