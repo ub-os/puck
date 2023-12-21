@@ -2,9 +2,10 @@
 
 namespace UBOS\Puck\Domain\Model\Content;
 
-use UBOS\Puck\Domain\Model\Content\Trait\PageMenuPlugin;
+use UBOS\Puck\Domain\Model\Content\Trait\FlexForms;
 use UBOS\Puck\Domain\Model\Content\Trait\TextMediaLayout;
 use UBOS\Puckloader\Attribute\ContentElementWizard;
+use UBOS\Puckloader\Attribute\FlexFormProperty;
 use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 use UBOS\Puckloader\Attribute\PluginElement;
@@ -15,8 +16,16 @@ use UBOS\Puckloader\Attribute\PluginElement;
 class MenuPages extends Text
 {
     use TextMediaLayout;
-    use PageMenuPlugin;
+    use FlexForms;
 
+    /**
+     * @var ?array
+     * @Transient
+     */
+    public ?array $menu = null;
+
+    #[FlexFormProperty('FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml')]
+    public string $piFlexform = '';
 
     /**
      * @var string
