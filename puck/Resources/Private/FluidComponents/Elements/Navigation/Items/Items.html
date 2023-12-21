@@ -8,10 +8,7 @@
   <fc:param name="iconFromTitle" type="boolean" optional="1" default="0"/>
   <fc:renderer>
 
-    <f:if condition="!{menu}">
-      <f:variable name="menu"
-                  value="{puck:data.menu(pages:pages, processor:processor, depth:depth)}"/>
-    </f:if>
+    {u:var(set:'menu', if:'{menu}', then:menu, else:'{puck:data.menu(pages:pages, processor:processor, depth:depth)}')}
 
     <f:for each="{menu}" as="item" iteration="i">
       <li class="{name}__item {item.class}">

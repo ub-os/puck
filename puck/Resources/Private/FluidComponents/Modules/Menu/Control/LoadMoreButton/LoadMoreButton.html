@@ -7,8 +7,7 @@
         <div class="{name}__wrap"
              id="{sectionId}-pagination">
             <f:if condition="!{loadMoreItem.disabled}">
-                <button
-                        class="{name}__button e-button-primary -ghost"
+                <button class="{name}__button e-button-primary -ghost"
                         data-hx-get="{loadMoreItem.fetchLinkOptions.url}"
                         data-hx-trigger="{loadMoreItem.fetchLinkOptions.trigger}"
                         data-hx-swap="beforeend"

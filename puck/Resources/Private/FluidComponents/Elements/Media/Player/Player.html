@@ -9,40 +9,26 @@
     <fc:param default="{0:0}" name="props" optional="1" type="array"/>
     <fc:renderer>
 
-        <f:variable name="id">{file.name}-{puck:math.random(min:1000, max:9999)}</f:variable>
-        <f:variable name="playerId">{file.name}-{puck:math.random(min:1000, max:9999)}-player</f:variable>
+        {u:id(set:'id', suffix:'{file.name}')}
+        {u:file(get:'{file.properties.storage}:{file.identifier}.jpg', set:'localPoster')}
+        {u:var(if:'{file.extension} === "youtube" || {file.extension} === "vimeo"', then:file.contents, else:'', set:'embedId')}
+        {props -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'props')}
 
-        <f:variable name="localPoster" value="{puck:utility.fileExists(src:'fileadmin{file.identifier}.jpg')}"/>
-        <f:if condition="{localPoster}">
-            <f:then>
-                <f:variable name="poster" value="{localPoster}"/>
-            </f:then>
-            <f:else>
-                <f:variable name="poster"
-                            value="{puck:utility.getOnlineMediaPoster(service:file.extension, id:file.contents)}"/>
-            </f:else>
-        </f:if>
-
-        <f:if condition="{file.extension} === 'youtube' || {file.extension} === 'vimeo'">
-            <f:variable name="embedId" value="{file.contents}"/>
-        </f:if>
-        <f:variable name="props"
-                    value="{puck:array.merge(
-                    a:props,
-                    b:{
-                        filePath:file.publicUrl,
-                        provider:file.extension,
-                        embedId:embedId,
-                        poster:poster,
-                    }
-                    )}"/>
+        <u:var set="playerContent">
+            <div id="{id}"
+                 class="{name}__modal__frame"
+                 data-controller="media-player"
+                 data-media-player='{props -> f:format.json()}'>
+            </div>
+        </u:var>
 
         <div class="{name}">
             <div class="{name}__button"
                  role="button"
                  data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
                  aria-controls="{id}-modal"
-                 aria-label="{f:translate(key:'play-video',extensionName:'puck')}"></div>
+                 aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
+            </div>
 
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
@@ -55,7 +41,7 @@
                                 xs: {width: width},
                                 0: {width: 450}
                                 }"
-                                src="{poster}"
+                                image="{localPoster}"
                                 webp="{posterWebp}"
                                 width="{width}"/>
                     </f:then>
@@ -64,7 +50,7 @@
                             <img alt="{file.alternative}"
                                  class="{name}__image"
                                  loading="lazy"
-                                 src="{poster}">
+                                 src="{u:file(getOnlineMediaImageSrc:file)}">
                         </picture>
                     </f:else>
                 </f:if>
@@ -73,19 +59,10 @@
             <f:if condition="{openInModal}">
                 <f:then>
                     <layout:modal id="{id}-modal" width="12">
-                        <div id="{id}"
-                             class="{name}__modal__frame"
-                             data-controller="media-player"
-                             data-media-player="{props -> f:format.json()}">
-                        </div>
+                        {playerContent -> f:format.raw()}
                     </layout:modal>
                 </f:then>
-                <f:else>
-                    <div class="{name}__frame" id="{id}"
-                         data-controller="media-player"
-                         data-media-player="{props -> f:format.json()}">
-                    </div>
-                </f:else>
+                <f:else>{playerContent -> f:format.raw()}</f:else>
             </f:if>
         </div>
 

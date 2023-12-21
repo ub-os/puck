@@ -7,7 +7,7 @@
 
         <element:tag class="{name}__option {class}"
                      is="{f:if(condition:href,then:'a',else:'button')}"
-                    attributes="{attributes -> puck:attributes()} {f:if(condition:'{href}',then:'href={href}')}">
+                    attributes="{attributes -> u:array(if:'{href}', merge:{href:href})}">
             <fc:slot name="content"/>
         </element:tag>
 
