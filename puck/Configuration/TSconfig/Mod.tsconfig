@@ -1,96 +1,47 @@
-
-
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
-#    04_presets {
-#        header = Presets
-#        elements {
-#            preset_puck_media_contact {
-#                iconIdentifier = media
-#                title = Text and media: Contact
-#                description = Text and media preset for contact element.
-#                tt_content_defValues {
-#                    CType = puck_media
-#                    container_width = 10
-#                    text_column_width = 6
-#                    media_column_width = 3
-#                    item_column_width = 3
-#                    row_justify = space-between
-#                    media_layout = left
-#                    header = Contact
-#                }
-#            }
-#        }
-#        show := addToList(preset_puck_media_contact)
-#    }
     menu.show =
     common.show =
     forms.show =
 }
 
 // Page Backend Layouts
-allowedContent = puck_menu_persons, puck_menu_news, puck_page_list, puck_container, puck_row, list, shortcut, html, puck_accordions, puck_anchor, puck_cards, puck_columns, puck_full_width_media, puck_media, puck_menu_anchors, puck_menu_pages, puck_hero, puck_hero_carousel, puck_text, puck_menu_files
-backendLayoutDefaultConfig {
-    backend_layout {
-        colCount = 8
-        rowCount = 2
-        rows {
-            1 {
-                columns {
+defaultAllowedContent (
+list, shortcut, html, puck_text, puck_media, puck_container, puck_row, puck_cards, puck_columns, puck_accordions, puck_full_width_media, puck_hero, puck_hero_carousel, puck_menu_pages, puck_anchor, puck_menu_anchors, puck_menu_files
+)
+mod.web_layout.BackendLayouts {
+    // layout with key "default" needs to be defined!
+    default {
+        title = Default
+        config {
+            backend_layout {
+                colCount = 8
+                rowCount = 2
+                test =
+                rows {
                     1 {
-                        name = Main content
-                        colPos = 1
-                        colspan = 8
-                        allowed.CType < allowedContent
+                        columns {
+                            1 {
+                                name = Main content
+                                colPos = 1
+                                colspan = 8
+                                allowed.CType < defaultAllowedContent
+                            }
+                        }
                     }
-                }
-            }
-#            2 {
-#                columns {
-#                    1 {
-#                        name = Footer
-#                        colPos = 3
-#                        colspan = 8
-#                        allowed.CType = puck_text
-#
-#
-#                    }
-#                }
-#            }
-            3 {
-                columns {
-                    1 {
-                        name = Modals
-                        colPos = 9
-                        colspan = 8
-                        allowed.CType = puck_modal
+                    3 {
+                        columns {
+                            1 {
+                                name = Modals
+                                colPos = 9
+                                colspan = 8
+                                allowed.CType = puck_modal
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-mod.web_layout.BackendLayouts {
-    default {
-        title = Default
-        config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = 1
-    }
-    start {
-        title = Start
-        config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = {$doktype.start}
-    }
-    news {
-        title = News
-        config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = {$doktype.news}
-    }
-    person {
-        title = Person page
-        config < backendLayoutDefaultConfig
-        config.backend_layout.doktype = {$doktype.person}
     }
     detail-plugin {
         title = Plugin detail page
@@ -111,4 +62,12 @@ mod.web_layout.BackendLayouts {
             }
         }
     }
+}
+
+// map allowed backend layouts to doktypes
+TCEFORM.pages.backend_layout.itemsProcFunc.doktypes {
+    // only allow backendLayout "default" on pages with doktype 1
+    1 = default
+    16503 = default
+    16511 = detail-plugin
 }

@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use UBOS\Puck\Utility\TcaUtility;
+use UBOS\Puck\UserFunctions\FormEngine\PageItemsProcFunc;
 
 
 $cropVariants = TcaUtility::getCropVariants('3:2,16:9,1.91:1');
@@ -60,3 +61,27 @@ $GLOBALS['TCA']['pages']['columns']['page_persons'] = [
         'maxitems' => 1
     ],
 ];
+
+$GLOBALS['TCA']['pages']['columns']['doktype']['config']['itemsProcFunc'] = PageItemsProcFunc::class . '->doktype';
+$GLOBALS['TCA']['pages']['columns']['doktype']['config']['disableNoMatchingValueElement'] = true;
+
+$GLOBALS['TCA']['pages']['columns']['backend_layout']['config'] = array_merge(
+    $GLOBALS['TCA']['pages']['columns']['backend_layout']['config'],
+    [
+        'itemsProcFunc' => PageItemsProcFunc::class . '->backendLayout',
+        'items' => [],
+        'default' => 'pagets__default',
+        'disableNoMatchingValueElement' => true,
+    ]
+);
+$GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = array_merge(
+    $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'],
+    [
+        'itemsProcFunc' => '',
+        'items' => [
+            ['label' => 'default', 'value' => 'pagets__default']
+        ],
+        'default' => 'pagets__default',
+        'disableNoMatchingValueElement' => true,
+    ]
+);
