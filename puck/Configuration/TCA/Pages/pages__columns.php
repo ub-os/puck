@@ -25,11 +25,6 @@ $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
 
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
 
-$GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
-    'label' => 'Teaser text',
-    'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
-];
-
 $GLOBALS['TCA']['pages']['columns']['post_date'] = [
     'label' => 'Date',
     'config' => [
@@ -85,3 +80,42 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = arr
         'disableNoMatchingValueElement' => true,
     ]
 );
+
+$GLOBALS['TCA']['pages']['columns']['teaser_title'] = [
+    'label' => 'Teaser title',
+    'config' => $GLOBALS['TCA']['pages']['columns']['nav_title']['config'],
+];
+
+$GLOBALS['TCA']['pages']['columns']['teaser_text'] = [
+    'label' => 'Teaser text',
+    'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config'],
+];
+
+$GLOBALS['TCA']['pages']['columns']['teasers'] = [
+    'label' => 'Teasers',
+    'description' => 'Teaser records can be selected in menu elements alongside their respective pages, overriding the page\'s teaser content for that menu element.',
+    'config' => [
+        'type' => 'inline',
+        'foreign_field' => 'page',
+        'foreign_table' => 'tx_puck_domain_model_page_teaser',
+        'foreign_table_where' => 'AND tx_puck_domain_model_page_teaser.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)',
+        'foreign_table_field' => 'parent_table',
+        'foreign_sortby' => 'sorting',
+        'maxitems' => '30',
+        'minitems' => '0',
+        'appearance' => [
+            'collapseAll' => '1',
+            'enabledControls' => [
+                'info' => true,
+                'new' => true,
+                'dragdrop' => true,
+                'sort' => true,
+                'hide' => true,
+                'delete' => true,
+                'localize' => true,
+            ],
+            'levelLinksPosition' => 'bottom',
+            'useSortable' => '1',
+        ],
+    ],
+];

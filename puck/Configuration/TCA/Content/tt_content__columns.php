@@ -332,6 +332,7 @@ $columns['card_media_size'] = [
         'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
             ['Full-width / full-height', 'cover', 'size_cover'],
             ['Contained', 'contain', 'size_contain'],
+            ['Background', 'background'],
         ]),
         'default' => 'cover',
         'fieldWizard' => [

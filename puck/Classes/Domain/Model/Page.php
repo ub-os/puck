@@ -4,6 +4,7 @@ namespace UBOS\Puck\Domain\Model;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
@@ -13,7 +14,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
 use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puckloader\Attribute\ModelPersistence;
-
 
 #[ModelPersistence("pages")]
 class Page extends AbstractEntity
@@ -35,11 +35,29 @@ class Page extends AbstractEntity
      * @var string
      */
     public string $description = '';
+
+    /**
+     * @var string
+     */
+    #[ModelColumn("string")]
+    public string $teaserTitle = '';
+
+    public function getTeaserTitle(): string
+    {
+        return $this->teaserTitle ? : $this->title;
+    }
     /**
      * @var string
      */
     #[ModelColumn("varchar1024")]
     public string $teaserText = '';
+
+    /**
+     * @var string
+     */
+    #[ModelColumn("string")]
+    public string $teasers = '';
+
     /**
      * @var string
      */

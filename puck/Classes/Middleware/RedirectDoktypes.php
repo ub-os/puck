@@ -13,8 +13,7 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 class RedirectDoktypes implements MiddlewareInterface
 {
     const REDIRECT_DOKTYPES = [
-        PageRepository::DOKTYPES['news'],
-        PageRepository::DOKTYPES['teaser']
+        PageRepository::DOKTYPES['news']
     ];
 
     /**

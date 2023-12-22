@@ -27,7 +27,6 @@ class PageRepository extends Repository implements MenuDemandRepository
         'news' => 16503,
         'person' => 16504,
         'plugin' => 16511,
-        'teaser' => 16590
     ];
     public const DEFAULT_ALLOWED_TYPES = [
         self::DOKTYPES['default'],

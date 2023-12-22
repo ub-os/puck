@@ -7,8 +7,8 @@ use UBOS\Puckloader\Loader;
 
 $contentTcaPath = ExtensionManagementUtility::extPath('puck', 'Configuration/TCA/Content');
 
-$columns = require $contentTcaPath . '/columns.php';
-$palettes = require $contentTcaPath . '/palettes.php';
+$columns = require $contentTcaPath . '/tt_content__columns.php';
+$palettes = require $contentTcaPath . '/tt_content__palettes.php';
 
 Loader::loadTca('puck');
 

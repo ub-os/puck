@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
+use UBOS\Puck\Domain\Repository\PersonRepository;
 use UBOS\Puckloader\Attribute\Plugin;
 
 use UBOS\Puck\Menu\Dto\MenuDemand;
@@ -19,9 +21,8 @@ use UBOS\Puck\Menu\PaginationBuilder;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\ContentRepository;
+use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 use UBOS\Puck\Domain\Model\Content\MenuPages;
-use UBOS\Puck\Domain\Model\Content\MenuPersons;
-use UBOS\Puck\Domain\Model\Content\MenuNews;
 
 class MenuController extends ActionController
 {
@@ -46,6 +47,7 @@ class MenuController extends ActionController
         protected CategoryRepository $categoryRepository,
         protected PageRepository $pageRepository,
         protected ContentRepository $contentRepository,
+        protected PageTeaserRepository $pageTeaserRepository,
     )
     {
     }
@@ -88,6 +90,19 @@ class MenuController extends ActionController
             $object->menu = $paginationBuilder->getPaginatedItems()->toArray();
         } else {
             $object->menu = $records->toArray();
+        }
+
+        if ($this->settings['demand']['teasers']) {
+            $teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
+            foreach ($teasers as $key => $teaser) {
+                foreach ( $object->menu as $page ) {
+                    if ($page->getUid() === $teaser->page) {
+                        $page->teaserTitle = $teaser->title;
+                        $page->teaserText = $teaser->text;
+                        $page->media = $teaser->media;
+                    }
+                }
+            }
         }
 
         // add filter categories to view

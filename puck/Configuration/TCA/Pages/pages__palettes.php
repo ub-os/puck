@@ -1,0 +1,31 @@
+<?php
+
+
+$GLOBALS['TCA']['pages']['palettes']['standard']['showitem'] = '
+        doktype, post_date, icon,';
+$GLOBALS['TCA']['pages']['palettes']['author'] = [
+  'label' => 'Author',
+    'showitem' => 'post_author'
+];
+$GLOBALS['TCA']['pages']['palettes']['teaser'] = [
+    'label' => 'Teaser',
+    'showitem' => '
+        teaser_text,
+        --linebreak--,
+        teaser_cta',
+];
+$GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '
+    media';
+
+$GLOBALS['TCA']['pages']['palettes']['teaser'] = [
+    'label' => 'Teaser',
+    'showitem' => '
+        teaser_title,
+        --linebreak--,
+        teaser_text,
+        --linebreak--,
+        media,
+        --linebreak--,
+        teasers
+    ',
+];
