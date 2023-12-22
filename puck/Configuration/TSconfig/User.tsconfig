@@ -5,8 +5,8 @@ options {
     pageTree {
         showPageIdWithTitle = 0
         showDomainNameWithTitle = 1
-        // exclude news and teaser from tree
-        excludeDoktypes = 16503, 16590
+        // exclude news from tree
+        excludeDoktypes = 16503
     }
 }
 admPanel.hide = 1
