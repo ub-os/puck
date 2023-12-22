@@ -17,24 +17,22 @@
   <fc:param name="showDesc" type="boolean" optional="1" default="0"/>
   <fc:renderer>
 
-    <f:variable name="filesP" value="{f:if(condition: file, then: '{0: file}', else: files)}"/>
-    <f:if condition="{filesP}">
-      <f:for each="{filesP}" as="file" iteration="i">
-        <f:if condition="{file}">
-          <f:variable name="fileReference" value="{file}"/>
-          <f:if condition="{file.file}">
-            <f:variable name="fileReference" value="{file.file}"/>
-          </f:if>
-          <f:if condition="{file.file.originalResource}">
-            <f:variable name="fileReference" value="{file.file.originalResource}"/>
-          </f:if>
+    {u:var(if:'{file}', then:{0: file}, else:files, set:'files')}
+
+    <f:if condition="{files}">
+      <f:for each="{files}" as="fileItem" iteration="i">
+
+        {u:file(get:fileItem, set:'file')}
+
           <figure class="{name}__figure {class}">
-            <f:if condition="{fileReference.link}">
-              <f:then>
-                <f:link.typolink parameter="{fileReference.link}" class="{name}__file__link">
-                  <element:media.item
-                          file="{fileReference}"
+
+            <u:var set="mediaContent">
+              <f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
+                <f:then>
+                  <element:picture
+                          image="{file}"
                           name="{name}"
+                          class="{name}__file"
                           cropVariant="{cropVariant}"
                           width="{width}"
                           retina="{retina}"
@@ -42,37 +40,54 @@
                           backgroundImg="{backgroundImg}"
                           loading="{loading}"
                           reserveHeight="{reserveHeight}"
-                          sources="{sources}"
-                          additionalConfig="{additionalConfig}"
-                          usePlayerComponentForLocalVideoFiles="{usePlayerComponentForLocalVideoFiles}"
-                  />
+                          sources="{sources}"/>
+                </f:then>
+                <f:else if="{file.extension} == 'svg'">
+                  <f:image image="{file}"
+                           class="{name}__image {name}__file"
+                           width="{width}"
+                           absolute="true"
+                           additionalAttributes="{additionalAttributes}"
+                           title="{file.title}" alt="{file.alternative}" />
+                </f:else>
+                <f:else if="{file.extension} == 'youtube' || {file.extension} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({file.extension} == 'mp4' || {file.extension} == 'webm'))">
+                  <div class="{name}__file {name}__{file.extension}">
+                    <element:media.player file="{file}"
+                                          width="{width}"
+                                          posterWebp="{webp}"
+                                          posterRetina="{retina}"/>
+                  </div>
+                </f:else>
+                <f:else>
+                  <f:media file="{file}"
+                           width="{width}"
+                           additionalConfig="{autoplay:additionalConfig.autoplay, controls:additionalConfig.controls, loop:additionalConfig.loop, playsinline:additionalConfig.autoplay, muted:additionalConfig.autoplay}"
+                           class="{name}__{file.extension} {name}__file"
+                           title="{file.title}" alt="{file.alternative}" />
+                </f:else>
+              </f:if>
+            </u:var>
+            
+            <f:if condition="{file.link}">
+              <f:then>
+                <f:link.typolink parameter="{file.link}" class="{name}__file__link">
+                    {mediaContent -> f:spaceless() -> f:format.raw()}
                 </f:link.typolink>
               </f:then>
               <f:else>
-                <element:media.item
-                        file="{fileReference}"
-                        name="{name}"
-                        cropVariant="{cropVariant}"
-                        width="{width}"
-                        retina="{retina}"
-                        webp="{webp}"
-                        backgroundImg="{backgroundImg}"
-                        loading="{loading}"
-                        reserveHeight="{reserveHeight}"
-                        sources="{sources}"
-                        additionalConfig="{additionalConfig}"
-                        usePlayerComponentForLocalVideoFiles="{usePlayerComponentForLocalVideoFiles}"
-                />
+                {mediaContent -> f:spaceless() -> f:format.raw()}
               </f:else>
             </f:if>
-            <f:if condition="{showTitle} && {fileReference.title}">
-              <div class="{name}__file__title">{fileReference.title}</div>
+            
+            <f:if condition="{showTitle} && {file.title}">
+              <div class="{name}__file__title">{file.title}</div>
             </f:if>
-            <f:if condition="{showDesc} && {fileReference.description}">
-              <figcaption class="{name}__file__desc">{fileReference.description}</figcaption>
+
+            <f:if condition="{showDesc} && {file.description}">
+              <figcaption class="{name}__file__desc">{file.description}</figcaption>
             </f:if>
+
           </figure>
-        </f:if>
       </f:for>
     </f:if>
 
