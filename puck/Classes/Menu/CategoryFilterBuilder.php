@@ -74,6 +74,7 @@ class CategoryFilterBuilder
             ->reset()
             ->setCreateAbsoluteUri(!$isFetchUri)
             ->setTargetPageType($isFetchUri ? $this->fetchLinkPageType : 0)
+            ->setTargetPageUid($this->request->getAttribute('routing')->getPageId())
             ->uriFor($this->menuActionName, $arguments);
     }
 

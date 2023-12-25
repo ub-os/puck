@@ -25,6 +25,7 @@
         <div class="{name}">
             <div class="{name}__button"
                  role="button"
+                 tabindex="0"
                  data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
                  aria-controls="{id}-modal"
                  aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">

@@ -8,6 +8,5 @@ plugin {
             defaultPid = auto
         }
     }
-    tx_puck_newslist.view.defaultPid = 1
-    tx_puck_personlist.view.defaultPid = 1
+    tx_puck_pagemenu.view.defaultPid = 1
 }
