@@ -1,6 +1,6 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
 import {camelCase, kebabCase} from "~/Utility/StringUtility"
-import { ObserverCollector, MutationManager } from "~/Service/ObserverCollector"
+import { ObserverCollector } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller"
 import AttributeConverter from "~/Application/AttributeConverter";
 

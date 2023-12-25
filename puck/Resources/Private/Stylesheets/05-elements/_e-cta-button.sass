@@ -1,0 +1,61 @@
+.e-cta-button
+  $width-symbol: 2.33em
+  $height-symbol: $width-symbol
+  &
+    position: relative
+    display: inline-block
+    padding-right: 3.5em
+    padding-block: ($height-symbol - 1em) * 0.5
+    color: var(--background-button)
+    font-weight: 500
+    line-height: 1
+
+  //default icon
+  &:not([class*='icon--'])
+    @extend .icon--arrow-right-regular
+
+  &:before
+    +center(vertical)
+    +flex(row, center, center, nowrap)
+    right: 0
+    height: $height-symbol
+    width: $width-symbol
+    color: var(--color-button)
+    background: var(--background-button)
+    font-family: icons !important
+    border: var(--border-width-button) solid var(--color-button-border)
+    border-radius: var(--border-radius-s)
+    transition: background .15s, filter .15s, color .15s, border-color .15s, box-shadow .15s
+
+  &:hover,
+  &.--active
+    color: var(--background-button--hover)
+    &:before
+      color: var(--color-button--hover)
+      background: var(--background-button--hover)
+
+
+  &.-ghost,
+  &[data-button-ghost],
+  &.-outline,
+  &[data-button-outline]
+    &:before
+      color: var(--background-button)
+      background: transparent
+    &:hover:before
+        color: var(--background-button--hover)
+  &.-ghost,
+  &[data-button-ghost]
+    &:before
+      border-color: transparent
+  &.-outline,
+  &[data-button-outline]
+    &:before
+      border-color: var(--background-button)
+    &:hover:before
+      border-color: var(--background-button--hover)
+
+  &[disabled],
+  &.-disabled
+    opacity: 0.5
+    pointer-events: none

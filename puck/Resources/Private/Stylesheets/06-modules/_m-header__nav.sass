@@ -1,0 +1,58 @@
+.m-header__nav
+  &__wrap
+    +flex(column, flex-start, flex-end, nowrap)
+    margin-left: auto
+    +media($bp-mobile-nav)
+      display: none
+
+  &
+    +typo-nav
+    +flex(column, flex-end, flex-end)
+    margin: -.2em -1em
+    flex-grow: 1
+
+  & + &
+    +media($bp-mobile-nav, up)
+      padding-left: 2em
+
+  &.-social
+    margin: -.2em -.5em
+
+  &__meta__wrap
+    +media($bp-mobile-nav, up)
+      display: flex
+
+  &__list
+    position: relative
+    display: flex
+    justify-content: flex-end
+
+  &__item
+  //margin-left: 2em
+
+  &__link
+    display: block
+    padding: .2em 1em
+    color: var(--color-link)
+    transition: opacity .15s, color .15s
+    &:hover,
+    &:focus-visible
+      color: var(--color-link--hover)
+
+  &.-social &__link
+
+  .m-header.--scroll &__link
+
+  &__link.current,
+  &__link.active
+
+  &__link:hover
+
+  &.-small
+    +font-size($fs-extra-small)
+
+  &__close
+    display: none
+
+  &__header
+    display: none

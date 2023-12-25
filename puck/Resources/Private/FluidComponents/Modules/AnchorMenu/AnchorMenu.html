@@ -1,0 +1,27 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-anchor-menu"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            id="c{object.uid}">
+      <element:moduleHeader object="{object}"/>
+      <f:if condition="{object.anchors}">
+        <ul class="{name}__list">
+          <f:for each="{object.anchors}" as="anchor" iteration="i">
+            <li class="{name}__item">
+              <a class="{name}__link" href="#{anchor.elementId}">{anchor.header}</a>
+            </li>
+          </f:for>
+        </ul>
+      </f:if>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+
+

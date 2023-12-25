@@ -1,0 +1,32 @@
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="m-hero-carousel"/>
+    <fc:param name="object" type="mixed"/>
+    <fc:renderer>
+
+        <layout:row.item
+                class="splide__slide {name}__item">
+            <f:if condition="{object.assets}">
+                <element:media
+                        file="{object.assets.0}"
+                        cropVariant="2:1"
+                        name="{name}"
+                        width="{settings.gridWidth}"
+                        loading="auto"
+                        showDesc="1"
+                        sources="{
+                            s: {width: 1300, cropVariant: '2:1'},
+                            xs: {width: 600, cropVariant: '3:2'},
+                            0: {width: 450, cropVariant: '3:2'}
+                        }"/>
+            </f:if>
+            <div class="{name}__text">
+                <element:tag is="{f:if(condition:i.index,then:'h2',else:'h1')}"
+                             class="{name}__headline">
+                    {object.header}
+                </element:tag>
+                <element:richText class="{name}__bodytext" text="{object.bodytext}"/>
+            </div>
+        </layout:row.item>
+
+    </fc:renderer>
+</fc:component>

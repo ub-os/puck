@@ -1,0 +1,31 @@
+<fc:component>
+    <fc:param name="name" type="string" optional="1" default="m-file-menu"/>
+    <fc:param name="object" type="mixed"/>
+    <fc:renderer>
+
+        <layout:section
+                class="{name}__wrap"
+                object="{object}"
+                id="c{object.uid}">
+            <element:moduleHeader object="{object}"/>
+            <f:if condition="{object.menu}">
+                <layout:row class="{name}__list" itemWidth="{object.itemColumnWidth}" justify="left" attributes="{data-hx-boost:'false'}">
+                    <f:for each="{object.menu}" as="item" iteration="i">
+                        <layout:row.item class="{name}__item">
+                            <f:link.file file="{item}" target="{object.target}" class="e-button {name}__link"  additionalAttributes="{download:1,data-button-icon:'right',data-button-icon-pill:1}">
+                                <f:if condition="{item.properties.title}">
+                                    <f:then>{item.properties.title}</f:then>
+                                    <f:else>{item.name}</f:else>
+                                </f:if>
+                                <icon:char icon="arrow-down-regular"/>
+                            </f:link.file>
+                        </layout:row.item>
+                    </f:for>
+                </layout:row>
+            </f:if>
+        </layout:section>
+
+    </fc:renderer>
+</fc:component>
+
+

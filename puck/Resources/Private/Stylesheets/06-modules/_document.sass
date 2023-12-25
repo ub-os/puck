@@ -1,0 +1,9 @@
+.document
+	+color-space-base
+	background: var(--background)
+	overflow-x: hidden
+	overflow-y: scroll
+	&[class*="-modal--active"],
+	&[class*="-modal--deactivating"]
+		overflow: hidden
+		padding-right: var(--scrollbar-width)

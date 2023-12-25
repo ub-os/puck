@@ -1,0 +1,37 @@
+ 
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="e-module-header"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <div class="{name}">
+      <f:if condition="{object.header}">
+        <f:switch expression="{object.headerLayout}">
+          <f:case value="25">
+            <h2 class="{name}__headline topline {f:if(condition:'{object.subheader}',then:'-accent')} u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h2>
+          </f:case>
+          <f:case value="31">
+            <h2 class="{name}__headline h3 u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h2>
+          </f:case>
+          <f:case value="30">
+            <h3 class="{name}__headline h3 u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h3>
+          </f:case>
+          <f:case value="50">
+            <p class="{name}__headline u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></p>
+          </f:case>
+          <f:case value="100">
+          </f:case>
+          <f:defaultCase>
+            <h2 class="{name}__headline h2 u-text-{object.headerPosition} {class}"><f:format.raw>{object.header}</f:format.raw></h2>
+          </f:defaultCase>
+        </f:switch>
+      </f:if>
+      <f:if condition="{object.subheader} && {object.headerLayout} > 24 && {object.headerLayout} < 30">
+        <p class="{name}__subheader h2 u-text-{object.headerPosition}"><f:format.raw>{object.subheader}</f:format.raw></p>
+      </f:if>
+    </div>
+
+  </fc:renderer>
+</fc:component>
+
+

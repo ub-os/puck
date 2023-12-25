@@ -1,0 +1,41 @@
+.e-button-group
+  &
+    --grid-gutter-x: 1.5rem
+    +flex(row,flex-start,center)
+    margin: calc(var(--grid-gutter-x) * -0.5)
+
+  &.u-text-center
+    justify-content: center
+  &.u-text-right
+    justify-content: flex-end
+
+
+  & + &
+    margin-top: calc(var(--grid-gutter-x) * -1)
+
+  [class*='e-button']
+    margin: calc(var(--grid-gutter-x)  * 0.5)
+    &:hover,
+    &:focus,
+    &:active,
+    &.--active
+      z-index: 1
+
+  &.-gutter-0,
+  &[data-button-group-gutter='0']
+    &
+      margin-inline: 0
+
+    [class*='e-button']
+      margin-inline: 0
+      &:last-child
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+        margin-left: calc(var(--border-width-button) * -0.5)
+      &:first-child
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+        margin-right: calc(var(--border-width-button) * -0.5)
+      &:not(:first-child):not(:last-child)
+        border-radius: 0
+        margin-inline: calc(var(--border-width-button) * -0.5)

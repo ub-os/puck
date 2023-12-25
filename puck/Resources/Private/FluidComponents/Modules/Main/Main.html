@@ -1,0 +1,44 @@
+<fc:component>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="contentElements" type="string"/>
+  <fc:param name="name" type="string" optional="1" default="m-main"/>
+  <fc:renderer>
+
+    <main class="{name}" id="main">
+      <f:if condition="{object.doktype} == {settings.doktype.person}">
+        <module:hero object="{
+            header:object.pagePersons.0.name,
+            bodytext:object.pagePersons.0.bodytext,
+            assets:object.pagePerson.0.assets}"/>
+      </f:if>
+      <f:if condition="{object.doktype} == {settings.doktype.news}">
+        <module:hero object="{
+            header:object.navTitle,
+            subheader: '{object.postDate -> f:format.date(format: \'%d. %B %Y\')}'
+            }"/>
+      </f:if>
+
+      {contentElements -> f:format.raw()}
+
+      <f:if condition="{object.doktype} == {settings.doktype.news} && {object.postAuthor}">
+        <module:text
+                object="{
+                containerWidth: 8,
+                header: object.postAuthor.name,
+                headerLayout: 31,
+                frameClass: 'dark-1',
+                bodytext: object.postAuthor.description,
+                uid:'news-page-author-teaser'
+                }">
+          <f:if condition="{object.postAuthor.pages.0}">
+            <p>
+              <br>
+              <f:link.page pageUid="{object.postAuthor.pages.0.uid}" class="e-button">{object.postAuthor.name}</f:link.page>
+            </p>
+          </f:if>
+        </module:text>
+      </f:if>
+    </main>
+
+  </fc:renderer>
+</fc:component>

@@ -1,0 +1,39 @@
+.m-main__to-top
+  &
+    +rfs($gutter-outer, --position-right)
+    position: fixed
+    right: var(--position-right)
+    bottom: 4rem
+    z-index: $z-index-header
+    height: 2.25em
+    width: 2.25em
+    color: var(--color)
+    background: var(--background-modal)
+    border-radius: var(--border-radius-s)
+    opacity: 0
+    pointer-events: none
+    transform: translateY(12px)
+    transition: background .15s, transform .25s, opacity .25s, border-color .15s
+    @each $mb, $value in $gutter-outer-mb
+      +media($mb, down)
+        --position-right: #{ $value }
+    [class*="-modal--active"] &,
+    [class*="-modal--deactivating"] &
+      opacity: 0
+      right: calc(var(--position-right) + var(--scrollbar-width))
+
+    +media(s)
+      display: none
+
+  &.--scroll
+    opacity: 1
+    pointer-events: initial
+    cursor: pointer
+    transform: translateY(0px)
+
+  &.--scroll:hover
+    opacity: 1
+    transform: translateY(-6px)
+
+  &__icon
+    +center(both)

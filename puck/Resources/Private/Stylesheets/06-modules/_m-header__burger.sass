@@ -1,0 +1,63 @@
+
+$burger-width: 4rem
+$slice-distance: 1.1rem
+$slice-degree: 45deg
+
+.m-header__burger
+  &
+    +flex(column, space-between, center)
+    z-index: $z-index-header-burger
+    position: relative
+    width: $burger-width
+    height: 3rem
+    padding: .5rem
+    margin-right: -.5rem
+    color: var(--color-link)
+    cursor: pointer
+    border-radius: var(--border-radius-s)
+    transition: transform .15s, box-shadow .15s
+    +media($bp-mobile-nav, up)
+      display: none
+
+  &.--active &__slice:nth-child(1)
+    transform: translateY(1rem)
+  &.--active &__slice:nth-child(3)
+    transform: translateY(-1rem)
+  &:hover,
+  &:focus-visible
+    color: var(--color-link--hover)
+
+  &__slice
+    height: 3px
+    width: 100%
+    background: currentColor
+    border-radius: 2px
+    transition: transform .15s
+
+@keyframes burger-open-top
+  50%
+    transform: translate3d(0, $slice-distance, 0)
+  100%
+    transform: translate3d(0, $slice-distance, 0) rotate($slice-degree)
+
+@keyframes burger-open-bot
+  50%
+    transform: translate3d(0, -$slice-distance, 0)
+  100%
+    transform: translate3d(0, -$slice-distance, 0) rotate(-$slice-degree)
+
+@keyframes burger-close-top
+  0%
+    transform: translate3d(0, $slice-distance, 0) rotate($slice-degree)
+  50%
+    transform: translate3d(0, $slice-distance, 0) rotate(0deg)
+  100%
+    transform: translate3d(0, 0, 0)
+
+@keyframes burger-close-bot
+  0%
+    transform: translate3d(0, -$slice-distance, 0) rotate(-$slice-degree)
+  50%
+    transform: translate3d(0, -$slice-distance, 0) rotate(0deg)
+  100%
+    transform: translate3d(0, 0, 0)

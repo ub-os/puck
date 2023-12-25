@@ -1,0 +1,29 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-media"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap"
+            object="{object}"
+            id="c{object.uid}">
+      <element:moduleHeader object="{object}"/>
+      <layout:media
+              media="{object.assets}"
+              text="{object.bodytext}"
+              layout="{object.mediaLayout}"
+              justify="{object.rowJustify}"
+              align="{object.rowAlign}"
+              mediaWidth="{object.mediaColumnWidth}"
+              textWidth="{object.textColumnWidth}"
+              itemWidth="{object.itemColumnWidth}"
+              mediaMobileMaxVh="{object.mediaMaxHeight}"
+              cropVariant="{cropVariant}"/>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

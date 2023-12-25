@@ -36,8 +36,8 @@ editor:
       # Headlines
 
       # link styles
-      - { name: "Button", element: "a", attributes: { class: "e-button-primary" } }
-      - { name: "Symbol button", element: "a", attributes: { class: "e-button-icon"} }
+      - { name: "Button", element: "a", attributes: { class: "e-button" } }
+      - { name: "Symbol button", element: "a", attributes: { class: "e-cta-button"} }
       - { name: "Button: outline", element: "a", attributes: { data-button-outline: "1" } }
       - { name: "Button: ghost", element: "a", attributes: { data-button-ghost: "1"} }
       - { name: "Button: icon left", element: "a", attributes: { data-button-icon: "left" } }

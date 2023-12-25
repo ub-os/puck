@@ -1,0 +1,64 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-fullwidth"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap -layout-{object.mediaLayout}"
+            object="{object}"
+            container="{f:if(condition: '{object.mediaLayoutDirection} == \'row\'', then:1, else:0)}"
+            id="c{object.uid}">
+      <f:if condition="{object.mediaLayoutDirection} == 'column'">
+        <f:then>
+          <f:if condition="{object.bodytext} || {object.header} || {object.subheader}">
+            <layout:container width="{object.containerWidth}" align="{object.containerPosition}" offset="{object.containerOffset}">
+              <div class="{name}__content -layout-{object.mediaLayout}">
+                <element:moduleHeader object="{object}"/>
+                <element:richText text="{object.bodytext}"/>
+                {content -> f:format.raw()}
+              </div>
+            </layout:container>
+          </f:if>
+          <element:media
+                  name="{name}"
+                  class="-layout-{object.mediaLayout}"
+                  file="{object.assets.0}"
+                  width="2560"
+                  sources="{
+                        1920: {width: 2560, cropVariant: 'default'},
+                        1000: {width: 1920, cropVariant: 'default'},
+                        xs: {width: 600, cropVariant: 'default'},
+                        0: {width: 450, cropVariant: 'mobile'}
+                    }"/>
+        </f:then>
+        <f:else>
+          <layout:row justify="space-between" class="{name}__row -layout-{object.mediaLayout}">
+            <layout:row.item width="6" attributes="{style:'position:relative'}">
+              <element:media
+                      name="{name}"
+                      class="-layout-{object.mediaLayout}"
+                      file="{object.assets.0}"
+                      width="1280"
+                      sources="{
+                        1920: {width: 1280, cropVariant: 'default'},
+                        1000: {width: 960, cropVariant: 'default'},
+                        xs: {width: 600, cropVariant: 'default'},
+                        0: {width: 450, cropVariant: 'mobile'}
+                    }"/>
+            </layout:row.item>
+            <layout:row.item width="5">
+              <div class="{name}__content -layout-{object.mediaLayout}">
+                <element:moduleHeader object="{object}"/>
+                <element:richText text="{object.bodytext}"/>
+              </div>
+            </layout:row.item>
+          </layout:row>
+        </f:else>
+      </f:if>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

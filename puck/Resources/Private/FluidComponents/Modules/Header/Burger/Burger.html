@@ -1,0 +1,19 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-header__burger"/>
+  <fc:param name="controls" type="string" optional="1" default="main-nav"/>
+  <fc:renderer>
+
+    <button class="{name}"
+            data-action="click->toggle@modal#{controls}"
+            aria-controls="{controls}"
+            aria-label="Navigation">
+      <span class="{name}__slice"></span>
+      <span class="{name}__slice"></span>
+      <span class="{name}__slice"></span>
+    </button>
+
+  </fc:renderer>
+</fc:component>
+
+

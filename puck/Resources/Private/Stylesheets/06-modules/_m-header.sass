@@ -1,0 +1,79 @@
+.m-header
+  &
+    position: absolute
+    top: 0
+    left: 0
+    z-index: $z-index-modal
+    width: 100%
+    height: var(--height-page-header)
+    background: var(--background)
+    border-bottom: 2px solid transparent
+    transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
+
+  [class*="-modal--active"] &,
+  [class*="-modal--deactivating"] &
+    padding-right: var(--scrollbar-width)
+
+  [class*="-modal--active"] &.--scroll
+    transform: translateY(-100%)
+  .--main-nav-modal--active &.--scroll
+    transform: none
+
+
+  &.--scroll
+    --height-page-header: #{$page-header-height--scroll}
+    position: fixed
+    top: 0
+    &.--scroll-up, &.--scroll-down
+    transition: background .5s, transform .4s
+    &.--scroll-down
+      transform: translateY(-100%)
+    +media(sm)
+      --height-page-header: #{$page-header-height-mobile}
+
+
+  &__container
+    +flex(row, space-between, center, nowrap)
+    +gutter-outer()
+    height: 100%
+
+  &__anchor
+    position: relative
+    display: flex
+    align-items: center
+    color: var(--color-link)
+    fill: var(--color-link)
+    transition: color .4s, transform .4s, fill .4s
+    &:hover,
+    &:focus
+      color: var(--color-link--hover)
+      fill: var(--color-link--hover)
+      transform: scale(1.05)
+
+  &__logo
+    z-index: $z-index-header-burger
+    max-width: 90%
+    height: 5rem
+    width: 5rem
+    outline: none
+
+
+  &.--scroll &__logo
+
+  &__menu
+    padding-bottom: .5rem
+
+  &__background
+    position: absolute
+    z-index: -1
+    top: 0
+    left: 0
+    width: 100%
+    height: var(--height-page-header)
+    background: var(--background-modal)
+    opacity: 0
+    transition: opacity .35s, transform 0s .35s, border-color .35s
+
+  &.--scroll &__background
+    opacity: 1
+    transition: transform .35s, border-color .35s

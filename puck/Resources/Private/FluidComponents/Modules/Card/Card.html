@@ -1,0 +1,31 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-card"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:card
+            class="{name}"
+            media="{object.assets}"
+            cropVariant="default"
+            width="{object.containerWidth}"
+            mediaSize="{object.cardMediaSize}"
+            mediaWidth="{object.mediaColumnWidth}"
+            mediaLayout="{object.mediaLayout}"
+            attributes="{id:'c{object.uid}'}">
+      <f:if condition="{object.icon}">
+        <icon:svg icon="{object.icon}" class="{name}__icon"/>
+      </f:if>
+      <div class="{name}__card__text">
+        <element:moduleHeader object="{object}" class="{name}__headline"/>
+        <f:if condition="{object.bodytext}">
+          <element:richText text="{object.bodytext}"/>
+        </f:if>
+      </div>
+    </layout:card>
+
+  </fc:renderer>
+</fc:component>
+
+
+

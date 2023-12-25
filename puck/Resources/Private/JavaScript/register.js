@@ -7,7 +7,6 @@ import Modal from "~/Controller/Modal"
 import MainNav from "~/Controller/MainNav.js"
 import TabPanel from '~/Controller/TabPanel'
 import Carousel from '~/Controller/Carousel'
-import FetchLink from "~/Controller/FetchLink"
 import LayoutRow from '~/Controller/LayoutRow'
 import PageHeader from "~/Controller/PageHeader"
 import MediaPlayer from "~/Controller/MediaPlayer"
@@ -23,7 +22,6 @@ App.register('modal', Modal)
 App.register('main-nav', MainNav)
 App.register('tab-panel', TabPanel)
 App.register('carousel', Carousel)
-App.register('fetch-link', FetchLink)
 App.register('layout-row', LayoutRow)
 App.register('page-header', PageHeader)
 App.register('media-player', MediaPlayer)

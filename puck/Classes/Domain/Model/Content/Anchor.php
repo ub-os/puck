@@ -23,24 +23,4 @@ class Anchor extends AbstractEntity
      * @var string
      */
     public string $subheader = '';
-    /**
-     * @var string
-     * @Transient
-     */
-    protected string $elementId = '';
-    /**
-     * @return string
-     */
-    public function getElementId(): string
-    {
-        //return urlencode(strtolower($this->subheader)).'-c'.$this->uid;
-        return $this->subheader;
-    }
-    /**
-     * @param string $elementId
-     */
-    public function setElementId(string $elementId): void
-    {
-        $this->elementId = $elementId;
-    }
 }

@@ -1,0 +1,19 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-text"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap {f:if(condition: '!{object.bodytext}', then: '-headline-only')} {class}"
+            object="{object}"
+            id="c{object.uid}">
+        <element:moduleHeader object="{object}"/>
+        <element:richText text="{object.bodytext}"/>
+        <fc:slot name="content"/>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+

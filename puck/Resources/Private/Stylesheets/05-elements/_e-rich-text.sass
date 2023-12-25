@@ -1,0 +1,94 @@
+:where(.e-rich-text)
+	&
+		width: 100%
+
+	p:last-child
+		padding-bottom: 0
+
+	.-small
+		+font-size($fs-small)
+
+	.-large
+		+font-size($fs-h3)
+		line-height: 1.25
+
+	.-footnote
+		+font-size($fs-extra-small)
+
+	.-quote
+		+font-size($fs-h3)
+		+padding-left($fs-h3 * 2)
+		position: relative
+		padding-top: 1em
+		line-height: 1.25
+		&:before
+			content: "“"
+			position: absolute
+			top: 0
+			left: 0
+			color: var(--color-accent)
+			font-size: 3em
+			font-weight: 700
+
+	.-quote-attribution
+		+font-size($fs-small)
+		+padding-left($fs-h3 * 2)
+		font-weight: 500
+
+	a
+		color: var(--color-link)
+		&[data-button-icon]
+			display: inline-block
+			position: relative
+			.char-icon
+				position: absolute
+				top: .1em
+		&.-big-green-link,
+		&[data-button-icon='left']
+			padding-left: 1.5em
+			.char-icon
+				left: 0
+		&[data-button-icon='right']
+			padding-right: 1.5em
+			.char-icon
+				right: 0
+
+	a:hover,
+	a:focus-visible
+		color: var(--color-link--hover)
+
+	ul, ol
+		@extend .e-text-list
+		+spacing(bottom, xs)
+
+	table
+
+	.row-layout-table
+		tr
+			+flex(row,flex-start,flex-start,nowrap)
+			margin: -.6em
+			+media(sm)
+				flex-wrap: wrap
+			& + tr
+				margin-top: .6em
+		td
+			padding: .6em
+
+	.data-table
+		@extend .e-text-table
+		+spacing(bottom, xs)
+
+
+	* + h2
+		+spacing(top, s, margin)
+	* + h3,
+	* + h4
+		+spacing(top, xs, margin)
+
+	// increase button distance to previous element, if necessary
+	* + p:not(.e-button-group)>[class*='e-button-']
+		//+spacing(top, xs, margin)
+
+	.char-icon
+		position: relative
+		top: 0.1em

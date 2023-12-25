@@ -18,9 +18,9 @@ TYPO3:
                   identifier: template-variant
                   renderingOptions:
                     formNavigation:
-                      btnPreviousClassAttribute: 'e-button-primary'
-                      btnNextClassAttribute: 'e-button-primary'
-                      btnSubmitClassAttribute: 'e-button-primary -green'
+                      btnPreviousClassAttribute: 'e-button'
+                      btnNextClassAttribute: 'e-button'
+                      btnSubmitClassAttribute: 'e-button -green'
             Checkbox:
               renderingOptions:
                 templateRootPaths:

@@ -1,0 +1,55 @@
+.m-menu
+  &__bodytext
+    +spacing(bottom, m)
+
+  &__card
+    transition: transform .25s
+    cursor: pointer
+    &:hover
+      transform: translateY(-5px)
+
+  &__column
+    cursor: pointer
+
+  &__column :where(.l-media__image)
+    transition: transform .25s
+  &__column:hover :where(.l-media__image)
+    transform: scale(1.03)
+
+  &__teaser
+    +flex(row,flex-start,flex-start,wrap)
+    width: 100%
+
+  &__headline
+    +typo-h3
+    width: 100%
+    color: var(--color-link)
+    &:hover,
+    &:focus-visible
+      color: var(--color-link--hover)
+
+  &__card:hover &__headline,
+  &__card:hover &__cta,
+  &__column:hover &__headline,
+  &__column:hover &__cta
+    color: var(--color-link--hover)
+    --background-button: var(--background-button--hover)
+
+  &__subtitle
+    width: 100%
+    color: var(--color-accent)
+
+  &__categories
+    width: 100%
+    color: var(--color-accent)
+
+  &__date
+    +font-size($fs-small)
+
+  &__teaser-text
+    +spacing(top, xxs)
+    width: 100%
+
+  &__cta
+    +spacing(top, xs, margin)
+    margin-left: auto

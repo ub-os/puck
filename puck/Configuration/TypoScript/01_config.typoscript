@@ -24,7 +24,7 @@ Umsetzung in TYPO3: UNIBRAND OS
     enableContentLengthHeader = 1
     sendCacheHeaders_onlyWhenLoginDeniedInBranch = 0
     htmlTag.attributes {
-        class = d-html
+        class = document
     }
     uniqueLinkVars = 1
     linkVars = L(int)

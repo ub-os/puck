@@ -198,8 +198,8 @@ z.B. "Resources/Private/FluidComponents/Modules/Content/ProductCards/ProductCard
         class="{name}__wrap"
         object="{object}"
         id="c{object.uid}">
-      <element:text.header object="{object}"/>
-      <element:text.rich text="{object.bodytext}" class="{name}__bodytext"/>
+      <element:moduleHeader object="{object}"/>
+      <element:richText text="{object.bodytext}" class="{name}__bodytext"/>
 
         <layout:row class="{name}__row">
             <f:for each="{object.inlineMedia}" as="item" iteration="i">
