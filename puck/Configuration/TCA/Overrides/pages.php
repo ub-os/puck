@@ -36,32 +36,41 @@ ArrayUtility::mergeRecursiveWithOverrule(
         ]
     ]
 );
-ExtensionManagementUtility::addToAllTCAtypes(
-    'pages',
-    '
-    --div--;Teaser,
-    --palette--;;teaser',
-    '',
+
+function addToDoktypes($doktypes, $addition, $position): void
+{
+    ExtensionManagementUtility::addToAllTCAtypes(
+        'pages',
+        $addition,
+        implode(',', array_map(function ($doktype) {
+            return PageRepository::DOKTYPES[$doktype];
+        }, $doktypes)),
+        $position
+    );
+}
+
+addToDoktypes(
+    ['default', 'news'],
+    '--div--;Teaser, --palette--;;teaser',
     'after:--palette--;;title'
 );
-
-ExtensionManagementUtility::addToAllTCAtypes(
-    'pages',
+addToDoktypes(
+    ['shortcut'],
+    '--div--;Teaser, --palette--;;teaser',
+    'after:--palette--;;shortcutpage'
+);
+addToDoktypes(
+    ['link'],
+    '--div--;Teaser, --palette--;;teaser',
+    'after:--palette--;;external'
+);
+addToDoktypes(
+    ['news'],
     'url, --palette--;;author',
-    PageRepository::DOKTYPES['news'],
     'after:--palette--;;title'
 );
-
-ExtensionManagementUtility::addToAllTCAtypes(
-    'pages',
+addToDoktypes(
+    ['person'],
     'page_persons',
-    PageRepository::DOKTYPES['person'],
-    'before:--palette--;;title'
-);
-
-ExtensionManagementUtility::addToAllTCAtypes(
-    'pages',
-    'php_tree_stop',
-    254,
-    'after:module'
+    'after:--palette--;;title'
 );
