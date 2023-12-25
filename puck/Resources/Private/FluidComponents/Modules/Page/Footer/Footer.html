@@ -6,15 +6,12 @@
   <fc:renderer>
 
     <footer class="{name}">
-      <layout:section
-              class="{name}-navigation__wrap -background-dark-1"
-              top="none"
-              bottom="none">
+      <layout:section class="{name}-navigation__wrap">
         <div class="{name}__navigations">
           <element:navigation name="{name}-navigation" pages="{settings.navUid.footer}" class="">
             <f:comment>
               <li class="{name}-navigation__item">
-                <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookies</button>
+                <button class="{name}-navigation__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen</button>
               </li>
             </f:comment>
           </element:navigation>

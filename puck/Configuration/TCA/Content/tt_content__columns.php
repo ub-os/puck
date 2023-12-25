@@ -13,9 +13,6 @@ $columns['frame_class'] = [
         'disableNoMatchingValueElement' => true,
         'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
             ['Default', 'default'],
-            ['Light blue', 'light-1'],
-            ['Light turquoise', 'light-2'],
-            ['Light orange', 'light-3'],
             ['Dark purple', 'dark-1'],
         ]),
         'default' => 'default'

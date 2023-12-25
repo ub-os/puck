@@ -126,17 +126,13 @@
     left: 50%
     transform: translate(-50%, -50%)
 
-=cover()
-  position: absolute
-  top: 0
-  left: 0
-  display: block
-  width: 100%
-  height: 100%
+=cover($position: center)
   object-fit: cover
+  object-position: $position
+  height: 100%
+  width: 100%
 
 =cover-media($position: center)
-  position: relative
   overflow: hidden
   &>div
     width: 100%
@@ -147,22 +143,7 @@
     height: 100%
 
   &>picture>img, &>video, &>iframe, .e-media-player>img
-    position: absolute
-    min-width: 500%
-    min-height: 500%
-    width: auto
-    height: auto
-    max-width: unset
-    max-height: unset
-    left: 50%
-    @if $position == center
-      top: 50%
-      transform: translateX(-50%) translateY(-50%) scale(0.2)
-    @if $position == top
-      top: 0
-      transform-origin: top
-      transform: translateX(-50%) translateY(0) scale(0.2)
-    //object-fit: cover
+    +cover($position)
 
 =hover()
   @media (hover: hover)

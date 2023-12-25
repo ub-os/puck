@@ -14,6 +14,7 @@
     height: 100%
 
   &__poster
+    +cover-media()
     position: absolute
     right: 0
     top: 0
@@ -22,9 +23,6 @@
     overflow: hidden
 
   &__image
-    object-fit: cover
-    object-position: center
-    aspect-ratio: 16/9
     filter: brightness(0.75)
     transition: filter .2s
 
@@ -57,5 +55,5 @@
     padding: .6em
     border-radius: var(--border-radius-s)
     transition: --color-icon2 .2s
-    color: var(--background)
-    fill: var(--color-link)
+    color: var(--color-link)
+    fill: var(--background)

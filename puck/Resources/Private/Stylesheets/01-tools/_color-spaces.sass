@@ -1,22 +1,22 @@
 =color-space-base
   // basic
-  --color: #{ $black }
-  --color-alt: #{ $black }
-  --color-headline: #{ $grey-1 }
-  --color-accent: #{ $lilac-purple }
-  --color-accent-alt: #{ $blue-cyan-process }
-  --background: #{ $grey-5 }
-  --color-link: #{ $lilac-dark-orchid }
-  --color-link--hover: #{ $lilac-electric }
-  --color-link--disabled: #{ $grey-3 }
+  --color: #{ $grey-5 }
+  --color-alt: #{ $grey-5 }
+  --color-headline: #{ $yellow-equator }
+  --color-accent: #{ $green-mantis }
+  --color-accent-alt: #{ $yellow-equator }
+  --background: #{ $green-cardin }
+  --color-link: #{ $purple-medium }
+  --color-link--hover: color-mix(in srgb, var(--color-link), white 20%)
+  --color-link--disabled: #{ $grey-4 }
 
   // button
   --border-width-button: 2px
   --color-button: var(--background)
-  --color-button--hover: #{ $white }
+  --color-button--hover: #{ $green-black-bean }
   --color-button-border: transparent
   --color-button-border--hover: transparent
-  --outline-color-button--focus: #{ $lilac-dark-orchid-30 }
+  --outline-color-button--focus: color-mix(in srgb, transparent, var(--background-button--hover) 30%)
   --background-button: var(--color-link)
   --background-button--hover: var(--color-link--hover)
 
@@ -29,9 +29,10 @@
   --background-button-alt: var(--background-button)
   --background-button-alt--hover: var(--background-button--hover)
 
+
   // button light
-  --color-button-light: #{ $black }
-  --color-button-light--hover: var(--color-link--hover)
+  --color-button-light: var(--color-headline)
+  --color-button-light--hover: var(--color)
   --color-button-light-border: transparent
   --color-button-light-border--hover: transparent
   --background-button-light: #{ $grey-3 }
@@ -46,67 +47,34 @@
   --background-input--active: var(--background)
 
   // modal
-  --background-modal: #{ $white }
-  --background-modal-backdrop: #{transparentize($grey-5, 0.5)}
+  --background-modal: #131c18
+  --background-modal-backdrop: #{transparentize(#607e76, 0.6)}
 
   // plyr
   --plyr-color-main: var(--color-link)
 
 =color-space-dark-1
-  --background: #{ $lilac-purple }
+  --background: #{ $green-burnham }
   --color: #{ $white }
-  --color-headline: #{ $orange-mango-tango }
-  --color-accent: #{ $orange-mango-tango }
-  --color-accent-alt: #{ $blue-cyan-process }
-  --color-link: #{ $blue-sky-crayola }
-  --color-link--hover: #{ $blue-electric }
-  --color-button: #{ $lilac-purple }
-  --color-button--hover: #{ $lilac-dark-orchid }
-  --background-button: #{ $blue-sky-crayola }
-  --background-button--hover: #{ $blue-electric }
-  --outline-color-button--focus: #{ $blue-sky-crayola-30 }
-
-=color-space-light-1
-  --background: #{ $blue-baby-eyes }
-  --color-headline: #{ $blue-cyan-process }
-  --color-accent: #{ $lilac-dark-orchid }
-  --color-accent-alt: #{ $lilac-purple }
-  --color-link: #{ $lilac-dark-orchid }
-  --color-button: #{ $blue-baby-eyes }
-  --color-button--hover: #{ $blue-powder }
-
-=color-space-light-2
-  --background: #{ $white-dutch }
-  --color-headline: #{ $orange-mango-tango }
-  --color-accent: #{ $orange-mango-tango }
-  --color-accent-alt: #{ $blue-cyan-process }
-  --color-link: #{ $lilac-dark-orchid }
-  --background-button: #{ $blue-cyan-process }
-  --background-button--hover: #{ $blue-capri }
-  --outline-color-button--focus: #{ $blue-cyan-process-30 }
-  --color-button: #{ $white-dutch }
-  --color-button--hover: #{ mix($white, $white-dutch, 50%) }
-
-=color-space-light-3
-  --background: #{ $blue-powder }
-  --color-headline: #{ $blue-cyan-process }
-  --color-accent: #{ $blue-cyan-process }
-  --color-accent-alt: #{ $lilac-dark-orchid }
-  --color-link: #{ $lilac-dark-orchid }
-  --background-button: #{ $orange-mango-tango }
-  --background-button--hover: #{ $orange-pumpkin }
-  --outline-color-button--focus: #{ $orange-mango-tango-30 }
-  --color-button: #{ $blue-powder }
-  --color-button--hover: #{ $white-dutch }
-
+  --color-headline: #{ $green-mantis }
+  --color-accent: #{ $blue-baby }
+  --color-link: #{ $orange-porsche }
+  --color-link--hover: color-mix(in srgb, var(--color-link), white 20%)
+  --color-button: var(--background)
+  --color-button--hover: #{ $green-cardin }
+  --background-button: var(--color-link)
+  --background-button--hover: var(--color-link--hover)
+  --outline-color-button--focus: color-mix(in srgb, transparent, var(--background-button--hover) 30%)
 
 =color-space-card
   +color-space-base
-  --background: #{ $white }
+  --background: var(--background-modal)
 
 =color-space-modal
   +color-space-base
   --background: var(--background-modal)
 
+=color-space-footer
+  --background: var(--background-modal)
+
 =color-space-card-image-background
-  +color-space-dark-1
