@@ -7,7 +7,7 @@ import Controller from "~/Application/Controller.js";
 // register Controller with App.register('my-controller', MyController)
 // apply controller to element with [data-controller="my-controller"]
 export default class MyController extends Controller {
-  // identifier constant is first argument of App.register()
+  // identifier constant is set from first argument of App.register()
   // => static identifier = 'my-controller'
 
   static props = {
@@ -93,9 +93,9 @@ export default class MyController extends Controller {
     // targets as map
     console.log(this.myTargetTargets)
 
-    // add event listeners
+    // add event listeners, returns listener id
     this.myListenerId = this.listeners.add(this.el, 'click', () => {})
-    // or
+    // or set listener id manually
     this.listeners.addById('listener-id',  this.el, 'click', () => {})
 
     // remove event listeners
