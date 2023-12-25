@@ -3,11 +3,11 @@
   <fc:param name="name" type="string" optional="1" default="l-row"/>
   <fc:param name="width" type="string" optional="1"/>
   <fc:param name="breakpoints" type="array" optional="1" default="{bp:'auto'}"/>
-  <fc:param name="attributes" type="mixed" optional="1"/>
+  <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
     <f:variable name="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></f:variable>
-    <div class="{name}__item {class} -width-{width} {bpClasses}" {attributes -> puck:attributes()}>
+    <div class="{name}__item {class} -width-{width} {bpClasses}" {attributes -> u:renderAttributes()}>
       <fc:slot name="content"/>
     </div>
 

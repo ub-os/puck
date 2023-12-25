@@ -9,7 +9,7 @@
   <fc:param name="itemWidth" type="integer" optional="1" default=""/>
   <fc:param name="flexGrow" type="integer" optional="1" default="0"/>
   <fc:param name="breakpoints" type="array" optional="1" default="{bp:'auto'}"/>
-  <fc:param name="attributes" type="mixed" optional="1"/>
+  <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
     <f:variable name="mods"
@@ -26,7 +26,7 @@
         id="{id}"
          data-controller="layout-row"
         style="{f:if(condition:gutterRem,then:'--grid-gutter-x:{gutterRem}rem')}"
-        {attributes -> puck:attributes()}>
+         {attributes -> u:renderAttributes()}>
       <fc:slot name="content"/>
     </div>
 

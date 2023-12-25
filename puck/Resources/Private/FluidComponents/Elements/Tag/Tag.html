@@ -1,9 +1,9 @@
 <fc:component>
     <fc:param name="is" type="string" optional="1" default="div"/>
-    <fc:param name="attributes" type="mixed" optional="1"/>
+    <fc:param name="attributes" type="array" optional="1"/>
     <fc:renderer>
 
-        <{is} class="{class}" {attributes -> puck:attributes()}>
+        <{is} class="{class}" {attributes -> u:renderAttributes()}>
             <fc:slot name="content"/>
         </{is}>
 
