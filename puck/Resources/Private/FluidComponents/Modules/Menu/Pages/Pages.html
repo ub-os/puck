@@ -28,12 +28,11 @@
                             <f:case value="default-cards">
                                 <layout:row class="{name}__row"
                                             flexGrow="0" justify="left" align="top"
-                                            attributes=""
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-controller=link data-link-to={f:uri.page(pageUid: item.uid)} data-link-target={item.target}"
+                                                    attributes="{onclick:'this.querySelector(\'a\').click()'}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     width="6">
@@ -50,12 +49,11 @@
                             <f:case value="blog-cards">
                                 <layout:row class="{name}__row"
                                             flexGrow="0" justify="left" align="top"
-
                                             id="c{object.uid}-list">
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-controller=link data-link-to={f:uri.page(pageUid: item.uid)} data-link-target={item.target}"
+                                                    attributes="{onclick:'this.querySelector(\'a\').click()'}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     width="6">
@@ -77,7 +75,7 @@
                                     <f:for as="item" each="{object.menu}" iteration="i">
                                         <layout:row.item class="{name}__item -stretch-content" width="6">
                                             <layout:card
-                                                    attributes="data-controller=link data-link-to={f:uri.page(pageUid: item.uid)} data-link-target={item.target}"
+                                                    attributes="{onclick:'this.querySelector(\'a\').click()'}"
                                                     class="{name}__card -variant-{object.layout}">
                                                 <f:alias map="{person: item.pagePersons.0}">
                                                     <div class="{name}__content">
@@ -117,8 +115,7 @@
                                             <f:variable name="media"
                                                         value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
                                             <div class="{name}__column -variant-{object.layout}"
-                                                 data-link-to="{f:uri.page(pageUid: item.uid)}"
-                                                target="{item.target}">
+                                                 onclick="this.querySelector('a').click()">
                                                 <layout:media
                                                         cropVariant="{cropVariant}"
                                                         itemWidth="{object.mediaColumnWidth}"
@@ -150,7 +147,7 @@
                                             <f:variable name="media"
                                                         value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
                                             <layout:card
-                                                    attributes="data-controller=link data-link-to={f:uri.page(pageUid: item.uid)} data-link-target={item.target}"
+                                                    attributes="{onclick:'this.querySelector(\'a\').click()'}"
                                                     class="{name}__card -variant-{object.layout}"
                                                     cropVariant="{cropVariant}"
                                                     media="{media}"
