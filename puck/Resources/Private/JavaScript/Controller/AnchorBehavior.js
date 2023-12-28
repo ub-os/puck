@@ -48,7 +48,9 @@ export default class AnchorBehavior extends Controller {
                 if (!anchor) return
                 this.listeners.add(el, 'click', e => {
                     e.preventDefault()
-                    anchor.dispatchEvent(new Event('hash-link-clicked'))
+                    const hashLinkEvent = new Event('hash-link-clicked')
+                    hashLinkEvent.detail = { linkElement: el }
+                    anchor.dispatchEvent(hashLinkEvent)
                     if (anchor.hasAttribute('data-menu-anchor')) {
                         scrollTo(anchor.nextElementSibling, this.scrollOffset);
                     } else {

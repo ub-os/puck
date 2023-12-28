@@ -15,7 +15,6 @@ export default class Modal extends Toggleable {
     }
     static injects = ['focus-trap']
     toggleOn(transition= true) {
-        console.log('toggle on modal')
         this.backdropEl = <div class={this.backdropClass} data-render-excluded></div>
         this.el.parentNode.insertBefore(this.backdropEl, this.el)
         super.toggleOn(transition);
@@ -26,7 +25,6 @@ export default class Modal extends Toggleable {
         this.el.focus()
     }
     toggleOff(transition= true, changeUrlHash =  true) {
-        console.log('toggle off modal')
         setTimeout(() => {
             this.backdropEl?.remove()
             this.backdropEl = null

@@ -5,8 +5,8 @@ export default class ListenerCollector {
 
     // add event listener, returns integer ID of new listener
     add(element, type, listener, useCapture = false) {
-        this.#privateAddEventListener(element, this.#idx, type, listener, useCapture)
-        return this.#idx++
+        this.#privateAddEventListener(element, this.#idx++, type, listener, useCapture)
+        return this.#idx
     }
 
     // add event listener with custom ID (avoids need to retrieve return ID since you are providing it yourself)
@@ -29,6 +29,10 @@ export default class ListenerCollector {
             delete this.#listeners[id]
         }
         return listen || null
+    }
+
+    has(id) {
+        return !!this.#listeners[id]
     }
 
     // remove all event listeners

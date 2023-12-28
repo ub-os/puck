@@ -2,14 +2,29 @@ import { kebabCase, jsonParse } from "~/Utility/StringUtility";
 import ListenerCollector from "~/Service/ListenerCollector.js";
 
 export default class Controller {
-    static props = {}
+    static props = {
+        asleep: false
+    }
     static targets = {}
     static injects = {}
     static actions = {}
     static identifier = null
     static registerCallback() { }
+
+    __initialized = false
+    __connected = false
+    /**
+     * @type {HTMLElement}
+     */
+    __el = null
+    listeners = new ListenerCollector()
+    identifier = null
+    get el() { return this.__el }
+    set el(el) { this.__el = el }
+
     constructor(el, argProps = {}) {
         this.el = el
+        this.constructor.propManager.initialize(this, argProps)
         this.identifier = this.constructor.identifier
         const attrProps = jsonParse(this.el.getAttribute('data-' + this.identifier))
         for (let prop in this.constructor.props) {
@@ -29,13 +44,15 @@ export default class Controller {
         }
         this.el.removeAttribute('data-' + this.identifier)
         this.initialize()
+        this.__initialized = true
     }
+
     __setProp(prop, val, sync = true) {
         if (val === this[`#${prop}`]) return
         if (!sync) {
             const oldVal = this[`#${prop}`]
             this[`#${prop}`] = val
-            if (typeof this[`${prop}Changed`] === 'function') {
+            if (typeof this[`${prop}Changed`] === 'function' && this.__initialized) {
                 this[`${prop}Changed`](oldVal, val)
             }
             return
@@ -73,20 +90,26 @@ export default class Controller {
             newPropVal = this.constructor.readProp(prop, newVal)
         }
         this[`#${prop}`] = newPropVal
-        if (typeof this[`${prop}Changed`] === 'function') {
-            this[`${prop}Changed`](this.constructor.read(oldVal), newPropVal)
+        if (typeof this[`${prop}Changed`] === 'function' && this.__initialized) {
+            const oldPropVal = oldVal === undefined || oldVal === null ? this.constructor.props[prop] : this.constructor.readProp(prop, oldVal)
+            this[`${prop}Changed`](oldPropVal, newPropVal)
         }
-
     }
-    /**
-     * @type {HTMLElement}
-     */
-    __el = null
 
-    listeners = new ListenerCollector()
-    identifier = null
-    get el() { return this.__el }
-    set el(el) { this.__el = el }
+    dispatch(type, detail = {}) {
+        this.el.dispatchEvent(new CustomEvent(`${this.identifier}:${type}`, { detail }))
+    }
+
+    asleepChanged(oldVal, newVal) {
+        if (newVal === true && this.__connected) {
+            this.disconnect()
+            this.__connected = false
+        } else if (newVal === false && !this.__connected) {
+            this.connect()
+            this.__connected = true
+        }
+    }
+
     initialize()  { return this }
     connect() { return this }
     disconnect() { return this }

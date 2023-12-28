@@ -13,7 +13,7 @@ const $target = (target, objectName) => {
     if (el) return el
 
     console.trace(`${objectName && objectName+': '}No valid element or selector provided as target.`)
-    return false
+    return null
 }
 
 Element.prototype.$ = function(selector) {

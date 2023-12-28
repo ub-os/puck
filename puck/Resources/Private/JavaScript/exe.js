@@ -10,23 +10,29 @@ htmx.config.defaultSwapStyle = 'outerHTML'
 htmx.config.globalViewTransitions = true
 
 let isInitialLoad = true
+let isMounted = false
 
 smoothscroll.polyfill()
 
 const doc = document.documentElement
 
 const mountBody = () => {
+    if (isMounted) return
+    App.connect()
     window.requestAnimationFrame(() => {
         document.body.classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
     })
     Logger.console.log(App)
+    isMounted = true
 }
 
 const clearBody = () => {
-    //$$('[data-render-excluded]').forEach(el => el.remove())
-    $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
+    if (!isMounted) return
     App.disconnect()
+    $$('[data-render-excluded]').forEach(el => el.remove())
+    $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
+    isMounted = false
 }
 
 const isBodyEvent = event => {
@@ -72,15 +78,17 @@ doc.addEventListener("htmx:load", (event) => {
     if (isInitialLoad) {
         isInitialLoad = false
         logEvent(event, ':initial')
-        console.time('load')
-        App.connect()
+        Logger.console.time('mount application')
         mountBody()
-        console.timeEnd('load')
+        Logger.console.timeEnd('mount application')
     } else if (isBodyEvent(event)) {
         logEvent(event, ':body')
-        console.time('load')
-        mountBody()
-        console.timeEnd('load')
+        Logger.console.time('mount application')
+        clearBody()
+        window.requestAnimationFrame(() => {
+            mountBody()
+            Logger.console.timeEnd('mount application')
+        })
     } else {
         logEvent(event)
     }
@@ -90,7 +98,7 @@ doc.addEventListener("htmx:beforeHistorySave", (event) => {
 })
 doc.addEventListener("htmx:historyRestore", (event) => {
     logEvent(event);
-    $$('[data-render-excluded]').forEach(el => el.remove())
+    //$$('[data-render-excluded]').forEach(el => el.remove())
 })
 
 /*  console.log('test action removal')
@@ -141,4 +149,3 @@ const frameViewTransition = (event) => {
         });
     }
 }
-

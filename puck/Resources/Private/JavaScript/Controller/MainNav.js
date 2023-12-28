@@ -21,29 +21,26 @@ export default class MainNav extends Controller {
       el.setAttribute('class', el.getAttribute('class').replace(from, to))
     })
   }
+
   stateSwitch() {
-    if (this.state !== 'modal' && (window.innerWidth < this.breakpoint)) {
-      this.state = 'modal'
+    if (this.modalController.asleep && (window.innerWidth < this.breakpoint)) {
       this.replaceClass(this.initClass, this.modalClass)
-      this.modalController.connect()
+      this.modalController.asleep = false
       this.el.dispatchEvent(new Event('update-focusables'))
-    }
-    if (this.state === 'modal' && (window.innerWidth >= this.breakpoint)) {
-      this.state = ''
+    } else
+    if (!this.modalController.asleep && (window.innerWidth >= this.breakpoint)) {
       this.replaceClass(this.modalClass, this.initClass)
-      this.modalController.disconnect()
+      this.modalController.asleep = true
     }
   }
 
   initialize() {
-    this.state = ''
+    this.modalController.asleep = true
   }
 
   connect() {
     window.requestAnimationFrame(() => {
-      if (window.innerWidth < this.breakpoint) {
-        this.modalController.disconnect()
-      }
+      this.stateSwitch()
       window.requestAnimationFrame(() => {
         ResizeManager.addById(`main-nav-${this.el.id}`, document.body, this.stateSwitch.bind(this))
       })

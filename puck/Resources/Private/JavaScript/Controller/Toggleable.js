@@ -105,7 +105,7 @@ export default class Toggleable extends Controller {
   }
 
   toggle(event, { transition } = {}) {
-    if (this.active && (!this.switchToggles || this.switchToggles && event.actionElement === this.lastUsedToggle)) {
+    if (this.active && (!this.switchToggles || (this.switchToggles && event.actionElement === this.lastUsedToggle))) {
       this.el.dispatchEvent(Toggleable.events.toggleOff)
     } else {
       this.el.dispatchEvent(Toggleable.events.toggleOn)
@@ -173,7 +173,7 @@ export default class Toggleable extends Controller {
     if (this.urlHashOn) {
       if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.el.dispatchEvent(Toggleable.events.toggleOn)
       this.listeners.add(this.el, 'hash-link-clicked', event => {
-        console.log(event)
+        this.lastUsedToggle = event.detail.linkElement
         this.el.dispatchEvent(Toggleable.events.toggleOn)
       })
     }

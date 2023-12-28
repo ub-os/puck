@@ -29,8 +29,9 @@ class Application {
         constructor.writeProp = (propName, val) => constructor.__attributeConverter.write(propName, val)
         constructor.readProp = (propName, val) => constructor.__attributeConverter.read(propName, val)
         for (let prop in constructor.props) {
-            constructor.writePropKey[prop] = `data-${identifier}:${kebabCase(prop)}`
-            constructor.readPropKey[`data-${identifier}:${kebabCase(prop)}`] = prop
+            const attributeName = `data-${identifier}:${kebabCase(prop)}`
+            constructor.writePropKey[prop] = attributeName
+            constructor.readPropKey[attributeName] = prop
             Object.defineProperty(constructor.prototype, prop, {
                 get() {
                     return this[`#${prop}`]
@@ -92,16 +93,17 @@ class Application {
     }
 
     disconnect() {
+        this.domObserver.takeRecords()
+        this.domObserver.disconnect()
+        this.controllerObserver.disconnect()
+        this.actionObserver.disconnect()
+        this.targetElements.forEach(el => this.disconnectTargetElement(el))
+        this.actionElements.forEach(el => this.disconnectActionElement(el))
+        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
         this.services.observerCollector?.clear()
         this.#controllerIdx = 0
         this.#targetIdx = 0
         this.#actionIdx = 0
-        //this.domObserver.takeRecords()
-        //this.controllerObserver.disconnect()
-        //this.actionObserver.disconnect()
-        this.targetElements.forEach(el => this.disconnectTargetElement(el))
-        this.actionElements.forEach(el => this.disconnectActionElement(el))
-        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
     }
 
     domObserver = new MutationObserver(mutations => {
@@ -135,9 +137,6 @@ class Application {
         if (!el.id) {
             el.id = `_action${this.#actionIdx++}`
         }
-        console.warn(`connecting action on #${el.id}`)
-
-        //console.log(`connecting action on #${el.id}`)
         el.dataset.action.split(' ').forEach(descriptor => {
             const [
                 event,
@@ -163,8 +162,7 @@ class Application {
             })
             const attributeConverter = new AttributeConverter(controller.constructor.actions?.[method] || {})
             el.actionSettings[identifier].listener = e => {
-                console.log(`Action ${identifier} triggered on #${el.id}`)
-                if (!controllerElement.controllersAreConnected) return
+                if (!controller.__connected) return
                 el.hasAttribute(`data-${identifier}:event:prevent`) ? e.preventDefault() : null
                 el.hasAttribute(`data-${identifier}:event:stop`) ? e.stopPropagation() : null
                 e.actionElement = el
@@ -226,6 +224,7 @@ class Application {
             }
         })
     }
+
     disconnectTargetElement(el) {
         this.getTargetData(el).forEach(({ name, controller }) => {
             controller[`${name}Targets`].delete(el.id)
@@ -234,6 +233,7 @@ class Application {
             }
         })
     }
+
     getTargetData(el) {
         return el.dataset.target.split(' ').reduce((result, descriptor) => {
             const [
@@ -260,17 +260,17 @@ class Application {
             })
             this.controllerObserver.observe(el, { attributes: true, attributeOldValue: true })
         }
-        el.controllersAreConnected = true
-        //console.log(`connecting '${el.dataset.controller}' ond #${el.id}`)
         el.controllerInstances.forEach(controller => {
+            if (controller.__connected || controller.asleep) return
             controller.connect()
+            controller.__connected = true
         })
     }
     disconnectControllerElement(el) {
-        //console.log(`disconnecting '${el.dataset.controller}' ond #${el.id}`)
-        el.controllersAreConnected = false
         el.controllerInstances?.forEach(controller => {
+            if (!controller.__connected || controller.asleep) return
             controller.disconnect()
+            controller.__connected = false
         })
         delete el.controllerInstances
     }

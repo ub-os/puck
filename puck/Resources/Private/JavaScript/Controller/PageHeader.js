@@ -8,12 +8,9 @@ import Controller from "~/Application/Controller.js";
  */
 export default class PageHeader extends Controller {
     static props = {
-        scrollTops: {
-            0: 1
-        },
         minScrollForHide: 100,
         downClass: '--scroll-down',
-        upClass: '--scroll-up',
+        upClass: '--scroll-up'
     }
     static injects = ['scroll-sensitive']
     checkScrollDirection() {
@@ -51,15 +48,6 @@ export default class PageHeader extends Controller {
     lastState = 'visible'
 
     connect() {
-        this.scrollTops = {
-            ...this.constructor.props.scrollTops,
-            ...this.scrollTops
-        }
-        for (let breakpoint in this.scrollTops) {
-            if (window.innerWidth > breakpoint) {
-                this.scrollSensitiveController.scrollTop = this.scrollTops[breakpoint]
-            }
-        }
         this.listeners.add(document.body, 'scrollTo', e => {
             this.paused = true
             this.el.classList.add(this.downClass)
