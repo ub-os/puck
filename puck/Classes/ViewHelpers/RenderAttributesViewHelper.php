@@ -12,6 +12,7 @@ class RenderAttributesViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         $this->registerArgument('attributes', 'array', '');
+        $this->registerArgument('keyReplacements', 'array', '', false, ['____' => ':']);
     }
 
     public static function renderStatic(
@@ -25,6 +26,10 @@ class RenderAttributesViewHelper extends AbstractViewHelper
             return $string;
         }
         foreach($attributes as $key => $value) {
+            if ($arguments['keyReplacements']) {
+                // replace keys (e.g. "data____foo" => "data:foo", since ":" is not allowed in fluid array keys)
+                $key = str_replace(array_keys($arguments['keyReplacements']), array_values($arguments['keyReplacements']), $key);
+            }
             $string .= $key.'="'.$value.'" ';
         }
         return $string;
