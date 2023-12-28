@@ -362,7 +362,7 @@ $columns['media_max_height'] = [
     ],
 ];
 $columns['menu_item_config'] = [
-    'label' => 'Menu item config',
+    'label' => 'Teaser content',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectMultipleSideBySide',
