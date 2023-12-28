@@ -8,12 +8,18 @@ use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
 
 class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
 {
-    const ROUTE_LIST_SEPARATOR = ".";
+
+    public function __construct(array $settings)
+    {
+        parent::__construct($settings);
+        $this->uidSeparator = $settings['uidSeparator'] ?? ',';
+        $this->slugSeparator = $settings['slugSeparator'] ?? '.';
+    }
 
     public function generate(string $value): ?string
     {
         $results = [];
-        foreach(explode(',',$value) as $val) {
+        foreach(explode($this->uidSeparator, $value) as $val) {
             $result = $this->resolveOverlay($this->findByIdentifier($val));
             if (isset($result[$this->routeFieldName])) {
                 $results[] = $result[$this->routeFieldName];
@@ -23,14 +29,14 @@ class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
             return null;
         }
         return $this->purgeRouteValuePrefix(
-            implode(self::ROUTE_LIST_SEPARATOR, $results)
+            implode($this->slugSeparator, $results)
         );
     }
     public function resolve(string $value): ?string
     {
         $results = [];
         $value = $this->routeValuePrefix . $this->purgeRouteValuePrefix($value);
-        foreach(explode(self::ROUTE_LIST_SEPARATOR, $value) as $val) {
+        foreach(explode($this->slugSeparator, $value) as $val) {
             $results[] = $this->findByRouteFieldValue($val);
         }
         foreach($results as $index=>$res) {
@@ -44,7 +50,7 @@ class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
         if (!$results[0]) {
             return null;
         }
-        return implode(',',$results);
+        return implode($this->uidSeparator, $results);
     }
 
     protected function findByIdentifier(string $value): ?array

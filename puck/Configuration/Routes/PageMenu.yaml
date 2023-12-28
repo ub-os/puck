@@ -64,7 +64,9 @@ routeEnhancers:
         type: PersistedAliasMapperOfCommaList
         tableName: sys_category
         routeFieldName: slug
+        slugSeparator: '.'
       demand/authors:
         type: PersistedAliasMapperOfCommaList
         tableName: tx_puck_domain_model_person
         routeFieldName: slug
+        slugSeparator: '.'
