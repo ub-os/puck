@@ -7,8 +7,8 @@
 
     <header class="{name}" id="header"
             data-controller="page-header"
-            data-page-header:scroll-tops="{f:format.json(value:{0:1,800:25})}"
-            data-scroll-sensitive:scroll-top="25">
+            data-scroll-sensitive:root-margin="-5px 0px 0px 0px"
+            data-scroll-sensitive:top-above-class="--stuck">
       <div class="{name}__background"></div>
       <div class="{name}__container">
         <f:link.typolink
@@ -48,11 +48,7 @@
           </f:comment>
           <element:navigation name="{name}__nav" class="" pages="{settings.navUid.main}"/>
         </div>
-
-        <div class="{name}__nav__backdrop"></div>
-        <div class="{name}__burger">
-          <module:header.burger />
-        </div>
+        <module:header.burger />
       </div>
     </header>
     <f:comment>

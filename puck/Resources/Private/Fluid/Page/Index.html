@@ -1,11 +1,12 @@
 
-<body class="body u-no-transition -layout-{object.backendLayout} "
-      id="body"
+<body id="body"
+      class="u-no-transition -layout-{object.backendLayout} "
       hx-ext="head-support"
       data-hx-boost="true"
       {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
-    <div data-controller="anchor-behavior scrollbar-width"
-         data-hx-boost-swap-target>
+    <div id="body__root"
+         data-hx-boost-swap-target
+         data-controller="anchor-behavior scrollbar-width">
         <!--TYPO3SEARCH_end-->
         <module:schema object="{object}" context="{context}"/>
         <module:header object="{object}" context="{context}"/>
@@ -18,3 +19,18 @@
             {contentElements.colPos9 -> f:format.raw()}
         </div>
     </div>
+
+<div data-core="fruit"
+     data-fruit:banana="true"
+
+     data-event="click->fruit"
+     data-fruit_:banana="true"
+     data-fruit_:event.once
+
+     data-action="click->bowl::fruit#body"
+     data-bowl::fruit:apple="true"
+     data-bowl::fruit:event.once
+
+     data-target="bowl.fruit#body"
+     data-bowl.fruit:apple="true"
+></div>

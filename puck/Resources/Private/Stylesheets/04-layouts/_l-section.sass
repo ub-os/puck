@@ -1,4 +1,3 @@
-
 .l-section
   $backgrounds: 'dark-1'
   $slanted-backgrounds: 'slant-dark-1'
@@ -48,7 +47,7 @@
 
   @each $bg in $backgrounds
     &:where(.-background-#{$bg})
-      &:where(.-bottom-auto) + &:where(.-top-auto)
+      &:where(.-bottom-auto) + &:where(.-top-auto),
       &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto)
         +spacing(top, m, margin, -1)
         padding-top: 0

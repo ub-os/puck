@@ -1,16 +1,16 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-menu"/>
-  <fc:param name="item" type="mixed" optional="1"/>
+  <fc:param name="page" type="mixed" optional="1"/>
   <fc:param name="config" type="array" optional="1" default="{}"/>
   <fc:param name="attributes" type="array" optional="1"/>
 
   <fc:renderer>
 
       <div class="{name}__teaser">
-        <f:if condition="{item.categories} && {config.categories}">
+        <f:if condition="{page.categories} && {config.categories}">
           <div class="{name}__categories">
-            <f:for each="{item.categories}" as="cat" iteration="i">
+            <f:for each="{page.categories}" as="cat" iteration="i">
               <span class="{name}__category">{cat.title}</span>
               <f:if condition="!{i.isLast}">
                 <span class="{name}__categories__divider">|</span>
@@ -18,32 +18,31 @@
             </f:for>
           </div>
         </f:if>
-        <f:if condition="{item.postDate} && {config.postDate}">
-          <time class="{name}__date" datetime="{item.postDate -> f:format.date(format: 'Y-m-d H:i:s')}">{item.postDate -> f:format.date(format: 'd.m.Y')}</time>
+        <f:if condition="{page.postDate} && {config.postDate}">
+          <time class="{name}__date" datetime="{page.postDate -> f:format.date(format: 'Y-m-d H:i:s')}">{page.postDate -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
-        <f:if condition="{item.lastUpdated} && {config.lastUpdated}">
-          <time class="{name}__date" datetime="{item.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{item.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
+        <f:if condition="{page.lastUpdated} && {config.lastUpdated}">
+          <time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{page.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
         </f:if>
-        <f:if condition="{item.icon} && {config.icon}">
-          <icon:svg icon="{item.icon}" class="{name}__icon"/>
+        <f:if condition="{page.icon} && {config.icon}">
+          <icon:svg icon="{page.icon}" class="{name}__icon"/>
         </f:if>
-        <a href="{f:uri.typolink(parameter: item.linkParameter)}"
+        <a href="{f:uri.typolink(parameter: page.linkParameter)}"
            class="{name}__headline"
-           target="{item.target}"
-           data-link-to-stop="1">
-          <f:format.raw>{item.teaserTitle}</f:format.raw>
+           target="{page.target}">
+          {page.teaserTitle -> f:format.raw()}
         </a>
-        <f:if condition="{item.subtitle} && {config.subtitle}">
+        <f:if condition="{page.subtitle} && {config.subtitle}">
           <div class="{name}__subtitle">
-            {item.subtitle}
+            {page.subtitle}
           </div>
         </f:if>
-        <f:if condition="{config.teaserText} && {item.teaserText}">
-          <div class="{name}__teaser-text"><f:format.raw>{item.teaserText -> f:format.crop(maxCharacters:300)}</f:format.raw></div>
+        <f:if condition="{config.teaserText} && {page.teaserText}">
+          <div class="{name}__teaser-text"><f:format.raw>{page.teaserText -> f:format.crop(maxCharacters:300)}</f:format.raw></div>
         </f:if>
-        <f:if condition="{item.author} && {config.author}">
+        <f:if condition="{page.author} && {config.author}">
           <div class="{name}__author">
-            {item.author}
+            {page.author}
           </div>
         </f:if>
         <f:if condition="{config.cta}">

@@ -7,13 +7,21 @@
     <layout:section
             class="{name}__wrap"
             object="{object}"
-            id="c{object.uid}">
-      <element:moduleHeader object="{object}"/>
+            id="c{object.uid}"
+            attributes="{
+            data-controller:'scroll-sensitive',
+            data-scroll-sensitive____root-margin: '-100px 0px 0px 0px'
+            }">
       <f:if condition="{object.anchors}">
         <ul class="{name}__list">
+          <f:if condition="{object.header}">
+            <li class="{name}__item">
+              <header class="{name}__header">{object.header}</header>
+            </li>
+          </f:if>
           <f:for each="{object.anchors}" as="anchor" iteration="i">
             <li class="{name}__item">
-              <a class="{name}__link" href="#{anchor.elementId}">{anchor.header}</a>
+              <a class="{name}__link" href="#{anchor.subheader}">{anchor.header}</a>
             </li>
           </f:for>
         </ul>

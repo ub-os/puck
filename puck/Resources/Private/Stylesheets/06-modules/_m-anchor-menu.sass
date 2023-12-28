@@ -1,7 +1,23 @@
 .m-anchor-menu
-  &__item
-    & + &
-      margin-top: 1em
+  &__wrap
+    position: sticky
+    top: 0
+    z-index: 2
+    background: var(--background)
+    transition: background .5s, top .4s
+    :where(.m-header.--stuck.--scroll-up) ~ .m-main &
+      top: var(--height-page-header)
+    &.--top-above-view
+      background: var(--background-modal)
+
+  &__list
+    +flex(row, center, flex-start, wrap)
+    padding-block: 1em
+    gap: .5em 1.5em
+
+  &__header
+    color: var(--color-headline)
+
   &__link
     color: var(--color-link)
     &:hover,

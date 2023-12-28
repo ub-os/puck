@@ -1,29 +1,21 @@
 .m-header
   &
-    position: absolute
+    position: sticky
     top: 0
-    left: 0
-    z-index: $z-index-modal
+    z-index: $z-index-modal - 1
     width: 100%
     height: var(--height-page-header)
+    margin-block: 2.5rem
     background: var(--background)
     border-bottom: 2px solid transparent
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
+    +media(sm)
+      margin-block: 1rem
 
-  [class*="-modal--active"] &,
-  [class*="-modal--deactivating"] &
-    padding-right: var(--scrollbar-width)
+  &.--stuck
+    background: var(--background-modal)
 
-  [class*="-modal--active"] &.--scroll
-    transform: translateY(-100%)
-  .--main-nav-modal--active &.--scroll
-    transform: none
-
-
-  &.--scroll
-    --height-page-header: #{$page-header-height--scroll}
-    position: fixed
-    top: 0
+  &:where(.--stuck)
     &.--scroll-up, &.--scroll-down
     transition: background .5s, transform .4s
     &.--scroll-down
@@ -57,23 +49,3 @@
     width: 5rem
     outline: none
 
-
-  &.--scroll &__logo
-
-  &__menu
-    padding-bottom: .5rem
-
-  &__background
-    position: absolute
-    z-index: -1
-    top: 0
-    left: 0
-    width: 100%
-    height: var(--height-page-header)
-    background: var(--background-modal)
-    opacity: 0
-    transition: opacity .35s, transform 0s .35s, border-color .35s
-
-  &.--scroll &__background
-    opacity: 1
-    transition: transform .35s, border-color .35s

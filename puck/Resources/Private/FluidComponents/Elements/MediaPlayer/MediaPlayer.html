@@ -23,13 +23,11 @@
         </u:var>
 
         <div class="{name}">
-            <div class="{name}__button"
-                 role="button"
-                 tabindex="0"
+            <button class="{name}__button"
                  data-action="click->toggle@modal#{id}-modal click->addPlayerEl@media-player#{id}"
                  aria-controls="{id}-modal"
                  aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
-            </div>
+            </button>
 
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">

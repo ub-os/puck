@@ -1,14 +1,9 @@
-
-$burger-width: 4rem
-$slice-distance: 1.1rem
-$slice-degree: 45deg
-
 .m-header__burger
   &
     +flex(column, space-between, center)
     z-index: $z-index-header-burger
     position: relative
-    width: $burger-width
+    width: 4rem
     height: 3rem
     padding: .5rem
     margin-right: -.5rem
@@ -33,31 +28,3 @@ $slice-degree: 45deg
     background: currentColor
     border-radius: 2px
     transition: transform .15s
-
-@keyframes burger-open-top
-  50%
-    transform: translate3d(0, $slice-distance, 0)
-  100%
-    transform: translate3d(0, $slice-distance, 0) rotate($slice-degree)
-
-@keyframes burger-open-bot
-  50%
-    transform: translate3d(0, -$slice-distance, 0)
-  100%
-    transform: translate3d(0, -$slice-distance, 0) rotate(-$slice-degree)
-
-@keyframes burger-close-top
-  0%
-    transform: translate3d(0, $slice-distance, 0) rotate($slice-degree)
-  50%
-    transform: translate3d(0, $slice-distance, 0) rotate(0deg)
-  100%
-    transform: translate3d(0, 0, 0)
-
-@keyframes burger-close-bot
-  0%
-    transform: translate3d(0, -$slice-distance, 0) rotate(-$slice-degree)
-  50%
-    transform: translate3d(0, -$slice-distance, 0) rotate(0deg)
-  100%
-    transform: translate3d(0, 0, 0)
