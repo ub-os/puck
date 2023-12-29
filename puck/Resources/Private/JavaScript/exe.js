@@ -18,6 +18,7 @@ const doc = document.documentElement
 
 const mountBody = () => {
     if (isMounted) return
+    Logger.console.log(`%capplication:mount`, "color:orange")
     App.connect()
     window.requestAnimationFrame(() => {
         document.body.classList.remove('u-no-transition')
@@ -29,6 +30,7 @@ const mountBody = () => {
 
 const clearBody = () => {
     if (!isMounted) return
+    Logger.console.log(`%capplication:clear`, "color:orange")
     App.disconnect()
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
@@ -39,15 +41,15 @@ const isBodyEvent = event => {
     return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-swap-target')
 }
 
-const logEvent = (event, eventTypeSuffix = '') => {
+const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
     Logger.console.log(`%c${event.type}${eventTypeSuffix}`, "color:lightgreen", event)
 }
 
 doc.addEventListener("htmx:beforeRequest", (event) => {
     if (isBodyEvent(event)) {
-        logEvent(event, ':body')
+        logHtmxLifecycleEvent(event, ':body')
     } else {
-        logEvent(event)
+        logHtmxLifecycleEvent(event)
     }
     const targetAnchor = event.detail.elt.closest('a')
     if (targetAnchor?.hash && targetAnchor.pathname === window.location.pathname) {
@@ -57,9 +59,9 @@ doc.addEventListener("htmx:beforeRequest", (event) => {
 })
 doc.addEventListener("htmx:beforeSwap", (event) => {
     if (isBodyEvent(event)) {
-        logEvent(event, ':body')
+        logHtmxLifecycleEvent(event, ':body')
     } else {
-        logEvent(event)
+        logHtmxLifecycleEvent(event)
     }
     if (event.target.hasAttribute('data-hx-target-scroll')) {
         scrollTo(event.target)
@@ -68,21 +70,21 @@ doc.addEventListener("htmx:beforeSwap", (event) => {
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
     if (isBodyEvent(event)) {
-        logEvent(event, ':body')
+        logHtmxLifecycleEvent(event, ':body')
         clearBody()
     } else {
-        logEvent(event)
+        logHtmxLifecycleEvent(event)
     }
 })
 doc.addEventListener("htmx:load", (event) => {
     if (isInitialLoad) {
         isInitialLoad = false
-        logEvent(event, ':initial')
+        logHtmxLifecycleEvent(event, ':initial')
         Logger.console.time('mount application')
         mountBody()
         Logger.console.timeEnd('mount application')
     } else if (isBodyEvent(event)) {
-        logEvent(event, ':body')
+        logHtmxLifecycleEvent(event, ':body')
         Logger.console.time('mount application')
         clearBody()
         window.requestAnimationFrame(() => {
@@ -90,14 +92,14 @@ doc.addEventListener("htmx:load", (event) => {
             Logger.console.timeEnd('mount application')
         })
     } else {
-        logEvent(event)
+        logHtmxLifecycleEvent(event)
     }
 })
 doc.addEventListener("htmx:beforeHistorySave", (event) => {
-    logEvent(event)
+    logHtmxLifecycleEvent(event)
 })
 doc.addEventListener("htmx:historyRestore", (event) => {
-    logEvent(event);
+    logHtmxLifecycleEvent(event);
     //$$('[data-render-excluded]').forEach(el => el.remove())
 })
 
