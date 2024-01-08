@@ -1,5 +1,4 @@
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js";
 import Controller from "~/Application/Controller.js";
 
 export default class Toggleable extends Controller {
@@ -146,7 +145,7 @@ export default class Toggleable extends Controller {
     })
     this.listeners.add(document.body, 'toggle-off-all', e => {
       if (e.defaultPrevented) return
-      this.toggleOff(e.detail.transition)
+      this.toggleOff(e.detail?.transition)
     })
     if (this.groupEl) {
       this.listeners.add(this.groupEl, 'toggle-group', event => {

@@ -1,4 +1,3 @@
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import { IntersectionManager } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller";
 

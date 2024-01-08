@@ -9,7 +9,7 @@ const sourcePath = './puck/Resources/Private/JavaScript/';
 const distPath = './puck/Resources/Public/JavaScript/dist/';
 const fileNames = [
     'puck',
-    'web-layout-remember-scroll-pos',
+    'puck-body'
 ];
 
 const args = process.argv.slice(2);

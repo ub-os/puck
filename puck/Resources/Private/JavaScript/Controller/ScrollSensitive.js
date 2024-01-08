@@ -1,5 +1,4 @@
 import { $, $$, jsx, $target } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import { IntersectionManager, ResizeManager } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller.js";
 

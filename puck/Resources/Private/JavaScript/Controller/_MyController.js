@@ -116,7 +116,7 @@ export default class MyController extends Controller {
 
     // add event listener to document.body
     // custom events can be dispatched on body with [data-event="event->my-event"] on any element
-    // similar to actions, the trigger event can be omitted, e.g. [data-event="my-event"], which is equivalent to [data-event="click->my-event"]
+    // similar to actions, the trigger event can be omitted, e.g. button[data-event="my-event"], which is equivalent to [data-event="click->my-event"]
     // by default, events are dispatched on the body, but can be overridden with [data-event="event->my-event#{element.id}"]
     this.myEventBusListener = this.listeners.add(document.body, 'my-event', event => {
       // event details can be set with [data-my-event_:my-detail="value"]

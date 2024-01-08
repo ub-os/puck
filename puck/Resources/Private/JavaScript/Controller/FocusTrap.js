@@ -1,5 +1,4 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import { MutationManager } from "~/Service/ObserverCollector";
 import Controller from "~/Application/Controller.js";
 

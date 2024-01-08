@@ -4,16 +4,22 @@ page.1 = TEXT
 
 ## css & js
 page.includeCSS {
-    main = {$cssProd}
+    puck = EXT:puck/Resources/Public/Css/dist/puck.min.css
 }
 page.includeJS {
-    app =  {$jsProd}
-    app.defer = 1
-    aap.async = 1
+    puck = EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
+    puck.defer = 1
+    puck.async = 1
+}
+page.includeJSFooter {
+    puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js
+    puck-body.defer = 1
+    puck-body.async = 1
 }
 [applicationContext == "Development"]
-    page.includeCSS.main = {$cssDev}
-    page.includeJS.app = {$jsDev}
+    page.includeCSS.puck = EXT:puck/Resources/Public/Css/dist/puck.css
+    page.includeJS.puck = EXT:puck/Resources/Public/JavaScript/dist/puck.js
+    page.includeJSFooter.puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.js
 [END]
 
 ## Meta

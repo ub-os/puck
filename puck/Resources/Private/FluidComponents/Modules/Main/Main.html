@@ -1,6 +1,5 @@
 <fc:component>
   <fc:param name="object" type="mixed"/>
-  <fc:param name="contentElements" type="string"/>
   <fc:param name="name" type="string" optional="1" default="m-main"/>
   <fc:renderer>
 
@@ -18,7 +17,7 @@
             }"/>
       </f:if>
 
-      {contentElements -> f:format.raw()}
+      <fc:slot name="content"/>
 
       <f:if condition="{object.doktype} == {settings.doktype.news} && {object.postAuthor}">
         <module:text

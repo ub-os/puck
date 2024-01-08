@@ -1,6 +1,5 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 import Controller from '~/Application/Controller.js'
-import ListenerCollector from '~/Service/ListenerCollector.js'
 
 export default class AnchorBehavior extends Controller {
     static attributes = {

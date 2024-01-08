@@ -35,8 +35,6 @@
     "createDist": "mkdir -p ${npm_package_config_path_dist}JavaScript/dist && mkdir -p ${npm_package_config_path_dist}Css/dist",
     "jshint": "jshint ${npm_package_config_path_src}JavaScript/**/*.js",
     "eslint": "eslint ${npm_package_config_path_src}JavaScript/**/*.js",
-    "browserify": "browserify -t [ babelify --presets [ @babel/preset-env ] ] -d ${npm_package_config_path_src}JavaScript/puck.js > ${npm_package_config_path_dist}JavaScript/dist/puck.js",
-    "uglify": "uglifyjs ${npm_package_config_path_dist}JavaScript/dist/puck.js --compress --mangle -o ${npm_package_config_path_dist}JavaScript/dist/puck.min.js",
     "autoprefixer": "postcss ${npm_package_config_path_dist}Css/dist/puck.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/dist/puck.css",
     "minifycss": "css-minify -d ${npm_package_config_path_dist}Css/dist -o ${npm_package_config_path_dist}Css/dist"
   },

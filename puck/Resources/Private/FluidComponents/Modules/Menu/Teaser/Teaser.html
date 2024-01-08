@@ -27,7 +27,7 @@
         <f:if condition="{page.icon} && {config.icon}">
           <icon:svg icon="{page.icon}" class="{name}__icon"/>
         </f:if>
-        <a href="{f:uri.typolink(parameter: page.linkParameter)}"
+        <a href="{f:uri.typolink(parameter: page.linkParameter, absolute:1)}"
            class="{name}__headline"
            target="{page.target}">
           {page.teaserTitle -> f:format.raw()}

@@ -5,26 +5,21 @@
      data-hx-boost="true"
      data-hx-boost-root
      data-controller="anchor-behavior scrollbar-width"
-     {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
+     data-logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
     <!--TYPO3SEARCH_end-->
     <module:schema object="{object}" context="{context}"/>
     <module:header object="{object}" context="{context}"/>
     <!--TYPO3SEARCH_begin-->
-    <module:main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
+    <module:main object="{object}">
+        {contentElements.colPos2 -> f:format.raw()}
+        {contentElements.colPos1 -> f:format.raw()}
+    </module:main>
     <!--TYPO3SEARCH_end-->
-    <module:footer object="{object}" contentElements="{contentElements.colPos3}"/>
+    <module:footer object="{object}">
+        {contentElements.colPos3 -> f:format.raw()}
+    </module:footer>
     <module:main.toTop/>
-    <div data-modal-container>
+    <div data-modal-container test="{settings.publicResources}">
         {contentElements.colPos9 -> f:format.raw()}
     </div>
-    <button class="button-primary"
-            data-event="keydown.shift+b->toggle-off-all"
-            data-toggle-off-all_:transition="false">
-        Close all toggleables
-    </button>
-    <button class="button-primary"
-            data-action="keydown.meta+b->modal::toggle#main-nav"
-            data-modal::toggle:transition="false">
-        Toggle main nav
-    </button>
 </div>

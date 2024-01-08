@@ -2,7 +2,6 @@ config.tx_fluidcomponents.settings {
     namespaces {
         ubos = UBOS\Puck\ViewHelpers
     }
-    publicResources = {$publicResources}
     search {
         pid = {$search.pid}
     }

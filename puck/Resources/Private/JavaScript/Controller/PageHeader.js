@@ -1,5 +1,4 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import ScrollSensitive from "~/Controller/ScrollSensitive";
 import Controller from "~/Application/Controller.js";
 

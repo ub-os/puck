@@ -1,18 +1,4 @@
 
-confDir = EXT:puck/Configuration
-resDir = EXT:puck/Resources
-
-cssDev = EXT:puck/Resources/Public/Css/dist/puck.css
-cssProd = EXT:puck/Resources/Public/Css/dist/puck.min.css
-
-jsDev =  EXT:puck/Resources/Public/JavaScript/dist/puck.js
-jsProd =  EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
-
-## Development state variable -  Set to 0 in Production!
-## when set to 0: cache enabled, minified assets are included and compressed
-
-publicResources = EXT:puck/Resources/Public
-
 doktype {
     start = 16501
     overview = 16502

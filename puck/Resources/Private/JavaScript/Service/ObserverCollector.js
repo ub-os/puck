@@ -92,20 +92,6 @@ class ObserverCollector {
             callbackId,
             obsName,
         }
-/*        if (!this.#elMap[elId]) {
-            this.#elMap[elId] = {
-                ids: [id],
-                callbackIds: [callbackId],
-                [ResizeObserver.name]: [],
-                [IntersectionObserver.name]: [],
-                [MutationObserver.name]: [],
-                [obsName]: [obsId]
-            }
-        } else {
-            this.#elMap[elId].ids.push(id)
-            this.#elMap[elId].callbackIds.push(callbackId)
-            this.#elMap[elId][obsName].push(obsId)
-        }*/
         let obs = this.#observers[obsName][obsId]
         if (!obs) {
             if (obsName === MutationObserver.name && opts.subtree) {

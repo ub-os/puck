@@ -2,7 +2,6 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-footer"/>
   <fc:param name="object" type="mixed"/>
-  <fc:param name="contentElements" type="string"/>
   <fc:renderer>
 
     <footer class="{name}">
@@ -16,7 +15,7 @@
         </element:navigation>
         <element:navigation name="{name}__nav" pages="{settings.navUid.social}" class="-social"  iconFromTitle="1"/>
       </layout:section>
-      {contentElements -> f:format.raw()}
+      <fc:slot name="content"/>
     </footer>
 
   </fc:renderer>

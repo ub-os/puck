@@ -1,7 +1,6 @@
 let Plyr = class {}
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import Controller from "~/Application/Controller.js";
 
 const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']

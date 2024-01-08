@@ -23,6 +23,7 @@ const mountBody = () => {
     window.requestAnimationFrame(() => {
         $id('root').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
+        document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
     })
     Logger.console.log(App)
     isMounted = true
@@ -31,9 +32,9 @@ const mountBody = () => {
 const clearBody = () => {
     if (!isMounted) return
     Logger.console.log(`%capplication:clear`, "color:orange")
-    App.disconnect()
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
+    App.disconnect()
     isMounted = false
 }
 
@@ -48,12 +49,11 @@ const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
 doc.addEventListener("htmx:beforeRequest", (event) => {
     if (isBodyEvent(event)) {
         logHtmxLifecycleEvent(event, ':body')
+        if ((new URL(event.detail.pathInfo.requestPath)).pathname === window.location.pathname) {
+            event.preventDefault()
+        }
     } else {
         logHtmxLifecycleEvent(event)
-    }
-    const targetAnchor = event.detail.elt.closest('a')
-    if (targetAnchor?.hash && targetAnchor.pathname === window.location.pathname) {
-        event.preventDefault()
     }
     //frameExitAnimation(event.target)
 })
@@ -102,21 +102,6 @@ doc.addEventListener("htmx:historyRestore", (event) => {
     logHtmxLifecycleEvent(event);
     //$$('[data-render-excluded]').forEach(el => el.remove())
 })
-
-/*  console.log('test action removal')
-    $$('[data-action]').forEach(el => {
-        const parent = el.parentNode
-        const before = el.nextSibling
-        // remove
-        el.remove()
-        // add back in
-        parent.insertBefore(el, before)
-    })*/
-
-
-
-
-
 
 const frameExitAnimation = (
     event,

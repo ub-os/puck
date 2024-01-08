@@ -1,6 +1,5 @@
 import Splide from '@splidejs/splide'
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import ListenerCollector from "~/Service/ListenerCollector.js"
 import Controller from "~/Application/Controller.js";
 
 export default class Carousel extends Controller {

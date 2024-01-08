@@ -12,7 +12,7 @@
 
         <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-action="click->toggleable::toggle#{id}"
+                    data-action="toggleable::toggle#{id}"
                     data-target="toggleable.toggle#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
