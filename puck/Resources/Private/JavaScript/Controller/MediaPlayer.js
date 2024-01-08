@@ -6,7 +6,7 @@ import Controller from "~/Application/Controller.js";
 
 const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
 export default class MediaPlayer extends Controller {
-    static props = {
+    static attributes = {
         provider: 'mp4',
         width: 1920,
         aspectRatio: 16 / 9,

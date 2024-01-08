@@ -1,36 +1,30 @@
 
-<body id="body"
-      class="u-no-transition -layout-{object.backendLayout} "
-      hx-ext="head-support"
-      data-hx-boost="true"
-      {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
-    <div id="body__root"
-         data-hx-boost-swap-target
-         data-controller="anchor-behavior scrollbar-width">
-        <!--TYPO3SEARCH_end-->
-        <module:schema object="{object}" context="{context}"/>
-        <module:header object="{object}" context="{context}"/>
-        <!--TYPO3SEARCH_begin-->
-        <module:main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
-        <!--TYPO3SEARCH_end-->
-        <module:footer object="{object}" contentElements="{contentElements.colPos3}"/>
-        <module:main.toTop/>
-        <div data-modal-container>
-            {contentElements.colPos9 -> f:format.raw()}
-        </div>
+<div id="root"
+     class="u-no-transition -layout-{object.backendLayout} "
+     data-hx-ext="head-support"
+     data-hx-boost="true"
+     data-hx-boost-root
+     data-controller="anchor-behavior scrollbar-width"
+     {f:if(condition:'{context.backendUser}',then:'data-logger-enabled')}>
+    <!--TYPO3SEARCH_end-->
+    <module:schema object="{object}" context="{context}"/>
+    <module:header object="{object}" context="{context}"/>
+    <!--TYPO3SEARCH_begin-->
+    <module:main object="{object}" contentElements="{contentElements.colPos2}{contentElements.colPos1}"/>
+    <!--TYPO3SEARCH_end-->
+    <module:footer object="{object}" contentElements="{contentElements.colPos3}"/>
+    <module:main.toTop/>
+    <div data-modal-container>
+        {contentElements.colPos9 -> f:format.raw()}
     </div>
-
-<div data-core="fruit"
-     data-fruit:banana="true"
-
-     data-event="click->fruit"
-     data-fruit_:banana="true"
-     data-fruit_:event.once
-
-     data-action="click->bowl::fruit#body"
-     data-bowl::fruit:apple="true"
-     data-bowl::fruit:event.once
-
-     data-target="bowl.fruit#body"
-     data-bowl.fruit:apple="true"
-></div>
+    <button class="button-primary"
+            data-event="keydown.shift+b->toggle-off-all"
+            data-toggle-off-all_:transition="false">
+        Close all toggleables
+    </button>
+    <button class="button-primary"
+            data-action="keydown.meta+b->modal::toggle#main-nav"
+            data-modal::toggle:transition="false">
+        Toggle main nav
+    </button>
+</div>

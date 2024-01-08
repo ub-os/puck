@@ -3,7 +3,7 @@ import Controller from '~/Application/Controller.js'
 import ListenerCollector from '~/Service/ListenerCollector.js'
 
 export default class AnchorBehavior extends Controller {
-    static props = {
+    static attributes = {
         scrollOffset: 0,
         scrollTopOnCurrentLink: true,
         localClass: '-local',

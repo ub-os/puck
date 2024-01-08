@@ -7,7 +7,7 @@ import Controller from "~/Application/Controller.js";
  * @property {ScrollSensitive} scrollSensitiveController
  */
 export default class PageHeader extends Controller {
-    static props = {
+    static attributes = {
         minScrollForHide: 100,
         downClass: '--scroll-down',
         upClass: '--scroll-up'

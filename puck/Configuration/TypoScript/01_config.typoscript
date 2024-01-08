@@ -39,7 +39,6 @@ Umsetzung in TYPO3: UNIBRAND OS
     no_cache = 0
     compressCss = 1
     compressJs = 1
-    disableBodyTag = 1
     showWebsiteTitle = 0
     pageTitleProviders {
         puck {

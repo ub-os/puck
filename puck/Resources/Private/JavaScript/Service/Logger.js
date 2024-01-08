@@ -17,4 +17,4 @@ export default class Logger {
         return this.enabled ? console : disabledConsole
     }
 }
-if (document.body.hasAttribute('data-logger-enabled')) Logger.enable()
+if (document.getElementById('root').hasAttribute('data-logger-enabled')) Logger.enable()

@@ -14,17 +14,28 @@ import FocusTrap from "~/Controller/FocusTrap"
 import ScrollReveal from '~/Controller/ScrollReveal'
 import ScrollSensitive from '~/Controller/ScrollSensitive'
 
-App.register('anchor-behavior', AnchorBehavior)
-App.register('scrollbar-width', ScrollbarWidth)
-App.register('toggleable', Toggleable)
-App.register('accordion', Accordion)
-App.register('modal', Modal)
-App.register('main-nav', MainNav)
-App.register('tab-panel', TabPanel)
-App.register('carousel', Carousel)
-App.register('layout-row', LayoutRow)
-App.register('page-header', PageHeader)
-App.register('media-player', MediaPlayer)
-App.register('scroll-reveal', ScrollReveal)
-App.register('scroll-sensitive', ScrollSensitive)
-App.register('focus-trap', FocusTrap)
+App.register({
+    'anchor-behavior': AnchorBehavior,
+    'scrollbar-width': ScrollbarWidth,
+    'toggleable': Toggleable,
+    'accordion': Accordion,
+    'modal': Modal,
+    'main-nav': MainNav,
+    'tab-panel': TabPanel,
+    'carousel': Carousel,
+    'layout-row': LayoutRow,
+    'page-header': PageHeader,
+    'media-player': MediaPlayer,
+    'scroll-reveal': ScrollReveal,
+    'scroll-sensitive': ScrollSensitive,
+    'focus-trap': FocusTrap,
+})
+
+App.registerEvent({
+    'toggle-off-all': {
+        bubbles: true,
+        detail: {
+            transition: true
+        }
+    },
+})

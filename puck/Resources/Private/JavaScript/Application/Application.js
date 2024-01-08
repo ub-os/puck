@@ -2,45 +2,45 @@ import { $, $$, $id, jsx } from "~/Utility/DomUtility"
 import {camelCase, kebabCase} from "~/Utility/StringUtility"
 import { ObserverCollector } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller"
-import AttributeConverter from "~/Application/AttributeConverter";
+import Action from "~/Application/Action"
+import Target from "~/Application/Target"
+import AttributeSyncer from "~/Application/AttributeSyncer.js";
+import StimEvent from "~/Application/Event.js";
 
 class Application {
-    #controllerIdx = 0
-    #targetIdx = 0
-    #actionIdx = 0
-    controllerRegister = {}
+    #idx = 0
+    controllerRegistry = {}
+    eventRegistry = {}
     services = {
         observerCollector: ObserverCollector.inst,
     }
     register(identifier, constructor) {
+        if (typeof identifier == 'object') {
+            Object.entries(identifier).forEach(([key, value]) => {
+                this.register(key, value)
+            })
+            return
+        }
         this.processController(identifier, constructor)
         constructor.registerCallback()
-        this.controllerRegister[identifier] = constructor
+        this.controllerRegistry[identifier] = constructor
+    }
+    registerEvent(eventType, options) {
+        if (typeof eventType == 'object') {
+            Object.entries(eventType).forEach(([key, value]) => {
+                this.registerEvent(key, value)
+            })
+            return
+        }
+        this.eventRegistry[eventType] = options
     }
     processController(identifier, constructor) {
-        constructor.writePropKey = {}
-        constructor.readPropKey = {}
         constructor.identifier = identifier
-        constructor.props = {
-            ...Controller.props,
-            ...constructor.props,
+        constructor.attributes = {
+            ...Controller.attributes,
+            ...constructor.attributes,
         }
-        constructor.__attributeConverter = new AttributeConverter(constructor.props)
-        constructor.writeProp = (propName, val) => constructor.__attributeConverter.write(propName, val)
-        constructor.readProp = (propName, val) => constructor.__attributeConverter.read(propName, val)
-        for (let prop in constructor.props) {
-            const attributeName = `data-${identifier}:${kebabCase(prop)}`
-            constructor.writePropKey[prop] = attributeName
-            constructor.readPropKey[attributeName] = prop
-            Object.defineProperty(constructor.prototype, prop, {
-                get() {
-                    return this[`#${prop}`]
-                },
-                set(val) {
-                    this.__setProp(prop, val, true)
-                }
-            })
-        }
+        constructor.attributeSyncer = new AttributeSyncer(identifier, constructor, constructor.attributes)
         const convertToObj = arr => {
             return arr.reduce((result, key) => {
                 if (typeof key !== 'string') {
@@ -61,6 +61,13 @@ class Application {
             constructor.actions = convertToObj(constructor.actions)
         }
         for (let target of Object.keys(constructor.targets)) {
+            const map = new Map()
+            Object.defineProperty(constructor.prototype, `${target}Targets`, {
+                get() {
+                    return map
+                }
+            })
+
             Object.defineProperty(constructor.prototype, `${target}Target`, {
                 get() {
                     return this[`${target}Targets`].values()?.next()?.value
@@ -70,7 +77,7 @@ class Application {
         for (let injectIdentifier of Object.keys(constructor.injects)) {
             Object.defineProperty(constructor.prototype, `${camelCase(injectIdentifier)}Controller`, {
                 get() {
-                    return this.el.controllerInstances.get(injectIdentifier)
+                    return this.el.stimControllers.get(injectIdentifier)
                 },
             })
         }
@@ -85,10 +92,14 @@ class Application {
     get actionElements() {
         return $$('[data-action]')
     }
+    get eventElements() {
+        return $$('[data-event]')
+    }
     connect() {
         this.controllerElements.forEach(el => this.connectControllerElement(el))
         this.targetElements.forEach(el => this.connectTargetElement(el))
         this.actionElements.forEach(el => this.connectActionElement(el))
+        this.eventElements.forEach(el => this.connectEventElement(el))
         this.domObserver.observe(document.body, { childList: true, subtree: true })
     }
 
@@ -97,13 +108,13 @@ class Application {
         this.domObserver.disconnect()
         this.controllerObserver.disconnect()
         this.actionObserver.disconnect()
-        this.targetElements.forEach(el => this.disconnectTargetElement(el))
+        this.eventObserver.disconnect()
+        this.eventElements.forEach(el => this.disconnectEventElement(el))
         this.actionElements.forEach(el => this.disconnectActionElement(el))
+        this.targetElements.forEach(el => this.disconnectTargetElement(el))
         this.controllerElements.forEach(el => this.disconnectControllerElement(el))
         this.services.observerCollector?.clear()
-        this.#controllerIdx = 0
-        this.#targetIdx = 0
-        this.#actionIdx = 0
+        this.#idx = 0
     }
 
     domObserver = new MutationObserver(mutations => {
@@ -114,6 +125,8 @@ class Application {
         mutations.forEach(mutation => {
             mutation.removedNodes.forEach(node => {
                 if (node.nodeType !== Node.ELEMENT_NODE) return
+                if (node.hasAttribute('data-event')) this.disconnectEventElement(node)
+                node.$$('[data-event]').forEach(child => this.disconnectEventElement(child))
                 if (node.hasAttribute('data-action')) this.disconnectActionElement(node)
                 node.$$('[data-action]').forEach(child => this.disconnectActionElement(child))
                 if (node.hasAttribute('data-target')) this.disconnectTargetElement(node)
@@ -129,64 +142,31 @@ class Application {
                 node.$$('[data-target]').forEach(child => this.connectTargetElement(child))
                 if (node.hasAttribute('data-action')) this.connectActionElement(node)
                 node.$$('[data-action]').forEach(child => this.connectActionElement(child))
+                if (node.hasAttribute('data-event')) this.connectEventElement(node)
+                node.$$('[data-event]').forEach(child => this.connectEventElement(child))
             })
         })
     }
 
     connectActionElement(el) {
         if (!el.id) {
-            el.id = `_action${this.#actionIdx++}`
+            el.id = `stim-el-${this.#idx++}`
         }
         el.dataset.action.split(' ').forEach(descriptor => {
-            const [
-                event,
-                method,
-                identifier,
-                id
-            ] = descriptor.split(/->|@|#/);
-            const controllerElement = id ? $id(id) : el.closest(`[data-controller]`)
-            const controller = controllerElement?.controllerInstances?.get(identifier)
-            if (!method || !controller || typeof controller[method] !== 'function') return
-            if (el.actionSettings?.[identifier]) {
-                console.log(`Action ${identifier} already connected to ${el.id}`)
-                return
-            }
-            !el.actionSettings ? el.actionSettings = {} : null
-            el.actionSettings[identifier] = {
-                event,
-                listenerOptions: {},
-            }
-            ;['capture', 'once', 'passive'].forEach(opt => {
-                const value = el.dataset[`${identifier}:event:${opt}`]
-                el.actionSettings[identifier].listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
-            })
-            const attributeConverter = new AttributeConverter(controller.constructor.actions?.[method] || {})
-            el.actionSettings[identifier].listener = e => {
-                if (!controller.__connected) return
-                el.hasAttribute(`data-${identifier}:event:prevent`) ? e.preventDefault() : null
-                el.hasAttribute(`data-${identifier}:event:stop`) ? e.stopPropagation() : null
-                e.actionElement = el
-                const params = attributeConverter.props
-                Object.entries({...el.dataset}).forEach(([key, value]) => {
-                    if (key.startsWith(`${identifier}:param:`)) {
-                        const propName = camelCase(key.replace(`${identifier}:param:`, ''))
-                        params[propName] = attributeConverter.read(propName, value)
-                    }
-                })
-                controller[method](e, params)
-            }
-            el.addEventListener(event, el.actionSettings[identifier].listener, el.actionSettings[identifier].listenerOptions)
+            new Action(el, descriptor)
+        })
+        if (!el.stimActions) return
+        el.stimActions.forEach(action => {
+            action.connect()
         })
         this.actionObserver.observe(el, { attributes: true, attributeOldValue: true })
     }
 
     disconnectActionElement(el) {
-        //console.log(`disconnecting action on #${el.id}`)
-        if (!el.actionSettings) return
-        Object.entries(el.actionSettings).forEach(([identifier, settings]) => {
-            el.removeEventListener(settings.event,settings.listener, settings.listenerOptions);
+        el.stimActions?.forEach(action => {
+            action.disconnect()
         })
-        delete el.actionSettings
+        el.stimActions = null
     }
 
     actionObserver = new MutationObserver(
@@ -201,105 +181,133 @@ class Application {
                 }
             })
             if (!hasEventModifier) return
-            Object.entries(target.actionSettings).forEach(([identifier, settings]) => {
-                target.removeEventListener(settings.event, settings.listener, settings.listenerOptions)
-                ;['capture', 'once', 'passive'].forEach(opt => {
-                    const value = target.dataset[`${identifier}:event:${opt}`]
-                    settings.listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
-                })
-                target.addEventListener(settings.event, settings.listener, settings.listenerOptions)
+            target['stimActions']?.forEach(action => {
+                action.disconnect()
+                action.setListenerOptions()
+                action.connect()
+            })
+        }
+    )
+
+    connectEventElement(el) {
+        if (!el.id) {
+            el.id = `stim-el-${this.#idx++}`
+        }
+        el.dataset.event.split(' ').forEach(descriptor => {
+            new StimEvent(el, descriptor, this.eventRegistry)
+        })
+        if (!el.stimEvents) return
+        el.stimEvents.forEach(event => {
+            event.connect()
+        })
+        this.eventObserver.observe(el, { attributes: true, attributeOldValue: true })
+    }
+
+    disconnectEventElement(el) {
+        el.stimEvents?.forEach(event => {
+            event.disconnect()
+        })
+        el.stimEvents = null
+    }
+
+    eventObserver = new MutationObserver(
+        mutations => {
+            const target = mutations[0].target
+            let hasEventModifier = false
+            mutations.forEach(mutation => {
+                if (mutation.attributeName.includes(`:event:`)) hasEventModifier = true
+                if (mutation.attributeName === `data-event`) {
+                    this.disconnectEventElement(target)
+                    this.connectEventElement(target)
+                }
+            })
+            if (!hasEventModifier) return
+            target['stimEvents']?.forEach(event => {
+                event.disconnect()
+                event.setListenerOptions()
+                event.connect()
             })
         }
     )
 
     connectTargetElement(el) {
         if (!el.id) {
-            el.id = `_target${this.#targetIdx++}`
+            el.id = `stim-el-${this.#idx++}`
         }
-        this.getTargetData(el).forEach(({ name, controller }) => {
-            //console.log(`connecting target on #${controller.el.id}`)
-            controller[`${name}Targets`].set(el.id, el)
-            if (typeof controller[`${name}Connected`] == 'function') {
-                controller[`${name}Connected`](el)
-            }
+        el.dataset.target.split(' ').forEach(descriptor => {
+            new Target(el, descriptor)
+        })
+        if (!el.stimTargets) return
+        el.stimTargets.forEach(action => {
+            action.connect()
         })
     }
 
     disconnectTargetElement(el) {
-        this.getTargetData(el).forEach(({ name, controller }) => {
-            controller[`${name}Targets`].delete(el.id)
-            if (typeof controller[`${name}Disconnected`] == 'function') {
-                controller[`${name}Disconnected`](el)
-            }
+        el.stimTargets?.forEach(target => {
+            target.disconnect()
         })
-    }
-
-    getTargetData(el) {
-        return el.dataset.target.split(' ').reduce((result, descriptor) => {
-            const [
-                name,
-                identifier,
-                id
-            ] = descriptor.split(/@|#/);
-            if (!name || !identifier ) return
-            const controllerElement = id ? $id(id) : el.closest(`[data-controller]`)
-            const controller = controllerElement?.controllerInstances?.get(identifier)
-            if (controller) result.push({ name, controller })
-            return result
-        }, [])
+        el.stimTargets = null
     }
 
     connectControllerElement(el) {
-        if (!el.controllerInstances) {
-            el.controllerInstances = new Map()
+        if (!el.stimControllers) {
             if (!el.id) {
-                el.id = `_controller${this.#controllerIdx++}`
+                el.id = `stim-el-${this.#idx++}`
             }
             el.dataset.controller?.split(' ').forEach(identifier => {
                 this.injectController(el, identifier)
             })
             this.controllerObserver.observe(el, { attributes: true, attributeOldValue: true })
         }
-        el.controllerInstances.forEach(controller => {
+        if (!el.stimControllers) return
+        el.stimControllers?.forEach(controller => {
             if (controller.__connected || controller.asleep) return
             controller.connect()
             controller.__connected = true
         })
     }
     disconnectControllerElement(el) {
-        el.controllerInstances?.forEach(controller => {
+        el.stimControllers?.forEach(controller => {
             if (!controller.__connected || controller.asleep) return
             controller.disconnect()
             controller.__connected = false
         })
-        delete el.controllerInstances
+        el.stimControllers = null
     }
 
-    injectController(el, identifier, props = {}) {
-        if (!this.controllerRegister[identifier]) {
+    injectController(el, identifier, attributes = {}) {
+        if (!this.controllerRegistry[identifier]) {
             console.warn(`Controller ${identifier} not found in register, skipping.`)
             return
         }
-        if (el.controllerInstances.has(identifier)) {
+        if (el.stimControllers?.has(identifier)) {
             console.warn(`Controller ${identifier} already used on this element, overriding.`)
         }
-        Object.entries(this.controllerRegister[identifier].injects).forEach(([injectIdentifier, injectProps]) => {
-            this.injectController(el, injectIdentifier, injectProps)
+        Object.entries(this.controllerRegistry[identifier].injects).forEach(([injectIdentifier, injectAttributes]) => {
+            this.injectController(el, injectIdentifier, injectAttributes)
         })
-        el.controllerInstances.set(identifier, new this.controllerRegister[identifier](el, props))
+        new this.controllerRegistry[identifier](el, attributes)
     }
 
     controllerObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
+            if (!mutation.attributeName.startsWith(`data-`)) return
             if (mutation.attributeName === 'data-controller') {
                 this.disconnectControllerElement(mutation.target)
                 this.connectControllerElement(mutation.target)
                 return
             }
-            if (!mutation.attributeName.startsWith(`data-`)) return
             const newVal = mutation.target.getAttribute(mutation.attributeName)
-            mutation.target.controllerInstances?.forEach(controller => {
-                controller.__attributeChanged(mutation.attributeName, mutation.oldValue, newVal)
+            mutation.target.stimControllers?.forEach(controller => {
+                if (mutation.attributeName == `data-${controller.identifier}-reconnect`) {
+                    window.requestAnimationFrame(() => {
+                        controller.disconnect()
+                        controller.connect()
+                        mutation.target.removeAttribute(`data-${controller.identifier}-reconnect`)
+                    })
+                }
+                controller.constructor.attributeSyncer.attributeChanged(controller, mutation.attributeName, mutation.oldValue, newVal)
             })
         })
     })

@@ -1,6 +1,6 @@
 import htmx from 'htmx.org'
 import smoothscroll from 'smoothscroll-polyfill'
-import { $, $$, jsx, scrollTo } from '~/Utility/DomUtility'
+import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import Logger from '~/Service/Logger'
 import App from '~/Application/Application'
 import '~/register'
@@ -21,7 +21,7 @@ const mountBody = () => {
     Logger.console.log(`%capplication:mount`, "color:orange")
     App.connect()
     window.requestAnimationFrame(() => {
-        document.body.classList.remove('u-no-transition')
+        $id('root').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
     })
     Logger.console.log(App)
@@ -38,7 +38,7 @@ const clearBody = () => {
 }
 
 const isBodyEvent = event => {
-    return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-swap-target')
+    return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-root')
 }
 
 const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {

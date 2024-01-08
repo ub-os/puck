@@ -5,7 +5,7 @@ import Controller from "~/Application/Controller.js";
 
 
 export default class ScrollSensitive extends Controller {
-  static props = {
+  static attributes = {
     topInsideClass: '--top-inside-view',
     topAboveClass: '--top-above-view',
     topBelowClass: '--top-below-view',

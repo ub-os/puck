@@ -7,8 +7,8 @@
     <div class="{name}" id="c{object.uid}">
       <button class="{name}__button"
               id="c{object.uid}-header"
-              data-action="click->toggle@accordion#c{object.uid}-collapse"
-              data-target="toggle@accordion#c{object.uid}-collapse">
+              data-action="click->accordion::toggle#c{object.uid}-collapse"
+              data-target="accordion.toggle#c{object.uid}-collapse">
         <span class="{name}__title">{object.header -> f:format.raw()}</span>
         <span class="{name}__icon"></span>
       </button>

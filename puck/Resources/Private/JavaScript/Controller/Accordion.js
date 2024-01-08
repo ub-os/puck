@@ -5,8 +5,8 @@ import Toggleable from "~/Controller/Toggleable"
  */
 export default class Accordion extends Toggleable {
     static displayName = 'Accordion'
-    static props = {
-        ...Toggleable.props,
+    static attributes = {
+        ...Toggleable.attributes,
         useMinHeight: false,
     }
     toggleConnected(el) {

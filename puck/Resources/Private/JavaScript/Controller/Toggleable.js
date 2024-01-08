@@ -11,7 +11,7 @@ export default class Toggleable extends Controller {
     groupToggle: new Event('toggle-group'),
   }
   static targets = ['toggle']
-  static props = {
+  static attributes = {
     active: false,
     groupId: '',
     duration: 0,
@@ -74,6 +74,7 @@ export default class Toggleable extends Controller {
     }
   }
   toggleOn(transition= true) {
+    if (this.active) return
     this.active = true
     this.setClass('add', this.activeClass)
     if (transition) this.transitionClass(this.activatingClass)
@@ -83,6 +84,7 @@ export default class Toggleable extends Controller {
     }
   }
   toggleOff(transition= true, changeUrlHash = true) {
+    if (!this.active) return
     this.active = false
     this.setClass('remove', this.activeClass)
     if (transition) this.transitionClass(this.deactivatingClass)
@@ -105,13 +107,12 @@ export default class Toggleable extends Controller {
   }
 
   toggle(event, { transition } = {}) {
-    if (this.active && (!this.switchToggles || (this.switchToggles && event.actionElement === this.lastUsedToggle))) {
+    if (this.active && (!this.switchToggles || (this.switchToggles && event.currentTarget === this.lastUsedToggle))) {
       this.el.dispatchEvent(Toggleable.events.toggleOff)
     } else {
       this.el.dispatchEvent(Toggleable.events.toggleOn)
     }
-    event.isToggleActionOn = this.el.id
-    this.lastUsedToggle = event.actionElement
+    this.lastUsedToggle = event.currentTarget
   }
 
   toggleConnected(el) {
@@ -143,6 +144,10 @@ export default class Toggleable extends Controller {
       if (e.defaultPrevented) return
       this.toggleOff()
     })
+    this.listeners.add(document.body, 'toggle-off-all', e => {
+      if (e.defaultPrevented) return
+      this.toggleOff(e.detail.transition)
+    })
     if (this.groupEl) {
       this.listeners.add(this.groupEl, 'toggle-group', event => {
         if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.el.id) {
@@ -155,7 +160,7 @@ export default class Toggleable extends Controller {
       this.listeners.add(document, 'click', event => {
         if (!this.active) return
         window.requestAnimationFrame(() => {
-          if (target.contains(event.target) || event.isToggleActionOn === this.el.id) return
+          if (target.contains(event.target) || event.actionTrigger?.controller?.el.id === this.el.id) return
           this.el.dispatchEvent(Toggleable.events.toggle)
         })
       })

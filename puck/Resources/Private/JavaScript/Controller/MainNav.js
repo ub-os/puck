@@ -1,14 +1,13 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import { ResizeManager } from "~/Service/ObserverCollector.js";
 import Controller from "~/Application/Controller"
-import Modal from "~/Controller/Modal"
 
 /**
  * @property {Modal} modalController
  */
 export default class MainNav extends Controller {
   static targets = ['toggle']
-  static props = {
+  static attributes = {
     breakpoint: 800,
     initClass: 'l-main-nav--init',
     modalClass: 'l-main-nav--modal',

@@ -12,7 +12,7 @@ class RenderAttributesViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         $this->registerArgument('attributes', 'array', '');
-        $this->registerArgument('keyReplacements', 'array', '', false, ['____' => ':']);
+        $this->registerArgument('keyReplacements', 'array', '', false, ['__' => ':']);
     }
 
     public static function renderStatic(

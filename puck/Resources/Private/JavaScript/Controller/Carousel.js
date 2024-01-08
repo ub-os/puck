@@ -4,7 +4,7 @@ import ListenerCollector from "~/Service/ListenerCollector.js"
 import Controller from "~/Application/Controller.js";
 
 export default class Carousel extends Controller {
-    static props = {
+    static attributes = {
         vertical: false,
         activeClass: '--active',
         splideOptions: {},
@@ -12,12 +12,12 @@ export default class Carousel extends Controller {
     static targets = ['control']
     controlConnected(el) {
         el.ariaControls = this.el.id
-        if (el.dataset['carousel:param:to'] == this.splide?.index) {
+        if (el.dataset['carousel::move:to'] == this.splide?.index) {
             el.classList.add(this.activeClass)
         }
     }
-    move(event) {
-        this.splide.go(parseInt(event.params.to))
+    move(event, { to }) {
+        this.splide.go(parseInt(to))
     }
     connect() {
         this.biggestSlideHeight = 0
@@ -31,7 +31,7 @@ export default class Carousel extends Controller {
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
             this.controlTargets.forEach(control => {
                 control.classList.remove(this.activeClass)
-                if (control.dataset['carousel:param:to'] == this.splide?.index) {
+                if (control.dataset['carousel::move:to'] == this.splide?.index) {
                     control.classList.add(this.activeClass)
                 }
             })

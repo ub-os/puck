@@ -8,7 +8,7 @@ export default class ScrollReveal extends Controller {
         removeScrollClass: new Event('remove-scroll-class'),
         scrollReveal: new Event('scroll-reveal'),
     }
-    static props = {
+    static attributes = {
         preset: 'slide-up',
         presetTranslate: 10,
         animation: null,

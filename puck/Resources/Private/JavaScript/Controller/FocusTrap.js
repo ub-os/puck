@@ -8,7 +8,7 @@ export default class FocusTrap extends Controller {
         focusablesChanged: new Event('focusables-changed'),
         updateFocusables: new Event('update-focusables')
     }
-    static props = {
+    static attributes = {
         active: false,
         updateFocusOn: 'event' // event, mutation
     }

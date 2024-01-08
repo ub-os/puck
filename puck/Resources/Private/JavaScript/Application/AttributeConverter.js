@@ -1,11 +1,12 @@
 import { jsonParse } from "~/Utility/StringUtility.js";
 
 export default class AttributeConverter {
-    constructor(props) {
-        this.props = props
+    attributes = {}
+    constructor(attributes) {
+        this.attributes = attributes
     }
-    write(propName, val) {
-        switch (typeof this.props[propName] ?? 'default') {
+    write(attrKey, val) {
+        switch (typeof this.attributes[attrKey] ?? 'default') {
             case 'boolean':
                 return val ? '' : 'false'
             case 'object':
@@ -16,8 +17,8 @@ export default class AttributeConverter {
                 return val.toString()
         }
     }
-    read(propName, val) {
-        switch (typeof this.props[propName] ?? 'default') {
+    read(attrKey, val) {
+        switch (typeof this.attributes[attrKey] ?? 'default') {
             case 'boolean':
                 return val !== '0' && val !== 'false'
             case 'object':

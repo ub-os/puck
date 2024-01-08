@@ -32,6 +32,8 @@ page.meta {
     og:description.field = description
 }
 
+page.bodyTagAdd = id="body"
+
 [traverse(page, "og_title")]
     page.meta.og:title.field = og_title
 [end]

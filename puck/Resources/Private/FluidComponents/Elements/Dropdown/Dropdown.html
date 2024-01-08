@@ -12,8 +12,8 @@
 
         <div class="{name} {puck:modClass(mods:'{showSelected:showSelectedOption}')}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-action="click->toggle@toggleable#{id}"
-                    data-target="toggle@toggleable#{id}">
+                    data-action="click->toggleable::toggle#{id}"
+                    data-target="toggleable.toggle#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>

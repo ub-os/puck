@@ -7,8 +7,8 @@ import FocusTrap from "~/Controller/FocusTrap"
  */
 export default class Modal extends Toggleable {
     static displayName = 'Modal'
-    static props = {
-        ...Toggleable.props,
+    static attributes = {
+        ...Toggleable.attributes,
         outClickOff: true,
         appendTo: '[data-modal-container]',
         backdropClass: 'l-modal__backdrop',

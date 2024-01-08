@@ -3,7 +3,7 @@ import { ResizeManager } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller"
 
 export default class ScrollbarWidth extends Controller {
-    static props = {
+    static attributes = {
         sensorId: 'scrollbar-width-sensor',
         updateOnResize: true,
     }
@@ -24,7 +24,7 @@ export default class ScrollbarWidth extends Controller {
                     <div></div>
                 </div>
             )
-            document.body.appendChild(this.sensorEl);
+            this.el.appendChild(this.sensorEl);
         }
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
