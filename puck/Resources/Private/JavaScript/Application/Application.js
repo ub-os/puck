@@ -1,23 +1,25 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import {camelCase, kebabCase} from "~/Utility/StringUtility"
+import { camelCase, kebabCase } from "~/Utility/StringUtility"
 import { ObserverCollector } from "~/Service/ObserverCollector"
 import Controller from "~/Application/Controller"
 import Action from "~/Application/Action"
 import Target from "~/Application/Target"
-import AttributeSyncer from "~/Application/AttributeSyncer.js";
-import StimEvent from "~/Application/Event.js";
+import AttributeSyncer from "~/Application/AttributeSyncer"
+import StimEvent from "~/Application/Event"
+import Logger from "~/Service/Logger"
 
 class Application {
     #idx = 0
     controllerRegistry = {}
     eventRegistry = {}
+    connectedCallbackRegistry = {}
     services = {
         observerCollector: ObserverCollector.inst,
     }
-    register(identifier, constructor) {
+    registerController(identifier, constructor) {
         if (typeof identifier == 'object') {
             Object.entries(identifier).forEach(([key, value]) => {
-                this.register(key, value)
+                this.registerController(kebabCase(key), value)
             })
             return
         }
@@ -33,6 +35,15 @@ class Application {
             return
         }
         this.eventRegistry[eventType] = options
+    }
+    registerConnectedCallback(selector, callback) {
+        if (typeof selector == 'object') {
+            Object.entries(selector).forEach(([key, value]) => {
+                this.registerConnectedCallback(key, value)
+            })
+            return
+        }
+        this.connectedCallbackRegistry[selector] = callback
     }
     processController(identifier, constructor) {
         constructor.identifier = identifier
@@ -67,7 +78,6 @@ class Application {
                     return map
                 }
             })
-
             Object.defineProperty(constructor.prototype, `${target}Target`, {
                 get() {
                     return this[`${target}Targets`].values()?.next()?.value
@@ -96,10 +106,7 @@ class Application {
         return $$('[data-event]')
     }
     connect() {
-        this.controllerElements.forEach(el => this.connectControllerElement(el))
-        this.targetElements.forEach(el => this.connectTargetElement(el))
-        this.actionElements.forEach(el => this.connectActionElement(el))
-        this.eventElements.forEach(el => this.connectEventElement(el))
+        this.connectNode(document.body)
         this.domObserver.observe(document.body, { childList: true, subtree: true })
     }
 
@@ -109,43 +116,50 @@ class Application {
         this.controllerObserver.disconnect()
         this.actionObserver.disconnect()
         this.eventObserver.disconnect()
-        this.eventElements.forEach(el => this.disconnectEventElement(el))
-        this.actionElements.forEach(el => this.disconnectActionElement(el))
-        this.targetElements.forEach(el => this.disconnectTargetElement(el))
-        this.controllerElements.forEach(el => this.disconnectControllerElement(el))
+        this.disconnectNode(document.body)
         this.services.observerCollector?.clear()
         this.#idx = 0
     }
 
     domObserver = new MutationObserver(mutations => {
-        this.elementConnectionHandler(mutations)
-    })
-
-    elementConnectionHandler(mutations) {
         mutations.forEach(mutation => {
             mutation.removedNodes.forEach(node => {
-                if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-event')) this.disconnectEventElement(node)
-                node.$$('[data-event]').forEach(child => this.disconnectEventElement(child))
-                if (node.hasAttribute('data-action')) this.disconnectActionElement(node)
-                node.$$('[data-action]').forEach(child => this.disconnectActionElement(child))
-                if (node.hasAttribute('data-target')) this.disconnectTargetElement(node)
-                node.$$('[data-target]').forEach(child => this.disconnectTargetElement(child))
-                if (node.hasAttribute('data-controller')) this.disconnectControllerElement(node)
-                node.$$('[data-controller]').forEach(child => this.disconnectControllerElement(child))
+                this.disconnectNode(node)
             })
             mutation.addedNodes.forEach(node => {
-                if (node.nodeType !== Node.ELEMENT_NODE) return
-                if (node.hasAttribute('data-controller')) this.connectControllerElement(node)
-                node.$$('[data-controller]').forEach(child => this.connectControllerElement(child))
-                if (node.hasAttribute('data-target')) this.connectTargetElement(node)
-                node.$$('[data-target]').forEach(child => this.connectTargetElement(child))
-                if (node.hasAttribute('data-action')) this.connectActionElement(node)
-                node.$$('[data-action]').forEach(child => this.connectActionElement(child))
-                if (node.hasAttribute('data-event')) this.connectEventElement(node)
-                node.$$('[data-event]').forEach(child => this.connectEventElement(child))
+                this.connectNode(node)
             })
         })
+    })
+
+    connectNode(node) {
+        if (node.nodeType !== Node.ELEMENT_NODE) return
+        for (let [selector, callback] of Object.entries(this.connectedCallbackRegistry)) {
+            if (node.matches(selector)) {
+                callback(node)
+            }
+            node.$$(selector).forEach(el => callback(el))
+        }
+        if (node.hasAttribute('data-controller')) this.connectControllerElement(node)
+        node.$$('[data-controller]').forEach(child => this.connectControllerElement(child))
+        if (node.hasAttribute('data-target')) this.connectTargetElement(node)
+        node.$$('[data-target]').forEach(child => this.connectTargetElement(child))
+        if (node.hasAttribute('data-action')) this.connectActionElement(node)
+        node.$$('[data-action]').forEach(child => this.connectActionElement(child))
+        if (node.hasAttribute('data-event')) this.connectEventElement(node)
+        node.$$('[data-event]').forEach(child => this.connectEventElement(child))
+    }
+
+    disconnectNode(node) {
+        if (node.nodeType !== Node.ELEMENT_NODE) return
+        if (node.hasAttribute('data-event')) this.disconnectEventElement(node)
+        node.$$('[data-event]').forEach(child => this.disconnectEventElement(child))
+        if (node.hasAttribute('data-action')) this.disconnectActionElement(node)
+        node.$$('[data-action]').forEach(child => this.disconnectActionElement(child))
+        if (node.hasAttribute('data-target')) this.disconnectTargetElement(node)
+        node.$$('[data-target]').forEach(child => this.disconnectTargetElement(child))
+        if (node.hasAttribute('data-controller')) this.disconnectControllerElement(node)
+        node.$$('[data-controller]').forEach(child => this.disconnectControllerElement(child))
     }
 
     connectActionElement(el) {

@@ -1,4 +1,4 @@
-import App from "~/Application/Application.js";
+import App from "~/Application/Application"
 import ScrollbarWidth from "~/Controller/ScrollbarWidth"
 import AnchorBehavior from "~/Controller/AnchorBehavior"
 import Toggleable from '~/Controller/Toggleable'
@@ -7,28 +7,27 @@ import Modal from "~/Controller/Modal"
 import MainNav from "~/Controller/MainNav.js"
 import TabPanel from '~/Controller/TabPanel'
 import Carousel from '~/Controller/Carousel'
-import LayoutRow from '~/Controller/LayoutRow'
 import PageHeader from "~/Controller/PageHeader"
 import MediaPlayer from "~/Controller/MediaPlayer"
 import FocusTrap from "~/Controller/FocusTrap"
 import ScrollReveal from '~/Controller/ScrollReveal'
 import ScrollSensitive from '~/Controller/ScrollSensitive'
 
-App.register({
-    'anchor-behavior': AnchorBehavior,
-    'scrollbar-width': ScrollbarWidth,
-    'toggleable': Toggleable,
-    'accordion': Accordion,
-    'modal': Modal,
-    'main-nav': MainNav,
-    'tab-panel': TabPanel,
-    'carousel': Carousel,
-    'layout-row': LayoutRow,
-    'page-header': PageHeader,
-    'media-player': MediaPlayer,
-    'scroll-reveal': ScrollReveal,
-    'scroll-sensitive': ScrollSensitive,
-    'focus-trap': FocusTrap,
+
+App.registerController({
+    AnchorBehavior,
+    ScrollbarWidth,
+    Toggleable,
+    Accordion,
+    Modal,
+    MainNav,
+    TabPanel,
+    Carousel,
+    PageHeader,
+    MediaPlayer,
+    ScrollReveal,
+    ScrollSensitive,
+    FocusTrap,
 })
 
 App.registerEvent({
@@ -38,4 +37,22 @@ App.registerEvent({
             transition: true
         }
     },
+})
+
+App.registerConnectedCallback({
+    '.l-row': (el) => {
+        if (el.children.length < 3) return
+        el.setAttribute('role', 'list')
+        el.childNodes.forEach( child => {
+            if (child.nodeType !== 1) return
+            child.setAttribute('role', 'listitem')
+        })
+    },
+    'a': (el) => {
+        if (el.hostname === window.location.hostname) {
+            el.classList.add('-local');
+        } else {
+            el.classList.add('-external');
+        }
+    }
 })

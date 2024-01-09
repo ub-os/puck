@@ -15,12 +15,13 @@ class StringViewHelper extends AbstractViewHelper
         $this->registerArgument('input', 'mixed', '', false, '');
         $this->registerArgument('bulk', 'bool', '', false, false);
         $this->registerArgument('contains', 'string', '', false);
+        $this->registerArgument('search', 'array', '', false);
         $this->registerArgument('replace', 'array', '', false);
         $this->registerArgument('dataReplace', 'array', '', false);
         $this->registerArgument('explode', 'string', '', false);
         $this->registerArgument('if', 'boolean', '', false);
         $this->registerArgument('set', 'string', '', false, '');
-        $this->registerArgument('operations', 'string', '', false, 'contains replace dataReplace explode');
+        $this->registerArgument('operations', 'string', '', false, 'contains search dataReplace explode');
     }
 
     public static function renderStatic(
@@ -74,14 +75,6 @@ class StringViewHelper extends AbstractViewHelper
             return str_replace($search, $args['replace'], $string);
         }
         return str_contains($string, $search);
-    }
-
-    protected static function replace(string $string, array $replace): string
-    {
-        foreach ($replace as $search => $replace) {
-            $string = str_replace($search, $replace, $string);
-        }
-        return $string;
     }
 
     protected static function dataReplace(string $string, array $dataReplace): string

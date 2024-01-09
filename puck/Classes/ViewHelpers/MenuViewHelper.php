@@ -1,5 +1,5 @@
 <?php
-namespace UBOS\Puck\ViewHelpers\Data;
+namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;

@@ -40,6 +40,16 @@ const jsx = (tag, props, ...children) => {
     return element
 }
 
+const delegateListener = (selector, type, callback) => {
+    document.addEventListener(type, (event) => {
+        const target = event.target.closest(selector)
+        if (target) {
+            event.delegateTarget = target
+            callback(event)
+        }
+    })
+}
+
 const noDragClick = (element, callbackFunc, delta = 6) => {
     let startX;
     let startY;

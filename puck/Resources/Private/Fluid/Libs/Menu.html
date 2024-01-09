@@ -10,13 +10,14 @@
                       </span>
                     </f:then>
                     <f:else>
-                        <f:variable name="mods"
-                                    value="{
-                                        active: item.active,
-                                        current: item.current,
-                                        has-subpages: item.hasSubpages}"/>
                         <f:link.typolink parameter="{item.data.uid}"
-                                         class="{data.name}__link {item.class} {mods -> puck:modClass()}"
+                                         class="{u:bem(block:data.name,
+                                         el:'link',
+                                         mod:{
+                                            active: item.active,
+                                            current: item.current,
+                                            has-subpages: item.hasSubpages}
+                                         )}"
                                          absolute="1"
                                          additionalAttributes="{aria-label: item.data.title}">
                             <f:if condition="{i.index} == 0 && {data.special} == 'rootline'">
@@ -37,12 +38,7 @@
                     <f:variable name="subName">{data.name}__sub</f:variable>
                     <ul class="{subName}__list">
                         <f:for each="{item.children}" as="item">
-                            <f:variable name="mods"
-                                        value="{
-                                        active: item.active,
-                                        current: item.current,
-                                        has-subpages: item.hasSubpages}"/>
-                            <li class="{subName}__item {mods -> puck:modClass()}">
+                            <li class="{subName}__item">
                                 <f:link.typolink
                                         parameter="{item.link}"
                                         absolute="1"

@@ -6,14 +6,11 @@
             <f:then>
                 <p><small>
                 <strong>
-                    Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.list_type)}" />
+                    Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{item.record.list_type -> u:string(search:'puck_',replace:'')}" />
                 </strong>
                 </small></p>
             </f:then>
             <f:else>
-<!--                <strong>-->
-<!--                    <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{puck:string.replace(search:'puck_',replace:'',subject:item.record.CType)}" />-->
-<!--                </strong>-->
             </f:else>
         </f:if>
 <!--        id:{item.record.uid}-->

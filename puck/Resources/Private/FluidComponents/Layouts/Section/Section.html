@@ -10,15 +10,15 @@
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
-    <f:variable name="mods"
-                value="{
-                    background: object.frameClass,
-                    layout: object.layout,
-                    top: top,
-                    bottom: bottom,
-                    no-h2-spacing: object.hasNoHeaderSpacing}"/>
-
-    <section class="{name} {class} {mods -> puck:modClass()}"
+    <section class="{u:bem(
+               raw:class,
+               mod:{
+                  background: object.frameClass,
+                  layout: object.layout,
+                  top: top,
+                  bottom: bottom,
+                  no-h2-spacing: object.hasNoHeaderSpacing}
+             )}"
              id="{id}"
              {attributes -> u:renderAttributes()}>
       <f:if condition="!{container}">

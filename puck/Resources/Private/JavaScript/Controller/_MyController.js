@@ -106,7 +106,7 @@ export default class MyController extends Controller {
     // add event listeners, listeners.add() returns listener id
     this.myListenerId = this.listeners.add(this.el, 'click', () => {})
     // or set listener id manually
-    this.listeners.addById('listener-id',  this.el, 'click', () => {})
+    this.listeners.addById('listener-id')(this.el, 'click', () => {})
 
     // remove event listeners by id
     this.listeners.remove(this.myListenerId)
@@ -174,7 +174,7 @@ export default class MyController extends Controller {
     // target element is available as el
     el.setAttribute('aria-label', 'this my target')
     // can be used to add event listeners, although the preferred method in most cases is to use actions
-    this.listeners.addById(`my-target-click-${el.id}`, el, 'click', () => {})
+    this.listeners.addById(`my-target-click-${el.id}`)(el, 'click', () => {})
   }
 
   // is triggered when a target is removed

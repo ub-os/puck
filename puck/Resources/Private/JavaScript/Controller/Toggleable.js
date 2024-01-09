@@ -176,7 +176,7 @@ export default class Toggleable extends Controller {
     }
     if (this.urlHashOn) {
       if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.el.dispatchEvent(Toggleable.events.toggleOn)
-      this.listeners.add(this.el, 'hash-link-clicked', event => {
+      this.listeners.add(this.el, 'hash-link-click', event => {
         this.lastUsedToggle = event.detail.linkElement
         this.el.dispatchEvent(Toggleable.events.toggleOn)
       })

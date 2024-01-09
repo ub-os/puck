@@ -24,8 +24,11 @@ class BemViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ): string
     {
-        $block = $arguments['block'] ?: $renderingContext->getVariableProvider()->get('block') ?: '';
-        return trim($block . '__' . $arguments['el'] . self::renderModifiers($arguments['mod']) . ' ' . $arguments['raw']);
+        $block = $arguments['block'] ?:
+            $renderingContext->getVariableProvider()->get('block') ?:
+                $renderingContext->getVariableProvider()->get('name') ?:
+                    '';
+        return trim($block . ($arguments['el'] ? '__' . $arguments['el'] : '') . self::renderModifiers($arguments['mod']) . ' ' . $arguments['raw']);
     }
 
     protected static function renderModifiers(array $modifiers): string

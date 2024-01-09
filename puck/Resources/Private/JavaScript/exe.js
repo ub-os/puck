@@ -3,7 +3,7 @@ import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import Logger from '~/Service/Logger'
 import App from '~/Application/Application'
-import '~/register'
+import '~/app.js'
 
 htmx.config.scrollBehavior = 'auto'
 htmx.config.defaultSwapStyle = 'outerHTML'
@@ -18,23 +18,25 @@ const doc = document.documentElement
 
 const mountBody = () => {
     if (isMounted) return
-    Logger.console.log(`%capplication:mount`, "color:orange")
     App.connect()
     window.requestAnimationFrame(() => {
         $id('root').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
         document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
     })
+    Logger.console.log(`%capplication:mount`, "color:orange")
     Logger.console.log(App)
     isMounted = true
 }
 
 const clearBody = () => {
     if (!isMounted) return
-    Logger.console.log(`%capplication:clear`, "color:orange")
+    Logger.console.time('body cleanup')
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
     App.disconnect()
+    Logger.console.log(`%capplication:clear`, "color:orange")
+    Logger.console.timeEnd('body cleanup')
     isMounted = false
 }
 

@@ -5,12 +5,10 @@
     z-index: $z-index-modal - 1
     width: 100%
     height: var(--height-page-header)
-    margin-block: 2.5rem
+    margin-block: var(--margin-block-page-header)
     background: var(--background)
     border-bottom: 2px solid transparent
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
-    +media(sm)
-      margin-block: 1rem
 
   &.--stuck
     background: var(--background-modal)
@@ -20,8 +18,6 @@
     transition: background .5s, transform .4s
     &.--scroll-down
       transform: translateY(-100%)
-    +media(sm)
-      --height-page-header: #{$page-header-height-mobile}
 
 
   &__container

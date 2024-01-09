@@ -13,7 +13,7 @@
     <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
     <f:if condition="{item.record.records}">
       <em>Shortcut to:</em>
-      <f:for each="{puck:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
+      <f:for each="{u:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
         <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
       </f:for>
     </f:if>
@@ -44,7 +44,7 @@
   <f:if condition="{group}">
     <em>{headline}:</em>
     <ul>
-      <f:for each="{puck:utility.backend.getRecords(table: table, uids: group)}" as="item">
+      <f:for each="{u:utility.backend.getRecords(table: table, uids: group)}" as="item">
         <li>
           {item.title}
         </li>

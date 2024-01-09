@@ -34,9 +34,12 @@
                                       label="{item.label}"
                                       buttonContent="{buttonContent -> f:format.raw()}">
                                   <f:for each="{item.children}" as="childItem">
-                                      <f:variable name="mods" value="{-active:childItemactive, disabled:childItem.hasNoPotential}"/>
                                           <a href="{childItem.url}"
-                                             class="e-dropdown__option {mods -> puck:modClass()}"
+                                             class="{u:bem(
+                                                block:'e-dropdown',
+                                                el:'option',
+                                                mod:{active:childItem.active, disabled:childItem.hasNoPotential}
+                                             )}"
                                              data-hx-get="{childItem.fetchLinkOptions.url}"
                                              data-hx-push-url="{childItem.url}">
                                               {childItem.label}
@@ -49,12 +52,18 @@
                           </f:then>
 
                           <f:else>
-                              <f:variable name="mods" value="{-active:item.active, disabled:item.hasNoPotential, icon: item.active}"/>
                               <a href="{item.url}"
-                                 class="{name}__link e-button {mods -> puck:modClass()}"
+                                 class="{u:bem(
+                                    el:'link',
+                                    raw:'e-button',
+                                    mod:{active:item.active, disabled:item.hasNoPotential, icon: item.active}
+                                 )}"
                                  data-hx-get="{item.fetchLinkOptions.url}"
                                  data-hx-push-url="{item.url}">
-                                  {item.label}<f:if condition="{item.active}"> <icon:char icon="xmark-regular" /></f:if>
+                                  {item.label}
+                                  <f:if condition="{item.active}">
+                                       <icon:char icon="xmark-regular" />
+                                  </f:if>
                               </a>
                           </f:else>
 

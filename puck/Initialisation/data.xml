@@ -1673,7 +1673,7 @@ At vero eos et accusam e...</title>
 				<rec index="12" type="array">
 					<uid>12</uid>
 					<pid>5</pid>
-					<title>Full-width media</title>
+					<title>Cover media</title>
 					<relations index="rels" type="array">
 						<element index="sys_file_reference:11" type="array">
 							<id>11</id>
@@ -1685,7 +1685,7 @@ At vero eos et accusam e...</title>
 				<rec index="11" type="array">
 					<uid>11</uid>
 					<pid>5</pid>
-					<title>Full-width media 50/50</title>
+					<title>Cover media 50/50</title>
 					<relations index="rels" type="array">
 						<element index="sys_file_reference:12" type="array">
 							<id>12</id>
@@ -9750,8 +9750,8 @@ At vero eos et accusam e...</title>
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_full_width_media</field>
-				<field index="header">Full-width media</field>
+				<field index="CType">puck_cover_media</field>
+				<field index="header">Cover media</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&amp;nbsp;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&lt;/p&gt;</field>
 				<field index="bullets_type" type="integer">0</field>
@@ -9855,8 +9855,8 @@ At vero eos et accusam e...</title>
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_full_width_media</field>
-				<field index="header">Full-width media 50/50</field>
+				<field index="CType">puck_cover_media</field>
+				<field index="header">Cover media 50/50</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&amp;nbsp;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&lt;/p&gt;</field>
 				<field index="bullets_type" type="integer">0</field>

@@ -11,16 +11,15 @@
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
-    <f:variable name="mods"
-                value="{
-                    layout: mediaLayout,
-                    media-size: mediaSize,
-                    media-width: mediaWidth}"/>
-    <f:if condition="!{cropVariantMobile}">
-      <f:variable name="cropVariantMobile" value="{cropVariant}" />
-    </f:if>
-    <div class="{name} {mods -> puck:modClass()} {class} {f:if(condition:media.0,then:'-media')}" {attributes -> u:renderAttributes()}>
-      <div class="{name}__content {mods -> puck:modClass()}">
+    {u:var(set:'cropVariantMobile', if:'{cropVariantMobile}', then:cropVariantMobile, else:cropVariant)}
+    {u:var(set:'bemMod', value: {
+      layout: mediaLayout,
+      media-size: mediaSize,
+      media-width: mediaWidth}
+    )}
+    <div class="{u:bem(mod:bemMod)} {class} {f:if(condition:media.0,then:'-media')}"
+         {attributes -> u:renderAttributes()}>
+      <div class="{u:bem(el:'content', mod:bemMod)}">
         <fc:slot name="content"/>
       </div>
       <f:if condition="{width} > 5 || !{width}">
@@ -28,13 +27,13 @@
           <f:variable name="calcWidth" value="{settings.gridWidth}"/>
         </f:then>
         <f:else>
-          <f:variable name="calcWidth" value="{puck:math.evaluate(expression:'{settings.gridWidth}/2')}"/>
+          <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/2')}"/>
         </f:else>
       </f:if>
       <f:if condition="{media}">
         <element:media
                 name="{name}"
-                class="{mods -> puck:modClass()}"
+                class="{u:bem(el:'figure', mod:bemMod)}"
                 file="{media.0}"
                 cropVariant="{cropVariant}"
                 width="{calcWidth}"

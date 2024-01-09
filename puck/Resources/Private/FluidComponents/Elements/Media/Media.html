@@ -17,7 +17,7 @@
   <fc:param name="showDesc" type="boolean" optional="1" default="0"/>
   <fc:renderer>
 
-    {u:var(if:'{file}', then:{0: file}, else:files, set:'files')}
+    {u:var(set:'files', if:'{file}', then:{0: file}, else:files)}
 
     <f:if condition="{files}">
       <f:for each="{files}" as="fileItem" iteration="i">

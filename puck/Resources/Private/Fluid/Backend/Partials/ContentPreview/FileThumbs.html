@@ -2,13 +2,13 @@
     <div class="thumb">
         <div  style="margin-top: 10px; margin-right: 10px">
             <f:format.raw>
-                <puck:utility.backend.thumbCode row="{row}" table="{table}" field="{field}"/>
+                <u:utility.backend.thumbCode row="{row}" table="{table}" field="{field}"/>
             </f:format.raw>
         </div>
     </div>
     <div class="media-desc" style="display: none">
         <f:for
-                each="{puck:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
+                each="{u:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
                 as="fileReference">
             {fileReference.description}<br>
         </f:for>

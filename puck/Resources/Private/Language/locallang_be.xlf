@@ -224,13 +224,13 @@
 			</trans-unit>
 
 
-			<trans-unit id="content.element.full_width_media" resname="content.element.full_width_media">
-				<source>Full-width media</source>
+			<trans-unit id="content.element.cover_media" resname="content.element.cover_media">
+				<source>Cover media</source>
 			</trans-unit>
-			<trans-unit id="wizard.full_width_media" resname="wizard.full_width_media">
-				<source>Full-width media</source>
+			<trans-unit id="wizard.cover_media" resname="wizard.cover_media">
+				<source>Cover media</source>
 			</trans-unit>
-			<trans-unit id="wizard.full_width_media.description" resname="wizard.full_width_media.description">
+			<trans-unit id="wizard.cover_media.description" resname="wizard.cover_media.description">
 				<source>Media element with 50% or 100% viewport width.</source>
 			</trans-unit>
 

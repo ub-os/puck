@@ -15,10 +15,6 @@
     <fc:param name="additionalAttributes" type="array" optional="1"/>
     <fc:renderer>
 
-        <f:if condition="{image.link}">
-            <f:variable name="href" value="{f:uri.typolink(parameter:image.link)}"/>
-            <f:variable name="additionalAttributes" value="{puck:array.merge(a:additionalAttributes,b:'{data-link-to:href}')}"/>
-        </f:if>
         <f:if condition="!{width}">
             <f:variable name="width" value="{settings.gridWidth}"/>
         </f:if>

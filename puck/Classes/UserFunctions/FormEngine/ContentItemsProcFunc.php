@@ -17,7 +17,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         'puck_media' => [
             'content_type' => 'assets,html'
         ],
-        'puck_full_width_media' => [
+        'puck_cover_media' => [
             'media_layout' => 'above,below,left,right'
         ],
         'puck_modal' => [
