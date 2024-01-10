@@ -1,6 +1,6 @@
-import { $, $$, $id, jsx } from "~/Utility/DomUtility"
+import { $, $$, $id, jsx } from "~/_Stim/Utility/DomUtility"
 import { ResizeManager } from "~/Service/ObserverCollector"
-import Controller from "~/Application/Controller"
+import Controller from "~/_Stim/Controller"
 
 export default class ScrollbarWidth extends Controller {
     static attributes = {

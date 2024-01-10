@@ -1,5 +1,4 @@
-import Controller from "~/Application/Controller.js";
-import {name} from "autoprefixer";
+import Controller from "~/_Stim/Controller"
 
 /**
  * @property {MyInject} myInjectController

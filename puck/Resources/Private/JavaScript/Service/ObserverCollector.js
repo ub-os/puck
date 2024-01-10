@@ -1,21 +1,21 @@
-import { $target } from "~/Utility/DomUtility"
+import { $target } from "~/_Stim/Utility/DomUtility"
 
 class ObserverCollector {
     static #instance = null;
-    static get inst() {
+    static get instance() {
         if (!ObserverCollector.#instance) {
             ObserverCollector.#instance = new ObserverCollector();
         }
         return ObserverCollector.#instance
     }
     static get resize() {
-        return ObserverCollector.inst.resize
+        return ObserverCollector.instance.resize
     }
     static get intersection() {
-        return ObserverCollector.inst.intersection
+        return ObserverCollector.instance.intersection
     }
     static get mutation() {
-        return ObserverCollector.inst.mutation
+        return ObserverCollector.instance.mutation
     }
     objectIdentifierString(obj){
         const sortedKeys = Object.keys(obj).sort()

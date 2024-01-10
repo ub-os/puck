@@ -12,9 +12,8 @@
       <f:else if="{pagination.items}">
         <ul class="{name}"
             id="{sectionId}-pagination"
-            data-hx-select="#{sectionId}-list"
-            data-hx-target="#{sectionId}-list"
-            data-hx-select-oob="#{sectionId}-filter,#{sectionId}-pagination">
+            data-hx-select="#{sectionId}-body"
+            data-hx-target="#{sectionId}-body">
           <f:if condition="{pagination.prev}">
             <module:menu.pagination.item item="{pagination.prev}"  sectionId="{sectionId}"/>
           </f:if>

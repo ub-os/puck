@@ -1,6 +1,6 @@
-import { $, $$, $id } from '~/Utility/DomUtility'
+import { $, $$, $id } from '~/_Stim/Utility/DomUtility'
 import { MutationManager } from "~/Service/ObserverCollector";
-import Controller from "~/Application/Controller.js";
+import Controller from "~/_Stim/Controller"
 
 export default class FocusTrap extends Controller {
     static events = {

@@ -1,6 +1,6 @@
-import { camelCase } from "~/Utility/StringUtility";
-import { $id } from "~/Utility/DomUtility.js";
-import AttributeConverter from "~/Application/AttributeConverter.js";
+import { camelCase } from "./Utility/StringUtility"
+import { $id } from "./Utility/DomUtility"
+import AttributeConverter from "./Service/AttributeConverter"
 
 export default class Event {
     /**

@@ -1,4 +1,4 @@
-import { jsonParse } from "~/Utility/StringUtility.js";
+import { jsonParse } from "../Utility/StringUtility"
 
 export default class AttributeConverter {
     attributes = {}

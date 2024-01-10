@@ -1,5 +1,5 @@
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import Controller from "~/Application/Controller";
+import Controller from "~/_Stim/Controller";
 
 export default class ScrollReveal extends Controller {
     static events = {

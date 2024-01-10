@@ -37,7 +37,7 @@
                                         <f:variable name="srcSet" value="{f:uri.image(
                                           image: image,
                                           width: source.width,
-                                          absolute: '1',
+                                          absolute: 1,
                                           cropVariant: source.cropVariant
                                         )}"/>
                                         <f:variable name="srcSetx2" value=""/>
@@ -45,7 +45,7 @@
                                             <f:variable name="srcSetx2" value=", {f:uri.image(
                                               image: image,
                                               width: '{source.width * 2}',
-                                                absolute: '1',
+                                              absolute: 1,
                                               cropVariant: source.cropVariant
                                              )}"/>
                                         </f:if>
@@ -77,7 +77,7 @@
                                 <f:image image="{image}"
                                          class="{name}__image {class}"
                                          width="{width}"
-                                         absolute="true"
+                                         absolute="1"
                                          cropVariant="{cropVariant}"
                                          title="{image.title}"
                                          alt="{image.alternative}"
@@ -88,7 +88,7 @@
                                 <f:image src="{src}"
                                          class="{name}__image {class}"
                                          width="{width}"
-                                         absolute="true"
+                                         absolute="1"
                                          title="{image.title}"
                                          alt="{image.alternative}"
                                          loading="{loading}"

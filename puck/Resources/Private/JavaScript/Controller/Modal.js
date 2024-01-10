@@ -1,4 +1,4 @@
-import { $, $$, jsx } from '~/Utility/DomUtility'
+import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
 import Toggleable from "~/Controller/Toggleable"
 import FocusTrap from "~/Controller/FocusTrap"
 

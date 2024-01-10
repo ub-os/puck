@@ -1,6 +1,6 @@
-import { $, $$, jsx } from '~/Utility/DomUtility'
-import { ResizeManager } from "~/Service/ObserverCollector.js";
-import Controller from "~/Application/Controller"
+import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
+import { ResizeManager } from "~/Service/ObserverCollector"
+import Controller from "~/_Stim/Controller"
 
 /**
  * @property {Modal} modalController

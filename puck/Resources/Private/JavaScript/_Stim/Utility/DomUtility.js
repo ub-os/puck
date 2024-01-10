@@ -1,5 +1,11 @@
-const $ = (selector) => document.querySelector(selector)
-const $$ = (selector) => document.querySelectorAll(selector)
+const $ = (arg1, arg2 = '') => {
+    if (arg2) return arg1.querySelector(arg2)
+    return document.querySelector(arg1)
+}
+const $$ = (arg1, arg2 = '') => {
+    if (arg2) return arg1.querySelectorAll(arg2)
+    return document.querySelectorAll(arg1)
+}
 const $id = (id) => document.getElementById(id)
 const $target = (target, objectName) => {
     if (target instanceof Element) return target
@@ -22,6 +28,7 @@ Element.prototype.$ = function(selector) {
 Element.prototype.$$ = function(selector) {
     return this.querySelectorAll(selector);
 };
+
 // jsx pragma method
 const jsx = (tag, props, ...children) => {
     const element = document.createElement(tag)
@@ -104,42 +111,6 @@ function $parents(target, parentSelector /* optional */) {
     return parents;
 }
 
-function getLineBreaks(node) {
-    // we only deal with TextNodes
-    if (!node || !node.parentNode || node.nodeType !== 3)
-        return [];
-    // our Range object form which we'll get the characters positions
-    const range = document.createRange();
-    // here we'll store all our lines
-    const lines = [];
-    // begin at the first char
-    range.setStart(node, 0);
-    // initial position
-    let prevBottom = range.getBoundingClientRect().bottom;
-    let str = node.textContent;
-    let current = 1; // we already got index 0
-    let lastFound = 0;
-    let bottom = 0;
-    // iterate over all characters
-    while (current <= str.length) {
-        // move our cursor
-        range.setStart(node, current);
-        if (current < str.length - 1)
-            range.setEnd(node, current + 1);
-        bottom = range.getBoundingClientRect().bottom;
-        if (bottom > prevBottom) { // line break
-            lines.push(
-                str.substring(lastFound, current - lastFound) // text content
-            );
-            prevBottom = bottom;
-            lastFound = current;
-        }
-        current++;
-    }
-    lines.push(str.substr(lastFound));
-    return lines;
-}
-
 export {
     $,
     $$,
@@ -149,5 +120,4 @@ export {
     jsx,
     noDragClick,
     scrollTo,
-    getLineBreaks
 }

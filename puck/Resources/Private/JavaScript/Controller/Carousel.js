@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide'
-import { $, $$, jsx } from '~/Utility/DomUtility'
-import Controller from "~/Application/Controller.js";
+import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
+import Controller from "~/_Stim/Controller"
 
 export default class Carousel extends Controller {
     static attributes = {

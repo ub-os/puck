@@ -1,7 +1,7 @@
 let Plyr = class {}
 //import Plyr from 'plyr'
-import { $, $$, jsx } from '~/Utility/DomUtility'
-import Controller from "~/Application/Controller.js";
+import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
+import Controller from "~/_Stim/Controller"
 
 const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
 export default class MediaPlayer extends Controller {

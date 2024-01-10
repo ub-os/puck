@@ -1,12 +1,15 @@
 import htmx from 'htmx.org'
 import smoothscroll from 'smoothscroll-polyfill'
-import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
+import { $, $$, $id, jsx, scrollTo } from '~/_Stim/Utility/DomUtility'
 import Logger from '~/Service/Logger'
-import App from '~/Application/Application'
+import { ObserverCollector } from '~/Service/ObserverCollector'
+import App from '~/_Stim/Application'
 import '~/app.js'
 
 htmx.config.scrollBehavior = 'auto'
 htmx.config.defaultSwapStyle = 'outerHTML'
+htmx.config.defaultSwapDelay = 0
+htmx.config.defaultSettleDelay = 0
 htmx.config.globalViewTransitions = true
 
 let isInitialLoad = true
@@ -35,6 +38,7 @@ const clearBody = () => {
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
     App.disconnect()
+    ObserverCollector.instance.clear()
     Logger.console.log(`%capplication:clear`, "color:orange")
     Logger.console.timeEnd('body cleanup')
     isMounted = false
@@ -68,6 +72,10 @@ doc.addEventListener("htmx:beforeSwap", (event) => {
     if (event.target.hasAttribute('data-hx-target-scroll')) {
         scrollTo(event.target)
     }
+    //frameEnterAnimation(event.target)
+})
+doc.addEventListener("htmx:oobBeforeSwap", (event) => {
+    logHtmxLifecycleEvent(event)
     //frameEnterAnimation(event.target)
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
@@ -128,13 +136,5 @@ const frameEnterAnimation = (
     } else {
         event.detail.resume()
         event.target.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease-in-out', fill: 'forwards' })
-    }
-}
-const frameViewTransition = (event) => {
-    if (document.startViewTransition) {
-        event.preventDefault();
-        document.startViewTransition(() => {
-            event.detail.resume();
-        });
     }
 }

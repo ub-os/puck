@@ -1,5 +1,5 @@
-import { $, $$, $id, $target } from '~/Utility/DomUtility'
-import Controller from "~/Application/Controller.js";
+import { $, $$, $id, $target } from '~/_Stim/Utility/DomUtility'
+import Controller from "~/_Stim/Controller"
 
 export default class Toggleable extends Controller {
   static displayName = 'Toggleable'

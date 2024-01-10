@@ -1,6 +1,6 @@
-import { $, $$, jsx } from '~/Utility/DomUtility'
+import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
 import ScrollSensitive from "~/Controller/ScrollSensitive";
-import Controller from "~/Application/Controller.js";
+import Controller from "~/_Stim/Controller"
 
 /**
  * @property {ScrollSensitive} scrollSensitiveController

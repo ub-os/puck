@@ -1,4 +1,4 @@
-import { $id } from "~/Utility/DomUtility.js";
+import { $id } from "./Utility/DomUtility"
 
 export default class Target {
     /**

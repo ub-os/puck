@@ -1,21 +1,16 @@
-import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import { camelCase, kebabCase } from "~/Utility/StringUtility"
-import { ObserverCollector } from "~/Service/ObserverCollector"
-import Controller from "~/Application/Controller"
-import Action from "~/Application/Action"
-import Target from "~/Application/Target"
-import AttributeSyncer from "~/Application/AttributeSyncer"
-import StimEvent from "~/Application/Event"
-import Logger from "~/Service/Logger"
+import { camelCase, kebabCase } from "./Utility/StringUtility"
+import { $$ } from "./Utility/DomUtility"
+import AttributeSyncer from "./Service/AttributeSyncer"
+import Controller from "./Controller"
+import Action from "./Action"
+import Target from "./Target"
+import StimEvent from "./Event"
 
 class Application {
     #idx = 0
     controllerRegistry = {}
     eventRegistry = {}
     connectedCallbackRegistry = {}
-    services = {
-        observerCollector: ObserverCollector.inst,
-    }
     registerController(identifier, constructor) {
         if (typeof identifier == 'object') {
             Object.entries(identifier).forEach(([key, value]) => {
@@ -117,7 +112,6 @@ class Application {
         this.actionObserver.disconnect()
         this.eventObserver.disconnect()
         this.disconnectNode(document.body)
-        this.services.observerCollector?.clear()
         this.#idx = 0
     }
 
@@ -325,10 +319,6 @@ class Application {
             })
         })
     })
-
-    clearObservers() {
-        this.services.observerCollector?.clear()
-    }
 }
 
 const App = new Application()

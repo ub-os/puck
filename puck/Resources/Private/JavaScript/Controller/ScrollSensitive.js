@@ -1,6 +1,6 @@
-import { $, $$, jsx, $target } from '~/Utility/DomUtility'
+import { $, $$, jsx, $target } from '~/_Stim/Utility/DomUtility'
 import { IntersectionManager, ResizeManager } from "~/Service/ObserverCollector"
-import Controller from "~/Application/Controller.js";
+import Controller from "~/_Stim/Controller"
 
 
 export default class ScrollSensitive extends Controller {

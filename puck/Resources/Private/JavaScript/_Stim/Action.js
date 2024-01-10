@@ -1,7 +1,7 @@
-import { camelCase } from "~/Utility/StringUtility";
-import { $id } from "~/Utility/DomUtility.js";
-import AttributeConverter from "~/Application/AttributeConverter.js";
-import StimEvent from "~/Application/Event.js";
+import { camelCase } from "./Utility/StringUtility"
+import { $id } from "./Utility/DomUtility"
+import AttributeConverter from "./Service/AttributeConverter"
+import StimEvent from "./Event"
 
 export default class Action extends StimEvent {
     initialize(el, descriptor, eventRegistry) {

@@ -1,5 +1,5 @@
-import { kebabCase, jsonParse } from "~/Utility/StringUtility";
-import ListenerCollector from "~/Service/ListenerCollector.js";
+import { kebabCase, jsonParse } from "./Utility/StringUtility"
+import ListenerCollector from "./Service/ListenerCollector"
 
 export default class Controller {
     static attributes = {

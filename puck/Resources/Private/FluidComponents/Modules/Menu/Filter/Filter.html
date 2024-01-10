@@ -8,10 +8,8 @@
       <f:if condition="{categoryFilter.items}">
           <div class="{name}"
                id="{sectionId}-filter"
-               data-hx-select="#{sectionId}-list"
-               data-hx-target="#{sectionId}-list"
-               data-hx-select-oob="#{sectionId}-filter,#{sectionId}-pagination"
-          >
+               data-hx-select="#{sectionId}-body"
+               data-hx-target="#{sectionId}-body">
               <ul class="{name}__list">
                   <f:for each="{categoryFilter.items}" as="item" iteration="i">
                       <li class="{name}__item">

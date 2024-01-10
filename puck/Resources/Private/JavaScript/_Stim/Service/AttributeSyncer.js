@@ -1,5 +1,5 @@
-import {jsonParse, kebabCase} from "~/Utility/StringUtility.js";
-import AttributeConverter from "~/Application/AttributeConverter.js";
+import { jsonParse, kebabCase } from "../Utility/StringUtility"
+import AttributeConverter from "./AttributeConverter"
 
 export default class AttributeSyncer {
     identifier = null

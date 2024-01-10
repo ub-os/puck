@@ -1,5 +1,5 @@
-import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
-import Controller from '~/Application/Controller.js'
+import { $, $$, $id, scrollTo } from '~/_Stim/Utility/DomUtility'
+import Controller from '~/_Stim/Controller.js'
 
 export default class AnchorBehavior extends Controller {
     static attributes = {
