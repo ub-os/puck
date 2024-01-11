@@ -8,11 +8,16 @@
 		overflow: hidden
 		padding-right: var(--scrollbar-width)
 
+#body
+	width: 100%
+	color: var(--color)
+	background: var(--background)
 
-// htmx transition classes
-.htmx-swapping
-	opacity: 0 !important
-	transition: opacity 0.1s ease-in-out !important
-.htmx-settling
-	opacity: 1 !important
-	transition: opacity 0.1s ease-in-out !important
+#root
+	+flex(column, flex-start, center)
+	+typo-basic
+	width: 100%
+	max-width: var(--width-page)
+	min-height: 100dvh
+	overflow-x: clip
+	margin-inline: auto
