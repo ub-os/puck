@@ -11,7 +11,7 @@
                 id="c{object.uid}">
             <layout:carousel class="{name}" id="c{object.uid}-splide"
                              trackOverflow="visible" pagination="1" arrows="0"
-                             options="{splideOptions:{type:'fade'}}">
+                             carouselAttributes="{splideOptions:{type:'fade'}}">
                 <f:for each="{children}" as="child">
                     {child.renderedContent -> f:format.raw()}
                 </f:for>

@@ -20,7 +20,7 @@
                            arrows="{object.flexForms.options.carousel.arrows}"
                            pagination="{object.flexForms.options.carousel.pagination}"
                            trackOverflow="{object.flexForms.options.carousel.trackOverflow}"
-                           options="{splideOptions: object.flexForms.options.splide}">
+                           carouselAttributes="{splideOptions: object.flexForms.options.splide}">
             <f:for each="{children}" as="child">
               <layout:row.item class="splide__slide {name}__item {f:if(condition:'{object.rowAlign} === \'stretch\'', then:'-stretch-content')}"
                                width="{child.container_width}">
