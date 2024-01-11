@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { createRequire } from 'module';
-import sassVars from 'get-sass-vars';
 
 const require = createRequire(import.meta.url);
 

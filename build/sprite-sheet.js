@@ -15,5 +15,5 @@ const sprites = svgstore();
 for (let ic of icons) {
     sprites.add(ic.replace('.svg', '').toLowerCase(), fs.readFileSync(iconPath+'/'+ic, 'utf8'));
 }
-fs.writeFileSync(distPath+'/'+storeName, sprites);
+fs.writeFileSync(distPath+'/'+storeName, sprites.toString());
 

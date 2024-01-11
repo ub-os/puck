@@ -6,18 +6,28 @@ import { ObserverCollector } from '~/Service/ObserverCollector'
 import App from '~/_Stim/Application'
 import '~/app.js'
 
+smoothscroll.polyfill()
+
+window.htmx = htmx
 htmx.config.scrollBehavior = 'auto'
 htmx.config.defaultSwapStyle = 'outerHTML'
 htmx.config.defaultSwapDelay = 0
 htmx.config.defaultSettleDelay = 0
 htmx.config.globalViewTransitions = true
 
+const doc = document.documentElement
 let isInitialLoad = true
 let isMounted = false
 
-smoothscroll.polyfill()
+// fix for htmx initializing on DOMContentLoaded or if document.readyState is 'complete'
+// because in this setup DOMContentLoaded is usually fired BEFORE readyState is 'complete'
+let domContentLoaded = document.readyState === 'complete'
+document.addEventListener('DOMContentLoaded', () => domContentLoaded = true)
+document.addEventListener('readystatechange', e => {
+    if (domContentLoaded || document.readyState !== 'complete') return
+    document.dispatchEvent(new Event('DOMContentLoaded'))
+})
 
-const doc = document.documentElement
 
 const mountBody = () => {
     if (isMounted) return
@@ -47,21 +57,20 @@ const clearBody = () => {
 const isBodyEvent = event => {
     return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-root')
 }
-
 const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
     Logger.console.log(`%c${event.type}${eventTypeSuffix}`, "color:lightgreen", event)
 }
 
 doc.addEventListener("htmx:beforeRequest", (event) => {
     if (isBodyEvent(event)) {
-        logHtmxLifecycleEvent(event, ':body')
-        if ((new URL(event.detail.pathInfo.requestPath)).pathname === window.location.pathname) {
+        if (event.detail.pathInfo.requestPath === window.location.href) {
             event.preventDefault()
+            return
         }
+        logHtmxLifecycleEvent(event, ':body')
     } else {
         logHtmxLifecycleEvent(event)
     }
-    //frameExitAnimation(event.target)
 })
 doc.addEventListener("htmx:beforeSwap", (event) => {
     if (isBodyEvent(event)) {
@@ -72,15 +81,14 @@ doc.addEventListener("htmx:beforeSwap", (event) => {
     if (event.target.hasAttribute('data-hx-target-scroll')) {
         scrollTo(event.target)
     }
-    //frameEnterAnimation(event.target)
 })
 doc.addEventListener("htmx:oobBeforeSwap", (event) => {
     logHtmxLifecycleEvent(event)
-    //frameEnterAnimation(event.target)
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
     if (isBodyEvent(event)) {
-        logHtmxLifecycleEvent(event, ':body')
+
+
         clearBody()
     } else {
         logHtmxLifecycleEvent(event)
@@ -110,31 +118,4 @@ doc.addEventListener("htmx:beforeHistorySave", (event) => {
 })
 doc.addEventListener("htmx:historyRestore", (event) => {
     logHtmxLifecycleEvent(event);
-    //$$('[data-render-excluded]').forEach(el => el.remove())
 })
-
-const frameExitAnimation = (
-    event,
-    keyframes = [{ opacity: 1 }, { opacity: 0 }],
-    timing = { duration: 200, easing: 'ease-in-out', fill: 'forwards' }
-) => {
-    event.target.turboFrameAnimation = event.target.animate(keyframes, timing)
-}
-
-const frameEnterAnimation = (
-    event,
-    keyframes = [{ opacity: 0 }, { opacity: 1 }],
-    timing = { duration: 200, easing: 'ease-in-out', fill: 'forwards' }
-) => {
-    event.preventDefault();
-    if (event.target.turboFrameAnimation) {
-        event.target.turboFrameAnimation.finished.then(() => {
-            event.detail.resume()
-            event.target.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease-in-out', fill: 'forwards' })
-            event.target.turboFrameAnimation = null
-        })
-    } else {
-        event.detail.resume()
-        event.target.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease-in-out', fill: 'forwards' })
-    }
-}

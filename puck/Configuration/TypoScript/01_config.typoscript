@@ -2,11 +2,7 @@ typeNum = 0
 config {
 
     headerComment (
-===========================================================================================
-COPYRIGHT 2022
-Umsetzung in TYPO3: UNIBRAND OS
-===========================================================================================
-     )
+    )
     disableImgBorderAttr = 1
     pageTitleFirst = 1
     pageTitleSeparator = -

@@ -8,7 +8,7 @@ export default class AnchorBehavior extends Controller {
     }
 
     isCurrentLink(el) {
-        return !el.hash && (el.href === window.location.href || el.href === window.location.pathname || el.to === window.location.href || el.to === window.location.pathname)
+        return !el.hash && (el.href === window.location.href || el.href === window.location.pathname)
     }
 
     isCurrentHashLink(el) {
