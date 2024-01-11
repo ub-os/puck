@@ -247,7 +247,6 @@ class ObserverCollector {
     }
 
     clear() {
-        console.log('clearing observer collector')
         this.disconnect()
         this.#idx = 0
         this.#elIdx = 0

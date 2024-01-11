@@ -63,7 +63,8 @@ const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
 
 doc.addEventListener("htmx:beforeRequest", (event) => {
     if (isBodyEvent(event)) {
-        if (event.detail.pathInfo.requestPath === window.location.href) {
+        const requestUrl = new URL(event.detail.pathInfo.requestPath)
+        if (requestUrl.href === window.location.href + requestUrl.hash.split('?')[0]) {
             event.preventDefault()
             return
         }
