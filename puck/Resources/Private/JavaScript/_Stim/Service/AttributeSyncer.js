@@ -4,16 +4,19 @@ import AttributeConverter from "./AttributeConverter"
 export default class AttributeSyncer {
     identifier = null
     attributes = {}
-
+    attributeKeyMap = {}
+    convertKey = attrKey => {
+        return `data-${this.identifier}:${kebabCase(attrKey)}`
+    }
     constructor(identifier, constructor, attributes = {}) {
         this.identifier = identifier
         this.attributes = attributes
         this.converter = new AttributeConverter(attributes)
-        this.attributeKeyMap = {}
         Object.keys(attributes).forEach(attrKey => {
-            const dataAttr = `data-${identifier}:${kebabCase(attrKey)}`
-            this.attributeKeyMap[attrKey] = dataAttr
-            this.attributeKeyMap[dataAttr] = attrKey
+            if (!this.attributeKeyMap[attrKey]) {
+                this.attributeKeyMap[attrKey] = this.convertKey(attrKey)
+            }
+            this.attributeKeyMap[this.attributeKeyMap[attrKey]] = attrKey
             Object.defineProperty(constructor.prototype, attrKey, {
                 get() {
                     return this[`#${attrKey}`]

@@ -36,7 +36,7 @@ export default class MediaPlayer extends Controller {
         }
         this.el.append(this.playerEl)
         this.loaded = true
-        this.el.dispatchEvent(new Event('update-focusables', {bubbles: true}))
+        this.dispatch('update-focusables', {bubbles: true})
         if (this.usePlyr) {
             let plyrOptions = this.plyrOptions
             if (this.controls) {

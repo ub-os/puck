@@ -13,6 +13,14 @@ function extendClass(base, extension, exclude = ['length'], protoExclude = []) {
     return base
 }
 
+function mixClass(options, ...classes) {
+    const base = class {}
+    classes.forEach(extension => {
+        extendClass(base, extension, options.exclude ?? ['length'], options.protoExclude ?? [])
+    })
+    return base
+}
+
 function getAllPropertyNames(obj) {
     const names = Object.getOwnPropertyNames(obj)
     while (Object.getPrototypeOf(obj) && Object.getPrototypeOf(obj).name !== '' && Object.getPrototypeOf(obj).constructor.name !== 'Object') {
@@ -33,6 +41,7 @@ function throttle(f, delay) {
 
 export {
     extendClass,
+    mixClass,
     getAllPropertyNames,
     throttle
 }

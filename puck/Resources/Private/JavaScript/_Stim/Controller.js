@@ -32,8 +32,8 @@ export default class Controller {
         this.__initialized = true
     }
 
-    dispatch(type, detail = {}) {
-        this.el.dispatchEvent(new CustomEvent(`${this.identifier}:${type}`, { detail }))
+    dispatch(type, options = {}) {
+        this.el.dispatchEvent(new CustomEvent(type, options))
     }
 
     asleepChanged(oldVal, newVal) {

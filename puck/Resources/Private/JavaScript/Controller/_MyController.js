@@ -29,10 +29,10 @@ export default class MyController extends Controller {
   ]
 
   static injects = [
-      // injects another controller on this.el
-      // controller available as this.myInjectController
-      // injected controllers work like normal controllers
-      'my-inject'
+    // injects another controller on this.el
+    // controller available as this.myInjectController
+    // injected controllers work like normal controllers
+    'my-inject'
   ]
 
   // alternatively, injects can be defined as object
@@ -163,7 +163,7 @@ export default class MyController extends Controller {
     console.log(`myAttr changed from ${oldValue} to ${newValue}`)
   }
 
-  // is triggered when an attribute on the element is changed that does not correspond to a prop
+  // is triggered when an attribute on the element is changed that does not correspond to a controller attribute
   attributeChanged(name, oldValue, newValue) {
     console.log({ name, oldValue, newValue })
   }

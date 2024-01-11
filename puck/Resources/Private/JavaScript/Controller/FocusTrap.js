@@ -3,10 +3,6 @@ import { MutationManager } from "~/Service/ObserverCollector";
 import Controller from "~/_Stim/Controller"
 
 export default class FocusTrap extends Controller {
-    static events = {
-        focusablesChanged: new Event('focusables-changed'),
-        updateFocusables: new Event('update-focusables')
-    }
     static attributes = {
         active: false,
         updateFocusOn: 'event' // event, mutation
@@ -38,7 +34,7 @@ export default class FocusTrap extends Controller {
             MutationManager.addById('focus-trap-' + this.el.id, this.el, (mutations, observer) => {
                 window.requestAnimationFrame(() => {
                     this.updateFocusables()
-                    this.el.dispatchEvent(this.constructor.events.focusablesChanged)
+                    this.dispatch('focusables-changed')
                 })
             }, { childList: true, subtree: true, attributes: true })
         }
@@ -46,7 +42,7 @@ export default class FocusTrap extends Controller {
         if (this.updateFocusOn === 'event') {
             this.listeners.add(this.el, 'update-focusables', event => {
                 this.updateFocusables()
-                this.el.dispatchEvent(this.constructor.events.focusablesChanged)
+                this.dispatch('focusables-changed')
             })
         }
         

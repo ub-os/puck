@@ -2,11 +2,6 @@ import { IntersectionManager } from "~/Service/ObserverCollector"
 import Controller from "~/_Stim/Controller";
 
 export default class ScrollReveal extends Controller {
-    static events = {
-        addScrollClass: new Event('add-scroll-class'),
-        removeScrollClass: new Event('remove-scroll-class'),
-        scrollReveal: new Event('scroll-reveal'),
-    }
     static attributes = {
         preset: 'slide-up',
         presetTranslate: 10,
@@ -77,7 +72,7 @@ export default class ScrollReveal extends Controller {
                 this.el,
                 (entry, observer) => {
                     if (entry.isIntersecting) {
-                        entry.target.dispatchEvent(this.constructor.events.scrollReveal)
+                        entry.target.dispatchEvent(new Event('scroll-reveal'))
                         IntersectionManager.remove('scroll-reveal-' + this.el.id)
                     }
                 },

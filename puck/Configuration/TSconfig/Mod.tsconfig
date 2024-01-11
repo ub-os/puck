@@ -43,10 +43,25 @@ mod.web_layout.BackendLayouts {
             }
         }
     }
+    folder {
+        title = Folder
+        config.backend_layout {
+            rows {
+                1 {
+                    columns {
+                        1 {
+                            name = Folder
+                            colPos = 1
+                            colSpan = 8
+                        }
+                    }
+                }
+            }
+        }
+    }
     detail-plugin {
         title = Plugin detail page
         config.backend_layout {
-            doktype = {$doktype.detailPlugin}
             colCount = 8
             rows {
                 1 {
@@ -68,6 +83,7 @@ mod.web_layout.BackendLayouts {
 TCEFORM.pages.backend_layout.itemsProcFunc.doktypes {
     // only allow backendLayout "default" on pages with doktype 1
     1 = default
+    254 = folder
     16503 = default
     16511 = detail-plugin
 }

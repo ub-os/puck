@@ -4,10 +4,9 @@ import Controller from "~/_Stim/Controller"
 export default class Toggleable extends Controller {
   static displayName = 'Toggleable'
   static events = {
-    toggle: new Event('toggle'),
-    toggleOn: new Event('toggle-on'),
-    toggleOff: new Event('toggle-off'),
-    groupToggle: new Event('toggle-group'),
+    toggleOn: 'toggle-on',
+    toggleOff: 'toggle-off',
+    toggleGroup: 'toggle-group',
   }
   static targets = ['toggle']
   static attributes = {
@@ -78,8 +77,11 @@ export default class Toggleable extends Controller {
     this.setClass('add', this.activeClass)
     if (transition) this.transitionClass(this.activatingClass)
     if (this.groupEl) {
-      Toggleable.events.groupToggle.activeId = this.el.id
-      this.groupEl.dispatchEvent(Toggleable.events.groupToggle)
+      this.groupEl.dispatchEvent(
+          new CustomEvent(
+              Toggleable.events.toggleGroup,
+              { detail: {activeId: this.el.id} }
+          ))
     }
   }
   toggleOff(transition= true, changeUrlHash = true) {
@@ -107,9 +109,9 @@ export default class Toggleable extends Controller {
 
   toggle(event, { transition } = {}) {
     if (this.active && (!this.switchToggles || (this.switchToggles && event.currentTarget === this.lastUsedToggle))) {
-      this.el.dispatchEvent(Toggleable.events.toggleOff)
+      this.dispatch(Toggleable.events.toggleOff)
     } else {
-      this.el.dispatchEvent(Toggleable.events.toggleOn)
+      this.dispatch(Toggleable.events.toggleOn)
     }
     this.lastUsedToggle = event.currentTarget
   }
@@ -130,16 +132,13 @@ export default class Toggleable extends Controller {
       this.iframeChildren = this.el.$$('iframe')
     }
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
-    this.listeners.add(this.el, 'toggle', event => {
-      if (this.durationTimer === null) {
-        this.toggle(event)
-      }
-    })
-    this.listeners.add(this.el, 'toggle-on', e => {
+    this.listeners.add(this.el, Toggleable.events.toggleOn, e => {
       if (e.defaultPrevented) return
-      this.toggleOn()
+      window.requestAnimationFrame(() => {
+        this.toggleOn()
+      })
     })
-    this.listeners.add(this.el, 'toggle-off', e => {
+    this.listeners.add(this.el, Toggleable.events.toggleOff, e => {
       if (e.defaultPrevented) return
       this.toggleOff()
     })
@@ -148,37 +147,35 @@ export default class Toggleable extends Controller {
       this.toggleOff(e.detail?.transition)
     })
     if (this.groupEl) {
-      this.listeners.add(this.groupEl, 'toggle-group', event => {
-        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.activeId !== this.el.id) {
-          this.el.dispatchEvent(Toggleable.events.toggleOff)
+      this.listeners.add(this.groupEl, Toggleable.events.toggleGroup, e => {
+        if (e.defaultPrevented) return
+        if (this.exclusiveGroup && this.active && !this.alwaysActive && e.detail.activeId !== this.el.id) {
+          this.dispatch(Toggleable.events.toggleOff)
         }
       })
     }
     if (this.outClickOff) {
       const target = this.outTarget ? $target(this.outTarget, 'Toggleable') : this.el
       this.listeners.add(document, 'click', event => {
-        if (!this.active) return
-        window.requestAnimationFrame(() => {
-          if (target.contains(event.target) || event.actionTrigger?.controller?.el.id === this.el.id) return
-          this.el.dispatchEvent(Toggleable.events.toggle)
-        })
+        if (!this.active || target.contains(event.target)) return
+        this.dispatch(Toggleable.events.toggleOff)
       })
     }
     if (this.escOff) {
       this.listeners.add(this.el, 'keydown', event => {
-        if (event.key === 'Escape') this.el.dispatchEvent(Toggleable.events.toggleOff)
+        if (event.key === 'Escape') this.dispatch(Toggleable.events.toggleOff)
       })
     }
     if (this.scrollOff) {
       this.listeners.add(window, 'scroll', () => {
-        if (this.active) this.el.dispatchEvent(Toggleable.events.toggleOff)
+        if (this.active) this.dispatch(Toggleable.events.toggleOff)
       })
     }
     if (this.urlHashOn) {
-      if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.el.dispatchEvent(Toggleable.events.toggleOn)
+      if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.dispatch(Toggleable.events.toggleOn)
       this.listeners.add(this.el, 'hash-link-click', event => {
         this.lastUsedToggle = event.detail.linkElement
-        this.el.dispatchEvent(Toggleable.events.toggleOn)
+        this.dispatch(Toggleable.events.toggleOn)
       })
     }
     return this

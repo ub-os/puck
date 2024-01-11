@@ -25,7 +25,7 @@ export default class MainNav extends Controller {
     if (this.modalController.asleep && (window.innerWidth < this.breakpoint)) {
       this.replaceClass(this.initClass, this.modalClass)
       this.modalController.asleep = false
-      this.el.dispatchEvent(new Event('update-focusables'))
+      this.dispatch('update-focusables')
     } else
     if (!this.modalController.asleep && (window.innerWidth >= this.breakpoint)) {
       this.replaceClass(this.modalClass, this.initClass)
