@@ -6,19 +6,19 @@
     <fc:param default="1" name="posterRetina" optional="1" type="boolean"/>
     <fc:param default="1" name="loadOnClick" optional="1" type="boolean"/>
     <fc:param default="1" name="openInModal" optional="1" type="boolean"/>
-    <fc:param default="{0:0}" name="props" optional="1" type="array"/>
+    <fc:param default="{0:0}" name="playerAttributes" optional="1" type="array"/>
     <fc:renderer>
 
         {u:id(set:'id', suffix:'{file.name}')}
         {u:file(get:'{file.properties.storage}:{file.identifier}.jpg', set:'localPoster')}
         {u:var(if:'{file.extension} === "youtube" || {file.extension} === "vimeo"', then:file.contents, else:'', set:'embedId')}
-        {props -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'props')}
+        {playerAttributes -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'playerAttributes')}
 
         <u:var set="playerContent">
             <div id="{id}"
                  class="{name}__modal__frame"
                  data-controller="media-player"
-                 data-media-player='{props -> f:format.json()}'>
+                 data-media-player='{playerAttributes -> f:format.json()}'>
             </div>
         </u:var>
 

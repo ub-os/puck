@@ -5,9 +5,9 @@
     <fc:param name="label" type="string" optional="1" default=""/>
     <fc:param name="buttonContent" type="Slot" optional="1" default=""/>
     <fc:param name="outerContent" type="Slot" optional="1" default=""/>
-    <fc:param name="toggleableProps" type="array" optional="1" default="{outClickOff: 1}"/>
     <fc:param name="showSelectedOption" type="boolean" optional="1" default="0"/>
     <fc:param name="attributes" type="array" optional="1"/>
+    <fc:param name="toggleableAttributes" type="array" optional="1" default="{outClickOff: 1}"/>
     <fc:renderer>
 
         <div class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
@@ -19,7 +19,7 @@
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
             </button>
             <fc:slot name="outerContent"/>
-            <div class="{name}__box" data-controller="toggleable" data-toggleable='{toggleableProps -> f:format.json()}' id="{id}">
+            <div class="{name}__box" data-controller="toggleable" data-toggleable='{toggleableAttributes -> f:format.json()}' id="{id}">
                 <fc:slot name="content"/>
             </div>
         </div>
