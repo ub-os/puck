@@ -63,7 +63,8 @@ const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
 
 doc.addEventListener("htmx:beforeRequest", (event) => {
     if (isBodyEvent(event)) {
-        const requestUrl = new URL(event.detail.pathInfo.requestPath)
+        const requestPath = event.detail.pathInfo.requestPath
+        const requestUrl = requestPath.startsWith('/') ? new URL(window.location.origin + requestPath) : new URL(requestPath)
         if (requestUrl.href === window.location.href + requestUrl.hash.split('?')[0]) {
             event.preventDefault()
             return
@@ -88,8 +89,6 @@ doc.addEventListener("htmx:oobBeforeSwap", (event) => {
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
     if (isBodyEvent(event)) {
-
-
         clearBody()
     } else {
         logHtmxLifecycleEvent(event)
