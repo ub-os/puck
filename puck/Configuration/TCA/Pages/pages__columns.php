@@ -22,7 +22,11 @@ $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'presets',
     'preset',
 ];
-
+$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
+    'Category folder',
+    'categories',
+    'mimetypes-x-sys_category',
+];
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
 
 $GLOBALS['TCA']['pages']['columns']['post_date'] = [

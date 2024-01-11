@@ -9,6 +9,7 @@ require __DIR__ . '/../Pages/pages__palettes.php';
 
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news'] = 'news_folder';
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-presets'] = 'preset_folder';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-categories'] = 'category_folder';
 
 ArrayUtility::mergeRecursiveWithOverrule(
     $GLOBALS['TCA']['pages'],
@@ -66,7 +67,7 @@ addToDoktypes(
 );
 addToDoktypes(
     ['news'],
-    'url, --palette--;;author',
+    'url;Redirect to URL, --palette--;;author',
     'after:--palette--;;title'
 );
 addToDoktypes(
