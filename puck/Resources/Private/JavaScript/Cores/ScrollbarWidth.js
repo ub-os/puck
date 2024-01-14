@@ -1,8 +1,8 @@
-import { $, $$, $id, jsx } from "~/_Stim/Utility/DomUtility"
+import { $, $$, $id, jsx } from "~/_htmc/Utility/DomUtility"
 import { ResizeManager } from "~/Service/ObserverCollector"
-import Controller from "~/_Stim/Controller"
+import Core from "~/_htmc/Core"
 
-export default class ScrollbarWidth extends Controller {
+export default class ScrollbarWidth extends Core {
     static attributes = {
         sensorId: 'scrollbar-width-sensor',
         updateOnResize: true,

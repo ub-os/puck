@@ -2,7 +2,7 @@ import { camelCase } from "./Utility/StringUtility"
 import { $id } from "./Utility/DomUtility"
 import AttributeConverter from "./Service/AttributeConverter"
 
-export default class Event {
+export default class Trigger {
     /**
      * @type {HTMLElement}
      */
@@ -14,10 +14,11 @@ export default class Event {
     eventOptions = {}
     connected = false
     constructor(el, descriptor, eventRegistry = {}) {
-        this.initialize(el, descriptor, eventRegistry)
+        if (descriptor.includes('::')) this.initializeCoreMethod(el, descriptor, eventRegistry)
+        else this.initializeEvent(el, descriptor, eventRegistry)
     }
 
-    initialize(el, descriptor, eventRegistry) {
+    initializeEvent(el, descriptor, eventRegistry) {
         this.el = el
         descriptor = this.completeDescriptor(el, descriptor)
         const [
@@ -28,10 +29,10 @@ export default class Event {
         const targetEl = id ? $id(id) : document.body
         if (!triggeredEvent) return
 
-        this.identifier = triggeredEvent
+        this.identifier = `${triggeredEvent}_`
         this.eventOptions = eventRegistry[this.identifier] ?? {}
         this.event = event.split('.')[0]
-        if (el['stimEvents']?.get(this.identifier)) {
+        if (el['htmcEvents']?.get(this.identifier)) {
             console.log(`Event ${this.identifier} already connected to ${el.id}`)
             return
         }
@@ -39,7 +40,7 @@ export default class Event {
         this.setListenerOptions()
         const triggerGuard = this.getTriggerGuard(event)
         const attributeConverter = new AttributeConverter(this.eventOptions.detail ?? {})
-        const datasetIdentifier = camelCase(this.identifier) + '_:'
+        const datasetIdentifier = camelCase(this.identifier) + ':'
 
         this.listener = e => {
             if (triggerGuard(e)) return
@@ -52,18 +53,86 @@ export default class Event {
                     triggerEvent: e
                 }
             }
+
+            for (const attr of el.attributes) {
+                if (attr.name.startsWith(`data-${this.identifier}:`)) {
+                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
+                    if (attrKey === 'triggerEvent') return
+                    eventOptions.detail[attrKey] = attributeConverter.read(attrKey, attr.value)
+                }
+            }
+/*
             Object.entries({...el.dataset}).forEach(([key, value]) => {
                 if (key.startsWith(datasetIdentifier)) {
                     const attrKey = key.replace(datasetIdentifier, '')
                     if (attrKey === 'triggerEvent') return
                     eventOptions.detail[attrKey] = attributeConverter.read(attrKey, value)
                 }
-            })
-            targetEl.dispatchEvent(new CustomEvent(this.identifier, eventOptions))
+            })*/
+            console.log(eventOptions)
+            targetEl.dispatchEvent(new CustomEvent(triggeredEvent, eventOptions))
         }
 
-        !el['stimEvents'] ? el.stimEvents = new Map() : null
-        el.stimEvents.set(this.identifier, this)
+        !el['htmcEvents'] ? el.htmcEvents = new Map() : null
+        el.htmcEvents.set(this.identifier, this)
+    }
+
+    initializeCoreMethod(el, descriptor, eventRegistry) {
+        this.el = el
+        descriptor = this.completeDescriptor(el, descriptor)
+        const [
+            event,
+            coreIdentifier,
+            coreMethod,
+            id
+        ] = descriptor.split(/->|::|#/);
+        const coreEl = id ? $id(id) : el.closest(`[data-core]`)
+        const core = coreEl?.['htmcCores']?.get(coreIdentifier)
+
+        if (!coreMethod || !core || typeof core[coreMethod] !== 'function') return
+        this.identifier = `${coreIdentifier}::${coreMethod}`
+        this.event = event.split('.')[0]
+        if (el['htmcTriggers']?.get(this.identifier)) {
+            console.log(`Trigger ${this.identifier} already connected to ${el.id}`)
+            return
+        }
+
+        this.setListenerOptions()
+        const triggerGuard = this.getTriggerGuard(event)
+        const attributeConverter = new AttributeConverter(core.constructor.triggerables?.[coreMethod] || {})
+        const datasetIdentifier = camelCase(this.identifier) + ':'
+
+        this.listener = e => {
+            if (triggerGuard(e)) return
+            if (!core.__connected) return
+            el.hasAttribute(`data-${this.identifier}:event:prevent`) ? e.preventDefault() : null
+            el.hasAttribute(`data-${this.identifier}:event:stop`) ? e.stopPropagation() : null
+            const params = attributeConverter.attributes
+            e.coreMethodTrigger = {
+                core: core,
+                method: coreMethod,
+            }
+
+            for (const attr of el.attributes) {
+                if (attr.name.startsWith(`data-${this.identifier}:`)) {
+                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
+                    if (attrKey === 'triggerEvent') return
+                    params[attrKey] = attributeConverter.read(attrKey, attr.value)
+                }
+            }
+
+/*            Object.entries({...el.dataset}).forEach(([key, value]) => {
+                if (key.startsWith(datasetIdentifier)) {
+                    const attrKey = key.replace(datasetIdentifier, '')
+                    params[attrKey] = attributeConverter.read(attrKey, value)
+                }
+            })*/
+
+            core[coreMethod](e, params)
+        }
+
+        !el['htmcTriggers'] ? el.htmcTriggers = new Map() : null
+        el.htmcTriggers.set(this.identifier, this)
     }
 
     completeDescriptor(el, descriptor) {
@@ -105,7 +174,8 @@ export default class Event {
 
     setListenerOptions() {
         ['capture', 'once', 'passive'].forEach(opt => {
-            const value = this.el.dataset[`${this.identifier}:event:${opt}`]
+            //const value = this.el.dataset[`${this.identifier}:event:${opt}`]
+            const value = this.el.getAttribute(`data-${this.identifier}:event:${opt}`)
             this.listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
         })
     }

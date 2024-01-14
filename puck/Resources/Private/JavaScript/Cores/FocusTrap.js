@@ -1,8 +1,8 @@
-import { $, $$, $id } from '~/_Stim/Utility/DomUtility'
+import { $, $$, $id } from '~/_htmc/Utility/DomUtility'
 import { MutationManager } from "~/Service/ObserverCollector";
-import Controller from "~/_Stim/Controller"
+import Core from "~/_htmc/Core"
 
-export default class FocusTrap extends Controller {
+export default class FocusTrap extends Core {
     static attributes = {
         active: false,
         updateFocusOn: 'event' // event, mutation

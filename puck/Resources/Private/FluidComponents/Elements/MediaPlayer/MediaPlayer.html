@@ -17,14 +17,14 @@
         <u:var set="playerContent">
             <div id="{id}"
                  class="{name}__modal__frame"
-                 data-controller="media-player"
+                 data-core="media-player"
                  data-media-player='{playerAttributes -> f:format.json()}'>
             </div>
         </u:var>
 
         <div class="{name}">
             <button class="{name}__button"
-                 data-action="modal::toggle#{id}-modal media-player::addPlayerEl#{id}"
+                 data-trigger="modal::toggle#{id}-modal media-player::addPlayerEl#{id}"
                  aria-controls="{id}-modal"
                  aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
             </button>

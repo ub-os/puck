@@ -1,9 +1,9 @@
 import htmx from 'htmx.org'
 import smoothscroll from 'smoothscroll-polyfill'
-import { $, $$, $id, jsx, scrollTo } from '~/_Stim/Utility/DomUtility'
-import Logger from '~/Service/Logger'
+import { $, $$, $id, jsx, scrollTo } from '~/_htmc/Utility/DomUtility'
+import App from '~/_htmc/Application'
 import { ObserverCollector } from '~/Service/ObserverCollector'
-import App from '~/_Stim/Application'
+import Logger from '~/Service/Logger'
 import '~/app.js'
 
 smoothscroll.polyfill()
@@ -27,7 +27,6 @@ document.addEventListener('readystatechange', e => {
     if (domContentLoaded || document.readyState !== 'complete') return
     document.dispatchEvent(new Event('DOMContentLoaded'))
 })
-
 
 const mountBody = () => {
     if (isMounted) return

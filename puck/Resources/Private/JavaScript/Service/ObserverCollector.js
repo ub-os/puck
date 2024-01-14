@@ -1,4 +1,4 @@
-import { $target } from "~/_Stim/Utility/DomUtility"
+import { $target } from "~/_htmc/Utility/DomUtility"
 
 class ObserverCollector {
     static #instance = null;

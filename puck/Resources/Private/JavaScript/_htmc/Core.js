@@ -1,13 +1,13 @@
 import { kebabCase, jsonParse } from "./Utility/StringUtility"
 import ListenerCollector from "./Service/ListenerCollector"
 
-export default class Controller {
+export default class Core {
     static attributes = {
         asleep: false
     }
-    static targets = {}
+    static units = {}
     static injects = {}
-    static actions = {}
+    static triggerables = {}
     static identifier = null
     static registerCallback() { }
 
@@ -26,8 +26,8 @@ export default class Controller {
         this.el = el
         this.identifier = this.constructor.identifier
         this.constructor.attributeSyncer.initialize(this, attributes)
-        !el['stimControllers'] ? el.stimControllers = new Map() : null
-        el.stimControllers.set(this.identifier, this)
+        !el['htmcCores'] ? el.htmcCores = new Map() : null
+        el.htmcCores.set(this.identifier, this)
         this.initialize()
         this.__initialized = true
     }

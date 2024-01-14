@@ -12,14 +12,14 @@
 
         <div class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-action="toggleable::toggle#{id}"
-                    data-target="toggleable.toggle#{id}">
+                    data-trigger="toggleable::toggle#{id}"
+                    data-unit="toggleable.toggle#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
             </button>
             <fc:slot name="outerContent"/>
-            <div class="{name}__box" data-controller="toggleable" data-toggleable='{toggleableAttributes -> f:format.json()}' id="{id}">
+            <div class="{name}__box" data-core="toggleable" data-toggleable='{toggleableAttributes -> f:format.json()}' id="{id}">
                 <fc:slot name="content"/>
             </div>
         </div>

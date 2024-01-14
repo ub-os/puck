@@ -1,7 +1,7 @@
-import { $, $$, $id, scrollTo } from '~/_Stim/Utility/DomUtility'
-import Controller from '~/_Stim/Controller.js'
+import { $, $$, $id, scrollTo } from '~/_htmc/Utility/DomUtility'
+import Core from '~/_htmc/Core'
 
-export default class AnchorBehavior extends Controller {
+export default class AnchorBehavior extends Core {
     static attributes = {
         scrollOffset: 0,
         scrollTopOnCurrentLink: true,

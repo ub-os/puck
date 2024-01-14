@@ -1,14 +1,17 @@
-import { $, $$, $id, $target } from '~/_Stim/Utility/DomUtility'
-import Controller from "~/_Stim/Controller"
+import { $, $$, $id, $target } from '~/_htmc/Utility/DomUtility'
+import Core from "~/_htmc/Core"
 
-export default class Toggleable extends Controller {
+/**
+ * @property {Map} toggleUnits
+ */
+export default class Toggleable extends Core {
   static displayName = 'Toggleable'
   static events = {
     toggleOn: 'toggle-on',
     toggleOff: 'toggle-off',
     toggleGroup: 'toggle-group',
   }
-  static targets = ['toggle']
+  static units = ['toggle']
   static attributes = {
     active: false,
     groupId: '',
@@ -48,6 +51,11 @@ export default class Toggleable extends Controller {
     switchToggles: false,
     alwaysActive: false,
   }
+  static triggerables = {
+    toggle: {
+      transition: true
+    }
+  }
 
   lastUsedToggle = null
   durationTimer = null
@@ -60,7 +68,7 @@ export default class Toggleable extends Controller {
     if (this.documentClassing) {
       document.documentElement.classList[operation](`--${this.el.id}-${this.constructor.displayName.toLowerCase()}${className}`)
     }
-    this.toggleTargets.forEach(t => t.classList[operation](className))
+    this.toggleUnits.forEach(t => t.classList[operation](className))
   }
   transitionClass(className) {
     if (this.duration > 0) {
@@ -116,7 +124,7 @@ export default class Toggleable extends Controller {
     this.lastUsedToggle = event.currentTarget
   }
 
-  toggleConnected(el) {
+  toggleUnitConnected(el) {
     el.ariaControls = this.el.id
     if (this.active) {
       el.classList.add(this.activeClass)

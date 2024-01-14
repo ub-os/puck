@@ -1,9 +1,9 @@
-import { $, $$, jsx, $target } from '~/_Stim/Utility/DomUtility'
+import { $, $$, jsx, $target } from '~/_htmc/Utility/DomUtility'
 import { IntersectionManager, ResizeManager } from "~/Service/ObserverCollector"
-import Controller from "~/_Stim/Controller"
+import Core from "~/_htmc/Core"
 
 
-export default class ScrollSensitive extends Controller {
+export default class ScrollSensitive extends Core {
   static attributes = {
     topInsideClass: '--top-inside-view',
     topAboveClass: '--top-above-view',

@@ -1,18 +1,18 @@
-import Toggleable from "~/Controller/Toggleable"
+import Toggleable from "~/Cores/Toggleable"
 
 export default class TabPanel extends Toggleable {
     static displayName = 'TabPanel'
     toggleOn(transition= true) {
         super.toggleOn(transition)
         this.el.style.maxHeight = `${(this.el.scrollHeight + 100).toString()}px`
-        this.toggleTargets.forEach(t => t.ariaSelected = 'true')
+        this.toggleUnits.forEach(t => t.ariaSelected = 'true')
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
         this.el.style.maxHeight = `0`
-        this.toggleTargets.forEach(t => t.ariaSelected = 'false')
+        this.toggleUnits.forEach(t => t.ariaSelected = 'false')
     }
-    toggleConnected(el) {
+    toggleUnitConnected(el) {
         el.role = 'tab'
     }
     connect() {
@@ -28,6 +28,6 @@ export default class TabPanel extends Toggleable {
         super.disconnect()
         this.el.removeAttribute('role')
         this.groupEl.removeAttribute('role')
-        this.toggleTargets.forEach(t => t.removeAttribute('role'))
+        this.toggleUnits.forEach(t => t.removeAttribute('role'))
     }
 }

@@ -6,7 +6,7 @@
   <fc:renderer>
 
     <header class="{name}" id="header"
-            data-controller="page-header"
+            data-core="page-header"
             data-scroll-sensitive:root-margin="-5px 0px 0px 0px"
             data-scroll-sensitive:top-above-class="--stuck">
       <div class="{name}__background"></div>
@@ -20,7 +20,7 @@
         </f:link.typolink>
         <div class="{name}__nav__wrap"
              id="main-nav"
-             data-controller="main-nav"
+             data-core="main-nav"
              data-main-nav:breakpoint="1150"
              data-main-nav:init-class="m-header__nav"
              data-main-nav:modal-class="m-sidebar-nav"
@@ -28,7 +28,7 @@
              data-modal:append-to="">
           <div class="{name}__nav__header">
             <button class="{name}__nav__close"
-                    data-action="modal::toggle"
+                    data-trigger="modal::toggle"
                     aria-controls="main-nav"
                     aria-label="{f:translate(key:'close')}">
               <icon:char icon="close" />

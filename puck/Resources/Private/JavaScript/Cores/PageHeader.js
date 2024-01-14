@@ -1,11 +1,11 @@
-import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
-import ScrollSensitive from "~/Controller/ScrollSensitive";
-import Controller from "~/_Stim/Controller"
+import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
+import ScrollSensitive from "~/Cores/ScrollSensitive";
+import Core from "~/_htmc/Core"
 
 /**
- * @property {ScrollSensitive} scrollSensitiveController
+ * @property {ScrollSensitive} scrollSensitiveCore
  */
-export default class PageHeader extends Controller {
+export default class PageHeader extends Core {
     static attributes = {
         minScrollForHide: 100,
         downClass: '--scroll-down',

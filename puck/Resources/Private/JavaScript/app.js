@@ -1,20 +1,20 @@
-import App from "~/_Stim/Application"
-import ScrollbarWidth from "~/Controller/ScrollbarWidth"
-import AnchorBehavior from "~/Controller/AnchorBehavior"
-import Toggleable from '~/Controller/Toggleable'
-import Accordion from '~/Controller/Accordion'
-import Modal from "~/Controller/Modal"
-import MainNav from "~/Controller/MainNav"
-import TabPanel from '~/Controller/TabPanel'
-import Carousel from '~/Controller/Carousel'
-import PageHeader from "~/Controller/PageHeader"
-import MediaPlayer from "~/Controller/MediaPlayer"
-import FocusTrap from "~/Controller/FocusTrap"
-import ScrollReveal from '~/Controller/ScrollReveal'
-import ScrollSensitive from '~/Controller/ScrollSensitive'
+import App from "~/_htmc/Application"
+import ScrollbarWidth from "~/Cores/ScrollbarWidth"
+import AnchorBehavior from "~/Cores/AnchorBehavior"
+import Toggleable from '~/Cores/Toggleable'
+import Accordion from '~/Cores/Accordion'
+import Modal from "~/Cores/Modal"
+import MainNav from "~/Cores/MainNav"
+import TabPanel from '~/Cores/TabPanel'
+import Carousel from '~/Cores/Carousel'
+import PageHeader from "~/Cores/PageHeader"
+import MediaPlayer from "~/Cores/MediaPlayer"
+import FocusTrap from "~/Cores/FocusTrap"
+import ScrollReveal from '~/Cores/ScrollReveal'
+import ScrollSensitive from '~/Cores/ScrollSensitive'
 
 
-App.registerController({
+App.registerCore({
     AnchorBehavior,
     ScrollbarWidth,
     Toggleable,

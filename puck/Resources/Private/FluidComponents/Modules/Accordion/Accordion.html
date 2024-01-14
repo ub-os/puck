@@ -7,15 +7,15 @@
     <div class="{name}" id="c{object.uid}">
       <button class="{name}__button"
               id="c{object.uid}-header"
-              data-action="accordion::toggle#c{object.uid}-collapse"
-              data-target="accordion.toggle#c{object.uid}-collapse">
+              data-trigger="accordion::toggle#c{object.uid}-collapse"
+              data-unit="accordion.toggle#c{object.uid}-collapse">
         <span class="{name}__title">{object.header -> f:format.raw()}</span>
         <span class="{name}__icon"></span>
       </button>
       <div class="{name}__collapse"
            id="c{object.uid}-collapse"
            aria-labelledby="c{object.uid}-header"
-           data-controller="accordion"
+           data-core="accordion"
            data-accordion:group-id="c{object.txContainerParent}"
            data-accordion:duration="150"
            data-accordion:parent-classing>

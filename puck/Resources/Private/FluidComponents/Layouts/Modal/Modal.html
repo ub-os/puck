@@ -9,7 +9,7 @@
 
     <div class="{name} {class} -width-{width}"
          id="{id}"
-         data-controller="modal"
+         data-core="modal"
          data-modal:duration="300"
          {attributes -> u:renderAttributes()}>
 
@@ -28,7 +28,7 @@
 
 
       <button class="{name}__close"
-              data-action="modal::toggle"
+              data-trigger="modal::toggle"
               aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />
       </button>

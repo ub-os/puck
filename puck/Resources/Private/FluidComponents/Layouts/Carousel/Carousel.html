@@ -25,7 +25,7 @@
 
     <div class="{name} {class} splide"
          id="{id}"
-         data-controller="carousel"
+         data-core="carousel"
          data-carousel="{carouselAttributes -> f:format.json()}"
          data-carousel:splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">

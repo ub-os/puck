@@ -1,12 +1,12 @@
-import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
+import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
 import { ResizeManager } from "~/Service/ObserverCollector"
-import Controller from "~/_Stim/Controller"
+import Core from "~/_htmc/Core"
 
 /**
- * @property {Modal} modalController
+ * @property {Modal} modalCore
  */
-export default class MainNav extends Controller {
-  static targets = ['toggle']
+export default class MainNav extends Core {
+  static units = ['toggle']
   static attributes = {
     breakpoint: 800,
     initClass: 'l-main-nav--init',
@@ -22,19 +22,19 @@ export default class MainNav extends Controller {
   }
 
   stateSwitch() {
-    if (this.modalController.asleep && (window.innerWidth < this.breakpoint)) {
+    if (this.modalCore.asleep && (window.innerWidth < this.breakpoint)) {
       this.replaceClass(this.initClass, this.modalClass)
-      this.modalController.asleep = false
+      this.modalCore.asleep = false
       this.dispatch('update-focusables')
     } else
-    if (!this.modalController.asleep && (window.innerWidth >= this.breakpoint)) {
+    if (!this.modalCore.asleep && (window.innerWidth >= this.breakpoint)) {
       this.replaceClass(this.modalClass, this.initClass)
-      this.modalController.asleep = true
+      this.modalCore.asleep = true
     }
   }
 
   initialize() {
-    this.modalController.asleep = true
+    this.modalCore.asleep = true
   }
 
   connect() {

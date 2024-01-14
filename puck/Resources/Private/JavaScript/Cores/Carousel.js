@@ -1,15 +1,18 @@
 import Splide from '@splidejs/splide'
-import { $, $$, jsx } from '~/_Stim/Utility/DomUtility'
-import Controller from "~/_Stim/Controller"
+import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
+import Core from "~/_htmc/Core"
 
-export default class Carousel extends Controller {
+/**
+ * @property {Map} controlUnits
+ */
+export default class Carousel extends Core {
     static attributes = {
         vertical: false,
         activeClass: '--active',
         splideOptions: {},
     }
-    static targets = ['control']
-    controlConnected(el) {
+    static units = ['control']
+    controlUnitConnected(el) {
         el.ariaControls = this.el.id
         if (el.dataset['carousel::move:to'] == this.splide?.index) {
             el.classList.add(this.activeClass)
@@ -28,7 +31,7 @@ export default class Carousel extends Controller {
             focus: 'left',
             ...this.splideOptions })
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
-            this.controlTargets.forEach(control => {
+            this.controlUnits.forEach(control => {
                 control.classList.remove(this.activeClass)
                 if (control.dataset['carousel::move:to'] == this.splide?.index) {
                     control.classList.add(this.activeClass)

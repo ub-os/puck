@@ -1,7 +1,7 @@
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import Controller from "~/_Stim/Controller";
+import Core from "~/_htmc/Core";
 
-export default class ScrollReveal extends Controller {
+export default class ScrollReveal extends Core {
     static attributes = {
         preset: 'slide-up',
         presetTranslate: 10,
