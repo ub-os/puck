@@ -10,6 +10,7 @@ export default class Modal extends Toggleable {
     static attributes = {
         ...Toggleable.attributes,
         outClickOff: true,
+        focusOnOpen: 'self',
         appendTo: '[data-modal-container]',
         backdropClass: 'l-modal__backdrop',
     }
@@ -22,7 +23,9 @@ export default class Modal extends Toggleable {
         this.el.removeAttribute('aria-hidden')
         this.el.role = 'dialog'
         this.el.ariaModal = 'true'
-        this.el.focus()
+        if (this.focusOnOpen === 'self') this.el.focus()
+        if (this.focusOnOpen === 'first') this.focusTrapCore.firstFocusable.focus()
+        if (this.focusOnOpen === 'last') this.focusTrapCore.lastFocusable.focus()
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         setTimeout(() => {
