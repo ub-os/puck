@@ -13,7 +13,7 @@
               <ul class="{name}__list">
                   <f:for each="{categoryFilter.items}" as="item" iteration="i">
                       <li class="{name}__item">
-                      <f:if condition="{item.children}">
+                      <f:if condition="{item.items}">
                           <f:then>
                               <f:variable name="buttonContent">
                                    
@@ -31,7 +31,7 @@
                                       id="{sectionId}-filter-{i.index}-dropdown"
                                       label="{item.label}"
                                       buttonContent="{buttonContent -> f:format.raw()}">
-                                  <f:for each="{item.children}" as="childItem">
+                                  <f:for each="{item.items}" as="childItem">
                                           <a href="{childItem.url}"
                                              class="{u:bem(
                                                 block:'e-dropdown',
