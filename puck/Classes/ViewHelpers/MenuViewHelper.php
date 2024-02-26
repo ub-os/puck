@@ -27,6 +27,7 @@ class MenuViewHelper extends AbstractViewHelper
         $this->registerArgument('addAllSiteLanguages', 'boolean', '', false, false);
         $this->registerArgument('excludeDoktypes', 'string', '', false, '199,254,255');
         $this->registerArgument('processMedia', 'boolean', '', false, false);
+        $this->registerArgument('set', 'string', '', false, '');
     }
 
     public static function renderStatic(
@@ -89,7 +90,11 @@ class MenuViewHelper extends AbstractViewHelper
                 ],
             ];
         }
-        return $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
-
+        $result = $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
+        if ($arguments['set']) {
+            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+            return null;
+        }
+        return $result;
     }
 }
