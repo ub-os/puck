@@ -119,7 +119,7 @@ class CategoryFilterBuilder
         );
 
         foreach($subCategories->toArray() as $subCategory) {
-            $item->children[] = $this->buildTree(
+            $item->items[] = $this->buildTree(
                 $subCategory,
                 $buildTree--,
                 $this->getTreeIteratorAdvancement($disabledTree),
