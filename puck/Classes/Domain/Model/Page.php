@@ -35,13 +35,28 @@ class Page extends AbstractEntity
      * @var string
      */
     public string $description = '';
-
+    /**
+     * @var string
+     */
+    protected string $navTitle = '';
+    public function getNavTitle(): string
+    {
+        return $this->navTitle ? : $this->title;
+    }
+    /**
+     * @var string
+     */
+    #[ModelColumn("string")]
+    public string $breadcrumbTitle = '';
+    public function getBreadcrumbTitle(): string
+    {
+        return $this->breadcrumbTitle ? : $this->getNavTitle();
+    }
     /**
      * @var string
      */
     #[ModelColumn("string")]
     public string $teaserTitle = '';
-
     public function getTeaserTitle(): string
     {
         return $this->teaserTitle ? : $this->title;
@@ -109,23 +124,13 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    protected string $navTitle = '';
-    /**
-     * @var string
-     */
     protected string $seoTitle = '';
     /**
      * @var ?array
      * @Transient
      */
     protected ?array $rootLine = null;
-    /**
-     * @return string
-     */
-    public function getNavTitle(): string
-    {
-        return $this->navTitle ? : $this->title;
-    }
+
 
     /**
      * @return string

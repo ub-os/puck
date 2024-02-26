@@ -17,6 +17,20 @@ $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
 $GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '
     media';
 
+$GLOBALS['TCA']['pages']['palettes']['title'] = [
+    'label' => 'Title',
+    'showitem' => '
+        title,
+        --linebreak--,
+        slug,
+        --linebreak--,
+        nav_title,
+        --linebreak--,
+        breadcrumb_title,
+        --linebreak--,
+        subtitle,
+    ',
+];
 $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
     'label' => 'Teaser',
     'showitem' => '

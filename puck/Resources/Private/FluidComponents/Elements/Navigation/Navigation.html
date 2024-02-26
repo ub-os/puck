@@ -5,7 +5,8 @@
   <fc:param name="processor" type="string" optional="1" default="tree"/>
   <fc:param name="depth" type="integer" optional="1" default="1"/>
   <fc:param name="menu" type="array" optional="1"/>
-  <fc:param name="iconFromTitle" type="boolean" optional="1" default="0"/>
+  <fc:param name="prependIcon" type="boolean" optional="1" default="0"/>
+  <fc:param name="hideTitle" type="boolean" optional="1" default="0"/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
@@ -20,7 +21,9 @@
                                   menu="{menu}"
                                   processor="{processor}"
                                   depth="{depth}"
-                                  iconFromTitle="{iconFromTitle}"/>
+                                  prependIcon="{prependIcon}"
+                                  hideTitle="{hideTitle}"
+        />
         <fc:slot name="content"/>
       </ul>
       <f:if condition="{processor} == 'breadcrumbs'">

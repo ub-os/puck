@@ -12,21 +12,31 @@ $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['colu
 $GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
 $GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
 
-$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
-    'News folder',
-    'news',
-    'news_page',
-];
-$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
-    'Preset folder',
-    'presets',
-    'preset',
-];
-$GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
-    'Category folder',
-    'categories',
-    'mimetypes-x-sys_category',
-];
+array_push(
+    $GLOBALS['TCA']['pages']['columns']['module']['config']['items'],
+    [
+        'News folder',
+        'news',
+        'news_page',
+    ],
+    [
+        'Preset folder',
+        'presets',
+        'preset',
+    ],
+    [
+        'Category folder',
+        'categories',
+        'mimetypes-x-sys_category',
+    ],
+    [
+        'Person folder',
+        'persons',
+        'person',
+    ]
+);
+
+
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
 
 $GLOBALS['TCA']['pages']['columns']['post_date'] = [
@@ -84,6 +94,11 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = arr
         'disableNoMatchingValueElement' => true,
     ]
 );
+
+$GLOBALS['TCA']['pages']['columns']['breadcrumb_title'] = [
+    'label' => 'Breadcrumb title',
+    'config' => $GLOBALS['TCA']['pages']['columns']['nav_title']['config'],
+];
 
 $GLOBALS['TCA']['pages']['columns']['teaser_title'] = [
     'label' => 'Teaser title',
