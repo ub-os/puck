@@ -1,20 +1,22 @@
-import htmx from 'htmx.org'
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/_jcores/Utility/DomUtility'
-import Nexus from '~/_jcores/Nexus'
 import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
-import '~/register.js'
+import htmx from '~/htmx'
+import 'htmx.org/dist/ext/head-support'
+import Nexus from '~/nexus'
 
-smoothscroll.polyfill()
 
-window.htmx = htmx
 htmx.config.scrollBehavior = 'auto'
 htmx.config.defaultSwapStyle = 'outerHTML'
 htmx.config.defaultSwapDelay = 0
 htmx.config.defaultSettleDelay = 0
 htmx.config.globalViewTransitions = true
+htmx.config.allowScriptTags = true
+htmx.config.allowEval = false
 
+
+smoothscroll.polyfill()
 const doc = document.documentElement
 let isInitialLoad = true
 let isMounted = false
@@ -27,6 +29,7 @@ document.addEventListener('readystatechange', e => {
     if (domContentLoaded || document.readyState !== 'complete') return
     document.dispatchEvent(new Event('DOMContentLoaded'))
 })
+
 
 const mountBody = () => {
     if (isMounted) return
@@ -53,26 +56,53 @@ const clearBody = () => {
     isMounted = false
 }
 
+const resetBody = () => {
+    Logger.console.time('mount application')
+    clearBody()
+    window.requestAnimationFrame(() => {
+        mountBody()
+        Logger.console.timeEnd('mount application')
+    })
+}
+
 const isBodyEvent = event => {
-    return event.detail.boosted || event.detail.elt.tagName === 'BODY' || event.detail.elt.hasAttribute('data-hx-boost-root')
+    return event.detail.target?.tagName === 'BODY' || event.detail.target?.id === 'root' || event.detail.elt?.id === 'root'
 }
 const logHtmxLifecycleEvent = (event, eventTypeSuffix = '') => {
     Logger.console.log(`%c${event.type}${eventTypeSuffix}`, "color:lightgreen", event)
 }
 
+let currentlySubmittingForm = null
 doc.addEventListener("htmx:beforeRequest", (event) => {
-    if (isBodyEvent(event)) {
-        const requestPath = event.detail.pathInfo.requestPath
-        const requestUrl = requestPath.startsWith('/') ? new URL(window.location.origin + requestPath) : new URL(requestPath)
-        if (requestUrl.href === window.location.href + requestUrl.hash.split('?')[0]) {
-            event.preventDefault()
-            return
+    // disable multiple form requests at the same time
+    if (event.target.tagName == 'FORM') {
+        if (currentlySubmittingForm || event.target.classList.contains('htmx-request')) {
+            //event.preventDefault()
+            //return
+        } else {
+            currentlySubmittingForm = event.target
         }
+    }
+    if (isBodyEvent(event)) {
         logHtmxLifecycleEvent(event, ':body')
     } else {
         logHtmxLifecycleEvent(event)
     }
 })
+
+doc.addEventListener("htmx:afterRequest", (event) => {
+    // disable multiple form requests at the same time -> end cycle
+    if (event.target.tagName == 'FORM') {
+        window.requestAnimationFrame(() => currentlySubmittingForm = null)
+    }
+    if (isBodyEvent(event)) {
+        logHtmxLifecycleEvent(event, ':body')
+    } else {
+        logHtmxLifecycleEvent(event)
+    }
+})
+
+
 doc.addEventListener("htmx:beforeSwap", (event) => {
     if (isBodyEvent(event)) {
         logHtmxLifecycleEvent(event, ':body')
@@ -88,7 +118,7 @@ doc.addEventListener("htmx:oobBeforeSwap", (event) => {
 })
 doc.addEventListener("htmx:afterSwap", (event) => {
     if (isBodyEvent(event)) {
-        clearBody()
+        logHtmxLifecycleEvent(event, ':body')
     } else {
         logHtmxLifecycleEvent(event)
     }
@@ -102,12 +132,7 @@ doc.addEventListener("htmx:load", (event) => {
         Logger.console.timeEnd('mount application')
     } else if (isBodyEvent(event)) {
         logHtmxLifecycleEvent(event, ':body')
-        Logger.console.time('mount application')
-        clearBody()
-        window.requestAnimationFrame(() => {
-            mountBody()
-            Logger.console.timeEnd('mount application')
-        })
+        resetBody()
     } else {
         logHtmxLifecycleEvent(event)
     }
@@ -116,5 +141,6 @@ doc.addEventListener("htmx:beforeHistorySave", (event) => {
     logHtmxLifecycleEvent(event)
 })
 doc.addEventListener("htmx:historyRestore", (event) => {
-    logHtmxLifecycleEvent(event);
+    logHtmxLifecycleEvent(event)
+    resetBody()
 })

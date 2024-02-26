@@ -12,6 +12,7 @@ import MediaPlayer from "~/Cores/MediaPlayer"
 import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
+import htmx from '~/htmx'
 
 
 Nexus.registerCore({
@@ -48,11 +49,13 @@ Nexus.registerConnectedCallback({
             child.setAttribute('role', 'listitem')
         })
     },
-    'a': (el) => {
-        if (el.hostname === window.location.hostname) {
-            el.classList.add('-local');
-        } else {
-            el.classList.add('-external');
+    'a': el => {
+        if (el.hash?.substring(1).split('?')[0] && el.pathname === window.location.pathname) {
+            el.classList.add('-current-hash')
+            el.setAttribute('data-hx-boost', 'false')
+            htmx.process(el)
         }
-    }
+    },
 })
+
+export default Nexus
