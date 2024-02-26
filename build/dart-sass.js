@@ -6,9 +6,8 @@ import path from 'path';
 const sourcePath = "./puck/Resources/Private/Stylesheets/";
 const distPath = "./puck/Resources/Public/Css/dist/";
 const fileNames = [
-  "puck",
-  "be-ck-contents",
-  "backend/general"
+    "puck",
+    "puck-backend"
 ];
 
 ensureDirectoryExistence(distPath);
