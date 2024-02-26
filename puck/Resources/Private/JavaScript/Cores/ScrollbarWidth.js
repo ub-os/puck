@@ -1,6 +1,6 @@
-import { $, $$, $id, jsx } from "~/_htmc/Utility/DomUtility"
+import { $, $$, $id, jsx } from "~/_jcores/Utility/DomUtility"
 import { ResizeManager } from "~/Service/ObserverCollector"
-import Core from "~/_htmc/Core"
+import Core from "~/_jcores/Core"
 
 export default class ScrollbarWidth extends Core {
     static attributes = {

@@ -1,10 +1,10 @@
 import htmx from 'htmx.org'
 import smoothscroll from 'smoothscroll-polyfill'
-import { $, $$, $id, jsx, scrollTo } from '~/_htmc/Utility/DomUtility'
-import App from '~/_htmc/Application'
+import { $, $$, $id, jsx, scrollTo } from '~/_jcores/Utility/DomUtility'
+import Nexus from '~/_jcores/Nexus'
 import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
-import '~/app.js'
+import '~/register.js'
 
 smoothscroll.polyfill()
 
@@ -30,14 +30,14 @@ document.addEventListener('readystatechange', e => {
 
 const mountBody = () => {
     if (isMounted) return
-    App.connect()
+    Nexus.connect()
     window.requestAnimationFrame(() => {
         $id('root').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
         document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
     })
     Logger.console.log(`%capplication:mount`, "color:orange")
-    Logger.console.log(App)
+    Logger.console.log(Nexus)
     isMounted = true
 }
 
@@ -46,7 +46,7 @@ const clearBody = () => {
     Logger.console.time('body cleanup')
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
-    App.disconnect()
+    Nexus.disconnect()
     ObserverCollector.instance.clear()
     Logger.console.log(`%capplication:clear`, "color:orange")
     Logger.console.timeEnd('body cleanup')

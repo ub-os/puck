@@ -1,4 +1,4 @@
-import Core from "~/_htmc/Core"
+import Core from "~/_jcores/Core"
 
 /**
  * @property {MyInject} myInjectCore
@@ -6,10 +6,10 @@ import Core from "~/_htmc/Core"
  * @property {HTMLElement} myUnitUnit
  */
 // jsdoc is added for injects and units so the IDE does not complain
-// register Core with App.registerCore('my-core', MyCore)
+// register Core with Nexus.registerCore('my-core', MyCore)
 // apply core to element with [data-core="my-core"]
 export default class MyCore extends Core {
-  // identifier constant is set from first argument of App.registerCore()
+  // identifier constant is set from first argument of Nexus.registerCore()
   // => static identifier = 'my-core'
 
   static attributes = {
@@ -122,11 +122,11 @@ export default class MyCore extends Core {
     this.myEventBusListener = this.listeners.add(document.body, 'my-event', event => {
       // event details can be set with [data-my-event_:my-detail="value"]
       // in contrast to method triggers, event triggers are not bound to a core, but serve as a global event bus
-      // trigger events don't have to be registered to work, but can be configured with App.registerEvent('my-event', { bubbles: true, detail: { myDetail: 'defaultValue' } }
-      // like core attributes or triggerable method params, event details are converted to the type of the default value if default values are set via App.registerEvent()
+      // trigger events don't have to be registered to work, but can be configured with Nexus.registerEvent('my-event', { bubbles: true, detail: { myDetail: 'defaultValue' } }
+      // like core attributes or triggerable method params, event details are converted to the type of the default value if default values are set via Nexus.registerEvent()
       console.log(event.detail.myDetail)
-      // the original event triggering the custom event is available as event.detail.triggerEvent
-      console.log(event.detail.triggerEvent)
+      // the original event triggering the custom event is available as event.detail.originalEvent
+      console.log(event.detail.originalEvent)
     })
 
     return this

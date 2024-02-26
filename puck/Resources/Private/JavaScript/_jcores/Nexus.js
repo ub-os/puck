@@ -5,12 +5,12 @@ import Core from "./Core"
 import Unit from "./Unit"
 import Trigger from "./Trigger"
 
-class Application {
+class Nexus {
     #idx = 0
     coreRegistry = {}
     eventRegistry = {}
     connectedCallbackRegistry = {}
-    #attributePrefix = 'data-hc'
+    #attributePrefix = 'data-'
     #secondaryAttributePrefix = ''
     get attributePrefix() { return this.#attributePrefix }
     set attributePrefix(value) { this.#attributePrefix = value }
@@ -282,5 +282,4 @@ class Application {
     })
 }
 
-const App = new Application()
-export default App
+export default new Nexus()

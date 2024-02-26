@@ -1,5 +1,5 @@
-import { $, $$, $id, scrollTo } from '~/_htmc/Utility/DomUtility'
-import Core from '~/_htmc/Core'
+import { $, $$, $id, scrollTo } from '~/_jcores/Utility/DomUtility'
+import Core from '~/_jcores/Core'
 
 export default class AnchorBehavior extends Core {
     static attributes = {

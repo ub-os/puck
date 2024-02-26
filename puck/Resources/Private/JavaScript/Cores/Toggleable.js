@@ -1,5 +1,5 @@
-import { $, $$, $id, $target } from '~/_htmc/Utility/DomUtility'
-import Core from "~/_htmc/Core"
+import { $, $$, $id, $target } from '~/_jcores/Utility/DomUtility'
+import Core from "~/_jcores/Core"
 
 /**
  * @property {Map} toggleUnits

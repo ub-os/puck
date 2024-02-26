@@ -1,6 +1,6 @@
-import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
+import { $, $$, jsx } from '~/_jcores/Utility/DomUtility'
 import ScrollSensitive from "~/Cores/ScrollSensitive";
-import Core from "~/_htmc/Core"
+import Core from "~/_jcores/Core"
 
 /**
  * @property {ScrollSensitive} scrollSensitiveCore

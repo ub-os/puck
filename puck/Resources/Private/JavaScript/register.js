@@ -1,4 +1,4 @@
-import App from "~/_htmc/Application"
+import Nexus from "~/_jcores/Nexus"
 import ScrollbarWidth from "~/Cores/ScrollbarWidth"
 import AnchorBehavior from "~/Cores/AnchorBehavior"
 import Toggleable from '~/Cores/Toggleable'
@@ -14,7 +14,7 @@ import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 
 
-App.registerCore({
+Nexus.registerCore({
     AnchorBehavior,
     ScrollbarWidth,
     Toggleable,
@@ -30,7 +30,7 @@ App.registerCore({
     FocusTrap,
 })
 
-App.registerEvent({
+Nexus.registerEvent({
     'toggle-off-all': {
         bubbles: true,
         detail: {
@@ -39,7 +39,7 @@ App.registerEvent({
     },
 })
 
-App.registerConnectedCallback({
+Nexus.registerConnectedCallback({
     '.l-row': (el) => {
         if (el.children.length < 3) return
         el.setAttribute('role', 'list')

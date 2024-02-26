@@ -1,5 +1,5 @@
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import Core from "~/_htmc/Core";
+import Core from "~/_jcores/Core";
 
 export default class ScrollReveal extends Core {
     static attributes = {

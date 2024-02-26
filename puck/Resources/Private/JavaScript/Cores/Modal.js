@@ -1,4 +1,4 @@
-import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
+import { $, $$, jsx } from '~/_jcores/Utility/DomUtility'
 import Toggleable from "~/Cores/Toggleable"
 import FocusTrap from "~/Cores/FocusTrap"
 

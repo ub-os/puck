@@ -40,7 +40,6 @@ export default class Trigger {
         this.setListenerOptions()
         const triggerGuard = this.getTriggerGuard(event)
         const attributeConverter = new AttributeConverter(this.eventOptions.detail ?? {})
-        const datasetIdentifier = camelCase(this.identifier) + ':'
 
         this.listener = e => {
             if (triggerGuard(e)) return
@@ -50,26 +49,18 @@ export default class Trigger {
                 ...this.eventOptions,
                 detail: {
                     ...this.eventOptions.detail ?? {},
-                    triggerEvent: e
+                    originalEvent: e
                 }
             }
 
             for (const attr of el.attributes) {
                 if (attr.name.startsWith(`data-${this.identifier}:`)) {
                     const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
-                    if (attrKey === 'triggerEvent') return
+                    if (attrKey === 'originalEvent') return
                     eventOptions.detail[attrKey] = attributeConverter.read(attrKey, attr.value)
                 }
             }
-/*
-            Object.entries({...el.dataset}).forEach(([key, value]) => {
-                if (key.startsWith(datasetIdentifier)) {
-                    const attrKey = key.replace(datasetIdentifier, '')
-                    if (attrKey === 'triggerEvent') return
-                    eventOptions.detail[attrKey] = attributeConverter.read(attrKey, value)
-                }
-            })*/
-            console.log(eventOptions)
+
             targetEl.dispatchEvent(new CustomEvent(triggeredEvent, eventOptions))
         }
 
@@ -100,7 +91,6 @@ export default class Trigger {
         this.setListenerOptions()
         const triggerGuard = this.getTriggerGuard(event)
         const attributeConverter = new AttributeConverter(core.constructor.triggerables?.[coreMethod] || {})
-        const datasetIdentifier = camelCase(this.identifier) + ':'
 
         this.listener = e => {
             if (triggerGuard(e)) return
@@ -116,17 +106,10 @@ export default class Trigger {
             for (const attr of el.attributes) {
                 if (attr.name.startsWith(`data-${this.identifier}:`)) {
                     const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
-                    if (attrKey === 'triggerEvent') return
+                    if (attrKey === 'originalEvent') return
                     params[attrKey] = attributeConverter.read(attrKey, attr.value)
                 }
             }
-
-/*            Object.entries({...el.dataset}).forEach(([key, value]) => {
-                if (key.startsWith(datasetIdentifier)) {
-                    const attrKey = key.replace(datasetIdentifier, '')
-                    params[attrKey] = attributeConverter.read(attrKey, value)
-                }
-            })*/
 
             core[coreMethod](e, params)
         }
@@ -174,7 +157,6 @@ export default class Trigger {
 
     setListenerOptions() {
         ['capture', 'once', 'passive'].forEach(opt => {
-            //const value = this.el.dataset[`${this.identifier}:event:${opt}`]
             const value = this.el.getAttribute(`data-${this.identifier}:event:${opt}`)
             this.listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
         })

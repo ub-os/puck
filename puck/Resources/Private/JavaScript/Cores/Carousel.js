@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide'
-import { $, $$, jsx } from '~/_htmc/Utility/DomUtility'
-import Core from "~/_htmc/Core"
+import { $, $$, jsx } from '~/_jcores/Utility/DomUtility'
+import Core from "~/_jcores/Core"
 
 /**
  * @property {Map} controlUnits
