@@ -43,7 +43,7 @@
   &:where([class*="-background-"])
     +spacing(both, m, padding, 2)
     & + &,
-    &:where( + .e-anchor) + &
+    & + .e-anchor + :where(&)
       +spacing(top, m, margin, -1)
 
   @each $bg in $backgrounds
