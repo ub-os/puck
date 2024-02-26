@@ -54,7 +54,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function keepItems(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $keepItems = $this->keepItemsMap[$this->val($params['row']['CType'])][$params['field']];
         if ($keepItems) {
             $params['items'] = $this->filterItemsByValues($params['items'], $keepItems);
@@ -67,7 +67,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function containerWidth(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         if (!$this->val($params['row']['tx_container_parent'])) {
             $params['items'] = array_filter($params['items'], function ($item) {
                 return $item[1] >= 4;
@@ -88,7 +88,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function containerOffset(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         // only allow offset values that are smaller than half of (12 - container width)
         $items = array_filter($params['items'], function ($item) use ($params) {
             return $item[1] <= ((12 - $this->val($params['row']['container_width'])) / 2);
@@ -102,7 +102,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function mediaLayout(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $CType = $this->val($params['row']['CType']);
         if ($CType != 'puck_menu_pages') {
             return;
@@ -121,7 +121,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function itemColumnWidth(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         // failsafe for child content elements
         $containerWidth = $this->val($params['row']['container_width']);
         $maxWidth = $this->val($this->getMaxWidth($params));
@@ -148,7 +148,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function textColumnWidth(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $CType = $this->val($params['row']['CType']);
         $mediaLayout = $this->val($params['row']['media_layout']);
 
@@ -181,7 +181,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
      */
     public function mediaColumnWidth(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $CType = $this->val($params['row']['CType']);
         // maximum width = container width - media width
         if (!in_array($CType, ['puck_media','puck_modal','puck_child_column','puck_menu_pages','puck_child_card','puck_child_accordion'])) {
@@ -220,7 +220,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
 
     public function doktypes(&$params): void
     {
-        if (!$params['row']) return;
+        if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $params['items'] = [
             [
                 'label' => 'Default',
