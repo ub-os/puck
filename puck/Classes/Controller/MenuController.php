@@ -53,7 +53,7 @@ class MenuController extends ActionController
     }
 
     protected int $pageMenuFragmentTypeNum = 16500000;
-    #[Plugin("PageMenu", typeNum: 16500000)]
+    #[Plugin("PageMenu", fragment: 16500000)]
     public function pageMenuAction(
         ?array $demand = null,
         ?MenuPages $object = null): ResponseInterface
