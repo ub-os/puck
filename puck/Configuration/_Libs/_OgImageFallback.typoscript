@@ -5,7 +5,7 @@ lib.ogImageFallback {
     dataProcessing {
         10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
         10 {
-            references.fieldName = media
+            references.data = levelmedia:-1, slide
         }
         20 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
         20 {
