@@ -182,7 +182,7 @@
                                 <renderType>selectSingle</renderType>
                                 <items>
                                     <numIndex index="0">
-                                        <numIndex index="0">Record sorting</numIndex>
+                                        <numIndex index="0">List sorting</numIndex>
                                         <numIndex index="1">sorting</numIndex>
                                     </numIndex>
                                     <numIndex index="1">
@@ -220,6 +220,15 @@
                             </config>
                         </TCEforms>
                     </settings.order.direction>
+                    <settings.order.recordSelection>
+                        <TCEforms>
+                            <label>Order by record selection</label>
+                            <config>
+                                <type>check</type>
+                                <renderType>checkboxToggle</renderType>
+                            </config>
+                        </TCEforms>
+                    </settings.order.recordSelection>
                 </el>
             </ROOT>
         </order>

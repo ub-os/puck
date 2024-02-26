@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-
-use UBOS\Puck\Domain\Repository\PersonRepository;
 use UBOS\Puckloader\Attribute\Plugin;
 
 use UBOS\Puck\Menu\Dto\MenuDemand;
@@ -73,9 +70,9 @@ class MenuController extends ActionController
         $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand());
 
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
-        if ($this->settings['pagination']['active'] && $records->count() > $itemsPerPage) {
+        if ($this->settings['pagination']['active'] && count($records) > $itemsPerPage) {
             $paginationBuilder = new PaginationBuilder(
-                result: $records,
+                records: $records,
                 request: $this->request,
                 uriBuilder: $this->uriBuilder,
                 menuActionName: 'pageMenu',
@@ -87,9 +84,9 @@ class MenuController extends ActionController
                 ->addPaginationLinksToHead()
                 ->build();
             $this->view->assign('pagination', $pagination);
-            $object->menu = $paginationBuilder->getPaginatedItems()->toArray();
+            $object->menu = $paginationBuilder->getPaginatedItems();
         } else {
-            $object->menu = $records->toArray();
+            $object->menu = $records;
         }
 
         if ($this->settings['demand']['teasers']) {

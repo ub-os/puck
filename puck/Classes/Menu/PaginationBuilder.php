@@ -9,6 +9,8 @@ use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Pagination\SlidingWindowPagination;
 use UBOS\Puck\Menu\Dto\Pagination;
 use UBOS\Puck\Menu\Dto\PaginationItem;
@@ -24,7 +26,7 @@ class PaginationBuilder
     ];
     protected ?SlidingWindowPagination $slidingWindowPagination = null;
     public function __construct(
-        protected QueryResult $result,
+        protected array $records,
         protected Request $request,
         protected UriBuilder $uriBuilder,
         protected string $menuActionName,
@@ -43,8 +45,8 @@ class PaginationBuilder
     public function getSlidingWindowPagination(): SlidingWindowPagination
     {
         if (!$this->slidingWindowPagination) {
-            $paginator = new QueryResultPaginator(
-                $this->result,
+            $paginator = new ArrayPaginator(
+                $this->records,
                 intval($this->request->getArguments()[$this->settings['pageArgumentKey']] ?? '1'),
                 $this->settings['itemsPerPage']
             );
@@ -129,7 +131,7 @@ class PaginationBuilder
         );
     }
 
-    public function getPaginatedItems(): QueryResult
+    public function getPaginatedItems(): array
     {
         return $this->getSlidingWindowPagination()->getPaginator()->getPaginatedItems();
     }

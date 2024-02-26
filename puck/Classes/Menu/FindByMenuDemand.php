@@ -17,9 +17,8 @@ trait FindByMenuDemand
         return [];
     }
 
-    public function findByMenuDemand(MenuDemand $demand) : QueryResult
+    public function findByMenuDemand(MenuDemand $demand) : array
     {
-
         $query = $this->createQuery();
         $constraints = $this->additionalMenuDemandConstraints($query, $demand->additionalSettings);
         $pidUidConstraints = [];
@@ -66,7 +65,26 @@ trait FindByMenuDemand
         }
 
         // to do update, logicalAnd needs multiple arguments of type ConstraintInterface
-        return $query->matching($query->logicalAnd(...$constraints))->execute();
+        $records = $query->matching($query->logicalAnd(...$constraints))->execute();
+
+        if ($demand->orderByRecordsProperty) {
+            $recordsArray = $records->toArray();
+            $recordUids = explode(',', $demand->records);
+            $notInUidsIterator = 0;
+            $newArray = [];
+            foreach ($recordsArray as $record) {
+                $selectionPosition = array_search($record->getUid(), $recordUids);
+                if ($selectionPosition !== false) {
+                    $newArray[$selectionPosition] = $record;
+                } else {
+                    $newArray[count($recordUids) + $notInUidsIterator] = $record;
+                    $notInUidsIterator++;
+                }
+            }
+            ksort($newArray);
+            return $newArray;
+        }
+        return $records->toArray();
     }
 
     /**

@@ -12,12 +12,14 @@ class MenuDemand
         public string $records = '',
         public ?int $limit = null,
         public int $offset = 0,
-        public array $categories = [
-            //'0' => [ 'uids' => '', 'conjunction' => 'or' ]
-        ],
+        /**
+         * @var array<string, array{uids: string, conjunction: string}>
+         */
+        public array $categories = [],
         public string $categoriesConjunction = 'and',
         public string $orderField = 'sorting',
         public string $orderDirection = 'asc',
+        public bool $orderByRecordsProperty = false,
         public array $additionalSettings = [],
     )
     {
@@ -35,6 +37,7 @@ class MenuDemand
         $demand->categoriesConjunction = $settings['demand']['categoriesConjunction'] ?? $demand->categoriesConjunction;
         $demand->orderField = $settings['order']['field'] ?? $demand->orderField;
         $demand->orderDirection = $settings['order']['direction'] ?? $demand->orderDirection;
+        $demand->orderByRecordsProperty = $settings['order']['recordSelection'] ?? $demand->orderByRecordsProperty;
         $demand->additionalSettings = $additionalSettings;
         return $demand;
     }
