@@ -26,13 +26,12 @@
         </f:if>
       </f:comment>
 
-
+      <fc:slot name="content"/>
       <button class="{name}__close"
               data-trigger="modal::toggle"
               aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />
       </button>
-      <fc:slot name="content"/>
 
     </div>
 

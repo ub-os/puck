@@ -46,9 +46,11 @@
           </div>
         </f:if>
         <f:if condition="{config.cta}">
-          <button class="{name}__cta e-cta-button" tabindex="-1">
-            <f:translate extensionName="puck" key="learn-more"/>
-          </button>
+          <div class="{name}__cta__wrap">
+            <button class="{name}__cta e-cta-button" tabindex="-1">
+              <f:translate extensionName="puck" key="learn-more"/>
+            </button>
+          </div>
         </f:if>
       </div>
 
