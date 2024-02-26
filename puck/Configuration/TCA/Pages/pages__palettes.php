@@ -3,6 +3,7 @@
 
 $GLOBALS['TCA']['pages']['palettes']['standard']['showitem'] = '
         doktype, post_date, icon,';
+
 $GLOBALS['TCA']['pages']['palettes']['author'] = [
   'label' => 'Author',
     'showitem' => 'post_author'

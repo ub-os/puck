@@ -15,6 +15,9 @@ class PageItemsProcFunc extends BaseItemsProcFunc
     public function doktype(&$params): void
     {
         $pidRow = BackendUtility::getRecord('pages', $params['row']['pid']);
+        if (!$pidRow) {
+            return;
+        }
         if ($pidRow['module'] == 'news') {
             $params['items'] = $this->filterItemsByValues($params['items'], (string)PageRepository::DOKTYPES['news']);
         }
