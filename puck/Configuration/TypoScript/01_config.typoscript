@@ -47,7 +47,7 @@ config {
     config.compressCss = 0
     config.compressJs = 0
 [END]
-[backend.user.isLoggedIn]
+[applicationContext == "Development" && backend.user.isLoggedIn]
     config.no_cache = 1
 [global]
 

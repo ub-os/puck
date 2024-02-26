@@ -1,0 +1,34 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-indexedsearch"/>
+  <fc:renderer>
+
+    <layout:modal id="header-search-modal"
+                  width="12"
+                  class="{name}__modal"
+                  attributes="{data-modal__focus-on-open:'first'}">
+      <f:form     pluginName="Pi2"
+                  extensionName="indexedsearch"
+                  pageUid="{settings.search.pid}"
+                  method="post"
+                  controller="Search"
+                  action="search">
+        <div class="{name}__bar">
+          <f:form.textfield
+                  id="main-nav-search-input"
+                  class="{name}__input"
+                  placeholder="Suchbegriff"
+                  name="search[sword]"/>
+           
+          <button type="submit" name="search[submitButton]"
+                  class="{name}__submit e-button-primary">
+            {f:translate(extensionName:'puck',key:'search')}
+          </button>
+        </div>
+      </f:form>
+    </layout:modal>
+
+  </fc:renderer>
+</fc:component>
+
+

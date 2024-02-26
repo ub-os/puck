@@ -16,6 +16,11 @@ plugin.tx_powermail {
         setup.validation.client = 0
         setup.spamshield._enable = 1
         setup.main.optin = 0
+        setup.db.enable = 0
+        setup.misc.htmlForHtmlFields = 1
     }
 }
 
+page.includeJSFooter {
+    powermailForm >
+}

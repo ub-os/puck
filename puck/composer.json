@@ -23,7 +23,8 @@
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2",
     "kitzberger/doktype-typolink": "^3",
-    "b13/slash-force": "^1.0"
+    "b13/slash-force": "^1.0",
+    "in2code/powermail": "^12.1"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

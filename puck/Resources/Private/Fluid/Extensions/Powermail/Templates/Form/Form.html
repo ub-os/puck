@@ -1,45 +1,72 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
-<layout:section container="0" id="c{ttContentData.uid}">
-    <div class="powermail_container">
-
-        <element:moduleHeader object="{ttContentData}"/>
+<html>
+{u:var(set:'name', value:'m-powermail-form')}
+{u:model(set:'object', data:ttContentData, map:'~Content\PowermailForm')}
+<module:text object="{object}">
     <f:alias map="{flashMessageClass:'powermail_message_error'}">
         <f:render partial="Misc/FlashMessages" arguments="{_all}" />
     </f:alias>
-
     <f:if condition="{form}">
         <f:then>
+            {u:var(set:'additionalAttributes',
+            if:'{settings.thx.redirect}',
+            then:'',
+            else:{
+                data-hx-post:'{f:uri.action(action:action)}',
+                data-hx-select:'#c{object.uid}',
+                data-hx-target:'#c{object.uid}',
+                data-hx-swap:'outerHTML show:#c{object.uid}:top'
+            })}
             <f:form
                     action="{action}"
-                    section="c{ttContentData.uid}"
                     name="field"
                     id="form-{form.uid}"
                     enctype="multipart/form-data"
                     addQueryString="{settings.misc.addQueryString}"
-                    class="powermail_form powermail_form_{form.uid} {form.css} {settings.styles.framework.formClasses} {vh:misc.morestepClass(activate:settings.main.moresteps)}">
-
+                    class="{name} {settings.styles.framework.formClasses}"
+                    additionalAttributes="{additionalAttributes}">
                 <f:if condition="{form.css} != 'nolabel'">
-                    <h2>{form.title}</h2>
+                    <header class="{name}__header">{form.title}</header>
                 </f:if>
                 <f:render partial="Misc/FormError" arguments="{_all}" />
 
-                <f:for each="{form.pages}" as="page">
-                    <f:render partial="Form/Page" arguments="{_all}" />
-                </f:for>
+                <div data-hx-disinherit="hx-select hx-target">
+                    <f:if condition="{settings.main.moresteps}">
+                        <f:then>
+                            <layout:carousel
+                                    id="c{ttContentData.uid}-carousel"
+                                    class="{name}__page__carousel"
+                                    arrows="0"
+                                    carouselAttributes="{splideOptions:{type:'fade'}}">
+                                <f:for each="{form.pages}" as="page" iteration="pageIterator">
+                                    <layout:row.item class="{name}__page__slide splide__slide">
+                                        <f:render partial="Form/Page" arguments="{_all}" />
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:carousel>
+                        </f:then>
+                        <f:else>
+                            <f:for each="{form.pages}" as="page">
+                                <f:render partial="Form/Page" arguments="{_all}" />
+                            </f:for>
+                        </f:else>
+                    </f:if>
+                </div>
 
-                <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid" />
-                <f:render partial="Misc/HoneyPod" arguments="{form:form}" />
+
+                <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid" respectSubmittedDataValue="false" />
+                <f:render partial="Misc/HoneyPod" arguments="{form:form}"/>
+
             </f:form>
         </f:then>
         <f:else>
             <f:translate key="error_no_form" />
         </f:else>
     </f:if>
-    </div>
-</layout:section>
+</module:text>
 
 
-
+</html>
 
 
 

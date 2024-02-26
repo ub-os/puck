@@ -11,28 +11,54 @@ Render Powermail Thx Page
 {uploadService}									All values from uploaded files
 NOTE: See example section after main section
 
+
+
 <f:section name="main">
+  {u:var(set:'name', value:'m-powermail-form')}
+  {u:model(set:'object', data:ttContentData, map:'~Content\PowermailForm')}
+
+  <layout:section object="{object}" id="c{object.uid}">
+
+    <div style="padding-top: var(--height-page-header); margin-top: 2em"></div>
+    <div class="{settings.styles.framework.createClasses}" data-powermail-form="{mail.form.uid}">
+      <f:if condition="{optinActive}">
+        <f:else>
+          <vh:misc.variables mail="{mail}">
+            <f:format.html parseFuncTSPath="lib.parseFunc_RTE">{powermail_rte}</f:format.html>
+          </vh:misc.variables>
+
+          <f:render partial="Misc/GoogleAdwordsConversion" />
+        </f:else>
+        <f:then>
+          <f:translate key="optin_seeMail" />
+        </f:then>
+      </f:if>
+    </div>
+
+    <p class="u-text-center">
+      <f:link.page
+              pageUid="{object.pid}"
+              additionalAttributes="{
+              data-hx-get:'{f:uri.page(pageUid:object.pid)}',
+              data-hx-select:'#c{object.uid}',
+              data-hx-target:'#c{object.uid}',
+              data-hx-swap:'outerHTML show:#c{object.uid}:top'
+            }">
+        Zurück zum Formular
+      </f:link.page>
+    </p>
+
+  </layout:section>
+
   <f:alias map="{flashMessageClass:'powermail_message_error'}">
     <f:render partial="Misc/FlashMessages" arguments="{_all}" />
   </f:alias>
 
-  <div class="{settings.styles.framework.createClasses}" data-powermail-form="{mail.form.uid}">
-    <f:if condition="{optinActive}">
-      <f:else>
-        <vh:misc.variables mail="{mail}">
-          <f:format.html parseFuncTSPath="lib.parseFunc_RTE">{powermail_rte}</f:format.html>
-        </vh:misc.variables>
-        <f:render partial="Misc/GoogleAdwordsConversion" />
-      </f:else>
-      <f:then>
-        <script>
-          window.location.href = "https://www.biolectra-magnesium.de/geschmackstest/mail-bestaetigen/";
-        </script>
-        <module:content.text data="{header: 'E-Mail bestätigen', bodytext: '<p>Bitte prüfen Sie Ihr Postfach um Ihre E-Mail-Adresse zu bestätigen.</p>'}"/>
-      </f:then>
-    </f:if>
-  </div>
 </f:section>
+
+
+
+
 
 
 
@@ -43,12 +69,14 @@ THIS IS ONLY AN EXAMPLE SECTION
     <f:render partial="Misc/FlashMessages" arguments="{_all}" />
   </f:alias>
 
+
   1. Get values from RTE from Backend:
   <vh:misc.variables mail="{mail}">
     <f:format.html parseFuncTSPath="lib.parseFunc_RTE">
       {powermail_rte}
     </f:format.html>
   </vh:misc.variables>
+
 
   2. Get all Values by using powermail_all
   <vh:string.escapeLabels>
@@ -59,4 +87,5 @@ THIS IS ONLY AN EXAMPLE SECTION
   Hi {firstname} {lastname}, thank you for your email.<br />
   {label_email}: {email}<br />
   {label_text}: {text}
+
 </f:section>

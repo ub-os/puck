@@ -1,43 +1,31 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
-<fieldset class="powermail_fieldset powermail_fieldset_{page.uid} -{page.css} -white-bg" data-powermail-page="{page.sorting}"
-          id="form-{form.uid}-page-{page.sorting}">
-    <div class="l-container -cols10">
+<fieldset class="{name}__page {page.css}"
+          id="form-{form.uid}-page-{page.uid}">
     <f:if condition="{page.css} != 'nolabel'">
-        <f:variable name="headerLayout" value="{f:if(condition:'{page.css} == \'layout1\'', then:1, else:0)}"/>
-        <element:moduleHeader object="{header: page.title, header_layout: headerLayout}" />
+        <header class="{name}__page__header">{page.title}</header>
     </f:if>
-    <div class="powermail_field_list">
+    <layout:row class="{name}__list" justify="left">
         <f:for each="{page.fields}" as="field" iteration="iteration">
-            <vh:misc.createRowTags columns="{settings.styles.numberOfColumns}"
-                                   class="{settings.styles.framework.rowClasses}" iteration="{iteration}">
-                <f:render partial="Form/Field/{vh:String.Upper(string:field.type)}" arguments="{field:field}" />
-            </vh:misc.createRowTags>
+            <layout:row.item class="{name}__item -type-{field.type} -marker-{field.marker}">
+                <div class="{name}__field -type-{field.type} -marker-{field.marker} {settings.styles.framework.fieldWrappingClasses} {settings.styles.framework.offsetClasses} {field.css} {settings.styles.framework.fieldAndLabelWrappingClasses}">
+                    <f:render partial="Form/Field/{vh:String.Upper(string:field.type)}" arguments="{field:field, name:name, iteration:iteration}" />
+                </div>
+            </layout:row.item>
         </f:for>
-        <f:if condition="{settings.main.moresteps}">
-            <div style="width: 100%"></div>
-            <f:if condition="{page.sorting} > 1">
-                <div class="powermail_fieldwrap powermail_fieldwrap_type_submit powermail_fieldwrap_pagination -prev">
-                    <div class="powermail_field">
-                        <div class="e-button powermail_morestep_button -prev"
-                             data-powermail-to-page="{page.sorting}">
-                            <f:translate extensionName="puck" key="go-back" />
-                        </div>
-                    </div>
+    </layout:row>
+    <f:if condition="{settings.main.moresteps}">
+        <div class="{name}__page__browse">
+            <f:if condition="!{pageIterator.isFirst}">
+                <div class="{name}__page__prev e-button" data-action="carousel::move" data-carousel::move:to="<" role="button">
+                    Zurück
                 </div>
             </f:if>
-            <f:if condition="{page.sorting} < {form.pages -> f:count()}">
-                <div class="powermail_fieldwrap powermail_fieldwrap_type_submit powermail_fieldwrap_pagination -next">
-                    <div class="powermail_field">
-                        <div class="e-button powermail_morestep_button -next"
-                             data-powermail-to-page="{page.sorting}"
-                             data-powermail-validate-fieldset>
-                            <f:translate extensionName="puck" key="next-step" />
-                        </div>
-                    </div>
+            <f:if condition="!{pageIterator.isLast}">
+                <div class="{name}__page__next e-button" data-action="carousel::move" data-carousel::move:to=">" role="button">
+                    Weiter
                 </div>
             </f:if>
-        </f:if>
-    </div>
-    </div>
+        </div>
+    </f:if>
 </fieldset>
 

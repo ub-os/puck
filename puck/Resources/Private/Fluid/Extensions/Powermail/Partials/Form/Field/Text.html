@@ -1,9 +1,5 @@
 
-<div class="powermail_fieldwrap powermail_fieldwrap_type_text powermail_fieldwrap_{field.marker} {field.css} {settings.styles.framework.fieldAndLabelWrappingClasses}">
-    <f:if condition="{field.css} != 'nolabel'">
-        <h3 class="powermail_field_type_text_headline">{field.title}</h3>
-    </f:if>
-    <div class="{settings.styles.framework.fieldWrappingClasses} {settings.styles.framework.offsetClasses}">
-        <f:format.raw>{field.text}</f:format.raw>
-    </div>
-</div>
+<f:if condition="{field.css} != 'nolabel'">
+    <h3 class="{name}__text__headline">{field.title}</h3>
+</f:if>
+<element:richText text="{field.text}"/>

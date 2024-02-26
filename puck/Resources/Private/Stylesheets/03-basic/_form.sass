@@ -1,13 +1,19 @@
-$checkboxSize: 1.5em
+@import '../02-generic/icon-font'
+
+$checkboxRelativeSize: 1.5
+$lineHeight: 1.25
+$checkboxSize: $checkboxRelativeSize * 1em
+$paddingTop: ($checkboxRelativeSize - 1) * 0.5em
+$checkboxOffset: ($lineHeight - 1) * $checkboxSize * 0.66 / $checkboxRelativeSize
 
 fieldset
   padding: 0
   border: none
 
-input, textarea
-  margin: 0 0 1em
+input, textarea, select
+  margin: 0
   padding: 0
-  color: inherit
+  color: var(--color-input)
   background: var(--background-input)
   outline: 0
   &::placeholder
@@ -23,26 +29,31 @@ textarea
   height: 9.5em
   resize: none
 
-[type="text"], [type="email"], [type="password"]
+select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
   width: 100%
 
-textarea, select, [type="text"], [type="email"], [type="password"]
+textarea, select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
+  min-height: 2.66em
   padding: .66em
   border: 2px solid var(--color-input-border)
   border-radius: var(--border-radius-s)
-  transition: background .15s, border-color .15s
+  transition: background .15s, border-color .15s, color .15s, box-shadow .15s
   &:active, &:focus, &:hover
     border-color: var(--color-input-border--active)
 
 select
-  -webkit-appearance: none
-  -moz-appearance: none
+  appearance: none
   padding-right: 2em
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>')
-  background-repeat: no-repeat
-  background-size: .75em
-  background-position-x: calc(100% - .5em)
-  background-position-y: 47%
+  .select-wrap:where(:has(> &))
+    position: relative
+    &:after
+      +center(vertical)
+      right: 1em
+      content: map-get($icons-map, 'angle-down-regular')
+      display: block
+      font-family: icons
+      pointer-events: none
+
 
 [type="checkbox"], [type="radio"]
   position: absolute
@@ -54,34 +65,32 @@ select
   & + label
     cursor: pointer
     position: relative
-    display: block
-    padding: 0 0 0 $checkboxSize
+    padding: $paddingTop 0 0 $checkboxSize * 1.5
     line-height: 1.5
 
   & + label:after, & + label:before
     position: absolute
     content: ''
     display: inline-block
-    border-radius: 100%
-    +media(s)
-      transform: translateY(-3px)
 
   & + label:before
-    top: 3px
+    top: $checkboxOffset
     left: 0
-    width: $checkboxSize * 0.7
-    height: $checkboxSize * 0.7
-    border: 2px solid white
+    width: $checkboxSize
+    height: $checkboxSize
+    background: var(--background-input)
     transition: border-color .15s
 
   & + label:after
     box-sizing: border-box
-    top: $checkboxSize * 0.375
-    left: $checkboxSize * 0.2
+    background: var(--color-input--active)
+    top: $checkboxSize * 0.25 + $checkboxOffset
+    left: $checkboxSize * 0.25
     width: $checkboxSize * 0.5
     height: $checkboxSize * 0.5
     opacity: 0
-    transition: border-color .15s, background .15s, opacity .15s
+    scale: 0.5
+    transition: border-color .15s, background .15s, opacity .15s, scale .15s
 
   &:not(:checked) + label:hover:after
     opacity: .5
@@ -90,9 +99,11 @@ select
 
   &:checked + label:after
     opacity: 1
+    scale: 1
 
 [type="radio"]
-
+  & + label:after, & + label:before
+    border-radius: 100%
 
 [type="checkbox"]
   & + label
@@ -131,4 +142,15 @@ input[type="range"]::-webkit-slider-runnable-track
   box-shadow: none
   border: none
   background: transparent
+
+label
+  display: inline-block
+  margin-bottom: .5em
+  a
+    color: var(--color-link)
+    text-decoration: underline
+    transition: color .15s
+    &:hover
+      color: var(--color-link--hover)
+
 

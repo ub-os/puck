@@ -37,11 +37,12 @@
           <f:comment>
               // small navigation with search link that opens modal
             <element:navigation name="{name}__nav" class="-small" pages="{settings.navUid.meta}">
-              <f:if condition="{data.uid} != 18">
+              <f:if condition="{object.uid} != {settings.search.pid}">
                 <li class="{name}__nav__item">
-                  <a href="#" class="{name}__nav__link" aria-controls="header-search-modal">
-                    <f:translate extensionName="puck" key="search"/>
-                  </a>
+                  <button class="{name}__nav__link"
+                          data-action="modal::toggle#header-search-modal">
+                    {f:translate(extensionName:'puck',key:'search')}
+                  </button>
                 </li>
               </f:if>
             </element:navigation>
@@ -51,28 +52,11 @@
         <module:header.burger />
       </div>
     </header>
+
     <f:comment>
-      <f:variable name="searchName" value="m-form-indexedsearch"/>
-      <layout:modal id="header-search-modal"
-                    class="{searchName}__modal">
-        <f:form     pluginName="Pi2"
-                    extensionName="indexedsearch"
-                    pageUid="{settings.search.pid}"
-                    controller="Search">
-          <div class="{searchName}__wrap">
-            <f:form.textfield
-                    id="main-nav-search-input"
-                    class="{searchName}__input"
-                    placeholder="Suchbegriff"
-                    name="search[sword]"/>
-             
-            <f:form.submit name="search[submitButton]"
-                           class="{searchName}__submit"
-                           value="{f:translate(extensionName:'puck',key:'search')}"/>
-          </div>
-        </f:form>
-      </layout:modal>
+      <module:header.searchModal/>
     </f:comment>
+
   </fc:renderer>
 </fc:component>
 
