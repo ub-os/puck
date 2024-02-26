@@ -1,7 +1,43 @@
 
 // RTE
-RTE.default.preset = puck_default
-RTE.default.buttons.link.relAttribute.enabled = 1
+RTE.default {
+    preset = puck_default
+    classesAnchor {
+        url {
+            class = external
+            type = url
+            target = _top
+        }
+        page {
+            class = local
+            type = page
+            target = _top
+        }
+        file {
+            class = download
+            type = file
+            target = _blank
+        }
+        folder {
+            class = folder
+            type = folder
+            target = _blank
+        }
+        mail {
+            class = mail
+            type = mail
+        }
+    }
+    buttons.link{
+        page.properties.class.default = local
+        url.properties.class.default = external
+        folder.properties.class.default = folder
+        file.properties.class.default = download
+        mail.properties.class.default = mail
+        properties.class.allowedClasses = local,external,folder,mail,download
+        relAttribute.enabled = 1
+    }
+}
 
 // clean copy
 TCEMAIN.table.pages.disablePrependAtCopy = 1
@@ -9,4 +45,3 @@ TCEMAIN.table.pages.disableHideAtCopy = 1
 TCEMAIN.table.tt_content.disablePrependAtCopy = 1
 TCEMAIN.table.tt_content.disableHideAtCopy = 1
 TCAdefaults.tt_content.imagecols = 1
-
