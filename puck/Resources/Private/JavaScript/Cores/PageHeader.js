@@ -7,29 +7,38 @@ import Core from "~/_jcores/Core"
  */
 export default class PageHeader extends Core {
     static attributes = {
-        minScrollForHide: 100,
+        scrollTop: 100,
+        scrollClass: '--scroll',
         downClass: '--scroll-down',
         upClass: '--scroll-up'
     }
+
     static injects = ['scroll-sensitive']
+
+    lastScrollTop = 0
+    scrollDirection = ''
+    ticking = false
+    pausedTimeOut = null
+
     checkScrollDirection() {
         const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         const difference = Math.abs(currentScrollTop - this.lastScrollTop)
-        if (difference < 5) return this.lastScrollDirection
+        if (difference < 10) return this.scrollDirection
         const scrollDirection = currentScrollTop > this.lastScrollTop ? 'down' : 'up'
         this.lastScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         return scrollDirection
     }
-    scrollHandler() {
-        if (!this.ticking && !this.paused) {
+
+    scrollHandler(event) {
+        if (!this.ticking && this.pausedTimeOut == null) {
             window.requestAnimationFrame(() => {
-                const scrollDirection = this.checkScrollDirection()
-                const newState = scrollDirection === 'down' && this.lastScrollTop > this.minScrollForHide ? 'hidden' : 'visible'
-                this.ticking = false
-                this.lastScrollDirection = scrollDirection
-                if (this.lastState === newState) return
-                this.lastState = newState
-                if (scrollDirection === 'down' && this.lastScrollTop > this.minScrollForHide) {
+                setTimeout(() => {
+                    this.ticking = false
+                }, 200)
+                const scrollDirection = this.checkScrollDirection(event)
+                if (this.scrollDirection == scrollDirection) return
+                this.scrollDirection = scrollDirection
+                if (this.scrollDirection === 'down') {
                     this.el.classList.add(this.downClass)
                     this.el.classList.remove(this.upClass)
                 } else {
@@ -40,22 +49,19 @@ export default class PageHeader extends Core {
             this.ticking = true;
         }
     }
-    lastScrollTop = 0
-    ticking = false
-    paused = false
-    lastScrollDirection = 'up'
-    lastState = 'visible'
 
     connect() {
-        this.listeners.add(document.body, 'scrollTo', e => {
-            this.paused = true
-            this.el.classList.add(this.downClass)
-            this.el.classList.remove(this.upClass)
-            setTimeout(() => {
-                this.paused = false
-            }, 1000)
+        this.listeners.add(window, 'scroll', e => {
+            if (document.documentElement.scrollTop < this.scrollTop) {
+                this.el.classList.remove(this.scrollClass)
+            } else {
+                this.el.classList.add(this.scrollClass)
+            }
         })
-        this.listeners.add(window, 'scroll', this.scrollHandler.bind(this))
+
+        this.listeners.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this))
+        this.listeners.add(window, 'keyup', this.scrollHandler.bind(this))
+        this.listeners.add(window, 'mousewheel', this.scrollHandler.bind(this))
         return this
     }
 
@@ -63,5 +69,6 @@ export default class PageHeader extends Core {
         this.listeners.destroy()
         this.el.classList.remove(this.downClass)
         this.el.classList.remove(this.upClass)
+        this.el.classList.remove(this.scrollClass)
     }
 }
