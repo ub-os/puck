@@ -1,8 +1,23 @@
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
+    01_content {
+        before = plugins
+        after = 00_presets
+    }
+    02_hero {
+        before = plugins
+        after = 01_content
+    }
+    03_menu {
+        before = plugins
+        after = 02_menu
+    }
+    forms.before = plugins
+    forms.elements.powermail_pi1 < mod.wizards.newContentElement.wizardItems.ext-powermail.elements.powermail-form
+    forms.show = powermail_pi1, felogin_login, search
+    ext-powermail.show =
     menu.show =
     common.show =
-    forms.show =
 }
 
 // Page Backend Layouts
