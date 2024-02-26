@@ -19,7 +19,7 @@ export default class Carousel extends Core {
         }
     }
     move(event, { to }) {
-        this.splide.go(parseInt(to))
+        this.splide.go(to)
     }
     connect() {
         this.biggestSlideHeight = 0

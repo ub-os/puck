@@ -9,7 +9,8 @@ Loader::loadConf('puck');
 
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(
-    "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig'
+    "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig',
+    @import 'EXT:puck/Configuration/TSconfig/Powermail.tsconfig',
     @import 'EXT:puck/Configuration/TSconfig/Mod.tsconfig'"
 );
 

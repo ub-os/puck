@@ -13,12 +13,11 @@
   &.--stuck
     background: var(--background-modal)
 
-  &:where(.--stuck)
+  &:where(.--stuck.--scroll)
     &.--scroll-up, &.--scroll-down
     transition: background .5s, transform .4s
     &.--scroll-down
       transform: translateY(-100%)
-
 
   &__container
     +flex(row, space-between, center, nowrap)

@@ -1,11 +1,15 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
 <html>
+
 {u:var(set:'name', value:'m-powermail-form')}
 {u:model(set:'object', data:ttContentData, map:'~Content\PowermailForm')}
 <module:text object="{object}">
     <f:alias map="{flashMessageClass:'powermail_message_error'}">
         <f:render partial="Misc/FlashMessages" arguments="{_all}" />
     </f:alias>
+    <f:if condition="{object.bodytext}">
+        <p></p>
+    </f:if>
     <f:if condition="{form}">
         <f:then>
             {u:var(set:'additionalAttributes',

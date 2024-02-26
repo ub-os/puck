@@ -16,14 +16,17 @@
     <f:if condition="{settings.main.moresteps}">
         <div class="{name}__page__browse">
             <f:if condition="!{pageIterator.isFirst}">
-                <div class="{name}__page__prev e-button" data-action="carousel::move" data-carousel::move:to="<" role="button">
+                <a class="{name}__page__prev e-button"
+                   data-trigger="carousel::move" data-carousel::move:to="<" role="button">
                     Zurück
-                </div>
+                </a>
             </f:if>
             <f:if condition="!{pageIterator.isLast}">
-                <div class="{name}__page__next e-button" data-action="carousel::move" data-carousel::move:to=">" role="button">
+                <a class="{name}__page__next e-button"
+                   onclick="if (!document.getElementById('form-{form.uid}').reportValidity()) {return false}"
+                   data-trigger="carousel::move" data-carousel::move:to=">" role="button">
                     Weiter
-                </div>
+                </a>
             </f:if>
         </div>
     </f:if>
