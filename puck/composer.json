@@ -22,7 +22,8 @@
     "oliveoilexpert/puckloader": "^0.1.2",
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2",
-    "kitzberger/doktype-typolink": "^3"
+    "kitzberger/doktype-typolink": "^3",
+    "b13/slash-force": "^1.0"
   },
   "replace": {
     "typo3-ter/puck": "self.version"
