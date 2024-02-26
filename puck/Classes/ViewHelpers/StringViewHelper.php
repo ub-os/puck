@@ -15,20 +15,21 @@ class StringViewHelper extends AbstractViewHelper
         $this->registerArgument('input', 'mixed', '', false, '');
         $this->registerArgument('bulk', 'bool', '', false, false);
         $this->registerArgument('contains', 'string', '', false);
-        $this->registerArgument('search', 'array', '', false);
-        $this->registerArgument('replace', 'array', '', false);
+        $this->registerArgument('search', 'string', '', false);
+        $this->registerArgument('replace', 'string', '', false);
         $this->registerArgument('dataReplace', 'array', '', false);
         $this->registerArgument('explode', 'string', '', false);
+        $this->registerArgument('length', 'string', '', false);
         $this->registerArgument('if', 'boolean', '', false);
         $this->registerArgument('set', 'string', '', false, '');
-        $this->registerArgument('operations', 'string', '', false, 'contains search dataReplace explode');
+        $this->registerArgument('operations', 'string', '', false, 'contains search dataReplace length explode');
     }
 
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ): array|string|null
+    ): array|string|null|int
     {
         $input = $renderChildrenClosure() ?? $arguments['input'];
         $result = self::process($input, $arguments);
@@ -58,7 +59,7 @@ class StringViewHelper extends AbstractViewHelper
         $operations = explode(' ', $arguments['operations']);
         foreach ($operations as $operation) {
             if ($arguments[$operation] !== null) {
-                $string = self::$operation($string, $arguments[$operation]);
+                $string = self::$operation($string, $arguments[$operation], $arguments);
             }
         }
         return $string;
@@ -69,6 +70,10 @@ class StringViewHelper extends AbstractViewHelper
         return str_contains($string, $contains);
     }
 
+    protected static function length(string $string, string $length): int
+    {
+        return strlen($string);
+    }
     protected static function search(string $string, string $search, array $args): bool|string
     {
         if ($args['replace']) {
