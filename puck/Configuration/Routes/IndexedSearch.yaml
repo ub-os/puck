@@ -1,5 +1,6 @@
 routeEnhancers:
   IndexedSearchPlugin:
+    limitToPages: [ ]
     type: Extbase
     namespace: tx_indexedsearch_pi2
     routes:
@@ -7,7 +8,7 @@ routeEnhancers:
         routePath: '/{results-label}'
         _controller: 'Search::search'
       -
-        routePath: '::{search/sword}'
+        routePath: '/{results-label}::{search/sword}'
         _controller: 'Search::search'
         requirements:
           -
@@ -15,7 +16,9 @@ routeEnhancers:
     aspects:
       results-label:
         type: LocaleModifier
-        default: 'results'
+        default: 's'
         localeMap:
           - locale: 'de_DE.*'
-            value: 'ergebnisse'
+            value: 's'
+      search/sword:
+        type: NothingMapper

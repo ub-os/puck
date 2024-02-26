@@ -1,11 +1,11 @@
 routeEnhancers:
   SitemapPage:
+    limitToPages: [ 2 ]
     type: PageType
-    limitToPages:
-      - 2
     map:
       .xml: 1533906435
   Sitemap:
+    limitToPages: [ 2 ]
     type: Simple
     routePath: '{sitemap}'
     aspects:
@@ -15,4 +15,3 @@ routeEnhancers:
           sitemap-index: ''
           sitemap: pages
           sitemap-news: news
-

@@ -3,30 +3,31 @@ routeEnhancers:
     type: Extbase
     extension: Puck
     plugin: PageMenu
+    limitToPages: [ 4 ]
     routes:
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{authorLabel}_{demand/authors}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}/{pageLabel}_{page}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}/{pageLabel}_{page}'
+        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{categoryLabel}_{demand/categories/0/uids}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{authorLabel}_{demand/authors}'
+        routePath: '/{authorLabel}:{demand/authors}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/{pageLabel}_{page}'
+        routePath: '/{pageLabel}-{page}'
         _controller: 'Menu::pageMenu'
       -
-        routePath: '/~{pluginPrefix}/c{object}'
+        routePath: '/c{object}'
         _controller: 'Menu::pageMenu'
       -
         routePath: '/'

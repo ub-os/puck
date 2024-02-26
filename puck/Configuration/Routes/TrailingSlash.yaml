@@ -1,8 +1,7 @@
 routeEnhancers:
-  TrailingSlash:
+  PageTypeSuffix:
     type: PageType
     default: /
     index: ''
     map:
       /: 0
-
