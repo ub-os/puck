@@ -18,33 +18,33 @@
 
   &__content
     &.-layout-above
-      +spacing(top, m, padding, 2)
+      padding-top: spacing(m, 2)
 
     &.-layout-below
-      +spacing(bottom, m, padding, 2)
+      padding-bottom: spacing(m, 2)
 
   &__wrap[class*="-background-"] &__content
     &.-layout-right,
     &.-layout-left
-      +spacing(both, m, padding, 2)
+      padding-block: spacing(m, 2)
 
     &.-layout-above
-      +spacing(bottom, m, padding, 2)
+      padding-bottom: spacing(m, 2)
 
     &.-layout-below
-      +spacing(top, m, padding, 2)
+      padding-top: spacing(m, 2)
 
   &__figure
     &.-layout-right,
     &.-layout-left
-      +media(m, up)
+      @media (min-width(m))
         +cover-media()
         position: absolute
         top: 0
         height: 100%
         width: 50vw
         max-width: calc(var(--width-page) * 0.5)
-      +media(m)
+      @media (max-width(m))
         +gutter-outer($gutter-outer, $gutter-outer-mb, true)
 
     &.-layout-right

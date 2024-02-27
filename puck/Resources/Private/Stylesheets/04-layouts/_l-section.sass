@@ -2,10 +2,10 @@
   $backgrounds: 'dark-1'
   $slanted-backgrounds: 'slant-dark-1'
   &
-    +spacing(both, m, margin)
     position: relative
     //overflow-x: hidden
     width: 100%
+    margin-block: spacing(m)
     color: var(--color)
     background: var(--background)
 
@@ -14,25 +14,25 @@
     &-none
       margin-top: 0
     &-small
-      +spacing(top, s, margin)
+      margin-top: spacing(s)
     &-medium
-      +spacing(top, m, margin)
+      margin-top: spacing(m)
     &-large
-      +spacing(top, l, margin)
+      margin-top: spacing(l)
 
   &.-bottom
     &-none
       margin-bottom: 0
     &-small
-      +spacing(bottom, s, margin)
+      margin-bottom: spacing(s)
     &-medium
-      +spacing(bottom, m, margin)
+      margin-bottom: spacing(m)
     &-large
-      +spacing(bottom, l, margin)
+      margin-bottom: spacing(l)
 
   // Auto spacing rules
   .m-main &:where(.-bottom-auto:last-of-type)
-    +spacing(bottom, xl, padding)
+    padding-bottom: spacing(xl)
     margin-bottom: 0
 
   &:where(:not([class*="-background-"]))
@@ -41,19 +41,19 @@
       margin-top: 0
 
   &:where([class*="-background-"])
-    +spacing(both, m, padding, 2)
+    padding-block: spacing(m, 2)
     & + &,
     & + .e-anchor + :where(&)
-      +spacing(top, m, margin, -1)
+      margin-top: spacing(m, -1)
 
   @each $bg in $backgrounds
     &:where(.-background-#{$bg})
       &:where(.-bottom-auto) + &:where(.-top-auto),
       &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto)
-        +spacing(top, m, margin, -1)
+        margin-top: spacing(m, -1)
         padding-top: 0
         &:where(.-no-h2-spacing)
-          +spacing(top, m, margin, -2)
+          margin-top: spacing(m, -2)
 
   @each $bg in $slanted-backgrounds
     &.-background-#{$bg}

@@ -1,6 +1,8 @@
 @use 'sass:math'
 @use "sass:list"
-
+@import '../00-settings/variables'
+@import '../00-settings/default'
+@import "../../../../../node_modules/rfs/sass"
 
 @function rem-to-px($rem)
   @return (math.div($rem,1rem) * $rfs-rem-value) + px
@@ -62,3 +64,19 @@
     @warn '"#{$map}" is not a valid map'
 
   @return $result
+
+\:root
+  @each $size, $value in sizes()
+    +rfs($value, --size-#{$size})
+
+@function spacing($size, $multiplier: 1)
+  @if $multiplier == 1
+    @return var(--size-#{$size})
+  @else
+    @return calc(var(--size-#{$size}) * #{$multiplier})
+
+@function min-width($bp)
+  @return 'min-width: #{map-get(bps-up(), $bp)}'
+
+@function max-width($bp)
+  @return 'max-width: #{map-get(bps-up(), $bp)}'

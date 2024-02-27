@@ -59,7 +59,7 @@
 
 	ul, ol
 		@extend .e-text-list
-		+spacing(bottom, xs)
+		padding-bottom: spacing(xs)
 
 	table
 
@@ -76,18 +76,18 @@
 
 	.data-table
 		@extend .e-text-table
-		+spacing(bottom, xs)
+		padding-bottom: spacing(xs)
 
 
 	* + h2
-		+spacing(top, s, margin)
+		margin-top: spacing(s)
 	* + h3,
 	* + h4
-		+spacing(top, xs, margin)
+		margin-top: spacing(xs)
 
 	// increase button distance to previous element, if necessary
 	* + p:not(.e-button-group)>[class*='e-button-']
-		//+spacing(top, xs, margin)
+		//margin-top: spacing(xs)
 
 	.char-icon
 		position: relative

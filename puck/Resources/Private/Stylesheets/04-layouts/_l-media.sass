@@ -13,13 +13,13 @@
 
     @if $media-pos == above
       #{$name}__media + #{$name}__text
-        //+spacing(top, m)
+        //padding-top: spacing(m)
 
     @if $media-pos == below
       #{$name}__media
         order: 2
       #{$name}__media + #{$name}__text.-bodytext
-        //+spacing(bottom, m)
+        //padding-bottom: spacing(m)
 
   // image column beside text
   @if $layout == inline
