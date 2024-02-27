@@ -17,5 +17,6 @@ foreach ($typeNames as $type) {
     require $contentTcaPath . '/Types/' . $type . '.php';
     if (str_starts_with($type, 'puck_')) {
         $GLOBALS['TCA']['tt_content']['types'][$type]['previewRenderer'] = PuckPreviewRenderer::class;
-    }}
-
+    }
+}
+$GLOBALS['TCA']['tt_content']['types']['powermail_pi1']['previewRenderer'] = In2code\Powermail\Hook\PluginPreviewRenderer::class;
