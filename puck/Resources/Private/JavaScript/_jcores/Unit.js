@@ -18,13 +18,13 @@ export default class Unit {
         ] = descriptor.split(/[.#]/)
         if (!name || !coreIdentifier) return
         const coreEl = id ? $id(id) : el.closest(`[data-core]`)
-        this.core = coreEl?.htmcCores?.get(coreIdentifier)
+        this.core = coreEl?._jcCores?.get(coreIdentifier)
         if (!this.core) return
 
         this.identifier = `${coreIdentifier}.${name}`
         this.name = name
-        !el['htmcUnits'] ? el.htmcUnits = new Map() : null
-        el.htmcUnits.set(this.identifier, this)
+        !el['_jcUnits'] ? el._jcUnits = new Map() : null
+        el._jcUnits.set(this.identifier, this)
     }
 
     connect() {

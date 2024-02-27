@@ -32,7 +32,7 @@ export default class Trigger {
         this.identifier = `${triggeredEvent}_`
         this.eventOptions = eventRegistry[this.identifier] ?? {}
         this.event = event.split('.')[0]
-        if (el['htmcEvents']?.get(this.identifier)) {
+        if (el['_jcEvents']?.get(this.identifier)) {
             console.log(`Event ${this.identifier} already connected to ${el.id}`)
             return
         }
@@ -64,8 +64,8 @@ export default class Trigger {
             targetEl.dispatchEvent(new CustomEvent(triggeredEvent, eventOptions))
         }
 
-        !el['htmcEvents'] ? el.htmcEvents = new Map() : null
-        el.htmcEvents.set(this.identifier, this)
+        !el['_jcEvents'] ? el._jcEvents = new Map() : null
+        el._jcEvents.set(this.identifier, this)
     }
 
     initializeCoreMethod(el, descriptor, eventRegistry) {
@@ -78,12 +78,12 @@ export default class Trigger {
             id
         ] = descriptor.split(/->|::|#/);
         const coreEl = id ? $id(id) : el.closest(`[data-core]`)
-        const core = coreEl?.['htmcCores']?.get(coreIdentifier)
+        const core = coreEl?.['_jcCores']?.get(coreIdentifier)
 
         if (!coreMethod || !core || typeof core[coreMethod] !== 'function') return
         this.identifier = `${coreIdentifier}::${coreMethod}`
         this.event = event.split('.')[0]
-        if (el['htmcTriggers']?.get(this.identifier)) {
+        if (el['_jcTriggers']?.get(this.identifier)) {
             console.log(`Trigger ${this.identifier} already connected to ${el.id}`)
             return
         }
@@ -114,8 +114,8 @@ export default class Trigger {
             core[coreMethod](e, params)
         }
 
-        !el['htmcTriggers'] ? el.htmcTriggers = new Map() : null
-        el.htmcTriggers.set(this.identifier, this)
+        !el['_jcTriggers'] ? el._jcTriggers = new Map() : null
+        el._jcTriggers.set(this.identifier, this)
     }
 
     completeDescriptor(el, descriptor) {

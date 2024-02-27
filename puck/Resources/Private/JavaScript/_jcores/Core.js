@@ -26,8 +26,8 @@ export default class Core {
         this.el = el
         this.identifier = this.constructor.identifier
         this.constructor.attributeSyncer.initialize(this, attributes)
-        !el['htmcCores'] ? el.htmcCores = new Map() : null
-        el.htmcCores.set(this.identifier, this)
+        !el['_jcCores'] ? el._jcCores = new Map() : null
+        el._jcCores.set(this.identifier, this)
         this.initialize()
         this.__initialized = true
     }

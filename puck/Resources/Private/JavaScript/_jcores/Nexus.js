@@ -92,7 +92,7 @@ class Nexus {
         for (let injectIdentifier of Object.keys(constructor.injects)) {
             Object.defineProperty(constructor.prototype, `${camelCase(injectIdentifier)}Core`, {
                 get() {
-                    return this.el.htmcCores.get(injectIdentifier)
+                    return this.el._jcCores.get(injectIdentifier)
                 },
             })
         }
@@ -160,23 +160,23 @@ class Nexus {
 
     connectTriggerElement(el) {
         if (!el.id) {
-            el.id = `htmc-el-${this.#idx++}`
+            el.id = `_jc-el-${this.#idx++}`
         }
         el.getAttribute('data-trigger').split(' ').forEach(descriptor => {
             new Trigger(el, descriptor)
         })
-        if (!el.htmcTriggers) return
-        el.htmcTriggers.forEach(trigger => {
+        if (!el._jcTriggers) return
+        el._jcTriggers.forEach(trigger => {
             trigger.connect()
         })
         this.triggerObserver.observe(el, { attributes: true, attributeOldValue: true })
     }
 
     disconnectTriggerElement(el) {
-        el.htmcTriggers?.forEach(trigger => {
+        el._jcTriggers?.forEach(trigger => {
             trigger.disconnect()
         })
-        el.htmcTriggers = null
+        el._jcTriggers = null
     }
 
     triggerObserver = new MutationObserver(
@@ -191,7 +191,7 @@ class Nexus {
                 }
             })
             if (!hasEventModifier) return
-            target['htmcTriggers']?.forEach(trigger => {
+            target['_jcTriggers']?.forEach(trigger => {
                 trigger.disconnect()
                 trigger.setListenerOptions()
                 trigger.connect()
@@ -201,48 +201,48 @@ class Nexus {
 
     connectUnitElement(el) {
         if (!el.id) {
-            el.id = `htmc-el-${this.#idx++}`
+            el.id = `_jc-el-${this.#idx++}`
         }
         el.getAttribute('data-unit').split(' ').forEach(descriptor => {
             new Unit(el, descriptor)
         })
-        if (!el.htmcUnits) return
-        el.htmcUnits.forEach(unit => {
+        if (!el._jcUnits) return
+        el._jcUnits.forEach(unit => {
             unit.connect()
         })
     }
 
     disconnectUnitElement(el) {
-        el.htmcUnits?.forEach(unit => {
+        el._jcUnits?.forEach(unit => {
             unit.disconnect()
         })
-        el.htmcUnits = null
+        el._jcUnits = null
     }
 
     connectCoreElement(el) {
-        if (!el.htmcCores) {
+        if (!el._jcCores) {
             if (!el.id) {
-                el.id = `htmc-el-${this.#idx++}`
+                el.id = `_jc-el-${this.#idx++}`
             }
             el.getAttribute('data-core').split(' ').forEach(identifier => {
                 this.injectCore(el, identifier)
             })
             this.coreObserver.observe(el, { attributes: true, attributeOldValue: true })
         }
-        if (!el.htmcCores) return
-        el.htmcCores?.forEach(core => {
+        if (!el._jcCores) return
+        el._jcCores?.forEach(core => {
             if (core.__connected || core.asleep) return
             core.connect()
             core.__connected = true
         })
     }
     disconnectCoreElement(el) {
-        el.htmcCores?.forEach(core => {
+        el._jcCores?.forEach(core => {
             if (!core.__connected || core.asleep) return
             core.disconnect()
             core.__connected = false
         })
-        el.htmcCores = null
+        el._jcCores = null
     }
 
     injectCore(el, identifier, attributes = {}) {
@@ -250,7 +250,7 @@ class Nexus {
             console.warn(`Core ${identifier} not found in register, skipping.`)
             return
         }
-        if (el.htmcCores?.has(identifier)) {
+        if (el._jcCores?.has(identifier)) {
             console.warn(`Core ${identifier} already used on this element, overriding.`)
         }
         Object.entries(this.coreRegistry[identifier].injects).forEach(([injectIdentifier, injectAttributes]) => {
@@ -268,7 +268,7 @@ class Nexus {
                 return
             }
             const newVal = mutation.target.getAttribute(mutation.attributeName)
-            mutation.target.htmcCores?.forEach(core => {
+            mutation.target._jcCores?.forEach(core => {
                 if (mutation.attributeName == `data-${core.identifier}-reconnect`) {
                     window.requestAnimationFrame(() => {
                         core.disconnect()
