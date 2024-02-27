@@ -7,6 +7,8 @@ options {
         showDomainNameWithTitle = 1
         // exclude news from tree
         excludeDoktypes = 16503
+        // add doktypes to the new page drag area
+        doktypesToShowInNewPageDragArea := addToList()
     }
 }
 admPanel.hide = 1
