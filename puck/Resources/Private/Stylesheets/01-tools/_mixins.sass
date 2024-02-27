@@ -4,46 +4,19 @@
 @use '../00-settings/default'
 @import "../../../../../node_modules/rfs/sass"
 
-
-=media($size, $dir: down)
-  @if $dir == up
-    @if map-get(bps-up(), $size)
-      @media (min-width: map-get(bps-up(), $size))
-        @content
-    @else
-      @media (min-width: #{$size})
-        @content
-  @else
-    @if map-get(bps-down(), $size)
-      @media (max-width: map-get(bps-down(), $size))
-        @content
-    @else
-      @media (max-width: #{$size})
-        @content
-
-
-=media-down($size)
-  +media($size,down)
-    @content
-
-=media-up($size)
-  +media($size,up)
-    @content
-
 =gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb, $reversal: false)
   @if ($reversal)
     +rfs($gutter * -1, margin-inline)
     @each $mb, $value in $gutters-mb
-      +media($mb, down)
+      @media (max-width($mb))
         +rfs($value * -1, margin-inline)
   @else
     --gutter-outer: #{ $gutter }
     +rfs($gutter, padding-inline)
     @each $mb, $value in $gutters-mb
-      +media($mb, down)
+      @media (max-width($mb))
         --gutter-outer: #{ $value }
         +rfs($value, padding-inline)
-
 
 
 =grid-container($max-width: grid-container-width(), $gutter: true)
@@ -71,6 +44,7 @@
   flex: 0 0 auto
   +grid-col-width($columns, $custom-grid-columns, $columns-mb)
 
+
 =grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
   width: calc(100% * #{$columns} / #{$custom-grid-columns})
   &>*
@@ -80,24 +54,10 @@
   @each $mb, $value in $columns-mb
     +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
 
+
 =grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
-  +media($mb)
+  @media (max-width($mb))
     +grid-col-width($columns, $custom-grid-columns)
-
-
-=spacing($side: 'both', $size: 'm', $property: padding, $multiplier: 1)
-  $spacing: $multiplier * map-get(sizes(), $size)
-  @if $side == 'both'
-    +rfs($spacing, #{$property}-top)
-    +rfs($spacing, #{$property}-bottom)
-  @if (str-index($side, 'top'))
-    +rfs($spacing, #{$property}-top)
-  @if (str-index($side, 'bottom'))
-    +rfs($spacing, #{$property}-bottom)
-  @if (str-index($side, 'left'))
-    +rfs($spacing, #{$property}-left)
-  @if (str-index($side, 'right'))
-    +rfs($spacing, #{$property}-right)
 
 
 =flex( $direction: row, $justify: n, $align: n, $wrap: n)
