@@ -17,7 +17,7 @@ use UBOS\Puckloader\Attribute\ContentElementWizard;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 
 #[ModelPersistence("tt_content")]
-#[ContentElementWizard("01_content", order:30)]
+#[ContentElementWizard("01_content", order:29)]
 #[ContainerElement([
     [
         ['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_child_accordion']]

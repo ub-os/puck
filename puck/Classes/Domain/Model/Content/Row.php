@@ -11,7 +11,7 @@ use UBOS\Puckloader\Attribute\ModelPersistence;
 
 
 #[ModelPersistence("tt_content")]
-#[ContentElementWizard('01_content', order:31)]
+#[ContentElementWizard('01_content', order:30)]
 #[ContainerElement([
     [
         ['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_child_column, puck_child_card']]

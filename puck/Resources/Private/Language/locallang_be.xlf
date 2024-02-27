@@ -11,7 +11,7 @@
 				<source>Hero</source>
 			</trans-unit>
 			<trans-unit id="wizard.03_menu.header" resname="tt_content.puck.header">
-				<source>Menu</source>
+				<source>Menus</source>
 			</trans-unit>
 
 

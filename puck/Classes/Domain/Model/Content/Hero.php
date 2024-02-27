@@ -14,7 +14,7 @@ use UBOS\Puckloader\Attribute\ContentElementWizard;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 
 #[ModelPersistence("tt_content")]
-#[ContentElementWizard('02_hero')]
+#[ContentElementWizard('01_content', order:31)]
 class Hero extends Text
 {
 
