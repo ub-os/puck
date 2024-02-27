@@ -15,14 +15,14 @@
     transform: translateY(12px)
     transition: background .15s, transform .25s, opacity .25s, border-color .15s
     @each $mb, $value in $gutter-outer-mb
-      +media($mb, down)
+      @media (max-width($mb))
         --position-right: #{ $value }
     [class*="-modal--active"] &,
     [class*="-modal--deactivating"] &
       opacity: 0
       right: calc(var(--position-right) + var(--scrollbar-width))
 
-    +media(s)
+    @media (max-width(s))
       display: none
 
   &.--scroll

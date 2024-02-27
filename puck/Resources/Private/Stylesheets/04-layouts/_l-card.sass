@@ -6,7 +6,7 @@
   --padding-bottom: var(--padding-block)
   --background-media-opacity: 0.5
   --background-media-overlay-color: var(--background)
-  +media(s)
+  @media (max-width(s))
     //--padding-block: 1.5em
     //--padding-inline: 10%
   &
@@ -27,10 +27,10 @@
     &.-media-size-background
       padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
     &.-layout-right
-      +media-up(s)
+      @media (min-width(s))
         flex-direction: row
     &.-layout-left:where(.-media)
-      +media-up(s)
+      @media (min-width(s))
         flex-direction: row-reverse
     &.-layout-above:where(.-media)
       flex-direction: column-reverse
@@ -48,7 +48,7 @@
       padding: var(--padding-block) var(--padding-inline)
     &.-layout-right,
     &.-layout-left
-      +media-up(s)
+      @media (min-width(s))
         width: 0
         flex-grow: 1
 
@@ -65,7 +65,7 @@
       background: var(--background-media-overlay-color)
 
     &.-media-size-cover:where(.-layout-right, .-layout-left)
-      +media-up(s)
+      @media (min-width(s))
         +cover-media
         width: 50%
         @for $i from 2 through 10
@@ -79,22 +79,22 @@
       padding-top: var(--padding-block)
 
     &.-media-size-contain:where(.-layout-right, .-layout-left)
-      +media-up(s)
+      @media (min-width(s))
         width: calc((100% + #{var(--padding-inline)}) / 2)
         @for $i from 2 through 10
           &:where(.-media-width-#{$i})
             width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))
 
     &.-media-size-contain:where(.-layout-right)
-      +media-up(s)
+      @media (min-width(s))
         padding-left: var(--padding-inline)
-      +media(s)
+      @media (max-width(s))
         padding-bottom: var(--padding-bottom)
 
     &.-media-size-contain:where(.-layout-left)
-      +media-up(s)
+      @media (min-width(s))
         padding-right: var(--padding-inline)
-      +media(s)
+      @media (max-width(s))
         padding-bottom: var(--padding-bottom)
 
 

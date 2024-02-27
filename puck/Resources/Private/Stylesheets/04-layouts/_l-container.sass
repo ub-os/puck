@@ -21,7 +21,7 @@
     &:where(.-width-#{$i}) &__inner
       --grid-columns: #{$i}
       max-width: width-by-cols($i, true)
-      +media(m)
+      @media (max-width(m))
         --grid-columns: 12
 
   &:where(.-align-left) &__inner

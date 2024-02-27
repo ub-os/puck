@@ -11,7 +11,7 @@
     cursor: pointer
     border-radius: var(--border-radius-s)
     transition: transform .15s, box-shadow .15s
-    +media($bp-mobile-nav, up)
+    @media (min-width($bp-mobile-nav))
       display: none
 
   &.--active &__slice:nth-child(1)

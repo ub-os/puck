@@ -1,4 +1,4 @@
-=media-layout($layout: block, $media-pos: above, $name: '.l-media')
+=l-media-layout($layout: block, $media-pos: above, $name: '.l-media')
 
   // image gallery above/below text
   @if $layout == block
@@ -28,14 +28,14 @@
 
     #{$name}__text,
     #{$name}__media
-      +media(s)
+      @media (max-width(s))
         width: 100%
 
     #{$name}__media
-      +media(s)
+      @media (max-width(s))
         order: 2
       @if $media-pos == right
-        +media-up(s)
+        @media (min-width(s))
           order: 2
 
   // image next to floating text
@@ -43,54 +43,54 @@
     &
       display: flex
       flex-direction: column
-      +media-up(s)
+      @media (min-width(s))
         margin-bottom: calc(-1 * var(--grid-gutter-y) )
 
 
     #{$name}__row
       --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
       display: block
-      +media-up(s)
+      @media (min-width(s))
         //--grid-gutter-y: 0
-      +media-down(s)
+      @media (max-width(s))
         display: flex
         flex-direction: column-reverse
 
     #{$name}__text
       +grid-col(1,1)
-      +media-up(s)
+      @media (min-width(s))
         margin-bottom: var(--grid-gutter-y)
 
     #{$name}__media
-      +media-up(s)
+      @media (min-width(s))
         margin-bottom: var(--grid-gutter-y)
-      +media-down(s)
+      @media (max-width(s))
         width: 100%
       @if $media-pos == right
-        +media-up(s)
+        @media (min-width(s))
           margin-left: var(--grid-gutter-x)
           float: right
       @if $media-pos == left
-        +media-up(s)
+        @media (min-width(s))
           margin-right: var(--grid-gutter-x)
           float: left
 
 .l-media
   &.-layout-right-float
-    +media-layout(float,right)
+    +l-media-layout(float,right)
   &.-layout-left-float
-    +media-layout(float,left)
+    +l-media-layout(float,left)
   &.-layout-right
-    +media-layout(inline,right)
+    +l-media-layout(inline,right)
   &.-layout-left
-    +media-layout(inline,left)
+    +l-media-layout(inline,left)
   &.-layout-above
-    +media-layout(block,above)
+    +l-media-layout(block,above)
   &.-layout-below
-    +media-layout(block,below)
+    +l-media-layout(block,below)
 
   &:where(.-mobile-max-height) &__file
-    +media(s)
+    @media (max-width(s))
       max-height: var(--max-height-media-mobile)
       width: auto
 

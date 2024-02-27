@@ -53,7 +53,7 @@
         +grid-col-width($i, var(--grid-columns), (m:($i-m,var(--grid-columns)), s:(12,12)))
       @if ($i > 4)
         +grid-col-width($i, var(--grid-columns), (m:(12,12)))
-      +media(m)
+      @media (max-width(m))
       // text elements should take available width, too complicated with media though
       //flex-grow: 1
       img, video
@@ -73,5 +73,5 @@
 
   @for $i from -10 through 10
     &__item.-responsive-order-#{$i}
-      +media(m)
+      @media (max-width(m))
         order: $i

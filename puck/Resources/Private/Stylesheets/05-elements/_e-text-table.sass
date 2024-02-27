@@ -2,14 +2,14 @@
   &__wrap
     overflow-x: auto
     @each $mb, $value in $gutter-outer-mb
-      +media($mb)
+      @media (max-width($mb))
         margin: 0 0-$value
         padding: 0 $value
 
   &
     width: 100%
     border: none
-    +media(m,up)
+    @media (min-width(m))
       table-layout: fixed
 
   .-small
