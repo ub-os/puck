@@ -17,3 +17,6 @@ tx_powermail.flexForm.addField.settings\.flexform\.thx\.body {
         richtextConfiguration = puck_default
     }
 }
+
+tx_powermail.flexForm.type.addFieldOptions.formStepControl = Form Step Control
+tx_powermail.flexForm.type.addFieldOptions.formStepControl.export = 0

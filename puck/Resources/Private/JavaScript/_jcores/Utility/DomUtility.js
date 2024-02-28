@@ -111,6 +111,14 @@ function $parents(target, parentSelector /* optional */) {
     return parents;
 }
 
+const tryViewTransition = callback => {
+    if (document.startViewTransition) {
+        document.startViewTransition(callback)
+    } else {
+        callback()
+    }
+}
+
 export {
     $,
     $$,
@@ -120,4 +128,5 @@ export {
     jsx,
     noDragClick,
     scrollTo,
+    tryViewTransition,
 }

@@ -1,6 +1,9 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
-<fieldset class="{name}__page {page.css}"
-          id="form-{form.uid}-page-{page.uid}">
+<fieldset class="{u:bem(el:'page', mod:{paginated:settings.main.moresteps,-active:pageIteration.isFirst})} {page.css}"
+          id="form-{form.uid}-page-{pageIteration.index}"
+          data-core="form-page"
+          data-form-page:group-id="form-{form.uid}"
+          {f:if(condition:'{pageIteration.isFirst}',then:'data-form-page:active')} >
     <f:if condition="{page.css} != 'nolabel'">
         <header class="{name}__page__header">{page.title}</header>
     </f:if>
@@ -8,27 +11,10 @@
         <f:for each="{page.fields}" as="field" iteration="iteration">
             <layout:row.item class="{name}__item -type-{field.type} -marker-{field.marker}">
                 <div class="{name}__field -type-{field.type} -marker-{field.marker} {settings.styles.framework.fieldWrappingClasses} {settings.styles.framework.offsetClasses} {field.css} {settings.styles.framework.fieldAndLabelWrappingClasses}">
-                    <f:render partial="Form/Field/{vh:String.Upper(string:field.type)}" arguments="{field:field, name:name, iteration:iteration}" />
+                    <f:render partial="Form/Field/{vh:String.Upper(string:field.type)}" arguments="{field:field, name:name, iteration:iteration, pageIteration:pageIteration, form:form}" />
                 </div>
             </layout:row.item>
         </f:for>
     </layout:row>
-    <f:if condition="{settings.main.moresteps}">
-        <div class="{name}__page__browse">
-            <f:if condition="!{pageIterator.isFirst}">
-                <a class="{name}__page__prev e-button"
-                   data-trigger="carousel::move" data-carousel::move:to="<" role="button">
-                    Zurück
-                </a>
-            </f:if>
-            <f:if condition="!{pageIterator.isLast}">
-                <a class="{name}__page__next e-button"
-                   onclick="if (!document.getElementById('form-{form.uid}').reportValidity()) {return false}"
-                   data-trigger="carousel::move" data-carousel::move:to=">" role="button">
-                    Weiter
-                </a>
-            </f:if>
-        </div>
-    </f:if>
 </fieldset>
 

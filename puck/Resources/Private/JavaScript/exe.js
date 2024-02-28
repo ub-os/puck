@@ -37,7 +37,7 @@ const mountBody = () => {
     window.requestAnimationFrame(() => {
         $id('root').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
-        document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
+        //document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
     })
     Logger.console.log(`%capplication:mount`, "color:orange")
     Logger.console.log(Nexus)

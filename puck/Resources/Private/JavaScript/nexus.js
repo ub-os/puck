@@ -1,4 +1,5 @@
 import Nexus from "~/_jcores/Nexus"
+import htmx from '~/htmx'
 import ScrollbarWidth from "~/Cores/ScrollbarWidth"
 import AnchorBehavior from "~/Cores/AnchorBehavior"
 import Toggleable from '~/Cores/Toggleable'
@@ -12,7 +13,7 @@ import MediaPlayer from "~/Cores/MediaPlayer"
 import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
-import htmx from '~/htmx'
+import FormPage from "~/Cores/FormPage.js";
 
 
 Nexus.registerCore({
@@ -29,6 +30,7 @@ Nexus.registerCore({
     ScrollReveal,
     ScrollSensitive,
     FocusTrap,
+    FormPage
 })
 
 Nexus.registerEvent({

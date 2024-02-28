@@ -36,7 +36,7 @@ class BemViewHelper extends AbstractViewHelper
         $result = '';
         foreach ($modifiers as $key => $value) {
             if ($value && $value !== 'default') {
-                if ($value === 1 || $value === true) {
+                if ($value === '1' || $value === 1 || $value === true) {
                     $result .= ' -' . $key;
                 } else {
                     $result .= ' -' . $key . '-' . $value;

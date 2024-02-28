@@ -80,7 +80,7 @@ export default class Toggleable extends Core {
     }
   }
   toggleOn(transition= true) {
-    if (this.active) return
+    //if (this.active) return
     this.active = true
     this.setClass('add', this.activeClass)
     if (transition) this.transitionClass(this.activatingClass)
@@ -93,7 +93,7 @@ export default class Toggleable extends Core {
     }
   }
   toggleOff(transition= true, changeUrlHash = true) {
-    if (!this.active) return
+    //if (!this.active) return
     this.active = false
     this.setClass('remove', this.activeClass)
     if (transition) this.transitionClass(this.deactivatingClass)

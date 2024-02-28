@@ -37,24 +37,30 @@
                 <div data-hx-disinherit="hx-select hx-target">
                     <f:if condition="{settings.main.moresteps}">
                         <f:then>
-                            <layout:carousel
-                                    id="c{ttContentData.uid}-carousel"
-                                    class="{name}__page__carousel"
-                                    arrows="0"
-                                    carouselAttributes="{splideOptions:{type:'fade'}}">
-                                <f:for each="{form.pages}" as="page" iteration="pageIterator">
-                                    <layout:row.item class="{name}__page__slide splide__slide">
-                                        <f:render partial="Form/Page" arguments="{_all}" />
-                                    </layout:row.item>
-                                </f:for>
-                            </layout:carousel>
+                            <f:comment>
+                                <layout:carousel
+                                        id="c{ttContentData.uid}-carousel"
+                                        class="{name}__page__carousel"
+                                        arrows="0"
+                                        carouselAttributes="{splideOptions:{type:'fade'}}">
+                                    <f:for each="{form.pages}" as="page" iteration="pageIteration">
+                                        <layout:row.item class="{name}__page__slide splide__slide">
+                                            <f:render partial="Form/Page" arguments="{_all}" />
+                                        </layout:row.item>
+                                    </f:for>
+                                </layout:carousel>
+                            </f:comment>
+                            <f:for each="{form.pages}" as="page" iteration="pageIteration">
+                                <f:render partial="Form/Page" arguments="{_all}" />
+                            </f:for>
                         </f:then>
                         <f:else>
-                            <f:for each="{form.pages}" as="page">
+                            <f:for each="{form.pages}" as="page" iteration="pageIteration">
                                 <f:render partial="Form/Page" arguments="{_all}" />
                             </f:for>
                         </f:else>
                     </f:if>
+
                 </div>
 
 

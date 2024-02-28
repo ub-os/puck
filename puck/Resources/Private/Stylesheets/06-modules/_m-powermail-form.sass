@@ -8,6 +8,12 @@
     &__header
       @extend .h3
 
+    &.-paginated
+      display: none
+      padding-top: 0
+    &.-paginated.--active
+      display: block
+
   &__list
     --grid-gutter-x: .8em
     --grid-gutter-y: 1.25em

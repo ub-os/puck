@@ -54,7 +54,7 @@ class StringViewHelper extends AbstractViewHelper
         }
     }
 
-    protected static function doOperations(string $string, array $arguments): string
+    protected static function doOperations(string $string, array $arguments): string|array
     {
         $operations = explode(' ', $arguments['operations']);
         foreach ($operations as $operation) {

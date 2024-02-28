@@ -35,6 +35,7 @@ export default class MainNav extends Core {
 
   initialize() {
     this.modalCore.asleep = true
+    this.modalCore.el.classList.remove(this.modalCore.deactivatingClass)
   }
 
   connect() {
@@ -44,10 +45,16 @@ export default class MainNav extends Core {
         ResizeManager.addById(`main-nav-${this.el.id}`, document.body, this.stateSwitch.bind(this))
       })
     })
+    this.listeners.add(this.el, 'click', e => {
+      if (e.target.closest('a')) {
+        this.modalCore.toggleOff(true)
+      }
+    })
     return this
   }
 
   disconnect() {
+    this.listeners.removeAll()
     ResizeManager.remove(`main-nav-${this.el.id}`)
   }
 }
