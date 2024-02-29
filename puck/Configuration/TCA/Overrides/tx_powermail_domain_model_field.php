@@ -1,7 +1,7 @@
 <?php
 
 
-$GLOBALS['TCA']['tx_powermail_domain_model_field']['types']['formStepControl']['showitem'] = '
+$GLOBALS['TCA']['tx_powermail_domain_model_field']['types']['navigation']['showitem'] = '
     page, 
     title,
     type, 
@@ -16,7 +16,7 @@ $GLOBALS['TCA']['tx_powermail_domain_model_field']['types']['formStepControl']['
     starttime, 
     endtime';
 
-$GLOBALS['TCA']['tx_powermail_domain_model_field']['types']['formStepControl']['columnsOverrides'] = [
+$GLOBALS['TCA']['tx_powermail_domain_model_field']['types']['navigation']['columnsOverrides'] = [
     'title' => [
         'label' => 'Button labels',
         'description' => 'Labels for the buttons to navigate through the form steps, separated by "|", e.g.: Previous | Next',

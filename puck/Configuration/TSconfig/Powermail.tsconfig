@@ -18,5 +18,5 @@ tx_powermail.flexForm.addField.settings\.flexform\.thx\.body {
     }
 }
 
-tx_powermail.flexForm.type.addFieldOptions.formStepControl = Form Step Control
-tx_powermail.flexForm.type.addFieldOptions.formStepControl.export = 0
+tx_powermail.flexForm.type.addFieldOptions.navigation = Form Step Control
+tx_powermail.flexForm.type.addFieldOptions.navigation.export = 0

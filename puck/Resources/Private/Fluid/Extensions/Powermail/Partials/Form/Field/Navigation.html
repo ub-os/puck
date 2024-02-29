@@ -4,10 +4,10 @@
     {field.title -> u:string(explode:'|') -> u:var(set:'labels')}
     <f:if condition="{settings.main.moresteps}">
         <f:then>
-            <div class="{name}__required-note">
+            <p class="{name}__required-note">
                 *Pflichtfeld
-            </div>
-            <div class="{name}__page__browse">
+            </p>
+            <div class="{name}__page__navigation">
                 <f:if condition="!{pageIteration.isFirst}">
                     <div class="{name}__page__prev e-button"
                          data-trigger="form-page::toggle#form-{form.uid}-page-{u:math(eval:'{pageIteration.index} - 1')}"
@@ -33,9 +33,9 @@
         </f:then>
         <f:else>
             <f:if condition="{pageIteration.isLast}">
-                <div class="{name}__required-note">
+                <p class="{name}__required-note">
                     *Pflichtfeld
-                </div>
+                </p>
                 <f:render partial="Form/Field/Submit" arguments="{field:{title:'{labels.1 -> f:format.trim()}'}, name:name, iteration:iteration, pageIteration:pageIteration}" />
             </f:if>
         </f:else>
