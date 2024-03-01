@@ -35,8 +35,9 @@ NOTE: See example section after main section
       </f:if>
     </div>
 
-    <p class="u-text-center">
+    <p>
       <f:link.page
+              class="e-button"
               pageUid="{object.pid}"
               additionalAttributes="{
               data-hx-get:'{f:uri.page(pageUid:object.pid)}',
@@ -44,7 +45,7 @@ NOTE: See example section after main section
               data-hx-target:'#c{object.uid}',
               data-hx-swap:'outerHTML show:#c{object.uid}:top'
             }">
-        Zurück zum Formular
+        {f:translate(key:'back')}
       </f:link.page>
     </p>
 
