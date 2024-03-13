@@ -2,6 +2,7 @@
 <div id="root"
      class="u-no-transition -layout-{object.backendLayout} "
      data-hx-boost="true"
+     data-hx-indicator="#root-loading-bar"
      data-core="anchor-behavior scrollbar-width"
      data-logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
     <!--TYPO3SEARCH_end-->
@@ -20,4 +21,5 @@
     <div data-modal-container>
         {contentElements.colPos9 -> f:format.raw()}
     </div>
+    <div id="root-loading-bar"></div>
 </div>
