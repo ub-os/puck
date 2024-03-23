@@ -1,6 +1,6 @@
 routeEnhancers:
   IndexedSearchPlugin:
-    limitToPages: [ ]
+    limitToPages: '%routeEnhancerPages.indexedSearch%'
     type: Extbase
     namespace: tx_indexedsearch_pi2
     routes:

@@ -3,7 +3,7 @@ routeEnhancers:
     type: Extbase
     extension: Puck
     plugin: PageMenu
-    limitToPages: [ 4 ]
+    limitToPages: '%routeEnhancerPages.pageMenu%'
     routes:
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'

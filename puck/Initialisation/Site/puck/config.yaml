@@ -46,6 +46,10 @@ routes:
     source: 't3://file?uid=130'
 websiteTitle: Puck
 xml_sitemap_path: sitemap-index.xml
+routeEnhancerPages:
+  sitemap: [ 2 ]
+  indexedSearch: [ ]
+  pageMenu: [ 4 ]
 imports:
   -
     resource: 'EXT:puck/Configuration/Routes/IndexedSearch.yaml'
