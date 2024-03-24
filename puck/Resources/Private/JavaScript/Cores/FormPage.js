@@ -29,7 +29,7 @@ export default class FormPage extends Toggleable {
         tryViewTransition(() => super.toggle(event, { transition }))
         if (scrollIntoView) {
             window.requestAnimationFrame(() => {
-                scrollTo(this.el, 100)
+                this.el.scrollIntoView({ behavior: 'smooth', block: 'start' })
             })
         }
     }

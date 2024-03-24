@@ -3,11 +3,14 @@
   height: 100dvh
   overflow-x: clip
   overflow-y: scroll
-
   &[class*="-modal--active"],
   &[class*="-modal--deactivating"]
     overflow: hidden
     padding-right: var(--scrollbar-width)
+
+  --scroll-margin-top-base: var(--height-page-header)
+  &.--header--scroll-down
+    --scroll-margin-top-base: 0px
 
 #body
   width: 100%

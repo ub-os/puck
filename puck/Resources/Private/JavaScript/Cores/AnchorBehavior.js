@@ -3,7 +3,6 @@ import Core from '~/_jcores/Core'
 
 export default class AnchorBehavior extends Core {
     static attributes = {
-        scrollOffset: 0,
         scrollTopOnCurrentLink: true,
     }
 
@@ -15,23 +14,30 @@ export default class AnchorBehavior extends Core {
         return el.hash?.substring(1).split('?')[0] && el.pathname === window.location.pathname
     }
 
-    connect() {
-        this.scrollOffset = this.scrollOffset || getComputedStyle(document.documentElement).getPropertyValue('--scroll-to-offset') || 0
+    getTargetFromHash(hash) {
+        const id = hash.substring(1).split('?')[0];
+        if (!id) return
+        return $id(id)
+    }
 
+    scrollToTarget(target) {
+        if (target.hasAttribute('data-menu-anchor')) {
+            target.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        } else {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+    }
+
+    connect() {
         this.listeners.addDelegate(this.el, 'a', 'click', e => {
             if (this.isCurrentHashLink(e.delegateTarget)) {
-                const id = e.delegateTarget.hash.substring(1).split('?')[0];
-                if (!id) return
-                const anchor = $id(id)
-                if (!anchor) return
+                const anchorTarget = this.getTargetFromHash(e.delegateTarget.hash)
+                if (!anchorTarget) return
                 e.preventDefault()
-                const hashLinkEvent = new CustomEvent('hash-link-click', { detail: { linkElement: e.delegateTarget }})
-                anchor.dispatchEvent(hashLinkEvent)
-                if (anchor.hasAttribute('data-menu-anchor')) {
-                    scrollTo(anchor.nextElementSibling, this.scrollOffset);
-                } else {
-                    scrollTo(anchor, this.scrollOffset);
-                }
+                anchorTarget.dispatchEvent(
+                    new CustomEvent('hash-link-click', { detail: { linkElement: e.delegateTarget }})
+                )
+                this.scrollToTarget(anchorTarget)
                 history.replaceState(history.state, document.title, e.delegateTarget.href)
             } else if (this.scrollTopOnCurrentLink && this.isCurrentLink(e.delegateTarget)) {
                 e.preventDefault();
@@ -45,8 +51,9 @@ export default class AnchorBehavior extends Core {
 
         // scroll to hash id on page load
         window.requestAnimationFrame(() => {
-            const id = window.location.hash.substring(1).split('?')[0];
-            if (id) scrollTo(id, this.scrollOffset);
+            const anchorTarget = this.getTargetFromHash(window.location.hash)
+            if (!anchorTarget) return
+            this.scrollToTarget(anchorTarget)
         });
         return this
     }

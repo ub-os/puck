@@ -10,7 +10,8 @@ export default class PageHeader extends Core {
         scrollTop: 100,
         scrollClass: '--scroll',
         downClass: '--scroll-down',
-        upClass: '--scroll-up'
+        upClass: '--scroll-up',
+        documentClassing: true
     }
 
     static injects = ['scroll-sensitive']
@@ -38,12 +39,12 @@ export default class PageHeader extends Core {
                 const scrollDirection = this.checkScrollDirection(event)
                 if (this.scrollDirection == scrollDirection) return
                 this.scrollDirection = scrollDirection
-                if (this.scrollDirection === 'down') {
-                    this.el.classList.add(this.downClass)
-                    this.el.classList.remove(this.upClass)
-                } else {
-                    this.el.classList.add(this.upClass)
-                    this.el.classList.remove(this.downClass)
+                const classes = this.scrollDirection === 'down' ? {add: this.downClass, remove: this.upClass} : {add: this.upClass, remove: this.downClass}
+                this.el.classList.add(classes.add)
+                this.el.classList.remove(classes.remove)
+                if (this.documentClassing) {
+                    document.documentElement.classList.add(`--${this.el.id}${classes.add}`)
+                    document.documentElement.classList.remove(`--${this.el.id}${classes.remove}`)
                 }
             })
             this.ticking = true;
@@ -54,8 +55,14 @@ export default class PageHeader extends Core {
         this.listeners.add(window, 'scroll', e => {
             if (document.documentElement.scrollTop < this.scrollTop) {
                 this.el.classList.remove(this.scrollClass)
+                if (this.documentClassing) {
+                    document.documentElement.classList.remove(`--${this.el.id}${this.scrollClass}`)
+                }
             } else {
                 this.el.classList.add(this.scrollClass)
+                if (this.documentClassing) {
+                    document.documentElement.classList.add(`--${this.el.id}${this.scrollClass}`)
+                }
             }
         })
 

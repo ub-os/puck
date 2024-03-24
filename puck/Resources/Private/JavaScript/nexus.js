@@ -13,7 +13,7 @@ import MediaPlayer from "~/Cores/MediaPlayer"
 import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
-import FormPage from "~/Cores/FormPage.js";
+import FormPage from '~/Cores/FormPage'
 
 
 Nexus.registerCore({

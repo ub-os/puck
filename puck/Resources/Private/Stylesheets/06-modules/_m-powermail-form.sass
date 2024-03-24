@@ -3,6 +3,7 @@
     @extend .h2
 
   &__page
+    scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(l) })
     & + &
       padding-top: spacing(s)
     &__header

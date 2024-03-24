@@ -110,7 +110,7 @@ doc.addEventListener("htmx:beforeSwap", (event) => {
         logHtmxLifecycleEvent(event)
     }
     if (event.target.hasAttribute('data-hx-target-scroll')) {
-        scrollTo(event.target)
+        event.target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 })
 doc.addEventListener("htmx:oobBeforeSwap", (event) => {
