@@ -11,14 +11,14 @@ Mail will only be send, if Optin was enabled by editor
 {settings}						TypoScript Settings
 
 <f:section name="main">
-  <h2>Bitte bestätigen Sie Ihre E-Mail</h2>
+  {settings.optin.body -> f:format.html()}
   <p>
-    Vielen Dank für ihre Teilnahme.<br>
-    Bitte klicken Sie auf den untenstehenden Link um ihre E-Mail-Adresse zu bestätigen.
+    <f:format.htmlentitiesDecode>
+      <f:link.action action="optinConfirm" absolute="1" arguments="{hash: hash, mail: mail}">
+        <f:uri.action action="optinConfirm" absolute="1" arguments="{hash: hash, mail: mail}" />
+      </f:link.action>
+    </f:format.htmlentitiesDecode>
   </p>
-  <f:format.htmlentitiesDecode>
-    <f:link.action action="optinConfirm" absolute="1" arguments="{hash: hash, mail: mail}">
-      <f:uri.action action="optinConfirm" absolute="1" arguments="{hash: hash, mail: mail}" />
-    </f:link.action>
-  </f:format.htmlentitiesDecode>
+  <f:render partial="Mail/DisclaimerLink" arguments="{_all}" />
+
 </f:section>
