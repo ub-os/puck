@@ -1,10 +1,10 @@
-tx_powermail.flexForm.addField.settings\.flexform\.db\.enable {
-    _sheet = main
-    label = Store Mails in database
-    config {
-        type = check
-    }
-}
+#tx_powermail.flexForm.addField.settings\.flexform\.db\.enable {
+#    _sheet = main
+#    label = Store Mails in database
+#    config {
+#        type = check
+#    }
+#}
 
 tx_powermail.flexForm.addField.settings\.flexform\.thx\.body {
     _sheet = thx

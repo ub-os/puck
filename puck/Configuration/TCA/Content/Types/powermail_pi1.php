@@ -24,3 +24,11 @@ $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
         ],
     ]
 ];
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+// 'list_type' does not apply here
+    '*',
+    // FlexForm configuration schema file
+    'FILE:EXT:puck/Configuration/FlexForms/FlexformPi1.xml',
+    // ctype
+    'powermail_pi1'
+);

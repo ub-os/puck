@@ -15,9 +15,26 @@ plugin.tx_powermail {
         }
         setup.validation.client = 0
         setup.spamshield._enable = 1
+        setup.misc.htmlForHtmlFields = 1
         setup.main.optin = 0
         setup.db.enable = 0
-        setup.misc.htmlForHtmlFields = 1
+        setup.sender {
+            enable = 0
+            default.senderName = Typo3 Website
+            default.senderEmail =
+            overwrite.senderEmail =
+            subject = Powermail default subject for user mail
+        }
+        setup.receiver {
+            enable = 0
+            default.senderName = Typo3 Website
+            default.senderEmail =
+            overwrite.senderEmail =
+            subject = Powermail default subject for receiver mail
+        }
+        setup.optin {
+            subject = Bitte bestätigen Sie Ihre E-Mail-Adresse
+        }
     }
 }
 
