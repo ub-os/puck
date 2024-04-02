@@ -26,11 +26,11 @@
                   file="{object.assets.0}"
                   width="2560"
                   sources="{
-                        1920: {width: 2560, cropVariant: 'default'},
-                        1000: {width: 1920, cropVariant: 'default'},
-                        xs: {width: 600, cropVariant: 'default'},
-                        0: {width: 450, cropVariant: 'mobile'}
-                    }"/>
+                      xs: {width: 450, cropVariant: 'default'},
+                      l: {width: 1325, cropVariant: 'default'},
+                      1920: {width: 1920, cropVariant: 'default'}
+                  }"
+                  breakpointSources="1"/>
         </f:then>
         <f:else>
           <layout:row justify="space-between" class="{name}__row -layout-{object.mediaLayout}">
@@ -40,11 +40,11 @@
                       class="-layout-{object.mediaLayout}"
                       file="{object.assets.0}"
                       width="1280"
+                      breakpointSources="1"
                       sources="{
-                        1920: {width: 1280, cropVariant: 'default'},
-                        1000: {width: 960, cropVariant: 'default'},
-                        xs: {width: 600, cropVariant: 'default'},
-                        0: {width: 450, cropVariant: 'mobile'}
+                          xs: {width: 450, cropVariant: 'default'},
+                          m: {width: 975, cropVariant: 'default'},
+                          1920: {width: 975, cropVariant: 'default'}
                     }"/>
             </layout:row.item>
             <layout:row.item width="5">

@@ -5,6 +5,7 @@
   <fc:param name="files" type="array" optional="1"/>
   <fc:param name="width" type="integer" optional="1"/>
   <fc:param name="sources" type="array" optional="1"/>
+  <fc:param name="breakpointSources" type="boolean" optional="1" default="0"/>
   <fc:param name="cropVariant" type="string" optional="1" default="default"/>
   <fc:param name="webp" type="boolean" optional="1" default="1"/>
   <fc:param name="retina" type="boolean" optional="1" default="1"/>
@@ -29,18 +30,20 @@
             <u:var set="mediaContent">
               <f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
                 <f:then>
-                  <element:picture
+                  <u:picture
                           image="{file}"
-                          name="{name}"
+                          className="{name}"
                           class="{name}__file"
                           cropVariant="{cropVariant}"
                           width="{width}"
                           retina="{retina}"
                           webp="{webp}"
-                          backgroundImg="{backgroundImg}"
+                          backgroundImage="{backgroundImg}"
                           loading="{loading}"
                           reserveHeight="{reserveHeight}"
-                          sources="{sources}"/>
+                          breakpointSources="{breakpointSources}"
+                          sources="{sources}"
+                  />
                 </f:then>
                 <f:else if="{file.extension} == 'svg'">
                   <f:image image="{file}"

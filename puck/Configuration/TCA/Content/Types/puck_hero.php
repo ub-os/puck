@@ -17,6 +17,6 @@ $GLOBALS['TCA']['tt_content']['types']['puck_hero'] = [
                 'enableRichtext' => true,
             ],
         ],
-        'assets' => TcaUtility::getCropVariantConfigOverride('2:1,3:2', 'default,mobile')
+        'assets' => TcaUtility::configOverrideWithCropVariants('2:1,3:2')
     ]
 ];

@@ -7,11 +7,9 @@
   <fc:param name="mediaWidth" type="integer" optional="1" default="" />
   <fc:param name="mediaLayout" type="string" optional="1" default="above" />
   <fc:param name="cropVariant" type="string" optional="1" default="default" />
-  <fc:param name="cropVariantMobile" type="string" optional="1"/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
-    {u:var(set:'cropVariantMobile', if:'{cropVariantMobile}', then:cropVariantMobile, else:cropVariant)}
     {u:var(set:'bemMod', value: {
       layout: mediaLayout,
       media-size: mediaSize,
@@ -22,12 +20,15 @@
       <div class="{u:bem(el:'content', mod:bemMod)}">
         <fc:slot name="content"/>
       </div>
-      <f:if condition="{width} > 5 || !{width}">
+      <f:if condition="{width} > 4 || !{width}">
         <f:then>
           <f:variable name="calcWidth" value="{settings.gridWidth}"/>
         </f:then>
-        <f:else>
+        <f:else if="{width} > 2">
           <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/2')}"/>
+        </f:else>
+        <f:else>
+          <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/4')}"/>
         </f:else>
       </f:if>
       <f:if condition="{media}">
@@ -38,10 +39,10 @@
                 cropVariant="{cropVariant}"
                 width="{calcWidth}"
                 sources="{
-                s: {width: calcWidth, cropVariant: cropVariant},
-                xs: {width: 600, cropVariant: cropVariantMobile},
-                0: {width: 450, cropVariant: cropVariantMobile}
+                xs: {width: 450, cropVariant: cropVariant},
+                m: {width: 975, cropVariant: cropVariant}
                 }"
+                breakpointSources="1"
                 showTitle="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"
                 showDesc="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"/>
       </f:if>

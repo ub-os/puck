@@ -1,10 +1,5 @@
 <?php
 namespace UBOS\Puck\Utility;
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 /**
  *
  */
@@ -61,10 +56,35 @@ class TcaUtility
         ]
     ];
 
+    public const CROP_VARIANT_PRESETS = [
+        'free' => [
+            'title' => 'Free',
+            'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+        ],
+        'freeBreakpoints' => [
+            'default' => [
+                'title' => 'Default',
+                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+            ],
+            'l' => [
+                'title' => '[Laptop]',
+                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+            ],
+            'm' => [
+                'title' => '[Tablet]',
+                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+            ],
+            'xs' => [
+                'title' => '[Phone]',
+                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+            ],
+        ],
+    ];
+
     /**
      * Return cropVariant array for TCA.
      * If $allowedRatios isn't set, the key is used as ratio, e.g. '16:9' => ['title' => '16:9', 'value' => 16/9]
-     * @param string $identifier
+     * @param string $key
      * @param array|string|null $allowedRatios
      * @return array
      *
@@ -115,7 +135,7 @@ class TcaUtility
         return $cropVariants;
     }
 
-    public static function getCropVariantConfigOverride(array|string $variants, array|string $disableVariants): array
+    public static function configOverrideWithCropVariants(array|string $variants, array|string $disableVariants = 'default'): array
     {
         $cropVariants = self::getCropVariants($variants);
         if (!is_array($disableVariants)) {
@@ -139,6 +159,29 @@ class TcaUtility
         ];
     }
 
+    public static function configOverrideWithBreakpointCropVariants(): array
+    {
+        return [
+            'config' => [
+                'overrideChildTca' => [
+                    'columns' => [
+                        'crop' => [
+                            'config' => [
+                                'cropVariants' => self::CROP_VARIANT_PRESETS['freeBreakpoints']
+                            ],
+                        ],
+                    ],
+                    'types' => [
+                        0 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
+                        1 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
+                        2 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
+                        5 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
+                    ],
+                ]
+            ]
+        ];
+    }
+
     public static function getContentShowitemBase(): string
     {
         return '
@@ -151,4 +194,5 @@ class TcaUtility
             rowDescription,
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,';
     }
+
 }

@@ -22,10 +22,10 @@
             <f:if condition="{backgroundImg}">
                 <f:then>
                     <div class="{name}__image {class} -background-image"
-                         style="--bg-image: url('{f:uri.image(src:src,image:image,cropVariant:cropVariant,width:width)}{f:if(condition:webp,then:'.webp')}');"></div>
+                         style="background-image: url('{f:uri.image(src:src,image:image,cropVariant:cropVariant,width:width)}{f:if(condition:webp,then:'.webp')}');"></div>
                 </f:then>
                 <f:else>
-                    <picture class="{name}__picture {f:if(condition:reserveHeight,then:'-reserve-height')}" style="{f:if(condition:reserveHeight,then:'--padding-top:{reserveHeight}')}">
+                    <picture class="{name}__picture {f:if(condition:reserveHeight,then:'-reserve-height')}" style="{f:if(condition:reserveHeight,then:'padding-top:{reserveHeight}')}">
                         <f:if condition="{sources}">
                             <f:for each="{sources}" as="source" key="key">
                                 <f:variable name="media" value="{key}"/>
@@ -89,8 +89,6 @@
                                          class="{name}__image {class}"
                                          width="{width}"
                                          absolute="1"
-                                         title="{image.title}"
-                                         alt="{image.alternative}"
                                          loading="{loading}"
                                          additionalAttributes="{additionalAttributes}"/>
                             </f:else>

@@ -25,5 +25,6 @@ $GLOBALS['TCA']['tt_content']['types']['puck_modal'] = [
                 'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
             ]
         ],
+        'assets' => TcaUtility::configOverrideWithBreakpointCropVariants()
     ]
 ];

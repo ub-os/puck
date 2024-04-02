@@ -20,11 +20,10 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_files'] = [
             ]
         ],
         'assets' => [
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-                'assets',
-                [
-                ],
-            )
+            'config' => [
+                'type' => 'file',
+                'allowed' => '*'
+            ],
         ],
     ]
 ];

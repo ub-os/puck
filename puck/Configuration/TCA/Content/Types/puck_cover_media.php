@@ -34,6 +34,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_cover_media'] = [
         ],
         'container_position' => [
             'displayCond' => 'FIELD:media_layout:IN:above,below',
-        ]
+        ],
+        'assets' => TcaUtility::configOverrideWithBreakpointCropVariants()
     ]
 ];

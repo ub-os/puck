@@ -21,6 +21,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_child_column'] = [
         ],
         'item_column_width' => [
             'label' => 'Media item width'
-        ]
+        ],
+        'assets' => TcaUtility::configOverrideWithBreakpointCropVariants()
     ]
 ];

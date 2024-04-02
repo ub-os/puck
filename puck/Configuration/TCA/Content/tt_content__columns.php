@@ -181,8 +181,7 @@ $columns['space_after_class'] = [
 ];
 $columns['assets'] = $GLOBALS['TCA']['tt_content']['columns']['assets'];
 $columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
-    'default' => TcaUtility::getCropVariant('default','standard'),
-    'mobile' => TcaUtility::getCropVariant('mobile','standard'),
+    'default' => TcaUtility::getCropVariant('Default','standard'),
 ];
 
 $columns['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
