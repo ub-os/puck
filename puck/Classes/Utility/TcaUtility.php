@@ -172,10 +172,10 @@ class TcaUtility
                         ],
                     ],
                     'types' => [
-                        0 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
-                        1 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
-                        2 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
-                        5 => ['showitem' => '--palette--;;imageoverlayPaletteWithCropVariantSelect, --palette--;;filePalette'],
+                        0 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+                        1 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+                        2 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+                        5 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
                     ],
                 ]
             ]
