@@ -11,6 +11,10 @@
   --scroll-margin-top-base: var(--height-page-header)
   &.--header--scroll-down
     --scroll-margin-top-base: 0px
+  &:where(:has(.m-anchor-menu__wrap))
+    --scroll-margin-top-base: calc(var(--height-page-header) + 7rem)
+    &.--header--scroll-down
+      --scroll-margin-top-base: 7rem
 
 #body
   width: 100%

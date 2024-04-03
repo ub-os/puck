@@ -7,7 +7,7 @@
     transition: background .5s, top .4s
     :where(.m-header.--stuck:not(.--scroll-down)) ~ .m-main &
       top: var(--height-page-header)
-    &.--top-above-view
+    &.--stuck
       background: var(--background-modal)
 
   &__list
@@ -23,3 +23,4 @@
     &:hover,
     &:focus-visible
       color: var(--color-link--hover)
+
