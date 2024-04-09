@@ -106,6 +106,9 @@ class PictureViewHelper extends AbstractViewHelper
         if ($arguments['breakpointSources']) {
             $imageBreakpoints = explode(',', $arguments['image']->getProperties()['breakpoints']);
             foreach ($imageBreakpoints as $breakpoint) {
+                if (!$breakpoint) {
+                    continue;
+                }
                 if (isset($sources[$breakpoint])) {
                     $sources[$breakpoint]['cropVariant'] = $breakpoint;
                     continue;
