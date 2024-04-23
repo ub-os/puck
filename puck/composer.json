@@ -22,9 +22,9 @@
     "oliveoilexpert/puckloader": "^0.1.3",
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2",
+    "oliveoilexpert/puck-powermail": "^1",
     "kitzberger/doktype-typolink": "^3",
-    "b13/slash-force": "^1.0",
-    "in2code/powermail": "^12.1"
+    "b13/slash-force": "^1.0"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

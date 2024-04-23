@@ -29,6 +29,10 @@ npm Version = 18
     {
         "url": "https://github.com/oliveoilexpert/ckeditor_icons.git",
         "type": "git"
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/puck-powermail.git",
+        "type": "git"
     }
 ],
 "prefer-stable": true,

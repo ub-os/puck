@@ -2,7 +2,6 @@
 defined('TYPO3') or die();
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puckloader\Loader;
 
 Loader::loadConf('puck');
@@ -17,6 +16,7 @@ ExtensionManagementUtility::addPageTSConfig(
 ExtensionManagementUtility::addUserTSConfig(
     "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
 );
+
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBOS\Puck\Routing\Aspect\NothingMapper::class;
 

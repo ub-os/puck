@@ -24,12 +24,6 @@ NOTE: See example section after main section
     <div class="{settings.styles.framework.createClasses}" data-powermail-form="{mail.form.uid}">
       <f:if condition="{optinActive}">
         <f:then>
-          <f:if condition="{settings.optinPage.redirect}">
-            <f:link.typolink additionalAttributes="{id:'powermail-optin-redirect'}" parameter="{settings.optinPage.redirect}"/>
-            <script type="application/javascript">
-              document.getElementById('powermail-optin-redirect').click();
-            </script>
-          </f:if>
           {settings.optinPage.body -> f:format.html()}
         </f:then>
         <f:else>
