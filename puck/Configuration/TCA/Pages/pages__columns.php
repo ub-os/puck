@@ -20,11 +20,6 @@ array_push(
         'news_page',
     ],
     [
-        'Preset folder',
-        'presets',
-        'preset',
-    ],
-    [
         'Category folder',
         'categories',
         'mimetypes-x-sys_category',

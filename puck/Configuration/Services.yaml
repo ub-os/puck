@@ -21,12 +21,6 @@ services:
       - name: event.listener
         identifier: 'puck-record-list'
 
-  UBOS\Puck\EventListener\ModifyNewContentElementWizard:
-    tags:
-      - name: event.listener
-        # identifier is used to sort the listeners, needs to be before content_defender listener
-        identifier: '01-puck-new-content-element-wizard'
-
   UBOS\Puck\EventListener\ModifyPageLayoutContent:
     tags:
       - name: event.listener

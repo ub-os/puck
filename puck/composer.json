@@ -23,6 +23,7 @@
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2",
     "oliveoilexpert/puck-powermail": "^1",
+    "oliveoilexpert/content-presets": "^1",
     "kitzberger/doktype-typolink": "^3",
     "b13/slash-force": "^1.0"
   },
