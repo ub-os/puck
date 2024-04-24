@@ -1,9 +1,8 @@
-<f:variable name="headerContent">
-    <module:menu.filter categoryFilter="{categoryFilter}" sectionId="c{object.uid}"/>
-</f:variable>
-<f:variable name="footerContent">
-    <module:menu.pagination pagination="{pagination}" sectionId="c{object.uid}"/>
-</f:variable>
-<module:menu object="{object}"
-             headerContent="{headerContent -> f:spaceless() -> f:format.raw()}"
-             footerContent="{footerContent -> f:spaceless() -> f:format.raw()}"/>
+<module:menu object="{object}">
+    <fc:content slot="headerContent">
+        <module:menu.filter categoryFilter="{categoryFilter}" sectionId="c{object.uid}"/>
+    </fc:content>
+    <fc:content slot="footerContent">
+        <module:menu.pagination pagination="{pagination}" sectionId="c{object.uid}"/>
+    </fc:content>
+</module:menu>

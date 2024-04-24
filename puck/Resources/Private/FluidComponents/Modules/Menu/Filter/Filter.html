@@ -15,22 +15,21 @@
                       <li class="{name}__item">
                       <f:if condition="{item.items}">
                           <f:then>
-                              <f:variable name="buttonContent">
-                                   
-                                  <f:if condition="{item.closeItem}">
-                                      <a href="{item.closeItem.url}"
-                                         class="e-dropdown__close"
-                                         data-hx-get="{item.closeItem.fetchLinkOptions.url}"
-                                         data-hx-push-url="{item.closeItem.url}">
-                                          {item.activeChildren -> f:count()}
-                                          <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
-                                      </a> 
-                                  </f:if>
-                              </f:variable>
                               <element:dropdown
                                       id="{sectionId}-filter-{i.index}-dropdown"
-                                      label="{item.label}"
-                                      buttonContent="{buttonContent -> f:format.raw()}">
+                                      label="{item.label}">
+                                  <fc:content slot="buttonContent">
+                                       
+                                      <f:if condition="{item.closeItem}">
+                                          <a href="{item.closeItem.url}"
+                                             class="e-dropdown__close"
+                                             data-hx-get="{item.closeItem.fetchLinkOptions.url}"
+                                             data-hx-push-url="{item.closeItem.url}">
+                                              {item.activeChildren -> f:count()}
+                                              <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
+                                          </a> 
+                                      </f:if>
+                                  </fc:content>
                                   <f:for each="{item.items}" as="childItem">
                                           <a href="{childItem.url}"
                                              class="{u:bem(
