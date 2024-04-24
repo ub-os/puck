@@ -15,53 +15,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
  */
 class PuckUtility
 {
-
-    /**
-     * @param QueryResult $result
-     * @param int $currentPage
-     * @param int $itemsPerPage
-     * @param int $maximumLinks
-     * @return array
-     */
-    public static function paginateQueryResult(
-        QueryResult $result,
-        int $currentPage = 1,
-        int $itemsPerPage = 12,
-        int $maximumLinks = 3): array
-    {
-        $paginator = new QueryResultPaginator(
-            $result,
-            $currentPage,
-            $itemsPerPage
-        );
-        $pagination = new NumberedPagination($paginator, $maximumLinks);
-        $prevPage = $currentPage > 1
-            ? $currentPage - 1
-            : 0;
-        $nextPage = $currentPage < $paginator->getNumberOfPages()
-            ? $currentPage + 1
-            : 0;
-        $window = range($pagination->getDisplayRangeStart(), $pagination->getDisplayRangeEnd());
-        if (($key = array_search(1, $window)) !== false) {
-            unset($window[$key]);
-        }
-        if (($key = array_search($paginator->getNumberOfPages(), $window)) !== false) {
-            unset($window[$key]);
-        }
-        return [
-                'paginator'=>$paginator,
-                'current'=>$currentPage,
-                'prev'=>$prevPage,
-                'next'=>$nextPage,
-                'first'=>1,
-                'last'=>$paginator->getNumberOfPages(),
-                'window'=>$window,
-                'slideLeft'=>$pagination->getHasLessPages(),
-                'slideRight'=>$pagination->getHasMorePages(),
-                'items'=>$paginator->getPaginatedItems(),
-        ];
-    }
-
     /**
      * @param string $filepath
      * @param bool $keysFromFirstRow

@@ -9,7 +9,6 @@ use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 
 #[ModelPersistence("tt_content")]
-#[ContentElementWizard('99_hidden')]
 class PowermailForm extends Text
 {
 }
