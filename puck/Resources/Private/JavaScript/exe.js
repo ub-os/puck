@@ -144,3 +144,8 @@ doc.addEventListener("htmx:historyRestore", (event) => {
     logHtmxLifecycleEvent(event)
     resetBody()
 })
+
+doc.addEventListener("htmx:responseError", (event) => {
+    // route to error page
+    window.location.href = event.detail.xhr.responseURL;
+})
