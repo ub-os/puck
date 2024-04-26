@@ -15,50 +15,45 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class BackendUserExceptionHandler extends DebugExceptionHandler
 {
 
-    protected function backendUserIsLoggedIn(): bool
-    {
-        return !!$GLOBALS['BE_USER']?->user['uid'];
-    }
-
     public function echoExceptionWeb(\Throwable $exception): void
     {
-        $this->sendStatusHeaders($exception);
-        $this->writeLogEntries($exception, self::CONTEXT_WEB);
-
-        // if backend user is logged in, show the debug exception
         if ($this->backendUserIsLoggedIn()) {
-            $content = $this->getContent($exception);
-            $css = $this->getStylesheet();
-            echo <<<HTML
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>TYPO3 Exception</title>
-        <meta name="robots" content="noindex,nofollow" />
-        <style>$css</style>
-    </head>
-    <body>
-        $content
-    </body>
-</html>
-HTML;
+            $this->echoDebugException($exception);
             return;
         }
 
-        // otherwise if there is a site with a configured error handler for 503, use it
         $request = $GLOBALS['TYPO3_REQUEST'];
         $errorHandler = $this->getErrorHandlerFromSite($request, 503);
         if ($errorHandler !== null) {
-            $errorResponse = $errorHandler->handlePageError($request, 'An error occurred', ['reasons' => $exception->getMessage()]);
-            echo $errorResponse->getBody();
+            $this->echoErrorPage($exception, $errorHandler, $request);
             return;
         }
 
-        // otherwise use the production exception handler
+        $this->echoProductionException($exception);
+    }
+
+    protected function echoDebugException(\Throwable $exception): void
+    {
+        parent::echoExceptionWeb($exception);
+    }
+
+    protected function echoErrorPage(\Throwable $exception, PageErrorHandlerInterface $errorHandler, ServerRequestInterface $request): void
+    {
+        $this->sendStatusHeaders($exception);
+        $this->writeLogEntries($exception, self::CONTEXT_WEB);
+        $errorResponse = $errorHandler->handlePageError($request, 'An error occurred', ['reasons' => $exception->getMessage()]);
+        echo $errorResponse->getBody();
+    }
+
+    protected function echoProductionException(\Throwable $exception): void
+    {
         $productionExceptionHandler = GeneralUtility::makeInstance(ProductionExceptionHandler::class);
         $productionExceptionHandler->echoExceptionWeb($exception);
+    }
 
+    protected function backendUserIsLoggedIn(): bool
+    {
+        return !!$GLOBALS['BE_USER']?->user['uid'];
     }
 
     protected function getErrorHandlerFromSite(ServerRequestInterface $request, int $statusCode): ?PageErrorHandlerInterface
