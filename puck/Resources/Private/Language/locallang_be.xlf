@@ -267,6 +267,18 @@
 				<source>Menu of downloadable files.</source>
 			</trans-unit>
 
+			<trans-unit id="content.element.error_text" resname="content.element.error_text">
+				<source>Error text</source>
+			</trans-unit>
+			<trans-unit id="wizard.error_text" resname="wizard.error_text">
+				<source>Error text</source>
+			</trans-unit>
+			<trans-unit id="wizard.error_text.description" resname="wizard.error_text.description">
+				<source>Error page message.</source>
+			</trans-unit>
+
+
+
 			<trans-unit id="doktype.news_page" resname="doktype.news_page">
 				<source>News page</source>
 			</trans-unit>

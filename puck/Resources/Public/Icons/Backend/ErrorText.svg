@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ErrorText</title>
+    <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ErrorText" fill-rule="nonzero">
+            <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+            <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
+            <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
+            <g id="text" transform="translate(8, 18)" fill="#B9B9B9">
+                <polygon id="Path" points="0 0 16 0 16 4 0 4"></polygon>
+            </g>
+            <g id="bolt-lightning-sharp-solid" transform="translate(7, 0)" fill="#FF6777">
+                <polygon id="Path" points="0 14.0625 1.58333333 0 12.6666667 0 10.2916667 7.8125 19 7.8125 19 10.15625 6.33333333 25 8.70833333 14.0625"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
