@@ -32,7 +32,6 @@ mod.web_layout.BackendLayouts {
             backend_layout {
                 colCount = 8
                 rowCount = 2
-                test =
                 rows {
                     1 {
                         columns {
@@ -51,6 +50,25 @@ mod.web_layout.BackendLayouts {
                                 colPos = 9
                                 colspan = 8
                                 allowed.CType = puck_modal
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    error {
+        title = Error
+        config {
+            backend_layout {
+                rows {
+                    1 {
+                        columns {
+                            1 {
+                                name = Error content
+                                colPos = 1
+                                colspan = 8
+                                allowed.CType = puck_error_text
                             }
                         }
                     }
@@ -97,7 +115,7 @@ mod.web_layout.BackendLayouts {
 // map allowed backend layouts to doktypes
 TCEFORM.pages.backend_layout.itemsProcFunc.doktypes {
     // only allow backendLayout "default" on pages with doktype 1
-    1 = default
+    1 = default, error
     254 = folder
     16503 = default
     16511 = detail-plugin

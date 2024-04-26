@@ -6,17 +6,21 @@
      data-core="anchor-behavior scrollbar-width"
      data-logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
     <!--TYPO3SEARCH_end-->
-    <module:schema object="{object}" context="{context}"/>
-    <module:header object="{object}" context="{context}"/>
+    <f:if condition="{object.backendLayout} !== 'pagets__error'">
+        <module:schema object="{object}" context="{context}"/>
+        <module:header object="{object}" context="{context}"/>
+    </f:if>
     <!--TYPO3SEARCH_begin-->
     <module:main object="{object}">
         {contentElements.colPos2 -> f:format.raw()}
         {contentElements.colPos1 -> f:format.raw()}
     </module:main>
     <!--TYPO3SEARCH_end-->
-    <module:footer object="{object}">
-        {contentElements.colPos3 -> f:format.raw()}
-    </module:footer>
+    <f:if condition="{object.backendLayout} !== 'pagets__error'">
+        <module:footer object="{object}">
+            {contentElements.colPos3 -> f:format.raw()}
+        </module:footer>
+    </f:if>
     <module:main.toTop/>
     <div data-modal-container>
         {contentElements.colPos9 -> f:format.raw()}

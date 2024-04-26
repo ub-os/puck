@@ -1,0 +1,29 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-error-text"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+    <layout:section
+            class="{name}__wrap {class}"
+            object="{object}"
+            id="c{object.uid}">
+        <div class="{name}">
+            <h1 class="{name}__header">
+                {object.header}
+            </h1>
+            <p class="{name}__subheader">
+                {object.subheader}
+            </p>
+            <fc:slot name="content"/>
+            <a href="/">
+                <icon:svg icon="website-logo" class="{name}__logo"/>
+            </a>
+            <element:richText text="{object.bodytext}"/>
+        </div>
+    </layout:section>
+
+  </fc:renderer>
+</fc:component>
+
+
