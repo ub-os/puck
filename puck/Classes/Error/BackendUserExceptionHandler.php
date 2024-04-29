@@ -22,6 +22,11 @@ class BackendUserExceptionHandler extends DebugExceptionHandler
             return;
         }
 
+        if (!isset($GLOBALS['TYPO3_REQUEST'])) {
+            $this->echoDebugException($exception);
+            return;
+        }
+
         $request = $GLOBALS['TYPO3_REQUEST'];
         $errorHandler = $this->getErrorHandlerFromSite($request, 503);
         if ($errorHandler !== null) {
@@ -53,6 +58,9 @@ class BackendUserExceptionHandler extends DebugExceptionHandler
 
     protected function backendUserIsLoggedIn(): bool
     {
+        if (!isset($GLOBALS['BE_USER'])) {
+            return false;
+        }
         return !!$GLOBALS['BE_USER']?->user['uid'];
     }
 

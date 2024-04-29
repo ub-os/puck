@@ -22,8 +22,8 @@
     "oliveoilexpert/puckloader": "^0.1.3",
     "t3/scroll": "^2",
     "oliveoilexpert/ckeditor-icons": "^0.2",
-    "oliveoilexpert/puck-powermail": "^1",
-    "oliveoilexpert/content-presets": "^1",
+    "oliveoilexpert/puck-powermail": "*",
+    "oliveoilexpert/content-presets": "*",
     "kitzberger/doktype-typolink": "^3",
     "b13/slash-force": "^1.0"
   },
