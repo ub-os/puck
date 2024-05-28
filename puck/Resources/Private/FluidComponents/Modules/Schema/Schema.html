@@ -5,13 +5,16 @@
     <fc:renderer>
 
         <u:var set="searchTermString">{<f:format.raw>search_term_string</f:format.raw>}</u:var>
-        <schema:type.webPage
+        <schema:multipleType
                 -id="{f:uri.page(absolute: 'true')}#webpage"
-                url="{f:uri.page(absolute: 'true')}"
-                inLanguage="{context.language.hreflang}"
-                name="{object.seoTitle}"
-                datePublished="{object.starttime}"
-                dateModified="{object.lastUpdated}">
+                types="{f:if(condition:'{object.txSchemaWebpagetype}',then:object.txSchemaWebpagetype,else:'WebPage')}"
+                properties="{
+                url:'{f:uri.page(absolute: \'true\')}',
+                inLanguage:context.language.hreflang,
+                name:object.seoTitle,
+                datePublished:object.starttime,
+                dateModified:object.lastUpdated
+            }">
             <schema:type.webSite
                     -as="isPartOf"
                     -id="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}#website"
@@ -39,10 +42,24 @@
                             -as="primaryImageOfPage"
                             -id="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}#primaryimage"
                             url="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}"
-                            />
+                    />
 
                 </f:else>
             </f:if>
-        </schema:type.webPage>
+        </schema:multipleType>
+
+        <f:variable name="breadcrumbsMenu" value="{u:menu(pages:object.uid, processor:'breadcrumbs')}"/>
+        <schema:type.breadcrumbList>
+            <f:for each="{breadcrumbsMenu}" as="item" iteration="i">
+                <schema:type.listItem
+                        -as="itemListElement"
+                        position="{i.cycle}"
+                        name="{item.nav_title}"
+                        item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
+                />
+            </f:for>
+        </schema:type.breadcrumbList>
+
+
     </fc:renderer>
 </fc:component>

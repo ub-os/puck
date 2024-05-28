@@ -26,18 +26,6 @@
         />
         <fc:slot name="content"/>
       </ul>
-      <f:if condition="{processor} == 'breadcrumbs'">
-        <schema:type.breadcrumbList>
-          <f:for each="{menu}" as="item" iteration="i">
-            <schema:type.listItem
-                    -as="itemListElement"
-                    position="{i.cycle}"
-                    name="{item.nav_title}"
-                    item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
-            />
-          </f:for>
-        </schema:type.breadcrumbList>
-      </f:if>
     </nav>
     
   </fc:renderer>

@@ -58,16 +58,4 @@
             </li>
         </f:if>
     </ul>
-    <f:if condition="{data.breadcrumbs}">
-        <schema:type.breadcrumbList>
-            <f:for each="{menu}" as="item" iteration="i">
-                <schema:type.listItem
-                        -as="itemListElement"
-                        position="{i.cycle}"
-                        name="{item.title}"
-                        item="{f:uri.page(pageUid: '{item.data.uid}', absolute: '1')}"
-                />
-            </f:for>
-        </schema:type.breadcrumbList>
-    </f:if>
 </nav>

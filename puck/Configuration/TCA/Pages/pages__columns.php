@@ -133,3 +133,14 @@ $GLOBALS['TCA']['pages']['columns']['teasers'] = [
         ],
     ],
 ];
+
+// multiselect for webpagetype messes with the schema auto generation of ext:schema,
+// so it has to be disabled in settings if we want to use multi types
+$GLOBALS['TCA']['pages']['columns']['tx_schema_webpagetype']['config'] = [
+    'items' => $GLOBALS['TCA']['pages']['columns']['tx_schema_webpagetype']['config']['items'],
+    'itemsProcFunc' => $GLOBALS['TCA']['pages']['columns']['tx_schema_webpagetype']['config']['itemsProcFunc'],
+    'type' => 'select',
+    'renderType' => 'selectMultipleSideBySide',
+    'size' => 3,
+    'autoSizeMax' => 10,
+];

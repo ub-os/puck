@@ -117,6 +117,9 @@ class Page extends AbstractEntity
      * @Lazy
      */
     public ObjectStorage|null $media = null;
+
+    public string $txSchemaWebpagetype = '';
+
     /**
      * @var string
      */
