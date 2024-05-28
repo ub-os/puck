@@ -28,8 +28,9 @@
 
 
 =grid-row($custom-gutter: $gutter)
-  +rfs($custom-gutter, --grid-gutter-x)
-  --grid-gutter-y: var(--grid-gutter-x)
+  @if ($custom-gutter != $gutter)
+    +rfs($gutter, --grid-gutter-x)
+    --grid-gutter-y: var(--grid-gutter-x)
   display: flex
   flex-wrap: wrap
   margin-block: calc(var(--grid-gutter-y) * -.5)
