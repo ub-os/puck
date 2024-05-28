@@ -11,7 +11,9 @@ Mail will only be send, if Optin was enabled by editor
 {settings}						TypoScript Settings
 
 <f:section name="main">
-  {settings.optin.body -> f:format.html()}
+  <vh:misc.variables mail="{mail}">
+    <f:format.html parseFuncTSPath="lib.parseFunc_RTE">{powermail_rte}</f:format.html>
+  </vh:misc.variables>
   <p>
     <f:format.htmlentitiesDecode>
       <f:link.action action="optinConfirm" absolute="1" arguments="{hash: hash, mail: mail}">

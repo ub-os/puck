@@ -24,7 +24,7 @@ NOTE: See example section after main section
     <div class="{settings.styles.framework.createClasses}" data-powermail-form="{mail.form.uid}">
       <f:if condition="{optinActive}">
         <f:then>
-          {settings.optinPage.body -> f:format.html()}
+          <f:format.html parseFuncTSPath="lib.parseFunc_RTE">{settings.optinPage.body}</f:format.html>
         </f:then>
         <f:else>
           <vh:misc.variables mail="{mail}">
@@ -36,6 +36,7 @@ NOTE: See example section after main section
       </f:if>
     </div>
 
+    <f:comment>
     <p>
       <f:link.page
               class="e-button"
@@ -49,6 +50,7 @@ NOTE: See example section after main section
         {f:translate(key:'back')}
       </f:link.page>
     </p>
+    </f:comment>
 
   </layout:section>
 
