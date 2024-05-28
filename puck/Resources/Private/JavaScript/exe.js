@@ -62,6 +62,7 @@ const resetBody = () => {
     window.requestAnimationFrame(() => {
         mountBody()
         Logger.console.timeEnd('mount application')
+        window.UC_UI?.restartCMP() // restart Usercentrics CMP UI if available
     })
 }
 
