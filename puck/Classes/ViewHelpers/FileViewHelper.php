@@ -16,6 +16,7 @@ class FileViewHelper extends AbstractViewHelper
         // name, type, description, required, default, escape
         $this->registerArgument('get', 'mixed', '', false, null);
         $this->registerArgument('getOnlineMediaImageSrc', 'mixed', '', false, null);
+        $this->registerArgument('useUcSource', 'boolean', '', false, null);
         $this->registerArgument('set', 'string', '', false, '');
     }
 
@@ -32,7 +33,7 @@ class FileViewHelper extends AbstractViewHelper
         if ($arguments['getOnlineMediaImageSrc']) {
             $file = self::getFile($arguments['getOnlineMediaImageSrc']);
             if (is_object($file)) {
-                return self::getOnlineMediaImageSrc($file);
+                return self::getOnlineMediaImageSrc($file, $arguments);
             }
         }
         if ($arguments['set']) {
@@ -76,9 +77,12 @@ class FileViewHelper extends AbstractViewHelper
         return '"get" argument must be a string (file combined identifier), integer (uid) or a File/FileReference object';
     }
 
-    protected static function getOnlineMediaImageSrc($file) {
+    protected static function getOnlineMediaImageSrc($file, $arguments = array()) {
 
         if ($file->getProperty('extension') === 'youtube') {
+            if ($arguments['useUcSource']) {
+                return "https://privacy-proxy-server.usercentrics.eu/video/youtube/{$id}-poster-image";
+            }
             $resolutions = array('maxresdefault', 'hqdefault', 'mqdefault');
             foreach($resolutions as $res) {
                 $imgUrl = 'https://i.ytimg.com/vi/' . $file->getContents() . $res . '.jpg';
