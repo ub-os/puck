@@ -7,7 +7,8 @@
   <fc:param name="sources" type="array" optional="1"/>
   <fc:param name="breakpointSources" type="boolean" optional="1" default="0"/>
   <fc:param name="cropVariant" type="string" optional="1" default="default"/>
-  <fc:param name="webp" type="boolean" optional="1" default="1"/>
+  <fc:param name="webp" type="boolean" optional="1" default="0"/>
+  <fc:param name="avif" type="boolean" optional="1" default="1"/>
   <fc:param name="retina" type="boolean" optional="1" default="1"/>
   <fc:param name="loading" type="string" optional="1" default="lazy"/>
   <fc:param name="additionalConfig" type="array" optional="1" default="{controls:1,autoplay:0,loop:0}"/>
@@ -38,6 +39,7 @@
                           width="{width}"
                           retina="{retina}"
                           webp="{webp}"
+                          avif="{avif}"
                           backgroundImage="{backgroundImg}"
                           loading="{loading}"
                           reserveHeight="{reserveHeight}"

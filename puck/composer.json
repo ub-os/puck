@@ -16,7 +16,7 @@
     "christophlehmann/pagetreefilter": "^2",
     "eliashaeussler/typo3-warming": "^2",
     "brotkrueml/schema": "^3",
-    "plan2net/webp": "^5.0",
+    "wapplersystems/avif": "^12.0",
     "b13/menus": "^1.0",
     "b13/container": "^2.3",
     "oliveoilexpert/puckloader": "^0.1.3",

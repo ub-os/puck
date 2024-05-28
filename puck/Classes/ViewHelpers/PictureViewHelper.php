@@ -23,6 +23,7 @@ class PictureViewHelper extends AbstractViewHelper
         $this->registerArgument('cropVariant', 'string', '', false, 'default');
         $this->registerArgument('breakpointSources', 'boolean', '', false, false);
         $this->registerArgument('webp', 'boolean', '', false, false);
+        $this->registerArgument('avif', 'boolean', '', false, false);
         $this->registerArgument('retina', 'boolean', '', false, false);
         $this->registerArgument('loading', 'string', '', false, 'lazy');
         $this->registerArgument('breakpoints', 'array', '', false, ['xs' => 450, 's' => 625, 'sm' => 800, 'm' => 975, 'ml' => 1150, 'l' => 1325, 'xl' => 1500]);
@@ -60,6 +61,9 @@ class PictureViewHelper extends AbstractViewHelper
             if ($arguments['webp']) {
                 $src = $src . '.webp';
             }
+            if ($arguments['avif']) {
+                $src = $src . '.avif';
+            }
             return "<div class=\"{$arguments['className']}__image {$arguments['class']}\" style=\"background-image: url('{$src}');\"></div>";
         }
 
@@ -73,6 +77,7 @@ class PictureViewHelper extends AbstractViewHelper
 
         $imageHtml = '';
         if ($arguments['image']) {
+            DebugUtility::debug($arguments['image']);
             $imageHtml = ImageViewHelper::renderStatic([
                 'image' => $arguments['image'],
                 'class' => "{$arguments['className']}__image {$arguments['class']}",
@@ -80,8 +85,8 @@ class PictureViewHelper extends AbstractViewHelper
                 'absolute' => true,
                 'cropVariant' => $arguments['cropVariant'],
                 'treatIdAsReference' => false,
-                'title' => $arguments['image']->getTitle(),
-                'alt' => $arguments['image']->getAlternative(),
+                'title' => $arguments['image']->getTitle() ?? '',
+                'alt' => $arguments['image']->getAlternative() ?? '',
                 'loading' => $arguments['loading'],
                 'additionalAttributes' => $arguments['additionalAttributes'],
             ], $renderChildrenClosure, $renderingContext);
@@ -104,7 +109,7 @@ class PictureViewHelper extends AbstractViewHelper
         $sources = $arguments['sources'];
 
         if ($arguments['breakpointSources']) {
-            $imageBreakpoints = explode(',', $arguments['image']->getProperties()['breakpoints']);
+            $imageBreakpoints = explode(',', $arguments['image']->getProperties()['breakpoints']) ?? [];
             foreach ($imageBreakpoints as $breakpoint) {
                 if (!$breakpoint) {
                     continue;
@@ -175,6 +180,9 @@ class PictureViewHelper extends AbstractViewHelper
             $media = "media=\"(max-width: {$maxWidth}px)\"";
             if ($breakpoint === 'default') {
                 $media = '';
+            }
+            if ($arguments['avif']) {
+                $sourcesHtml .= "<source srcset=\"{$srcset}.avif {$srcsetx2}.avif{$x2}\" {$media} type=\"image/avif\">";
             }
             if ($arguments['webp']) {
                 $sourcesHtml .= "<source srcset=\"{$srcset}.webp {$srcsetx2}.webp{$x2}\" {$media} type=\"image/webp\">";

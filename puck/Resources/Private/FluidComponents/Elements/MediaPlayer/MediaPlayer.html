@@ -32,17 +32,19 @@
             <div class="{name}__poster">
                 <f:if condition="{localPoster}">
                     <f:then>
-                        <element:picture
+                        <u:picture
                                 loading="lazy"
-                                name="{name}"
+                                class="{name}"
                                 retina="{posterRetina}"
                                 sources="{
-                                xs: {width: width},
-                                0: {width: 450}
+                                  xs: {width: 450},
+                                  m: {width: 975}
                                 }"
                                 image="{localPoster}"
                                 webp="{posterWebp}"
-                                width="{width}"/>
+                                avif="1"
+                                width="{width}"
+                        />
                     </f:then>
                     <f:else>
                         <picture>
