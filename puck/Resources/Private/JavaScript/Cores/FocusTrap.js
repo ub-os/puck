@@ -16,8 +16,8 @@ export default class FocusTrap extends Core {
             f.tabIndex !== -1 &&
             !f.disabled &&
             !f.hidden &&
-            window.getComputedStyle(f,null).visibility !== 'hidden' &&
-            window.getComputedStyle(f,null).display !== 'none')
+            f.checkVisibility()
+        )
     }
 
     get firstFocusable() {

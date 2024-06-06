@@ -77,7 +77,6 @@ class PictureViewHelper extends AbstractViewHelper
 
         $imageHtml = '';
         if ($arguments['image']) {
-            DebugUtility::debug($arguments['image']);
             $imageHtml = ImageViewHelper::renderStatic([
                 'image' => $arguments['image'],
                 'class' => "{$arguments['className']}__image {$arguments['class']}",

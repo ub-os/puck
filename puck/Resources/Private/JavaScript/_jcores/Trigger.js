@@ -93,6 +93,7 @@ export default class Trigger {
         const attributeConverter = new AttributeConverter(core.constructor.triggerables?.[coreMethod] || {})
 
         this.listener = e => {
+            let core = coreEl?.['_jcCores']?.get(coreIdentifier)
             if (triggerGuard(e)) return
             if (!core.__connected) return
             el.hasAttribute(`data-${this.identifier}:event:prevent`) ? e.preventDefault() : null
