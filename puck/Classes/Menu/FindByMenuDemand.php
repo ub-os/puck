@@ -4,6 +4,7 @@ namespace UBOS\Puck\Menu;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
@@ -12,12 +13,18 @@ use UBOS\Puck\Menu\Dto\MenuDemand;
 trait FindByMenuDemand
 {
     abstract public function createQuery();
+
     public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
     {
         return [];
     }
 
-    public function findByMenuDemand(MenuDemand $demand) : array
+    public function map(array $rows): array
+    {
+        return GeneralUtility::makeInstance(DataMapper::class)->map($this->objectType, $rows);
+    }
+
+    public function findByMenuDemand(MenuDemand $demand, bool $returnRawQueryResult = false) : array
     {
         $query = $this->createQuery();
         $constraints = $this->additionalMenuDemandConstraints($query, $demand->additionalSettings);
@@ -65,7 +72,10 @@ trait FindByMenuDemand
         }
 
         // to do update, logicalAnd needs multiple arguments of type ConstraintInterface
-        $records = $query->matching($query->logicalAnd(...$constraints))->execute();
+        $records = $query->matching($query->logicalAnd(...$constraints))->execute($returnRawQueryResult);
+        if (!$returnRawQueryResult) {
+            $records = $records->toArray();
+        }
 
         if ($demand->orderByRecordsProperty) {
             $recordsArray = $records->toArray();
@@ -84,7 +94,7 @@ trait FindByMenuDemand
             ksort($newArray);
             return $newArray;
         }
-        return $records->toArray();
+        return $records;
     }
 
     /**

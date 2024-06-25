@@ -67,7 +67,7 @@ class MenuController extends ActionController
             ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
         }
 
-        $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand());
+        $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand(), true);
 
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
         if ($this->settings['pagination']['active'] && count($records) > $itemsPerPage) {
@@ -84,9 +84,9 @@ class MenuController extends ActionController
                 ->addPaginationLinksToHead()
                 ->build();
             $this->view->assign('pagination', $pagination);
-            $object->menu = $paginationBuilder->getPaginatedItems();
+            $object->menu = $this->pageRepository->map($paginationBuilder->getPaginatedItems());
         } else {
-            $object->menu = $records;
+            $object->menu = $this->pageRepository->map($records);
         }
 
         if ($this->settings['demand']['teasers']) {
