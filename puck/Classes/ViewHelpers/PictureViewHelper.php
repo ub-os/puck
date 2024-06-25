@@ -75,7 +75,15 @@ class PictureViewHelper extends AbstractViewHelper
         }
         $pictureHtml = "<picture class=\"{$pictureClass}\" style=\"{$pictureStyle}\">";
 
-        $imageHtml = '';
+
+        $title = '';
+        $alt = '';
+        if (method_exists($arguments['image'], 'getTitle')) {
+            $title = $arguments['image']->getTitle() ?? '';
+        }
+        if (method_exists($arguments['image'], 'getAlternative')) {
+            $alt = $arguments['image']->getAlternative() ?? '';
+        }
         if ($arguments['image']) {
             $imageHtml = ImageViewHelper::renderStatic([
                 'image' => $arguments['image'],
@@ -84,8 +92,8 @@ class PictureViewHelper extends AbstractViewHelper
                 'absolute' => true,
                 'cropVariant' => $arguments['cropVariant'],
                 'treatIdAsReference' => false,
-                'title' => $arguments['image']->getTitle() ?? '',
-                'alt' => $arguments['image']->getAlternative() ?? '',
+                'title' => $title,
+                'alt' => $alt,
                 'loading' => $arguments['loading'],
                 'additionalAttributes' => $arguments['additionalAttributes'],
             ], $renderChildrenClosure, $renderingContext);
@@ -138,7 +146,7 @@ class PictureViewHelper extends AbstractViewHelper
         foreach ($sources as $breakpoint => $source) {
             $srcset = UriImageViewHelper::renderStatic([
                 'image' => $arguments['image'],
-                'cropVariant' => $source['cropVariant'],
+                'cropVariant' => $source['cropVariant'] ?? '',
                 'width' => $source['width'],
                 'absolute' => true,
                 'treatIdAsReference' => false,
@@ -157,7 +165,7 @@ class PictureViewHelper extends AbstractViewHelper
                 $srcsetx2 .= ', ';
                 $srcsetx2 .= UriImageViewHelper::renderStatic([
                     'image' => $arguments['image'],
-                    'cropVariant' => $source['cropVariant'],
+                    'cropVariant' => $source['cropVariant'] ?? '',
                     'width' => $source['width'] * 2,
                     'absolute' => true,
                     'treatIdAsReference' => false,
