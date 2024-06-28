@@ -16,13 +16,18 @@ class Category extends AbstractEntity
      */
     public string $title = '';
     /**
-     * @var Category|null
-     * @Lazy
+     * @var ObjectStorage<Category>|null
      */
-    public ?Category $parent = null;
+    #[Lazy]
+    protected ?ObjectStorage $parent = null;
     /**
      * @var string
      */
     #[ModelColumn("string")]
     public string $slug = '';
+
+    public function getParent(): ?Category
+    {
+        return $this->parent?->current();
+    }
 }
