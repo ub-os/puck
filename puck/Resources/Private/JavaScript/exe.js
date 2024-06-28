@@ -4,6 +4,7 @@ import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
 import htmx from '~/htmx'
 import 'htmx.org/dist/ext/head-support'
+import 'htmx.org/dist/ext/preload'
 import Nexus from '~/nexus'
 
 
