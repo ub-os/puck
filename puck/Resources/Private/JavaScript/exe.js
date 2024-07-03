@@ -15,25 +15,28 @@ htmx.config.defaultSettleDelay = 0
 htmx.config.globalViewTransitions = true
 htmx.config.allowScriptTags = true
 htmx.config.allowEval = false
+htmx.config.refreshOnHistoryMiss = true
 
 
 smoothscroll.polyfill()
-const doc = document.documentElement
-let isInitialLoad = true
-let isMounted = false
 
+const doc = document.documentElement
+window.puckApp = {
+    nexus: Nexus,
+    isInitialLoad: true,
+    isMounted: false
+}
 // fix for htmx initializing on DOMContentLoaded or if document.readyState is 'complete'
 // because in this setup DOMContentLoaded is usually fired BEFORE readyState is 'complete'
-let domContentLoaded = document.readyState === 'complete'
-document.addEventListener('DOMContentLoaded', () => domContentLoaded = true)
-document.addEventListener('readystatechange', e => {
-    if (domContentLoaded || document.readyState !== 'complete') return
-    document.dispatchEvent(new Event('DOMContentLoaded'))
-})
-
+// let domContentLoaded = document.readyState === 'complete'
+// document.addEventListener('DOMContentLoaded', () => domContentLoaded = true)
+// document.addEventListener('readystatechange', e => {
+//     if (domContentLoaded || document.readyState !== 'complete') return
+//     document.dispatchEvent(new Event('DOMContentLoaded'))
+// })
 
 const mountBody = () => {
-    if (isMounted) return
+    if (window.puckApp.isMounted) return
     Nexus.connect()
     window.requestAnimationFrame(() => {
         $id('root').classList.remove('u-no-transition')
@@ -42,11 +45,11 @@ const mountBody = () => {
     })
     Logger.console.log(`%capplication:mount`, "color:orange")
     Logger.console.log(Nexus)
-    isMounted = true
+    window.puckApp.isMounted = true
 }
 
 const clearBody = () => {
-    if (!isMounted) return
+    if (!window.puckApp.isMounted) return
     Logger.console.time('body cleanup')
     $$('[data-render-excluded]').forEach(el => el.remove())
     $$('.--scroll').forEach(el => el.classList.remove('--scroll'))
@@ -54,7 +57,7 @@ const clearBody = () => {
     ObserverCollector.instance.clear()
     Logger.console.log(`%capplication:clear`, "color:orange")
     Logger.console.timeEnd('body cleanup')
-    isMounted = false
+    window.puckApp.isMounted = false
 }
 
 const resetBody = () => {
@@ -126,8 +129,8 @@ doc.addEventListener("htmx:afterSwap", (event) => {
     }
 })
 doc.addEventListener("htmx:load", (event) => {
-    if (isInitialLoad) {
-        isInitialLoad = false
+    if (window.puckApp.isInitialLoad) {
+        window.puckApp.isInitialLoad = false
         logHtmxLifecycleEvent(event, ':initial')
         Logger.console.time('mount application')
         mountBody()

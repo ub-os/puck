@@ -9,7 +9,7 @@ page.includeCSS {
 page.includeJS {
     puck = EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
     puck.defer = 1
-    puck.async = 1
+    puck.async = 0
 }
 page.includeJSFooter {
     puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js
@@ -38,7 +38,7 @@ page.meta {
     og:description.field = description
 }
 
-page.bodyTagAdd = id="body" data-hx-ext="head-support,preload"
+page.bodyTagAdd = id="body" data-hx-ext="preload"
 
 [traverse(page, "og_title")]
     page.meta.og:title.field = og_title
