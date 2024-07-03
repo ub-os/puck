@@ -12,7 +12,7 @@ function camelCase(string) {
 function jsonParse(val) {
     let obj = {}
     try {
-        obj = JSON.parse(val || '{}')
+        obj = JSON.parse(val || '{}') ?? {}
     } catch (e) {
         return {}
     }

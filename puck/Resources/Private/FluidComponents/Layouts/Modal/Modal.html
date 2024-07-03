@@ -4,15 +4,16 @@
   <fc:param name="id" type="string" optional="1"/>
   <fc:param name="width" type="integer" optional="1" default="6"/>
   <fc:param name="slots" type="array" optional="1" default="{}"/>
+  <fc:param name="modalAttributes" type="array" optional="1" default="{}"/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
+    {u:var(set:'defaultModalAttributes',value:'{duration:300}')}
     <div class="{name} {class} -width-{width}"
          id="{id}"
          data-core="modal"
-         data-modal:duration="300"
+         data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
          {attributes -> u:renderAttributes()}>
-
       <f:comment>
         <f:if condition="{slots.header}">
           <div class="{name}__header">

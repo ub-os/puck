@@ -46,7 +46,7 @@ export default class MainNav extends Core {
       })
     })
     this.listeners.add(this.el, 'click', e => {
-      if (e.target.closest('a')) {
+      if (e.target.closest('a') && !this.modalCore.asleep) {
         this.modalCore.toggleOff(true)
       }
     })
