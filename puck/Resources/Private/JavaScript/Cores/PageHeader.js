@@ -24,7 +24,7 @@ export default class PageHeader extends Core {
     checkScrollDirection() {
         const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         const difference = Math.abs(currentScrollTop - this.lastScrollTop)
-        if (difference < 10) return this.scrollDirection
+        if (difference < 2) return this.scrollDirection
         const scrollDirection = currentScrollTop > this.lastScrollTop ? 'down' : 'up'
         this.lastScrollTop = document.documentElement.scrollTop || document.body.scrollTop
         return scrollDirection
@@ -33,9 +33,9 @@ export default class PageHeader extends Core {
     scrollHandler(event) {
         if (!this.ticking && this.pausedTimeOut == null) {
             window.requestAnimationFrame(() => {
-                setTimeout(() => {
+/*                setTimeout(() => {
                     this.ticking = false
-                }, 200)
+                }, 50)*/
                 const scrollDirection = this.checkScrollDirection(event)
                 if (this.scrollDirection == scrollDirection) return
                 this.scrollDirection = scrollDirection
@@ -47,7 +47,7 @@ export default class PageHeader extends Core {
                     document.documentElement.classList.remove(`--${this.el.id}${classes.remove}`)
                 }
             })
-            this.ticking = true;
+            //this.ticking = true;
         }
     }
 
@@ -64,7 +64,7 @@ export default class PageHeader extends Core {
                     document.documentElement.classList.add(`--${this.el.id}${this.scrollClass}`)
                 }
             }
-        })
+        }, {passive: true})
 
         this.listeners.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this))
         this.listeners.add(window, 'keyup', this.scrollHandler.bind(this))

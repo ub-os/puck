@@ -177,7 +177,7 @@ export default class Toggleable extends Core {
     if (this.scrollOff) {
       this.listeners.add(window, 'scroll', () => {
         if (this.active) this.dispatch(Toggleable.events.toggleOff)
-      })
+      }, {passive: true})
     }
     if (this.urlHashOn) {
       if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.dispatch(Toggleable.events.toggleOn)

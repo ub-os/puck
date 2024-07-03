@@ -73,7 +73,7 @@ export default class ScrollSensitive extends Core {
         } else {
           this.el.classList.add(this.scrollClass);
         }
-      })
+      }, {passive: true})
       ResizeManager.addById(`scroll-sensitive-resize-${this.el.id}`, document.body, () => {
         this.__correctScrollTop = null
       })
