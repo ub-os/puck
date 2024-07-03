@@ -45,6 +45,7 @@
                           reserveHeight="{reserveHeight}"
                           breakpointSources="{breakpointSources}"
                           sources="{sources}"
+                          sourceMaxWidth="{width}"
                   />
                 </f:then>
                 <f:else if="{file.extension} == 'svg'">
@@ -57,9 +58,10 @@
                 </f:else>
                 <f:else if="{file.extension} == 'youtube' || {file.extension} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({file.extension} == 'mp4' || {file.extension} == 'webm'))">
                   <div class="{name}__file {name}__{file.extension}">
-                    <element:mediaPlayer file="{file}"
+                    <element:mediaPlayer  file="{file}"
                                           width="{width}"
                                           posterWebp="{webp}"
+                                          posterSources="{sources}"
                                           posterRetina="{retina}"/>
                   </div>
                 </f:else>

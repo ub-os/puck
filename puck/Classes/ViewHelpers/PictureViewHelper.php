@@ -20,6 +20,7 @@ class PictureViewHelper extends AbstractViewHelper
         $this->registerArgument('src', 'string', '', false, '');
         $this->registerArgument('width', 'integer', '', false, 1920);
         $this->registerArgument('sources', 'array', '', false, []);
+        $this->registerArgument('sourceMaxWidth', 'integer', '', false, 0);
         $this->registerArgument('cropVariant', 'string', '', false, 'default');
         $this->registerArgument('breakpointSources', 'boolean', '', false, false);
         $this->registerArgument('webp', 'boolean', '', false, false);
@@ -144,10 +145,14 @@ class PictureViewHelper extends AbstractViewHelper
 
         $sourcesHtml = '';
         foreach ($sources as $breakpoint => $source) {
+            $width = $source['width'];
+            if ($arguments['sourceMaxWidth'] > 0 && $width > $arguments['sourceMaxWidth']) {
+                $width = $arguments['sourceMaxWidth'];
+            }
             $srcset = UriImageViewHelper::renderStatic([
                 'image' => $arguments['image'],
                 'cropVariant' => $source['cropVariant'] ?? '',
-                'width' => $source['width'],
+                'width' => $width,
                 'absolute' => true,
                 'treatIdAsReference' => false,
                 'src' => '',
@@ -166,7 +171,7 @@ class PictureViewHelper extends AbstractViewHelper
                 $srcsetx2 .= UriImageViewHelper::renderStatic([
                     'image' => $arguments['image'],
                     'cropVariant' => $source['cropVariant'] ?? '',
-                    'width' => $source['width'] * 2,
+                    'width' => $width * 2,
                     'absolute' => true,
                     'treatIdAsReference' => false,
                     'src' => '',
