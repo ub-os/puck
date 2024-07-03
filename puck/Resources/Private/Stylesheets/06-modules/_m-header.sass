@@ -1,17 +1,18 @@
 .m-header
   &
-    position: sticky
+    //position: sticky
+    position: fixed
     top: 0
     z-index: $z-index-modal - 1
     width: 100%
     height: var(--height-page-header)
-    margin-block: var(--margin-block-page-header)
-    background: var(--background)
-    border-bottom: 2px solid transparent
+    margin-bottom: var(--margin-block-page-header)
+    background: var(--background-modal)
+    border-bottom: 2px solid var(--background)
     transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
   &.--stuck
-    background: var(--background-modal)
+    //background: var(--background-modal)
 
   &:where(.--stuck.--scroll)
     &.--scroll-up, &.--scroll-down
