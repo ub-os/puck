@@ -80,7 +80,9 @@
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
-    "htmx.org": "^1.9.10",
+    "htmx-ext-head-support": "^2.0.0",
+    "htmx-ext-preload": "^2.0.0",
+    "htmx.org": "^2",
     "normalize.css": "^8.0.1",
     "plyr": "^3.7.8",
     "rfs": "^10.0.0",
