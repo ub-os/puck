@@ -1,10 +1,21 @@
+@keyframes fade-in
+  from
+    translate: 0 40px
+    opacity: 0
+  to
+    translate: 0 0
+    opacity: 1
+
 .m-main
   &
     display: flex
     flex-direction: column
     flex-grow: 1
     width: 100%
-    padding-top: calc(var(--size-m) + var(--height-page-header))
     transition: opacity .15s
-    // overlap with header:
-    // margin-top: calc(var(--height-page-header) * -1 - var(--margin-block-page-header) * 2)
+    will-change: opacity, translate
+    opacity: 1
+    animation: fade-in .5s
+  &__padding
+    width: 100%
+    padding-top: var(--height-page-header)

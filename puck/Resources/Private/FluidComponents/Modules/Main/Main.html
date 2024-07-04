@@ -3,6 +3,7 @@
   <fc:param name="name" type="string" optional="1" default="m-main"/>
   <fc:renderer>
 
+    <div class="{name}__padding"></div>
     <main class="{name}" id="main">
       <f:if condition="{object.doktype} == {settings.doktype.person}">
         <module:hero object="{
