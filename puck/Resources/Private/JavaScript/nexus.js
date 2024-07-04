@@ -52,8 +52,7 @@ Nexus.registerConnectedCallback({
         })
     },
     'a': el => {
-        if (el.hash?.substring(1).split('?')[0] && el.pathname === window.location.pathname) {
-            el.classList.add('-current-hash')
+        if (el.pathname === window.location.pathname) {
             el.setAttribute('data-hx-boost', 'false')
             htmx.process(el)
         }
