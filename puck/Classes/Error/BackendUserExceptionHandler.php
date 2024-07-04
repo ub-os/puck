@@ -23,14 +23,22 @@ class BackendUserExceptionHandler extends DebugExceptionHandler
         }
 
         if (!isset($GLOBALS['TYPO3_REQUEST'])) {
-            $this->echoDebugException($exception);
+            if ($this->backendUserCookieIsSet()) {
+                $this->echoDebugException($exception);
+                return;
+            }
+            $this->echoBasicError($exception);
             return;
         }
 
         $request = $GLOBALS['TYPO3_REQUEST'];
         $errorHandler = $this->getErrorHandlerFromSite($request, 503);
         if ($errorHandler !== null) {
-            $this->echoErrorPage($exception, $errorHandler, $request);
+            try {
+                $this->echoErrorPage($exception, $errorHandler, $request);
+            } catch (\Throwable $e) {
+                $this->echoProductionException($exception);
+            }
             return;
         }
 
@@ -56,12 +64,24 @@ class BackendUserExceptionHandler extends DebugExceptionHandler
         $productionExceptionHandler->echoExceptionWeb($exception);
     }
 
+    protected function echoBasicError(\Throwable $exception): void
+    {
+        $this->sendStatusHeaders($exception);
+        $this->writeLogEntries($exception, self::CONTEXT_WEB);
+        echo '<html><head><title>503</title></head><body><h1>503</h1><p>Service unavailable</p></body></html>';
+    }
+
     protected function backendUserIsLoggedIn(): bool
     {
         if (!isset($GLOBALS['BE_USER'])) {
             return false;
         }
         return !!$GLOBALS['BE_USER']?->user['uid'];
+    }
+
+    protected function backendUserCookieIsSet(): bool
+    {
+        return isset($_COOKIE['be_typo_user']);
     }
 
     protected function getErrorHandlerFromSite(ServerRequestInterface $request, int $statusCode): ?PageErrorHandlerInterface
