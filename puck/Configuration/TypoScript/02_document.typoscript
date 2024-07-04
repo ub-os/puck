@@ -38,7 +38,7 @@ page.meta {
     og:description.field = description
 }
 
-page.bodyTagAdd = id="body" data-hx-ext="preload"
+page.bodyTagAdd = id="body" data-hx-ext="head-support,preload"
 
 [traverse(page, "og_title")]
     page.meta.og:title.field = og_title
