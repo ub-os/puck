@@ -9,7 +9,6 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 
 use UBOS\Puckloader\Attribute\ModelColumn;
-
 use UBOS\Puckloader\Attribute\ModelPersistence;
 
 #[ModelPersistence("sys_file_collection")]

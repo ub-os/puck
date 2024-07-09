@@ -15,11 +15,13 @@ class Category extends AbstractEntity
      * @var string
      */
     public string $title = '';
+
     /**
      * @var ObjectStorage<Category>|null
      */
     #[Lazy]
     protected ?ObjectStorage $parent = null;
+
     /**
      * @var string
      */
