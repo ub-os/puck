@@ -11,6 +11,7 @@ export default class MainNav extends Core {
     breakpoint: 800,
     initClass: 'l-main-nav--init',
     modalClass: 'l-main-nav--modal',
+    modalHtmxSwapDelay: 0
   }
   static injects = ['modal']
   replaceClass(from, to) {
@@ -26,10 +27,18 @@ export default class MainNav extends Core {
       this.replaceClass(this.initClass, this.modalClass)
       this.modalCore.asleep = false
       this.dispatch('update-focusables')
+      if (this.modalHtmxSwapDelay > 0) {
+        this.el.setAttribute('data-hx-swap', `outerHTML swap:${this.modalHtmxSwapDelay}s`)
+        window.htmx.process(this.el)
+      }
     } else
     if (!this.modalCore.asleep && (window.innerWidth >= this.breakpoint)) {
       this.replaceClass(this.modalClass, this.initClass)
       this.modalCore.asleep = true
+      if (this.modalHtmxSwapDelay > 0) {
+        this.el.removeAttribute('data-hx-swap')
+        window.htmx.process(this.el)
+      }
     }
   }
 
