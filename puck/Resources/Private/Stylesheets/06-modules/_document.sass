@@ -17,13 +17,13 @@
       --scroll-margin-top-base: 7rem
 
 #body
+  +typo-basic
   width: 100%
   color: var(--color)
   background: var(--background)
 
 #root
   +flex(column, flex-start, center)
-  +typo-basic
   width: 100%
   max-width: var(--width-page)
   min-height: 100dvh
@@ -55,17 +55,18 @@
     transform-origin: left
 
   &.htmx-request
-    visibility: visible
     transition: visibility 0s $show-loading-bar-delay
 
     &:after
-      animation: loading-bar 90s infinite
+      animation: loading-bar 90s $show-loading-bar-delay infinite
       animation-timing-function: cubic-bezier(0, 0.97, 0, 0.97)
 
 @keyframes loading-bar
   0%
+    visibility: visible
     transform: scaleX(0)
   100%
+    visibility: visible
     transform: scaleX(1)
 
 
