@@ -1,46 +1,26 @@
 import { $, $$, jsx } from '~/_jcores/Utility/DomUtility'
 import Toggleable from "~/Cores/Toggleable"
-import FocusTrap from "~/Cores/FocusTrap"
 
 /**
- * @property {FocusTrap} focusTrapCore
+ * Modal Core
+ * Should only be used on <dialog> elements
  */
 export default class Modal extends Toggleable {
     static displayName = 'Modal'
     static attributes = {
         ...Toggleable.attributes,
-        outClickOff: true,
-        focusOnOpen: 'self',
+        selfClickOff: true,
         appendTo: '[data-modal-container]',
-        backdropClass: 'l-modal__backdrop',
     }
-    static injects = ['focus-trap']
     toggleOn(transition= true) {
-        this.backdropEl = <div class={this.backdropClass} data-render-excluded></div>
-        this.el.parentNode.insertBefore(this.backdropEl, this.el)
+        this.el.showModal()
         super.toggleOn(transition);
-        this.focusTrapCore.active = true
-        this.el.removeAttribute('aria-hidden')
-        this.el.role = 'dialog'
         this.el.ariaModal = 'true'
-        window.requestAnimationFrame(() => {
-            this.dispatch('update-focusables')
-            if (this.focusOnOpen === 'self') this.el.focus()
-            if (this.focusOnOpen === 'first') this.focusTrapCore.firstFocusable.focus()
-            if (this.focusOnOpen === 'last') this.focusTrapCore.lastFocusable.focus()
-        })
     }
     toggleOff(transition= true, changeUrlHash =  true) {
-        setTimeout(() => {
-            this.backdropEl?.remove()
-            this.backdropEl = null
-        }, this.duration)
         super.toggleOff(transition, changeUrlHash)
-        this.focusTrapCore.active = false
-        this.el.ariaHidden = 'true'
         this.el.removeAttribute('aria-modal')
-        this.el.removeAttribute('role')
-        if (this.lastUsedToggle) this.lastUsedToggle.focus()
+        this.el.close()
     }
 
     initialize() {
@@ -50,18 +30,13 @@ export default class Modal extends Toggleable {
     }
 
     connect() {
+        if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core can only be used on dialog elements')
         super.connect()
-        this.el.tabIndex = -1
-        this.listeners.add(this.el, 'focusables-changed', event => {
-            if (this.active) this.focusTrapCore.firstFocusable.focus()
-        })
         return this
     }
 
     disconnect() {
         super.disconnect()
         this.listeners.removeAll()
-        this.el.removeAttribute('tabindex')
-        this.el.removeAttribute('aria-hidden')
     }
 }

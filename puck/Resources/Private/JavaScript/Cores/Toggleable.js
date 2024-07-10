@@ -39,6 +39,8 @@ export default class Toggleable extends Core {
     escOff: true,
     // toggle off on outside click
     outClickOff: false,
+    // toggle off on self click
+    selfClickOff: false,
     // toggle off on scroll
     scrollOff: false,
     // target which is checked for outside click
@@ -167,6 +169,11 @@ export default class Toggleable extends Core {
       this.listeners.add(document, 'click', event => {
         if (!this.active || target.contains(event.target)) return
         this.dispatch(Toggleable.events.toggleOff)
+      })
+    }
+    if (this.selfClickOff) {
+      this.listeners.add(this.el, 'click', event => {
+        if (this.active && event.target === this.el) this.dispatch(Toggleable.events.toggleOff)
       })
     }
     if (this.escOff) {

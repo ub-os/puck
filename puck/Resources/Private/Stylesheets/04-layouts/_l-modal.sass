@@ -15,69 +15,53 @@
 
   @keyframes modal-open
     0%
-      transform: translate(-50%, calc(-50% - 5rem))
+      transform: translateY(-5rem)
     100%
-      transform: translate(-50%, -50%)
+      transform: translateY(0)
 
   @keyframes modal-close
     0%
-      transform: translate(-50%, -50%)
+      transform: translateY(0)
       opacity: 1
     100%
-      transform: translate(-50%, calc(-50% - 3rem))
+      transform: translateY(-5rem)
       opacity: 0
-
-  &__backdrop
-    +gutter-outer()
-    position: fixed
-    display: none
-    top: 0
-    left: 0
-    z-index: $z-index-modal-backdrop
-    height: 100%
-    width: 100vw
-    background: var(--background-modal-backdrop)
-    [class*="-modal--active"] &
-      display: block
-      animation: modal-open-overlay .3s
-    [class*="-modal--deactivating"] &
-      display: block
-      opacity: 0
-      animation: modal-close-overlay .3s
 
   &
-    +center(both)
-    +flex(column, center, center, nowrap)
-    position: fixed
-    left: calc(50% - var(--scrollbar-width) / 2)
-    z-index: $z-index-modal
-    display: none
     width: width-by-cols(6)
     max-width: 92%
     max-height: 96%
-    //padding:
-      //left: 2em
-      //right: 2em
+    margin: auto
+    padding: 0
     color: var(--color)
     background: var(--background)
+    border: none
     border-radius: var(--border-radius-s)
     box-shadow: var(--box-shadow-m)
     overflow: hidden
+    transition: display 0.25s allow-discrete, overlay 0.25s allow-discrete
     &.--active
-      display: block
       animation: modal-open .3s
     &.--deactivating
-      display: block
       opacity: 0
-      animation: modal-close .2s
+      animation: modal-close .3s
     .--main-nav-modal--active &.--deactivating
       animation: modal-close .3s
+
     @for $i from 4 through 12
       &.-width-#{$i}
         width: width-by-cols($i)
         &>*
           --grid-columns: #{$i}
           --grid-columns-original: #{$i}
+
+  &::backdrop
+    background: var(--background-modal-backdrop)
+  &.--active::backdrop
+    animation: modal-open-overlay .3s
+  &.--deactivating::backdrop
+    opacity: 0
+    animation: modal-close-overlay .3s
 
   &__close
     +flex(row, center, center)
@@ -90,7 +74,7 @@
     font-size: 1.6rem
     cursor: pointer
     color: var(--color-link)
-    background: var(--background)
+    background: var(--background-modal)
     border-radius: 0 var(--border-radius-s) 0 var(--border-radius-s)
     &:hover,
     &:focus-visible

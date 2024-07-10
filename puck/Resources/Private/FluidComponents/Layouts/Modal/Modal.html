@@ -9,11 +9,11 @@
   <fc:renderer>
 
     {u:var(set:'defaultModalAttributes',value:'{duration:300}')}
-    <div class="{name} {class} -width-{width}"
-         id="{id}"
-         data-core="modal"
-         data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
-         {attributes -> u:renderAttributes()}>
+    <dialog class="{name} {class} -width-{width}"
+            id="{id}"
+            data-core="modal"
+            data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
+            {attributes -> u:renderAttributes()}>
       <f:comment>
         <f:if condition="{slots.header}">
           <div class="{name}__header">
@@ -29,12 +29,13 @@
 
       <fc:slot name="content"/>
       <button class="{name}__close"
+              autofocus
               data-trigger="modal::toggle"
               aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />
       </button>
 
-    </div>
+    </dialog>
 
   </fc:renderer>
 </fc:component>
