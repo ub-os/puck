@@ -11,7 +11,8 @@ export default class PageHeader extends Core {
         scrollClass: '--scroll',
         downClass: '--scroll-down',
         upClass: '--scroll-up',
-        documentClassing: true
+        documentClassing: true,
+        scrollSensitive: false,
     }
 
     static injects = ['scroll-sensitive']
@@ -33,9 +34,9 @@ export default class PageHeader extends Core {
     scrollHandler(event) {
         if (!this.ticking && this.pausedTimeOut == null) {
             window.requestAnimationFrame(() => {
-/*                setTimeout(() => {
+                setTimeout(() => {
                     this.ticking = false
-                }, 50)*/
+                }, 40)
                 const scrollDirection = this.checkScrollDirection(event)
                 if (this.scrollDirection == scrollDirection) return
                 this.scrollDirection = scrollDirection
@@ -47,11 +48,14 @@ export default class PageHeader extends Core {
                     document.documentElement.classList.remove(`--${this.el.id}${classes.remove}`)
                 }
             })
-            //this.ticking = true;
+            this.ticking = true;
         }
     }
 
     connect() {
+        if (!this.scrollSensitive) {
+            this.scrollSensitiveCore.asleep = true
+        }
         this.listeners.add(window, 'scroll', e => {
             if (document.documentElement.scrollTop < this.scrollTop) {
                 this.el.classList.remove(this.scrollClass)
@@ -72,10 +76,12 @@ export default class PageHeader extends Core {
         return this
     }
 
+    scrollSensitiveChanged(oldVal, newVal) {
+        this.scrollSensitiveCore.asleep = !newVal
+    }
+
     disconnect() {
         this.listeners.destroy()
-        this.el.classList.remove(this.downClass)
-        this.el.classList.remove(this.upClass)
-        this.el.classList.remove(this.scrollClass)
+        this.el.classList.remove(this.downClass, this.upClass, this.scrollClass)
     }
 }
