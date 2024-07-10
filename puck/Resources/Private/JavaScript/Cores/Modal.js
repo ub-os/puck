@@ -10,6 +10,7 @@ export default class Modal extends Toggleable {
     static attributes = {
         ...Toggleable.attributes,
         selfClickOff: true,
+        escOff: true,
         appendTo: '[data-modal-container]',
     }
     toggleOn(transition= true) {
@@ -20,7 +21,11 @@ export default class Modal extends Toggleable {
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
         this.el.removeAttribute('aria-modal')
-        this.el.close()
+        if (transition) {
+            setTimeout(() => this.el.close(), this.duration)
+        } else {
+            this.el.close()
+        }
     }
 
     initialize() {
@@ -32,6 +37,9 @@ export default class Modal extends Toggleable {
     connect() {
         if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core can only be used on dialog elements')
         super.connect()
+        // hacky way to make dialog exit animation work
+        // firefox doesnt support display animation yet, so we have to disable the native dialog close
+        this.listeners.add(this.el, 'cancel', event => event.preventDefault())
         return this
     }
 

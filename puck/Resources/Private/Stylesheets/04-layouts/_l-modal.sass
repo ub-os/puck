@@ -15,7 +15,7 @@
 
   @keyframes modal-open
     0%
-      transform: translateY(-5rem)
+      transform: translateY(-11rem)
     100%
       transform: translateY(0)
 
@@ -23,8 +23,10 @@
     0%
       transform: translateY(0)
       opacity: 1
+    20%
+      opacity: 1
     100%
-      transform: translateY(-5rem)
+      transform: translateY(-11rem)
       opacity: 0
 
   &
@@ -38,12 +40,12 @@
     border: none
     border-radius: var(--border-radius-s)
     box-shadow: var(--box-shadow-m)
+    opacity: 0
     overflow: hidden
-    transition: display 0.25s allow-discrete, overlay 0.25s allow-discrete
     &.--active
+      opacity: 1
       animation: modal-open .3s
     &.--deactivating
-      opacity: 0
       animation: modal-close .3s
     .--main-nav-modal--active &.--deactivating
       animation: modal-close .3s
