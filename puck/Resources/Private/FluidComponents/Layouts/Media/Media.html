@@ -15,52 +15,72 @@
     <fc:param name="showDesc" type="boolean" optional="1" default="1"/>
     <fc:renderer>
 
-        <div class="{name} -layout-{layout} {class} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}" style="--max-height-media-mobile: {mediaMobileMaxVh}vh">
-            <layout:row class="{name}__row" justify="{justify}" align="{align}">
-                <f:if condition="{media}">
-                    <layout:row.item class="{name}__media" width="{mediaWidth}">
-                        <f:if condition="{itemWidth} > 4 || !{itemWidth}">
-                            <f:then>
-                                <f:variable name="calcWidth" value="{settings.gridWidth}"/>
-                            </f:then>
-                            <f:else if="{itemWidth} == 4">
-                                <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/3')}"/>
-                            </f:else>
-                            <f:else if="{itemWidth} == 3">
-                                <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/4')}"/>
-                            </f:else>
-                            <f:else>
-                                <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/5')}"/>
-                            </f:else>
-                        </f:if>
-                        <layout:row itemWidth="{itemWidth}" justify="{justify}" align="{align}">
-                            <f:for each="{media}" as="file">
-                                <layout:row.item>
-                                    <element:media
-                                            name="{name}"
-                                            file="{file}"
-                                            cropVariant="{cropVariant}"
-                                            width="{calcWidth}"
-                                            sources="{
-                                              xs: {width: 450, cropVariant: cropVariant},
-                                              m: {width: 975, cropVariant: cropVariant}
-                                              }"
-                                            breakpointSources="1"
-                                            showTitle="{showTitle}"
-                                            showDesc="{showDesc}"/>
-                                </layout:row.item>
-                            </f:for>
-                        </layout:row>
-                    </layout:row.item>
-                </f:if>
-                <f:if condition="{text} || {content}">
-                    <layout:row.item class="{name}__text" width="{textWidth}">
-                        <element:richText text="{text}"/>
-                        <fc:slot name="content"/>
-                    </layout:row.item>
-                </f:if>
-            </layout:row>
-        </div>
+        <layout:row class="{name}__row {name} -layout-{layout} {class} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}"
+                    justify="{justify}"
+                    align="{align}"
+                    attributes="{style:'--max-height-media-mobile: {mediaMobileMaxVh}vh'}">
+            <f:if condition="{media}">
+                <layout:row.item class="{name}__media" width="{mediaWidth}">
+                    <f:if condition="{itemWidth} > 4 || !{itemWidth}">
+                        <f:then>
+                            <f:variable name="calcWidth" value="{settings.gridWidth}"/>
+                        </f:then>
+                        <f:else if="{itemWidth} == 4">
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/3')}"/>
+                        </f:else>
+                        <f:else if="{itemWidth} == 3">
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/4')}"/>
+                        </f:else>
+                        <f:else>
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/5')}"/>
+                        </f:else>
+                    </f:if>
+
+                    <f:if condition="{itemWidth} == {mediaWidth} && {media -> f:count()} == 1">
+                        <f:then>
+                            <element:media
+                                    name="{name}"
+                                    file="{media.0}"
+                                    cropVariant="{cropVariant}"
+                                    width="{calcWidth}"
+                                    sources="{
+                                          xs: {width: 450, cropVariant: cropVariant},
+                                          m: {width: 975, cropVariant: cropVariant}
+                                          }"
+                                    breakpointSources="1"
+                                    showTitle="{showTitle}"
+                                    showDesc="{showDesc}"/>
+                        </f:then>
+                        <f:else>
+                            <layout:row itemWidth="{itemWidth}" justify="{justify}" align="{align}">
+                                <f:for each="{media}" as="file">
+                                    <layout:row.item>
+                                        <element:media
+                                                name="{name}"
+                                                file="{file}"
+                                                cropVariant="{cropVariant}"
+                                                width="{calcWidth}"
+                                                sources="{
+                                          xs: {width: 450, cropVariant: cropVariant},
+                                          m: {width: 975, cropVariant: cropVariant}
+                                          }"
+                                                breakpointSources="1"
+                                                showTitle="{showTitle}"
+                                                showDesc="{showDesc}"/>
+                                    </layout:row.item>
+                                </f:for>
+                            </layout:row>
+                        </f:else>
+                    </f:if>
+                </layout:row.item>
+            </f:if>
+            <f:if condition="{text} || {content}">
+                <layout:row.item class="{name}__text" width="{textWidth}">
+                    <element:richText text="{text}"/>
+                    <fc:slot name="content"/>
+                </layout:row.item>
+            </f:if>
+        </layout:row>
 
     </fc:renderer>
 </fc:component>

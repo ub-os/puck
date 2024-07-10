@@ -2,7 +2,7 @@
 
   // image gallery above/below text
   @if $layout == block
-    #{$name}__row
+    &
       --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
     #{$name}__media,
@@ -23,7 +23,7 @@
 
   // image column beside text
   @if $layout == inline
-    #{$name}__row
+    &
       --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
     #{$name}__text,
@@ -41,29 +41,18 @@
   // image next to floating text
   @if $layout == float
     &
-      display: flex
-      flex-direction: column
-      @media (min-width(s))
-        margin-bottom: calc(-1 * var(--grid-gutter-y) )
-
-
-    #{$name}__row
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
       display: block
-      @media (min-width(s))
-        //--grid-gutter-y: 0
+      margin-block: 0 calc(-1 * var(--grid-gutter-y) )
       @media (max-width(s))
         display: flex
         flex-direction: column-reverse
 
     #{$name}__text
       +grid-col(1,1)
-      @media (min-width(s))
-        margin-bottom: var(--grid-gutter-y)
+      margin-block: 0 var(--grid-gutter-y)
 
     #{$name}__media
-      @media (min-width(s))
-        margin-bottom: var(--grid-gutter-y)
+      margin-block: 0 var(--grid-gutter-y)
       @media (max-width(s))
         width: 100%
       @if $media-pos == right
