@@ -5,7 +5,7 @@
     z-index: 2
     background: var(--background)
     transition: background .5s, top .4s
-    :where(.m-header.--stuck:not(.--scroll-down)) ~ .m-main &
+    :where(.m-header.--scroll:not(.--scroll-down)) ~ .m-main &
       top: var(--height-page-header)
     &.--stuck
       background: var(--background-modal)
