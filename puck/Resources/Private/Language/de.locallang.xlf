@@ -81,6 +81,18 @@
 			<trans-unit id="cookie-settings" resname="cookie-settings">
 				<target>Cookie Einstellungen</target>
 			</trans-unit>
+			<trans-unit id="navigation.main">
+				<target>Hauptnavigation</target>
+			</trans-unit>
+			<trans-unit id="navigation.meta">
+				<target>Sekundärnavigation</target>
+			</trans-unit>
+			<trans-unit id="navigation.footer">
+				<target>Rechtliches und Kontakt</target>
+			</trans-unit>
+			<trans-unit id="navigation.social">
+				<target>Social links</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

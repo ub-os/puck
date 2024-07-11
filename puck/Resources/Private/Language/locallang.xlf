@@ -66,6 +66,18 @@
 			<trans-unit id="cookie-settings" resname="cookie-settings">
 				<source>Cookie settings</source>
 			</trans-unit>
+			<trans-unit id="navigation.main">
+				<source>Main navigation</source>
+			</trans-unit>
+			<trans-unit id="navigation.meta">
+				<source>Secondary navigation</source>
+			</trans-unit>
+			<trans-unit id="navigation.footer">
+				<source>Legal pages</source>
+			</trans-unit>
+			<trans-unit id="navigation.social">
+				<source>Social links</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
