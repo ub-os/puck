@@ -9,9 +9,9 @@
   <fc:renderer>
 
     {u:var(set:'defaultModalAttributes',value:'{duration:300}')}
-    <dialog class="{name} {class} -width-{width}"
+    <dialog data-core="modal"
+            class="{name} {class} -width-{width}"
             id="{id}"
-            data-core="modal"
             data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
             {attributes -> u:renderAttributes()}>
       <button class="{name}__close"
