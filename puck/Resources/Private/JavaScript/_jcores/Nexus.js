@@ -12,6 +12,8 @@ class Nexus {
     connectedCallbackRegistry = {}
     #attributePrefix = 'data-'
     #secondaryAttributePrefix = ''
+    #coreCssSelector = '[data-core]'
+    #customElementTags = []
     get attributePrefix() { return this.#attributePrefix }
     set attributePrefix(value) { this.#attributePrefix = value }
     get secondaryAttributePrefix() {
@@ -30,6 +32,22 @@ class Nexus {
         constructor.registerCallback()
         this.coreRegistry[identifier] = constructor
     }
+
+    registerCoreCustomElement(identifier) {
+        if (!this.coreRegistry[identifier]) {
+            console.warn(`Core ${identifier} not found in register, skipping custom element registration.`)
+            return
+        }
+        this.#coreCssSelector += `, core-${identifier}`
+        this.#customElementTags[`CORE-${identifier.toUpperCase()}`] = identifier
+        customElements.define(`core-${identifier}`, class extends HTMLElement {
+            constructor() {
+                super()
+            }
+            _jcoresAttrPrefix = ''
+        })
+    }
+
     registerEvent(eventType, options) {
         if (typeof eventType == 'object') {
             Object.entries(eventType).forEach(([key, value]) => {
@@ -99,7 +117,7 @@ class Nexus {
     }
 
     get coreElements() {
-        return $$('[data-core]')
+        return $$(this.#coreCssSelector)
     }
     get unitElements() {
         return $$('[data-unit]')
@@ -140,8 +158,8 @@ class Nexus {
             }
             node.$$(selector).forEach(el => callback(el))
         }
-        if (node.hasAttribute('data-core')) this.connectCoreElement(node)
-        node.$$('[data-core]').forEach(child => this.connectCoreElement(child))
+        if (node.hasAttribute('data-core') || node.tagName.startsWith('CORE-')) this.connectCoreElement(node)
+        node.$$(this.#coreCssSelector).forEach(child => this.connectCoreElement(child))
         if (node.hasAttribute('data-unit')) this.connectUnitElement(node)
         node.$$('[data-unit]').forEach(child => this.connectUnitElement(child))
         if (node.hasAttribute('data-trigger')) this.connectTriggerElement(node)
@@ -155,7 +173,7 @@ class Nexus {
         if (node.hasAttribute('data-unit')) this.disconnectUnitElement(node)
         node.$$('[data-unit]').forEach(child => this.disconnectUnitElement(child))
         if (node.hasAttribute('data-core')) this.disconnectCoreElement(node)
-        node.$$('[data-core]').forEach(child => this.disconnectCoreElement(child))
+        node.$$(this.#coreCssSelector).forEach(child => this.disconnectCoreElement(child))
     }
 
     connectTriggerElement(el) {
@@ -224,7 +242,11 @@ class Nexus {
             if (!el.id) {
                 el.id = `_jc-el-${this.#idx++}`
             }
-            el.getAttribute('data-core').split(' ').forEach(identifier => {
+            let coreIdentifiers = el.getAttribute('data-core') ?? ''
+            if (this.#customElementTags[el.tagName]) {
+                coreIdentifiers = coreIdentifiers + ' ' + this.#customElementTags[el.tagName]
+            }
+            coreIdentifiers.split(' ').forEach(identifier => {
                 this.injectCore(el, identifier)
             })
             this.coreObserver.observe(el, { attributes: true, attributeOldValue: true })
