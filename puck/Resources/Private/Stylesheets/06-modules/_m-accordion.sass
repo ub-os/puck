@@ -1,14 +1,14 @@
 
 .m-accordion
-  &__wrap
+  &
     border-radius: var(--border-radius-s)
 
-  &__wrap + &__wrap
+  & + &
     margin-top: spacing(xs)
 
     // to do for container
-  .e-text-rich + &__wrap
-    padding-top: spacing(m)
+  .e-text-rich + &
+    margin-top: spacing(m)
 
   &__button
     +typo-h4
@@ -17,6 +17,7 @@
     width: 100%
     line-height: 1.5
     color: var(--color-link)
+    cursor: pointer
     transition: color .15s, background-color .15s, transform .15s, border-color .15s
     &:hover,
     &:focus-visible
@@ -30,16 +31,12 @@
 
   &
     display: block
-    visibility: hidden
     height: 0
     overflow: hidden
-    opacity: 0
     transition: opacity .15s, height .15s, min-height .15s
 
   &.--active,
   &.--deactivating
-    visibility: visible
-    opacity: 1
 
   &.--active:not(.--activating)
     height: auto
@@ -68,8 +65,8 @@
   &__icon:after
     transform: translate(-50%, -50%) rotate(90deg)
 
-  &__button.--active &__icon:before
+  &.--active &__icon:before
     transform: translate(-50%,-50%) scaleY(0)
 
-  &__button.--active &__icon:after
+  &.--active &__icon:after
     transform: translate(-50%,-50%) rotate(90deg)

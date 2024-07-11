@@ -4,21 +4,19 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <div class="{name}__wrap" id="c{object.uid}">
-      <button class="{name}__button"
-              id="c{object.uid}-header"
-              data-trigger="accordion::toggle#c{object.uid}-collapse"
-              data-unit="accordion.toggle#c{object.uid}-collapse">
+    <details data-core="accordion"
+             class="{name}"
+             data-accordion:duration="150"
+             data-accordion:group-id="c{object.txContainerParent}"
+             id="c{object.uid}">
+
+      <summary class="{name}__button"
+               id="c{object.uid}-header"
+               data-trigger="accordion::toggle#c{object.uid}">
         <span class="{name}__title">{object.header -> f:format.raw()}</span>
         <span class="{name}__icon"></span>
-      </button>
-      <core-accordion
-              aria-labelledby="c{object.uid}-header"
-              class="{name}"
-              data-accordion:duration="150"
-              data-accordion:group-id="c{object.txContainerParent}"
-              data-accordion:parent-classing
-              id="c{object.uid}-collapse">
+      </summary>
+
         <div class="{name}__content">
           <layout:media
                   media="{object.assets}"
@@ -31,8 +29,7 @@
                   mediaMobileMaxVh="{object.mediaMaxHeight}"
                   itemWidth="{object.itemColumnWidth}"/>
         </div>
-      </core-accordion>
-    </div>
+      </details>
 
   </fc:renderer>
 </fc:component>
