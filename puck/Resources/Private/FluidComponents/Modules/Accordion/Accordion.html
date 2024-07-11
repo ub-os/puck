@@ -4,7 +4,7 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-    <div class="{name}" id="c{object.uid}">
+    <div class="{name}__wrap" id="c{object.uid}">
       <button class="{name}__button"
               id="c{object.uid}-header"
               data-trigger="accordion::toggle#c{object.uid}-collapse"
@@ -12,13 +12,13 @@
         <span class="{name}__title">{object.header -> f:format.raw()}</span>
         <span class="{name}__icon"></span>
       </button>
-      <div class="{name}__collapse"
-           id="c{object.uid}-collapse"
-           aria-labelledby="c{object.uid}-header"
-           data-core="accordion"
-           data-accordion:group-id="c{object.txContainerParent}"
-           data-accordion:duration="150"
-           data-accordion:parent-classing>
+      <core-accordion
+              aria-labelledby="c{object.uid}-header"
+              class="{name}"
+              data-accordion:duration="150"
+              data-accordion:group-id="c{object.txContainerParent}"
+              data-accordion:parent-classing
+              id="c{object.uid}-collapse">
         <div class="{name}__content">
           <layout:media
                   media="{object.assets}"
@@ -31,7 +31,7 @@
                   mediaMobileMaxVh="{object.mediaMaxHeight}"
                   itemWidth="{object.itemColumnWidth}"/>
         </div>
-      </div>
+      </core-accordion>
     </div>
 
   </fc:renderer>

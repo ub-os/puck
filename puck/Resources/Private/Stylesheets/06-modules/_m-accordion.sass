@@ -1,13 +1,13 @@
 
 .m-accordion
-  &
+  &__wrap
     border-radius: var(--border-radius-s)
 
-  & + &
+  &__wrap + &__wrap
     margin-top: spacing(xs)
 
     // to do for container
-  .e-text-rich + &
+  .e-text-rich + &__wrap
     padding-top: spacing(m)
 
   &__button
@@ -28,25 +28,25 @@
     text-align: left
     transition: transform .2s
 
-  &__collapse
+  &
+    display: block
     visibility: hidden
     height: 0
     overflow: hidden
     opacity: 0
     transition: opacity .15s, height .15s, min-height .15s
 
-  &__collapse.--active,
-  &__collapse.--deactivating
+  &.--active,
+  &.--deactivating
     visibility: visible
     opacity: 1
 
-  &__collapse.--active:not(.--activating)
+  &.--active:not(.--activating)
     height: auto
 
   &__content
     padding-top: spacing(xs)
     padding-bottom: spacing(s)
-
 
   &__icon
     position: relative

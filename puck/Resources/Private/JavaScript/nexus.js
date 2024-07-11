@@ -34,6 +34,8 @@ Nexus.registerCore({
     SwitchableNav,
 })
 
+Nexus.registerCoreCustomElement('accordion')
+
 Nexus.registerEvent({
     'toggle-off-all': {
         bubbles: true,
