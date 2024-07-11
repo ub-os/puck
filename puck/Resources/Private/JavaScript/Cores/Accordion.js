@@ -25,8 +25,16 @@ export default class Accordion extends Toggleable {
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
+        // hacky way to enable exit transition, otherwise content instantly disappears
         window.requestAnimationFrame(() => {
-            this.el.removeAttribute('open')
+            if (transition) {
+                this.el.setAttribute('open', '')
+                setTimeout(() => {
+                    this.el.removeAttribute('open')
+                }, this.duration)
+            } else {
+                this.el.removeAttribute('open')
+            }
         })
         this.toggleUnits.forEach(t => t.ariaExpanded = 'false')
     }
