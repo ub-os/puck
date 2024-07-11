@@ -43,6 +43,8 @@ export default class Toggleable extends Core {
     selfClickOff: false,
     // toggle off on scroll
     scrollOff: false,
+    // toggle off on link click
+    linkClickOff: false,
     // target which is checked for outside click
     outTarget: null,
     // media is paused on toggle off
@@ -185,6 +187,11 @@ export default class Toggleable extends Core {
       this.listeners.add(window, 'scroll', () => {
         if (this.active) this.dispatch(Toggleable.events.toggleOff)
       }, {passive: true})
+    }
+    if (this.linkClickOff) {
+      this.listeners.add(this.el, 'click', event => {
+        if (event.target.closest('a')) this.dispatch(Toggleable.events.toggleOff)
+      })
     }
     if (this.urlHashOn) {
       if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.dispatch(Toggleable.events.toggleOn)
