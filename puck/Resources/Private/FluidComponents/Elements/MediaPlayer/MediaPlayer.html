@@ -16,11 +16,11 @@
         {playerAttributes -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'playerAttributes')}
 
         <u:var set="playerContent">
-            <div id="{id}"
-                 class="{name}__modal__frame"
-                 data-core="media-player"
-                 data-media-player='{playerAttributes -> f:format.json()}'>
-            </div>
+            <core-media-player
+                    id="{id}"
+                    class="{name}__modal__frame"
+                    data-media-player='{playerAttributes -> f:format.json()}'>
+            </core-media-player>
         </u:var>
 
         <div class="{name}">

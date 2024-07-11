@@ -34,7 +34,12 @@ Nexus.registerCore({
     SwitchableNav,
 })
 
-Nexus.registerCoreCustomElement('accordion')
+Nexus.registerCoreCustomElement([
+    'accordion',
+    'carousel',
+    'page-header',
+    'media-player'
+])
 
 Nexus.registerEvent({
     'toggle-off-all': {

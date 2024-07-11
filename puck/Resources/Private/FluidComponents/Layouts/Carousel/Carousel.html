@@ -23,11 +23,11 @@
             }
           }"/>
 
-    <div class="{name} {class} splide"
-         id="{id}"
-         data-core="carousel"
-         data-carousel="{carouselAttributes -> f:format.json()}"
-         data-carousel:splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
+    <core-carousel
+            class="{name} {class} splide"
+            id="{id}"
+            data-carousel="{carouselAttributes -> f:format.json()}"
+            data-carousel:splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
         <ul class="{name}__list splide__list -align-{align}">
           <fc:slot name="content"/>
@@ -45,7 +45,7 @@
         </div>
       </f:if>
 
-    </div>
+    </core-carousel>
 
   </fc:renderer>
 </fc:component>
