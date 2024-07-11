@@ -5,7 +5,6 @@ import AnchorBehavior from "~/Cores/AnchorBehavior"
 import Toggleable from '~/Cores/Toggleable'
 import Accordion from '~/Cores/Accordion'
 import Modal from "~/Cores/Modal"
-import MainNav from "~/Cores/MainNav"
 import TabPanel from '~/Cores/TabPanel'
 import Carousel from '~/Cores/Carousel'
 import PageHeader from "~/Cores/PageHeader"
@@ -14,7 +13,6 @@ import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
-import SwitchableNav from "~/Cores/SwitchableNav";
 
 Nexus.registerCore({
     AnchorBehavior,
@@ -22,7 +20,6 @@ Nexus.registerCore({
     Toggleable,
     Accordion,
     Modal,
-    MainNav,
     TabPanel,
     Carousel,
     PageHeader,
@@ -31,11 +28,9 @@ Nexus.registerCore({
     ScrollSensitive,
     FocusTrap,
     FormPage,
-    SwitchableNav,
 })
 
 Nexus.registerCoreCustomElement([
-    'accordion',
     'carousel',
     'page-header',
     'media-player'
@@ -65,6 +60,9 @@ Nexus.registerConnectedCallback({
             htmx.process(el)
         }
     },
+    'template[data-append-on-load]': el => {
+        el.parentNode.insertBefore(el.content.cloneNode(true), el)
+    }
 })
 
 export default Nexus

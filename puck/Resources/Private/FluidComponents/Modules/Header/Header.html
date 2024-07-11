@@ -18,17 +18,10 @@
         </f:link.typolink>
 
         <div class="{name}__nav__wrap"
-             data-core="switchable-nav"
-             data-switchable-nav:breakpoint="1150"
              id="main-nav">
           <element:navigation name="{name}__nav"
                               pages="{settings.navUid.main}"
                               label="{f:translate(key:'navigation.main')}"/>
-
-          <template data-unit="switchable-nav.template" id="mobile-nav-template">
-            <module:header.sidebarNav object="{object}"/>
-            <module:header.burger />
-          </template>
 
           <f:comment>
             // small navigation with search link that opens modal
@@ -44,6 +37,11 @@
             </element:navigation>
           </f:comment>
         </div>
+
+        <template data-append-on-load>
+          <module:header.sidebarNav object="{object}"/>
+          <module:header.burger />
+        </template>
 
       </div>
     </core-page-header>
