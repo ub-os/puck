@@ -19,13 +19,15 @@ export default class Accordion extends Toggleable {
     toggleOn(transition= true) {
         super.toggleOn(transition);
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
-        this.el.open = true
+        this.el.setAttribute('open', '')
         this.toggleUnits.forEach(t => t.ariaExpanded = 'true')
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
-        this.el.open = false
+        window.requestAnimationFrame(() => {
+            this.el.removeAttribute('open')
+        })
         this.toggleUnits.forEach(t => t.ariaExpanded = 'false')
     }
     connect() {
