@@ -7,6 +7,7 @@
   <fc:param name="menu" type="array" optional="1"/>
   <fc:param name="prependIcon" type="boolean" optional="1" default="0"/>
   <fc:param name="hideTitle" type="boolean" optional="1" default="0"/>
+  <fc:param name="label" type="string" optional="1" default=""/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
@@ -15,7 +16,7 @@
                   value="{u:menu(pages:pages, processor:processor, depth:depth)}"/>
     </f:if>
 
-    <nav class="{name} {class}">
+    <nav class="{name} {class}" aria-label="{label}">
       <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
         <element:navigation.items name="{name}"
                                   menu="{menu}"
