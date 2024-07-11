@@ -40,11 +40,10 @@ export default class Modal extends Toggleable {
     }
 
     connect() {
-        console.log(this.el.tagName)
         if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core should only be used on dialog elements')
         super.connect()
         // hacky way to make dialog exit animation work
-        // firefox doesnt support display animation yet, so we have to disable the native dialog close
+        // firefox doesn't support display animation yet, so we have to disable the native dialog close
         this.listeners.add(this.el, 'cancel', event => event.preventDefault())
         return this
     }
