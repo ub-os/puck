@@ -14,6 +14,13 @@
             data-core="modal"
             data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
             {attributes -> u:renderAttributes()}>
+      <button class="{name}__close"
+              autofocus
+              data-trigger="modal::toggle"
+              aria-label="{f:translate(key:'close')}">
+        <icon:char icon="close" />
+      </button>
+
       <f:comment>
         <f:if condition="{slots.header}">
           <div class="{name}__header">
@@ -28,13 +35,6 @@
       </f:comment>
 
       <fc:slot name="content"/>
-      <button class="{name}__close"
-              autofocus
-              data-trigger="modal::toggle"
-              aria-label="{f:translate(key:'close')}">
-        <icon:char icon="close" />
-      </button>
-
     </dialog>
 
   </fc:renderer>
