@@ -17,6 +17,11 @@ export default class Modal extends Toggleable {
         this.el.showModal()
         super.toggleOn(transition);
         this.el.ariaModal = 'true'
+        if (this.el.$('[autofocus]')) {
+            this.el.$('[autofocus]').focus()
+        } else {
+            this.el.focus()
+        }
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
@@ -35,7 +40,8 @@ export default class Modal extends Toggleable {
     }
 
     connect() {
-        if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core can only be used on dialog elements')
+        console.log(this.el.tagName)
+        if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core should only be used on dialog elements')
         super.connect()
         // hacky way to make dialog exit animation work
         // firefox doesnt support display animation yet, so we have to disable the native dialog close
