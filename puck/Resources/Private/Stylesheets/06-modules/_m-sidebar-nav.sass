@@ -2,45 +2,49 @@
 
   @keyframes sidebar-open
     0%
-      transform: translateX(0)
+      transform: translateX(100%)
     100%
-      transform: translateX(-100%)
+      transform: translateX(0)
 
   @keyframes sidebar-close
     0%
-      transform: translateX(-100%)
-    100%
       transform: translateX(0)
+    100%
+      transform: translateX(100%)
 
-  &__wrap
-    +flex(column,flex-start,flex-start)
-    +gutter-outer
-    position: fixed
-    top: 0
-    left: 100%
-    z-index: $z-index-modal
-    display: none
-    width: 100vw
-    max-width: width-by-cols(3, true)
-    max-height: 100dvh
+  &__modal
+    margin: 0 0 0 auto
+    padding: 0
     overflow: hidden
     overflow-y: auto
-    padding-bottom: spacing(m)
     background: var(--background-modal)
+    border: none
     border-bottom-left-radius: var(--border-radius-s)
     box-shadow: var(--box-shadow-s)
+    transform: translateX(100%)
     transition: height .15s, opacity .2s
+    width: 100vw
+    max-width: width-by-cols(3, true)
     @media (max-width(s))
       max-width: 85%
-      height: 100%
-      border-bottom-left-radius: 0
+
     &.--active
-      display: flex
-      transform: translateX(-100%)
+      transform: translateX(0)
       animation: sidebar-open .3s
     &.--deactivating
-      display: flex
       animation: sidebar-close .3s
+    &::backdrop
+      background: var(--background-modal-backdrop)
+    &.--active::backdrop
+      animation: modal-open-overlay .3s
+    &.--deactivating::backdrop
+      opacity: 0
+      animation: modal-close-overlay .3s
+
+  &__wrap
+    +gutter-outer
+    max-height: 100dvh
+    padding-bottom: spacing(m)
 
   &__header
     +flex(row, flex-start, center, nowrap)

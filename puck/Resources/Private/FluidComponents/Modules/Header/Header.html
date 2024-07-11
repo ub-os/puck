@@ -9,32 +9,30 @@
             data-core="page-header">
       <div class="{name}__background"></div>
       <div class="{name}__container">
+
         <f:link.typolink
                 class="{name}__anchor"
                 absolute="1"
                 parameter="{context.site.rootPageId}"
                 additionalAttributes="{aria-label: 'home'}">
-          <icon:svg icon="website-logo" class="{name}__logo"/>
+          <icon:svg class="{name}__logo" icon="website-logo"/>
         </f:link.typolink>
+
         <div class="{name}__nav__wrap"
-             id="main-nav"
-             data-core="main-nav"
-             data-main-nav:breakpoint="1150"
-             data-main-nav:init-class="m-header__nav"
-             data-main-nav:modal-class="m-sidebar-nav"
-             data-main-nav:modal-htmx-swap-delay="0.15"
-             data-modal:duration="300"
-             data-modal:append-to="">
-          <div class="{name}__nav__header">
-            <button class="{name}__nav__close"
-                    data-trigger="modal::toggle"
-                    aria-controls="main-nav"
-                    aria-label="{f:translate(key:'close')}">
-              <icon:char icon="close" />
-            </button>
-          </div>
+             data-core="switchable-nav"
+             data-switchable-nav:breakpoint="1150"
+             id="main-nav">
+          <element:navigation name="{name}__nav"
+                              pages="{settings.navUid.main}"
+                              label="{f:translate(key:'navigation.main')}"/>
+
+          <template data-unit="switchable-nav.template" id="mobile-nav-template">
+            <module:header.sidebarNav object="{object}"/>
+            <module:header.burger />
+          </template>
+
           <f:comment>
-              // small navigation with search link that opens modal
+            // small navigation with search link that opens modal
             <element:navigation name="{name}__nav" class="-small" pages="{settings.navUid.meta}">
               <f:if condition="{object.uid} != {settings.search.pid}">
                 <li class="{name}__nav__item">
@@ -46,9 +44,8 @@
               </f:if>
             </element:navigation>
           </f:comment>
-          <element:navigation name="{name}__nav" class="" pages="{settings.navUid.main}"/>
         </div>
-        <module:header.burger />
+
       </div>
     </header>
 

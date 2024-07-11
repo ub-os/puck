@@ -33,6 +33,7 @@ export default class MainNav extends Core {
       }
     } else
     if (!this.modalCore.asleep && (window.innerWidth >= this.breakpoint)) {
+      this.modalCore.toggleOff(false)
       this.replaceClass(this.modalClass, this.initClass)
       this.modalCore.asleep = true
       if (this.modalHtmxSwapDelay > 0) {

@@ -1,0 +1,33 @@
+
+<fc:component>
+  <fc:param name="name" type="string" optional="1" default="m-sidebar-nav"/>
+  <fc:param name="object" type="mixed"/>
+  <fc:renderer>
+
+      <dialog class="{name}__modal"
+              data-core="modal"
+              data-modal:duration="300"
+              data-modal:append-to=""
+              data-modal:link-click-off
+              data-hx-swap="outerHTML swap:0.15s"
+              id="sidebar-nav-modal">
+        <div class="{name}__wrap">
+          <div class="{name}__header">
+            <button class="{name}__close"
+                    autofocus
+                    data-trigger="modal::toggle"
+                    aria-controls="sidebar-nav-modal"
+                    aria-label="{f:translate(key:'close')}">
+              <icon:char icon="close" />
+            </button>
+          </div>
+          <element:navigation name="{name}"
+                              pages="{settings.navUid.main}"
+                              label="{f:translate(key:'navigation.main')}"/>
+        </div>
+      </dialog>
+
+  </fc:renderer>
+</fc:component>
+
+

@@ -14,7 +14,7 @@ import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
-
+import SwitchableNav from "~/Cores/SwitchableNav";
 
 Nexus.registerCore({
     AnchorBehavior,
@@ -30,7 +30,8 @@ Nexus.registerCore({
     ScrollReveal,
     ScrollSensitive,
     FocusTrap,
-    FormPage
+    FormPage,
+    SwitchableNav,
 })
 
 Nexus.registerEvent({
