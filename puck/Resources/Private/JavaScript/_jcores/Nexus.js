@@ -34,6 +34,12 @@ class Nexus {
     }
 
     registerCoreCustomElement(identifier) {
+        if (Array.isArray(identifier)) {
+            identifier.forEach(value => {
+                this.registerCoreCustomElement(value)
+            })
+            return
+        }
         if (!this.coreRegistry[identifier]) {
             console.warn(`Core ${identifier} not found in register, skipping custom element registration.`)
             return
