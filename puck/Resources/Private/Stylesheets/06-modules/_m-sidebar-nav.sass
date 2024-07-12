@@ -2,15 +2,21 @@
 
   @keyframes sidebar-open
     0%
-      transform: translateX(100%)
+      opacity: 0
+      transform: translate(0, 7rem)
     100%
+      opacity: 1
       transform: translateX(0)
 
   @keyframes sidebar-close
     0%
+      opacity: 1
       transform: translateX(0)
+    66%
+      opacity: 0
     100%
-      transform: translateX(100%)
+      opacity: 0
+      transform: translate(11rem, 0)
 
   &__modal
     margin: 0 0 0 auto
@@ -30,16 +36,16 @@
 
     &.--active
       transform: translateX(0)
-      animation: sidebar-open .3s
+      animation: sidebar-open .3s ease-out
     &.--deactivating
-      animation: sidebar-close .3s
+      animation: sidebar-close .3s ease-out
     &::backdrop
       background: var(--background-modal-backdrop)
     &.--active::backdrop
-      animation: modal-open-overlay .3s
+      animation: modal-open-overlay .3s ease-out
     &.--deactivating::backdrop
       opacity: 0
-      animation: modal-close-overlay .3s
+      animation: modal-close-overlay .3s ease-out
 
   &__wrap
     +gutter-outer
