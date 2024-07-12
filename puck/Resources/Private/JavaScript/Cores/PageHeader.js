@@ -70,9 +70,9 @@ export default class PageHeader extends Core {
             }
         }, {passive: true})
 
-        this.listeners.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this))
-        this.listeners.add(window, 'keyup', this.scrollHandler.bind(this))
-        this.listeners.add(window, 'mousewheel', this.scrollHandler.bind(this))
+        this.listeners.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this), {passive: true})
+        this.listeners.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
+        this.listeners.add(window, 'mousewheel', this.scrollHandler.bind(this), {passive: true})
         return this
     }
 
