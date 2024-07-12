@@ -19,10 +19,10 @@
 
         <div class="{name}__nav__wrap"
              id="main-nav">
+
           <element:navigation name="{name}__nav"
                               pages="{settings.navUid.main}"
                               label="{f:translate(key:'navigation.main')}"/>
-
           <f:comment>
             // small navigation with search link that opens modal
             <element:navigation name="{name}__nav" class="-small" pages="{settings.navUid.meta}">
@@ -36,6 +36,7 @@
               </f:if>
             </element:navigation>
           </f:comment>
+
         </div>
 
         <template data-append-on-load>

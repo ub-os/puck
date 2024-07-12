@@ -55,16 +55,19 @@ export default class MediaPlayer extends Core {
             if (attr) attributes[attr] = ''
         })
         return (
-            <video
-                id={`${this.el.id}-video`}
-                tabindex={'0'}
-                data-poster={this.poster}
-                {...attributes}>
-                <source
-                    src={this.filePath}
-                    type={'video/' + this.provider}
-                    width={this.width} />
-            </video>
+            <div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
+                <video
+                    style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
+                    id={`${this.el.id}-video`}
+                    tabindex={'0'}
+                    data-poster={this.poster}
+                    {...attributes}>
+                    <source
+                        src={this.filePath}
+                        type={'video/' + this.provider}
+                        width={this.width} />
+                </video>
+            </div>
         )
     }
 

@@ -37,10 +37,19 @@
     width: 100%
     height: 100%
 
+  @keyframes fade-in-media
+    0%
+      opacity: 0
+    100%
+      opacity: 1
+
   &__modal__frame
+    display: block
     position: relative
     aspect-ratio: 16/9
     background: black
+    &>*
+      animation: fade-in-media .3s ease-in
 
   &__loading-indicator
     +center(both)
