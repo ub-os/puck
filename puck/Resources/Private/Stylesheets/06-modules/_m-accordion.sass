@@ -33,7 +33,7 @@
     display: block
     height: 0
     overflow: hidden
-    transition: opacity .15s, height .15s, min-height .15s
+    transition: height .22s ease-out, min-height .22s ease-out
 
   &.--active,
   &.--deactivating
@@ -44,6 +44,11 @@
   &__content
     padding-top: spacing(xs)
     padding-bottom: spacing(s)
+    opacity: 0
+    transition: opacity .22s ease-out
+
+  &.--active &__content
+    opacity: 1
 
   &__icon
     position: relative
