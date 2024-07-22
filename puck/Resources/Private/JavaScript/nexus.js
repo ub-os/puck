@@ -61,8 +61,10 @@ Nexus.registerConnectedCallback({
         }
     },
     'template[data-append-on-load]': el => {
-        el.parentNode.insertBefore(el.content.cloneNode(true), el)
-        htmx.process(el.parentNode)
+        window.requestAnimationFrame(() => {
+            el.parentNode.insertBefore(el.content.cloneNode(true), el)
+            htmx.process(el.parentNode)
+        })
     }
 })
 

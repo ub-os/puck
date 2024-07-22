@@ -253,6 +253,7 @@ class Nexus {
                 coreIdentifiers = coreIdentifiers + ' ' + this.#customElementTags[el.tagName]
             }
             coreIdentifiers.split(' ').forEach(identifier => {
+                if (!identifier) return
                 this.injectCore(el, identifier)
             })
             this.coreObserver.observe(el, { attributes: true, attributeOldValue: true })
