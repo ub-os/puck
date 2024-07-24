@@ -144,3 +144,8 @@ $GLOBALS['TCA']['pages']['columns']['tx_schema_webpagetype']['config'] = [
     'size' => 3,
     'autoSizeMax' => 10,
 ];
+
+// fixes issue where categories are not translated https://forge.typo3.org/issues/97526
+$GLOBALS['TCA']['pages']['columns']['categories']['config']['behaviour'] = [
+    'allowLanguageSynchronization' => true
+];
