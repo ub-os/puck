@@ -15,17 +15,12 @@ export default class ScrollbarWidth extends Core {
         document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
     }
     connect() {
-        if ($id(this.sensorId)) {
-            this.sensorEl = $id(this.sensorId)
-        } else {
-            this.sensorEl = (
-                <div id={this.sensorId} data-render-excluded
-                     style="width:50px; visibility:hidden; overflow:scroll; height:0px;" >
-                    <div></div>
-                </div>
-            )
-            this.el.appendChild(this.sensorEl);
-        }
+        this.sensorEl = $id(this.sensorId) || this.el.appendChild((
+            <div id={this.sensorId} data-render-excluded
+                 style="width:50px; visibility:hidden; overflow:scroll; height:0px;">
+                <div></div>
+            </div>
+        ))
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
             ResizeManager.addById(`scrollbar-width-${this.el.id}`, this.sensorEl.firstChild, (entry, observer) => {
