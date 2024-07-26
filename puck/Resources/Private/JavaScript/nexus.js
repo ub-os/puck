@@ -13,6 +13,7 @@ import FocusTrap from "~/Cores/FocusTrap"
 import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
+import Root from "~/Cores/Root"
 
 Nexus.registerCore({
     AnchorBehavior,
@@ -28,12 +29,14 @@ Nexus.registerCore({
     ScrollSensitive,
     FocusTrap,
     FormPage,
+    Root
 })
 
 Nexus.registerCoreCustomElement([
     'carousel',
     'page-header',
-    'media-player'
+    'media-player',
+    'root'
 ])
 
 Nexus.registerEvent({
@@ -64,6 +67,7 @@ Nexus.registerConnectedCallback({
         window.requestAnimationFrame(() => {
             el.parentNode.insertBefore(el.content.cloneNode(true), el)
             htmx.process(el.parentNode)
+            el.removeAttribute('data-append-on-load')
         })
     }
 })
