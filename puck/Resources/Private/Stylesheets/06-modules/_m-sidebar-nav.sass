@@ -12,8 +12,6 @@
     0%
       opacity: 1
       transform: translateX(0)
-    66%
-      opacity: 0
     100%
       opacity: 0
       transform: translate(11rem, 0)
@@ -36,16 +34,16 @@
 
     &.--active
       transform: translateX(0)
-      animation: sidebar-open .3s ease-out
+      animation: sidebar-open .27s ease-out
     &.--deactivating
-      animation: sidebar-close .3s ease-out
+      animation: sidebar-close .27s ease-out
     &::backdrop
       background: var(--background-modal-backdrop)
     &.--active::backdrop
-      animation: modal-open-overlay .3s ease-out
+      animation: modal-open-overlay .27s ease-out
     &.--deactivating::backdrop
       opacity: 0
-      animation: modal-close-overlay .3s ease-out
+      animation: modal-close-overlay .27s ease-out
 
   &__wrap
     +gutter-outer

@@ -15,18 +15,16 @@
 
   @keyframes modal-open
     0%
-      transform: translateY(-8rem)
+      transform: scale(0.95)
     100%
-      transform: translateY(0)
+      transform: scale(1)
 
   @keyframes modal-close
     0%
-      transform: translateY(0)
-      opacity: 1
-    20%
+      transform: scale(1)
       opacity: 1
     100%
-      transform: translateY(-8rem)
+      transform: scale(0.95)
       opacity: 0
 
   &
@@ -44,12 +42,10 @@
     overflow: hidden
     &.--active
       opacity: 1
-      animation: modal-open .3s ease-out
+      animation: modal-open .17s ease-out
     &.--deactivating
-      animation: modal-close .3s ease-out
-    .--main-nav-modal--active &.--deactivating
-      animation: modal-close .3s ease-out
-
+      animation: modal-close .17s ease-out
+      opacity: 0
     @for $i from 4 through 12
       &.-width-#{$i}
         width: width-by-cols($i)
@@ -60,10 +56,10 @@
   &::backdrop
     background: var(--background-modal-backdrop)
   &.--active::backdrop
-    animation: modal-open-overlay .3s ease-out
+    animation: modal-open-overlay .17s ease-out
   &.--deactivating::backdrop
     opacity: 0
-    animation: modal-close-overlay .3s ease-out
+    animation: modal-close-overlay .17s ease-out
 
   &__close
     +flex(row, center, center)
