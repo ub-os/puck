@@ -9,18 +9,7 @@ function camelCase(string) {
     });
 }
 
-function jsonParse(val) {
-    let obj = {}
-    try {
-        obj = JSON.parse(val || '{}') ?? {}
-    } catch (e) {
-        return {}
-    }
-    return obj
-}
-
 export {
     kebabCase,
     camelCase,
-    jsonParse
 }

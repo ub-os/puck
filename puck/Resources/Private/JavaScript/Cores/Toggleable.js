@@ -1,8 +1,8 @@
-import { $, $$, $id, $target } from '~/_jcores/Utility/DomUtility'
-import Core from "~/_jcores/Core"
+import { $, $$, $id, $target } from '~/Utility/DomUtility'
+import { Core } from "~/_jcores"
 
 /**
- * @property {Map} toggleUnits
+ * @property {Map} toggleElements
  */
 export default class Toggleable extends Core {
   static displayName = 'Toggleable'
@@ -11,7 +11,7 @@ export default class Toggleable extends Core {
     toggleOff: 'toggle-off',
     toggleGroup: 'toggle-group',
   }
-  static units = ['toggle']
+  static elements = ['toggle']
   static attributes = {
     active: false,
     groupId: '',
@@ -72,7 +72,7 @@ export default class Toggleable extends Core {
     if (this.documentClassing) {
       document.documentElement.classList[operation](`--${this.el.id}-${this.constructor.displayName.toLowerCase()}${className}`)
     }
-    this.toggleUnits.forEach(t => t.classList[operation](className))
+    this.toggleElements.forEach(t => t.classList[operation](className))
   }
   transitionClass(className) {
     if (this.duration > 0) {
@@ -119,7 +119,7 @@ export default class Toggleable extends Core {
     }
   }
 
-  toggle(event, { transition } = {}) {
+  toggle(event, { transition = true } = {}) {
     if (this.active && (!this.switchToggles || (this.switchToggles && event.currentTarget === this.lastUsedToggle))) {
       this.dispatch(Toggleable.events.toggleOff)
     } else {
@@ -128,7 +128,7 @@ export default class Toggleable extends Core {
     this.lastUsedToggle = event.currentTarget
   }
 
-  toggleUnitConnected(el) {
+  toggleElementConnected(el) {
     el.ariaControls = this.el.id
     if (this.active) {
       el.classList.add(this.activeClass)
@@ -144,13 +144,13 @@ export default class Toggleable extends Core {
       this.iframeChildren = this.el.$$('iframe')
     }
     this.active ? this.toggleOn(false) : this.toggleOff(false, false)
-    this.listeners.add(this.el, Toggleable.events.toggleOn, e => {
+    this.on(Toggleable.events.toggleOn, e => {
       if (e.defaultPrevented) return
       window.requestAnimationFrame(() => {
         this.toggleOn()
       })
     })
-    this.listeners.add(this.el, Toggleable.events.toggleOff, e => {
+    this.on(Toggleable.events.toggleOff, e => {
       if (e.defaultPrevented) return
       this.toggleOff()
     })
@@ -174,12 +174,12 @@ export default class Toggleable extends Core {
       })
     }
     if (this.selfClickOff) {
-      this.listeners.add(this.el, 'click', event => {
+      this.on('click', event => {
         if (this.active && event.target === this.el) this.dispatch(Toggleable.events.toggleOff)
       })
     }
     if (this.escOff) {
-      this.listeners.add(this.el, 'keydown', event => {
+      this.on('keydown', event => {
         if (event.key === 'Escape') this.dispatch(Toggleable.events.toggleOff)
       })
     }
@@ -195,7 +195,7 @@ export default class Toggleable extends Core {
     }
     if (this.urlHashOn) {
       if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.dispatch(Toggleable.events.toggleOn)
-      this.listeners.add(this.el, 'hash-link-click', event => {
+      this.on('hash-link-click', event => {
         this.lastUsedToggle = event.detail.linkElement
         this.dispatch(Toggleable.events.toggleOn)
       })

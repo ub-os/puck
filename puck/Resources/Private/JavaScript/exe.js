@@ -1,11 +1,11 @@
 import smoothscroll from 'smoothscroll-polyfill'
-import { $, $$, $id, jsx, scrollTo } from '~/_jcores/Utility/DomUtility'
+import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
 import htmx from '~/htmx'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
-import Nexus from '~/nexus'
+import jc from '~/nexus'
 
 
 htmx.config.scrollBehavior = 'auto'
@@ -17,10 +17,21 @@ htmx.config.allowScriptTags = true
 htmx.config.allowEval = false
 htmx.config.refreshOnHistoryMiss = true
 
+const doc = document.documentElement
 
 smoothscroll.polyfill()
+jc.connect()
+window.requestAnimationFrame(() => {
+    $id('body').classList.remove('u-no-transition')
+    $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
+    //document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
+})
+doc.addEventListener("htmx:historyRestore", (event) => {
+    $$('[data-render-excluded]').forEach(el => el.remove())
+})
+console.log(jc)
 
-const doc = document.documentElement
+/*
 window.puckApp = {
     nexus: Nexus,
     isInitialLoad: true,
@@ -39,7 +50,7 @@ const mountBody = () => {
     if (window.puckApp.isMounted) return
     Nexus.connect()
     window.requestAnimationFrame(() => {
-        $id('root').classList.remove('u-no-transition')
+        $id('body').classList.remove('u-no-transition')
         $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
         //document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
     })
@@ -153,4 +164,4 @@ doc.addEventListener("htmx:historyRestore", (event) => {
 doc.addEventListener("htmx:responseError", (event) => {
     // route to error page
     window.location.href = event.detail.xhr.responseURL;
-})
+})*/

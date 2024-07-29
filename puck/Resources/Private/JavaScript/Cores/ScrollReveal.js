@@ -1,5 +1,5 @@
 import { IntersectionManager } from "~/Service/ObserverCollector"
-import Core from "~/_jcores/Core";
+import { Core } from "~/_jcores"
 
 export default class ScrollReveal extends Core {
     static attributes = {
@@ -82,7 +82,7 @@ export default class ScrollReveal extends Core {
                     threshold: this.observer.threshold
                 }
             )
-            this.listeners.add(this.el, 'scrollReveal', () => {
+            this.on('scrollReveal', () => {
                 this.reveal()
             })
             return this

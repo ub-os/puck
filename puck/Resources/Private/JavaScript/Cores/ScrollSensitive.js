@@ -1,6 +1,6 @@
-import { $, $$, jsx, $target } from '~/_jcores/Utility/DomUtility'
+import { $, $$, jsx, $target } from '~/Utility/DomUtility'
 import { IntersectionManager, ResizeManager } from "~/Service/ObserverCollector"
-import Core from "~/_jcores/Core"
+import { Core } from "~/_jcores"
 
 
 export default class ScrollSensitive extends Core {

@@ -1,4 +1,4 @@
-import Core from "~/_jcores/Core";
+import { Core } from "~/_jcores"
 
 export default class Root extends Core {
     static attributes = {}
@@ -6,8 +6,4 @@ export default class Root extends Core {
         'anchor-behavior',
         'scrollbar-width'
     ]
-    connect() {
-    }
-    disconnect() {
-    }
 }

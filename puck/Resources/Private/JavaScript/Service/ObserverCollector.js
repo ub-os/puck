@@ -1,4 +1,4 @@
-import { $target } from "~/_jcores/Utility/DomUtility"
+import { $target } from "~/Utility/DomUtility"
 
 class ObserverCollector {
     static #instance = null;

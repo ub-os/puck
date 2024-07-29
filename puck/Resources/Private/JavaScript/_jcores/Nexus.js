@@ -1,26 +1,68 @@
-import { camelCase, kebabCase } from "./Utility/StringUtility"
-import { $$ } from "./Utility/DomUtility"
-import AttributeSyncer from "./Service/AttributeSyncer"
+import { camelCase, kebabCase } from "./StringUtility"
+import AttributeSyncer from "./AttributeSyncer"
 import Core from "./Core"
-import Unit from "./Unit"
+import ElementUnit from "./ElementUnit"
 import Trigger from "./Trigger"
+import EventTrigger from "./EventTrigger"
 
 class Nexus {
     #idx = 0
     coreRegistry = {}
     eventRegistry = {}
     connectedCallbackRegistry = {}
+
     #attributePrefix = 'data-'
-    #secondaryAttributePrefix = ''
-    #coreCssSelector = '[data-core]'
+    #coreAttribute = 'core'
+    #coreElAttribute = 'core-el'
+    #triggerAttribute = 'trigger'
+    #eventTriggerAttribute = 'emit'
+    #coreCustomElementSelector = ''
     #customElementTags = []
-    get attributePrefix() { return this.#attributePrefix }
-    set attributePrefix(value) { this.#attributePrefix = value }
-    get secondaryAttributePrefix() {
-        if (this.#secondaryAttributePrefix) return this.#secondaryAttributePrefix
-        return this.#attributePrefix
+
+    options = {
+        observeDom: true,
     }
-    set secondaryAttributePrefix(value) { this.#secondaryAttributePrefix = value }
+
+    setOptions(options) {
+        this.options = {
+            ...this.options,
+            ...options,
+        }
+    }
+
+    setAttributeNames({ prefix, core, coreEl, trigger, eventTrigger }) {
+        if (prefix) this.#attributePrefix = prefix
+        if (core) this.#coreAttribute = core
+        if (coreEl) this.#coreElAttribute = coreEl
+        if (trigger) this.#triggerAttribute = trigger
+        if (eventTrigger) this.#eventTriggerAttribute = eventTrigger
+    }
+    
+    get coreAttribute() {
+        return this.#attributePrefix + this.#coreAttribute
+    }
+    get coreElAttribute() {
+        return this.#attributePrefix + this.#coreElAttribute
+    }
+    get triggerAttribute() {
+        return this.#attributePrefix + this.#triggerAttribute
+    }
+    get eventTriggerAttribute() {
+        return this.#attributePrefix + this.#eventTriggerAttribute
+    }
+    get coreSelector() {
+        return `[${this.#attributePrefix}${this.#coreAttribute}]${this.#coreCustomElementSelector}`
+    }
+    get coreElSelector() {
+        return `[${this.#attributePrefix}${this.#coreElAttribute}]`
+    }
+    get triggerSelector() {
+        return `[${this.#attributePrefix}${this.#triggerAttribute}]`
+    }
+    get eventTriggerSelector() {
+        return `[${this.#attributePrefix}${this.#eventTriggerAttribute}]`
+    }
+
     registerCore(identifier, constructor) {
         if (typeof identifier == 'object') {
             Object.entries(identifier).forEach(([key, value]) => {
@@ -44,13 +86,12 @@ class Nexus {
             console.warn(`Core ${identifier} not found in register, skipping custom element registration.`)
             return
         }
-        this.#coreCssSelector += `, core-${identifier}`
+        this.#coreCustomElementSelector += `, core-${identifier}`
         this.#customElementTags[`CORE-${identifier.toUpperCase()}`] = identifier
         customElements.define(`core-${identifier}`, class extends HTMLElement {
             constructor() {
                 super()
             }
-            _jcoresAttrPrefix = ''
         })
     }
 
@@ -89,51 +130,62 @@ class Nexus {
                 return result
             }, {})
         }
-        if (Array.isArray(constructor.units)) {
-            constructor.units = convertToObj(constructor.units)
+        if (Array.isArray(constructor.elements)) {
+            constructor.elements = convertToObj(constructor.elements)
         }
         if (Array.isArray(constructor.injects)) {
             constructor.injects = convertToObj(constructor.injects)
         }
-        if (Array.isArray(constructor.triggerables)) {
-            constructor.triggerables = convertToObj(constructor.triggerables)
-        }
-        for (let unit of Object.keys(constructor.units)) {
-            Object.defineProperty(constructor.prototype, `${unit}Units`, {
+        for (let elementName of Object.keys(constructor.elements)) {
+            Object.defineProperty(constructor.prototype, `${elementName}Elements`, {
                 get() {
-                    if (!this[`#${unit}Units`]) {
-                        this[`#${unit}Units`] = new Map()
+                    if (!this[`#${elementName}Elements`]) {
+                        this[`#${elementName}Elements`] = new Map()
                     }
-                    return this[`#${unit}Units`]
+                    return this[`#${elementName}Elements`]
                 }
             })
-            Object.defineProperty(constructor.prototype, `${unit}Unit`, {
+            Object.defineProperty(constructor.prototype, `${elementName}Element`, {
                 get() {
-                    return this[`${unit}Units`].values()?.next()?.value
+                    return this[`${elementName}Elements`].values()?.next()?.value
                 },
             })
         }
         for (let injectIdentifier of Object.keys(constructor.injects)) {
             Object.defineProperty(constructor.prototype, `${camelCase(injectIdentifier)}Core`, {
                 get() {
-                    return this.el._jcCores.get(injectIdentifier)
+                    return this.el.jc_cores.get(injectIdentifier)
                 },
             })
         }
     }
 
     get coreElements() {
-        return $$(this.#coreCssSelector)
+        return document.querySelectorAll(this.coreSelector)
     }
-    get unitElements() {
-        return $$('[data-unit]')
+    get elementUnitElements() {
+        return document.querySelectorAll(this.coreElSelector)
     }
     get triggerElements() {
-        return $$('[data-trigger]')
+        return document.querySelectorAll(this.triggerSelector)
     }
+    get eventTriggerElements() {
+        return document.querySelectorAll(this.eventTriggerSelector)
+    }
+
+    getCores(el) {
+        return el?.jc_cores || null
+    }
+
+    getCore(el, coreName) {
+        return el?.get(coreName) || null
+    }
+
     connect() {
         this.connectNode(document.body)
-        this.domObserver.observe(document.body, { childList: true, subtree: true })
+        if (this.options.observeDom) {
+            this.domObserver.observe(document.body, { childList: true, subtree: true })
+        }
     }
 
     disconnect() {
@@ -162,45 +214,53 @@ class Nexus {
             if (node.matches(selector)) {
                 callback(node)
             }
-            node.$$(selector).forEach(el => callback(el))
+            node.querySelectorAll(selector).forEach(el => callback(el))
         }
-        if (node.hasAttribute('data-core') || node.tagName.startsWith('CORE-')) this.connectCoreElement(node)
-        node.$$(this.#coreCssSelector).forEach(child => this.connectCoreElement(child))
-        if (node.hasAttribute('data-unit')) this.connectUnitElement(node)
-        node.$$('[data-unit]').forEach(child => this.connectUnitElement(child))
-        if (node.hasAttribute('data-trigger')) this.connectTriggerElement(node)
-        node.$$('[data-trigger]').forEach(child => this.connectTriggerElement(child))
+        if (node.hasAttribute(this.coreAttribute) || node.tagName.startsWith('CORE-')) this.connectCoreElement(node)
+        node.querySelectorAll(this.coreSelector).forEach(child => this.connectCoreElement(child))
+        if (node.hasAttribute(this.coreElAttribute)) this.connectElementUnitElement(node)
+        node.querySelectorAll(this.coreElSelector).forEach(child => this.connectElementUnitElement(child))
+        if (node.hasAttribute(this.triggerAttribute)) this.connectTriggerElement(node)
+        node.querySelectorAll(this.triggerSelector).forEach(child => this.connectTriggerElement(child))
+        if (node.hasAttribute(this.eventTriggerAttribute)) this.connectTriggerElement(node, true)
+        node.querySelectorAll(this.eventTriggerSelector).forEach(child => this.connectTriggerElement(child, true))
     }
 
     disconnectNode(node) {
         if (node.nodeType !== Node.ELEMENT_NODE) return
-        if (node.hasAttribute('data-trigger')) this.disconnectTriggerElement(node)
-        node.$$('[data-trigger]').forEach(child => this.disconnectTriggerElement(child))
-        if (node.hasAttribute('data-unit')) this.disconnectUnitElement(node)
-        node.$$('[data-unit]').forEach(child => this.disconnectUnitElement(child))
-        if (node.hasAttribute('data-core')) this.disconnectCoreElement(node)
-        node.$$(this.#coreCssSelector).forEach(child => this.disconnectCoreElement(child))
+        if (node.hasAttribute(this.eventTriggerAttribute)) this.disconnectTriggerElement(node)
+        node.querySelectorAll(this.eventTriggerSelector).forEach(child => this.disconnectTriggerElement(child))
+        if (node.hasAttribute(this.triggerAttribute)) this.disconnectTriggerElement(node)
+        node.querySelectorAll(this.triggerSelector).forEach(child => this.disconnectTriggerElement(child))
+        if (node.hasAttribute(this.coreElAttribute)) this.disconnectElementUnitElement(node)
+        node.querySelectorAll(this.coreElSelector).forEach(child => this.disconnectElementUnitElement(child))
+        if (node.hasAttribute(this.coreAttribute)) this.disconnectCoreElement(node)
+        node.querySelectorAll(this.coreSelector).forEach(child => this.disconnectCoreElement(child))
     }
 
-    connectTriggerElement(el) {
+    connectTriggerElement(el, isEventTrigger = false) {
         if (!el.id) {
-            el.id = `_jc-el-${this.#idx++}`
+            el.id = `jc-el--${this.#idx++}`
         }
-        el.getAttribute('data-trigger').split(' ').forEach(descriptor => {
-            new Trigger(el, descriptor)
+        el.getAttribute(isEventTrigger ? this.eventTriggerAttribute : this.triggerAttribute).split(' ').forEach(descriptor => {
+            if (isEventTrigger) {
+                new EventTrigger(el, descriptor, this.eventRegistry)
+            } else {
+                new Trigger(el, descriptor)
+            }
         })
-        if (!el._jcTriggers) return
-        el._jcTriggers.forEach(trigger => {
+        if (!el.jc_triggers) return
+        el.jc_triggers.forEach(trigger => {
             trigger.connect()
         })
         this.triggerObserver.observe(el, { attributes: true, attributeOldValue: true })
     }
 
     disconnectTriggerElement(el) {
-        el._jcTriggers?.forEach(trigger => {
+        el.jc_triggers?.forEach(trigger => {
             trigger.disconnect()
         })
-        el._jcTriggers = null
+        el.jc_triggers = null
     }
 
     triggerObserver = new MutationObserver(
@@ -208,14 +268,14 @@ class Nexus {
             const target = mutations[0].target
             let hasEventModifier = false
             mutations.forEach(mutation => {
-                if (mutation.attributeName.includes(`:event:`)) hasEventModifier = true
-                if (mutation.attributeName === `data-trigger`) {
+                if (mutation.attributeName.includes(`.event.`)) hasEventModifier = true
+                if (mutation.attributeName === this.triggerAttribute || mutation.attributeName === this.eventTriggerAttribute) {
                     this.disconnectTriggerElement(target)
                     this.connectTriggerElement(target)
                 }
             })
             if (!hasEventModifier) return
-            target['_jcTriggers']?.forEach(trigger => {
+            target['jc_triggers']?.forEach(trigger => {
                 trigger.disconnect()
                 trigger.setListenerOptions()
                 trigger.connect()
@@ -223,32 +283,32 @@ class Nexus {
         }
     )
 
-    connectUnitElement(el) {
+    connectElementUnitElement(el) {
         if (!el.id) {
-            el.id = `_jc-el-${this.#idx++}`
+            el.id = `jc-el--${this.#idx++}`
         }
-        el.getAttribute('data-unit').split(' ').forEach(descriptor => {
-            new Unit(el, descriptor)
+        el.getAttribute(this.coreElAttribute).split(' ').forEach(descriptor => {
+            new ElementUnit(el, descriptor)
         })
-        if (!el._jcUnits) return
-        el._jcUnits.forEach(unit => {
-            unit.connect()
+        if (!el.jc_elementUnits) return
+        el.jc_elementUnits.forEach(element => {
+            element.connect()
         })
     }
 
-    disconnectUnitElement(el) {
-        el._jcUnits?.forEach(unit => {
-            unit.disconnect()
+    disconnectElementUnitElement(el) {
+        el.jc_elementUnits?.forEach(element => {
+            element.disconnect()
         })
-        el._jcUnits = null
+        el.jc_elementUnits = null
     }
 
     connectCoreElement(el) {
-        if (!el._jcCores) {
+        if (!el.jc_cores) {
             if (!el.id) {
-                el.id = `_jc-el-${this.#idx++}`
+                el.id = `jc-el--${this.#idx++}`
             }
-            let coreIdentifiers = el.getAttribute('data-core') ?? ''
+            let coreIdentifiers = el.getAttribute(this.coreAttribute) ?? ''
             if (this.#customElementTags[el.tagName]) {
                 coreIdentifiers = coreIdentifiers + ' ' + this.#customElementTags[el.tagName]
             }
@@ -258,20 +318,20 @@ class Nexus {
             })
             this.coreObserver.observe(el, { attributes: true, attributeOldValue: true })
         }
-        if (!el._jcCores) return
-        el._jcCores?.forEach(core => {
+        if (!el.jc_cores) return
+        el.jc_cores?.forEach(core => {
             if (core.__connected || core.asleep) return
             core.connect()
             core.__connected = true
         })
     }
     disconnectCoreElement(el) {
-        el._jcCores?.forEach(core => {
+        el.jc_cores?.forEach(core => {
             if (!core.__connected || core.asleep) return
             core.disconnect()
             core.__connected = false
         })
-        el._jcCores = null
+        el.jc_cores = null
     }
 
     injectCore(el, identifier, attributes = {}) {
@@ -279,7 +339,7 @@ class Nexus {
             console.warn(`Core ${identifier} not found in register, skipping.`)
             return
         }
-        if (el._jcCores?.has(identifier)) {
+        if (el.jc_cores?.has(identifier)) {
             console.warn(`Core ${identifier} already used on this element, overriding.`)
         }
         Object.entries(this.coreRegistry[identifier].injects).forEach(([injectIdentifier, injectAttributes]) => {
@@ -290,19 +350,19 @@ class Nexus {
 
     coreObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            if (!mutation.attributeName.startsWith(`data-`)) return
-            if (mutation.attributeName === 'data-core') {
+            if (!mutation.attributeName.startsWith(this.#attributePrefix)) return
+            if (mutation.attributeName === this.coreAttribute) {
                 this.disconnectCoreElement(mutation.target)
                 this.connectCoreElement(mutation.target)
                 return
             }
             const newVal = mutation.target.getAttribute(mutation.attributeName)
-            mutation.target._jcCores?.forEach(core => {
-                if (mutation.attributeName == `data-${core.identifier}-reconnect`) {
+            mutation.target.jc_cores?.forEach(core => {
+                if (mutation.attributeName == `${this.#attributePrefix}${core.identifier}-reconnect`) {
                     window.requestAnimationFrame(() => {
                         core.disconnect()
                         core.connect()
-                        mutation.target.removeAttribute(`data-${core.identifier}-reconnect`)
+                        mutation.target.removeAttribute(`${this.#attributePrefix}${core.identifier}-reconnect`)
                     })
                 }
                 core.constructor.attributeSyncer.attributeChanged(core, mutation.attributeName, mutation.oldValue, newVal)

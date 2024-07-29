@@ -12,8 +12,8 @@
 
         <div class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-trigger="toggleable::toggle#{id}"
-                    data-unit="toggleable.toggle#{id}">
+                    data-trigger="toggleable.toggle#{id}"
+                    data-core-el="toggleable.toggle#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>

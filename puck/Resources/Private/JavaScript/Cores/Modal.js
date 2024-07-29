@@ -1,4 +1,4 @@
-import { $, $$, jsx } from '~/_jcores/Utility/DomUtility'
+import { $, $$, jsx } from '~/Utility/DomUtility'
 import Toggleable from "~/Cores/Toggleable"
 
 /**
@@ -17,8 +17,8 @@ export default class Modal extends Toggleable {
         this.el.showModal()
         super.toggleOn(transition);
         this.el.ariaModal = 'true'
-        if (this.el.$('[autofocus]')) {
-            this.el.$('[autofocus]').focus()
+        if (this.el.$('[data-autofocus]')) {
+            this.el.$('[data-autofocus]').focus()
         } else {
             this.el.focus()
         }
@@ -44,7 +44,7 @@ export default class Modal extends Toggleable {
         super.connect()
         // hacky way to make dialog exit animation work
         // firefox doesn't support display animation yet, so we have to disable the native dialog close
-        this.listeners.add(this.el, 'cancel', event => event.preventDefault())
+        this.on('cancel', event => event.preventDefault())
         return this
     }
 

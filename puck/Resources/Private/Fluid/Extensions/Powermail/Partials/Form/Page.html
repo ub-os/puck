@@ -2,8 +2,8 @@
 <fieldset class="{u:bem(el:'page', mod:{paginated:settings.main.moresteps,-active:pageIteration.isFirst})} {page.css}"
           id="form-{form.uid}-page-{pageIteration.index}"
           data-core="form-page"
-          data-form-page:group-id="form-{form.uid}"
-          {f:if(condition:'{pageIteration.isFirst}',then:'data-form-page:active')} >
+          data-form-page.group-id="form-{form.uid}"
+          {f:if(condition:'{pageIteration.isFirst}',then:'data-form-page.active')} >
     <f:if condition="{page.css} != 'nolabel'">
         <header class="{name}__page__header">{page.title}</header>
     </f:if>

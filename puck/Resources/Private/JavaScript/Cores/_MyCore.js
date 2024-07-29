@@ -1,4 +1,4 @@
-import Core from "~/_jcores/Core"
+import { Core } from "~/_jcores"
 
 /**
  * @property {MyInject} myInjectCore
@@ -105,7 +105,7 @@ export default class MyCore extends Core {
     console.log(this.myUnitUnit)
 
     // add event listeners, listeners.add() returns listener id
-    this.myListenerId = this.listeners.add(this.el, 'click', () => {})
+    this.myListenerId = this.on('click', () => {})
     // or set listener id manually
     this.listeners.addById('listener-id')(this.el, 'click', () => {})
 

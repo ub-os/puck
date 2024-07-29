@@ -1,5 +1,5 @@
-import { $, $$, $id, scrollTo } from '~/_jcores/Utility/DomUtility'
-import Core from '~/_jcores/Core'
+import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
+import { Core } from "~/_jcores"
 
 export default class AnchorBehavior extends Core {
     static attributes = {
@@ -22,11 +22,11 @@ export default class AnchorBehavior extends Core {
         return $id(hash?.substring(1).split('?')[0])
     }
 
-    scrollToTarget(target) {
+    scrollToTarget(target, { behavior = 'smooth', block = 'start' } = {}) {
         if (target.hasAttribute('data-menu-anchor')) {
-            target.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            target.nextElementSibling.scrollIntoView({ behavior, block})
         } else {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            target.scrollIntoView({ behavior, block})
         }
     }
 

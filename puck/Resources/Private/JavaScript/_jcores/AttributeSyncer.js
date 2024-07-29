@@ -1,17 +1,25 @@
-import { jsonParse, kebabCase } from "../Utility/StringUtility"
-import AttributeConverter from "./AttributeConverter"
+import { kebabCase } from "./StringUtility"
+
+function jsonParse(val) {
+    let obj = {}
+    try {
+        obj = JSON.parse(val || '{}') ?? {}
+    } catch (e) {
+        return {}
+    }
+    return obj
+}
 
 export default class AttributeSyncer {
     identifier = null
     attributes = {}
     attributeKeyMap = {}
     convertKey = attrKey => {
-        return `data-${this.identifier}:${kebabCase(attrKey)}`
+        return `data-${this.identifier}.${kebabCase(attrKey)}`
     }
     constructor(identifier, constructor, attributes = {}) {
         this.identifier = identifier
         this.attributes = attributes
-        this.converter = new AttributeConverter(attributes)
         Object.keys(attributes).forEach(attrKey => {
             if (!this.attributeKeyMap[attrKey]) {
                 this.attributeKeyMap[attrKey] = this.convertKey(attrKey)
@@ -28,11 +36,29 @@ export default class AttributeSyncer {
         })
     }
 
-    read(attrKey, val) {
-        return this.converter.read(attrKey, val)
-    }
     write(attrKey, val) {
-        return this.converter.write(attrKey, val)
+        switch (typeof this.attributes[attrKey] ?? 'default') {
+            case 'boolean':
+                return val ? '' : 'false'
+            case 'object':
+                return JSON.stringify(val)
+            case 'string':
+                return val
+            default:
+                return val.toString()
+        }
+    }
+    read(attrKey, val) {
+        switch (typeof this.attributes[attrKey] ?? 'default') {
+            case 'boolean':
+                return val !== '0' && val !== 'false'
+            case 'object':
+                return jsonParse(val)
+            case 'number':
+                return Number(val.replace(/_/g, ""))
+            default:
+                return val
+        }
     }
 
     initialize(instance, argAttributes = {}) {

@@ -1,6 +1,4 @@
-import { camelCase } from "./Utility/StringUtility"
-import { $id } from "./Utility/DomUtility"
-import AttributeConverter from "./Service/AttributeConverter"
+import { camelCase } from "./StringUtility"
 
 export default class Trigger {
     /**
@@ -13,110 +11,60 @@ export default class Trigger {
     listenerOptions = {}
     eventOptions = {}
     connected = false
-    constructor(el, descriptor, eventRegistry = {}) {
-        if (descriptor.includes('::')) this.initializeCoreMethod(el, descriptor, eventRegistry)
-        else this.initializeEvent(el, descriptor, eventRegistry)
+    constructor(el, descriptor, options = {}) {
+        this.initialize(el, descriptor, options)
     }
 
-    initializeEvent(el, descriptor, eventRegistry) {
+    initialize(el, descriptor, options = {}) {
         this.el = el
         descriptor = this.completeDescriptor(el, descriptor)
         const [
             event,
-            triggeredEvent,
+            methodIdentifier,
             id
         ] = descriptor.split(/->|#/);
-        const targetEl = id ? $id(id) : document.body
-        if (!triggeredEvent) return
-
-        this.identifier = `${triggeredEvent}_`
-        this.eventOptions = eventRegistry[this.identifier] ?? {}
-        this.event = event.split('.')[0]
-        if (el['_jcEvents']?.get(this.identifier)) {
-            console.log(`Event ${this.identifier} already connected to ${el.id}`)
-            return
-        }
-
-        this.setListenerOptions()
-        const triggerGuard = this.getTriggerGuard(event)
-        const attributeConverter = new AttributeConverter(this.eventOptions.detail ?? {})
-
-        this.listener = e => {
-            if (triggerGuard(e)) return
-            el.hasAttribute(`data-${this.identifier}:event:prevent`) ? e.preventDefault() : null
-            el.hasAttribute(`data-${this.identifier}:event:stop`) ? e.stopPropagation() : null
-            const eventOptions = {
-                ...this.eventOptions,
-                detail: {
-                    ...this.eventOptions.detail ?? {},
-                    originalEvent: e
-                }
-            }
-
-            for (const attr of el.attributes) {
-                if (attr.name.startsWith(`data-${this.identifier}:`)) {
-                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
-                    if (attrKey === 'originalEvent') return
-                    eventOptions.detail[attrKey] = attributeConverter.read(attrKey, attr.value)
-                }
-            }
-
-            targetEl.dispatchEvent(new CustomEvent(triggeredEvent, eventOptions))
-        }
-
-        !el['_jcEvents'] ? el._jcEvents = new Map() : null
-        el._jcEvents.set(this.identifier, this)
-    }
-
-    initializeCoreMethod(el, descriptor, eventRegistry) {
-        this.el = el
-        descriptor = this.completeDescriptor(el, descriptor)
         const [
-            event,
             coreIdentifier,
-            coreMethod,
-            id
-        ] = descriptor.split(/->|::|#/);
-        const coreEl = id ? $id(id) : el.closest(`[data-core]`)
-        const core = coreEl?.['_jcCores']?.get(coreIdentifier)
+            coreMethod
+        ] = methodIdentifier.split('.')
+        const coreEl = id ? document.getElementById(id) : el.closest(`[data-core]`)
+        const core = coreEl?.['jc_cores']?.get(coreIdentifier)
 
         if (!coreMethod || !core || typeof core[coreMethod] !== 'function') return
-        this.identifier = `${coreIdentifier}::${coreMethod}`
+        this.identifier = `${coreIdentifier}-${coreMethod}`
         this.event = event.split('.')[0]
-        if (el['_jcTriggers']?.get(this.identifier)) {
+        if (el['jc_triggers']?.get(this.identifier)) {
             console.log(`Trigger ${this.identifier} already connected to ${el.id}`)
             return
         }
 
         this.setListenerOptions()
         const triggerGuard = this.getTriggerGuard(event)
-        const attributeConverter = new AttributeConverter(core.constructor.triggerables?.[coreMethod] || {})
 
         this.listener = e => {
-            let core = coreEl?.['_jcCores']?.get(coreIdentifier)
+            let core = coreEl?.['jc_cores']?.get(coreIdentifier)
             if (triggerGuard(e)) return
             if (!core.__connected) return
-            el.hasAttribute(`data-${this.identifier}:event:prevent`) ? e.preventDefault() : null
-            el.hasAttribute(`data-${this.identifier}:event:stop`) ? e.stopPropagation() : null
-            const params = attributeConverter.attributes
+            el.hasAttribute(`data-${this.identifier}.event.prevent`) ? e.preventDefault() : null
+            el.hasAttribute(`data-${this.identifier}.event.stop`) ? e.stopPropagation() : null
+            const params = el.hasAttribute(`data-${this.identifier}`) ? this.typecast(el.getAttribute(`data-${this.identifier}`)) : {}
             e.coreMethodTrigger = {
                 core: core,
                 method: coreMethod,
             }
 
             for (const attr of el.attributes) {
-                if (attr.name.startsWith(`data-${this.identifier}:`)) {
-                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}:`, ''))
-                    if (attrKey === 'originalEvent') return
-                    params[attrKey] = attributeConverter.read(attrKey, attr.value)
+                if (attr.name.startsWith(`data-${this.identifier}.`)) {
+                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}.`, ''))
+                    params[attrKey] = this.typecast(attr.value)
                 }
             }
 
             core[coreMethod](e, params)
         }
 
-        !el['_jcTriggers'] ? el._jcTriggers = new Map() : null
-        el._jcTriggers.set(this.identifier, this)
+        !el['jc_triggers'] ? el.jc_triggers = new Map() : null
+        el.jc_triggers.set(this.identifier, this)
     }
 
     completeDescriptor(el, descriptor) {
@@ -158,10 +106,19 @@ export default class Trigger {
 
     setListenerOptions() {
         ['capture', 'once', 'passive'].forEach(opt => {
-            const value = this.el.getAttribute(`data-${this.identifier}:event:${opt}`)
+            const value = this.el.getAttribute(`data-${this.identifier}.event.${opt}`)
             this.listenerOptions[opt] = value === undefined || value === null || value === 'false' || value === '0' ? false : true
         })
     }
+
+    typecast(val) {
+        try {
+            return JSON.parse(val)
+        } catch (e) {
+            return val
+        }
+    }
+
 
     connect() {
         if (this.connected) return

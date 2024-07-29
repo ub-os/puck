@@ -7,7 +7,7 @@ export default class Accordion extends Toggleable {
         ...Toggleable.attributes,
         useMinHeight: false,
     }
-    toggleUnitConnected(el) {
+    toggleElementConnected(el) {
         el.ariaControls = this.el.id
         if (this.active) {
             el.classList.add(this.activeClass)
@@ -20,7 +20,7 @@ export default class Accordion extends Toggleable {
         super.toggleOn(transition);
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
         this.el.setAttribute('open', '')
-        this.toggleUnits.forEach(t => t.ariaExpanded = 'true')
+        this.toggleElements.forEach(t => t.ariaExpanded = 'true')
     }
     toggleOff(transition= true, changeUrlHash =  true) {
         super.toggleOff(transition, changeUrlHash)
@@ -36,7 +36,7 @@ export default class Accordion extends Toggleable {
                 this.el.removeAttribute('open')
             }
         })
-        this.toggleUnits.forEach(t => t.ariaExpanded = 'false')
+        this.toggleElements.forEach(t => t.ariaExpanded = 'false')
     }
     connect() {
         super.connect()

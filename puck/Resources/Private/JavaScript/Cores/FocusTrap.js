@@ -1,6 +1,6 @@
-import { $, $$, $id } from '~/_jcores/Utility/DomUtility'
+import { $, $$, $id } from '~/Utility/DomUtility'
 import { MutationManager } from "~/Service/ObserverCollector";
-import Core from "~/_jcores/Core"
+import { Core } from "~/_jcores"
 
 export default class FocusTrap extends Core {
     static attributes = {
@@ -40,13 +40,13 @@ export default class FocusTrap extends Core {
         }
         
         if (this.updateFocusOn === 'event') {
-            this.listeners.add(this.el, 'update-focusables', event => {
+            this.on('update-focusables', event => {
                 this.updateFocusables()
                 this.dispatch('focusables-changed')
             })
         }
         
-        this.listeners.add(this.el, 'keydown', event => {
+        this.on('keydown', event => {
             if (!this.active) return
             if (event.key === 'Tab') {
                 if (event.shiftKey) {

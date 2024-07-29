@@ -1,13 +1,11 @@
-import { kebabCase, jsonParse } from "./Utility/StringUtility"
-import ListenerCollector from "./Service/ListenerCollector"
+import ListenerCollector from "./ListenerCollector"
 
 export default class Core {
     static attributes = {
         asleep: false
     }
-    static units = {}
+    static elements = []
     static injects = {}
-    static triggerables = {}
     static identifier = null
     static registerCallback() { }
 
@@ -26,14 +24,22 @@ export default class Core {
         this.el = el
         this.identifier = this.constructor.identifier
         this.constructor.attributeSyncer.initialize(this, attributes)
-        !el['_jcCores'] ? el._jcCores = new Map() : null
-        el._jcCores.set(this.identifier, this)
+        !el['jc_cores'] ? el.jc_cores = new Map() : null
+        el.jc_cores.set(this.identifier, this)
         this.initialize()
         this.__initialized = true
     }
 
     dispatch(type, options = {}) {
         this.el.dispatchEvent(new CustomEvent(type, options))
+    }
+
+    on(type, listener, options = {}) {
+        return this.listeners.add(this.el, type, listener, options)
+    }
+
+    off(id) {
+        return this.listeners.remove(id)
     }
 
     asleepChanged(oldVal, newVal) {

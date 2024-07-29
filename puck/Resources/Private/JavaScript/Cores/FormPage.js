@@ -1,4 +1,4 @@
-import { $, $$, $id, scrollTo, tryViewTransition } from '~/_jcores/Utility/DomUtility'
+import { $, $$, $id, scrollTo, tryViewTransition } from '~/Utility/DomUtility'
 import Toggleable from '~/Cores/Toggleable'
 
 export default class FormPage extends Toggleable {
@@ -19,7 +19,7 @@ export default class FormPage extends Toggleable {
     toggle(event, { transition, validate, scrollIntoView } = {}) {
         if (validate && this.formEl) {
             let valid = true
-            this.formEl.$$('[data-form-page\\:active]').forEach(page => {
+            this.formEl.$$('[data-form-page\\.active]').forEach(page => {
                 page.$$('input, select, textarea').forEach(input => {
                     if (!input.reportValidity()) valid = false
                 })

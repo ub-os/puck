@@ -1,4 +1,4 @@
-import Nexus from "~/_jcores/Nexus"
+import { nexus } from '~/_jcores'
 import htmx from '~/htmx'
 import ScrollbarWidth from "~/Cores/ScrollbarWidth"
 import AnchorBehavior from "~/Cores/AnchorBehavior"
@@ -15,7 +15,8 @@ import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
 import Root from "~/Cores/Root"
 
-Nexus.registerCore({
+
+nexus.registerCore({
     AnchorBehavior,
     ScrollbarWidth,
     Toggleable,
@@ -32,14 +33,14 @@ Nexus.registerCore({
     Root
 })
 
-Nexus.registerCoreCustomElement([
+nexus.registerCoreCustomElement([
     'carousel',
     'page-header',
     'media-player',
     'root'
 ])
 
-Nexus.registerEvent({
+nexus.registerEvent({
     'toggle-off-all': {
         bubbles: true,
         detail: {
@@ -48,7 +49,7 @@ Nexus.registerEvent({
     },
 })
 
-Nexus.registerConnectedCallback({
+nexus.registerConnectedCallback({
     '.l-row': (el) => {
         if (el.children.length < 3) return
         el.setAttribute('role', 'list')
@@ -72,4 +73,4 @@ Nexus.registerConnectedCallback({
     }
 })
 
-export default Nexus
+export default nexus
