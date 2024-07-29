@@ -119,6 +119,14 @@ const tryViewTransition = callback => {
     }
 }
 
+const getCores = (target) => {
+    return $target(target)?._jcCores || null
+}
+
+const getCore = (target, coreName) => {
+    return getCores(target)?.get(coreName) || null
+}
+
 export {
     $,
     $$,
@@ -129,4 +137,6 @@ export {
     noDragClick,
     scrollTo,
     tryViewTransition,
+    getCores,
+    getCore
 }
