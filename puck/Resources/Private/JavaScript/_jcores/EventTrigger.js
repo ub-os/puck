@@ -1,5 +1,6 @@
 import Trigger from "./Trigger"
 import { camelCase } from "./StringUtility"
+import config from "./Config"
 
 export default class EventTrigger extends Trigger {
 
@@ -29,19 +30,19 @@ export default class EventTrigger extends Trigger {
 
         this.listener = e => {
             if (triggerGuard(e)) return
-            el.hasAttribute(`data-${this.identifier}.event.prevent`) ? e.preventDefault() : null
-            el.hasAttribute(`data-${this.identifier}.event.stop`) ? e.stopPropagation() : null
+            el.hasAttribute(`${config.attributePrefix}${this.identifier}.event.prevent`) ? e.preventDefault() : null
+            el.hasAttribute(`${config.attributePrefix}${this.identifier}.event.stop`) ? e.stopPropagation() : null
 
             const eventOptions = this.eventOptions
             eventOptions.detail = {
                 ...eventOptions.detail ?? {},
-                ...el.hasAttribute(`data-${this.identifier}`) ? this.typecast(el.getAttribute(`data-${this.identifier}`)) : {},
+                ...el.hasAttribute(`${config.attributePrefix}${this.identifier}`) ? this.typecast(el.getAttribute(`${config.attributePrefix}${this.identifier}`)) : {},
                 originalEvent: e
             }
 
             for (const attr of el.attributes) {
-                if (attr.name.startsWith(`data-${this.identifier}.`)) {
-                    const attrKey = camelCase(attr.name.replace(`data-${this.identifier}.`, ''))
+                if (attr.name.startsWith(`${config.attributePrefix}${this.identifier}.`)) {
+                    const attrKey = camelCase(attr.name.replace(`${config.attributePrefix}${this.identifier}.`, ''))
                     if (attrKey === 'originalEvent') return
                     eventOptions.detail[attrKey] = this.typecast(attr.value)
                 }

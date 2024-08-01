@@ -1,3 +1,4 @@
+import config from "./Config"
 
 export default class ElementUnit {
     /**
@@ -16,7 +17,7 @@ export default class ElementUnit {
             id
         ] = descriptor.split(/[.#]/)
         if (!name || !coreIdentifier) return
-        const coreEl = id ? document.getElementById(id) : el.closest(`[data-core]`)
+        const coreEl = id ? document.getElementById(id) : el.closest(`[${config.attributePrefix}${config.coreAttribute}]`)
         this.core = coreEl?.jc_cores?.get(coreIdentifier)
         if (!this.core) return
 

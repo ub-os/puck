@@ -1,4 +1,5 @@
 import { camelCase } from "./StringUtility"
+import config from "./Config"
 
 export default class Trigger {
     /**
@@ -27,7 +28,7 @@ export default class Trigger {
             coreIdentifier,
             coreMethod
         ] = methodIdentifier.split('.')
-        const coreEl = id ? document.getElementById(id) : el.closest(`[data-core]`)
+        const coreEl = id ? document.getElementById(id) : el.closest(`[${config.attributePrefix}${config.coreAttribute}]`)
         const core = coreEl?.['jc_cores']?.get(coreIdentifier)
 
         if (!coreMethod || !core || typeof core[coreMethod] !== 'function') return

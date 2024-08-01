@@ -1,4 +1,5 @@
 import { kebabCase } from "./StringUtility"
+import config from "./Config"
 
 function jsonParse(val) {
     let obj = {}
@@ -10,12 +11,12 @@ function jsonParse(val) {
     return obj
 }
 
-export default class AttributeSyncer {
+export default class CoreAttributeSyncer {
     identifier = null
     attributes = {}
     attributeKeyMap = {}
     convertKey = attrKey => {
-        return `data-${this.identifier}.${kebabCase(attrKey)}`
+        return `${config.attributePrefix}${this.identifier}.${kebabCase(attrKey)}`
     }
     constructor(identifier, constructor, attributes = {}) {
         this.identifier = identifier
@@ -62,7 +63,7 @@ export default class AttributeSyncer {
     }
 
     initialize(instance, argAttributes = {}) {
-        const attrAttributes = jsonParse(instance.el.getAttribute('data-' + this.identifier))
+        const attrAttributes = jsonParse(instance.el.getAttribute(config.attributePrefix + this.identifier))
         for (let attrKey in this.attributes) {
             const dataAttr = this.attributeKeyMap[attrKey]
             if (instance.el.hasAttribute(dataAttr)) {
@@ -75,7 +76,7 @@ export default class AttributeSyncer {
                 this.setAttribute(instance, attrKey, this.attributes[attrKey], false)
             }
         }
-        instance.el.removeAttribute('data-' + this.identifier)
+        instance.el.removeAttribute(config.attributePrefix + this.identifier)
     }
 
     setAttribute(instance, attrKey, val, sync = true) {

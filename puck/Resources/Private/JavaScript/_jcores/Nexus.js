@@ -1,66 +1,44 @@
 import { camelCase, kebabCase } from "./StringUtility"
-import AttributeSyncer from "./AttributeSyncer"
+import CoreAttributeSyncer from "./CoreAttributeSyncer"
 import Core from "./Core"
 import ElementUnit from "./ElementUnit"
 import Trigger from "./Trigger"
 import EventTrigger from "./EventTrigger"
+import config from "./Config"
 
 class Nexus {
     #idx = 0
     coreRegistry = {}
     eventRegistry = {}
     connectedCallbackRegistry = {}
-
-    #attributePrefix = 'data-'
-    #coreAttribute = 'core'
-    #coreElAttribute = 'core-el'
-    #triggerAttribute = 'trigger'
-    #eventTriggerAttribute = 'emit'
     #coreCustomElementSelector = ''
     #customElementTags = []
 
-    options = {
-        observeDom: true,
-    }
+    config = config
 
-    setOptions(options) {
-        this.options = {
-            ...this.options,
-            ...options,
-        }
-    }
-
-    setAttributeNames({ prefix, core, coreEl, trigger, eventTrigger }) {
-        if (prefix) this.#attributePrefix = prefix
-        if (core) this.#coreAttribute = core
-        if (coreEl) this.#coreElAttribute = coreEl
-        if (trigger) this.#triggerAttribute = trigger
-        if (eventTrigger) this.#eventTriggerAttribute = eventTrigger
-    }
-    
     get coreAttribute() {
-        return this.#attributePrefix + this.#coreAttribute
+        return this.config.attributePrefix + this.config.coreAttribute
     }
     get coreElAttribute() {
-        return this.#attributePrefix + this.#coreElAttribute
+        return this.config.attributePrefix + this.config.coreElAttribute
     }
     get triggerAttribute() {
-        return this.#attributePrefix + this.#triggerAttribute
+        return this.config.attributePrefix + this.config.triggerAttribute
     }
     get eventTriggerAttribute() {
-        return this.#attributePrefix + this.#eventTriggerAttribute
+        return this.config.attributePrefix + this.config.eventTriggerAttribute
     }
     get coreSelector() {
-        return `[${this.#attributePrefix}${this.#coreAttribute}]${this.#coreCustomElementSelector}`
+        return `[${this.config.attributePrefix}${this.config.coreAttribute}]${this.#coreCustomElementSelector}`
     }
     get coreElSelector() {
-        return `[${this.#attributePrefix}${this.#coreElAttribute}]`
+        return `[${this.config.attributePrefix}${this.config.coreElAttribute}]`
     }
     get triggerSelector() {
-        return `[${this.#attributePrefix}${this.#triggerAttribute}]`
+        return `[${this.config.attributePrefix}${this.config.triggerAttribute}]`
     }
     get eventTriggerSelector() {
-        return `[${this.#attributePrefix}${this.#eventTriggerAttribute}]`
+        return `[${this.config.attributePrefix}${this.config.eventTriggerAttribute}]`
     }
 
     registerCore(identifier, constructor) {
@@ -86,9 +64,9 @@ class Nexus {
             console.warn(`Core ${identifier} not found in register, skipping custom element registration.`)
             return
         }
-        this.#coreCustomElementSelector += `, core-${identifier}`
-        this.#customElementTags[`CORE-${identifier.toUpperCase()}`] = identifier
-        customElements.define(`core-${identifier}`, class extends HTMLElement {
+        this.#coreCustomElementSelector += `, ${this.config.coreCustomElementPrefix}${identifier}`
+        this.#customElementTags[(this.config.coreCustomElementPrefix + identifier).toUpperCase()] = identifier
+        customElements.define(this.config.coreCustomElementPrefix + identifier, class extends HTMLElement {
             constructor() {
                 super()
             }
@@ -119,7 +97,7 @@ class Nexus {
             ...Core.attributes,
             ...constructor.attributes,
         }
-        constructor.attributeSyncer = new AttributeSyncer(identifier, constructor, constructor.attributes)
+        constructor.attributeSyncer = new CoreAttributeSyncer(identifier, constructor, constructor.attributes)
         const convertToObj = arr => {
             return arr.reduce((result, key) => {
                 if (typeof key !== 'string') {
@@ -183,7 +161,7 @@ class Nexus {
 
     connect() {
         this.connectNode(document.body)
-        if (this.options.observeDom) {
+        if (this.config.observeDom) {
             this.domObserver.observe(document.body, { childList: true, subtree: true })
         }
     }
@@ -350,7 +328,7 @@ class Nexus {
 
     coreObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            if (!mutation.attributeName.startsWith(this.#attributePrefix)) return
+            if (!mutation.attributeName.startsWith(this.config.attributePrefix)) return
             if (mutation.attributeName === this.coreAttribute) {
                 this.disconnectCoreElement(mutation.target)
                 this.connectCoreElement(mutation.target)
@@ -358,11 +336,11 @@ class Nexus {
             }
             const newVal = mutation.target.getAttribute(mutation.attributeName)
             mutation.target.jc_cores?.forEach(core => {
-                if (mutation.attributeName == `${this.#attributePrefix}${core.identifier}-reconnect`) {
+                if (mutation.attributeName == `${this.config.attributePrefix}${core.identifier}-reconnect`) {
                     window.requestAnimationFrame(() => {
                         core.disconnect()
                         core.connect()
-                        mutation.target.removeAttribute(`${this.#attributePrefix}${core.identifier}-reconnect`)
+                        mutation.target.removeAttribute(`${this.config.attributePrefix}${core.identifier}-reconnect`)
                     })
                 }
                 core.constructor.attributeSyncer.attributeChanged(core, mutation.attributeName, mutation.oldValue, newVal)
