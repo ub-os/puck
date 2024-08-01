@@ -2,25 +2,14 @@ import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
-import htmx from '~/htmx'
+import { nexus, htmx } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
-import jc from '~/nexus'
-
-
-htmx.config.scrollBehavior = 'auto'
-htmx.config.defaultSwapStyle = 'outerHTML'
-htmx.config.defaultSwapDelay = 0
-htmx.config.defaultSettleDelay = 0
-htmx.config.globalViewTransitions = true
-htmx.config.allowScriptTags = true
-htmx.config.allowEval = false
-htmx.config.refreshOnHistoryMiss = true
 
 const doc = document.documentElement
 
 smoothscroll.polyfill()
-jc.connect()
+nexus.connect()
 window.requestAnimationFrame(() => {
     $id('body').classList.remove('u-no-transition')
     $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
@@ -29,7 +18,7 @@ window.requestAnimationFrame(() => {
 doc.addEventListener("htmx:historyRestore", (event) => {
     $$('[data-render-excluded]').forEach(el => el.remove())
 })
-console.log(jc)
+Logger.console.log(nexus)
 
 /*
 window.puckApp = {

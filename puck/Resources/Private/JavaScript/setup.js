@@ -1,5 +1,5 @@
 import { nexus } from '~/_jcores'
-import htmx from '~/htmx'
+import htmx from 'htmx.org/dist/htmx.cjs.js'
 import ScrollbarWidth from "~/Cores/ScrollbarWidth"
 import AnchorBehavior from "~/Cores/AnchorBehavior"
 import Toggleable from '~/Cores/Toggleable'
@@ -14,6 +14,23 @@ import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
 import Root from "~/Cores/Root"
+
+window.htmx = htmx
+Object.assign(htmx.config, {
+    scrollBehavior: 'auto',
+    defaultSwapStyle: 'outerHTML',
+    defaultSwapDelay: 0,
+    defaultSettleDelay: 0,
+    globalViewTransitions: true,
+    allowScriptTags: true,
+    allowEval: false,
+    refreshOnHistoryMiss: true
+})
+
+window.nexus = nexus
+Object.assign(nexus.config, {
+    attributePrefix: 'data-',
+})
 
 
 nexus.registerCore({
@@ -73,4 +90,4 @@ nexus.registerConnectedCallback({
     }
 })
 
-export default nexus
+export { nexus, htmx }
