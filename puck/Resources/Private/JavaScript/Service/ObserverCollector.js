@@ -1,4 +1,5 @@
 import { $target } from "~/Utility/DomUtility"
+import Logger from "~/Service/Logger"
 
 class ObserverCollector {
     static #instance = null;
@@ -63,17 +64,17 @@ class ObserverCollector {
     }
     constructor() {
         if (ObserverCollector.#instance) {
-            console.warn('ObserverCollector is a singleton. Use "ObserverCollector.inst()" instead of creating a new instance with "new ObserverCollector()".');
+            Logger.console.warn('ObserverCollector is a singleton. Use "ObserverCollector.inst()" instead of creating a new instance with "new ObserverCollector()".');
             return ObserverCollector.#instance;
         }
     }
 
     #observe({ obsName, id, target, callbackId, opts }) {
         if (this.#idMap[id]) {
-            console.warn(`ObserverManager: id "${id}" is already in use. Overriding.`)
+            Logger.console.warn(`ObserverManager: id "${id}" is already in use. Overriding.`)
         }
         if (!this.#callbacks[obsName][callbackId]) {
-            console.warn(`ObserverCollector: callbackId "${callbackId}" is not registered. Skipping.`)
+            Logger.console.warn(`ObserverCollector: callbackId "${callbackId}" is not registered. Skipping.`)
             return
         }
         const el = $target(target)
@@ -153,7 +154,7 @@ class ObserverCollector {
     #unobserve(id) {
         const map = this.#idMap[id]
         if (!map) {
-            console.warn(`ObserverCollector: id "${id}" does not exist. Skipping detachment.`)
+            Logger.console.warn(`ObserverCollector: id "${id}" does not exist. Skipping detachment.`)
             return
         }
         const callbacksByElId = this.#observers[map.obsName][map.obsId].callbacksByElId
