@@ -11,7 +11,8 @@
       </f:then>
       <f:else if="{pagination.items}">
         <ul class="{name}"
-            id="{sectionId}-pagination"
+            id="{sectionId}-pagination"d
+            data-hx-swap="outerHTML"
             data-hx-select="#{sectionId}-body"
             data-hx-target="#{sectionId}-body">
           <f:if condition="{pagination.prev}">

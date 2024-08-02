@@ -3,12 +3,10 @@
         id="root"
         class="-layout-{object.backendLayout} "
         data-hx-boost="true"
-        data-hx-target="#root"
-        data-hx-select="#root"
-        data-hx-swap="outerHTML"
+        data-hx-swap="innerHTML"
         data-hx-indicator="#root-loading-bar"
         preload="mousedown"
-        data-logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
+        data-logger="{f:if(condition:'{context.backendUser}', then:'enabled')}">
     <!--TYPO3SEARCH_end-->
     <f:if condition="{object.backendLayout} !== 'pagets__error'">
         <module:schema object="{object}" context="{context}"/>

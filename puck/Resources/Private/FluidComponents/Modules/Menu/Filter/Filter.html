@@ -8,6 +8,7 @@
       <f:if condition="{categoryFilter.items}">
           <div class="{name}"
                id="{sectionId}-filter"
+               data-hx-swap="outerHTML"
                data-hx-select="#{sectionId}-body"
                data-hx-target="#{sectionId}-body">
               <ul class="{name}__list">
