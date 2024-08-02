@@ -1,5 +1,5 @@
 System.config({
     "paths": {
-        "~/*": "./puck/Resources/Private/JavaScript/*",
+        "~/*": "./puck/Resources/Private/JavaScript/*"
     }
 });

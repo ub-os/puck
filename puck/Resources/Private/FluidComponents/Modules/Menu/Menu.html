@@ -26,7 +26,7 @@
                         <f:case value="default-cards">
                             <layout:row class="{name}__row"
                                         flexGrow="0" justify="left" align="top"
-                                        id="c{object.uid}-list">
+                                        >
                                 <f:for as="item" each="{object.menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
@@ -47,7 +47,7 @@
                         <f:case value="blog-cards">
                             <layout:row class="{name}__row"
                                         flexGrow="0" justify="left" align="top"
-                                        id="c{object.uid}-list">
+                                        >
                                 <f:for as="item" each="{object.menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
@@ -69,7 +69,7 @@
                             <layout:row class="{name}__row"
                                         align="top" flexGrow="0" justify="left"
 
-                                        id="c{object.uid}-list">
+                                        >
                                 <f:for as="item" each="{object.menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
@@ -105,7 +105,7 @@
                         <f:case value="columns">
                             <layout:row class="{name}__row"
                                         flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
-                                        id="c{object.uid}-list">
+                                        >
                                 <f:for as="item" each="{object.menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content"
                                                      width="{object.itemColumnWidth}">
@@ -136,7 +136,7 @@
                         <f:defaultCase>
                             <layout:row class="{name}__row"
                                         flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
-                                        id="c{object.uid}-list">
+                                        >
                                 <f:for as="item" each="{object.menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content"
                                                      width="{object.itemColumnWidth}">
