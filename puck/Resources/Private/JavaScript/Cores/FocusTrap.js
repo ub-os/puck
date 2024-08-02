@@ -1,5 +1,4 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import { MutationManager } from "~/Service/ObserverCollector";
 import { Core } from "~/_jcores"
 
 export default class FocusTrap extends Core {
@@ -31,14 +30,16 @@ export default class FocusTrap extends Core {
         this.focusables = []
         this.updateFocusables()
         if (this.updateFocusOn === 'mutation') {
-            MutationManager.addById('focus-trap-' + this.el.id, this.el, (mutations, observer) => {
+            this.mutationObserver = new MutationObserver((mutations, observer) => {
                 window.requestAnimationFrame(() => {
                     this.updateFocusables()
                     this.dispatch('focusables-changed')
                 })
-            }, { childList: true, subtree: true, attributes: true })
+            })
+            this.mutationObserver.observe(this.el, { childList: true, subtree: true, attributes: true })
         }
-        
+
+
         if (this.updateFocusOn === 'event') {
             this.on('update-focusables', event => {
                 this.updateFocusables()
@@ -66,6 +67,6 @@ export default class FocusTrap extends Core {
 
     disconnect() {
         this.listeners.destroy()
-        MutationManager.remove('focus-trap-' + this.el.id)
+        this.mutationObserver?.disconnect()
     }
 }

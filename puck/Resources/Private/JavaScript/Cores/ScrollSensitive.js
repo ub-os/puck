@@ -1,5 +1,4 @@
 import { $, $$, jsx, $target } from '~/Utility/DomUtility'
-import { IntersectionManager, ResizeManager } from "~/Service/ObserverCollector"
 import { Core } from "~/_jcores"
 
 
@@ -22,20 +21,21 @@ export default class ScrollSensitive extends Core {
   }
   
   observerCallback(entry, observer) {
+    if (entry.rootBounds === null) return
     for (let side of ['top', 'bottom']) {
       if (entry.boundingClientRect[side] >= entry.rootBounds.top) {
-        this.el.classList.remove(this[side+'AboveClass'])
+        entry.target.classList.remove(this[side+'AboveClass'])
         if (entry.boundingClientRect[side] <= entry.rootBounds.bottom) {
-          this.el.classList.add(this[side+'InsideClass'])
-          this.el.classList.remove(this[side+'BelowClass'])
+          entry.target.classList.add(this[side+'InsideClass'])
+          entry.target.classList.remove(this[side+'BelowClass'])
         } else {
-          this.el.classList.add(this[side+'BelowClass'])
-          this.el.classList.remove(this[side+'InsideClass'])
+          entry.target.classList.add(this[side+'BelowClass'])
+          entry.target.classList.remove(this[side+'InsideClass'])
         }
       } else {
-        this.el.classList.add(this[side+'AboveClass'])
-        this.el.classList.remove(this[side+'InsideClass'])
-        this.el.classList.remove(this[side+'BelowClass'])
+        entry.target.classList.add(this[side+'AboveClass'])
+        entry.target.classList.remove(this[side+'InsideClass'])
+        entry.target.classList.remove(this[side+'BelowClass'])
       }
     }
   }
@@ -74,24 +74,23 @@ export default class ScrollSensitive extends Core {
           this.el.classList.add(this.scrollClass);
         }
       }, {passive: true})
-      ResizeManager.addById(`scroll-sensitive-resize-${this.el.id}`, document.body, () => {
+      this.resizeObserver = new ResizeObserver((entries, observer) => {
         this.__correctScrollTop = null
       })
+      this.resizeObserver.observe(document.body)
       return this
     }
-    IntersectionManager.addById(
-        'scroll-sensitive-' + this.el.id,
-        this.target ? $target(this.target) : this.el,
-        (entry, observer) => { this.observerCallback(entry, observer) },
-        { root: this.root, rootMargin: this.rootMargin, threshold: this.threshold }
-    )
+    this.intersectionObserver = new IntersectionObserver((entries, observer) => {
+      this.observerCallback(entries[0], observer)
+    }, { root: this.root, rootMargin: this.rootMargin, threshold: this.threshold })
+    this.intersectionObserver.observe(this.target ? $target(this.target) : this.el)
     return this
   }
 
   disconnect() {
     this.listeners.destroy()
     this.el.classList.remove(this.scrollClass)
-    IntersectionManager.remove('scroll-sensitive-' + this.el.id)
-    ResizeManager.remove(`scroll-sensitive-resize-${this.el.id}`)
+    this.resizeObserver?.disconnect()
+    this.intersectionObserver?.disconnect()
   }
 }

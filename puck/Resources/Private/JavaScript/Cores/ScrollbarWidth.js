@@ -1,5 +1,4 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import { ResizeManager } from "~/Service/ObserverCollector"
 import { Core } from "~/_jcores"
 
 export default class ScrollbarWidth extends Core {
@@ -9,7 +8,7 @@ export default class ScrollbarWidth extends Core {
     }
 
     get scrollbarWidth() {
-        return (this.sensorEl.getBoundingClientRect().width - this.sensorEl.firstChild.getBoundingClientRect().width);
+        return (this.sensorEl.getBoundingClientRect().width - this.sensorEl.firstElementChild.getBoundingClientRect().width);
     }
     updateScrollbarWidth = () => {
         document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
@@ -23,14 +22,13 @@ export default class ScrollbarWidth extends Core {
         ))
         this.updateScrollbarWidth()
         if (this.updateOnResize) {
-            ResizeManager.addById(`scrollbar-width-${this.el.id}`, this.sensorEl.firstChild, (entry, observer) => {
-                this.updateScrollbarWidth()
-            })
+            this.resizeObserver = new ResizeObserver(this.updateScrollbarWidth)
+            this.resizeObserver.observe(this.sensorEl.firstElementChild)
         }
         return this
     }
     disconnect() {
         this.sensorEl.remove()
-        ResizeManager.remove(`scrollbar-width-${this.el.id}`)
+        this.resizeObserver?.disconnect()
     }
 }

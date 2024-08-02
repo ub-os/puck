@@ -1,4 +1,3 @@
-import { IntersectionManager } from "~/Service/ObserverCollector"
 import { Core } from "~/_jcores"
 
 export default class ScrollReveal extends Core {
@@ -67,21 +66,18 @@ export default class ScrollReveal extends Core {
                 this.revealed = false
             }
             if (this.revealed) return this
-            IntersectionManager.addById(
-                'scroll-reveal-' + this.el.id,
-                this.el,
-                (entry, observer) => {
+            this.intersectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.dispatchEvent(new Event('scroll-reveal'))
-                        IntersectionManager.remove('scroll-reveal-' + this.el.id)
+                        observer.unobserve(entry.target)
                     }
-                },
-                {
-                    root: this.observer.root,
-                    rootMargin: this.observer.rootMargin,
-                    threshold: this.observer.threshold
-                }
-            )
+                })
+            }, {
+                root: this.observer.root,
+                rootMargin: this.observer.rootMargin,
+                threshold: this.observer.threshold
+            })
             this.on('scrollReveal', () => {
                 this.reveal()
             })
@@ -91,6 +87,6 @@ export default class ScrollReveal extends Core {
 
     disconnect() {
         this.listeners.destroy()
-        IntersectionManager.remove('scroll-reveal-' + this.el.id)
+        this.intersectionObserver?.disconnect()
     }
 }
