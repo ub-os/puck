@@ -1,3 +1,3 @@
 import Logger from '~/Service/Logger'
 
-Logger.console.log(`%ceval body script`, "color:orange")
+Logger.console.log(`%cbody script executed`, "color:orange")

@@ -1,24 +1,67 @@
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
-import { ObserverCollector } from '~/Service/ObserverCollector'
 import Logger from '~/Service/Logger'
 import { nexus, htmx } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
 
-const doc = document.documentElement
+const on = (event, callback, options = {}) => document.documentElement.addEventListener(event, callback, options)
+const colors = {
+    'before': '#00ffd9',
+    'after': '#00ffd9',
+    'load': '#9efc90',
+    'error': '#ef1a1a',
+}
+const htmxLifecycleEvents = {
+    "htmx:beforeRequest": `color:${colors.before}`,
+    "htmx:afterRequest": `color:${colors.after}`,
+    "htmx:beforeSwap": `color:${colors.before}`,
+    "htmx:oobBeforeSwap": `color:${colors.before}`,
+    "htmx:afterSwap": `color:${colors.after}`,
+    "htmx:load": `color:${colors.load}`,
+    "htmx:beforeHistorySave": `color:${colors.before}`,
+    "htmx:historyRestore": `color:${colors.after}`,
+    "htmx:responseError": `color:${colors.error}`,
+}
+
 
 smoothscroll.polyfill()
 nexus.connect()
+Logger.console.log(nexus)
+
+htmx.logger = (el, eventType, event) => {
+    if (!htmxLifecycleEvents[eventType]) return
+    let additional = isBodySwapEvent(event) ? '@root' :''
+    Logger.console.log(`%c${eventType}${additional}`, htmxLifecycleEvents[eventType], event)
+}
 window.requestAnimationFrame(() => {
     $id('body').classList.remove('u-no-transition')
-    $$('.u-initially-hidden').forEach(element => element.classList.remove('u-initially-hidden'))
-    //document.body.dispatchEvent(new CustomEvent('toggle-off-all', {detail: {transition: false}}))
 })
-doc.addEventListener("htmx:historyRestore", (event) => {
+on("htmx:historyRestore", (event) => {
     $$('[data-render-excluded]').forEach(el => el.remove())
 })
-Logger.console.log(nexus)
+
+on("htmx:beforeRequest", (event) => {
+    if (event.target.tagName === "A" && event.target.pathname === window.location.pathname) {
+        event.preventDefault()
+        Logger.console.log('prevent htmx navigation to same page')
+    }
+})
+on("htmx:responseError", (event) => {
+    // route to error page
+    window.location.href = event.detail.xhr.responseURL;
+})
+on("htmx:load", (event) => {
+    if (isBodySwapEvent(event)) {
+        //window.UC_UI?.restartCMP() // restart Usercentrics CMP UI if available
+    }
+})
+
+const isBodySwapEvent = event => {
+    return event.target?.tagName === 'BODY' || event.target?.id === 'root' || event.elt?.id === 'root'
+}
+
+console.log(document.querySelectorAll("*").length)
 
 /*
 window.puckApp = {

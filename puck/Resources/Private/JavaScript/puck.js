@@ -1,7 +1,5 @@
 import Logger from '~/Service/Logger'
 
-if (!window.puckApp) {
-    import("~/exe.js").then((data) => {
-        Logger.console.log('puck main executed', data)
-    });
-}
+import("~/exe.js").then((data) => {
+    Logger.console.log(`%chead script executed`, "color:orange")
+});

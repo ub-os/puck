@@ -5,15 +5,13 @@ import AnchorBehavior from "~/Cores/AnchorBehavior"
 import Toggleable from '~/Cores/Toggleable'
 import Accordion from '~/Cores/Accordion'
 import Modal from "~/Cores/Modal"
-import TabPanel from '~/Cores/TabPanel'
 import Carousel from '~/Cores/Carousel'
 import PageHeader from "~/Cores/PageHeader"
 import MediaPlayer from "~/Cores/MediaPlayer"
-import FocusTrap from "~/Cores/FocusTrap"
-import ScrollReveal from '~/Cores/ScrollReveal'
 import ScrollSensitive from '~/Cores/ScrollSensitive'
 import FormPage from '~/Cores/FormPage'
 import Root from "~/Cores/Root"
+
 
 window.htmx = htmx
 Object.assign(htmx.config, {
@@ -39,20 +37,16 @@ nexus.registerCore({
     Toggleable,
     Accordion,
     Modal,
-    TabPanel,
     Carousel,
     PageHeader,
     MediaPlayer,
-    ScrollReveal,
     ScrollSensitive,
-    FocusTrap,
     FormPage,
     Root
 })
 
 nexus.registerCoreCustomElement([
     'carousel',
-    'page-header',
     'media-player',
     'root'
 ])
@@ -74,12 +68,6 @@ nexus.registerConnectedCallback({
             if (child.nodeType !== 1) return
             child.setAttribute('role', 'listitem')
         })
-    },
-    'a': el => {
-        if (el.pathname === window.location.pathname) {
-            el.setAttribute('data-hx-boost', 'false')
-            htmx.process(el)
-        }
     },
     'template[data-append-on-load]': el => {
         window.requestAnimationFrame(() => {
