@@ -1,6 +1,6 @@
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
-import Logger from '~/Service/Logger'
+import Logger from '~/Helper/Logger'
 import { app, htmx } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'

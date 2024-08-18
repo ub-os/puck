@@ -1,5 +1,5 @@
 import { $target } from "~/Utility/DomUtility"
-import Logger from "~/Service/Logger"
+import Logger from "~/Helper/Logger"
 
 class ObserverCollector {
     static #instance = null;
