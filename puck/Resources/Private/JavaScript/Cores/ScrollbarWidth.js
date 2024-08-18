@@ -1,7 +1,7 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
-export default class ScrollbarWidth extends Core {
+export default class ScrollbarWidth extends ElementAspect {
     static attributes = {
         sensorId: 'scrollbar-width-sensor',
         updateOnResize: true,
@@ -16,7 +16,7 @@ export default class ScrollbarWidth extends Core {
     connect() {
         this.sensorEl = $id(this.sensorId) || this.el.appendChild((
             <div id={this.sensorId} data-render-excluded
-                 style="width:50px; visibility:hidden; overflow:scroll; height:0px;">
+                 style="width:50px; visibility:hidden; overflow:scroll; height:0px; position: absolute; pointer-events: none;">
                 <div></div>
             </div>
         ))
@@ -28,7 +28,7 @@ export default class ScrollbarWidth extends Core {
         return this
     }
     disconnect() {
-        this.sensorEl.remove()
+        this.sensorEl?.remove()
         this.resizeObserver?.disconnect()
     }
 }

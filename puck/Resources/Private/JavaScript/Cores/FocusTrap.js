@@ -1,7 +1,7 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
-export default class FocusTrap extends Core {
+export default class FocusTrap extends ElementAspect {
     static attributes = {
         active: false,
         updateFocusOn: 'event' // event, mutation
@@ -66,7 +66,6 @@ export default class FocusTrap extends Core {
     }
 
     disconnect() {
-        this.listeners.destroy()
         this.mutationObserver?.disconnect()
     }
 }

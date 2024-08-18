@@ -1,6 +1,6 @@
 import config from "./Config"
 
-export default class ElementUnit {
+export default class ElementConnection {
     /**
      * @type {HTMLElement}
      */
@@ -9,6 +9,7 @@ export default class ElementUnit {
     name = null
     core = null
     connected = false
+
     constructor(el, descriptor) {
         this.el = el
         const [
@@ -18,18 +19,18 @@ export default class ElementUnit {
         ] = descriptor.split(/[.#]/)
         if (!name || !coreIdentifier) return
         const coreEl = id ? document.getElementById(id) : el.closest(`[${config.attributePrefix}${config.coreAttribute}]`)
-        this.core = coreEl?.jc_cores?.get(coreIdentifier)
+        this.core = coreEl?.jc_aspects?.get(coreIdentifier)
         if (!this.core) return
 
         this.identifier = `${coreIdentifier}.${name}`
         this.name = name
-        !el['jc_elementUnits'] ? el.jc_elementUnits = new Map() : null
-        el.jc_elementUnits.set(this.identifier, this)
+        !el['jc_connections'] ? el.jc_connections = new Map() : null
+        el.jc_connections.set(this.identifier, this)
     }
 
     connect() {
         if (this.connected) return
-        this.core[`${this.name}Elements`].set(this.el.id, this.el)
+        this.core[`${this.name}Elements`].add(this.el)
         if (typeof this.core[`${this.name}ElementConnected`] == 'function') {
             this.core[`${this.name}ElementConnected`](this.el)
         }
@@ -38,7 +39,7 @@ export default class ElementUnit {
 
     disconnect() {
         if (!this.connected) return
-        this.core[`${this.name}Elements`].delete(this.el.id)
+        this.core[`${this.name}Elements`].delete(this.el)
         if (typeof this.core[`${this.name}ElementDisconnected`] == 'function') {
             this.core[`${this.name}ElementDisconnected`](this.el)
         }

@@ -1,0 +1,54 @@
+<div data-connect="select" data-select.open="true">
+    <button data-handler="select.toggle#c23" data-select.toggle.duration="0">Cars</button>
+    <div>
+        <button data-connect="select.option" value="Mitsubishi">Mitsubishi</button>
+        <button data-connect="select.option" value="Mercedes">Mercedes</button>
+        <button data-connect="select.option" value="Mazda">Mazda</button>
+    </div>
+    <div data-connect="select.selected-value"></div>
+</div>
+<button data-handler="click->'select:hide-all'#body">Click to emit event</button>
+<div> core, feature, aspect </div>
+
+<script>
+    /**
+     * @property {Map} optionElements
+     * @property {Element} selectedValueElement
+     */
+    class Select extends ElementAspect {
+        static attributes = {
+            open: false,
+            value: ''
+        }
+        static connectedElements = ['option', 'selectedValue']
+        static injectedAspects = []
+        toggle() {
+            this.open ? this.close() : this.show();
+        }
+        show() {
+            this.open = true;
+            this.element.classList.add('is-open');
+        }
+        close() {
+            this.open = false;
+            this.element.classList.remove('is-open');
+        }
+        selectOption(optionEl) {
+            this.value = optionEl.value;
+            this.optionElements.forEach(el => el.classList.remove('is-selected'));
+            optionEl.classList.add('is-selected');
+            this.close();
+        }
+        optionElementConnected(el) {
+            el.addEventListener('click', this.selectOption(el));
+        }
+        optionElementDisconnected(el) {
+            el.removeEventListener('click', this.selectOption(el));
+        }
+        valueChanged(oldValue, newValue) {
+            this.selectedValueElement.innerHTML = newValue;
+        }
+        connect() {
+        }
+    }
+</script>

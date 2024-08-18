@@ -4,18 +4,18 @@
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
 
-      <dialog data-core="modal"
+      <dialog data-connect="modal"
               class="{name}__modal"
               data-modal.duration="300"
               data-modal.append-to=""
-              data-modal.click-off-selector="a"
+              data-modal.click-hide-selector="a"
               data-hx-swap="innerHTML swap:0.2s"
               id="sidebar-nav-modal">
         <div class="{name}__wrap">
           <div class="{name}__header">
             <button class="{name}__close"
                     data-autofocus
-                    data-trigger="modal.toggle"
+                    data-handler="modal.hide"
                     aria-controls="sidebar-nav-modal"
                     aria-label="{f:translate(key:'close')}">
               <icon:char icon="close" />

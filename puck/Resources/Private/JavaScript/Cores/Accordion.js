@@ -1,10 +1,10 @@
-import Toggleable from "~/Cores/Toggleable"
+import Showable from "~/Cores/Showable"
 
 
-export default class Accordion extends Toggleable {
+export default class Accordion extends Showable {
     static displayName = 'Accordion'
     static attributes = {
-        ...Toggleable.attributes,
+        ...Showable.attributes,
         useMinHeight: false,
     }
     toggleElementConnected(el) {
@@ -16,14 +16,14 @@ export default class Accordion extends Toggleable {
             el.ariaExpanded = 'false'
         }
     }
-    toggleOn(transition= true) {
-        super.toggleOn(transition);
+    show({ transition = true }) {
+        super.show({ transition })
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
         this.el.setAttribute('open', '')
         this.toggleElements.forEach(t => t.ariaExpanded = 'true')
     }
-    toggleOff(transition= true, changeUrlHash =  true) {
-        super.toggleOff(transition, changeUrlHash)
+    hide({ transition = true, changeUrlHash = true }) {
+        super.hide({ transition, changeUrlHash })
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
         // hacky way to enable exit transition, otherwise content instantly disappears
         window.requestAnimationFrame(() => {

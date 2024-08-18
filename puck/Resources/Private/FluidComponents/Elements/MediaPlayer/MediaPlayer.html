@@ -1,6 +1,6 @@
 <fc:component>
     <fc:param default="e-media-player" name="name" optional="1" type="string"/>
-    <fc:param name="file" type="TYPO3\CMS\Core\Resource\FileReference"/>
+    <fc:param name="file" type="TYPO3\CMS\ElementAspect\Resource\FileReference"/>
     <fc:param name="width" optional="1" type="integer"/>
     <fc:param name="posterSources" optional="1" type="array"/>
     <fc:param default="1" name="posterWebp" optional="1" type="boolean"/>
@@ -16,18 +16,18 @@
         {playerAttributes -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'playerAttributes')}
 
         <u:var set="playerContent">
-            <core-media-player
+            <aspect-media-player
                     id="{id}"
                     class="{name}__modal__frame"
                     data-media-player='{playerAttributes -> f:format.json()}'>
-            </core-media-player>
+            </aspect-media-player>
         </u:var>
 
         <div class="{name}">
             <button class="{name}__button"
-                 data-trigger="modal.toggle#{id}-modal media-player.addPlayerEl#{id}"
-                 aria-controls="{id}-modal"
-                 aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
+                    data-handler="modal.toggle#{id}-modal media-player.load#{id}"
+                    aria-controls="{id}-modal"
+                    aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
             </button>
 
             <div class="{name}__poster">

@@ -1,7 +1,7 @@
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import Logger from '~/Service/Logger'
-import { nexus, htmx } from '~/setup'
+import { app, htmx } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
 
@@ -26,8 +26,8 @@ const htmxLifecycleEvents = {
 
 
 smoothscroll.polyfill()
-nexus.connect()
-Logger.console.log(nexus)
+app.connect()
+Logger.console.log(app)
 
 htmx.logger = (el, eventType, event) => {
     if (!htmxLifecycleEvents[eventType]) return
@@ -60,8 +60,6 @@ on("htmx:load", (event) => {
 const isBodySwapEvent = event => {
     return event.target?.tagName === 'BODY' || event.target?.id === 'root' || event.elt?.id === 'root'
 }
-
-console.log(document.querySelectorAll("*").length)
 
 /*
 window.puckApp = {

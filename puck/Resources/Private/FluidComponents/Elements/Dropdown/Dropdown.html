@@ -7,19 +7,19 @@
     <fc:param name="outerContent" type="Slot" optional="1" default=""/>
     <fc:param name="showSelectedOption" type="boolean" optional="1" default="0"/>
     <fc:param name="attributes" type="array" optional="1"/>
-    <fc:param name="toggleableAttributes" type="array" optional="1" default="{outClickOff: 1}"/>
+    <fc:param name="toggleableAttributes" type="array" optional="1" default="{outClickHide: 1}"/>
     <fc:renderer>
 
         <div class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-trigger="toggleable.toggle#{id}"
-                    data-core-el="toggleable.toggle#{id}">
+                    data-handler="toggleable.toggle#{id}"
+                    data-connect="toggleable.toggle#{id}">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
             </button>
             <fc:slot name="outerContent"/>
-            <div class="{name}__box" data-core="toggleable" data-toggleable='{toggleableAttributes -> f:format.json()}' id="{id}">
+            <div class="{name}__box" data-connect="toggleable" data-toggleable='{toggleableAttributes -> f:format.json()}' id="{id}">
                 <fc:slot name="content"/>
             </div>
         </div>

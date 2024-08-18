@@ -1,8 +1,8 @@
-import { nexus } from '~/_jcores'
+import { app } from '~/_jcores'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
 import ScrollbarWidth from "~/Cores/ScrollbarWidth"
-import AnchorBehavior from "~/Cores/AnchorBehavior"
-import Toggleable from '~/Cores/Toggleable'
+import AnchorBehavior from "~/Cores/AnchorScrolling.js"
+import Toggleable from '~/Cores/Showable.js'
 import Accordion from '~/Cores/Accordion'
 import Modal from "~/Cores/Modal"
 import Carousel from '~/Cores/Carousel'
@@ -25,13 +25,13 @@ Object.assign(htmx.config, {
     refreshOnHistoryMiss: true
 })
 
-window.nexus = nexus
-Object.assign(nexus.config, {
+window.app = app
+Object.assign(app.config, {
     attributePrefix: 'data-',
 })
 
 
-nexus.registerCore({
+app.registerAspect({
     AnchorBehavior,
     ScrollbarWidth,
     Toggleable,
@@ -45,22 +45,21 @@ nexus.registerCore({
     Root
 })
 
-nexus.registerCoreCustomElement([
+app.registerAspectCustomElement([
     'carousel',
     'media-player',
     'root'
 ])
 
-nexus.registerEvent({
-    'toggle-off-all': {
+app.registerEvent({
+    'some-event': {
         bubbles: true,
         detail: {
-            transition: true
         }
     },
 })
 
-nexus.registerConnectedCallback({
+app.registerConnectedCallback({
     '.l-row': (el) => {
         if (el.children.length < 3) return
         el.setAttribute('role', 'list')
@@ -78,4 +77,4 @@ nexus.registerConnectedCallback({
     }
 })
 
-export { nexus, htmx }
+export { app, htmx }

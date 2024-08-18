@@ -1,10 +1,10 @@
 let Plyr = class {}
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
 const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
-export default class MediaPlayer extends Core {
+export default class MediaPlayer extends ElementAspect {
     static attributes = {
         provider: 'mp4',
         width: 1920,
@@ -22,7 +22,7 @@ export default class MediaPlayer extends Core {
         plyrOptions: {}
     }
 
-    addPlayerEl() {
+    load() {
         if (this.loaded) return
         switch (this.provider) {
             case 'youtube':
@@ -104,7 +104,7 @@ export default class MediaPlayer extends Core {
     }
 
     connect() {
-        if (!this.lazyLoad) this.addPlayerEl()
+        if (!this.lazyLoad) this.load()
         return this
     }
 

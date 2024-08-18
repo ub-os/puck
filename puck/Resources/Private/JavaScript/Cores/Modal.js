@@ -1,21 +1,21 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import Toggleable from "~/Cores/Toggleable"
+import Showable from "~/Cores/Showable"
 
 /**
- * Modal Core
+ * Modal ElementAspect
  * Should only be used on <dialog> elements
  */
-export default class Modal extends Toggleable {
+export default class Modal extends Showable {
     static displayName = 'Modal'
     static attributes = {
-        ...Toggleable.attributes,
-        selfClickOff: true,
-        escOff: true,
+        ...Showable.attributes,
+        selfClickHide: true,
+        escHide: true,
         appendTo: '[data-modal-container]',
     }
-    toggleOn(transition= true) {
+    show({ transition = true }) {
         this.el.showModal()
-        super.toggleOn(transition);
+        super.show({ transition });
         this.el.ariaModal = 'true'
         if (this.el.$('[data-autofocus]')) {
             this.el.$('[data-autofocus]').focus()
@@ -23,8 +23,8 @@ export default class Modal extends Toggleable {
             this.el.focus()
         }
     }
-    toggleOff(transition= true, changeUrlHash =  true) {
-        super.toggleOff(transition, changeUrlHash)
+    hide({ transition = true, changeUrlHash = true }) {
+        super.hide({ transition, changeUrlHash })
         this.el.removeAttribute('aria-modal')
         if (transition) {
             setTimeout(() => this.el.close(), this.duration)
@@ -40,16 +40,16 @@ export default class Modal extends Toggleable {
     }
 
     connect() {
-        if (this.el.tagName !== 'DIALOG') throw new Error('Modal Core should only be used on dialog elements')
+        if (this.el.tagName !== 'DIALOG') throw new Error('Modal ElementAspect should only be used on dialog elements')
         super.connect()
         // hacky way to make dialog exit animation work
         // firefox doesn't support display animation yet, so we have to disable the native dialog close
-        this.on('cancel', event => event.preventDefault())
+        this.handlerSet.add(this.el, 'cancel', event => event.preventDefault())
         return this
     }
 
     disconnect() {
         super.disconnect()
-        this.listeners.removeAll()
+        this.handlerSet.clear()
     }
 }

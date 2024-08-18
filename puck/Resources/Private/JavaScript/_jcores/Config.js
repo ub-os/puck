@@ -1,9 +1,10 @@
 export default {
-    observeDom: true,
-    attributePrefix: 'data-',
-    coreAttribute: 'core',
-    coreElAttribute: 'core-el',
-    triggerAttribute: 'trigger',
-    eventTriggerAttribute: 'emit',
-    coreCustomElementPrefix: 'core-',
+    observeChildList: true,
+    observeAttributes: false,
+    observeAspectAttributes: true,
+    attributePrefix: '',
+    connectAttribute: 'connect',
+    handlerAttribute: 'handler',
+    customElementPrefix: 'aspect-',
+    defaultEventTarget: 'self',
 }

@@ -1,22 +1,19 @@
 import { $, $$, $id, scrollTo, tryViewTransition } from '~/Utility/DomUtility'
-import Toggleable from '~/Cores/Toggleable'
+import Showable from '~/Cores/Showable'
 
-export default class FormPage extends Toggleable {
+export default class FormPage extends Showable {
     static displayName = 'FormPage'
     static attributes = {
-        ...Toggleable.attributes,
-        escOff: false,
+        ...Showable.attributes,
+        escHide: false,
         exclusiveGroup: true
     }
-    static triggerables = {
-        toggle: {
-            transition: true,
-            validate: false,
-            scrollIntoView: false
-        }
-    }
     formEl = null
-    toggle(event, { transition, validate, scrollIntoView } = {}) {
+    show(
+        {   transition = true,
+            validate = false,
+            scrollIntoView = false
+        } = {}) {
         if (validate && this.formEl) {
             let valid = true
             this.formEl.$$('[data-form-page\\.active]').forEach(page => {
@@ -26,7 +23,7 @@ export default class FormPage extends Toggleable {
             })
             if (!valid) return
         }
-        tryViewTransition(() => super.toggle(event, { transition }))
+        tryViewTransition(() => super.show({ transition }))
         if (scrollIntoView) {
             window.requestAnimationFrame(() => {
                 this.el.scrollIntoView({ behavior: 'smooth', block: 'start' })

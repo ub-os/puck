@@ -68,7 +68,7 @@ class BackendUserExceptionHandler extends DebugExceptionHandler
     {
         $this->sendStatusHeaders($exception);
         $this->writeLogEntries($exception, self::CONTEXT_WEB);
-        echo '<html><head><title>503</title></head><body><h1>503</h1><p>Service unavailable</p></body></html>';
+        echo '<html><head><title>503</title></head><body><h1>503</h1><p>Helper unavailable</p></body></html>';
     }
 
     protected function backendUserIsLoggedIn(): bool

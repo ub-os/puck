@@ -9,7 +9,8 @@ const sourcePath = './puck/Resources/Private/JavaScript/';
 const distPath = './puck/Resources/Public/JavaScript/dist/';
 const fileNames = [
     'puck',
-    'puck-body'
+    'puck-body',
+    'jcores'
 ];
 
 const args = process.argv.slice(2);

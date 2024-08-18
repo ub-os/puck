@@ -1,8 +1,8 @@
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
-export default class Root extends Core {
+export default class Root extends ElementAspect {
     static attributes = {}
-    static injects = [
+    static injectedAspects = [
         'anchor-behavior',
         'scrollbar-width'
     ]

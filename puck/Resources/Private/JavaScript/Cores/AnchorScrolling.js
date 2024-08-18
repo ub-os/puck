@@ -1,17 +1,14 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
+import EventHandlerSet from "~/Helper/EventHandlerSet";
 
-export default class AnchorBehavior extends Core {
+export default class AnchorScrolling extends ElementAspect {
     static attributes = {
         scrollTopOnCurrentLink: true,
     }
-
-    isInternalLink(el) {
-        return el.origin === window.location.origin
-    }
-
+    handlerSet = new EventHandlerSet()
     isCurrentLink(el) {
-        return this.isInternalLink(el) && el.pathname === window.location.pathname
+        return el.origin === window.location.origin && el.pathname === window.location.pathname
     }
 
     isHashLink(el) {
@@ -31,7 +28,7 @@ export default class AnchorBehavior extends Core {
     }
 
     connect() {
-        this.listeners.addDelegate(this.el, 'a', 'click', e => {
+        this.handlerSet.addDelegate(this.el, 'a', 'click', e => {
             if (!this.isCurrentLink(e.delegateTarget)) return
             if (!this.isHashLink(e.delegateTarget)) {
                 if (!this.scrollTopOnCurrentLink) return
@@ -63,7 +60,7 @@ export default class AnchorBehavior extends Core {
     }
 
     disconnect() {
-        this.listeners.destroy()
+        this.handlerSet.clear()
     }
 }
 

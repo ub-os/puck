@@ -1,6 +1,6 @@
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
-export default class ScrollReveal extends Core {
+export default class ScrollReveal extends ElementAspect {
     static attributes = {
         preset: 'slide-up',
         presetTranslate: 10,
@@ -39,7 +39,7 @@ export default class ScrollReveal extends Core {
     }
     animate() {
         const animation = this.el.animate(this.animation, this.timing)
-        this.listeners.add(animation, 'finish', () => {
+        animation.addEventListener('finish', () => {
             this.el.style.opacity = 1
         })
     }
@@ -86,7 +86,6 @@ export default class ScrollReveal extends Core {
     }
 
     disconnect() {
-        this.listeners.destroy()
         this.intersectionObserver?.disconnect()
     }
 }

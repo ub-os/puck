@@ -1,11 +1,12 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import ScrollSensitive from "~/Cores/ScrollSensitive";
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
+import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 /**
- * @property {ScrollSensitive} scrollSensitiveCore
+ * @property {ScrollSensitive} scrollSensitiveAspect
  */
-export default class PageHeader extends Core {
+export default class PageHeader extends ElementAspect {
     static attributes = {
         scrollTop: 100,
         scrollClass: '--scroll',
@@ -15,8 +16,9 @@ export default class PageHeader extends Core {
         scrollSensitive: false,
     }
 
-    static injects = ['scroll-sensitive']
+    static injectedAspects = ['scroll-sensitive']
 
+    handlerSet = new EventHandlerSet()
     lastScrollTop = 0
     scrollDirection = ''
     ticking = false
@@ -54,9 +56,9 @@ export default class PageHeader extends Core {
 
     connect() {
         if (!this.scrollSensitive) {
-            this.scrollSensitiveCore.asleep = true
+            this.scrollSensitiveAspect.asleep = true
         }
-        this.listeners.add(window, 'scroll', e => {
+        this.handlerSet.add(window, 'scroll', e => {
             if (document.documentElement.scrollTop < this.scrollTop) {
                 this.el.classList.remove(this.scrollClass)
                 if (this.documentClassing) {
@@ -70,18 +72,18 @@ export default class PageHeader extends Core {
             }
         }, {passive: true})
 
-        this.listeners.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this), {passive: true})
-        this.listeners.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
-        this.listeners.add(window, 'mousewheel', this.scrollHandler.bind(this), {passive: true})
+        this.handlerSet.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this), {passive: true})
+        this.handlerSet.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
+        this.handlerSet.add(window, 'mousewheel', this.scrollHandler.bind(this), {passive: true})
         return this
     }
 
     scrollSensitiveChanged(oldVal, newVal) {
-        this.scrollSensitiveCore.asleep = !newVal
+        this.scrollSensitiveAspect.asleep = !newVal
     }
 
     disconnect() {
-        this.listeners.destroy()
+        this.handlerSet.clear()
         this.el.classList.remove(this.downClass, this.upClass, this.scrollClass)
     }
 }

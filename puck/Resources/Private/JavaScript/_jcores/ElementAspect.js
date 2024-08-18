@@ -1,45 +1,35 @@
-import ListenerCollector from "./ListenerCollector"
-
-export default class Core {
+export default class ElementAspect {
     static attributes = {
         asleep: false
     }
-    static elements = []
-    static injects = {}
+    static connectedElements = []
+    static injectedAspects = {}
     static identifier = null
     static registerCallback() { }
 
     __initialized = false
     __connected = false
+    __identifier = null
+    app = null
     /**
      * @type {HTMLElement}
      */
-    __el = null
-    listeners = new ListenerCollector()
-    identifier = null
-    get el() { return this.__el }
-    set el(el) { this.__el = el }
-
+    element = null
+    get el() { return this.element }
+    set el(el) { this.element = el }
     constructor(el, attributes = {}) {
         this.el = el
-        this.identifier = this.constructor.identifier
+        this.__identifier = this.constructor.identifier
         this.constructor.attributeSyncer.initialize(this, attributes)
-        !el['jc_cores'] ? el.jc_cores = new Map() : null
-        el.jc_cores.set(this.identifier, this)
+        !el['jc_aspects'] ? el.jc_aspects = new Map() : null
+        el.jc_aspects.set(this.__identifier, this)
         this.initialize()
         this.__initialized = true
     }
 
     dispatch(type, options = {}) {
         this.el.dispatchEvent(new CustomEvent(type, options))
-    }
 
-    on(type, listener, options = {}) {
-        return this.listeners.add(this.el, type, listener, options)
-    }
-
-    off(id) {
-        return this.listeners.remove(id)
     }
 
     asleepChanged(oldVal, newVal) {

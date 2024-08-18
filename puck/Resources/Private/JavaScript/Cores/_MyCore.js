@@ -1,4 +1,4 @@
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
 
 /**
  * @property {MyInject} myInjectCore
@@ -6,9 +6,9 @@ import { Core } from "~/_jcores"
  * @property {HTMLElement} myUnitUnit
  */
 // jsdoc is added for injects and units so the IDE does not complain
-// register Core with Nexus.registerCore('my-core', MyCore)
+// register ElementAspect with Nexus.registerCore('my-core', MyCore)
 // apply core to element with [data-core="my-core"]
-export default class MyCore extends Core {
+export default class MyCore extends ElementAspect {
   // identifier constant is set from first argument of Nexus.registerCore()
   // => static identifier = 'my-core'
 
@@ -23,8 +23,8 @@ export default class MyCore extends Core {
   }
 
   static units = [
-    // finds elements with [data-unit="my-core.my-unit"] within core element
-    // finds elements with [data-unit="my-core.my-unit#{element.id}"] globally
+    // finds elements with [data-connect="my-core.my-unit"] within core element
+    // finds elements with [data-connect="my-core.my-unit#{element.id}"] globally
     // elements available as this.myUnitUnits
     // triggers myUnitUnitConnected(el) and myUnitUnitDisconnected(el) callbacks when an element is added or removed
     'myUnit'
@@ -48,9 +48,9 @@ export default class MyCore extends Core {
     }
   }
 
-  // elements with [data-trigger="event->my-core::my-method"] trigger myMethod(event, { myParam }) when event is dispatched
-  // also triggers on [data-trigger="event->my-core::my-method#{element.id}"] globally
-  // elements have default trigger events, e.g. click, change, input, ..., so button[data-trigger="my-core::my-method"] is equivalent to button[data-trigger="click->my-core::my-method"]
+  // elements with [data-handler="event->my-core::my-method"] trigger myMethod(event, { myParam }) when event is dispatched
+  // also triggers on [data-handler="event->my-core::my-method#{element.id}"] globally
+  // elements have default trigger events, e.g. click, change, input, ..., so button[data-handler="my-core::my-method"] is equivalent to button[data-handler="click->my-core::my-method"]
   // static.triggerables is not required, methods will be triggered without it
   // when provided in static.triggerables, the value object will function as default parameters for the method
   // default parameters also allow the system to properly read the parameter data-attributes, otherwise always defaulting to string
@@ -116,9 +116,9 @@ export default class MyCore extends Core {
 
 
     // add event listener to document.body
-    // custom events can be dispatched on body with [data-trigger="event->my-event"] on any element
-    // like with method triggers, the trigger event can be omitted, e.g. button[data-trigger="my-event"], which is equivalent to [data-trigger="click->my-event"]
-    // by default, events are dispatched on the body, but can be overridden with [data-trigger="event->my-event#{element.id}"]
+    // custom events can be dispatched on body with [data-handler="event->my-event"] on any element
+    // like with method triggers, the trigger event can be omitted, e.g. button[data-handler="my-event"], which is equivalent to [data-handler="click->my-event"]
+    // by default, events are dispatched on the body, but can be overridden with [data-handler="event->my-event#{element.id}"]
     this.myEventBusListener = this.listeners.add(document.body, 'my-event', event => {
       // event details can be set with [data-my-event_:my-detail="value"]
       // in contrast to method triggers, event triggers are not bound to a core, but serve as a global event bus
@@ -141,7 +141,7 @@ export default class MyCore extends Core {
     return this
   }
 
-  // is triggered when event (e.g. "click") is dispatched on elements with [data-trigger="event->my-core::my-method"]
+  // is triggered when event (e.g. "click") is dispatched on elements with [data-handler="event->my-core::my-method"]
   // event is passed as first argument
   // parameters are passed as second argument, default parameters can be set in static.triggerables
   // destructure parameters argument for more convenient syntax

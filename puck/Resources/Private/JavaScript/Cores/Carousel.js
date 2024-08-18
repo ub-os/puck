@@ -1,23 +1,25 @@
 import Splide from '@splidejs/splide'
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
+import EventHandlerSet from "~/Helper/EventHandlerSet"
 
 /**
  * @property {Map} controlElements
  */
-export default class Carousel extends Core {
+export default class Carousel extends ElementAspect {
     static attributes = {
         vertical: false,
         activeClass: '--active',
         splideOptions: {},
     }
-    static elements = ['control']
+    static connectedElements = ['control']
+    //handlerSet = new EventHandlerSet()
     controlElementConnected(el) {
         el.ariaControls = this.el.id
         if (el.dataset['carousel.move.to'] == this.splide?.index) {
             el.classList.add(this.activeClass)
         }
     }
-    move(event, { to }) {
+    move({ to }) {
         this.splide.go(to)
     }
     connect() {
@@ -60,6 +62,5 @@ export default class Carousel extends Core {
     }
     disconnect() {
         this.splide.destroy()
-        this.listeners.destroy()
     }
 }

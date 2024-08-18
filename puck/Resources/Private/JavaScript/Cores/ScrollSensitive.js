@@ -1,8 +1,9 @@
 import { $, $$, jsx, $target } from '~/Utility/DomUtility'
-import { Core } from "~/_jcores"
+import { ElementAspect } from "~/_jcores"
+import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 
-export default class ScrollSensitive extends Core {
+export default class ScrollSensitive extends ElementAspect {
   static attributes = {
     topInsideClass: '--top-inside-view',
     topAboveClass: '--top-above-view',
@@ -19,7 +20,8 @@ export default class ScrollSensitive extends Core {
     cloneClass: '-scroll-sense-clone',
     scrollTop: ''
   }
-  
+
+  handlerSet = new EventHandlerSet()
   observerCallback(entry, observer) {
     if (entry.rootBounds === null) return
     for (let side of ['top', 'bottom']) {
@@ -67,7 +69,7 @@ export default class ScrollSensitive extends Core {
       this.el = clone
     }
     if (this.scrollTop) {
-      this.listeners.add(this.root || window, 'scroll', e => {
+      this.handlerSet.add(this.root || window, 'scroll', e => {
         if ((this.root || document.documentElement).scrollTop < this.correctScrollTop) {
           this.el.classList.remove(this.scrollClass);
         } else {
@@ -88,7 +90,7 @@ export default class ScrollSensitive extends Core {
   }
 
   disconnect() {
-    this.listeners.destroy()
+    this.handlerSet.clear()
     this.el.classList.remove(this.scrollClass)
     this.resizeObserver?.disconnect()
     this.intersectionObserver?.disconnect()

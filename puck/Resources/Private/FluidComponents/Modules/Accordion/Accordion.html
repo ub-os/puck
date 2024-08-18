@@ -3,15 +3,13 @@
   <fc:param name="name" type="string" optional="1" default="m-accordion"/>
   <fc:param name="object" type="mixed"/>
   <fc:renderer>
-
-    <details data-core="accordion"
-             class="{name}"
+    <details class="{name}"
+             data-connect="accordion"
              data-accordion.duration="220"
              data-accordion.group-id="c{object.txContainerParent}"
              id="c{object.uid}">
-
       <summary class="{name}__button"
-               data-trigger="accordion.toggle">
+               data-handler="accordion.toggle">
         <span class="{name}__title">{object.header -> f:format.raw()}</span>
         <span class="{name}__icon"></span>
       </summary>

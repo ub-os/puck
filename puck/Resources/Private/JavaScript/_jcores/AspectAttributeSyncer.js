@@ -1,17 +1,7 @@
-import { kebabCase } from "./StringUtility"
+import { kebabCase } from "./Utils"
 import config from "./Config"
 
-function jsonParse(val) {
-    let obj = {}
-    try {
-        obj = JSON.parse(val || '{}') ?? {}
-    } catch (e) {
-        return {}
-    }
-    return obj
-}
-
-export default class CoreAttributeSyncer {
+export default class AspectAttributeSyncer {
     identifier = null
     attributes = {}
     attributeKeyMap = {}
@@ -38,32 +28,20 @@ export default class CoreAttributeSyncer {
     }
 
     write(attrKey, val) {
-        switch (typeof this.attributes[attrKey] ?? 'default') {
-            case 'boolean':
-                return val ? '' : 'false'
-            case 'object':
-                return JSON.stringify(val)
-            case 'string':
-                return val
-            default:
-                return val.toString()
+        if (typeof this.attributes[attrKey] == 'boolean') {
+            return val ? '' : 'false'
         }
+        try { return JSON.stringify(val) } catch { return val }
     }
     read(attrKey, val) {
-        switch (typeof this.attributes[attrKey] ?? 'default') {
-            case 'boolean':
-                return val !== '0' && val !== 'false'
-            case 'object':
-                return jsonParse(val)
-            case 'number':
-                return Number(val.replace(/_/g, ""))
-            default:
-                return val
+        if (typeof this.attributes[attrKey] == 'boolean') {
+            return val !== '0' && val !== 'false'
         }
+        try { return JSON.parse(val) } catch { return val }
     }
 
     initialize(instance, argAttributes = {}) {
-        const attrAttributes = jsonParse(instance.el.getAttribute(config.attributePrefix + this.identifier))
+        const attrAttributes = JSON.parse(instance.el.getAttribute(config.attributePrefix + this.identifier) || '{}')
         for (let attrKey in this.attributes) {
             const dataAttr = this.attributeKeyMap[attrKey]
             if (instance.el.hasAttribute(dataAttr)) {
