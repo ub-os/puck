@@ -2,7 +2,7 @@ import { app } from '~/_jcores'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
 import ScrollbarWidth from "~/Aspects/ScrollbarWidth"
 import AnchorScrolling from "~/Aspects/AnchorScrolling"
-import Toggleable from '~/Aspects/Showable.js'
+import Showable from '~/Aspects/Showable'
 import Accordion from '~/Aspects/Accordion'
 import Modal from "~/Aspects/Modal"
 import Carousel from '~/Aspects/Carousel'
@@ -35,7 +35,7 @@ Object.assign(app.config, {
 app.registerAspect({
     AnchorScrolling,
     ScrollbarWidth,
-    Toggleable,
+    Showable,
     Accordion,
     Modal,
     Carousel,

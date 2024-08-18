@@ -10,21 +10,21 @@ class App {
     aspectRegistry = {}
     eventRegistry = {}
     connectedCallbackRegistry = {}
-    #aspectCustomElementSelector = ''
-    #customElementTags = []
+    #customTagSelector = ''
+    #customTags = []
     config = config
 
-    get connectAttribute() {
-        return this.config.attributePrefix + this.config.connectAttribute
+    get connectAttr() {
+        return config.attributePrefix + config.connectAttribute
     }
-    get handlerAttribute() {
-        return this.config.attributePrefix + this.config.handlerAttribute
+    get handlerAttr() {
+        return config.attributePrefix + config.handlerAttribute
     }
-    get connectSelector() {
-        return `[${this.config.attributePrefix}${this.config.connectAttribute}]${this.#aspectCustomElementSelector}`
+    connect$(el = document) {
+        return el.querySelectorAll(`[${config.attributePrefix}${config.connectAttribute}]${this.#customTagSelector}`)
     }
-    get handlerSelector() {
-        return `[${this.config.attributePrefix}${this.config.handlerAttribute}]`
+    handler$(el = document) {
+        return el.querySelectorAll(`[${config.attributePrefix}${config.handlerAttribute}]`)
     }
 
     registerAspect(identifier, constructor) {
@@ -50,9 +50,9 @@ class App {
             console.warn(`Aspect ${identifier} not found in register, skipping custom element registration.`)
             return
         }
-        this.#aspectCustomElementSelector += `, ${this.config.customElementPrefix}${identifier}`
-        this.#customElementTags[(this.config.customElementPrefix + identifier).toUpperCase()] = identifier
-        customElements.define(this.config.customElementPrefix + identifier, class extends HTMLElement {
+        this.#customTagSelector += `, ${config.customElementPrefix}${identifier}`
+        this.#customTags[(config.customElementPrefix + identifier).toUpperCase()] = identifier
+        customElements.define(config.customElementPrefix + identifier, class extends HTMLElement {
             constructor() {
                 super()
             }
@@ -123,14 +123,7 @@ class App {
             })
         }
     }
-
-    get connectElements() {
-        return document.querySelectorAll(this.connectSelector)
-    }
-    get handlerElements() {
-        return document.querySelectorAll(this.handlerSelector)
-    }
-
+    
     getAspects(el) {
         return el?.jc_aspects
     }
@@ -141,14 +134,13 @@ class App {
 
     connect() {
         this.connectNode(document.body)
-        if (this.config.observeChildList) {
+        if (config.observeChildList) {
             this.childListObserver.observe(document.body, { childList: true, subtree: true })
         }
-        if (this.config.observeAttributes) {
-            this.attributeObserver.observe(document.body, { attributes: true, attributeFilter: [this.connectAttribute, this.handlerAttribute], subtree: true })
+        if (config.observeAttributes) {
+            this.attributeObserver.observe(document.body, { attributes: true, attributeFilter: [this.connectAttr, this.handlerAttr], subtree: true })
         }
     }
-
     disconnect() {
         this.childListObserver.takeRecords()
         this.attributeObserver.takeRecords()
@@ -170,17 +162,18 @@ class App {
             })
         })
     })
-
     attributeObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            if (mutation.attributeName === this.connectAttribute) {
-                this.disconnectAspectElement(mutation.target)
-                this.connectAspectElement(mutation.target)
+            if (mutation.attributeName === this.connectAttr) {
+                this.disconnectSubEl(mutation.target)
+                this.disconnectHostEl(mutation.target)
+                this.connectHostEl(mutation.target)
+                this.connectSubEl(mutation.target)
                 return
             }
-            if (mutation.attributeName === this.handlerAttribute) {
-                this.disconnectHandlerElement(mutation.target)
-                this.connectHandlerElement(mutation.target)
+            if (mutation.attributeName === this.handlerAttr) {
+                this.disconnectHandlerEl(mutation.target)
+                this.connectHandlerEl(mutation.target)
                 return
             }
         })
@@ -194,70 +187,75 @@ class App {
             }
             node.querySelectorAll(selector).forEach(el => callback(el))
         }
-        if (node.hasAttribute(this.connectAttribute) || node.tagName.startsWith(config.customElementPrefix)) this.connectAspectElement(node)
-        node.querySelectorAll(this.connectSelector).forEach(child => this.connectAspectElement(child))
-        if (node.hasAttribute(this.handlerAttribute)) this.connectHandlerElement(node)
-        node.querySelectorAll(this.handlerSelector).forEach(child => this.connectHandlerElement(child))
+        const connectNodes = this.connect$(node)
+        if (node.hasAttribute(this.connectAttr) || node.tagName.startsWith(config.customElementPrefix)) this.connectHostEl(node)
+        connectNodes.forEach(child => this.connectHostEl(child))
+        if (node.hasAttribute(this.connectAttr)) this.connectSubEl(node)
+        connectNodes.forEach(child => this.connectSubEl(child))
+        if (node.hasAttribute(this.handlerAttr)) this.connectHandlerEl(node)
+        this.handler$(node).forEach(child => this.connectHandlerEl(child))
     }
-
     disconnectNode(node) {
         if (node.nodeType !== Node.ELEMENT_NODE) return
-        if (node.hasAttribute(this.handlerAttribute)) this.disconnectHandlerElement(node)
-        node.querySelectorAll(this.handlerSelector).forEach(child => this.disconnectHandlerElement(child))
-        if (node.hasAttribute(this.connectAttribute)) this.disconnectAspectElement(node)
-        node.querySelectorAll(this.connectSelector).forEach(child => this.disconnectAspectElement(child))
+        if (node.hasAttribute(this.handlerAttr)) this.disconnectHandlerEl(node)
+        this.handler$(node).forEach(child => this.disconnectHandlerEl(child))
+        const connectNodes = this.connect$(node)
+        if (node.hasAttribute(this.connectAttr)) this.disconnectSubEl(node)
+        connectNodes.forEach(child => this.disconnectSubEl(child))
+        if (node.hasAttribute(this.connectAttr)) this.disconnectHostEl(node)
+        connectNodes.forEach(child => this.disconnectHostEl(child))
     }
 
-    connectHandlerElement(el) {
-        el.getAttribute(this.handlerAttribute).split(' ').forEach(descriptor => {
+    connectHandlerEl(el) {
+        el.getAttribute(this.handlerAttr).split(' ').forEach(descriptor => {
             new ElementEventHandler(el, descriptor, this.eventRegistry)
         })
         el.jc_handlers?.forEach(handler => {
             handler.connect()
         })
     }
-
-    disconnectHandlerElement(el) {
+    disconnectHandlerEl(el) {
         el.jc_handlers?.forEach(handler => {
             handler.disconnect()
         })
         el.jc_handlers = null
     }
 
-    connectAspectElement(el) {
-        let identifiers = (el.getAttribute(this.connectAttribute) ?? '').split(' '),
-            aspectIdentifiers = [],
-            aspectElementIdentifiers = []
-
-        identifiers.forEach(identifier => {
-            if (identifier.includes('.')) aspectElementIdentifiers.push(identifier)
-            else if (identifier) aspectIdentifiers.push(identifier)
-        })
-
-        if (this.#customElementTags[el.tagName]) {
-            aspectIdentifiers.push(this.#customElementTags[el.tagName])
-        }
-        aspectIdentifiers.forEach(identifier => {
-            this.injectAspect(el, identifier)
-        })
-        if (el.jc_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, { attributes: true, attributeOldValue: true })
-        el.jc_aspects?.forEach(aspect => {
-            if (aspect.__connected || aspect.asleep) return
-            aspect.connect()
-            aspect.__connected = true
-        })
-        aspectElementIdentifiers.forEach(descriptor => {
+    connectSubEl(el) {
+        let identifiers = (el.getAttribute(this.connectAttr) ?? '')
+            .split(' ').filter(identifier => identifier && identifier.includes('.'))
+        identifiers.forEach(descriptor => {
             new ElementConnection(el, descriptor)
         })
         el.jc_connections?.forEach(connection => {
             connection.connect()
         })
     }
-    disconnectAspectElement(el) {
+    disconnectSubEl(el) {
         el.jc_connections?.forEach(connection => {
             connection.disconnect()
         })
         el.jc_connections = null
+    }
+
+    connectHostEl(el) {
+        let identifiers = (el.getAttribute(this.connectAttr) ?? '')
+                .split(' ').filter(identifier => identifier && !identifier.includes('.'))
+        if (this.#customTags[el.tagName]) {
+            identifiers.push(this.#customTags[el.tagName])
+        }
+        identifiers.forEach(identifier => {
+            this.injectAspect(el, identifier)
+        })
+        if (el.jc_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, { attributes: true, attributeOldValue: true })
+        el.jc_aspects?.forEach(aspect => {
+            if (!aspect.__connected && !aspect.asleep) {
+                aspect.connect()
+                aspect.__connected = true
+            }
+        })
+    }
+    disconnectHostEl(el) {
         el.jc_aspects?.forEach(aspect => {
             if (!aspect.__connected || aspect.asleep) return
             aspect.disconnect()
@@ -283,14 +281,14 @@ class App {
 
     aspectObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            if (!mutation.attributeName.startsWith(this.config.attributePrefix)) return
+            if (!mutation.attributeName.startsWith(config.attributePrefix)) return
             const newVal = mutation.target.getAttribute(mutation.attributeName)
             mutation.target.jc_aspects?.forEach(aspect => {
-                if (mutation.attributeName == `${this.config.attributePrefix}${aspect.__identifier}-reconnect`) {
+                if (mutation.attributeName == `${config.attributePrefix}${aspect.__identifier}-reconnect`) {
                     window.requestAnimationFrame(() => {
                         aspect.disconnect()
                         aspect.connect()
-                        mutation.target.removeAttribute(`${this.config.attributePrefix}${aspect.__identifier}-reconnect`)
+                        mutation.target.removeAttribute(`${config.attributePrefix}${aspect.__identifier}-reconnect`)
                     })
                 }
                 aspect.constructor.attributeSyncer.attributeChanged(aspect, mutation.attributeName, mutation.oldValue, newVal)
