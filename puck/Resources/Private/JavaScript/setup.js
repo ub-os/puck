@@ -28,6 +28,7 @@ Object.assign(htmx.config, {
 window.app = app
 Object.assign(app.config, {
     attributePrefix: 'data-',
+    observeAttributes: false
 })
 
 

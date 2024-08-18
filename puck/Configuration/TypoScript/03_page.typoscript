@@ -1,6 +1,6 @@
 page.20 = USER
 page.20 {
-    userFunc = TYPO3\CMS\Extbase\ElementAspect\Bootstrap->run
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = Puck
     pluginName = Page
     vendorName = UBOS
