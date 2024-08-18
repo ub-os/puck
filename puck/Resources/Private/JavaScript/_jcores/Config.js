@@ -1,6 +1,6 @@
 export default {
     observeChildList: true,
-    observeAttributes: false,
+    observeAttributes: true,
     observeAspectAttributes: true,
     attributePrefix: '',
     connectAttribute: 'connect',
