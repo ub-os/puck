@@ -1,4 +1,4 @@
-import Showable from "~/Cores/Showable"
+import Showable from "~/Aspects/Showable"
 
 export default class TabPanel extends Showable {
     static displayName = 'TabPanel'

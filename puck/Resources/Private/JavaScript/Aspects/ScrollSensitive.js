@@ -47,7 +47,7 @@ export default class ScrollSensitive extends ElementAspect {
   get correctScrollTop() {
     if (this.__correctScrollTop !== null) return this.__correctScrollTop
     let scrollTop = 0
-    for (let topBreakpoint of this.scrollTop.split(' ')) {
+    for (let topBreakpoint of this.scrollTop.toString().split(' ')) {
       const [ top, breakpoint ] = topBreakpoint.split('@')
       if (!breakpoint || window.innerWidth > parseInt(breakpoint)) {
         scrollTop = parseInt(top)

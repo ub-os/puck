@@ -235,7 +235,7 @@ class App {
         })
 
         if (this.#customElementTags[el.tagName]) {
-            aspectIdentifiers = aspectIdentifiers.push(this.#customElementTags[el.tagName])
+            aspectIdentifiers.push(this.#customElementTags[el.tagName])
         }
         aspectIdentifiers.forEach(identifier => {
             this.injectAspect(el, identifier)

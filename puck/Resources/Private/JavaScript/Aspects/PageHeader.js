@@ -1,5 +1,5 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import ScrollSensitive from "~/Cores/ScrollSensitive";
+import ScrollSensitive from "~/Aspects/ScrollSensitive";
 import { ElementAspect } from "~/_jcores"
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 

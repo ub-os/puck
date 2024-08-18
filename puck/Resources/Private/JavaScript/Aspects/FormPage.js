@@ -1,5 +1,5 @@
 import { $, $$, $id, scrollTo, tryViewTransition } from '~/Utility/DomUtility'
-import Showable from '~/Cores/Showable'
+import Showable from '~/Aspects/Showable'
 
 export default class FormPage extends Showable {
     static displayName = 'FormPage'

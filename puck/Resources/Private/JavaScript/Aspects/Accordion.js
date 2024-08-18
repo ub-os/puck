@@ -1,4 +1,4 @@
-import Showable from "~/Cores/Showable"
+import Showable from "~/Aspects/Showable"
 
 
 export default class Accordion extends Showable {
@@ -16,13 +16,14 @@ export default class Accordion extends Showable {
             el.ariaExpanded = 'false'
         }
     }
-    show({ transition = true }) {
+    show({ transition = true } = {}) {
         super.show({ transition })
-        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
-        this.el.setAttribute('open', '')
+        window.requestAnimationFrame(() => {
+            this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
+        })
         this.toggleElements.forEach(t => t.ariaExpanded = 'true')
     }
-    hide({ transition = true, changeUrlHash = true }) {
+    hide({ transition = true, changeUrlHash = true } = {}) {
         super.hide({ transition, changeUrlHash })
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
         // hacky way to enable exit transition, otherwise content instantly disappears

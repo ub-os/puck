@@ -7,7 +7,7 @@ class IterableWeakMap {
         set.delete(ref);
     }
 
-    constructor(iterable) {
+    constructor(iterable = []) {
         for (const [key, value] of iterable) {
             this.set(key, value);
         }
@@ -70,6 +70,12 @@ class IterableWeakMap {
 export default class EventHandlerSet {
     #map = new IterableWeakMap();
 
+    constructor(iterable = []) {
+        for (const value of iterable) {
+            this.add(...value);
+        }
+    }
+
     add(el, type, callback, options = {}) {
         el.addEventListener(type, callback, options)
         if (this.#map.get(el)) {
@@ -82,7 +88,9 @@ export default class EventHandlerSet {
 
     addDelegate(el, selector, type, callback, options = {}) {
         const delegateCallback = e => {
-            if (e.target.matches(selector)) {
+            const target = e.target.closest(selector)
+            if (target) {
+                e.delegateTarget = target
                 callback(e)
             }
         }

@@ -19,7 +19,7 @@ export default class Carousel extends ElementAspect {
             el.classList.add(this.activeClass)
         }
     }
-    move({ to }) {
+    move({ to } = {}) {
         this.splide.go(to)
     }
     connect() {

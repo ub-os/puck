@@ -1,5 +1,5 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import Showable from "~/Cores/Showable"
+import Showable from "~/Aspects/Showable"
 
 /**
  * Modal ElementAspect
@@ -13,7 +13,7 @@ export default class Modal extends Showable {
         escHide: true,
         appendTo: '[data-modal-container]',
     }
-    show({ transition = true }) {
+    show({ transition = true } = {}) {
         this.el.showModal()
         super.show({ transition });
         this.el.ariaModal = 'true'
@@ -23,7 +23,7 @@ export default class Modal extends Showable {
             this.el.focus()
         }
     }
-    hide({ transition = true, changeUrlHash = true }) {
+    hide({ transition = true, changeUrlHash = true } = {}) {
         super.hide({ transition, changeUrlHash })
         this.el.removeAttribute('aria-modal')
         if (transition) {

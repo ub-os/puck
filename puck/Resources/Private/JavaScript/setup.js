@@ -1,16 +1,16 @@
 import { app } from '~/_jcores'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
-import ScrollbarWidth from "~/Cores/ScrollbarWidth"
-import AnchorBehavior from "~/Cores/AnchorScrolling.js"
-import Toggleable from '~/Cores/Showable.js'
-import Accordion from '~/Cores/Accordion'
-import Modal from "~/Cores/Modal"
-import Carousel from '~/Cores/Carousel'
-import PageHeader from "~/Cores/PageHeader"
-import MediaPlayer from "~/Cores/MediaPlayer"
-import ScrollSensitive from '~/Cores/ScrollSensitive'
-import FormPage from '~/Cores/FormPage'
-import Root from "~/Cores/Root"
+import ScrollbarWidth from "~/Aspects/ScrollbarWidth"
+import AnchorScrolling from "~/Aspects/AnchorScrolling"
+import Toggleable from '~/Aspects/Showable.js'
+import Accordion from '~/Aspects/Accordion'
+import Modal from "~/Aspects/Modal"
+import Carousel from '~/Aspects/Carousel'
+import PageHeader from "~/Aspects/PageHeader"
+import MediaPlayer from "~/Aspects/MediaPlayer"
+import ScrollSensitive from '~/Aspects/ScrollSensitive'
+import FormPage from '~/Aspects/FormPage'
+import Root from "~/Aspects/Root"
 
 
 window.htmx = htmx
@@ -33,7 +33,7 @@ Object.assign(app.config, {
 
 
 app.registerAspect({
-    AnchorBehavior,
+    AnchorScrolling,
     ScrollbarWidth,
     Toggleable,
     Accordion,

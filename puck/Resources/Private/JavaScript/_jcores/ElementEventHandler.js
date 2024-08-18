@@ -47,14 +47,17 @@ export default class ElementEventHandler {
     
     initializeMethodHandler(el, event, identifier, id) {
         const [
-            coreIdentifier,
-            coreMethod
+            aspectIdentifier,
+            aspectMethod
         ] = identifier.split('.')
-        const coreEl = id ? document.getElementById(id) : el.closest(`[${config.attributePrefix}${config.coreAttribute}]`)
-        const core = coreEl?.['jc_aspects']?.get(coreIdentifier)
+        const attr = `${config.attributePrefix}${config.connectAttribute}`
+        const aspectEl = id
+            ? document.getElementById(id)
+            : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
 
-        if (!coreMethod || !core || typeof core[coreMethod] !== 'function') return
-        this.identifier = kebabCase(`${coreIdentifier}.${coreMethod}`)
+        const aspect = aspectEl?.['jc_aspects']?.get(aspectIdentifier)
+        if (!aspectMethod || !aspect || typeof aspect[aspectMethod] !== 'function') return
+        this.identifier = kebabCase(`${aspectIdentifier}.${aspectMethod}`)
         this.event = event.split('.')[0]
         if (el['jc_handlers']?.get(this.identifier)) {
             console.log(`Handler ${this.identifier} already connected to ${el.id}`)
@@ -64,9 +67,9 @@ export default class ElementEventHandler {
         const triggerGuard = this.getTriggerGuard(event)
 
         this.listener = e => {
-            let core = coreEl?.['jc_aspects']?.get(coreIdentifier)
+            let aspect = aspectEl?.['jc_aspects']?.get(aspectIdentifier)
             if (triggerGuard(e)) return
-            if (!core.__connected) return
+            if (!aspect.__connected) return
             if (this.listenerOptions.prevent) {
                 e.preventDefault()
             }
@@ -83,7 +86,7 @@ export default class ElementEventHandler {
             }
             e.handlerTarget = el
 
-            core[coreMethod](params, e)
+            aspect[aspectMethod](params, e)
         }
 
         !el['jc_handlers'] ? el.jc_handlers = new Map() : null
