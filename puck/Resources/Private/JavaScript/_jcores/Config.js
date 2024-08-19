@@ -5,6 +5,6 @@ export default {
     attributePrefix: '',
     connectAttribute: 'connect',
     handlerAttribute: 'handler',
-    customElementPrefix: 'aspect-',
+    customElementPrefix: 'x-',
     defaultEventTarget: 'self',
 }

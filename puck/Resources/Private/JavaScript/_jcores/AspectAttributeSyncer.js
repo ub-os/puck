@@ -28,6 +28,9 @@ export default class AspectAttributeSyncer {
     }
 
     write(attrKey, val) {
+        if (typeof this.attributes[attrKey] == 'string') {
+            return val
+        }
         if (typeof this.attributes[attrKey] == 'boolean') {
             return val ? '' : 'false'
         }

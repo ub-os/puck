@@ -10,7 +10,7 @@ export default class MediaPlayer extends ElementAspect {
         width: 1920,
         aspectRatio: 16 / 9,
         embedId: '',
-        filePath: '',
+        src: '',
         poster: '',
         lazyLoad: true,
         loaded: false,
@@ -63,7 +63,7 @@ export default class MediaPlayer extends ElementAspect {
                     data-poster={this.poster}
                     {...attributes}>
                     <source
-                        src={this.filePath}
+                        src={this.src}
                         type={'video/' + this.provider}
                         width={this.width} />
                 </video>

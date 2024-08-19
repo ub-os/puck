@@ -13,14 +13,14 @@
         {u:id(set:'id', suffix:'{file.name}')}
         {u:file(get:'{file.properties.storage}:{file.identifier}.jpg', set:'localPoster')}
         {u:var(if:'{file.extension} === "youtube" || {file.extension} === "vimeo"', then:file.contents, else:'', set:'embedId')}
-        {playerAttributes -> u:array(merge:{filePath:file.publicUrl, provider:file.extension, embedId:embedId}, set:'playerAttributes')}
+        {playerAttributes -> u:array(merge:{src:file.publicUrl, provider:file.extension, embedId:embedId}, set:'playerAttributes')}
 
         <u:var set="playerContent">
-            <aspect-media-player
+            <pk-media-player
                     id="{id}"
                     class="{name}__modal__frame"
                     data-media-player='{playerAttributes -> f:format.json()}'>
-            </aspect-media-player>
+            </pk-media-player>
         </u:var>
 
         <div class="{name}">

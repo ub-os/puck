@@ -178,7 +178,7 @@ class App {
             node.querySelectorAll(selector).forEach(el => callback(el))
         }
         const connectNodes = this.connect$(node)
-        if (node.hasAttribute(this.connectAttr) || node.tagName.startsWith(config.customElementPrefix)) this.connectHostEl(node)
+        if (node.hasAttribute(this.connectAttr) || node.tagName.toLowerCase().startsWith(config.customElementPrefix)) this.connectHostEl(node)
         connectNodes.forEach(child => this.connectHostEl(child))
         if (node.hasAttribute(this.connectAttr)) this.connectSubEl(node)
         connectNodes.forEach(child => this.connectSubEl(child))
