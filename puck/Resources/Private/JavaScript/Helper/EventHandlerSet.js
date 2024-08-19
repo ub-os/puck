@@ -118,6 +118,14 @@ export default class EventHandlerSet {
         }
     }
 
+    get array() {
+        return [...this]
+    }
+
+    entries() {
+        return this[Symbol.iterator]();
+    }
+
     *keys() {
         for (const handler of this) {
             yield handler

@@ -8,7 +8,6 @@ import config from "./Config"
 class App {
     #idx = 0
     aspectRegistry = {}
-    eventRegistry = {}
     connectedCallbackRegistry = {}
     #customTagSelector = ''
     #customTags = []
@@ -59,15 +58,6 @@ class App {
         })
     }
 
-    registerEvent(eventType, options) {
-        if (typeof eventType == 'object') {
-            Object.entries(eventType).forEach(([key, value]) => {
-                this.registerEvent(key, value)
-            })
-            return
-        }
-        this.eventRegistry[eventType] = options
-    }
     registerConnectedCallback(selector, callback) {
         if (typeof selector == 'object') {
             Object.entries(selector).forEach(([key, value]) => {
@@ -208,7 +198,7 @@ class App {
 
     connectHandlerEl(el) {
         el.getAttribute(this.handlerAttr).split(' ').forEach(descriptor => {
-            new ElementEventHandler(el, descriptor, this.eventRegistry)
+            new ElementEventHandler(el, descriptor)
         })
         el.jc_handlers?.forEach(handler => {
             handler.connect()

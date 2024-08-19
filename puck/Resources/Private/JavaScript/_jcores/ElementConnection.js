@@ -27,7 +27,7 @@ export default class ElementConnection {
 
         this.identifier = `${aspectIdentifier}.${name}`
         this.name = name
-        !el['jc_connections'] ? el.jc_connections = new Map() : null
+        !el.jc_connections ? el.jc_connections = new Map() : null
         el.jc_connections.set(this.identifier, this)
     }
 

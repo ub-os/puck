@@ -119,6 +119,8 @@ const tryViewTransition = callback => {
     }
 }
 
+const nextFrame = callback => window.requestAnimationFrame(callback)
+
 export {
     $,
     $$,
@@ -128,5 +130,6 @@ export {
     jsx,
     noDragClick,
     scrollTo,
-    tryViewTransition
+    tryViewTransition,
+    nextFrame
 }

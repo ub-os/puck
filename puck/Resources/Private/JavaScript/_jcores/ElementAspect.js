@@ -21,7 +21,7 @@ export default class ElementAspect {
         this.el = el
         this.__identifier = this.constructor.identifier
         this.constructor.attributeSyncer.initialize(this, attributes)
-        !el['jc_aspects'] ? el.jc_aspects = new Map() : null
+        !el.jc_aspects ? el.jc_aspects = new Map() : null
         el.jc_aspects.set(this.__identifier, this)
         this.initialize()
         this.__initialized = true
@@ -29,7 +29,6 @@ export default class ElementAspect {
 
     dispatch(type, options = {}) {
         this.el.dispatchEvent(new CustomEvent(type, options))
-
     }
 
     asleepChanged(oldVal, newVal) {

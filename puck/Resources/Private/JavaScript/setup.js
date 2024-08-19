@@ -12,7 +12,6 @@ import ScrollSensitive from '~/Aspects/ScrollSensitive'
 import FormPage from '~/Aspects/FormPage'
 import Root from "~/Aspects/Root"
 
-
 window.htmx = htmx
 Object.assign(htmx.config, {
     scrollBehavior: 'auto',
@@ -52,14 +51,6 @@ app.registerAspectCustomElement([
     'root'
 ])
 
-app.registerEvent({
-    'some-event': {
-        bubbles: true,
-        detail: {
-        }
-    },
-})
-
 app.registerConnectedCallback({
     '.l-row': (el) => {
         if (el.children.length < 3) return
@@ -77,5 +68,6 @@ app.registerConnectedCallback({
         })
     }
 })
+
 
 export { app, htmx }

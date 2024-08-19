@@ -10,13 +10,9 @@ export default class ElementEventHandler {
     event = null
     listener = null
     listenerOptions = {}
-    eventOptions = {}
     connected = false
-    constructor(el, descriptor, eventRegistry = {}) {
-        this.initialize(el, descriptor, eventRegistry)
-    }
 
-    initialize(el, descriptor, eventRegistry = {}) {
+    constructor(el, descriptor) {
         this.el = el
         descriptor = this.completeDescriptor(el, descriptor)
         const [
@@ -38,15 +34,7 @@ export default class ElementEventHandler {
                 this.listenerOptions[option] = value
             })
         }
-        if (identifier.startsWith('$emit.')) {
-            this.initializeEmitHandler(el, event, identifier.split('$emit.')[1], id, eventRegistry)
-        } else {
-            this.initializeMethodHandler(el, event, identifier, id)
-        }
-    }
-    
-    initializeMethodHandler(el, event, identifier, id) {
-        const [
+        let [
             aspectIdentifier,
             aspectMethod
         ] = identifier.split('.')
@@ -55,11 +43,12 @@ export default class ElementEventHandler {
             ? document.getElementById(id)
             : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
 
-        const aspect = aspectEl?.['jc_aspects']?.get(aspectIdentifier)
-        if (!aspectMethod || !aspect || typeof aspect[aspectMethod] !== 'function') return
+        const aspect = aspectEl?.jc_aspects?.get(aspectIdentifier)
         this.identifier = kebabCase(`${aspectIdentifier}.${aspectMethod}`)
+        aspectMethod = camelCase(aspectMethod)
+        if (!aspectMethod || !aspect || typeof aspect[aspectMethod] !== 'function') return
         this.event = event.split('.')[0]
-        if (el['jc_handlers']?.get(this.identifier)) {
+        if (el.jc_handlers?.get(this.identifier)) {
             console.log(`Handler ${this.identifier} already connected to ${el.id}`)
             return
         }
@@ -67,13 +56,13 @@ export default class ElementEventHandler {
         const triggerGuard = this.getTriggerGuard(event)
 
         this.listener = e => {
-            let aspect = aspectEl?.['jc_aspects']?.get(aspectIdentifier)
+            let aspect = aspectEl?.jc_aspects?.get(aspectIdentifier)
             if (triggerGuard(e)) return
             if (!aspect.__connected) return
-            if (this.listenerOptions.prevent) {
+            if (this.listenerOptions['prevent']) {
                 e.preventDefault()
             }
-            if (this.listenerOptions.stop) {
+            if (this.listenerOptions['stop']) {
                 e.stopPropagation()
             }
 
@@ -89,50 +78,7 @@ export default class ElementEventHandler {
             aspect[aspectMethod](params, e)
         }
 
-        !el['jc_handlers'] ? el.jc_handlers = new Map() : null
-        el.jc_handlers.set(this.identifier, this)
-    }
-
-    initializeEmitHandler(el, event, eventToEmit, id = '', eventRegistry) {
-        if (!eventToEmit) return
-        const targetEl = id ? document.getElementById(id) : document.body
-        this.identifier = eventToEmit
-        this.eventOptions = eventRegistry[eventToEmit] ?? {}
-        this.event = event.split('.')[0]
-        if (el['jc_handlers']?.get(this.identifier)) {
-            console.log(`Handler $emit ${this.identifier} already connected to ${el.id}`)
-            return
-        }
-
-        const triggerGuard = this.getTriggerGuard(event)
-
-        this.listener = e => {
-            if (triggerGuard(e)) return
-            if (this.listenerOptions.prevent) {
-                e.preventDefault()
-            }
-            if (this.listenerOptions.stop) {
-                e.stopPropagation()
-            }
-            const eventOptions = this.eventOptions
-            eventOptions.detail = {
-                ...eventOptions.detail ?? {},
-                ...el.hasAttribute(`${config.attributePrefix}${this.identifier}`) ? this.typecast(el.getAttribute(`${config.attributePrefix}${this.identifier}`)) : {},
-                originalEvent: e
-            }
-
-            for (const attr of el.attributes) {
-                if (attr.name.startsWith(`${config.attributePrefix}${this.identifier}.`)) {
-                    const attrKey = camelCase(attr.name.replace(`${config.attributePrefix}${this.identifier}.`, ''))
-                    if (attrKey === 'originalEvent') return
-                    eventOptions.detail[attrKey] = this.typecast(attr.value)
-                }
-            }
-
-            targetEl.dispatchEvent(new CustomEvent(eventToEmit, eventOptions))
-        }
-
-        !el['jc_handlers'] ? el.jc_handlers = new Map() : null
+        !el.jc_handlers ? el.jc_handlers = new Map() : null
         el.jc_handlers.set(this.identifier, this)
     }
 
