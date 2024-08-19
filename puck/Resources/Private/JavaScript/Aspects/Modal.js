@@ -13,9 +13,9 @@ export default class Modal extends Showable {
         escHide: true,
         appendTo: '[data-modal-container]',
     }
-    show({ transition = true } = {}) {
+    onShow(event) {
         this.el.showModal()
-        super.show({ transition });
+        super.onShow(event);
         this.el.ariaModal = 'true'
         if (this.el.$('[data-autofocus]')) {
             this.el.$('[data-autofocus]').focus()
@@ -23,10 +23,10 @@ export default class Modal extends Showable {
             this.el.focus()
         }
     }
-    hide({ transition = true, changeUrlHash = true } = {}) {
-        super.hide({ transition, changeUrlHash })
+    onHide(event) {
+        super.onHide(event)
         this.el.removeAttribute('aria-modal')
-        if (transition) {
+        if (event.detail.transition) {
             setTimeout(() => this.el.close(), this.duration)
         } else {
             this.el.close()

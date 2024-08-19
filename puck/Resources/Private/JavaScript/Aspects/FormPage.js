@@ -9,12 +9,14 @@ export default class FormPage extends Showable {
         exclusiveGroup: true
     }
     formEl = null
-    show(
-        {   transition = true,
-            validate = false,
-            scrollIntoView = false
-        } = {}) {
-        if (validate && this.formEl) {
+    show({ transition = true,
+             trigger = '',
+             validate = false,
+             scrollIntoView = false } = {}) {
+        this.dispatch(Showable.events.show, { detail: { transition, trigger, validate, scrollIntoView } })
+    }
+    onShow(event) {
+        if (event.detail.validate && this.formEl) {
             let valid = true
             this.formEl.$$('[data-form-page\\.active]').forEach(page => {
                 page.$$('input, select, textarea').forEach(input => {
@@ -23,8 +25,8 @@ export default class FormPage extends Showable {
             })
             if (!valid) return
         }
-        tryViewTransition(() => super.show({ transition }))
-        if (scrollIntoView) {
+        tryViewTransition(() => super.onShow(event))
+        if (event.detail.scrollIntoView) {
             window.requestAnimationFrame(() => {
                 this.el.scrollIntoView({ behavior: 'smooth', block: 'start' })
             })

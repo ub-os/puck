@@ -1,6 +1,5 @@
 import Showable from "~/Aspects/Showable"
 
-
 export default class Accordion extends Showable {
     static displayName = 'Accordion'
     static attributes = {
@@ -16,27 +15,23 @@ export default class Accordion extends Showable {
             el.ariaExpanded = 'false'
         }
     }
-    show({ transition = true } = {}) {
-        super.show({ transition })
-        window.requestAnimationFrame(() => {
-            this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
-        })
+    onShow(event) {
+        super.onShow(event)
+        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
         this.toggleElements.forEach(t => t.ariaExpanded = 'true')
     }
-    hide({ transition = true, changeUrlHash = true } = {}) {
-        super.hide({ transition, changeUrlHash })
+    onHide(event) {
+        super.onHide(event)
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
         // hacky way to enable exit transition, otherwise content instantly disappears
-        window.requestAnimationFrame(() => {
-            if (transition) {
-                this.el.setAttribute('open', '')
-                setTimeout(() => {
-                    this.el.removeAttribute('open')
-                }, this.duration)
-            } else {
+        if (event.detail.transition) {
+            this.el.setAttribute('open', '')
+            setTimeout(() => {
                 this.el.removeAttribute('open')
-            }
-        })
+            }, this.duration)
+        } else {
+            this.el.removeAttribute('open')
+        }
         this.toggleElements.forEach(t => t.ariaExpanded = 'false')
     }
     connect() {

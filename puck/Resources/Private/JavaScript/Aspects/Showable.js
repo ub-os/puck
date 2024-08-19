@@ -80,25 +80,38 @@ export default class Showable extends ElementAspect {
       }, this.duration)
     }
   }
-  show({ transition = true } = {}) {
-    //if (this.active) return
+  show({ transition = true, trigger = '' } = {}) {
+    this.dispatch(Showable.events.show, { detail: { transition, trigger } })
+  }
+  hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
+    this.dispatch(Showable.events.hide, { detail: { transition, changeUrlHash, trigger } })
+  }
+  toggle(detail = {}, event = {}) {
+    if (this.active && (!this.switchToggles || (this.switchToggles && event.handlerTarget === this.lastUsedToggle))) {
+      this.hide(detail)
+      this.lastUsedToggle = event.handlerTarget
+    } else if (!this.active) {
+      this.show(detail)
+      this.lastUsedToggle = event.handlerTarget
+    }
+  }
+  onShow(event) {
     this.active = true
     this.setClass('add', this.activeClass)
-    if (transition) this.transitionClass(this.activatingClass)
-    this.dispatch(Showable.events.show)
+    if (event.detail.transition) this.transitionClass(this.activatingClass)
     if (this.groupEl) {
       this.groupEl.dispatchEvent(
           new CustomEvent(
               Showable.events.toggleGroup,
-              { detail: {activeId: this.el.id} }
+              { detail: {showTarget: this.el} }
           ))
     }
+    return true
   }
-  hide({ transition = true, changeUrlHash = true } = {}) {
-    //if (!this.active) return
+  onHide(event) {
     this.active = false
     this.setClass('remove', this.activeClass)
-    if (transition) this.transitionClass(this.deactivatingClass)
+    if (event.detail.transition) this.transitionClass(this.deactivatingClass)
     if (this.pauseMediaOnHide && this.mediaChildren) {
       this.mediaChildren.forEach(item => {
         if (item.pause) item.pause()
@@ -112,19 +125,10 @@ export default class Showable extends ElementAspect {
         }
       })
     }
-    if (changeUrlHash && this.urlHashRemove && window.location.hash.split('?')[0] === `#${this.el.id}`) {
+    if (event.detail.changeUrlHash && this.urlHashRemove && window.location.hash.split('?')[0] === `#${this.el.id}`) {
       history.replaceState(history.state, document.title, location.href.replace(`#${this.el.id}`, '')) // remove hash from url
     }
-    this.dispatch(Showable.events.hide)
-  }
-
-  toggle({ transition = true, changeUrlHash = true } = {}, event = {}) {
-    if (this.active && (!this.switchToggles || (this.switchToggles && event.handlerTarget === this.lastUsedToggle))) {
-      this.hide({ transition, changeUrlHash })
-    } else {
-      this.show({ transition })
-    }
-    this.lastUsedToggle = event.handlerTarget
+    return true
   }
 
   toggleElementConnected(el) {
@@ -144,45 +148,54 @@ export default class Showable extends ElementAspect {
     }
     this.active ? this.show({ transition: false }) : this.hide({ transition: false, changeUrlHash: false })
 
+    this.handlerSet.add(this.el, Showable.events.show, event => window.requestAnimationFrame(() => {
+      if (this.active || event.defaultPrevented) return
+      this.onShow(event)
+    }))
+    this.handlerSet.add(this.el, Showable.events.hide, event => window.requestAnimationFrame(() => {
+      if (!this.active || event.defaultPrevented) return
+      this.onHide(event)
+    }))
+
     if (this.groupEl) {
-      this.handlerSet.add(this.groupEl, Showable.events.toggleGroup, e => {
-        if (e.defaultPrevented) return
-        if (this.exclusiveGroup && this.active && !this.alwaysActive && e.detail.activeId !== this.el.id) {
-          this.hide()
+      this.handlerSet.add(this.groupEl, Showable.events.toggleGroup, event => {
+        if (event.defaultPrevented) return
+        if (this.exclusiveGroup && this.active && !this.alwaysActive && event.detail.showTarget !== this.el) {
+          this.hide({ trigger: 'exclusiveGroup' })
         }
       })
     }
     if (this.outClickHide) {
       const target = this.outTarget ? $target(this.outTarget, 'Showable') : this.el
       this.handlerSet.add(document, 'click', event => {
-        if (this.active && !target.contains(event.target)) this.hide()
+        if (this.active && !target.contains(event.target)) this.hide({ trigger: 'outClick' })
       })
     }
     if (this.selfClickHide) {
       this.handlerSet.add(this.el, 'click', event => {
-        if (this.active && event.target === this.el) this.hide()
+        if (this.active && event.target === this.el) this.hide({ trigger: 'selfClick' })
       })
     }
     if (this.escHide) {
       this.handlerSet.add(this.el, 'keydown', event => {
-        if (event.key === 'Escape') this.hide()
+        if (event.key === 'Escape') this.hide({ trigger: 'esc' })
       })
     }
     if (this.scrollHide) {
       this.handlerSet.add(window, 'scroll', () => {
-        if (this.active) this.hide()
+        if (this.active) this.hide({ trigger: 'scroll' })
       }, {passive: true})
     }
     if (this.clickHideSelector) {
       this.handlerSet.addDelegate(this.el, this.clickHideSelector, 'click', event => {
-        if (this.active) this.hide()
+        if (this.active) this.hide({ trigger: 'clickOnSelector:'+this.clickHideSelector })
       })
     }
     if (this.urlHashShow) {
-      if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.show()
+      if (window.location.hash.split('?')[0] === `#${this.el.id}`) this.show({ trigger: 'urlHash' })
       this.handlerSet.add(this.el, 'hash-link-click', event => {
         this.lastUsedToggle = event.detail.linkElement
-        this.show()
+        this.show({ trigger: 'urlHash' })
       })
     }
     return this
