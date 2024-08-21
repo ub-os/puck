@@ -6,5 +6,4 @@ export default {
     connectAttribute: 'connect',
     handlerAttribute: 'handler',
     customElementPrefix: 'x-',
-    defaultEventTarget: 'self',
 }
