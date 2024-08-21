@@ -21,7 +21,7 @@ export default class ElementConnection {
         const attr = `${config.attributePrefix}${config.connectAttribute}`
         const aspectEl = id
             ? document.getElementById(id)
-            : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
+            : el.closest(`[${config.attributePrefix}scope*=" ${aspectIdentifier} "]`);
         this.aspect = aspectEl?.jc_aspects?.get(aspectIdentifier)
         if (!this.aspect) return
 

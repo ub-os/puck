@@ -238,12 +238,15 @@ class App {
             this.injectAspect(el, identifier)
         })
         if (el.jc_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, { attributes: true, attributeOldValue: true })
+        let scopeString = ""
         el.jc_aspects?.forEach(aspect => {
+            scopeString += ` ${aspect.__identifier} `
             if (!aspect.__connected && !aspect.asleep) {
                 aspect.connect()
                 aspect.__connected = true
             }
         })
+        el.setAttribute(`${config.attributePrefix}scope`, scopeString)
     }
     disconnectHostEl(el) {
         el.jc_aspects?.forEach(aspect => {
@@ -252,6 +255,7 @@ class App {
             aspect.__connected = false
         })
         el.jc_aspects = null
+        el.removeAttribute(`${config.attributePrefix}scope`)
     }
 
     injectAspect(el, identifier, attributes = {}) {
