@@ -56,7 +56,7 @@ export default class ElementEventHandler {
 
         this.listener = e => {
             let aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
-            if (triggerGuard(e)) return
+            if (triggerGuard(e) || !aspect) return
             //if (!aspect.__connected) return
             if (this.listenerOptions['prevent']) {
                 e.preventDefault()

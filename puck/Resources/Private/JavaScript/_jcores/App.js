@@ -1,13 +1,12 @@
 import { camelCase, kebabCase } from "./Utils"
 import AspectAttributeSyncer from "./AspectAttributeSyncer"
-import ElementAspect from "./ElementAspect"
 import ElementConnection from "./ElementConnection"
 import ElementEventHandler from "./ElementEventHandler"
 import config from "./Config"
 
 class App {
-    aspectRegistry = {}
-    connectedCallbackRegistry = {}
+    aspectRegistry = new Map()
+    connectedCallbackRegistry = new Map()
     #customTagSelector = ''
     #customTags = []
     config = config
@@ -34,7 +33,7 @@ class App {
         }
         if (!constructor.shouldLoad()) return
         this.processAspect(identifier, constructor)
-        this.aspectRegistry[identifier] = constructor
+        this.aspectRegistry.set(identifier, constructor)
         constructor.afterLoad()
     }
 
@@ -45,7 +44,7 @@ class App {
             })
             return
         }
-        if (!this.aspectRegistry[identifier]) {
+        if (!this.aspectRegistry.has(identifier)) {
             console.warn(`Aspect ${identifier} not found in register, skipping custom element registration.`)
             return
         }
@@ -65,7 +64,7 @@ class App {
             })
             return
         }
-        this.connectedCallbackRegistry[selector] = callback
+        this.connectedCallbackRegistry.set(selector, callback)
     }
     processAspect(identifier, constructor) {
         constructor.identifier = identifier
@@ -85,6 +84,17 @@ class App {
         }
         if (Array.isArray(constructor.injectedAspects)) {
             constructor.injectedAspects = convertToObj(constructor.injectedAspects)
+        }
+
+        for (let attrKey of Object.keys(constructor.attributes)) {
+            Object.defineProperty(constructor.prototype, attrKey, {
+                get() {
+                    return this[`#${attrKey}`]
+                },
+                set(val) {
+                    this.constructor.attributeSyncer.setAttribute(this, attrKey, val, true)
+                }
+            })
         }
         for (let elementName of Object.keys(constructor.connectedElements)) {
             Object.defineProperty(constructor.prototype, `${elementName}Elements`, {
@@ -124,7 +134,7 @@ class App {
             this.childListObserver.observe(document.body, { childList: true, subtree: true })
         }
         if (config.observeAttributes) {
-            this.attributeObserver.observe(document.body, { attributes: true, attributeFilter: [this.connectAttr, this.handlerAttr], subtree: true })
+            this.attributeObserver.observe(document.body, { attributes: true, attributeOldValue: true, attributeFilter: [this.connectAttr, this.handlerAttr], subtree: true })
         }
     }
     disconnect() {
@@ -152,6 +162,10 @@ class App {
             if (mutation.attributeName === this.connectAttr) {
                 this.disconnectSubEl(mutation.target)
                 this.disconnectHostEl(mutation.target)
+                const newIdentifiers = mutation.target.getAttribute(this.connectAttr).split(' ')
+                console.log(mutation)
+                const removedIdentifiers = mutation.oldValue.split(' ').filter(ident => !newIdentifiers.includes(ident))
+                removedIdentifiers.forEach(identifier => mutation.target.nxs_aspects.delete(identifier))
                 this.connectHostEl(mutation.target)
                 this.connectSubEl(mutation.target)
                 return
@@ -166,7 +180,7 @@ class App {
 
     connectNode(node) {
         if (node.nodeType !== Node.ELEMENT_NODE) return
-        for (let [selector, callback] of Object.entries(this.connectedCallbackRegistry)) {
+        for (let [selector, callback] of this.connectedCallbackRegistry.entries()) {
             if (node.matches(selector)) {
                 callback(node)
             }
@@ -247,15 +261,15 @@ class App {
     }
 
     injectAspect(el, identifier, attributes = {}) {
-        if (!this.aspectRegistry[identifier]) {
+        if (!this.aspectRegistry.has(identifier)) {
             console.warn(`Aspect ${identifier} not found in register, skipping.`)
             return
         }
         if (el.nxs_aspects?.has(identifier)) return
-        Object.entries(this.aspectRegistry[identifier].injectedAspects).forEach(([injectIdentifier, injectAttributes]) => {
+        Object.entries(this.aspectRegistry.get(identifier).injectedAspects).forEach(([injectIdentifier, injectAttributes]) => {
             this.injectAspect(el, injectIdentifier, injectAttributes)
         })
-        new this.aspectRegistry[identifier](el, this, attributes)
+        new (this.aspectRegistry.get(identifier))(el, this, attributes)
     }
 
     aspectObserver = new MutationObserver(mutations => {

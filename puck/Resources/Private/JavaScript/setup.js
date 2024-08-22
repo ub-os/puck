@@ -27,10 +27,9 @@ Object.assign(htmx.config, {
 window.app = app
 Object.assign(app.config, {
     attributePrefix: 'data-',
-    observeAttributes: false,
+    //observeAttributes: false,
     customElementPrefix: 'pk-'
 })
-
 
 app.registerAspect({
     AnchorScrolling,

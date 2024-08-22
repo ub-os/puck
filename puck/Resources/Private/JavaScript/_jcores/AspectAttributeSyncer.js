@@ -11,19 +11,10 @@ export default class AspectAttributeSyncer {
     constructor(identifier, constructor, attributes = {}) {
         this.identifier = identifier
         this.attributes = attributes
-        Object.keys(attributes).forEach(attrKey => {
-            if (!this.attrKeyMap[attrKey]) {
-                this.attrKeyMap[attrKey] = this.convertKey(attrKey)
-            }
-            this.attrKeyMap[this.attrKeyMap[attrKey]] = attrKey
-            Object.defineProperty(constructor.prototype, attrKey, {
-                get() {
-                    return this[`#${attrKey}`]
-                },
-                set(val) {
-                    this.constructor.attributeSyncer.setAttribute(this, attrKey, val, true)
-                }
-            })
+        Object.keys(constructor.attributes).forEach(attrKey => {
+            const dataAttr = this.convertKey(attrKey)
+            this.attrKeyMap[attrKey] = dataAttr
+            this.attrKeyMap[dataAttr] = attrKey
         })
     }
 

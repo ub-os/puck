@@ -17,12 +17,12 @@ export default class Accordion extends Showable {
     }
     onShow(event) {
         super.onShow(event)
-        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
+        this.setShowHeight()
         this.toggleElements.forEach(t => t.ariaExpanded = 'true')
     }
     onHide(event) {
         super.onHide(event)
-        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
+        this.setHideHeight()
         // hacky way to enable exit transition, otherwise content instantly disappears
         if (event.detail.transition) {
             this.el.setAttribute('open', '')
@@ -34,8 +34,15 @@ export default class Accordion extends Showable {
         }
         this.toggleElements.forEach(t => t.ariaExpanded = 'false')
     }
+    setShowHeight() {
+        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.el.scrollHeight).toString()}px`
+    }
+    setHideHeight() {
+        this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
+    }
     connect() {
         super.connect()
+        this.active ? this.setShowHeight() : this.setHideHeight()
         return this
     }
     disconnect() {
