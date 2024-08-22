@@ -13,7 +13,7 @@ export default class FormPage extends Showable {
              trigger = '',
              validate = false,
              scrollIntoView = false } = {}) {
-        this.dispatch(Showable.events.show, { detail: { transition, trigger, validate, scrollIntoView } })
+        this.dispatch('show', { detail: { transition, trigger, validate, scrollIntoView } })
     }
     onShow(event) {
         if (event.detail.validate && this.formEl) {

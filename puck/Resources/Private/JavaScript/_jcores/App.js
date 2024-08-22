@@ -6,7 +6,6 @@ import ElementEventHandler from "./ElementEventHandler"
 import config from "./Config"
 
 class App {
-    #idx = 0
     aspectRegistry = {}
     connectedCallbackRegistry = {}
     #customTagSelector = ''
@@ -33,9 +32,10 @@ class App {
             })
             return
         }
+        if (!constructor.shouldLoad()) return
         this.processAspect(identifier, constructor)
-        constructor.registerCallback()
         this.aspectRegistry[identifier] = constructor
+        constructor.afterLoad()
     }
 
     registerAspectCustomElement(identifier) {
@@ -69,10 +69,6 @@ class App {
     }
     processAspect(identifier, constructor) {
         constructor.identifier = identifier
-        constructor.attributes = {
-            ...ElementAspect.attributes,
-            ...constructor.attributes,
-        }
         constructor.attributeSyncer = new AspectAttributeSyncer(identifier, constructor, constructor.attributes)
         const convertToObj = arr => {
             return arr.reduce((result, key) => {
@@ -108,14 +104,14 @@ class App {
         for (let injectIdentifier of Object.keys(constructor.injectedAspects)) {
             Object.defineProperty(constructor.prototype, `${camelCase(injectIdentifier)}Aspect`, {
                 get() {
-                    return this.el.jc_aspects.get(injectIdentifier)
+                    return this.el.nxs_aspects.get(injectIdentifier)
                 },
             })
         }
     }
     
     getAspects(el) {
-        return el?.jc_aspects
+        return el?.nxs_aspects
     }
 
     getAspect(el, aspectName) {
@@ -139,7 +135,6 @@ class App {
         this.attributeObserver.disconnect()
         this.aspectObserver.disconnect()
         this.disconnectNode(document.body)
-        this.#idx = 0
     }
 
     childListObserver = new MutationObserver(mutations => {
@@ -200,15 +195,15 @@ class App {
         el.getAttribute(this.handlerAttr).split(' ').forEach(descriptor => {
             new ElementEventHandler(el, descriptor)
         })
-        el.jc_handlers?.forEach(handler => {
+        el.nxs_handlers?.forEach(handler => {
             handler.connect()
         })
     }
     disconnectHandlerEl(el) {
-        el.jc_handlers?.forEach(handler => {
+        el.nxs_handlers?.forEach(handler => {
             handler.disconnect()
         })
-        el.jc_handlers = null
+        el.nxs_handlers = null
     }
 
     connectSubEl(el) {
@@ -217,15 +212,15 @@ class App {
         identifiers.forEach(descriptor => {
             new ElementConnection(el, descriptor)
         })
-        el.jc_connections?.forEach(connection => {
+        el.nxs_connections?.forEach(connection => {
             connection.connect()
         })
     }
     disconnectSubEl(el) {
-        el.jc_connections?.forEach(connection => {
+        el.nxs_connections?.forEach(connection => {
             connection.disconnect()
         })
-        el.jc_connections = null
+        el.nxs_connections = null
     }
 
     connectHostEl(el) {
@@ -234,28 +229,21 @@ class App {
         if (this.#customTags[el.tagName]) {
             identifiers.push(this.#customTags[el.tagName])
         }
+        if (!identifiers.length) return
         identifiers.forEach(identifier => {
             this.injectAspect(el, identifier)
         })
-        if (el.jc_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, { attributes: true, attributeOldValue: true })
-        let scopeString = ""
-        el.jc_aspects?.forEach(aspect => {
-            scopeString += ` ${aspect.__identifier} `
-            if (!aspect.__connected && !aspect.asleep) {
-                aspect.connect()
-                aspect.__connected = true
-            }
-        })
+        let scopeString = el.nxs_aspects.keys().reduce((acc, key) => acc + ` ${key} `, '')
         el.setAttribute(`${config.attributePrefix}scope`, scopeString)
+        if (el.nxs_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, {attributes: true, attributeOldValue: true})
+        el.nxs_aspects?.forEach(aspect => {
+            aspect.connect()
+        })
     }
     disconnectHostEl(el) {
-        el.jc_aspects?.forEach(aspect => {
-            if (!aspect.__connected || aspect.asleep) return
+        el.nxs_aspects?.forEach(aspect => {
             aspect.disconnect()
-            aspect.__connected = false
         })
-        el.jc_aspects = null
-        el.removeAttribute(`${config.attributePrefix}scope`)
     }
 
     injectAspect(el, identifier, attributes = {}) {
@@ -263,26 +251,31 @@ class App {
             console.warn(`Aspect ${identifier} not found in register, skipping.`)
             return
         }
-        if (el.jc_aspects?.has(identifier)) {
-            console.warn(`Aspect ${identifier} already used on this element, overriding.`)
-        }
+        if (el.nxs_aspects?.has(identifier)) return
         Object.entries(this.aspectRegistry[identifier].injectedAspects).forEach(([injectIdentifier, injectAttributes]) => {
             this.injectAspect(el, injectIdentifier, injectAttributes)
         })
-        const aspect = new this.aspectRegistry[identifier](el, attributes)
-        aspect.app = this
+        new this.aspectRegistry[identifier](el, this, attributes)
     }
 
     aspectObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             if (!mutation.attributeName.startsWith(config.attributePrefix)) return
-            const newVal = mutation.target.getAttribute(mutation.attributeName)
-            mutation.target.jc_aspects?.forEach(aspect => {
-                if (mutation.attributeName == `${config.attributePrefix}${aspect.__identifier}-reconnect`) {
+            const el = mutation.target
+            const newVal = el.getAttribute(mutation.attributeName)
+            if (mutation.oldValue == newVal) return
+            if(mutation.attributeName == config.attributePrefix + 'scope' && el.nxs_aspects) {
+                let scopeString = el.nxs_aspects.keys().reduce((acc, key) => acc + ` ${key} `, '')
+                if (newVal == scopeString) return
+                el.setAttribute(config.attributePrefix + 'scope', scopeString)
+                return
+            }
+            el.nxs_aspects?.forEach(aspect => {
+                if (mutation.attributeName == `${config.attributePrefix}${aspect.identifier}-reconnect`) {
                     window.requestAnimationFrame(() => {
                         aspect.disconnect()
                         aspect.connect()
-                        mutation.target.removeAttribute(`${config.attributePrefix}${aspect.__identifier}-reconnect`)
+                        el.removeAttribute(`${config.attributePrefix}${aspect.identifier}-reconnect`)
                     })
                 }
                 aspect.constructor.attributeSyncer.attributeChanged(aspect, mutation.attributeName, mutation.oldValue, newVal)

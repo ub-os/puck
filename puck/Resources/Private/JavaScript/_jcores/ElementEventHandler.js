@@ -10,7 +10,6 @@ export default class ElementEventHandler {
     event = null
     listener = null
     listenerOptions = {}
-    connected = false
 
     constructor(el, descriptor) {
         this.el = el
@@ -43,12 +42,12 @@ export default class ElementEventHandler {
             ? document.getElementById(id)
             : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
 
-        const aspect = aspectEl?.jc_aspects?.get(aspectIdentifier)
+        const aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
         this.identifier = kebabCase(`${aspectIdentifier}.${aspectMethod}`)
         aspectMethod = camelCase(aspectMethod)
         if (!aspectMethod || !aspect || typeof aspect[aspectMethod] !== 'function') return
         this.event = event.split('.')[0]
-        if (el.jc_handlers?.get(this.identifier)) {
+        if (el.nxs_handlers?.get(this.identifier)) {
             console.log(`Handler ${this.identifier} already connected to ${el.id}`)
             return
         }
@@ -56,9 +55,9 @@ export default class ElementEventHandler {
         const triggerGuard = this.getTriggerGuard(event)
 
         this.listener = e => {
-            let aspect = aspectEl?.jc_aspects?.get(aspectIdentifier)
+            let aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
             if (triggerGuard(e)) return
-            if (!aspect.__connected) return
+            //if (!aspect.__connected) return
             if (this.listenerOptions['prevent']) {
                 e.preventDefault()
             }
@@ -78,8 +77,8 @@ export default class ElementEventHandler {
             aspect[aspectMethod](params, e)
         }
 
-        !el.jc_handlers ? el.jc_handlers = new Map() : null
-        el.jc_handlers.set(this.identifier, this)
+        !el.nxs_handlers ? el.nxs_handlers = new Map() : null
+        el.nxs_handlers.set(this.identifier, this)
     }
 
     completeDescriptor(el, descriptor) {
@@ -125,14 +124,10 @@ export default class ElementEventHandler {
     }
 
     connect() {
-        if (this.connected) return
         this.el.addEventListener(this.event, this.listener, this.listenerOptions)
-        this.connected = true
     }
 
     disconnect() {
-        if (!this.connected) return
         this.el.removeEventListener(this.event, this.listener, this.listenerOptions)
-        this.connected = false
     }
 }

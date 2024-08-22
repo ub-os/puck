@@ -36,7 +36,6 @@ export default class MediaPlayer extends ElementAspect {
         }
         this.el.append(this.playerEl)
         this.loaded = true
-        this.dispatch('update-focusables', {bubbles: true})
         if (this.usePlyr) {
             let plyrOptions = this.plyrOptions
             if (this.controls) {

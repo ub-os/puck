@@ -41,6 +41,10 @@ export default class Accordion extends Showable {
     disconnect() {
         super.disconnect()
     }
+
+    activeChanged(oldVal, newVal) {
+        console.log('active changed', newVal)
+    }
 }
 
 

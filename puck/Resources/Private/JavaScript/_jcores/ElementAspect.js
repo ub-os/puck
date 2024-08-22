@@ -1,44 +1,34 @@
 export default class ElementAspect {
-    static attributes = {
-        asleep: false
-    }
+    static attributes = {}
     static connectedElements = []
-    static injectedAspects = {}
-    static identifier = null
-    static registerCallback() { }
+    static injectedAspects = []
+    static afterLoad() {}
+    static shouldLoad() { return true }
 
-    __initialized = false
-    __connected = false
-    __identifier = null
-    app = null
-    /**
-     * @type {HTMLElement}
-     */
-    element = null
-    get el() { return this.element }
-    set el(el) { this.element = el }
-    constructor(el, attributes = {}) {
-        this.el = el
-        this.__identifier = this.constructor.identifier
-        this.constructor.attributeSyncer.initialize(this, attributes)
-        !el.jc_aspects ? el.jc_aspects = new Map() : null
-        el.jc_aspects.set(this.__identifier, this)
+    __internal
+    get el() { return this.__internal.el }
+    get element() { return this.__internal.el }
+    get app() { return this.__internal.app }
+    get identifier() { return this.constructor.identifier }
+    constructor(el, app, attributes = {}) {
+        this.__internal = { el, app }
+        this.constructor.attributeSyncer.initializeAttributes(this, attributes)
+        !el.nxs_aspects ? el.nxs_aspects = new Map() : null
+        el.nxs_aspects.set(this.identifier, this)
         this.initialize()
-        this.__initialized = true
     }
 
-    dispatch(type, options = {}) {
-        this.el.dispatchEvent(new CustomEvent(type, options))
-    }
-
-    asleepChanged(oldVal, newVal) {
-        if (newVal === true && this.__connected) {
-            this.disconnect()
-            this.__connected = false
-        } else if (newVal === false && !this.__connected) {
-            this.connect()
-            this.__connected = true
-        }
+    dispatch(type, {
+        target = this.el,
+        detail = {},
+        prefix = this.identifier,
+        bubbles = true,
+        cancelable = true
+    } = {}) {
+        type = prefix ? `${prefix}:${type}` : type
+        const event = new CustomEvent(type, { detail, bubbles, cancelable })
+        target.dispatchEvent(event)
+        return event
     }
 
     initialize()  { return this }

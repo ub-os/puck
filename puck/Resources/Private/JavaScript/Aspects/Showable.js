@@ -7,11 +7,6 @@ import EventHandlerSet from "~/Helper/EventHandlerSet"
  */
 export default class Showable extends ElementAspect {
   static displayName = 'Showable'
-  static events = {
-    show: 'showable:show',
-    hide: 'showable:hide',
-    toggleGroup: 'showable:toggle-group',
-  }
   static connectedElements = ['toggle']
   static attributes = {
     active: false,
@@ -56,7 +51,6 @@ export default class Showable extends ElementAspect {
     switchToggles: false,
     alwaysActive: false,
   }
-
   handlerSet = new EventHandlerSet()
   lastUsedToggle = null
   durationTimer = null
@@ -81,10 +75,10 @@ export default class Showable extends ElementAspect {
     }
   }
   show({ transition = true, trigger = '' } = {}) {
-    this.dispatch(Showable.events.show, { detail: { transition, trigger } })
+    this.dispatch('show', { detail: { transition, trigger } })
   }
   hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
-    this.dispatch(Showable.events.hide, { detail: { transition, changeUrlHash, trigger } })
+    this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
   }
   toggle(detail = {}, event = {}) {
     if (this.active && (!this.switchToggles || (this.switchToggles && event.handlerTarget === this.lastUsedToggle))) {
@@ -100,11 +94,7 @@ export default class Showable extends ElementAspect {
     this.setClass('add', this.activeClass)
     if (event.detail.transition) this.transitionClass(this.activatingClass)
     if (this.groupEl) {
-      this.groupEl.dispatchEvent(
-          new CustomEvent(
-              Showable.events.toggleGroup,
-              { detail: {showTarget: this.el} }
-          ))
+      this.dispatch('toggle-group', { target: this.groupEl, detail: {showTarget: this.el} })
     }
     return true
   }
@@ -148,17 +138,17 @@ export default class Showable extends ElementAspect {
     }
     this.active ? this.show({ transition: false }) : this.hide({ transition: false, changeUrlHash: false })
 
-    this.handlerSet.add(this.el, Showable.events.show, event => window.requestAnimationFrame(() => {
+    this.handlerSet.add(this.el, `${this.identifier}:show`, event => window.requestAnimationFrame(() => {
       if (this.active || event.defaultPrevented) return
       this.onShow(event)
     }))
-    this.handlerSet.add(this.el, Showable.events.hide, event => window.requestAnimationFrame(() => {
+    this.handlerSet.add(this.el, `${this.identifier}:hide`, event => window.requestAnimationFrame(() => {
       if (!this.active || event.defaultPrevented) return
       this.onHide(event)
     }))
 
     if (this.groupEl) {
-      this.handlerSet.add(this.groupEl, Showable.events.toggleGroup, event => {
+      this.handlerSet.add(this.groupEl, `${this.identifier}:toggle-group`, event => {
         if (event.defaultPrevented) return
         if (this.exclusiveGroup && this.active && !this.alwaysActive && event.detail.showTarget !== this.el) {
           this.hide({ trigger: 'exclusiveGroup' })
