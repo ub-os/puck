@@ -43,7 +43,7 @@ export default class ScrollReveal extends ElementAspect {
             this.el.style.opacity = 1
         })
     }
-    connect() {
+    connected() {
         this.observer = {
             root: null,
             rootMargin: '0px 0px -40px 0px',
@@ -85,7 +85,7 @@ export default class ScrollReveal extends ElementAspect {
         })
     }
 
-    disconnect() {
+    disconnected() {
         this.intersectionObserver?.disconnect()
     }
 }

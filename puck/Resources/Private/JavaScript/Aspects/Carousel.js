@@ -22,7 +22,7 @@ export default class Carousel extends ElementAspect {
     move({ to } = {}) {
         this.splide.go(to)
     }
-    connect() {
+    connected() {
         this.biggestSlideHeight = 0
         this.splide = new Splide(this.el, {
             arrows: true,
@@ -60,7 +60,7 @@ export default class Carousel extends ElementAspect {
         }
         return this
     }
-    disconnect() {
+    disconnected() {
         this.splide.destroy()
     }
 }

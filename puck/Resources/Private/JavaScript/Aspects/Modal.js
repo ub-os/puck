@@ -39,17 +39,17 @@ export default class Modal extends Showable {
         }
     }
 
-    connect() {
+    connected() {
         if (this.el.tagName !== 'DIALOG') throw new Error('Modal ElementAspect should only be used on dialog elements')
-        super.connect()
+        super.connected()
         // hacky way to make dialog exit animation work
         // firefox doesn't support display animation yet, so we have to disable the native dialog close
         this.handlerSet.add(this.el, 'cancel', event => event.preventDefault())
         return this
     }
 
-    disconnect() {
-        super.disconnect()
+    disconnected() {
+        super.disconnected()
         this.handlerSet.clear()
     }
 }

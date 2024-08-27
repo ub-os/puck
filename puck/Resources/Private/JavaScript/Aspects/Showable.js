@@ -128,7 +128,7 @@ export default class Showable extends ElementAspect {
     }
   }
 
-  connect() {
+  connected() {
     this.groupEl = this.groupId ? $id(this.groupId) : null
     if (this.pauseMediaOnHide) {
       this.mediaChildren = this.el.$$('video, audio')
@@ -190,7 +190,7 @@ export default class Showable extends ElementAspect {
     }
     return this
   }
-  disconnect() {
+  disconnected() {
     this.hide({ transition: false, changeUrlHash: false })
     this.handlerSet.clear()
   }

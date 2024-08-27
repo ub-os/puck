@@ -25,7 +25,7 @@ Custom elements do solve that problem, however I have a few issues with them:
 ### Why not just use stimulus?
 
 tbh, might as well. Nexus really is just the cheap knock-off.
-However, it makes some different design choices that I personally prefer. Skip this section if you're not familiar with stimulus anyway.
+However, there are some key differences. Skip this section if you're not familiar with stimulus anyway.
 
 First we need to define some terms:
 
@@ -39,7 +39,7 @@ First we need to define some terms:
 
 Here are some differences:
 
-1. nexus is more lightweight, ~4kb instead of ~11kb minified
+1. nexus is more lightweight, ~5kb instead of ~11kb minified
 2. handler and connected elements do not have to be descendants of the aspect element
 3. aspects can inject other aspects they depend on and instantiate them on their host element, making it easier to avoid
    inheritance
@@ -47,7 +47,7 @@ Here are some differences:
 5. aspect/handler-specific attributes are unambiguous and easier to read, e.g. `data-filter-list.category-state="value"` instead
    of `data-filter-list-category-state-value="value"`. It's also possible to set attributes in bulk with JSON, e.g. `data-filter-list='{"category-state":"value", "search-term":"term"}'`
 6. no special feature for css classes defined via HTML attributes, as aspect attributes already work fine for this
-7. configuration options for mutation observers and HTML attribute prefix
+7. configuration options for mutation observers
 
 ## How does it work?
 
@@ -67,7 +67,7 @@ export default class Dropdown extends Aspect {
         this.open = !this.open;
     }
 
-    connect() {
+    connected() {
         this.element.addEventListener('click', () => this.toggle());
     }
 }
@@ -100,11 +100,11 @@ When the div is clicked, the `open` property on the aspect will change, and with
      data-dropdown.open>
 ```
 
-### connect and disconnect
+### Lifecycle
 
-The `connect()` and `disconnect()` methods are comparable to the `connectedCallback()` and `disconnectedCallback()` lifecycle methods in custom elements.
+The `connected()` and `disconnected()` methods are comparable to the `connectedCallback()` and `disconnectedCallback()` lifecycle methods in custom elements.
 
-When an element with `data-connect="[...aspectIdentifiers]"` is added to the DOM, a new aspect instance is created for each identifier before calling the `initialize()` and `connect()` methods on each instance in that order. 
+When an element with `data-connect="[...aspect-names]"` is added to the DOM, a new aspect instance is created for each identifier before calling the `initialized()` and `connected()` methods on each instance in that order. 
 
 Example:
 ```html
@@ -112,11 +112,11 @@ Example:
 ```
 will create an instance of the `Dropdown` and `FilterList` aspects on the element.
 
-When an element is removed from the DOM, the `disconnect()` method is called on all its aspects. 
+When an element is removed from the DOM, the `disconnected()` method is called on all its aspects. 
 
-If the element is added back to the DOM, the `connect()` methods will be called again.
+If the element is added back to the DOM, the `connected()` methods will be called again.
 
-Additionally, if the `data-connect` attribute is changed or removed, all aspects are disconnected, destroyed and, where appropriate, newly initialized and connected.
+Additionally, if the `data-connect` attribute is changed or removed, new aspects are instantiated and connected, or existing aspects are disconnected.
 
 
 ### Attributes
@@ -124,7 +124,7 @@ Properties defined in the static property `attributes` sync instance properties 
 
 Note: Instance properties are in camelCase, while HTML attributes are kebab-case. `this.myProperty` in the dropdown aspect corresponds to `data-dropdown.my-property` on the element.
 
-When reading an attribute value, `JSON.parse` is used to convert it to the correct type, so you can use strings, numbers, booleans, arrays and objects. For booleans, any value that is not the string "false" or "0" (includes empty string "") is considered true.
+When reading an attribute value, `JSON.parse` is used to convert it to the correct type, so you can use strings, numbers, booleans, arrays and objects. For booleans, any value that is not the string "false" or "0" is considered true.
 
 When the current value of a property is equal to the default value, the HTML attribute on the element is removed.
 
@@ -146,7 +146,7 @@ export default class Dropdown extends Aspect {
 }
 ```
 
-Attributes can also be set in bulk with `data-[aspectName]='{jsonString}'`:
+Attributes can also be set in bulk with `data-[aspect-name]='{jsonString}'`:
 ```html
 <div data-connect="dropdown" 
      data-dropdown='{"open": true, "color": "red"}'>
@@ -202,7 +202,7 @@ handlerElement.addEventListener('click', aspect.toggle, {once: true, passive: fa
 ```
 In addition to `once`, `passive` and `capture`, you can also specify `prevent` and `stop`, which will call `event.preventDefault()` and `event.stopPropagation()` respectively (before calling the method).
 
-What if our method needs an argument, or we want to pass the event object?
+What if our method needs parameters, or we want to pass the event object?
 ```javascript
 export default class Dropdown extends Aspect {
     
@@ -220,14 +220,14 @@ export default class Dropdown extends Aspect {
 <button data-handler="dropdown.toggle" 
         data-dropdown.toggle.set-class="-active">Menu</button>
 ```
-Handlers call methods with its parameters as the first argument, and the event object as the second argument. It is highly recommended to use a destructured params object with default values.
+Handlers call methods with its parameters as the first argument, and the event object as the second argument. It is highly recommended to use a destructured parameters object with default values.
 
 ### Using connected elements
 
 Instead of using a handler, we might also want to connect our button directly with our dropdown aspect. This is useful if we want to change an attribute on the button when the dropdown is open, for example.
 
 First, we define the connected element type with the static property `connectedElements`. Then, we define a method `[connectedElementType]ElementConnected` that is called when a connected element is added to the DOM.
-The connected elements are accessible via `this.[connectedElementType]Elements`.
+The connected elements are accessible via `this.[connectedElementType]Elements`, the first connected element of a a type via `this.[connectedElementType]Element`.
 ```javascript
 export default class Dropdown extends Aspect {
     static attributes = {
@@ -247,10 +247,10 @@ export default class Dropdown extends Aspect {
         el.setAttribute('aria-expanded', this.open);
     }
     
-    connect() {}
+    connected() {}
 }
 ```
-We connect our HTML element to the aspect with `data-connect="[aspect].[connectedElementType]"`.
+We connect our HTML element to the aspect with `data-connect="[aspect-name].[connected-element-type]"`.
 ```html
 <div data-connect="dropdown">
     <button data-connect="dropdown.button">Menu</button>
@@ -273,7 +273,7 @@ Some aspects need behavior that is already defined on other aspects. For example
 ```javascript
 export default class Select extends Aspect {
     static injectedAspects = ['dropdown'];
-    connect() {
+    connected() {
         console.log(this.dropdownAspect.element === this.element);
         // true
     }
@@ -307,7 +307,7 @@ export default class Select extends Aspect {
         });
     }
     
-    connect() {
+    connected() {
         this.element.role = 'listbox';
     }
 }
@@ -328,110 +328,139 @@ export default class Select extends Aspect {
 
 ### Aspect
 
-#### `Aspect.connectedElements`
+#### Static properties
 
-An array of strings that define the different types of elements that can be connected to this aspect. The strings should
-match the values of the `connect` attribute on the HTML elements.
+#### `static attributes`
 
-#### `Aspect.attributes`
+An object that defines the aspect's attributes and their default values. The HTML attributes are synced with aspect instance properties, i.e. `data-[aspect-name].[attribute-name]` is mapped to `aspectInstance.[attributeName]`. The aspect will automatically update the property when the attribute changes and vice versa.
 
-An object that defines the aspect's properties and their default values. These properties can be set via HTML
-attributes, e.g. `data-dropdown.open="true"`. The aspect will automatically update the property when the attribute
-changes and vice versa. <br>Note: of course, not all properties have to be attributes.
+#### `static connectedElements`
 
-#### `Aspect.injectedAspects`
+An array of strings that defines different types of elements that can be connected to this aspect. The connected elements are attached to the aspect in HTML via `data-connect="[aspect-name].[connected-element-type]"`. The aspect can access the connected elements via `this.[connectedElementType]Elements` and `this.[connectedElementType]Element`, and callback methods are called when a connected element is added or removed.
 
-An object that defines the aspects that this aspect depends on. The aspects will be instantiated on the host element and
-can be accessed via `this.[aspectName]Aspect`.
+#### `static injectedAspects`
 
-#### `Aspect.connect()`
+An array of strings or object that defines the aspects that this aspect depends on. The aspects will be instantiated on the host element and
+can be accessed via `this.[aspectName]Aspect`. If defined as an object, the key is the name of the injected aspect and the value overrides its default attribute values.
 
-Called when an element with `connect="[aspectName]"` ("host element") is added to the DOM.
+<br>
 
-#### `Aspect.disconnect()`
+#### Static callback methods
 
-Called when the host element is removed from the DOM.
+#### `shouldLoad()`
 
-#### `Aspect.[connectedElementName]ElementConnected(el)`
+Called before the aspect is registered with `app.registerAspect()`. If the method returns false, the aspect is not registered.
 
-Called when an element with `connect="[aspectName].[connectedElementName]"` is added to the DOM.
+#### `afterLoad()`
 
-#### `Aspect.[connectedElementName]ElementDisconnected(el)`
+Called after the aspect is registered with `app.registerAspect()`.
 
-Called when the connected element is removed from the DOM.
+<br>
 
-#### `Aspect.element`
+#### Properties / Getters
 
-The host element.
+#### `element`
 
-#### `Aspect.[attributeName]`
+The host element, i.e. the element with the `data-connect` attribute that instantiated the aspect.
 
-The value of the attribute `data-[aspectName].[attributeName]` on the host element.
+#### `[attributeName]`
 
-#### `Aspect.[aspectName]Aspect`
+Instance property synced with `data-[aspect-name].[attribute-name]` on the host element via the `static attributes` object.
+
+
+#### `[aspectName]Aspect`
 
 The injected aspect with the name `[aspectName]`.
 
-#### `Aspect.[connectedElementName]Elements`
+#### `[connectedElementType]Elements`
 
-A set of connected elements with the name `[connectedElementName]`.
+A set of connected elements of type `[connectedElementType]`.
 
-#### `Aspect.[connectedElementName]Element`
+#### `[connectedElementType]Element`
 
-The first connected element with the name `[connectedElementName]`.
+The first connected element of type `[connectedElementType]`.
 
-#### `Aspect.[attributeName]Changed(oldval, newval)`
+<br>
 
-Called when the attribute `data-[aspectName].[attributeName]` changes.
+#### Callback methods
 
-#### `Aspect.initialize()`
+#### `initialized()`
 
-Called when the aspect is instantiated on the host element, before `connect()`.
+Called when the aspect is instantiated on the host element, before `connected()`.
 
-#### `Aspect.registerCallback()`
+#### `connected()`
 
-Called when the aspect is registered with `app.registerAspect()`.
+Called when an element with `data-connect="[aspect-name]"` ("host element") is added to the DOM.
+
+#### `disconnected()`
+
+Called when the host element is removed from the DOM.
+
+#### `[connectedElementType]ElementConnected(el)`
+
+Called when an element with `data-connect="[aspect-name].[connected-element-type]"` is added to the DOM.
+
+#### `[connectedElementType]ElementDisconnected(el)`
+
+Called when the connected element is removed from the DOM.
+
+#### `[attributeName]Changed(oldval, newval)`
+
+Called when the property `[attributeName]` (and, because of syncing, the HTML attribute `data-[aspect-name].[attribute-name]`) changes.
+
+<br>
 
 ### app
 
-#### `app.registerAspect(aspectName, Aspect)`
+#### `registerAspect(aspectName, Aspect)`
 
 Register an aspect with the app.
 
-#### `app.connect()`
+#### `connect()`
 
-Connect all elements with `connect="[aspectName]"` to their aspects.
+Connect all elements with `data-connect="[aspect-name]"` to their aspects and start mutation observers to watch for new elements and changes to the `data-connect` attribute.
 
-#### `app.disconnect()`
+#### `disconnect()`
 
-Disconnect all connected elements.
+Disconnect all aspects and observers.
 
-#### `app.config`
+#### `config`
 
-An object with configuration options for the app.
+Configuration options.
+
+<br>
 
 ### HTML attributes
 
-#### `data-connect="[aspectName]"`
+#### `data-connect="[aspect-name]"`
 
-Attach the aspect with the name `[aspectName]` to the element.
+Attach the aspect `[aspectName]` to the element.
 
-#### `data-connect="[aspectName].[connectedElementName]"`
+#### `data-[aspect-name].[attribute-name]="[value]"`
 
-Attach the element with the name `[connectedElementName]` to the aspect with the name `[aspectName]`.
+Set the attribute property `[attributeName]` on the aspect `[aspectName]` on this element to `[value]`.
 
-#### `data-handler="[event]->[aspectName].[methodName]"`
+#### `data-[aspect-name]='{"[attributeName]": "[value]"}'`
 
-Call the method `[methodName]` on the aspect with the name `[aspectName]` when the event `[event]` is triggered on the
-element.
+Set multiple attribute properties on the aspect `[aspectName]` on this element to the values in the object.
 
-#### `data-[aspectName].[attributeName]="[value]"`
 
-Set the property `[attributeName]` on the aspect with the name `[aspectName]` to `[value]`.
+#### `data-connect="[aspect-name].[connected-element-type]"`
 
-#### `data-[aspectName]='{"[attributeName]": "[value]"}'`
+Attach the element as type `[connectedElementType]` to the aspect `[aspectName]`.
 
-Set multiple properties on the aspect with the name `[aspectName]` to the values in the object.
+#### `data-handler="[event]->[aspect-name].[method-name]"`
+
+Call the method `[methodName]` on the aspect `[aspectName]` when the event `[event]` is triggered on the element.
+
+#### `data-[aspect-name].[method-name].[parameter-name]="[value]"`
+
+Set the parameter `[parameterName]` for the handler `[event]->[aspect-name].[method-name]` on this element. The parameter object is passed as the first argument to the method.
+
+#### `data-[aspect-name].[method-name]='{"[attributeName]": "[value]"}'`
+
+Set multiple parameters for the handler `[event]->[aspect-name].[method-name]` on this element to the values in the object, similar to the bulk attribute syntax for aspect attributes.
+
 
 
 

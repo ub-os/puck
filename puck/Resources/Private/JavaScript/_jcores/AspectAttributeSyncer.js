@@ -28,6 +28,9 @@ export default class AspectAttributeSyncer {
         try { return JSON.stringify(val) } catch { return val }
     }
     read(attrKey, val) {
+        if (typeof this.attributes[attrKey] == 'string') {
+            return val
+        }
         if (typeof this.attributes[attrKey] == 'boolean') {
             return val !== '0' && val !== 'false'
         }

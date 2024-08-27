@@ -54,7 +54,7 @@ export default class PageHeader extends ElementAspect {
         }
     }
 
-    connect() {
+    connected() {
         if (!this.scrollSensitive) {
             this.scrollSensitiveAspect.asleep = true
         }
@@ -82,7 +82,7 @@ export default class PageHeader extends ElementAspect {
         this.scrollSensitiveAspect.asleep = !newVal
     }
 
-    disconnect() {
+    disconnected() {
         this.handlerSet.clear()
         this.el.classList.remove(this.downClass, this.upClass, this.scrollClass)
     }

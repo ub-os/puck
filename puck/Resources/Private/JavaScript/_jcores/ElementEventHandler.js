@@ -38,14 +38,9 @@ export default class ElementEventHandler {
             aspectMethod
         ] = identifier.split('.')
         const attr = `${config.attributePrefix}${config.connectAttribute}`
-        const aspectEl = id
-            ? document.getElementById(id)
-            : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
 
-        const aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
         this.identifier = kebabCase(`${aspectIdentifier}.${aspectMethod}`)
         aspectMethod = camelCase(aspectMethod)
-        if (!aspectMethod || !aspect || typeof aspect[aspectMethod] !== 'function') return
         this.event = event.split('.')[0]
         if (el.nxs_handlers?.get(this.identifier)) {
             console.log(`Handler ${this.identifier} already connected to ${el.id}`)
@@ -55,9 +50,14 @@ export default class ElementEventHandler {
         const triggerGuard = this.getTriggerGuard(event)
 
         this.listener = e => {
-            let aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
+            const aspectEl = id
+                ? document.getElementById(id)
+                : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
+
+            const aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
             if (triggerGuard(e) || !aspect) return
             //if (!aspect.__connected) return
+            if (typeof aspect[aspectMethod] !== 'function') return
             if (this.listenerOptions['prevent']) {
                 e.preventDefault()
             }

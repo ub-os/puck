@@ -27,7 +27,7 @@ export default class AnchorScrolling extends ElementAspect {
         }
     }
 
-    connect() {
+    connected() {
         this.handlerSet.addDelegate(this.el, 'a', 'click', e => {
             if (!this.isCurrentLink(e.delegateTarget)) return
             if (!this.isHashLink(e.delegateTarget)) {
@@ -59,7 +59,7 @@ export default class AnchorScrolling extends ElementAspect {
         return this
     }
 
-    disconnect() {
+    disconnected() {
         this.handlerSet.clear()
     }
 }

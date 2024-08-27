@@ -26,7 +26,7 @@ export default class FocusTrap extends ElementAspect {
         return this.focusables[this.focusables.length - 1] || this.el
     }
 
-    connect() {
+    connected() {
         this.focusables = []
         this.updateFocusables()
         if (this.updateFocusOn === 'mutation') {
@@ -65,7 +65,7 @@ export default class FocusTrap extends ElementAspect {
         })
     }
 
-    disconnect() {
+    disconnected() {
         this.mutationObserver?.disconnect()
     }
 }

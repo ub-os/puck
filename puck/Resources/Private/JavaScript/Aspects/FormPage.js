@@ -32,12 +32,12 @@ export default class FormPage extends Showable {
             })
         }
     }
-    connect() {
+    connected() {
         this.formEl = this.el.closest('form')
         if (!this.formEl) {
             console.warn(`No form element found for form page ${this.el.id}`)
         }
-        super.connect()
+        super.connected()
         return this
     }
 }

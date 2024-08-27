@@ -1,45 +1,41 @@
 import config from "./Config"
 
 export default class ElementConnection {
-    /**
-     * @type {HTMLElement}
-     */
-    el = null
-    identifier = null
-    name = null
-    aspect = null
-
+    connected = false
     constructor(el, descriptor) {
         this.el = el
         const [
             aspectIdentifier,
-            name,
-            id
+            type,
+            hostId
         ] = descriptor.split(/[.#]/)
-        if (!name || !aspectIdentifier) return
-        const aspectEl = id
-            ? document.getElementById(id)
-            : el.closest(`[${config.attributePrefix}scope*=" ${aspectIdentifier} "]`);
-        this.aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
-        if (!this.aspect) return
-
-        this.identifier = `${aspectIdentifier}.${name}`
-        this.name = name
+        if (!type || !aspectIdentifier) return
+        this.type = type
+        this.hostId = hostId
+        this.aspectIdentifier = aspectIdentifier
+        this.aspectEl = hostId
+            ? document.getElementById(hostId)
+            : el.closest(`[${config.attributePrefix}scope*=" ${aspectIdentifier} "]`)
+        this.aspect = this.aspectEl?.nxs_aspects?.get(aspectIdentifier)
         !el.nxs_connections ? el.nxs_connections = new Map() : null
-        el.nxs_connections.set(this.identifier, this)
+        el.nxs_connections.set(descriptor, this)
     }
 
     connect() {
-        this.aspect[`${this.name}Elements`].add(this.el)
-        if (typeof this.aspect[`${this.name}ElementConnected`] == 'function') {
-            this.aspect[`${this.name}ElementConnected`](this.el)
+        if (this.connected || !this.aspect) return
+        this.aspect.__internal.elements.get(this.type)?.add(this.el)
+        if (typeof this.aspect[`${this.type}ElementConnected`] == 'function') {
+            this.aspect[`${this.type}ElementConnected`](this.el)
         }
+        this.connected = true
     }
 
     disconnect() {
-        this.aspect[`${this.name}Elements`].delete(this.el)
-        if (typeof this.aspect[`${this.name}ElementDisconnected`] == 'function') {
-            this.aspect[`${this.name}ElementDisconnected`](this.el)
+        if (!this.connected || !this.aspect) return
+        this.aspect.__internal.elements.get(this.type)?.delete(this.el)
+        if (typeof this.aspect[`${this.type}ElementDisconnected`] == 'function') {
+            this.aspect[`${this.type}ElementDisconnected`](this.el)
         }
+        this.connected = false
     }
 }

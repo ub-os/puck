@@ -102,12 +102,12 @@ export default class MediaPlayer extends ElementAspect {
         if (this.controls) this.videoAttributes += ' controls'
     }
 
-    connect() {
+    connected() {
         if (!this.lazyLoad) this.load()
         return this
     }
 
-    disconnect() {
+    disconnected() {
         if (this.plyr?.destroy) {
             this.plyr.destroy()
         }

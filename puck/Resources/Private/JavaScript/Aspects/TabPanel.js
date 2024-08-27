@@ -15,8 +15,8 @@ export default class TabPanel extends Showable {
     toggleElementConnected(el) {
         el.role = 'tab'
     }
-    connect() {
-        super.connect()
+    connected() {
+        super.connected()
         if (!this.groupEl) {
             console.warn(`No group element found for tab panel ${this.el.id}`)
         }
@@ -24,8 +24,8 @@ export default class TabPanel extends Showable {
         this.groupEl.role = 'tablist'
         return this
     }
-    disconnect() {
-        super.disconnect()
+    disconnected() {
+        super.disconnected()
         this.el.removeAttribute('role')
         this.groupEl.removeAttribute('role')
         this.toggleElements.forEach(t => t.removeAttribute('role'))

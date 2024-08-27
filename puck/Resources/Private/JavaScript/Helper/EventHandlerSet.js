@@ -77,6 +77,9 @@ export default class EventHandlerSet {
     }
 
     add(el, type, callback, options = {}) {
+        if (this.has({ el, type, callback, options })) {
+            return { el, type, callback, options }
+        }
         el.addEventListener(type, callback, options)
         if (this.#map.get(el)) {
             this.#map.get(el).add({ type, callback, options })
@@ -139,8 +142,8 @@ export default class EventHandlerSet {
     }
     
     forEach(cb) {
-        for (const { el, type, callback, options } of this) {
-            cb({ el, type, callback, options })
+        for (const handler of this) {
+            cb(handler)
         }
     }
 

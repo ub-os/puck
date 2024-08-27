@@ -40,17 +40,13 @@ export default class Accordion extends Showable {
     setHideHeight() {
         this.el.style[this.useMinHeight ? 'minHeight' : 'height'] = `${this.el.$('summary')?.offsetHeight ?? '0'}px`
     }
-    connect() {
-        super.connect()
+    connected() {
+        super.connected()
         this.active ? this.setShowHeight() : this.setHideHeight()
         return this
     }
-    disconnect() {
-        super.disconnect()
-    }
-
-    activeChanged(oldVal, newVal) {
-        console.log('active changed', newVal)
+    disconnected() {
+        super.disconnected()
     }
 }
 

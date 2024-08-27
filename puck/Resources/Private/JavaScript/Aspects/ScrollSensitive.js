@@ -60,7 +60,7 @@ export default class ScrollSensitive extends ElementAspect {
     this.__correctScrollTop = null
   }
 
-  connect() {
+  connected() {
     this.root = this.root ? $(this.root) : null
     if (this.cloneElementToRetainFlow) {
       const clone = this.node.cloneNode(true)
@@ -89,7 +89,7 @@ export default class ScrollSensitive extends ElementAspect {
     return this
   }
 
-  disconnect() {
+  disconnected() {
     this.handlerSet.clear()
     this.el.classList.remove(this.scrollClass)
     this.resizeObserver?.disconnect()

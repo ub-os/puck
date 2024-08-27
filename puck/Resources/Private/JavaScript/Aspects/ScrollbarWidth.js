@@ -13,7 +13,7 @@ export default class ScrollbarWidth extends ElementAspect {
     updateScrollbarWidth = () => {
         document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
     }
-    connect() {
+    connected() {
         this.sensorEl = $id(this.sensorId) || this.el.appendChild((
             <div id={this.sensorId} data-render-excluded
                  style="width:50px; visibility:hidden; overflow:scroll; height:0px; position: absolute; pointer-events: none;">
@@ -27,7 +27,7 @@ export default class ScrollbarWidth extends ElementAspect {
         }
         return this
     }
-    disconnect() {
+    disconnected() {
         this.sensorEl?.remove()
         this.resizeObserver?.disconnect()
     }

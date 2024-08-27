@@ -2,7 +2,7 @@ export default {
     observeChildList: true,
     observeAttributes: true,
     observeAspectAttributes: true,
-    attributePrefix: '',
+    attributePrefix: 'data-',
     connectAttribute: 'connect',
     handlerAttribute: 'handler',
     customElementPrefix: 'x-',

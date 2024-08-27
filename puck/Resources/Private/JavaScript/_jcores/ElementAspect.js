@@ -6,16 +6,20 @@ export default class ElementAspect {
     static shouldLoad() { return true }
 
     __internal
-    get el() { return this.__internal.el }
-    get element() { return this.__internal.el }
+    get el() { return this.__internal.host }
+    get element() { return this.__internal.host }
     get app() { return this.__internal.app }
     get identifier() { return this.constructor.identifier }
-    constructor(el, app, attributes = {}) {
-        this.__internal = { el, app }
+    constructor(host, app, attributes = {}) {
+        this.__internal = {
+            host,
+            app,
+            elements: new Map(this.constructor.connectedElements.map(name => [name, new Set()]))
+        }
         this.constructor.attributeSyncer.initializeAttributes(this, attributes)
-        !el.nxs_aspects ? el.nxs_aspects = new Map() : null
-        el.nxs_aspects.set(this.identifier, this)
-        this.initialize()
+        !host.nxs_aspects ? host.nxs_aspects = new Map() : null
+        host.nxs_aspects.set(this.identifier, this)
+        this.initialized()
     }
 
     dispatch(type, {
@@ -31,8 +35,8 @@ export default class ElementAspect {
         return event
     }
 
-    initialize()  { return this }
-    connect() { return this }
-    disconnect() { return this }
+    initialized()  { return this }
+    connected() { return this }
+    disconnected() { return this }
     attributeChanged(name, oldValue, newValue) { }
 }
