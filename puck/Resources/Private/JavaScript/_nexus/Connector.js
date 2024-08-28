@@ -6,6 +6,9 @@ export default class Connector {
     constructor(registry) {
         this.registry = registry
     }
+    connectedAspects = new Set()
+    orphans = new Map()
+    orphanHosts = new Map()
     get connectAttr() {
         return config.attributePrefix + config.connectAttribute
     }
@@ -77,11 +80,11 @@ export default class Connector {
             const el = mutation.target
             const newVal = el.getAttribute(mutation.attributeName)
             if (mutation.oldValue == newVal) return
-            if(mutation.attributeName == this.scopeAttr && el.nxs_aspects) {
+            if(mutation.attributeName == this.scopeAttr && el.nxs_tm_host) {
                 this.setHostScopeAttribute(el)
                 return
             }
-            el.nxs_aspects?.forEach(aspect => {
+            el.nxs_tm_host?.forEach(aspect => {
                 if (mutation.attributeName == `${config.attributePrefix}${aspect.token}:reconnect`) {
                     window.requestAnimationFrame(() => {
                         aspect.disconnected()
@@ -129,7 +132,7 @@ export default class Connector {
         this.hostTokensAdded(el, tokens)
     }
     hostElRemoved(el) {
-        el.nxs_aspects?.forEach(aspect => {
+        el.nxs_tm_host?.forEach(aspect => {
             this.disconnectAspect(aspect)
         })
     }
@@ -139,7 +142,7 @@ export default class Connector {
         this.childTokensAdded(el, tokens)
     }
     childElRemoved(el) {
-        el.nxs_connections?.forEach(connection => {
+        el.nxs_tm_child?.forEach(connection => {
             connection.disconnect()
         })
         this.removeOrphan(el)
@@ -149,21 +152,21 @@ export default class Connector {
         el.getAttribute(this.handlerAttr).split(' ').forEach(descriptor => {
             new ElementEventHandler(el, descriptor)
         })
-        el.nxs_handlers?.forEach(handler => {
+        el.nxs_tm_handler?.forEach(handler => {
             handler.connect()
         })
     }
     handlerElRemoved(el) {
-        el.nxs_handlers?.forEach(handler => {
+        el.nxs_tm_handler?.forEach(handler => {
             handler.disconnect()
         })
-        el.nxs_handlers = null
+        el.nxs_tm_handler = null
     }
 
     childTokensAdded(el, tokens) {
         tokens?.forEach(token => {
-            if (el.nxs_connections?.get(token)?.connected) {
-                el.nxs_connections.get(token).disconnect()
+            if (el.nxs_tm_child?.get(token)?.connected) {
+                el.nxs_tm_child.get(token).disconnect()
             }
             const connection = new ElementConnection(el, token)
             if (!connection.aspect && connection.hostId) {
@@ -175,9 +178,9 @@ export default class Connector {
     }
     childTokensRemoved(el, tokens) {
         tokens?.forEach(token => {
-            const connection = el.nxs_connections?.get(token)
+            const connection = el.nxs_tm_child?.get(token)
             connection?.disconnect()
-            el.nxs_connections?.delete(token)
+            el.nxs_tm_child?.delete(token)
             if (connection.hostId) {
                 this.removeOrphan(el, connection.hostId, token)
             }
@@ -190,11 +193,12 @@ export default class Connector {
             this.injectAspect(el, token)
         })
         this.setHostScopeAttribute(el)
-        if (el.nxs_aspects && config.observeAspectAttributes) this.aspectObserver.observe(el, {attributes: true, attributeOldValue: true})
-        el.nxs_aspects?.forEach(aspect => {
+        if (el.nxs_tm_host && config.observeAspectAttributes) this.aspectObserver.observe(el, {attributes: true, attributeOldValue: true})
+        el.nxs_tm_host?.forEach(aspect => {
             if (!aspect || aspect.__internal.isConnected) return
             aspect.connected()
             aspect.__internal.isConnected = true
+            this.connectedAspects.add(aspect)
             if (el.id) {
                 this.orphanHosts.get(el.id)?.forEach((tokens, child) => {
                     this.childTokensAdded(child, [...tokens].filter(id => id.includes(`${aspect.token}.`)))
@@ -215,9 +219,9 @@ export default class Connector {
 
     hostTokensRemoved(el, tokens) {
         tokens?.forEach(token => {
-            const aspect = el.nxs_aspects?.get(token)
+            const aspect = el.nxs_tm_host?.get(token)
             this.disconnectAspect(aspect)
-            el.nxs_aspects?.delete(token)
+            el.nxs_tm_host?.delete(token)
         })
         this.setHostScopeAttribute(el)
     }
@@ -225,18 +229,19 @@ export default class Connector {
     disconnectAspect(aspect) {
         aspect.__internal.elements.forEach((set, key) => {
             set.forEach(el => {
-                el.nxs_connections.forEach((connection, token) => {
+                el.nxs_tm_child.forEach((connection, token) => {
                     if (connection.aspect !== aspect) return
                     if (connection.hostId && connection.el.isConnected) {
                         this.addOrphan(el, connection.hostId, token)
                     }
                     connection.disconnect()
-                    el.nxs_connections.delete(token)
+                    el.nxs_tm_child.delete(token)
                 })
             })
         })
         aspect.disconnected()
         aspect.__internal.isConnected = false
+        this.connectedAspects.delete(aspect)
     }
 
     injectAspect(el, token, attributes = {}) {
@@ -244,7 +249,7 @@ export default class Connector {
             console.warn(`Aspect ${token} not found in register, skipping.`)
             return
         }
-        if (el.nxs_aspects?.has(token)) return
+        if (el.nxs_tm_host?.has(token)) return
         Object.entries(this.registry.aspectRegister.get(token).aspects).forEach(([injectToken, injectAttributes]) => {
             this.injectAspect(el, injectToken, injectAttributes)
         })
@@ -252,13 +257,10 @@ export default class Connector {
     }
 
     setHostScopeAttribute(el, oldVal = '') {
-        let scopeString = el.nxs_aspects?.keys().reduce((acc, token) => acc + `${token} `, ' ') ?? ''
+        let scopeString = el.nxs_tm_host?.keys().reduce((acc, token) => acc + `${token} `, ' ') ?? ''
         if (oldVal == scopeString) return
         el.setAttribute(this.scopeAttr, scopeString)
     }
-
-    orphanHosts = new Map()
-    orphans = new Map()
 
     addOrphan(el, hostId, token) {
         if (!this.orphanHosts.has(hostId)) {

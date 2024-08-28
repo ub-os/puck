@@ -2,23 +2,23 @@ export default class Aspect {
     static attributes = {}
     static elements = []
     static aspects = []
-    static afterLoad(token, app) {}
+    static afterLoad(token, nexus) {}
     static shouldLoad() { return true }
 
     __internal
     get el() { return this.__internal.host }
     get element() { return this.__internal.host }
-    get app() { return this.__internal.app }
+    get nexus() { return this.__internal.nexus }
     get token() { return this.constructor.token }
-    constructor(host, app, attributes = {}) {
+    constructor(host, nexus, attributes = {}) {
         this.__internal = {
             host,
-            app,
+            nexus,
             elements: new Map(this.constructor.elements.map(name => [name, new Set()]))
         }
         this.constructor.attributeSyncer.initializeAttributes(this, attributes)
-        !host.nxs_aspects ? host.nxs_aspects = new Map() : null
-        host.nxs_aspects.set(this.token, this)
+        !host.nxs_tm_host ? host.nxs_tm_host = new Map() : null
+        host.nxs_tm_host.set(this.token, this)
         this.initialized()
     }
 

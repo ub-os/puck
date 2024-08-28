@@ -21,11 +21,14 @@ class Nexus {
     disconnect() {
         this.connector.disconnect()
     }
+    get aspects() {
+        return this.connector.connectedAspects
+    }
     getAspects(el) {
-        return el?.nxs_aspects
+        return el?.nxs_tm_host
     }
     getAspect(el, aspectName) {
-        return el?.nxs_aspects?.get(aspectName)
+        return el?.nxs_tm_host?.get(aspectName)
     }
 }
 

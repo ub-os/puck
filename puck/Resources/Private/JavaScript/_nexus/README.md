@@ -29,12 +29,12 @@ However, there are some key differences. Skip this section if you're not familia
 
 First we need to define some terms:
 
-| Nexus feature | Equivalent in Stimulus |
-|---------------|------------------------|
-| Aspect        | Controller             |
-| Handler       | Action                 |
-| Elements      | Targets                |
-| Attributes    | Values                 |
+| Stimulus feature | Equivalent in Nexus |
+|------------------|---------------------|
+| Controller       | Aspect              |
+| Action           | Handler             |
+| Targets          | Elements            |
+| Values           | Attributes          |
 
 
 Here are some differences:
@@ -74,14 +74,14 @@ export default class Dropdown extends Aspect {
 }
 ```
 
-### Register the aspect and start the app
+### Register the aspect and start nexus
 
 ```javascript
-import {app} from 'nexus';
+import {nexus} from 'nexus';
 import Dropdown from './Dropdown';
 
-app.registerAspect('dropdown', Dropdown);
-app.connect();
+nexus.registerAspect('dropdown', Dropdown);
+nexus.connect();
 ```
 
 ### Attach the aspect to an element
@@ -349,11 +349,11 @@ An array of strings or object that defines the aspects that this aspect depends 
 
 #### `shouldLoad()`
 
-Called before the aspect is registered with `app.registerAspect()`. If the method returns false, the aspect is not registered.
+Called before the aspect is registered with `nexus.registerAspect()`. If the method returns false, the aspect is not registered.
 
 #### `afterLoad()`
 
-Called after the aspect is registered with `app.registerAspect()`.
+Called after the aspect is registered with `nexus.registerAspect()`.
 
 <br>
 
@@ -410,11 +410,11 @@ Called when the property `[attributeName]` (and, because of syncing, the HTML at
 
 <br>
 
-### app
+### nexus
 
 #### `registerAspect(aspectName, Aspect)`
 
-Register an aspect with the app.
+Register an aspect with nexus.
 
 #### `connect()`
 
