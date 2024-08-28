@@ -15,10 +15,10 @@ export default class Registry {
             })
             return
         }
-        if (!constructor.shouldLoad()) return
+        if (!constructor.shouldRegister()) return
         this.processAspect(token, constructor)
         this.aspectRegister.set(token, constructor)
-        constructor.afterLoad(token, nexus)
+        constructor.registered(token, nexus)
     }
     addCustomElement(token) {
         if (Array.isArray(token)) {

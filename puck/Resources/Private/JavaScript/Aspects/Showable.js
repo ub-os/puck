@@ -6,7 +6,6 @@ import EventHandlerSet from "~/Helper/EventHandlerSet"
  * @property {Map} toggleElements
  */
 export default class Showable extends Aspect {
-  static displayName = 'Showable'
   static elements = ['toggle']
   static attributes = {
     active: false,
@@ -14,7 +13,6 @@ export default class Showable extends Aspect {
     duration: 0,
     trigger: 'click',
     activeClass: '--active',
-    inactiveClass: '--inactive',
     activatingClass: '--activating',
     deactivatingClass: '--deactivating',
     // only one showable in group can be active
@@ -23,8 +21,6 @@ export default class Showable extends Aspect {
     disableToggles: false,
     // add links with matching url hash to toggles
     hashToggles: true,
-    // set state classes on parent
-    parentClassing: false,
     // set state classes on documentElement
     documentClassing: true,
     // show if url hash matches
@@ -57,11 +53,8 @@ export default class Showable extends Aspect {
 
   setClass(operation, className) {
     this.el.classList[operation](className)
-    if (this.parentClassing) {
-      this.el.parentNode.classList[operation](className)
-    }
     if (this.documentClassing) {
-      document.documentElement.classList[operation](`--${this.el.id}-${this.constructor.displayName.toLowerCase()}${className}`)
+      document.documentElement.classList[operation](`--${this.el.id}-${this.token}${className}`)
     }
     this.toggleElements.forEach(t => t.classList[operation](className))
   }
@@ -136,7 +129,7 @@ export default class Showable extends Aspect {
     if (this.reloadIframeOnHide) {
       this.iframeChildren = this.el.$$('iframe')
     }
-    this.active ? this.show({ transition: false }) : this.hide({ transition: false, changeUrlHash: false })
+    this.active ? this.onShow({ detail: {transition: false} }) : this.onHide({ detail: { transition: false, changeUrlHash: false }})
 
     this.handlerSet.add(this.el, `${this.token}:show`, event => window.requestAnimationFrame(() => {
       if (this.active || event.defaultPrevented) return

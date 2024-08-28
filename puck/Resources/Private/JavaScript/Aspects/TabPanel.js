@@ -1,7 +1,6 @@
 import Showable from "~/Aspects/Showable"
 
 export default class TabPanel extends Showable {
-    static displayName = 'TabPanel'
     onShow(event) {
         super.onShow(event)
         this.el.style.maxHeight = `${(this.el.scrollHeight + 100).toString()}px`

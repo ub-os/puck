@@ -6,7 +6,6 @@ import Showable from "~/Aspects/Showable"
  * Should only be used on <dialog> elements
  */
 export default class Modal extends Showable {
-    static displayName = 'Modal'
     static attributes = {
         ...Showable.attributes,
         selfClickHide: true,

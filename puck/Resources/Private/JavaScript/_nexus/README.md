@@ -347,11 +347,11 @@ An array of strings or object that defines the aspects that this aspect depends 
 
 #### Static callback methods
 
-#### `shouldLoad()`
+#### `shouldRegister()`
 
 Called before the aspect is registered with `nexus.registerAspect()`. If the method returns false, the aspect is not registered.
 
-#### `afterLoad()`
+#### `registered()`
 
 Called after the aspect is registered with `nexus.registerAspect()`.
 

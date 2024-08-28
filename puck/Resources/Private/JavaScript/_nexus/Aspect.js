@@ -1,9 +1,9 @@
 export default class Aspect {
     static attributes = {}
     static elements = []
-    static aspects = []
-    static afterLoad(token, nexus) {}
-    static shouldLoad() { return true }
+    static aspects = {}
+    static registered(token, nexus) {}
+    static shouldRegister() { return true }
 
     __internal
     get el() { return this.__internal.host }
@@ -14,7 +14,7 @@ export default class Aspect {
         this.__internal = {
             host,
             nexus,
-            elements: new Map(this.constructor.elements.map(name => [name, new Set()]))
+            elements: new Map(this.constructor.elements.map(key => [key, new Set()]))
         }
         this.constructor.attributeSyncer.initializeAttributes(this, attributes)
         !host.nxs_tm_host ? host.nxs_tm_host = new Map() : null

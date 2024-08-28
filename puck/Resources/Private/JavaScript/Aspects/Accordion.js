@@ -1,7 +1,6 @@
 import Showable from "~/Aspects/Showable"
 
 export default class Accordion extends Showable {
-    static displayName = 'Accordion'
     static attributes = {
         ...Showable.attributes,
         useMinHeight: false,
