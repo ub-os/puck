@@ -2,18 +2,18 @@ import Registry from "./Registry"
 import Connector from "./Connector"
 import config from "./Config"
 
-class App {
+class Nexus {
     config = config
     registry = new Registry()
     connector = new Connector(this.registry)
-    registerAspect(identifier, constructor) {
-        this.registry.registerAspect(identifier, constructor)
+    registerAspect(token, constructor) {
+        this.registry.addAspect(token, constructor, this)
     }
-    registerAspectCustomElement(identifier) {
-        this.registry.registerAspectCustomElement(identifier)
+    registerCustomElement(token) {
+        this.registry.addCustomElement(token)
     }
-    registerConnectedCallback(selector, callback) {
-        this.registry.registerConnectedCallback(selector, callback)
+    registerSelectorCallback(selector, callback) {
+        this.registry.addSelectorCallback(selector, callback)
     }
     connect() {
         this.connector.connect()
@@ -24,10 +24,9 @@ class App {
     getAspects(el) {
         return el?.nxs_aspects
     }
-
     getAspect(el, aspectName) {
         return el?.nxs_aspects?.get(aspectName)
     }
 }
 
-export default new App()
+export default new Nexus()

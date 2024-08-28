@@ -1,7 +1,7 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
-export default class ScrollbarWidth extends ElementAspect {
+export default class ScrollbarWidth extends Aspect {
     static attributes = {
         sensorId: 'scrollbar-width-sensor',
         updateOnResize: true,

@@ -1,7 +1,7 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
-export default class FocusTrap extends ElementAspect {
+export default class FocusTrap extends Aspect {
     static attributes = {
         active: false,
         updateFocusOn: 'event' // event, mutation

@@ -1,1 +1,1 @@
-import { nexus, ElementAspect } from './_jcores'
+import { nexus, Aspect } from './_nexus'

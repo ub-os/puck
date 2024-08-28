@@ -2,7 +2,7 @@ import { $, $$, jsx } from '~/Utility/DomUtility'
 import Showable from "~/Aspects/Showable"
 
 /**
- * Modal ElementAspect
+ * Modal Aspect
  * Should only be used on <dialog> elements
  */
 export default class Modal extends Showable {
@@ -40,7 +40,7 @@ export default class Modal extends Showable {
     }
 
     connected() {
-        if (this.el.tagName !== 'DIALOG') throw new Error('Modal ElementAspect should only be used on dialog elements')
+        if (this.el.tagName !== 'DIALOG') throw new Error('Modal Aspect should only be used on dialog elements')
         super.connected()
         // hacky way to make dialog exit animation work
         // firefox doesn't support display animation yet, so we have to disable the native dialog close

@@ -6,8 +6,8 @@ export default class Test2 extends Test {
         boolean: false,
         object: { key: 'value' },
     }
-    static connectedElements = ['remote','descendant']
-    static injectedAspects = []
+    static elements = ['remote','descendant']
+    static aspects = []
 
     initialized() {
         console.log('Test2 initialized', this)

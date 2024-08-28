@@ -1,8 +1,8 @@
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
-export default class Root extends ElementAspect {
+export default class Root extends Aspect {
     static attributes = {}
-    static injectedAspects = [
+    static aspects = [
         'anchor-scrolling',
         'scrollbar-width'
     ]

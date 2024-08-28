@@ -6,7 +6,7 @@ export default class ElementEventHandler {
      * @type {HTMLElement}
      */
     el = null
-    identifier = null
+    token = null
     event = null
     listener = null
     listenerOptions = {}
@@ -16,7 +16,7 @@ export default class ElementEventHandler {
         descriptor = this.completeDescriptor(el, descriptor)
         const [
             eventDescriptor,
-            identifier,
+            token,
             id
         ] = descriptor.split(/->|#/);
 
@@ -34,16 +34,16 @@ export default class ElementEventHandler {
             })
         }
         let [
-            aspectIdentifier,
+            aspectToken,
             aspectMethod
-        ] = identifier.split('.')
+        ] = token.split('.')
         const attr = `${config.attributePrefix}${config.connectAttribute}`
 
-        this.identifier = kebabCase(`${aspectIdentifier}.${aspectMethod}`)
+        this.token = kebabCase(`${aspectToken}.${aspectMethod}`)
         aspectMethod = camelCase(aspectMethod)
         this.event = event.split('.')[0]
-        if (el.nxs_handlers?.get(this.identifier)) {
-            console.log(`Handler ${this.identifier} already connected to ${el.id}`)
+        if (el.nxs_handlers?.get(this.token)) {
+            console.log(`Handler ${this.token} already connected to ${el.id}`)
             return
         }
 
@@ -52,9 +52,9 @@ export default class ElementEventHandler {
         this.listener = e => {
             const aspectEl = id
                 ? document.getElementById(id)
-                : el.closest(`[${attr}="${aspectIdentifier}"], [${attr}^="${aspectIdentifier} "], [${attr}$=" ${aspectIdentifier}"], [${attr}*=" ${aspectIdentifier} "]`);
+                : el.closest(`[${attr}="${aspectToken}"], [${attr}^="${aspectToken} "], [${attr}$=" ${aspectToken}"], [${attr}*=" ${aspectToken} "]`);
 
-            const aspect = aspectEl?.nxs_aspects?.get(aspectIdentifier)
+            const aspect = aspectEl?.nxs_aspects?.get(aspectToken)
             if (triggerGuard(e) || !aspect) return
             //if (!aspect.__connected) return
             if (typeof aspect[aspectMethod] !== 'function') return
@@ -65,10 +65,10 @@ export default class ElementEventHandler {
                 e.stopPropagation()
             }
 
-            const params = el.hasAttribute(`${config.attributePrefix}${this.identifier}`) ? this.typecast(el.getAttribute(`${config.attributePrefix}${this.identifier}`)) : {}
+            const params = el.hasAttribute(`${config.attributePrefix}${this.token}`) ? this.typecast(el.getAttribute(`${config.attributePrefix}${this.token}`)) : {}
             for (const attr of el.attributes) {
-                if (attr.name.startsWith(`${config.attributePrefix}${this.identifier}.`)) {
-                    const attrKey = camelCase(attr.name.replace(`${config.attributePrefix}${this.identifier}.`, ''))
+                if (attr.name.startsWith(`${config.attributePrefix}${this.token}.`)) {
+                    const attrKey = camelCase(attr.name.replace(`${config.attributePrefix}${this.token}.`, ''))
                     params[attrKey] = this.typecast(attr.value)
                 }
             }
@@ -78,7 +78,7 @@ export default class ElementEventHandler {
         }
 
         !el.nxs_handlers ? el.nxs_handlers = new Map() : null
-        el.nxs_handlers.set(this.identifier, this)
+        el.nxs_handlers.set(this.token, this)
     }
 
     completeDescriptor(el, descriptor) {

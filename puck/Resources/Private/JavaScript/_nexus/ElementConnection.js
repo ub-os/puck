@@ -5,18 +5,18 @@ export default class ElementConnection {
     constructor(el, descriptor) {
         this.el = el
         const [
-            aspectIdentifier,
+            aspectToken,
             type,
             hostId
         ] = descriptor.split(/[.#]/)
-        if (!type || !aspectIdentifier) return
+        if (!type || !aspectToken) return
         this.type = type
         this.hostId = hostId
-        this.aspectIdentifier = aspectIdentifier
+        this.aspectToken = aspectToken
         this.aspectEl = hostId
             ? document.getElementById(hostId)
-            : el.closest(`[${config.attributePrefix}scope*=" ${aspectIdentifier} "]`)
-        this.aspect = this.aspectEl?.nxs_aspects?.get(aspectIdentifier)
+            : el.closest(`[${config.attributePrefix}${config.scopeAttribute}*=" ${aspectToken} "]`)
+        this.aspect = this.aspectEl?.nxs_aspects?.get(aspectToken)
         !el.nxs_connections ? el.nxs_connections = new Map() : null
         el.nxs_connections.set(descriptor, this)
     }

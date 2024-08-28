@@ -5,5 +5,6 @@ export default {
     attributePrefix: 'data-',
     connectAttribute: 'connect',
     handlerAttribute: 'handler',
+    scopeAttribute: 'scope',
     customElementPrefix: 'x-',
 }

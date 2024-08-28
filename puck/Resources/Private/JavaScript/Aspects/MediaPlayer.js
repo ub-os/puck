@@ -1,10 +1,10 @@
 let Plyr = class {}
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
 const plyrDefaultControls = ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen']
-export default class MediaPlayer extends ElementAspect {
+export default class MediaPlayer extends Aspect {
     static attributes = {
         provider: 'mp4',
         width: 1920,

@@ -1,13 +1,13 @@
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
-export default class Test extends ElementAspect {
+export default class Test extends Aspect {
     static attributes = {
         string: 'default',
         boolean: false,
         object: { key: 'value' },
     }
-    static connectedElements = ['remote','descendant']
-    static injectedAspects = []
+    static elements = ['remote','descendant']
+    static aspects = []
 
     initialized() {
         console.log('Test initialized', this)

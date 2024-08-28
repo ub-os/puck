@@ -1,13 +1,13 @@
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet"
 
 /**
  * @property {Map} toggleElements
  */
-export default class Showable extends ElementAspect {
+export default class Showable extends Aspect {
   static displayName = 'Showable'
-  static connectedElements = ['toggle']
+  static elements = ['toggle']
   static attributes = {
     active: false,
     groupId: '',
@@ -138,17 +138,17 @@ export default class Showable extends ElementAspect {
     }
     this.active ? this.show({ transition: false }) : this.hide({ transition: false, changeUrlHash: false })
 
-    this.handlerSet.add(this.el, `${this.identifier}:show`, event => window.requestAnimationFrame(() => {
+    this.handlerSet.add(this.el, `${this.token}:show`, event => window.requestAnimationFrame(() => {
       if (this.active || event.defaultPrevented) return
       this.onShow(event)
     }))
-    this.handlerSet.add(this.el, `${this.identifier}:hide`, event => window.requestAnimationFrame(() => {
+    this.handlerSet.add(this.el, `${this.token}:hide`, event => window.requestAnimationFrame(() => {
       if (!this.active || event.defaultPrevented) return
       this.onHide(event)
     }))
 
     if (this.groupEl) {
-      this.handlerSet.add(this.groupEl, `${this.identifier}:toggle-group`, event => {
+      this.handlerSet.add(this.groupEl, `${this.token}:toggle-group`, event => {
         if (event.defaultPrevented) return
         if (this.exclusiveGroup && this.active && !this.alwaysActive && event.detail.showTarget !== this.el) {
           this.hide({ trigger: 'exclusiveGroup' })

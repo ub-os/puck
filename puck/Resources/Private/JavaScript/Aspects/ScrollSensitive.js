@@ -1,9 +1,9 @@
 import { $, $$, jsx, $target } from '~/Utility/DomUtility'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 
-export default class ScrollSensitive extends ElementAspect {
+export default class ScrollSensitive extends Aspect {
   static attributes = {
     topInsideClass: '--top-inside-view',
     topAboveClass: '--top-above-view',

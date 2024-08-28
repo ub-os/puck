@@ -1,12 +1,12 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import ScrollSensitive from "~/Aspects/ScrollSensitive";
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 /**
  * @property {ScrollSensitive} scrollSensitiveAspect
  */
-export default class PageHeader extends ElementAspect {
+export default class PageHeader extends Aspect {
     static attributes = {
         scrollTop: 100,
         scrollClass: '--scroll',
@@ -16,7 +16,7 @@ export default class PageHeader extends ElementAspect {
         scrollSensitive: false,
     }
 
-    static injectedAspects = ['scroll-sensitive']
+    static aspects = ['scroll-sensitive']
 
     handlerSet = new EventHandlerSet()
     lastScrollTop = 0

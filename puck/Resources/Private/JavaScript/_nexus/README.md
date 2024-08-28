@@ -1,8 +1,8 @@
 # nexus
 
-### A very modest stimulus knock-off
+### A modest stimulus knock-off
 
-This is basically a lightweight, stripped-down and less opinionated (differently opinionated?) version
+This is basically a lightweight and less opinionated (differently opinionated?) version
 of [stimulus](https://github.com/hotwired/stimulus).
 
 ## What problem does it solve?
@@ -29,25 +29,26 @@ However, there are some key differences. Skip this section if you're not familia
 
 First we need to define some terms:
 
-| Nexus feature      | Equivalent in Stimulus |
-|--------------------|------------------------|
-| Aspect             | Controller             |
-| Handler            | Action                 |
-| Connected Elements | Targets                |
-| Attributes         | Values                 |
+| Nexus feature | Equivalent in Stimulus |
+|---------------|------------------------|
+| Aspect        | Controller             |
+| Handler       | Action                 |
+| Elements      | Targets                |
+| Attributes    | Values                 |
 
 
 Here are some differences:
 
 1. nexus is more lightweight, ~5kb instead of ~11kb minified
-2. handler and connected elements do not have to be descendants of the aspect element
+2. handler and connected elements do not have to be descendants of the aspect element, connecting them "remotely" via id is possible
 3. aspects can inject other aspects they depend on and instantiate them on their host element, making it easier to avoid
    inheritance
 4. class and attribute names are more vanilla JavaScript-like, at least in my opinion
 5. aspect/handler-specific attributes are unambiguous and easier to read, e.g. `data-filter-list.category-state="value"` instead
    of `data-filter-list-category-state-value="value"`. It's also possible to set attributes in bulk with JSON, e.g. `data-filter-list='{"category-state":"value", "search-term":"term"}'`
-6. no special feature for css classes defined via HTML attributes, as aspect attributes already work fine for this
-7. configuration options for mutation observers
+6. no dedicated "classes" attributes/properties as aspect attributes already cover this functionality
+7. no "outlets", similar functionality can be achieved with remotely connected elements
+7. config options to disable mutation observers for setups where they're not needed
 
 ## How does it work?
 
@@ -102,9 +103,9 @@ When the div is clicked, the `open` property on the aspect will change, and with
 
 ### Lifecycle
 
-The `connected()` and `disconnected()` methods are comparable to the `connectedCallback()` and `disconnectedCallback()` lifecycle methods in custom elements.
+The `connected()` and `disconnected()` methods are comparable to the `connectedCallback()` and `disconnectedCallback()` lifecycle methods in [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements).
 
-When an element with `data-connect="[...aspect-names]"` is added to the DOM, a new aspect instance is created for each identifier before calling the `initialized()` and `connected()` methods on each instance in that order. 
+When an element with `data-connect="[...aspect-names]"` is added to the DOM, a new aspect instance is created for each valid token before calling the `initialized()` and `connected()` methods on each instance in that order. 
 
 Example:
 ```html
@@ -128,7 +129,7 @@ When reading an attribute value, `JSON.parse` is used to convert it to the corre
 
 When the current value of a property is equal to the default value, the HTML attribute on the element is removed.
 
-For every attribute, you can define a method `[attributeName]Changed(oldValue, newValue)` that is called when the attribute changes.
+For every attribute, you can define a callback method `[attributeName]Changed(oldValue, newValue)` that is called when the attribute changes.
 
 Additionally, when any HTML attribute on the element changes that is NOT part of your aspect attributes, the method `attributeChanged` is called with the attribute name, old value and new value as arguments.
 
@@ -226,14 +227,14 @@ Handlers call methods with its parameters as the first argument, and the event o
 
 Instead of using a handler, we might also want to connect our button directly with our dropdown aspect. This is useful if we want to change an attribute on the button when the dropdown is open, for example.
 
-First, we define the connected element type with the static property `connectedElements`. Then, we define a method `[connectedElementType]ElementConnected` that is called when a connected element is added to the DOM.
+First, we define the connected element type with the static property `elements`. Then, we define a method `[connectedElementType]ElementConnected` that is called when a connected element is added to the DOM.
 The connected elements are accessible via `this.[connectedElementType]Elements`, the first connected element of a a type via `this.[connectedElementType]Element`.
 ```javascript
 export default class Dropdown extends Aspect {
     static attributes = {
         open: false
     }
-    static connectedElements = ['button'];
+    static elements = ['button'];
     
     toggle() {
         this.open = !this.open;
@@ -268,11 +269,11 @@ Similarly to handlers, we can specify the aspect element with its id if the conn
 
 ### Injecting aspects
 
-Some aspects need behavior that is already defined on other aspects. For example, a select might depend on a dropdown aspect to toggle its visibility. Instead of extending the dropdown aspect, we can inject it into the select aspect:
+Some aspects need behavior that is already defined on other aspects. For example, a `select` might depend on a `dropdown` aspect to toggle its visibility. Instead of extending the `dropdown` aspect, we can inject it into the `select` aspect:
 
 ```javascript
 export default class Select extends Aspect {
-    static injectedAspects = ['dropdown'];
+    static aspects = ['dropdown'];
     connected() {
         console.log(this.dropdownAspect.element === this.element);
         // true
@@ -291,8 +292,8 @@ export default class Select extends Aspect {
     static attributes = {
         value: '',
     }
-    static connectedElements = ['input', 'option'];
-    static injectedAspects = ['dropdown'];
+    static elements = ['input', 'option'];
+    static aspects = ['dropdown'];
     
     valueChanged(oldValue, newValue) {
         this.inputElement.value = newValue;
@@ -334,14 +335,13 @@ export default class Select extends Aspect {
 
 An object that defines the aspect's attributes and their default values. The HTML attributes are synced with aspect instance properties, i.e. `data-[aspect-name].[attribute-name]` is mapped to `aspectInstance.[attributeName]`. The aspect will automatically update the property when the attribute changes and vice versa.
 
-#### `static connectedElements`
+#### `static elements`
 
 An array of strings that defines different types of elements that can be connected to this aspect. The connected elements are attached to the aspect in HTML via `data-connect="[aspect-name].[connected-element-type]"`. The aspect can access the connected elements via `this.[connectedElementType]Elements` and `this.[connectedElementType]Element`, and callback methods are called when a connected element is added or removed.
 
-#### `static injectedAspects`
+#### `static aspects`
 
-An array of strings or object that defines the aspects that this aspect depends on. The aspects will be instantiated on the host element and
-can be accessed via `this.[aspectName]Aspect`. If defined as an object, the key is the name of the injected aspect and the value overrides its default attribute values.
+An array of strings or object that defines the aspects that this aspect depends on. The aspects will be instantiated on the host element and can be accessed via `this.[aspectName]Aspect`. If defined as an object, the key is the name of the injected aspect and the value overrides its default attribute values.
 
 <br>
 

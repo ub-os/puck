@@ -1,17 +1,17 @@
 import Splide from '@splidejs/splide'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet"
 
 /**
  * @property {Map} controlElements
  */
-export default class Carousel extends ElementAspect {
+export default class Carousel extends Aspect {
     static attributes = {
         vertical: false,
         activeClass: '--active',
         splideOptions: {},
     }
-    static connectedElements = ['control']
+    static elements = ['control']
     //handlerSet = new EventHandlerSet()
     controlElementConnected(el) {
         el.ariaControls = this.el.id

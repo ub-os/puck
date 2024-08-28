@@ -2,14 +2,14 @@ import { kebabCase } from "./Utils"
 import config from "./Config"
 
 export default class AspectAttributeSyncer {
-    identifier = null
+    token = null
     attributes = {}
     attrKeyMap = {}
     convertKey = attrKey => {
-        return `${config.attributePrefix}${this.identifier}.${kebabCase(attrKey)}`
+        return `${config.attributePrefix}${this.token}.${kebabCase(attrKey)}`
     }
-    constructor(identifier, constructor, attributes = {}) {
-        this.identifier = identifier
+    constructor(token, constructor, attributes = {}) {
+        this.token = token
         this.attributes = attributes
         Object.keys(constructor.attributes).forEach(attrKey => {
             const dataAttr = this.convertKey(attrKey)
@@ -38,7 +38,7 @@ export default class AspectAttributeSyncer {
     }
 
     initializeAttributes(aspect, argAttributes = {}) {
-        const attrAttributes = JSON.parse(aspect.el.getAttribute(config.attributePrefix + this.identifier) || '{}')
+        const attrAttributes = JSON.parse(aspect.el.getAttribute(config.attributePrefix + this.token) || '{}')
         for (let attrKey in this.attributes) {
             const dataAttr = this.attrKeyMap[attrKey]
             if (aspect.el.hasAttribute(dataAttr)) {
@@ -51,7 +51,7 @@ export default class AspectAttributeSyncer {
                 this.setAttribute(aspect, attrKey, this.attributes[attrKey], false)
             }
         }
-        aspect.el.removeAttribute(config.attributePrefix + this.identifier)
+        aspect.el.removeAttribute(config.attributePrefix + this.token)
     }
 
     setAttribute(aspect, attrKey, val, sync = true) {

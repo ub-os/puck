@@ -1,31 +1,31 @@
-export default class ElementAspect {
+export default class Aspect {
     static attributes = {}
-    static connectedElements = []
-    static injectedAspects = []
-    static afterLoad() {}
+    static elements = []
+    static aspects = []
+    static afterLoad(token, app) {}
     static shouldLoad() { return true }
 
     __internal
     get el() { return this.__internal.host }
     get element() { return this.__internal.host }
     get app() { return this.__internal.app }
-    get identifier() { return this.constructor.identifier }
+    get token() { return this.constructor.token }
     constructor(host, app, attributes = {}) {
         this.__internal = {
             host,
             app,
-            elements: new Map(this.constructor.connectedElements.map(name => [name, new Set()]))
+            elements: new Map(this.constructor.elements.map(name => [name, new Set()]))
         }
         this.constructor.attributeSyncer.initializeAttributes(this, attributes)
         !host.nxs_aspects ? host.nxs_aspects = new Map() : null
-        host.nxs_aspects.set(this.identifier, this)
+        host.nxs_aspects.set(this.token, this)
         this.initialized()
     }
 
     dispatch(type, {
         target = this.el,
         detail = {},
-        prefix = this.identifier,
+        prefix = this.token,
         bubbles = true,
         cancelable = true
     } = {}) {

@@ -1,8 +1,8 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 
-export default class AnchorScrolling extends ElementAspect {
+export default class AnchorScrolling extends Aspect {
     static attributes = {
         scrollTopOnCurrentLink: true,
     }

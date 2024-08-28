@@ -1,7 +1,7 @@
 import smoothscroll from 'smoothscroll-polyfill'
 import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import Logger from '~/Helper/Logger'
-import { app, htmx } from '~/setup'
+import { nexus, htmx } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
 
@@ -26,8 +26,8 @@ const htmxLifecycleEvents = {
 
 
 smoothscroll.polyfill()
-app.connect()
-Logger.console.log(app)
+nexus.connect()
+Logger.console.log(nexus)
 
 htmx.logger = (el, eventType, event) => {
     if (!htmxLifecycleEvents[eventType]) return

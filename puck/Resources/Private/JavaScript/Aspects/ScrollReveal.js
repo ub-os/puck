@@ -1,6 +1,6 @@
-import { ElementAspect } from "~/_jcores"
+import { Aspect } from "~/_nexus"
 
-export default class ScrollReveal extends ElementAspect {
+export default class ScrollReveal extends Aspect {
     static attributes = {
         preset: 'slide-up',
         presetTranslate: 10,
