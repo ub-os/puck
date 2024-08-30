@@ -98,7 +98,7 @@ export default class MediaPlayer extends Aspect {
         )
     }
 
-    initialize() {
+    initialized() {
         if (this.controls) this.videoAttributes += ' controls'
     }
 

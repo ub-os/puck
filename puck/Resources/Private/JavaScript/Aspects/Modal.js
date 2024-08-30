@@ -32,7 +32,7 @@ export default class Modal extends Showable {
         }
     }
 
-    initialize() {
+    initialized() {
         if (this.appendTo && !this.el.parentNode.matches(this.appendTo)) {
             $(this.appendTo)?.appendChild(this.el)
         }
