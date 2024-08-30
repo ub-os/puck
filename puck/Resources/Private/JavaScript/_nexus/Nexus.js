@@ -5,7 +5,7 @@ import config from "./Config"
 class Nexus {
     config = config
     registry = new Registry()
-    connector = new Connector(this.registry)
+    connector = new Connector(this)
     registerAspect(token, constructor) {
         this.registry.addAspect(token, constructor, this)
     }

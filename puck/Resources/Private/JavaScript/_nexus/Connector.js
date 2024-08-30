@@ -3,8 +3,8 @@ import ElementConnection from "./ElementConnection"
 import config from "./Config"
 
 export default class Connector {
-    constructor(registry) {
-        this.registry = registry
+    constructor(nexus) {
+        this.nexus = nexus
     }
     connectedAspects = new Set()
     orphans = new Map()
@@ -19,7 +19,7 @@ export default class Connector {
         return config.attributePrefix + config.scopeAttribute
     }
     getConnectEls(el = document) {
-        return el.querySelectorAll(`[${config.attributePrefix}${config.connectAttribute}]${this.registry.customTagSelector}`)
+        return el.querySelectorAll(`[${config.attributePrefix}${config.connectAttribute}]${this.nexus.registry.customTagSelector}`)
     }
     getHandlerEls(el = document) {
         return el.querySelectorAll(`[${config.attributePrefix}${config.handlerAttribute}]`)
@@ -99,7 +99,7 @@ export default class Connector {
 
     connectNode(node) {
         if (node.nodeType !== Node.ELEMENT_NODE) return
-        for (let [selector, callback] of this.registry.selectorRegister.entries()) {
+        for (let [selector, callback] of this.nexus.registry.selectorRegister.entries()) {
             if (node.matches(selector)) {
                 callback(node)
             }
@@ -126,8 +126,8 @@ export default class Connector {
 
     hostElAdded(el) {
         let tokens = this.filterHostTokens(el.getAttribute(this.connectAttr)?.split(' ') ?? [])
-        if (this.registry.customTags[el.tagName]) {
-            tokens.push(this.registry.customTags[el.tagName])
+        if (this.nexus.registry.customTags[el.tagName]) {
+            tokens.push(this.nexus.registry.customTags[el.tagName])
         }
         this.hostTokensAdded(el, tokens)
     }
@@ -245,19 +245,19 @@ export default class Connector {
     }
 
     injectAspect(el, token, attributes = {}) {
-        if (!this.registry.aspectRegister.has(token)) {
+        if (!this.nexus.registry.aspectRegister.has(token)) {
             console.warn(`Aspect ${token} not found in register, skipping.`)
             return
         }
         if (el.nxs_tm_host?.has(token)) return
-        Object.entries(this.registry.aspectRegister.get(token).aspects).forEach(([injectToken, injectAttributes]) => {
+        Object.entries(this.nexus.registry.aspectRegister.get(token).aspects).forEach(([injectToken, injectAttributes]) => {
             this.injectAspect(el, injectToken, injectAttributes)
         })
-        new (this.registry.aspectRegister.get(token))(el, this, attributes)
+        new (this.nexus.registry.aspectRegister.get(token))(el, this.nexus, attributes)
     }
 
     setHostScopeAttribute(el, oldVal = '') {
-        let scopeString = el.nxs_tm_host?.keys().reduce((acc, token) => acc + `${token} `, ' ') ?? ''
+        let scopeString = [...el.nxs_tm_host.keys()].reduce((acc, token) => acc + `${token} `, ' ') ?? ''
         if (oldVal == scopeString) return
         el.setAttribute(this.scopeAttr, scopeString)
     }
