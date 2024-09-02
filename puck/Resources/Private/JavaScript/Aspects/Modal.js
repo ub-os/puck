@@ -16,11 +16,8 @@ export default class Modal extends Showable {
         this.el.showModal()
         super.onShow(event);
         this.el.ariaModal = 'true'
-        if (this.el.$('[data-autofocus]')) {
-            this.el.$('[data-autofocus]').focus()
-        } else {
-            this.el.focus()
-        }
+        if (this.el.$('[data-autofocus]')) this.el.$('[data-autofocus]').focus()
+        else this.el.focus()
     }
     onHide(event) {
         super.onHide(event)
@@ -33,9 +30,7 @@ export default class Modal extends Showable {
     }
 
     initialized() {
-        if (this.appendTo && !this.el.parentNode.matches(this.appendTo)) {
-            $(this.appendTo)?.appendChild(this.el)
-        }
+        if (this.appendTo) $(this.appendTo)?.appendChild(this.el)
     }
 
     connected() {

@@ -19,11 +19,10 @@ export default class Showable extends Aspect {
     exclusiveGroup: true,
     // disable toggles
     disableToggles: false,
-    // add links with matching url hash to toggles
-    hashToggles: true,
     // set state classes on documentElement
     documentClassing: true,
-    // show if url hash matches
+    // if url hash matches elements id on connect trigger show
+    // clicking an anchor with hash matching elements id will trigger show
     urlHashShow: true,
     // remove matching hash from url on hide
     urlHashRemove: true,
