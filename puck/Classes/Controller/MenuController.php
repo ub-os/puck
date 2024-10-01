@@ -20,6 +20,7 @@ use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\ContentRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 use UBOS\Puck\Domain\Model\Content\MenuPages;
+use UBOS\Puck\Domain\Model\Content\MenuAnchors;
 
 class MenuController extends ActionController
 {
@@ -130,14 +131,15 @@ class MenuController extends ActionController
     #[Plugin("AnchorMenu")]
     public function anchorMenuAction(): ResponseInterface
     {
-        $data = $this->configurationManager->getContentObject()->data;
+        $contentObjectData = $this->request->getAttribute('currentContentObject')->data;
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-        $variables['object'] = $dataMapper->map($this->settings['modelNamespace'] . $this->settings['modelName'], [$data])[0];
-        $variables['object']->setAnchors($this->contentRepository->findContentObjectsBy('Anchor', 'pid', $data['pid'])->toArray());
+        $variables['object'] = $dataMapper->map(MenuAnchors::class, [$contentObjectData])[0];
+        $variables['object']->setAnchors($this->contentRepository->findContentObjectsBy('Anchor', 'pid', $contentObjectData['pid'])->toArray());
         $variables['settings'] = $this->settings;
         $this->view->assignMultiple(
             $variables
         );
         return $this->htmlResponse();
     }
+
 }

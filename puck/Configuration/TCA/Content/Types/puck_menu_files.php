@@ -22,7 +22,7 @@ $GLOBALS['TCA']['tt_content']['types']['puck_menu_files'] = [
         'assets' => [
             'config' => [
                 'type' => 'file',
-                'allowed' => '*'
+                'allowed' => ''
             ],
         ],
     ]

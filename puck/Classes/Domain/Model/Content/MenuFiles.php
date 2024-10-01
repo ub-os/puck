@@ -12,9 +12,11 @@ use UBOS\Puckloader\Attribute\ContentElementWizard;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puck\Domain\Model\FileCollection;
+use UBOS\Puckloader\Attribute\PluginElement;
 
 #[ModelPersistence("tt_content")]
 #[ContentElementWizard('03_menu')]
+#[PluginElement('FileMenu')]
 class MenuFiles extends Text
 {
 
@@ -24,11 +26,7 @@ class MenuFiles extends Text
      */
     public ObjectStorage|null $assets = null;
 
-    /**
-     * @var ObjectStorage<FileCollection>|null
-     * @Lazy
-     */
-    public ObjectStorage|null $fileCollections = null;
+    public ?string $fileCollections = null;
 
     /**
      * @var string
@@ -49,44 +47,6 @@ class MenuFiles extends Text
      */
     public string $itemColumnWidth = '';
 
-    protected ?array $menu = null;
+    public ?array $menu = null;
 
-    public function getMenu(): ?array
-    {
-        if ($this->menu === null) {
-            $menu = [];
-            foreach($this->assets as $fileReference) {
-                $menu[] = $fileReference->getOriginalResource();
-            }
-            foreach($this->fileCollections as $fileCollection) {
-                $menu = array_merge($menu, $fileCollection->getFiles());
-            }
-            $this->menu = $this->sortMenu($menu);
-        }
-        return $this->menu;
-    }
-
-    protected function sortMenu(array $menu): array
-    {
-        if ($this->filelinkSorting) {
-            usort($menu, function ($a, $b)
-            {
-                $valA = $a->getProperties()[$this->filelinkSorting];
-                $valB = $b->getProperties()[$this->filelinkSorting];
-                if ($this->filelinkSortingDirection === 'desc') {
-                    if (is_string($valA)) {
-                        return strcasecmp($valA, $valB);
-                    }
-                    return $valA < $valB;
-                } else {
-                    if (is_string($valA)) {
-                        return strcasecmp($valB, $valA);
-                    }
-                    return $valA > $valB;
-                }
-            }
-            );
-        }
-        return $menu;
-    }
 }
