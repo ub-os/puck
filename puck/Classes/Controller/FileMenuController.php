@@ -30,6 +30,9 @@ class FileMenuController extends ActionController
             $menu[] = $fileReference->getOriginalResource();
         }
         foreach(explode(',', $object->fileCollections) as $uid) {
+            if (!$uid) {
+                continue;
+            }
             $menu = array_merge($menu, $this->getFilesFromCollectionUid($uid));
         }
         $object->menu = $this->sortMenu($menu, $object->filelinkSorting, $object->filelinkSortingDirection);

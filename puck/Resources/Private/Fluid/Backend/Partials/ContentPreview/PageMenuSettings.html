@@ -19,7 +19,7 @@
         <tbody>
             <f:render section="icons" arguments="{icons:processed.doktypeIcons,label:'Allowed page types'}"/>
             <f:render section="recordList" arguments="{records:processed.parents,title:'Subpages of'}"/>
-            <f:render section="recordList" arguments="{records:processed.pages,title:'Pages'}"/>
+            <f:render section="recordList" arguments="{records:processed.records,title:'Pages'}"/>
             <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
             <f:render section="boolean" arguments="{value:settings.demand.navHide,label:'Respect hidden in menus'}"/>
             <f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>

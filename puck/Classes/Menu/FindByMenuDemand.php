@@ -32,6 +32,7 @@ trait FindByMenuDemand
         if ($demand->records) {
             foreach (explode(',', $demand->records) as $key => $value) {
                 $pidUidConstraints[] = $query->equals('uid', $value);
+                $pidUidConstraints[] = $query->equals('l10n_parent', $value);
             }
         }
         if ($demand->parents) {
