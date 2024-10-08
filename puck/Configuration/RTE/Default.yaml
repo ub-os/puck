@@ -60,7 +60,6 @@ editor:
 
     toolbar:
       items:
-        - clipboard
         - removeFormat
         - undo
         - redo
@@ -96,7 +95,6 @@ editor:
         - '-'
         - style
         - heading
-        - showBlocks
         - sourceEditing
 
     alignment:

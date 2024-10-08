@@ -90,14 +90,13 @@ export default class EventHandlerSet {
     }
 
     addDelegate(el, selector, type, callback, options = {}) {
-        const delegateCallback = e => {
+        return this.add(el, type, e => {
             const target = e.target.closest(selector)
             if (target) {
                 e.delegateTarget = target
                 callback(e)
             }
-        }
-        return this.add(el, type, delegateCallback, options)
+        }, options)
     }
 
     delete({ el, type, callback, options }) {
