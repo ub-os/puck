@@ -79,12 +79,12 @@ trait FindByMenuDemand
         }
 
         if ($demand->orderByRecordsProperty) {
-            $recordsArray = $records->toArray();
             $recordUids = explode(',', $demand->records);
             $notInUidsIterator = 0;
             $newArray = [];
-            foreach ($recordsArray as $record) {
-                $selectionPosition = array_search($record->getUid(), $recordUids);
+            foreach ($records as $record) {
+                $uid = is_array($record) ? $record['uid'] : $record->getUid();
+                $selectionPosition = array_search($uid, $recordUids);
                 if ($selectionPosition !== false) {
                     $newArray[$selectionPosition] = $record;
                 } else {
