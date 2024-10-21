@@ -17,6 +17,7 @@ $GLOBALS['TCA']['sys_file_reference']['columns']['breakpoints'] = [
             ['Tablet (<975px)', 'm'],
             ['Laptop (<1325px)', 'l'],
         ]),
+        'dbFieldLength' => 10,
         'default' => 'default',
     ],
 ];

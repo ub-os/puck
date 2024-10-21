@@ -7,7 +7,6 @@ $ctrl = [
     'title' => 'Person',
     'tstamp' => 'tstamp',
     'crdate' => 'crdate',
-    'cruser_id' => 'cruser_id',
     'origUid' => 't3_origuid',
     'sortby' => 'sorting',
     'delete' => 'deleted',
@@ -22,7 +21,6 @@ $ctrl = [
     'searchFields' => 'name',
 ];
 $interface = [
-    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, position, description',
 ];
 $columns = [
     'name' => [
@@ -68,8 +66,8 @@ $columns = [
     'email' => [
         'label' => 'Email',
         'config' => [
-            'type' => 'input',
-            'eval' => 'trim,email',
+            'type' => 'email',
+            'eval' => 'trim',
             'max' => 255,
         ]
     ],
@@ -103,22 +101,19 @@ $columns = [
     'link' => [
         'label' => 'Link',
         'config' => [
-            'type' => 'input',
-            'renderType' => 'inputLink',
+            'type' => 'link',
         ]
     ],
     'link_linkedin' => [
         'label' => 'Link Linkedin',
         'config' => [
-            'type' => 'input',
-            'renderType' => 'inputLink',
+            'type' => 'link',
         ]
     ],
     'link_xing' => [
         'label' => 'Link Xing',
         'config' => [
-            'type' => 'input',
-            'renderType' => 'inputLink',
+            'type' => 'link',
         ]
     ],
     'assets' => [
@@ -151,7 +146,7 @@ $columns = [
             'type' => 'passthrough',
         ],
     ],
-    'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
+    //'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
 ];
 $columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('1:1,4:3,3:2,2:1');
 

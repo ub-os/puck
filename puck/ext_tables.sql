@@ -1,3 +1,5 @@
-CREATE TABLE sys_file_reference (
-    breakpoints varchar(1024) DEFAULT '' NOT NULL,
+CREATE TABLE tt_content (
+    container_width int DEFAULT '0' NOT NULL,
+    container_offset int DEFAULT '0' NOT NULL,
 );
+

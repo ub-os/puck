@@ -51,7 +51,7 @@ final class ModifyPageLayoutContent
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($pathAndFilename));
-        $view->assignMultiple(array_merge(['state' => AbstractMessage::INFO], $variables ?: []));
+        $view->assignMultiple($variables ?? []);
 
         return $view;
     }

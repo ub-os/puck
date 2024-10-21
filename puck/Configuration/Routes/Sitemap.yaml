@@ -1,11 +1,11 @@
 routeEnhancers:
   SitemapPage:
-    limitToPages: '%routeEnhancerPages.sitemap%'
+    limitToPages: '%rootPageId%'
     type: PageType
     map:
       .xml: 1533906435
   Sitemap:
-    limitToPages: '%routeEnhancerPages.sitemap%'
+    limitToPages: '%rootPageId%'
     type: Simple
     routePath: '{sitemap}'
     aspects:

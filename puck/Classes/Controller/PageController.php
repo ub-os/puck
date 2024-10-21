@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 use UBOS\Puckloader\Attribute\Plugin;
 
@@ -23,9 +24,10 @@ use UBOS\Puck\Domain\Repository\PageRepository;
  */
 class PageController extends ActionController
 {
+
     public function __construct(
         protected PageRepository $pageRepository,
-        protected ContentObjectRenderer $contentObjectRenderer,
+        protected ContentContentObject $contentContentObject,
     )
     {
     }
@@ -33,11 +35,11 @@ class PageController extends ActionController
     #[Plugin("Page")]
     public function indexAction(): ResponseInterface
     {
-        $data = $this->request->getAttribute('currentContentObject')->data;
+        $contentObjectRenderer = $this->request->getAttribute('currentContentObject');
+        $this->contentContentObject->setRequest($this->request);
+        $this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
+        $data = $contentObjectRenderer->data;
         $context = GeneralUtility::makeInstance(Context::class);
-        $contentObject = new ContentContentObject();
-        $contentObject->setRequest($this->request);
-        $contentObject->setContentObjectRenderer($this->contentObjectRenderer);
         $model = $this->pageRepository->findByUid($data['uid']);
 
         $variables = [];
@@ -46,7 +48,7 @@ class PageController extends ActionController
             $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
             $variables = $contentDataProcessor->process(
-                $this->request->getAttribute('currentContentObject'),
+                $contentObjectRenderer,
                 ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
                 ['data' => $data]
             );
@@ -60,7 +62,7 @@ class PageController extends ActionController
 
         // to do update, replace with alternative
         foreach($backendRows as $row) {
-            $variables['contentElements']['colPos'.$row['colPos']] = $contentObject->render([
+            $variables['contentElements']['colPos'.$row['colPos']] = $this->contentContentObject->render([
                 'table' => 'tt_content',
                 'select.' => [
                     'pidInList' => $data['uid'],
@@ -94,7 +96,7 @@ class PageController extends ActionController
             $variables
         );
         return $this->htmlResponse();
-
     }
+
 
 }

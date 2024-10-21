@@ -6,6 +6,7 @@
 
     <footer id="footer" class="{name}">
       <layout:section class="{name}__nav__wrap" id="footer-1">
+        <f:comment>
         <element:navigation name="{name}__nav" pages="{settings.navUid.footer}" class="">
           <f:comment>
             <li class="{name}__nav__item">
@@ -14,6 +15,7 @@
           </f:comment>
         </element:navigation>
         <element:navigation name="{name}__nav" pages="{settings.navUid.social}" class="-social" prependIcon="1" hideTitle="1"/>
+        </f:comment>
       </layout:section>
       <fc:slot name="content"/>
     </footer>

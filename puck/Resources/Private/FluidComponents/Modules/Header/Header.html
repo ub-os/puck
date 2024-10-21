@@ -19,10 +19,11 @@
 
         <div class="{name}__nav__wrap" id="main-nav">
 
-          <element:navigation name="{name}__nav"
-                              pages="{settings.navUid.main}"
-                              label="{f:translate(key:'navigation.main')}"/>
           <f:comment>
+
+            <element:navigation name="{name}__nav"
+                                pages="{settings.navUid.main}"
+                                label="{f:translate(key:'navigation.main')}"/>
             // small navigation with search link that opens modal
             <element:navigation name="{name}__nav" class="-small" pages="{settings.navUid.meta}">
               <f:if condition="{object.uid} != {settings.search.pid}">
@@ -38,10 +39,13 @@
 
         </div>
 
-        <template data-append-on-load>
-          <module:header.sidebarNav object="{object}"/>
-          <module:header.burger />
-        </template>
+        <f:comment>
+          <template data-append-on-load>
+            <module:header.sidebarNav object="{object}"/>
+            <module:header.burger />
+          </template>
+        </f:comment>
+
 
       </div>
     </header>

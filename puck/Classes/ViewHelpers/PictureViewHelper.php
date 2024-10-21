@@ -2,15 +2,15 @@
 namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper as UriImageViewHelper;
 
 class PictureViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -33,91 +33,92 @@ class PictureViewHelper extends AbstractViewHelper
         $this->registerArgument('additionalAttributes', 'array', '', false, []);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string
+    protected function createViewHelper(string $className, array $arguments = []): mixed
     {
-        if ($arguments['image'] === null && $arguments['src'] === '') {
+        $helper = GeneralUtility::makeInstance($className);
+        $argumentDefinition = $helper->prepareArguments();
+        $defaultArguments = array_map(
+            function ($definition) {
+                return $definition->getDefaultValue();
+            },
+            $argumentDefinition);
+        $helper->setArguments(array_merge($defaultArguments, $arguments));
+        return $helper;
+    }
+
+    public function render(): string
+    {
+        if ($this->arguments['image'] === null && $this->arguments['src'] === '') {
             return '';
         }
-        if ($arguments['backgroundImage']) {
-            $src = UriImageViewHelper::renderStatic([
-                'src' => $arguments['src'],
+        if ($this->arguments['backgroundImage']) {
+            $src = $this->createViewHelper(UriImageViewHelper::class, [
+                'src' => $this->arguments['src'],
                 'treatIdAsReference' => false,
-                'image' => $arguments['image'],
-                'cropVariant' => $arguments['cropVariant'],
-                'width' => $arguments['width'],
-                'height' => '',
+                'image' => $this->arguments['image'],
+                'cropVariant' => $this->arguments['cropVariant'],
+                'width' => $this->arguments['width'],
                 'absolute' => true,
-                'crop' => null,
-                'fileExtension' => '',
-                'height' => '',
-                'minWidth' => '',
-                'minHeight' => '',
-                'maxWidth' => '',
-                'maxHeight' => '',
-            ], $renderChildrenClosure, $renderingContext);
-            if ($arguments['webp']) {
+            ])->render();
+            if ($this->arguments['webp']) {
                 $src = $src . '.webp';
             }
-            if ($arguments['avif']) {
+            if ($this->arguments['avif']) {
                 $src = $src . '.avif';
             }
-            return "<div class=\"{$arguments['className']}__image {$arguments['class']}\" style=\"background-image: url('{$src}');\"></div>";
+            return "<div class=\"{$this->arguments['className']}__image {$this->arguments['class']}\" style=\"background-image: url('{$src}');\"></div>";
         }
 
-        $pictureClass = "{$arguments['className']}__picture";
+        $pictureClass = "{$this->arguments['className']}__picture";
         $pictureStyle = "";
-        if ($arguments['reserveHeight']) {
+        if ($this->arguments['reserveHeight']) {
             $pictureClass .= " -reserve-height";
-            $pictureStyle = "padding-top: {$arguments['reserveHeight']};";
+            $pictureStyle = "padding-top: {$this->arguments['reserveHeight']};";
         }
         $pictureHtml = "<picture class=\"{$pictureClass}\" style=\"{$pictureStyle}\">";
 
 
         $title = '';
         $alt = '';
-        if (method_exists($arguments['image'], 'getTitle')) {
-            $title = $arguments['image']->getTitle() ?? '';
+        if (method_exists($this->arguments['image'], 'getTitle')) {
+            $title = $this->arguments['image']->getTitle() ?? '';
         }
-        if (method_exists($arguments['image'], 'getAlternative')) {
-            $alt = $arguments['image']->getAlternative() ?? '';
+        if (method_exists($this->arguments['image'], 'getAlternative')) {
+            $alt = $this->arguments['image']->getAlternative() ?? '';
         }
-        if ($arguments['image']) {
-            $imageHtml = ImageViewHelper::renderStatic([
-                'image' => $arguments['image'],
-                'class' => "{$arguments['className']}__image {$arguments['class']}",
-                'width' => $arguments['width'],
+        $imageViewHelper = GeneralUtility::makeInstance(ImageViewHelper::class);
+        if ($this->arguments['image']) {
+            $imageHtml = $this->createViewHelper(ImageViewHelper::class, [
+                'image' => $this->arguments['image'],
+                'class' => "{$this->arguments['className']}__image {$this->arguments['class']}",
+                'width' => $this->arguments['width'],
                 'absolute' => true,
-                'cropVariant' => $arguments['cropVariant'],
+                'cropVariant' => $this->arguments['cropVariant'],
                 'treatIdAsReference' => false,
                 'title' => $title,
                 'alt' => $alt,
-                'loading' => $arguments['loading'],
-                'additionalAttributes' => $arguments['additionalAttributes'],
-            ], $renderChildrenClosure, $renderingContext);
+                'loading' => $this->arguments['loading'],
+                'additionalAttributes' => $this->arguments['additionalAttributes'],
+            ])->render();
         } else {
-            $imageHtml = ImageViewHelper::renderStatic([
-                'src' => $arguments['src'],
-                'class' => "{$arguments['className']}__image {$arguments['class']}",
-                'width' => $arguments['width'],
+            $imageHtml = $this->createViewHelper(ImageViewHelper::class, [
+                'src' => $this->arguments['src'],
+                'class' => "{$this->arguments['className']}__image {$this->arguments['class']}",
+                'width' => $this->arguments['width'],
                 'absolute' => true,
                 'treatIdAsReference' => false,
-                'loading' => $arguments['loading'],
-                'additionalAttributes' => $arguments['additionalAttributes'],
-            ], $renderChildrenClosure, $renderingContext);
+                'loading' => $this->arguments['loading'],
+                'additionalAttributes' => $this->arguments['additionalAttributes'],
+            ])->render();
         }
-
-        if (!$arguments['image']) {
+        if (!$this->arguments['image']) {
             return "{$pictureHtml}{$imageHtml}</picture>";
         }
 
-        $sources = $arguments['sources'];
+        $sources = $this->arguments['sources'];
 
-        if ($arguments['breakpointSources']) {
-            $imageBreakpoints = explode(',', $arguments['image']->getProperties()['breakpoints']) ?? [];
+        if ($this->arguments['breakpointSources']) {
+            $imageBreakpoints = explode(',', $this->arguments['image']->getProperties()['breakpoints']) ?? [];
             foreach ($imageBreakpoints as $breakpoint) {
                 if (!$breakpoint) {
                     continue;
@@ -126,9 +127,9 @@ class PictureViewHelper extends AbstractViewHelper
                     $sources[$breakpoint]['cropVariant'] = $breakpoint;
                     continue;
                 }
-                $width = $arguments['breakpoints'][$breakpoint] ?? (int)$breakpoint;
-                if ($width > $arguments['width']) {
-                    $width = $arguments['width'];
+                $width = $this->arguments['breakpoints'][$breakpoint] ?? (int)$breakpoint;
+                if ($width > $this->arguments['width']) {
+                    $width = $this->arguments['width'];
                 }
                 $sources[$breakpoint] = [
                     'cropVariant' => $breakpoint,
@@ -139,64 +140,50 @@ class PictureViewHelper extends AbstractViewHelper
         }
 
         $sources['default'] = [
-            'cropVariant' => $arguments['cropVariant'],
-            'width' => $arguments['width']
+            'cropVariant' => $this->arguments['cropVariant'],
+            'width' => $this->arguments['width']
         ];
 
         $sourcesHtml = '';
         foreach ($sources as $breakpoint => $source) {
             $width = $source['width'];
-            if ($arguments['sourceMaxWidth'] > 0 && $width > $arguments['sourceMaxWidth']) {
-                $width = $arguments['sourceMaxWidth'];
+            if ($this->arguments['sourceMaxWidth'] > 0 && $width > $this->arguments['sourceMaxWidth']) {
+                $width = $this->arguments['sourceMaxWidth'];
             }
-            $srcset = UriImageViewHelper::renderStatic([
-                'image' => $arguments['image'],
+
+            $srcset = $this->createViewHelper(UriImageViewHelper::class, [
+                'image' => $this->arguments['image'],
                 'cropVariant' => $source['cropVariant'] ?? '',
                 'width' => $width,
                 'absolute' => true,
                 'treatIdAsReference' => false,
-                'src' => '',
-                'crop' => null,
-                'fileExtension' => '',
-                'height' => '',
-                'minWidth' => '',
-                'minHeight' => '',
-                'maxWidth' => '',
-                'maxHeight' => '',
-            ], $renderChildrenClosure, $renderingContext);
+            ])->render();
+
             $srcsetx2 = '';
             $x2 = '';
-            if ($arguments['retina']) {
+            if ($this->arguments['retina']) {
                 $srcsetx2 .= ', ';
-                $srcsetx2 .= UriImageViewHelper::renderStatic([
-                    'image' => $arguments['image'],
+                $srcsetx2 .= $this->createViewHelper(UriImageViewHelper::class, [
+                    'image' => $this->arguments['image'],
                     'cropVariant' => $source['cropVariant'] ?? '',
                     'width' => $width * 2,
                     'absolute' => true,
                     'treatIdAsReference' => false,
-                    'src' => '',
-                    'crop' => null,
-                    'fileExtension' => '',
-                    'height' => '',
-                    'minWidth' => '',
-                    'minHeight' => '',
-                    'maxWidth' => '',
-                    'maxHeight' => '',
-                ], $renderChildrenClosure, $renderingContext);
+                ])->render();
                 $x2 = ' 2x';
             }
             $maxWidth = $breakpoint;
-            if (isset($arguments['breakpoints'][$breakpoint])) {
-                $maxWidth = $arguments['breakpoints'][$breakpoint];
+            if (isset($this->arguments['breakpoints'][$breakpoint])) {
+                $maxWidth = $this->arguments['breakpoints'][$breakpoint];
             }
             $media = "media=\"(max-width: {$maxWidth}px)\"";
             if ($breakpoint === 'default') {
                 $media = '';
             }
-            if ($arguments['avif']) {
+            if ($this->arguments['avif']) {
                 $sourcesHtml .= "<source srcset=\"{$srcset}.avif {$srcsetx2}.avif{$x2}\" {$media} type=\"image/avif\">";
             }
-            if ($arguments['webp']) {
+            if ($this->arguments['webp']) {
                 $sourcesHtml .= "<source srcset=\"{$srcset}.webp {$srcsetx2}.webp{$x2}\" {$media} type=\"image/webp\">";
             }
             $sourcesHtml .= "<source srcset=\"{$srcset} {$srcsetx2}{$x2}\" {$media}>";

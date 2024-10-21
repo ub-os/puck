@@ -48,7 +48,9 @@
             </f:if>
         </schema:multipleType>
 
-        <f:variable name="breadcrumbsMenu" value="{u:menu(pages:object.uid, processor:'breadcrumbs')}"/>
+        <f:comment>
+            <f:variable name="breadcrumbsMenu" value="{u:menu(pages:object.uid, processor:'breadcrumbs')}"/>
+        </f:comment>
         <schema:type.breadcrumbList>
             <f:for each="{breadcrumbsMenu}" as="item" iteration="i">
                 <schema:type.listItem

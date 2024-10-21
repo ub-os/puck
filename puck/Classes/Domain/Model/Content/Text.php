@@ -25,18 +25,18 @@ class Text extends AbstractEntity
     /**
      * @var string
      */
-    #[ModelColumn("string")]
+    //#[ModelColumn("string")]
     public string $layout = '';
 
     /**
      * @var string
      */
-    #[ModelColumn("string")]
+    //#[ModelColumn("string")]
     public string $frameClass = '';
 
     /**
      * @var string
      */
-    #[ModelColumn("string")]
+    //#[ModelColumn("string")]
     public string $icon = '';
 }

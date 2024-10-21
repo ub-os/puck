@@ -22,12 +22,14 @@ final class PuckTitleProvider extends AbstractPageTitleProvider
         if ($this->title) {
             return $this->title;
         }
-        $page = $GLOBALS['TSFE']->page;
-        if ($page['seo_title']) {
-            return $page['seo_title'];
+        $pageRecord = $this->request->getAttribute('frontend.page.information')->getPageRecord();
+        if ($pageRecord['seo_title']) {
+            return $pageRecord['seo_title'];
         }
-        $siteTitle = $GLOBALS['TSFE']->getLanguage()->getWebsiteTitle() ?: $GLOBALS['TSFE']->getSite()->getAttribute('websiteTitle');
-        return $page['title'] . self::TITLE_DIVIDER . $siteTitle;
+        $site = $this->request->getAttribute('site');
+        $language = $this->request->getAttribute('language');
+        $siteTitle = $language->getWebsiteTitle() ?: $site->getAttribute('websiteTitle');
+        return $pageRecord['title'] . self::TITLE_DIVIDER . $siteTitle;
     }
 
     public function setTitle(string $title): void

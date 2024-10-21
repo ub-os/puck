@@ -7,18 +7,18 @@ trait ContainerLayout {
     /**
      * @var int
      */
-    #[ModelColumn("int")]
+    //#[ModelColumn("int")]
     public int $containerWidth = 12;
 
     /**
      * @var string
      */
-    #[ModelColumn("string")]
+    //#[ModelColumn("string")]
     public string $containerPosition = '';
 
     /**
      * @var int
      */
-    #[ModelColumn("int")]
+    //#[ModelColumn("int")]
     public int $containerOffset = 0;
 }

@@ -6,7 +6,6 @@ $ctrl = [
     'title' => 'Page teaser',
     'tstamp' => 'tstamp',
     'crdate' => 'crdate',
-    'cruser_id' => 'cruser_id',
     'sortby' => 'sorting',
     'versioningWS' => true,
     'languageField' => 'sys_language_uid',
@@ -25,7 +24,6 @@ $ctrl = [
     'hideTable' => false
 ];
 $interface = [
-    'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, header, subheader, bodytext',
 ];
 
 $columns = [
@@ -89,7 +87,8 @@ $columns = [
             'type' => 'passthrough',
         ],
     ],
-    'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
+    //todo: is this added automatically?
+    //'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
 ];
 
 $palettes = [
