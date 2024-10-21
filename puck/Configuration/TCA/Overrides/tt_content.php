@@ -5,13 +5,16 @@ use UBOS\Puck\Preview\PuckPreviewRenderer;
 use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puckloader\Loader;
 
-$contentTcaPath = ExtensionManagementUtility::extPath('puck', 'Configuration/TCA/Content');
+foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/TCA/Content/*.php') as $file) {
+    require $file;
+}
 
-$columns = require $contentTcaPath . '/tt_content__columns.php';
-$palettes = require $contentTcaPath . '/tt_content__palettes.php';
+foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/ContentElements/*.php') as $element) {
+    (include $element)->addTCA();
+}
 
 Loader::loadTca('puck');
-
+$contentTcaPath = ExtensionManagementUtility::extPath('puck', 'Configuration/TCA/Content');
 $typeNames = PuckUtility::getBaseFilesInDir($contentTcaPath . '/Types/', 'php');
 foreach ($typeNames as $type) {
     require $contentTcaPath . '/Types/' . $type . '.php';

@@ -5,5 +5,4 @@ contentModel:
   templateRootPath: EXT:puck/Resources/Private/Fluid/
   partialRootPath: EXT:puck/Resources/Private/Fluid/Partials/
   layoutRootPath: EXT:puck/Resources/Private/Fluid/Layouts/
-  extensionName: Puck
 iconIdentifierPrefix: ''

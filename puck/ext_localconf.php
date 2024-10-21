@@ -1,10 +1,17 @@
 <?php
 defined('TYPO3') or die();
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use UBOS\Puckloader\Loader;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 Loader::loadConf('puck');
+
+foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/ContentElements/*.php') as $element) {
+    (include $element)->addTypoScript();
+}
 
 // Register tsconfig
 ExtensionManagementUtility::addPageTSConfig(

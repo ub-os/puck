@@ -1,19 +1,19 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-modal"/>
-  <fc:param name="object" type="mixed"/>
+  <fc:param name="record" type="UBOS\Puck\Domain\ContentRecord"/>
     <fc:param name="cropVariant" type="string" optional="1" default="default" />
     <fc:renderer>
 
-      <layout:modal id="c{object.uid}" width="{object.containerWidth}">
+      <layout:modal id="c{record.uid}" width="{record.container_width}">
           <layout:card
-                  media="{object.assets}"
+                  media="{record.assets}"
                   cropVariant="{cropVariant}"
-                  mediaSize="{object.cardMediaSize}"
-                  mediaWidth="{object.mediaColumnWidth}"
-                  mediaLayout="{object.mediaLayout}">
-              <element:moduleHeader object="{object}"/>
-              <element:richText text="{object.bodytext}"/>
+                  mediaSize="{record.card_media_size}"
+                  mediaWidth="{record.media_column_width}"
+                  mediaLayout="{record.media_layout}">
+              <element:moduleHeader object="{record}"/>
+              <element:richText text="{record.bodytext}"/>
               <f:format.html>{content}</f:format.html>
           </layout:card>
       </layout:modal>
