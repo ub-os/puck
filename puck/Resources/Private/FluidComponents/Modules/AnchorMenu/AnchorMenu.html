@@ -1,26 +1,27 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-anchor-menu"/>
-  <fc:param name="object" type="mixed"/>
+  <fc:param name="record" type="mixed"/>
+  <fc:param name="menu" type="array" optional="1"/>
   <fc:renderer>
 
     <layout:section
             class="{name}__wrap"
-            object="{object}"
-            id="c{object.uid}"
+            object="{record}"
+            id="c{record.uid}"
             attributes="{
             data-connect: 'scroll-sensitive',
             'data-scroll-sensitive.top-above-class': '--stuck',
             'data-scroll-sensitive.root-margin': '-100px 0px 0px 0px'
             }">
-      <f:if condition="{object.anchors}">
+      <f:if condition="{menu}">
         <ul class="{name}__list">
-          <f:if condition="{object.header}">
+          <f:if condition="{record.header}">
             <li class="{name}__item">
-              <header class="{name}__header">{object.header}</header>
+              <header class="{name}__header">{record.header}</header>
             </li>
           </f:if>
-          <f:for each="{object.anchors}" as="anchor" iteration="i">
+          <f:for each="{menu}" as="anchor" iteration="i">
             <li class="{name}__item">
               <a class="{name}__link" href="#{anchor.subheader}">{anchor.header}</a>
             </li>

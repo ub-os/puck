@@ -10,53 +10,58 @@ use B13\Container\Tca\Registry;
 class ContentElementDefinition
 {
     public function __construct(
-        protected string $key,
-        protected string $label,
-        protected string $description,
-        protected string $group = '01_content',
-        protected string $icon = 'default',
-        protected string $showItem = '',
-        protected array $columnsOverrides = [],
-        protected string $pluginName = 'Content',
-        protected string $extensionName = 'Puck',
-        protected string $vendorName = 'UBOS',
-        protected string $model = '',
-        protected array $flexForms = [],
-        protected array $containerConfiguration = [],
-        protected array $dataProcessing = [],
-        protected string $previewRenderer = '',
-        protected bool $noCache = false
+        public string $key,
+        public string $label,
+        public string $description,
+        public string $group = '01_content',
+        public string $icon = 'default',
+        public string $showItem = '',
+        public array $columnsOverrides = [],
+        public string $pluginName = 'Content',
+        public string $extensionName = 'Puck',
+        public string $vendorName = 'UBOS',
+        public string $templateName = '',
+        public string $model = '',
+        public array $flexForms = [],
+        public array $containerConfiguration = [],
+        public array $dataProcessing = [],
+        public string $previewRenderer = '',
+        public bool $noCache = false,
     )
     {
-        $this->CType = GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName. '_'. $this->key);
+    }
+
+    protected array $valueOverrides = [];
+
+    public function getCType(): string
+    {
+        return GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName. '_'. $this->key);
     }
 
     public function addTCA(): void
     {
         {
-            if (str_starts_with($this->icon, 'EXT:')) {
-            }
-            $GLOBALS['TCA']['tt_content']['types'][$this->CType] = [
+            $GLOBALS['TCA']['tt_content']['types'][$this->getCType()] = [
                 'showitem' => $this->showItem,
-                'columnsOverrides' => $this->columnsOverrides
+                'columnsOverrides' => $this->columnsOverrides,
+                'valueOverrides' => $this->valueOverrides,
             ];
             foreach ($this->flexForms as $field => $flexForm) {
                 if (is_array($GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds'])) {
-                    $GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds']['*'. ','. $this->CType] = $flexForm;
+                    $GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds']['*'. ','. $this->getCType()] = $flexForm;
                 }
             }
             if ($this->previewRenderer) {
-                $GLOBALS['TCA']['tt_content']['types'][$this->CType]['previewRenderer'] = $this->previewRenderer;
+                $GLOBALS['TCA']['tt_content']['types'][$this->getCType()]['previewRenderer'] = $this->previewRenderer;
             }
             if ($this->containerConfiguration) {
                 GeneralUtility::makeInstance(Registry::class)->configureContainer(
                     (new ContainerConfiguration(
-                        $this->CType,
+                        $this->getCType(),
                         $this->label,
                         $this->description,
                         $this->containerConfiguration))
-                        ->setIcon($this->icon)
-                        ->SetGroup($this->group)
+                        ->setIcon($this->icon)->SetGroup($this->group)
                         ->setRegisterInNewContentElementWizard(false)
                 );
             }
@@ -65,7 +70,7 @@ class ContentElementDefinition
                     'label' => $this->label,
                     'description' => $this->description,
                     'group' => $this->group,
-                    'value' => $this->CType,
+                    'value' => $this->getCType(),
                     'icon' => $this->icon,
                 ],
                 'CType',
@@ -76,12 +81,22 @@ class ContentElementDefinition
 
     public function addTypoScript(): void
     {
+        if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
+            $this->dataProcessing['container'] = ['processor' => 'B13\Container\DataProcessing\ContainerProcessor', 'auto' => true];
+        }
+        if ($this->flexForms) {
+            foreach($this->flexForms as $fieldName => $flexForm) {
+                if (!isset($this->dataProcessing[$fieldName. '-flex-form'])) {
+                    $this->dataProcessing[$fieldName. '-flex-form'] = ['processor' => 'flex-form', 'fieldName' => $fieldName, 'as' => $fieldName];
+                }
+            }
+        }
         ExtensionManagementUtility::addTypoScript(
             $this->extensionName,
             'setup',
             '
-            tt_content.'.$this->CType.' = USER'. ($this->noCache ? '_INT' : ''). '
-            tt_content.'.$this->CType.'  {
+            tt_content.'.$this->getCType().' = USER'. ($this->noCache ? '_INT' : ''). '
+            tt_content.'.$this->getCType().'  {
                 userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
@@ -90,10 +105,10 @@ class ContentElementDefinition
                     pluginName = ' . $this->pluginName . '
                     extensionKey = ' . $this->extensionName . '
                     vendorName = ' . $this->vendorName . '
-                    templateName = ' . GeneralUtility::underscoredToUpperCamelCase($this->key) . '
+                    templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->key)) . '
                     model = ' . $this->model . '
                     dataProcessing {
-                        ' . $this->getDataProcessingString($this->dataProcessing) . '
+                        ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
                     }
                 }
             }',
@@ -101,23 +116,62 @@ class ContentElementDefinition
         );
     }
 
-    protected function getDataProcessingString(array $dataProcessing): string
+    public function makeRestrictedChildElement(
+        string $key,
+        string $label,
+        string $description,
+        string $group = '',
+        string $icon = '',
+        array $valueOverrides = []
+    ): ContentElementDefinition
+    {
+        if (!$this->templateName) {
+            $this->templateName = GeneralUtility::underscoredToUpperCamelCase($this->key);
+        }
+        $this->key = $key;
+        $this->label = $label;
+        $this->description = $description;
+        $this->group = $group ?: $this->group;
+        $this->icon = $icon ?: $this->icon;
+        $this->setOverriddenFields($valueOverrides);
+        return $this;
+    }
+
+    protected function setOverriddenFields(array $overrides): void
+    {
+        $this->valueOverrides = $overrides;
+        foreach ($overrides as $fieldName => $value) {
+            $this->columnsOverrides[$fieldName] = [
+                'displayCond' => 'FIELD:CType:!=:'. $this->getCType(),
+/*                'config' => [
+                    'type' => 'select',
+                    'renderType' => 'selectSingle',
+                    'items' => [['label' => '', 'value' => $value]],
+                    'default' => $value,
+                ]*/
+            ];
+        }
+    }
+
+    protected function getDataProcessingTypoScript(array $dataProcessing): string
     {
         $str = '';
+        $i = 10;
         foreach ($dataProcessing as $index => $value) {
-            $str .= $index. ' = '. $value['processor']. PHP_EOL;
-            $str .= $index. '{'. PHP_EOL;
+            $str .= $i. ' = '. $value['processor']. PHP_EOL;
+            $str .= $i. '{'. PHP_EOL;
             foreach ($value as $key => $val) {
                 if ($key == 'processor') {
                     continue;
                 }
                 if ($key == 'dataProcessing') {
-                    $str .= '    '. $key. ' { '. PHP_EOL. $this->getDataProcessingString($val). '    }'. PHP_EOL;
+                    $str .= '    '. $key. ' { '. PHP_EOL. $this->getDataProcessingTypoScript($val). '    }'. PHP_EOL;
                     continue;
                 }
                 $str .= '    '. $key. ' = '. $val. PHP_EOL;
             }
             $str .= '}'. PHP_EOL;
+            $i += 10;
         }
         return $str;
     }

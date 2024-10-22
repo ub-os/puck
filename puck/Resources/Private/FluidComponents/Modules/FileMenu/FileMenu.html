@@ -1,19 +1,20 @@
 <fc:component>
     <fc:param name="name" type="string" optional="1" default="m-file-menu"/>
-    <fc:param name="object" type="mixed"/>
+    <fc:param name="record" type="mixed"/>
+    <fc:param name="menu" type="array" optional="1"/>
     <fc:renderer>
 
         <layout:section
                 class="{name}__wrap"
-                object="{object}"
-                id="c{object.uid}">
-            <element:moduleHeader object="{object}"/>
-            <f:if condition="{object.menu}">
-                <layout:row class="{name}__list" itemWidth="{object.itemColumnWidth}" justify="left" attributes="{data-hx-boost:'false'}">
-                    <f:for each="{object.menu}" as="item" iteration="i">
+                object="{record}"
+                id="c{record.uid}">
+            <element:moduleHeader object="{record}"/>
+            <f:if condition="{menu}">
+                <layout:row class="{name}__list" itemWidth="{record.item_column_width}" justify="left" attributes="{data-hx-boost:'false'}">
+                    <f:for each="{menu}" as="item" iteration="i">
                         <layout:row.item class="{name}__item">
                             <f:link.file file="{item}"
-                                         target="{object.target}"
+                                         target="{record.target}"
                                          class="e-button {name}__link -icon -icon-right -icon-pill"
                                          additionalAttributes="{download:item.name}">
                                 <f:if condition="{item.properties.title}">

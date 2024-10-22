@@ -23,7 +23,7 @@
             then:1,else:0)}"/>
 
 <f:variable name="show_media_layout"
-            value="{f:if(condition:'({item.record.CType} == \'puck_media\' || {item.record.CType} == \'puck_child_column\' || {item.record.CType} == \'puck_child_card\' ||{item.record.CType} == \'puck_cover_media\' || {item.record.CType} == \'puck_modal\') &&  {item.record.media_layout}',
+            value="{f:if(condition:'({item.record.CType} == \'puck_media\' || {item.record.CType} == \'puck_media_column\' || {item.record.CType} == \'puck_card\' ||{item.record.CType} == \'puck_cover_media\' || {item.record.CType} == \'puck_modal\') &&  {item.record.media_layout}',
             then:1,else:0)}"/>
 
 <f:if condition="

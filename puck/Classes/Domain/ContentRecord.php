@@ -14,7 +14,15 @@ class ContentRecord extends Record
         protected readonly ?SystemProperties $systemProperties = null,
     )
     {
+        $this->setOverriddenProperties();
         $this->setComputedProperties();
+    }
+
+    protected function setOverriddenProperties(): void
+    {
+        foreach($GLOBALS['TCA']['tt_content']['types'][$this->properties['CType']]['valueOverrides'] ?? [] as $fieldName => $value) {
+            $this->properties[$fieldName] = $value;
+        }
     }
     
     protected function setComputedProperties(): void
@@ -36,7 +44,7 @@ class ContentRecord extends Record
         }
 
         if ($this->has('menu_item_config')) {
-            $settings = explode(',', $p['menu_item_config']);
+            $settings = $p['menu_item_config'];
             $p['menu_item_config'] = [];
             foreach($settings as $key) {
                 $p['menu_item_config'][$key] = true;

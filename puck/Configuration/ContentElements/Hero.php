@@ -1,31 +1,24 @@
 <?php
 
 return new \UBOS\Puck\ContentElementDefinition(
-    'modal',
-    label: 'Modal',
-    description: 'Modal desc new',
-    icon: 'modal',
+    'hero',
+    label: 'Hero',
+    description: 'Page introduction with h1-headline.',
+    icon: 'hero',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
+            --palette--;;layout,
             --palette--;;headers,
             --palette--;;bodytext,
-        --div--;Layout,
-            --palette--;;gridContainerWidth,
-            --palette--;;gridCard,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
     columnsOverrides: [
         'bodytext' => [
             'config' => [
                 'enableRichtext' => true,
-            ]
+            ],
         ],
-        'media_layout' => [
-            'config' => [
-                'itemsProcFunc' => \UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc::class . '->keepItems',
-            ]
-        ],
-        'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
-    ],
+        'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithCropVariants('2:1,3:2')
+    ]
 );

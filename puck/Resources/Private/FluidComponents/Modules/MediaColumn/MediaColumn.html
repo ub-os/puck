@@ -1,14 +1,10 @@
 
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-media"/>
+  <fc:param name="name" type="string" optional="1" default="m-column"/>
   <fc:param name="record" type="mixed"/>
-  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
   <fc:renderer>
 
-    <layout:section
-            class="{name}__wrap"
-            object="{record}"
-            id="c{record.uid}">
+    <div class="{name}" id="c{record.uid}">
       <element:moduleHeader object="{record}"/>
       <layout:media
               media="{record.assets}"
@@ -19,11 +15,9 @@
               mediaWidth="{record.media_column_width}"
               textWidth="{record.text_column_width}"
               itemWidth="{record.item_column_width}"
-              mediaMobileMaxVh="{record.media_max_height}"
-              cropVariant="{cropVariant}"/>
-    </layout:section>
+              mediaMobileMaxVh="{record.media_max_height}"/>
+    </div>
 
   </fc:renderer>
 </fc:component>
-
 

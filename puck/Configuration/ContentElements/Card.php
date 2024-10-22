@@ -1,14 +1,14 @@
 <?php
 
 return new \UBOS\Puck\ContentElementDefinition(
-    'modal',
-    label: 'Modal',
-    description: 'Modal desc new',
-    icon: 'modal',
+    'card',
+    label: 'Card',
+    description: 'Card child content element.',
+    icon: 'card',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;headers,
+            --palette--;;childHeader,
             --palette--;;bodytext,
         --div--;Layout,
             --palette--;;gridContainerWidth,
@@ -23,9 +23,9 @@ return new \UBOS\Puck\ContentElementDefinition(
         ],
         'media_layout' => [
             'config' => [
-                'itemsProcFunc' => \UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc::class . '->keepItems',
+                'itemsProcFunc' => ContentItemsProcFunc::class . '->keepItems',
             ]
         ],
         'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
-    ],
+    ]
 );

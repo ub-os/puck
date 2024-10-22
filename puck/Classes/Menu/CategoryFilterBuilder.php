@@ -29,12 +29,12 @@ class CategoryFilterBuilder
         'disabledTree' => 1,
         // levels deep tree is multiselectable, negative values invert selection
         'multiSelectTree' => 1,
-        // dont build tree below inactive category
+        // don't build tree below inactive category
         'buildTreeBelowEnabledInactive' => false,
         // check if there are any results for a category
         'checkPotential' => false,
         // other arguments to remove when building a filter uri
-        'unsetArguments' => ['page', 'object'],
+        'unsetArguments' => ['page', 'recordUid'],
         'demandCategoriesKey' => '0',
         'categoryOrder' => ['sorting' => QueryInterface::ORDER_ASCENDING],
     ];
@@ -48,7 +48,7 @@ class CategoryFilterBuilder
         protected string $menuActionName,
         protected ?MenuDemandRepository $menuRepository = null,
         protected ?MenuDemand $menuDemand = null,
-        protected int $menuContentObjectUid = 0,
+        protected int $contentRecordUid = 0,
         protected int $fetchLinkPageType = 0,
     ) {
     }
@@ -66,8 +66,8 @@ class CategoryFilterBuilder
     
     protected function buildUri(array $arguments, bool $isFetchUri = false): string
     {
-        if ($isFetchUri && $this->menuContentObjectUid) {
-            $arguments['object'] = $this->menuContentObjectUid;
+        if ($isFetchUri && $this->contentRecordUid) {
+            $arguments['recordUid'] = $this->contentRecordUid;
         }
         return $this->uriBuilder
             // todo: check if reset() is necessary
@@ -161,8 +161,8 @@ class CategoryFilterBuilder
                 label: (string)count($activeChildren),
                 url: $closeUrl,
                 fetchLinkOptions: new FetchLinkOptions(
-                    url: ($this->menuContentObjectUid && $this->fetchLinkPageType) ? $this->buildUri($closeArguments, true) : $closeUrl,
-                    contentId: 'c' . $this->menuContentObjectUid,
+                    url: ($this->contentRecordUid && $this->fetchLinkPageType) ? $this->buildUri($closeArguments, true) : $closeUrl,
+                    contentId: 'c' . $this->contentRecordUid,
                 ),
             );
         }
@@ -210,8 +210,8 @@ class CategoryFilterBuilder
             label: $category->title,
             url: $url,
             fetchLinkOptions: new FetchLinkOptions(
-                url: ($this->menuContentObjectUid && $this->fetchLinkPageType) ? $this->buildUri($arguments, true) : $url,
-                contentId: 'c' . $this->menuContentObjectUid,
+                url: ($this->contentRecordUid && $this->fetchLinkPageType) ? $this->buildUri($arguments, true) : $url,
+                contentId: 'c' . $this->contentRecordUid,
             ),
             active: $isActive,
             hasNoPotential: $hasNoPotential ?? false,

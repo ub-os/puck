@@ -4,6 +4,7 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
@@ -13,6 +14,7 @@ use UBOS\Puck\Domain\Model\Content\MenuFiles;
 
 class FileMenuController extends ActionController
 {
+    use ContentControllerTrait;
     public function __construct(
         protected FileCollectionRepository $fileCollectionRepository,
     )
@@ -22,25 +24,23 @@ class FileMenuController extends ActionController
     #[Plugin("FileMenu")]
     public function fileMenuAction(): ResponseInterface
     {
-        $contentObjectData = $this->request->getAttribute('currentContentObject')->data;
-        $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-        $object = $dataMapper->map(MenuFiles::class, [$contentObjectData])[0];
-        $menu = [];
-        foreach($object->assets as $fileReference) {
-            $menu[] = $fileReference->getOriginalResource();
+        $variables = $this->prepareVariables();
+        $variables['menu'] = [];
+        foreach($variables['record']->get('media') as $file) {
+            $variables['menu'][] = $file;
         }
-        foreach(explode(',', $object->fileCollections) as $uid) {
-            if (!$uid) {
-                continue;
+        foreach($variables['record']->get('file_collections') as $fileCollection) {
+            foreach($fileCollection->get('files') as $file) {
+                $variables['menu'][] = $file;
             }
-            $menu = array_merge($menu, $this->getFilesFromCollectionUid($uid));
         }
-        $object->menu = $this->sortMenu($menu, $object->filelinkSorting, $object->filelinkSortingDirection);
-        $variables['settings'] = $this->settings;
-        $variables['object'] = $object;
-        $this->view->assignMultiple(
-            $variables
+        $variables['menu'] = $this->sortMenu(
+            $variables['menu'],
+            $variables['record']->get('filelink_sorting'),
+            $variables['record']->get('filelink_sorting_direction')
         );
+        $variables['settings'] = $this->settings;
+        $this->view->assignMultiple($variables);
         return $this->htmlResponse();
     }
 
@@ -54,7 +54,7 @@ class FileMenuController extends ActionController
     protected function sortMenu(array $menu, string $filelinkSorting, string $filelinkSortingDirection): array
     {
         if ($filelinkSorting) {
-            usort($menu, function ($a, $b)
+            usort($menu, function ($a, $b) use ($filelinkSorting, $filelinkSortingDirection)
             {
                 $valA = $a->getProperties()[$filelinkSorting];
                 $valB = $b->getProperties()[$filelinkSorting];

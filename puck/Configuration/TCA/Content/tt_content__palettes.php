@@ -95,7 +95,7 @@ $palettes['childHeader'] = [
 $palettes['bodytext'] = [
     'showitem' => 'bodytext;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext_formlabel',
 ];
-$palettes['menu_pages'] = [
+$palettes['page_menu'] = [
     'label' => 'Menu',
     'showitem' => 'pages; Selected pages, parents; Parent pages',
     'canNotCollapse' => 1
@@ -103,10 +103,10 @@ $palettes['menu_pages'] = [
 $palettes['media'] = [
     'showitem' => 'media',
 ];
-$palettes['menu_files'] = [
+$palettes['fileMenu'] = [
     'label' => 'Files',
     'showitem' => '
-        assets; Selected files, 
+        media; Selected files, 
         --linebreak--,
         file_collections,
         --linebreak--,

@@ -23,10 +23,10 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         'puck_modal' => [
             'media_layout' => 'above,below,left,right'
         ],
-        'puck_child_card' => [
+        'puck_card' => [
             'media_layout' => 'above,below,left,right'
         ],
-        'puck_menu_pages' => [
+        'puck_page_menu' => [
             'media_layout' => 'above,below,left,right'
         ],
     ];
@@ -104,7 +104,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
     {
         if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $CType = $this->val($params['row']['CType']);
-        if ($CType != 'puck_menu_pages') {
+        if ($CType != 'puck_page_menu') {
             return;
         }
         $allowedValues = 'above,below,left,right';
@@ -131,7 +131,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
 
         $CType = $this->val($params['row']['CType']);
         // maximum width = media element with media_layout beside/float ? media width : container width
-        if (in_array($CType, ['puck_media','puck_child_column','puck_child_accordion']) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
+        if (in_array($CType, ['puck_media','puck_media_column','puck_accordion']) && in_array($this->val($params['row']['media_layout']), ['left','right','left-float','right-float'])) {
             $maximum = $this->val($params['row']['media_column_width']);
         } else {
             $maximum = $containerWidth;
@@ -158,11 +158,11 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         if ($containerWidth > $maxWidth) {
             $containerWidth = $maxWidth;
         }
-        if ($CType == 'puck_menu_pages') {
+        if ($CType == 'puck_page_menu') {
             $containerWidth = $this->val($params['row']['item_column_width']);
         }
         // maximum width = container width - media width
-        if (in_array($CType, ['puck_media','puck_menu_pages', 'puck_child_column', 'puck_child_accordion']) && in_array($mediaLayout, ['left-float','right-float','above','below'])) {
+        if (in_array($CType, ['puck_media','puck_page_menu', 'puck_media_column', 'puck_accordion']) && in_array($mediaLayout, ['left-float','right-float','above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($containerWidth) {
                 return $item[1] == $containerWidth;
             });
@@ -184,7 +184,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
         $CType = $this->val($params['row']['CType']);
         // maximum width = container width - media width
-        if (!in_array($CType, ['puck_media','puck_modal','puck_child_column','puck_menu_pages','puck_child_card','puck_child_accordion'])) {
+        if (!in_array($CType, ['puck_media','puck_modal','puck_media_column','puck_page_menu','puck_card','puck_accordion'])) {
             return;
         }
         $mediaLayout = $this->val($params['row']['media_layout']);
@@ -196,7 +196,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             $containerWidth = $maxWidth;
         }
 
-        if ($CType == 'puck_menu_pages') {
+        if ($CType == 'puck_page_menu') {
             $containerWidth = $this->val($params['row']['item_column_width']);
         }
         if (in_array($mediaLayout, ['above','below'])) {
@@ -205,7 +205,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
             });
             return;
         }
-        if (in_array($mediaLayout, ['left-float','right-float']) || (in_array($CType, ['puck_modal','puck_child_card']) && in_array($mediaLayout, ['left','right']))) {
+        if (in_array($mediaLayout, ['left-float','right-float']) || (in_array($CType, ['puck_modal','puck_card']) && in_array($mediaLayout, ['left','right']))) {
             // if media_layout is float: maximum width = container width - 2
             $maximum = $containerWidth - 2;
         } else {

@@ -6,13 +6,13 @@
     <div class="{name}__padding"></div>
     <main class="{name}" id="main">
       <f:if condition="{object.doktype} == {settings.doktype.person}">
-        <module:hero object="{
+        <module:hero record="{
             header:object.pagePersons.0.name,
             bodytext:object.pagePersons.0.bodytext,
             assets:object.pagePerson.0.assets}"/>
       </f:if>
       <f:if condition="{object.doktype} == {settings.doktype.news}">
-        <module:hero object="{
+        <module:hero record="{
             header:object.navTitle,
             subheader: '{object.postDate -> f:format.date(format: \'%d. %B %Y\')}'
             }"/>
@@ -22,11 +22,11 @@
 
       <f:if condition="{object.doktype} == {settings.doktype.news} && {object.postAuthor}">
         <module:text
-                object="{
-                containerWidth: 8,
+                record="{
+                container_width: 8,
                 header: object.postAuthor.name,
-                headerLayout: 31,
-                frameClass: 'dark-1',
+                header_layout: 31,
+                frame_class: 'dark-1',
                 bodytext: object.postAuthor.description,
                 uid:'news-page-author-teaser'
                 }">

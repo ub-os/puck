@@ -1,6 +1,7 @@
 <fc:component>
     <fc:param name="name" optional="1" type="string" default="m-menu"/>
-    <fc:param name="object" type="mixed"/>
+    <fc:param name="record" type="mixed"/>
+    <fc:param name="menu" type="array" optional="1"/>
     <fc:param name="headerContent" type="Slot" default="" optional="1"/>
     <fc:param name="footerContent" type="Slot" default="" optional="1"/>
     <fc:param default="3:2" name="cropVariant" optional="1" type="string"/>
@@ -9,29 +10,29 @@
 
         <layout:section
                 class="{name}__wrap"
-                customContainer="{f:if(condition:'{object.layout} == \'cards\' || {object.layout} == \'columns\'',then:'',else:name)}"
-                id="c{object.uid}"
-                object="{object}">
-            <element:moduleHeader object="{object}"/>
-            <element:richText text="{object.bodytext}" class="{name}__bodytext"/>
+                customContainer="{f:if(condition:'{record.layout} == \'cards\' || {record.layout} == \'columns\'',then:'',else:name)}"
+                id="c{record.uid}"
+                object="{record}">
+            <element:moduleHeader object="{record}"/>
+            <element:richText text="{record.bodytext}" class="{name}__bodytext"/>
 
-            <div class="{name}__body" id="c{object.uid}-body">
+            <div class="{name}__body" id="c{record.uid}-body">
 
                 <fc:slot name="headerContent"/>
 
-                <f:if condition="{object.menu}">
+                <f:if condition="{menu}">
                     <u:var set="teaserScript">if (event.target.tagName !== 'A') { this.querySelector('a').click(); }</u:var>
-                    <f:switch expression="{object.layout}">
+                    <f:switch expression="{record.layout}">
 
                         <f:case value="default-cards">
                             <layout:row class="{name}__row"
                                         flexGrow="0" justify="left" align="top"
                                         >
-                                <f:for as="item" each="{object.menu}" iteration="i">
+                                <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
                                                 attributes="{onclick:teaserScript}"
-                                                class="{name}__card -variant-{object.layout}"
+                                                class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 width="6">
                                             <module:menu.teaser
@@ -48,11 +49,11 @@
                             <layout:row class="{name}__row"
                                         flexGrow="0" justify="left" align="top"
                                         >
-                                <f:for as="item" each="{object.menu}" iteration="i">
+                                <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
                                                 attributes="{onclick:teaserScript}"
-                                                class="{name}__card -variant-{object.layout}"
+                                                class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 width="6">
                                             <module:menu.teaser
@@ -70,11 +71,11 @@
                                         align="top" flexGrow="0" justify="left"
 
                                         >
-                                <f:for as="item" each="{object.menu}" iteration="i">
+                                <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
                                                 attributes="{onclick:teaserScript}"
-                                                class="{name}__card -variant-{object.layout}">
+                                                class="{name}__card -variant-{record.layout}">
                                             <f:alias map="{person: item.pagePersons.0}">
                                                 <div class="{name}__content">
                                                     <h3 class="{name}__headline">{person.name}</h3>
@@ -104,26 +105,26 @@
 
                         <f:case value="columns">
                             <layout:row class="{name}__row"
-                                        flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
+                                        flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}"
                                         >
-                                <f:for as="item" each="{object.menu}" iteration="i">
+                                <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content"
-                                                     width="{object.itemColumnWidth}">
+                                                     width="{record.item_column_width}">
                                         <f:variable name="media"
-                                                    value="{f:if(condition:object.menuItemConfig.media,then:'{0:item.media.0}')}"/>
-                                        <div class="{name}__column -variant-{object.layout}"
+                                                    value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
+                                        <div class="{name}__column -variant-{record.layout}"
                                              onclick="{teaserScript}">
                                             <layout:media
                                                     cropVariant="{cropVariant}"
-                                                    itemWidth="{object.mediaColumnWidth}"
-                                                    layout="{object.mediaLayout}"
+                                                    itemWidth="{record.media_column_width}"
+                                                    layout="{record.media_layout}"
                                                     media="{media}"
                                                     showTitle="0"
                                                     showDesc="0"
-                                                    mediaWidth="{object.mediaColumnWidth}"
-                                                    textWidth="{object.textColumnWidth}">
+                                                    mediaWidth="{record.media_column_width}"
+                                                    textWidth="{record.text_column_width}">
                                                 <module:menu.teaser
-                                                        config="{object.menuItemConfig}"
+                                                        config="{record.menu_item_config}"
                                                         page="{item}"
                                                         name="{name}"/>
                                             </layout:media>
@@ -135,24 +136,24 @@
 
                         <f:defaultCase>
                             <layout:row class="{name}__row"
-                                        flexGrow="{object.flexGrow}" align="{object.rowAlign}" justify="{object.rowJustify}"
+                                        flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}"
                                         >
-                                <f:for as="item" each="{object.menu}" iteration="i">
+                                <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content"
-                                                     width="{object.itemColumnWidth}">
+                                                     width="{record.item_column_width}">
                                         <f:variable name="media"
-                                                    value="{f:if(condition:object.menuItemConfig.media,then:item.media)}"/>
+                                                    value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
                                         <layout:card
                                                 attributes="{onclick:teaserScript}"
-                                                class="{name}__card -variant-{object.layout}"
+                                                class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 media="{media}"
-                                                mediaLayout="{object.mediaLayout}"
-                                                mediaSize="{object.cardMediaSize}"
-                                                mediaWidth="{object.mediaColumnWidth}"
-                                                width="{object.itemColumnWidth}">
+                                                mediaLayout="{record.media_layout}"
+                                                mediaSize="{record.card_media_size}"
+                                                mediaWidth="{record.media_column_width}"
+                                                width="{record.item_column_width}">
                                             <module:menu.teaser
-                                                    config="{object.menuItemConfig}"
+                                                    config="{record.menu_item_config}"
                                                     page="{item}"
                                                     name="{name}"/>
                                         </layout:card>

@@ -1,31 +1,30 @@
 <?php
 
 return new \UBOS\Puck\ContentElementDefinition(
-    'modal',
-    label: 'Modal',
-    description: 'Modal desc new',
-    icon: 'modal',
+    'media',
+    label: 'Text and media',
+    description: 'Flexible text and media layouts.',
+    icon: 'media',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
+            --palette--;;appearance,
             --palette--;;headers,
             --palette--;;bodytext,
         --div--;Layout,
-            --palette--;;gridContainerWidth,
-            --palette--;;gridCard,
+            --palette--;;gridContainer,
+            --palette--;;gridMedia,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
     columnsOverrides: [
         'bodytext' => [
             'config' => [
                 'enableRichtext' => true,
-            ]
+            ],
         ],
-        'media_layout' => [
-            'config' => [
-                'itemsProcFunc' => \UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc::class . '->keepItems',
-            ]
+        'item_column_width' => [
+            'label' => 'Media item width',
         ],
         'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
-    ],
+    ]
 );

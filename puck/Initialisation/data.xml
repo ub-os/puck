@@ -7398,7 +7398,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Simple cards</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;</field>
@@ -7619,7 +7619,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Flexible cards</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -7840,7 +7840,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -8183,7 +8183,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Flexible columns</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -8401,7 +8401,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -8744,7 +8744,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">News menu</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -9079,7 +9079,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Team menu</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -9795,7 +9795,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Simple cards</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;</field>
@@ -10007,7 +10007,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Flexible cards</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -10219,7 +10219,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -10543,7 +10543,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Flexible columns</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -10752,7 +10752,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -11073,7 +11073,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">News menu</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -11386,7 +11386,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header">Team menu</field>
 				<field index="header_position"></field>
 				<field index="bodytext" type="NULL"></field>
@@ -13167,7 +13167,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext"></field>
@@ -13373,7 +13373,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_menu_pages</field>
+				<field index="CType">puck_page_menu</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext"></field>
@@ -17007,7 +17007,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_column</field>
+				<field index="CType">puck_media_column</field>
 				<field index="header">Voluptua</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;</field>
@@ -17121,7 +17121,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_column</field>
+				<field index="CType">puck_media_column</field>
 				<field index="header">Voluptua</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&lt;/p&gt;</field>
@@ -17239,7 +17239,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_column</field>
+				<field index="CType">puck_media_column</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.&lt;/p&gt;</field>
@@ -17353,7 +17353,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_column</field>
+				<field index="CType">puck_media_column</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&lt;/p&gt;</field>
@@ -17467,7 +17467,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_column</field>
+				<field index="CType">puck_media_column</field>
 				<field index="header"></field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.&lt;/p&gt;</field>
@@ -17724,7 +17724,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -17838,7 +17838,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -17952,7 +17952,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18066,7 +18066,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18180,7 +18180,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18294,7 +18294,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_card</field>
+				<field index="CType">puck_card</field>
 				<field index="header">Child card</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18503,7 +18503,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_accordion</field>
+				<field index="CType">puck_accordion</field>
 				<field index="header">Accordion</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18617,7 +18617,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_accordion</field>
+				<field index="CType">puck_accordion</field>
 				<field index="header">Accordion</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>
@@ -18722,7 +18722,7 @@ Submitti
 				<field index="t3ver_wsid" type="integer">0</field>
 				<field index="t3ver_state" type="integer">0</field>
 				<field index="t3ver_stage" type="integer">0</field>
-				<field index="CType">puck_child_accordion</field>
+				<field index="CType">puck_accordion</field>
 				<field index="header">Accordion</field>
 				<field index="header_position"></field>
 				<field index="bodytext">&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua&lt;/p&gt;</field>

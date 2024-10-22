@@ -43,6 +43,7 @@ class PictureViewHelper extends AbstractViewHelper
             },
             $argumentDefinition);
         $helper->setArguments(array_merge($defaultArguments, $arguments));
+        $helper->initialize();
         return $helper;
     }
 
@@ -98,7 +99,7 @@ class PictureViewHelper extends AbstractViewHelper
                 'title' => $title,
                 'alt' => $alt,
                 'loading' => $this->arguments['loading'],
-                'additionalAttributes' => $this->arguments['additionalAttributes'],
+                'additionalAttributes' => array_merge($this->arguments['additionalAttributes'], ['loading' => $this->arguments['loading']]),
             ])->render();
         } else {
             $imageHtml = $this->createViewHelper(ImageViewHelper::class, [
@@ -108,7 +109,7 @@ class PictureViewHelper extends AbstractViewHelper
                 'absolute' => true,
                 'treatIdAsReference' => false,
                 'loading' => $this->arguments['loading'],
-                'additionalAttributes' => $this->arguments['additionalAttributes'],
+                'additionalAttributes' => array_merge($this->arguments['additionalAttributes'], ['loading' => $this->arguments['loading']]),
             ])->render();
         }
         if (!$this->arguments['image']) {

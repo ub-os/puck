@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puckloader\Attribute\Plugin;
 
 use UBOS\Puck\Menu\Dto\MenuDemand;
@@ -24,6 +26,8 @@ use UBOS\Puck\Domain\Model\Content\MenuAnchors;
 
 class MenuController extends ActionController
 {
+    use ContentControllerTrait;
+
     protected ?MenuDemand $menuDemand = null;
     protected function getMenuDemand(): MenuDemand
     {
@@ -54,30 +58,37 @@ class MenuController extends ActionController
     #[Plugin("PageMenu", fragment: 16500000)]
     public function pageMenuAction(
         ?array $demand = null,
-        ?MenuPages $object = null): ResponseInterface
+        ?int $recordUid = null): ResponseInterface
     {
-        if ($object) {
-            $this->settings = array_merge($this->settings, $object->getFlexForms()['piFlexform']['settings']);
-        } else {
-            $contentObjectData = $this->request->getAttribute('currentContentObject')->data;
-            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            $object = $dataMapper->map(MenuPages::class, [$contentObjectData])[0];
+
+        if ($recordUid ?? false) {
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+            $data = $queryBuilder
+                ->select('*')->from('tt_content')
+                ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($recordUid)))
+                ->executeQuery()->fetchOne();
+            $this->request->getAttribute('currentContentObject')->data = $data;
+            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+            $flexFormSettings = $flexformService->convertFlexFormContentToArray($data['pi_flexform']);
+            $flexFormSettings = PuckUtility::convertZeroStringsToInteger($flexFormSettings);
+            $this->settings = array_merge($this->settings, $flexFormSettings);
         }
+        $variables = $this->prepareVariables();
 
         if ($this->settings['demand']['overrideDemand']) {
             ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
         }
 
-        $records = $this->pageRepository->findByMenuDemand($this->getMenuDemand(), true);
+        $pages = $this->pageRepository->findByMenuDemand($this->getMenuDemand(), true);
 
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
-        if ($this->settings['pagination']['active'] && count($records) > $itemsPerPage) {
+        if ($this->settings['pagination']['active'] && count($pages) > $itemsPerPage) {
             $paginationBuilder = new PaginationBuilder(
-                records: $records,
+                records: $pages,
                 request: $this->request,
                 uriBuilder: $this->uriBuilder,
                 menuActionName: 'pageMenu',
-                menuContentObjectUid: $object->getUid(),
+                menuContentObjectUid: $variables['record']->getUid(),
                 fetchLinkPageType: $this->pageMenuFragmentTypeNum,
             );
             $pagination = $paginationBuilder
@@ -85,15 +96,15 @@ class MenuController extends ActionController
                 ->addPaginationLinksToHead()
                 ->build();
             $this->view->assign('pagination', $pagination);
-            $object->menu = $this->pageRepository->map($paginationBuilder->getPaginatedItems());
+            $variables['menu'] = $this->pageRepository->map($paginationBuilder->getPaginatedItems());
         } else {
-            $object->menu = $this->pageRepository->map($records);
+            $variables['menu'] = $this->pageRepository->map($pages);
         }
 
         if ($this->settings['demand']['teasers']) {
             $teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
             foreach ($teasers as $key => $teaser) {
-                foreach ( $object->menu as $page ) {
+                foreach ( $variables['menu'] as $page ) {
                     if ($page->getUid() === $teaser->page) {
                         $page->teaserTitle = $teaser->title;
                         $page->teaserText = $teaser->text;
@@ -112,7 +123,7 @@ class MenuController extends ActionController
                 menuActionName: 'pageMenu',
                 menuRepository: $this->pageRepository,
                 menuDemand: $this->getMenuDemand(),
-                menuContentObjectUid: $object->getUid(),
+                contentRecordUid: $variables['record']->getUid(),
                 fetchLinkPageType: 16500000,
             );
             $categoryFilter = $categoryFilterBuilder
@@ -120,9 +131,9 @@ class MenuController extends ActionController
                 ->addCategorySuffixToPageTitle()
                 ->build();
             $this->view->assign('categoryFilter', $categoryFilter);
-
         }
-        $this->view->assign('object', $object);
+
+        $this->view->assignMultiple($variables);
         $this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
         $this->view->assign('settings', $this->settings);
         return $this->htmlResponse();
@@ -131,14 +142,23 @@ class MenuController extends ActionController
     #[Plugin("AnchorMenu")]
     public function anchorMenuAction(): ResponseInterface
     {
-        $contentObjectData = $this->request->getAttribute('currentContentObject')->data;
-        $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-        $variables['object'] = $dataMapper->map(MenuAnchors::class, [$contentObjectData])[0];
-        $variables['object']->setAnchors($this->contentRepository->findContentObjectsBy('Anchor', 'pid', $contentObjectData['pid'])->toArray());
+        $langId = $this->request->getAttribute('language')->getLanguageId();
+        $variables = $this->prepareVariables();
         $variables['settings'] = $this->settings;
-        $this->view->assignMultiple(
-            $variables
-        );
+        // todo: create a repository/queryBuilder that is less verbose
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tt_content');
+        $variables['menu'] = $queryBuilder
+            ->select('*')->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($variables['record']->getPid())),
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0)),
+                $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($langId))
+            )
+            ->executeQuery()->fetchAllAssociative();
+        $this->view->assignMultiple($variables);
         return $this->htmlResponse();
     }
 

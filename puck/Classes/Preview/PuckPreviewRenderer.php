@@ -67,7 +67,7 @@ class PuckPreviewRenderer implements PreviewRendererInterface
             $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
             $flexform = $flexformService->convertFlexFormContentToArray($record['pi_flexform']);
             $record['pi_flexform'] = $flexform;
-            if (in_array($record['CType'], ['puck_menu_pages', 'puck_menu_persons'])) {
+            if (in_array($record['CType'], ['puck_page_menu', 'puck_menu_persons'])) {
                 $view->assign('processedMenuData', $this->getDataForPageMenuFlexFormPreview($flexform));
             }
         }

@@ -21,7 +21,6 @@ trait ContentControllerTrait
         $variables = [];
         $processed = [];
         if ($this->settings['dataProcessing'] ?? false) {
-            DebugUtility::debug($this->settings['dataProcessing']);
             $processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
                 ->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);

@@ -1,29 +1,29 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-cover-media"/>
-  <fc:param name="object" type="mixed"/>
+  <fc:param name="record" type="mixed"/>
   <fc:renderer>
 
     <layout:section
-            class="{name}__wrap -layout-{object.mediaLayout}"
+            class="{name}__wrap -layout-{record.media_layout}"
             object="{object}"
-            container="{f:if(condition: '{object.mediaLayoutDirection} == \'row\'', then:1, else:0)}"
-            id="c{object.uid}">
-      <f:if condition="{object.mediaLayoutDirection} == 'column'">
+            container="{f:if(condition: '{record.media_layout_direction} == \'row\'', then:1, else:0)}"
+            id="c{record.uid}">
+      <f:if condition="{record.media_layout_direction} == 'column'">
         <f:then>
-          <f:if condition="{object.bodytext} || {object.header} || {object.subheader}">
-            <layout:container width="{object.containerWidth}" align="{object.containerPosition}" offset="{object.containerOffset}">
-              <div class="{name}__content -layout-{object.mediaLayout}">
-                <element:moduleHeader object="{object}"/>
-                <element:richText text="{object.bodytext}"/>
+          <f:if condition="{record.bodytext} || {record.header} || {record.subheader}">
+            <layout:container width="{record.container_width}" align="{record.container_position}" offset="{record.container_offset}">
+              <div class="{name}__content -layout-{record.media_layout}">
+                <element:moduleHeader object="{record}"/>
+                <element:richText text="{record.bodytext}"/>
                 {content -> f:format.raw()}
               </div>
             </layout:container>
           </f:if>
           <element:media
                   name="{name}"
-                  class="-layout-{object.mediaLayout}"
-                  file="{object.assets.0}"
+                  class="-layout-{record.media_layout}"
+                  file="{record.assets.0}"
                   width="2560"
                   sources="{
                       xs: {width: 450, cropVariant: 'default'},
@@ -33,12 +33,12 @@
                   breakpointSources="1"/>
         </f:then>
         <f:else>
-          <layout:row justify="space-between" class="{name}__row -layout-{object.mediaLayout}">
+          <layout:row justify="space-between" class="{name}__row -layout-{record.media_layout}">
             <layout:row.item width="6" attributes="{style:'position:relative'}">
               <element:media
                       name="{name}"
-                      class="-layout-{object.mediaLayout}"
-                      file="{object.assets.0}"
+                      class="-layout-{record.media_layout}"
+                      file="{record.assets.0}"
                       width="1280"
                       breakpointSources="1"
                       sources="{
@@ -48,9 +48,9 @@
                     }"/>
             </layout:row.item>
             <layout:row.item width="5">
-              <div class="{name}__content -layout-{object.mediaLayout}">
-                <element:moduleHeader object="{object}"/>
-                <element:richText text="{object.bodytext}"/>
+              <div class="{name}__content -layout-{record.media_layout}">
+                <element:moduleHeader object="{record}"/>
+                <element:richText text="{record.bodytext}"/>
               </div>
             </layout:row.item>
           </layout:row>

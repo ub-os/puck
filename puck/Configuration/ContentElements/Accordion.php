@@ -1,18 +1,17 @@
 <?php
 
 return new \UBOS\Puck\ContentElementDefinition(
-    'modal',
-    label: 'Modal',
-    description: 'Modal desc new',
-    icon: 'modal',
+    'accordion',
+    label: 'Accordion',
+    description: 'Collapsible text and media element.',
+    icon: 'accordion',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-            --palette--;;headers,
+            header,
             --palette--;;bodytext,
         --div--;Layout,
-            --palette--;;gridContainerWidth,
-            --palette--;;gridCard,
+            --palette--;;gridMedia,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
     columnsOverrides: [
@@ -21,11 +20,9 @@ return new \UBOS\Puck\ContentElementDefinition(
                 'enableRichtext' => true,
             ]
         ],
-        'media_layout' => [
-            'config' => [
-                'itemsProcFunc' => \UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc::class . '->keepItems',
-            ]
+        'item_column_width' => [
+            'label' => 'Media item width'
         ],
         'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
-    ],
+    ]
 );
