@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Domain\Event\RecordCreationEvent;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\ContentRecord;
+use UBOS\Puck\Domain\PageRecord;
 
 final class RecordCreation
 {
@@ -15,6 +16,13 @@ final class RecordCreation
     {
         if ($event->getRawRecord()->getMainType() === 'tt_content') {
             $event->setRecord(new ContentRecord(
+                $event->getRawRecord(),
+                $event->getProperties(),
+                $event->getSystemProperties()
+            ));
+        }
+        if ($event->getRawRecord()->getMainType() === 'pages') {
+            $event->setRecord(new PageRecord(
                 $event->getRawRecord(),
                 $event->getProperties(),
                 $event->getSystemProperties()

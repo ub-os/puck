@@ -6,27 +6,24 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puckloader\Attribute\Plugin;
-
+use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 use UBOS\Puck\Menu\CategoryFilterBuilder;
 use UBOS\Puck\Menu\PaginationBuilder;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
-use UBOS\Puck\Domain\Repository\ContentRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
-use UBOS\Puck\Domain\Model\Content\MenuPages;
-use UBOS\Puck\Domain\Model\Content\MenuAnchors;
 
-class MenuController extends ActionController
+class PageMenuController extends ActionController
 {
-    use ContentControllerTrait;
+    use ContentControllerDataProcessingTrait;
 
     protected ?MenuDemand $menuDemand = null;
     protected function getMenuDemand(): MenuDemand
@@ -48,8 +45,8 @@ class MenuController extends ActionController
     public function __construct(
         protected CategoryRepository $categoryRepository,
         protected PageRepository $pageRepository,
-        protected ContentRepository $contentRepository,
         protected PageTeaserRepository $pageTeaserRepository,
+        protected RecordFactory $recordFactory
     )
     {
     }
@@ -62,15 +59,23 @@ class MenuController extends ActionController
     {
 
         if ($recordUid ?? false) {
+            $langId = (int)$this->request->getAttribute('language')->getLanguageId();
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
             $data = $queryBuilder
                 ->select('*')->from('tt_content')
-                ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($recordUid)))
+                ->where(
+                    $queryBuilder->expr()->or(
+                        $queryBuilder->expr()->eq('uid', $recordUid),
+                        $queryBuilder->expr()->eq('l18n_parent', $recordUid),
+                    ),
+                    $queryBuilder->expr()->eq('sys_language_uid', $langId),
+                )
                 ->executeQuery()->fetchAssociative();
             $this->request->getAttribute('currentContentObject')->data = $data;
-            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-            $flexForm = $flexformService->convertFlexFormContentToArray($data['pi_flexform']);
-            $flexForm = PuckUtility::convertZeroStringsToInteger($flexForm);
+            $flexForm = PuckUtility::convertZeroStringsToInteger(
+                GeneralUtility::makeInstance(FlexFormService::class)
+                    ->convertFlexFormContentToArray($data['pi_flexform'])
+            );
             $this->settings = array_merge($this->settings, $flexForm['settings']);
         }
         $variables = $this->prepareVariables();
@@ -80,7 +85,6 @@ class MenuController extends ActionController
         }
 
         $pages = $this->pageRepository->findByMenuDemand($this->getMenuDemand(), true);
-
         $itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
         if ($this->settings['pagination']['active'] && count($pages) > $itemsPerPage) {
             $paginationBuilder = new PaginationBuilder(
@@ -96,20 +100,18 @@ class MenuController extends ActionController
                 ->addPaginationLinksToHead()
                 ->build();
             $this->view->assign('pagination', $pagination);
-            $variables['menu'] = $this->pageRepository->map($paginationBuilder->getPaginatedItems());
-        } else {
-            $variables['menu'] = $this->pageRepository->map($pages);
+            $pages = $paginationBuilder->getPaginatedItems();
+        }
+        $variables['menu'] = [];
+        foreach ($pages as $page) {
+            $variables['menu'][] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $page);
         }
 
         if ($this->settings['demand']['teasers']) {
             $teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
-            foreach ($teasers as $key => $teaser) {
-                foreach ( $variables['menu'] as $page ) {
-                    if ($page->getUid() === $teaser->page) {
-                        $page->teaserTitle = $teaser->title;
-                        $page->teaserText = $teaser->text;
-                        $page->media = $teaser->media;
-                    }
+            foreach ($teasers as $teaser) {
+                foreach ($variables['menu'] as $pageRecord) {
+                    if ($pageRecord->getUid() === $teaser->page) $pageRecord->overrideWithTeaser($teaser);
                 }
             }
         }
@@ -133,32 +135,10 @@ class MenuController extends ActionController
             $this->view->assign('categoryFilter', $categoryFilter);
         }
 
+        $this->setContentTemplatePath();
         $this->view->assignMultiple($variables);
         $this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
         $this->view->assign('settings', $this->settings);
         return $this->htmlResponse();
     }
-
-    #[Plugin("AnchorMenu")]
-    public function anchorMenuAction(): ResponseInterface
-    {
-        $langId = $this->request->getAttribute('language')->getLanguageId();
-        $variables = $this->prepareVariables();
-        $variables['settings'] = $this->settings;
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tt_content');
-        $variables['menu'] = $queryBuilder
-            ->select('*')->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($variables['record']->getPid())),
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
-                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0)),
-                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0)),
-                $queryBuilder->expr()->eq('sys_language_uid', $queryBuilder->createNamedParameter($langId))
-            )
-            ->executeQuery()->fetchAllAssociative();
-        $this->view->assignMultiple($variables);
-        return $this->htmlResponse();
-    }
-
 }

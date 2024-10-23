@@ -1,25 +1,24 @@
-
 <pk-root
         id="root"
-        class="-layout-{object.backendLayout} "
+        class="-layout-{record.backend_layout} "
         data-hx-boost="true"
         data-hx-swap="innerHTML"
         data-hx-indicator="#root-loading-bar"
         preload="mousedown"
         data-logger="{f:if(condition:'{context.backendUser}', then:'enabled')}">
     <!--TYPO3SEARCH_end-->
-    <f:if condition="{object.backendLayout} !== 'pagets__error'">
-        <module:schema object="{object}" context="{context}"/>
-        <module:header object="{object}" context="{context}"/>
+    <f:if condition="{record.backend_layout} !== 'pagets__error'">
+        <module:schema object="{record}" context="{context}"/>
+        <module:header object="{record}" context="{context}"/>
     </f:if>
     <!--TYPO3SEARCH_begin-->
-    <module:main object="{object}">
+    <module:main object="{record}">
         {contentElements.colPos2 -> f:format.raw()}
         {contentElements.colPos1 -> f:format.raw()}
     </module:main>
     <!--TYPO3SEARCH_end-->
-    <f:if condition="{object.backendLayout} !== 'pagets__error'">
-        <module:footer object="{object}">
+    <f:if condition="{record.backend_layout} !== 'pagets__error'">
+        <module:footer object="{record}">
             {contentElements.colPos3 -> f:format.raw()}
         </module:footer>
     </f:if>

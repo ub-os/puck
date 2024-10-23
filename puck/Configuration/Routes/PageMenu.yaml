@@ -3,35 +3,34 @@ routeEnhancers:
     type: Extbase
     extension: Puck
     plugin: PageMenu
-    limitToPages: '%routeEnhancerPages.pageMenu%'
     routes:
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{authorLabel}:{demand/authors}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{pageLabel}-{page}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/c{object}'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
       -
         routePath: '/'
-        _controller: 'Menu::pageMenu'
+        _controller: 'PageMenu::pageMenu'
     aspects:
       pluginPrefix:
         type: LocaleModifier

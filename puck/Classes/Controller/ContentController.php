@@ -12,15 +12,15 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class ContentController extends ActionController
 {
-    use ContentControllerTrait;
+    use ContentControllerDataProcessingTrait;
     #[Plugin("Content")]
     public function indexAction(): ResponseInterface
     {
         $variables = $this->prepareVariables();
+        $this->setContentTemplatePath();
         $context = $this->view->getRenderingContext();
         $context->setControllerAction($this->settings['templateName']);
         $this->view->setRenderingContext($context);
-        $this->view->setTemplateRootPaths(['EXT:puck/Resources/Private/Fluid/Content/']);
         $this->view->assignMultiple($variables);
         return $this->htmlResponse();
     }

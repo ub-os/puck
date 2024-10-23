@@ -6,28 +6,24 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 use UBOS\Puckloader\Attribute\Plugin;
-
-use UBOS\Puck\Domain\Repository\PageRepository;
 
 /**
  * Page Controller.
  */
 class PageController extends ActionController
 {
-
     public function __construct(
-        protected PageRepository $pageRepository,
         protected ContentContentObject $contentContentObject,
+        protected RecordFactory $recordFactory
     )
     {
     }
@@ -35,23 +31,22 @@ class PageController extends ActionController
     #[Plugin("Page")]
     public function indexAction(): ResponseInterface
     {
-        $contentObjectRenderer = $this->request->getAttribute('currentContentObject');
-        $this->contentContentObject->setRequest($this->request);
-        $this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
-        $data = $contentObjectRenderer->data;
-        $context = GeneralUtility::makeInstance(Context::class);
-        $model = $this->pageRepository->findByUid($data['uid']);
-
+        $cObj = $this->request->getAttribute('currentContentObject');
+        $data = $cObj->data;
         $variables = [];
+        $variables['settings'] = $this->settings;
+        $variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
 
-        if (array_key_exists('dataProcessing', $this->settings)) {
-            $contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-            $dataProcessingAsTypoScriptArray = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-            $variables = $contentDataProcessor->process(
-                $contentObjectRenderer,
-                ['dataProcessing.' => $dataProcessingAsTypoScriptArray ?? null],
+        if ($this->settings['dataProcessing'] ?? false) {
+            $processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+            $processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
+                ->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+            $variables['processed'] = $processor->process(
+                $cObj,
+                ['dataProcessing.' => $processingTypoScript ?? null],
                 ['data' => $data]
             );
+            unset($variables['processed']['data']);
         }
 
         $backendRows = [
@@ -61,6 +56,8 @@ class PageController extends ActionController
         ];
 
         // to do update, replace with alternative
+        $this->contentContentObject->setRequest($this->request);
+        $this->contentContentObject->setContentObjectRenderer($cObj);
         foreach($backendRows as $row) {
             $variables['contentElements']['colPos'.$row['colPos']] = $this->contentContentObject->render([
                 'table' => 'tt_content',
@@ -73,30 +70,20 @@ class PageController extends ActionController
             ]);
         }
 
-        $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+        $site = $this->request->getAttribute('site');
+        $context = GeneralUtility::makeInstance(Context::class);
         $frontendUserAspect = $context->getAspect('frontend.user');
         $variables['context'] = [
             'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
-            'timestamp'  => $context->getPropertyFromAspect('date', 'timestamp'),
             'site' => $site,
             'frontendUser' => [
-                'username' => $frontendUserAspect->get('username'),
                 'isLoggedIn' => $frontendUserAspect->get('isLoggedIn'),
-                'isAdmin' => $frontendUserAspect->get('isAdmin'),
-                'groupIds' => $frontendUserAspect->get('groupIds'),
-                'groupNames' => $frontendUserAspect->get('groupNames'),
             ],
             'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
         ];
 
-        $variables['settings'] = $this->settings;
-        $variables['object'] = $model;
         $this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
-        $this->view->assignMultiple(
-            $variables
-        );
+        $this->view->assignMultiple($variables);
         return $this->htmlResponse();
     }
-
-
 }

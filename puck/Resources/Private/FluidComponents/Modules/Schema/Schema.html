@@ -7,13 +7,12 @@
         <u:var set="searchTermString">{<f:format.raw>search_term_string</f:format.raw>}</u:var>
         <schema:multipleType
                 -id="{f:uri.page(absolute: 'true')}#webpage"
-                types="{f:if(condition:'{object.txSchemaWebpagetype}',then:object.txSchemaWebpagetype,else:'WebPage')}"
+                types="{f:if(condition:'{object.tx_schema_webpagetype}',then:object.tx_schema_webpagetype,else:'WebPage')}"
                 properties="{
                 url:'{f:uri.page(absolute: \'true\')}',
                 inLanguage:context.language.hreflang,
-                name:object.seoTitle,
-                datePublished:object.starttime,
-                dateModified:object.lastUpdated
+                name:object.seo_title,
+                datePublished:object.starttime
             }">
             <schema:type.webSite
                     -as="isPartOf"

@@ -5,12 +5,13 @@ use UBOS\Puck\Preview\PuckPreviewRenderer;
 use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puckloader\Loader;
 
+
 foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/TCA/Content/*.php') as $file) {
     require $file;
 }
 
-foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/ContentElements/*.php') as $element) {
-    (include $element)->addTCA();
+foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/ContentElements/*.php') as $file) {
+    (include $file)?->addTCA();
 }
 
 Loader::loadTca('puck');

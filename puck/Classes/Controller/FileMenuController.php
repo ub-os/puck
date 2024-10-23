@@ -3,24 +3,16 @@
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use UBOS\Puckloader\Attribute\Plugin;
 
 use UBOS\Puck\Domain\Model\Content\MenuFiles;
 
 class FileMenuController extends ActionController
 {
-    use ContentControllerTrait;
-    public function __construct(
-        protected FileCollectionRepository $fileCollectionRepository,
-    )
-    {
-    }
-
+    use ContentControllerDataProcessingTrait;
     #[Plugin("FileMenu")]
     public function fileMenuAction(): ResponseInterface
     {
@@ -40,6 +32,7 @@ class FileMenuController extends ActionController
             $variables['record']->get('filelink_sorting_direction')
         );
         $variables['settings'] = $this->settings;
+        $this->setContentTemplatePath();
         $this->view->assignMultiple($variables);
         return $this->htmlResponse();
     }

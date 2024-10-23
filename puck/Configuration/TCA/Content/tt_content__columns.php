@@ -123,6 +123,7 @@ $columns['media_layout'] = [
 
         ]),
         'itemsProcFunc' => ContentItemsProcFunc::class . '->mediaLayout',
+        'dbFieldLength' => 255,
         'default' => 'below',
         'fieldWizard' => [
             'selectIcons' => [
