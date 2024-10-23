@@ -185,7 +185,7 @@ $columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['c
     'default' => TcaUtility::getCropVariant('Default','standard'),
 ];
 
-$columns['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
+$columns['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Helper/IconField.php';
 
 $columnWidthItems = [
     ['12', 12, 'column_width12'],

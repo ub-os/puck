@@ -8,11 +8,5 @@ page.20 {
         view {
             templateRootPath = EXT:puck/Resources/Private/Fluid/
         }
-        navigations {
-            main {
-                uid = 1
-            }
-        }
-
     }
 }

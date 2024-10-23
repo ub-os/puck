@@ -22,13 +22,17 @@ class PageRecord extends Record
     protected function setComputedProperties(): void
     {
         $p = $this->properties;
-        if ($p['seo_title'] ?? false) {
+        $p['nav_title'] = $p['nav_title'] ?: $p['title'];
+        if ($this->has('seo_title')) {
             $p['seo_title'] = $p['seo_title'] ?: $p['title'];
         }
-        $p['nav_title'] = $p['nav_title'] ?: $p['title'];
-        $p['teaser_title'] = $p['teaser_title'] ?: $p['title'];
-        $p['breadcrumb_title'] = $p['breadcrumb_title'] ?: $p['nav_title'];
-        $p['link_parameter'] = isset($p['url']) && $p['url'] ? $p['url'] : $this->rawRecord->getUid();
+        if ($this->has('teaser_title')) {
+            $p['teaser_title'] = $p['teaser_title'] ?: $p['title'];
+        }
+        if ($this->has('breadcrumb_title')) {
+            $p['breadcrumb_title'] = $p['breadcrumb_title'] ?: $p['nav_title'];
+        }
+        $p['link_parameter'] = $this->has('url') && $p['url'] ? $p['url'] : $this->rawRecord->getUid();
         $this->properties = $p;
     }
 

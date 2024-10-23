@@ -12,7 +12,6 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
-use UBOS\Puckloader\Attribute\ModelColumn;
 use UBOS\Puckloader\Attribute\ModelPersistence;
 
 #[ModelPersistence("pages")]
@@ -46,7 +45,6 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    #[ModelColumn("string")]
     public string $breadcrumbTitle = '';
     public function getBreadcrumbTitle(): string
     {
@@ -55,7 +53,6 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    #[ModelColumn("string")]
     public string $teaserTitle = '';
     public function getTeaserTitle(): string
     {
@@ -64,19 +61,16 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    #[ModelColumn("varchar1024")]
     public string $teaserText = '';
 
     /**
      * @var string
      */
-    #[ModelColumn("string")]
     public string $teasers = '';
 
     /**
      * @var string
      */
-    #[ModelColumn("string")]
     public string $icon = '';
     /**
      * @var string
@@ -93,7 +87,6 @@ class Page extends AbstractEntity
     /**
      * @var string
      */
-    #[ModelColumn("datetime", name: "lastUpdated")]
     public string $lastUpdated = '';
     /**
      * @var string
@@ -154,33 +147,6 @@ class Page extends AbstractEntity
                     $pageLayoutResolver->getLayoutForPage(['backend_layout' => ''], $this->getRootline()));
         }
         return $this->backendLayout;
-    }
-
-    public function getRootLine(): array
-    {
-        if ($this->rootLine === null) {
-            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $this->getUid());
-            $this->rootLine = $rootLine->get();
-        }
-        return $this->rootLine;
-    }
-
-    /**
-     * @param int $rootLineIndex
-     * @param string $column
-     * @return array
-     */
-    protected function getColumnFromRootLine(string $column, int $rootLineIndex = 0): array
-    {
-        $currentPage = $this->getRootline()[$rootLineIndex];
-        if ($currentPage[$column]) {
-            $column = $currentPage[$column];
-        } else if ($rootLineIndex < (count($this->getRootline()) - 1)) {
-            return $this->getColumnFromRootLine($column, $rootLineIndex + 1);
-        } else {
-            $column = null;
-        }
-        return ['rootLineIndex' => $rootLineIndex, 'column' => $column];
     }
 
     public function setBackendLayout(string $backendLayout): void

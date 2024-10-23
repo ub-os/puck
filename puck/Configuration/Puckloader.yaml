@@ -1,8 +1,4 @@
 vendorName: UBOS
 extensionKey: puck
-loader: [ model, controller, contentModel, pageModel ]
-contentModel:
-  templateRootPath: EXT:puck/Resources/Private/Fluid/
-  partialRootPath: EXT:puck/Resources/Private/Fluid/Partials/
-  layoutRootPath: EXT:puck/Resources/Private/Fluid/Layouts/
+loader: [ controller ]
 iconIdentifierPrefix: ''

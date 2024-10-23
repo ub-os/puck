@@ -32,7 +32,7 @@ array_push(
 );
 
 
-$GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Common/Columns/Icon.php';
+$GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Helper/IconField.php';
 
 $GLOBALS['TCA']['pages']['columns']['post_date'] = [
     'label' => 'Date',
@@ -48,8 +48,9 @@ $GLOBALS['TCA']['pages']['columns']['post_author'] = [
     'config' => [
         'type' => 'group',
         'allowed' => 'tx_puck_domain_model_person',
+        'foreign_table' => 'tx_puck_domain_model_person',
         'size' => 1,
-        'maxitems' => 1
+        'relationship' => 'oneToOne'
     ],
 ];
 $GLOBALS['TCA']['pages']['columns']['page_persons'] = [
