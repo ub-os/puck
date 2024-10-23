@@ -30,7 +30,7 @@ class PaginationBuilder
         protected Request $request,
         protected UriBuilder $uriBuilder,
         protected string $menuActionName,
-        protected int $menuContentObjectUid = 0,
+        protected int $contentRecordUid = 0,
         protected int $fetchLinkPageType = 0,
     ) {
     }
@@ -59,7 +59,7 @@ class PaginationBuilder
     protected function buildUri(array $arguments, bool $isFetchUri = false): string
     {
         if ($isFetchUri) {
-            $arguments['object'] = $this->menuContentObjectUid;
+            $arguments['recordUid'] = $this->contentRecordUid;
         }
         return $this->uriBuilder
             ->reset()
@@ -72,7 +72,7 @@ class PaginationBuilder
     public function build(): Pagination
     {
         $loadMoreArgs = $this->request->getArguments();
-        unset($loadMoreArgs['object']);
+        unset($loadMoreArgs['recordUid']);
         $swp = $this->getSlidingWindowPagination();
         $loadMoreArgs[$this->settings['pageArgumentKey']] = $swp->getNextPageNumber();
         return match($this->settings['variant']) {
@@ -82,7 +82,7 @@ class PaginationBuilder
                     url: $this->buildUri($loadMoreArgs),
                     fetchLinkOptions: new FetchLinkOptions(
                         url: $this->buildUri($loadMoreArgs, true),
-                        contentId: 'c' . $this->menuContentObjectUid . '-list',
+                        contentId: 'c' . $this->contentRecordUid . '-list',
                         mode: 'append',
                         scrollToContent: 0,
                         trigger: $this->settings['variant'] === 'infinite-scroll' ? 'intersect' : 'click',
@@ -113,7 +113,7 @@ class PaginationBuilder
         }
         $arguments = $this->request->getArguments();
         $active = $page == intval($arguments[$this->settings['pageArgumentKey']] ?? '1');
-        unset($arguments['object']);
+        unset($arguments['recordUid']);
         if ($page === 1) {
             unset($arguments[$this->settings['pageArgumentKey']]);
         } else {
@@ -124,8 +124,8 @@ class PaginationBuilder
             label: $label ?: $page,
             url: $url,
             fetchLinkOptions: new FetchLinkOptions(
-                url: ($this->menuContentObjectUid && $this->fetchLinkPageType) ? $this->buildUri($arguments, true) : $url,
-                contentId: 'c' . $this->menuContentObjectUid,
+                url: ($this->contentRecordUid && $this->fetchLinkPageType) ? $this->buildUri($arguments, true) : $url,
+                contentId: 'c' . $this->contentRecordUid,
             ),
             active: $active,
         );

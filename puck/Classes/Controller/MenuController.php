@@ -6,10 +6,10 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puckloader\Attribute\Plugin;
@@ -66,12 +66,12 @@ class MenuController extends ActionController
             $data = $queryBuilder
                 ->select('*')->from('tt_content')
                 ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($recordUid)))
-                ->executeQuery()->fetchOne();
+                ->executeQuery()->fetchAssociative();
             $this->request->getAttribute('currentContentObject')->data = $data;
             $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-            $flexFormSettings = $flexformService->convertFlexFormContentToArray($data['pi_flexform']);
-            $flexFormSettings = PuckUtility::convertZeroStringsToInteger($flexFormSettings);
-            $this->settings = array_merge($this->settings, $flexFormSettings);
+            $flexForm = $flexformService->convertFlexFormContentToArray($data['pi_flexform']);
+            $flexForm = PuckUtility::convertZeroStringsToInteger($flexForm);
+            $this->settings = array_merge($this->settings, $flexForm['settings']);
         }
         $variables = $this->prepareVariables();
 
@@ -88,7 +88,7 @@ class MenuController extends ActionController
                 request: $this->request,
                 uriBuilder: $this->uriBuilder,
                 menuActionName: 'pageMenu',
-                menuContentObjectUid: $variables['record']->getUid(),
+                contentRecordUid: $variables['record']->getUid(),
                 fetchLinkPageType: $this->pageMenuFragmentTypeNum,
             );
             $pagination = $paginationBuilder
@@ -145,7 +145,6 @@ class MenuController extends ActionController
         $langId = $this->request->getAttribute('language')->getLanguageId();
         $variables = $this->prepareVariables();
         $variables['settings'] = $this->settings;
-        // todo: create a repository/queryBuilder that is less verbose
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tt_content');
         $variables['menu'] = $queryBuilder

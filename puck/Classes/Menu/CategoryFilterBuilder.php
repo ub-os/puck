@@ -289,6 +289,7 @@ class CategoryFilterBuilder
                 return $category->title;
             }, $categories));
         $titleProvider = GeneralUtility::makeInstance(PuckTitleProvider::class);
+        $titleProvider->setRequest($this->request);
         $titleProvider->setTitle($titleProvider->getTitle() . $pageTitleSuffixCategory);
         return $this;
     }
