@@ -16,9 +16,8 @@ NOTE: See example section after main section
 <f:section name="main">
 
   {u:var(set:'name', value:'m-powermail-form')}
-  {u:model(set:'object', data:ttContentData, map:'~Content\PowermailForm')}
 
-  <layout:section object="{object}" id="c{object.uid}">
+  <layout:section record="{ttContentData}" id="c{ttContentData.uid}">
 
     <div style="padding-top: var(--height-page-header); margin-top: 2em"></div>
     <div class="{settings.styles.framework.createClasses}" data-powermail-form="{mail.form.uid}">
@@ -40,12 +39,12 @@ NOTE: See example section after main section
     <p>
       <f:link.page
               class="e-button"
-              pageUid="{object.pid}"
+              pageUid="{ttContentData.pid}"
               additionalAttributes="{
-              data-hx-get:'{f:uri.page(pageUid:object.pid)}',
-              data-hx-select:'#c{object.uid}',
-              data-hx-target:'#c{object.uid}',
-              data-hx-swap:'outerHTML show:#c{object.uid}:top'
+              data-hx-get:'{f:uri.page(pageUid:ttContentData.pid)}',
+              data-hx-select:'#c{ttContentData.uid}',
+              data-hx-target:'#c{ttContentData.uid}',
+              data-hx-swap:'outerHTML show:#c{ttContentData.uid}:top'
       }">
         {f:translate(key:'back')}
       </f:link.page>

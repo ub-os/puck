@@ -68,6 +68,8 @@ class PageMenuController extends ActionController
                         $queryBuilder->expr()->eq('uid', $recordUid),
                         $queryBuilder->expr()->eq('l18n_parent', $recordUid),
                     ),
+                    $queryBuilder->expr()->eq('hidden', 0),
+                    $queryBuilder->expr()->eq('deleted', 0),
                     $queryBuilder->expr()->eq('sys_language_uid', $langId),
                 )
                 ->executeQuery()->fetchAssociative();

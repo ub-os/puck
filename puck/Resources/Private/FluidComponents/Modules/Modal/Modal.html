@@ -12,7 +12,7 @@
                   mediaSize="{record.card_media_size}"
                   mediaWidth="{record.media_column_width}"
                   mediaLayout="{record.media_layout}">
-              <element:moduleHeader object="{record}"/>
+              <element:moduleHeader record="{record}"/>
               <element:richText text="{record.bodytext}"/>
               <f:format.html>{content}</f:format.html>
           </layout:card>

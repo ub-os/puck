@@ -17,7 +17,7 @@
         <icon:svg icon="{record.icon}" class="{name}__icon"/>
       </f:if>
       <div class="{name}__card__text">
-        <element:moduleHeader object="{record}" class="{name}__headline"/>
+        <element:moduleHeader record="{record}" class="{name}__headline"/>
         <f:if condition="{record.bodytext}">
           <element:richText text="{record.bodytext}"/>
         </f:if>

@@ -6,7 +6,7 @@
 
     <layout:section
             class="{name}__wrap -layout-{record.media_layout}"
-            object="{object}"
+            record="{record}"
             container="{f:if(condition: '{record.media_layout_direction} == \'row\'', then:1, else:0)}"
             id="c{record.uid}">
       <f:if condition="{record.media_layout_direction} == 'column'">
@@ -14,7 +14,7 @@
           <f:if condition="{record.bodytext} || {record.header} || {record.subheader}">
             <layout:container width="{record.container_width}" align="{record.container_position}" offset="{record.container_offset}">
               <div class="{name}__content -layout-{record.media_layout}">
-                <element:moduleHeader object="{record}"/>
+                <element:moduleHeader record="{record}"/>
                 <element:richText text="{record.bodytext}"/>
                 {content -> f:format.raw()}
               </div>
@@ -49,7 +49,7 @@
             </layout:row.item>
             <layout:row.item width="5">
               <div class="{name}__content -layout-{record.media_layout}">
-                <element:moduleHeader object="{record}"/>
+                <element:moduleHeader record="{record}"/>
                 <element:richText text="{record.bodytext}"/>
               </div>
             </layout:row.item>

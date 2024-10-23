@@ -3,25 +3,26 @@
   <fc:param name="name" type="string" optional="1" default="m-row"/>
   <fc:param name="record" type="mixed"/>
   <fc:param name="children" type="array" optional="1"/>
+  <fc:param name="options" type="array" optional="1"/>
   <fc:renderer>
 
     <layout:section
             class="{name}__wrap"
-            object="{record}"
+            record="{record}"
             id="c{record.uid}">
-      <element:moduleHeader object="{record}"/>
+      <element:moduleHeader record="{record}"/>
       <element:richText text="{record.bodytext}" class="{name}__bodytext"/>
 
       <f:switch expression="{record.layout}">
         <f:case value="carousel">
           <layout:carousel id="c{record.uid}-splide" class="{name}__carousel"
                            align="{record.row_align}"
-                           arrows="{record.flexForms.options.carousel.arrows}"
-                           pagination="{record.flexForms.options.carousel.pagination}"
-                           trackOverflow="{record.flexForms.options.carousel.trackOverflow}"
-                           carouselAttributes="{splideOptions: record.flexForms.options.splide}">
+                           arrows="{options.carousel.arrows}"
+                           pagination="{options.carousel.pagination}"
+                           trackOverflow="{options.carousel.trackOverflow}"
+                           carouselAttributes="{splideOptions: options.splide}">
             <f:for each="{children}" as="child">
-              <layout:row.item class="splide__slide {name}__item {f:if(condition:'{record.rowAlign} === \'stretch\'', then:'-stretch-content')}"
+              <layout:row.item class="splide__slide {name}__item {f:if(condition:'{record.row_align} === \'stretch\'', then:'-stretch-content')}"
                                width="{child.container_width}">
                 {child.renderedContent -> f:format.raw()}
               </layout:row.item>
@@ -30,9 +31,9 @@
         </f:case>
 
         <f:defaultCase>
-          <layout:row justify="{record.rowJustify}" align="{record.rowAlign}" class="{name}__row" flexGrow="{record.flexGrow}">
+          <layout:row justify="{record.row_justify}" align="{record.row_align}" class="{name}__row" flexGrow="{record.flex_grow}">
             <f:for each="{children}" as="child">
-              <layout:row.item class="{name}__item {f:if(condition:'{record.rowAlign} === \'stretch\'', then:'-stretch-content')}"
+              <layout:row.item class="{name}__item {f:if(condition:'{record.row_align} === \'stretch\'', then:'-stretch-content')}"
                                width="{child.container_width}">
                 {child.renderedContent -> f:format.raw()}
               </layout:row.item>
@@ -41,7 +42,6 @@
         </f:defaultCase>
 
       </f:switch>
-
 
     </layout:section>
 

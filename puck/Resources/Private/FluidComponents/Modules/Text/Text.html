@@ -6,9 +6,9 @@
 
     <layout:section
             class="{name}__wrap {f:if(condition: '!{record.bodytext}', then: '-headline-only')} {class}"
-            object="{record}"
+            record="{record}"
             id="c{record.uid}">
-        <element:moduleHeader object="{record}"/>
+        <element:moduleHeader record="{record}"/>
         <element:richText text="{record.bodytext}"/>
         <fc:slot name="content"/>
     </layout:section>

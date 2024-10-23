@@ -2,22 +2,23 @@
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="l-section"/>
   <fc:param name="id" type="string" optional="1"/>
+  <fc:param name="record" type="mixed" optional="1"/>
   <fc:param name="top" type="string" optional="1" default="auto"/>
   <fc:param name="bottom" type="string" optional="1" default="auto"/>
   <fc:param name="container" type="boolean" optional="1" default="1" />
   <fc:param name="customContainer" type="string" optional="1" default="" />
-  <fc:param name="object" type="mixed" optional="1"/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
     <section class="{u:bem(
                raw:class,
                mod:{
-                  background: object.frameClass,
-                  layout: object.layout,
+                  background: record.frame_class,
+                  layout: record.layout,
                   top: top,
                   bottom: bottom,
-                  no-h2-spacing: object.hasNoHeaderSpacing}
+                  no-h2-spacing: '!{record.header_spacing}'
+                  }
              )}"
              id="{id}"
              {attributes -> u:renderAttributes()}>
@@ -32,9 +33,9 @@
         </f:else>
         <f:else>
           <layout:container
-                  width="{object.containerWidth}"
-                  align="{object.containerPosition}"
-                  offset="{object.containerOffset}">
+                  width="{record.container_width}"
+                  align="{record.container_position}"
+                  offset="{record.container_offset}">
             <fc:slot name="content"/>
           </layout:container>
         </f:else>

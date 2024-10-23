@@ -41,43 +41,41 @@ class ContentElementDefinition
 
     public function addTCA(): void
     {
-        {
-            $GLOBALS['TCA']['tt_content']['types'][$this->getCType()] = [
-                'showitem' => $this->showItem,
-                'columnsOverrides' => $this->columnsOverrides,
-                'valueOverrides' => $this->valueOverrides,
-            ];
-            foreach ($this->flexForms as $field => $flexForm) {
-                if (is_array($GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds'])) {
-                    $GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds']['*'. ','. $this->getCType()] = $flexForm;
-                }
-            }
-            if ($this->previewRenderer) {
-                $GLOBALS['TCA']['tt_content']['types'][$this->getCType()]['previewRenderer'] = $this->previewRenderer;
-            }
-            if ($this->containerConfiguration) {
-                GeneralUtility::makeInstance(Registry::class)->configureContainer(
-                    (new ContainerConfiguration(
-                        $this->getCType(),
-                        $this->label,
-                        $this->description,
-                        $this->containerConfiguration))
-                        ->setIcon($this->icon)->SetGroup($this->group)
-                        ->setRegisterInNewContentElementWizard(false)
-                );
-            }
-            ExtensionManagementUtility::addPlugin(
-                [
-                    'label' => $this->label,
-                    'description' => $this->description,
-                    'group' => $this->group,
-                    'value' => $this->getCType(),
-                    'icon' => $this->icon,
-                ],
-                'CType',
-                'puck',
+        if ($this->containerConfiguration) {
+            GeneralUtility::makeInstance(Registry::class)->configureContainer(
+                (new ContainerConfiguration(
+                    $this->getCType(),
+                    $this->label,
+                    $this->description,
+                    $this->containerConfiguration))
+                    ->setIcon($this->icon)->SetGroup($this->group)
+                    ->setRegisterInNewContentElementWizard(false)
             );
         }
+        $GLOBALS['TCA']['tt_content']['types'][$this->getCType()] = [
+            'showitem' => $this->showItem,
+            'columnsOverrides' => $this->columnsOverrides,
+            'valueOverrides' => $this->valueOverrides,
+        ];
+        foreach ($this->flexForms as $field => $flexForm) {
+            if (is_array($GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds'])) {
+                $GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds']['*'. ','. $this->getCType()] = $flexForm;
+            }
+        }
+        if ($this->previewRenderer) {
+            $GLOBALS['TCA']['tt_content']['types'][$this->getCType()]['previewRenderer'] = $this->previewRenderer;
+        }
+        ExtensionManagementUtility::addPlugin(
+            [
+                'label' => $this->label,
+                'description' => $this->description,
+                'group' => $this->group,
+                'value' => $this->getCType(),
+                'icon' => $this->icon,
+            ],
+            'CType',
+            'puck',
+        );
     }
 
     public function addTypoScript(): void

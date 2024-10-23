@@ -1,7 +1,7 @@
 
 <fc:component>
   <fc:param name="name" type="string" optional="1" default="m-header"/>
-  <fc:param name="object" type="mixed"/>
+  <fc:param name="record" type="mixed"/>
   <fc:param name="context" type="array"/>
   <fc:renderer>
 
@@ -26,7 +26,7 @@
                                 label="{f:translate(key:'navigation.main')}"/>
             // small navigation with search link that opens modal
             <element:navigation name="{name}__nav" class="-small" pages="{settings.navUid.meta}">
-              <f:if condition="{object.uid} != {settings.search.pid}">
+              <f:if condition="{record.uid} != {settings.search.pid}">
                 <li class="{name}__nav__item">
                   <button class="{name}__nav__link"
                           data-handler="modal.toggle#header-search-modal">
@@ -41,7 +41,7 @@
 
         <f:comment>
           <template data-append-on-load>
-            <module:header.sidebarNav object="{object}"/>
+            <module:header.sidebarNav record="{record}"/>
             <module:header.burger />
           </template>
         </f:comment>

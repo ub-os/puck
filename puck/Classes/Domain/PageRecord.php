@@ -42,4 +42,5 @@ class PageRecord extends Record
         $this->properties['teaser_text'] = $teaser->text;
         $this->properties['media'] = $teaser->media;
     }
+
 }

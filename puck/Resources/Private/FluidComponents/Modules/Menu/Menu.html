@@ -12,8 +12,8 @@
                 class="{name}__wrap"
                 customContainer="{f:if(condition:'{record.layout} == \'cards\' || {record.layout} == \'columns\'',then:'',else:name)}"
                 id="c{record.uid}"
-                object="{record}">
-            <element:moduleHeader object="{record}"/>
+                record="{record}">
+            <element:moduleHeader record="{record}"/>
             <element:richText text="{record.bodytext}" class="{name}__bodytext"/>
 
             <div class="{name}__body" id="c{record.uid}-body">

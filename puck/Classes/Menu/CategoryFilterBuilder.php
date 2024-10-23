@@ -131,7 +131,7 @@ class CategoryFilterBuilder
         return $item;
     }
 
-    protected function buildFilterItem(
+    public function buildFilterItem(
         Category $category,
         bool $disabled = false,
         bool $multiSelect = false,
@@ -221,7 +221,7 @@ class CategoryFilterBuilder
     }
 
 
-    public function getTreeIteratorAdvancement(int $level): int
+    protected function getTreeIteratorAdvancement(int $level): int
     {
         if ($level > 1) {
             $level--;

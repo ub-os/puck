@@ -7,9 +7,9 @@
 
     <layout:section
             class="{name}__wrap"
-            object="{record}"
+            record="{record}"
             id="c{record.uid}">
-      <element:moduleHeader object="{record}"/>
+      <element:moduleHeader record="{record}"/>
       <element:richText text="{record.bodytext}" class="{name}__bodytext"/>
 
       <f:for each="{children}" as="child">
