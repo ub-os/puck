@@ -3,7 +3,6 @@
   <fc:param name="name" type="string" optional="1" default="l-modal"/>
   <fc:param name="id" type="string" optional="1"/>
   <fc:param name="width" type="integer" optional="1" default="6"/>
-  <fc:param name="slots" type="array" optional="1" default="{}"/>
   <fc:param name="modalAttributes" type="array" optional="1" default="{}"/>
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
@@ -20,19 +19,6 @@
               aria-label="{f:translate(key:'close')}">
         <icon:char icon="close" />
       </button>
-
-      <f:comment>
-        <f:if condition="{slots.header}">
-          <div class="{name}__header">
-            <f:format.raw>{slots.header}</f:format.raw>
-          </div>
-        </f:if>
-        <f:if condition="{slots.footer}">
-          <div class="{name}__footer">
-            <f:format.raw>{slots.footer}</f:format.raw>
-          </div>
-        </f:if>
-      </f:comment>
 
       <fc:slot name="content"/>
     </dialog>

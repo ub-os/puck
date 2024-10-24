@@ -1,5 +1,9 @@
 name: ubos/puck
 label: Puck site package
+dependencies:
+  - typo3/fluid-styled-content
+  - typo3/redirects
+  - typo3/seo-sitemap
 settings:
   doktypes:
     news: 16503
@@ -7,7 +11,3 @@ settings:
     detailPlugin: 16511
   template:
     gridWidth: 1300
-dependencies:
-  - typo3/fluid-styled-content
-  - typo3/redirects
-  - typo3/seo-sitemap
