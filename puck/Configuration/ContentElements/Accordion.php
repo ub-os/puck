@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'accordion',
     label: 'Accordion',
     description: 'Collapsible text and media element.',

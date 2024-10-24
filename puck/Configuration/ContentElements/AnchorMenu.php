@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'anchor_menu',
     label: 'Anchor menu',
     description: 'Navigation of on-page anchors.',

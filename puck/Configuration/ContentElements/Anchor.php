@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'anchor',
     label: 'Anchor',
     description: 'Anchor for anchor menu',

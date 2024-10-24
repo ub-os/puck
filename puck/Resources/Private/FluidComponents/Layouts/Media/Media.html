@@ -15,24 +15,35 @@
     <fc:param name="showDesc" type="boolean" optional="1" default="1"/>
     <fc:renderer>
 
+
+        <f:comment>todo: image always AFTER headline in html structure</f:comment>
         <layout:row class="{name}__row {name} -layout-{layout} {class} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}"
                     justify="{justify}"
                     align="{align}"
                     attributes="{style:'--max-height-media-mobile: {mediaMobileMaxVh}vh'}">
+            <f:variable name="textSnippet">
+                <layout:row.item class="{name}__text" width="{textWidth}">
+                    <element:richText text="{text}"/>
+                    <fc:slot name="content"/>
+                </layout:row.item>
+            </f:variable>
+            <f:if condition="({text} || {content}) && {layout} != 'right-float' && {layout} != 'left-float'">
+                {textSnippet -> f:format.raw()}
+            </f:if>
             <f:if condition="{media}">
                 <layout:row.item class="{name}__media" width="{mediaWidth}">
                     <f:if condition="{itemWidth} > 4 || !{itemWidth}">
                         <f:then>
-                            <f:variable name="calcWidth" value="{settings.gridWidth}"/>
+                            <f:variable name="calcWidth" value="{settings.template.gridWidth}"/>
                         </f:then>
                         <f:else if="{itemWidth} == 4">
-                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/3')}"/>
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/3')}"/>
                         </f:else>
                         <f:else if="{itemWidth} == 3">
-                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/4')}"/>
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/4')}"/>
                         </f:else>
                         <f:else>
-                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.gridWidth}/5')}"/>
+                            <f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/5')}"/>
                         </f:else>
                     </f:if>
 
@@ -74,11 +85,8 @@
                     </f:if>
                 </layout:row.item>
             </f:if>
-            <f:if condition="{text} || {content}">
-                <layout:row.item class="{name}__text" width="{textWidth}">
-                    <element:richText text="{text}"/>
-                    <fc:slot name="content"/>
-                </layout:row.item>
+            <f:if condition="({text} || {content}) && ({layout} == 'right-float' || {layout} == 'left-float')">
+                {textSnippet -> f:format.raw()}
             </f:if>
         </layout:row>
 

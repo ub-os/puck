@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'media_column',
     label: 'Media column',
     description: 'Text and media child content element.',

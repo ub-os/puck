@@ -4,23 +4,32 @@ routeEnhancers:
     extension: Puck
     plugin: PageMenu
     routes:
+#      -
+#        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+#        _controller: 'PageMenu::pageMenu'
+#      -
+#        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
+#        _controller: 'PageMenu::pageMenu'
+#      -
+#        routePath: '/{authorLabel}:{demand/authors}'
+#        _controller: 'PageMenu::pageMenu'
+#      -
+#        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+#        _controller: 'PageMenu::pageMenu'
       -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
       -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
+        routePath: '/{categoryLabel}:{demand/categories/0/uids}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
         _controller: 'PageMenu::pageMenu'
       -
-        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+        routePath: '/{pageLabel}-{page}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{categoryLabel}:{demand/categories/0/uids}'
-        _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{authorLabel}:{demand/authors}'
         _controller: 'PageMenu::pageMenu'
       -
         routePath: '/{pageLabel}-{page}'

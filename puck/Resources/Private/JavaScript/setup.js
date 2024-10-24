@@ -11,6 +11,7 @@ import MediaPlayer from "~/Aspects/MediaPlayer"
 import ScrollSensitive from '~/Aspects/ScrollSensitive'
 import FormPage from '~/Aspects/FormPage'
 import Root from "~/Aspects/Root"
+import { noDragClick } from "~/Utility/DomUtility"
 
 window.htmx = htmx
 Object.assign(htmx.config, {
@@ -66,7 +67,19 @@ nexus.registerSelectorCallback({
             htmx.process(el.parentNode)
             el.removeAttribute('data-append-on-load')
         })
-    }
+    },
+    '[data-link-area]': el => {
+        el.style.cursor = 'pointer'
+        noDragClick(el, e => {
+            if (e.target.tagName === 'A') return
+            const link = el.querySelector('a')
+            if (e.metaKey) {
+                window.open(link.href, '_blank')
+                return
+            }
+            link.click()
+        })
+    },
 })
 
 export { nexus, htmx }

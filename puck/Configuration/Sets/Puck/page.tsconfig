@@ -1,3 +1,4 @@
+@import 'EXT:puck/Configuration/TsConfig/*.tsconfig'
 
 // RTE
 RTE.default {

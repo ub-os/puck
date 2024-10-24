@@ -11,6 +11,7 @@
   <fc:param name="attributes" type="array" optional="1"/>
   <fc:renderer>
 
+
     <f:if condition="!{menu}">
       <f:variable name="menu"
                   value="{u:menu(pages:pages, processor:processor, depth:depth)}"/>
@@ -18,12 +19,13 @@
 
     <nav class="{name} {class}" aria-label="{label}">
       <ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
-        <element:navigation.items name="{name}"
-                                  menu="{menu}"
-                                  processor="{processor}"
-                                  depth="{depth}"
-                                  prependIcon="{prependIcon}"
-                                  hideTitle="{hideTitle}"
+        <element:navigation.items
+                name="{name}"
+                menu="{menu}"
+                processor="{processor}"
+                depth="{depth}"
+                prependIcon="{prependIcon}"
+                hideTitle="{hideTitle}"
         />
         <fc:slot name="content"/>
       </ul>

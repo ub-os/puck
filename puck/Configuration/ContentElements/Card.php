@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'card',
     label: 'Card',
     description: 'Card child content element.',

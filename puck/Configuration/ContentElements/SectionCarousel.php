@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'section_carousel',
     label: 'Section carousel',
     description: 'Carousel container that slides between section-level content elements.',

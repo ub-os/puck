@@ -29,7 +29,7 @@ class ContentRecord extends Record
     {
         $p = $this->properties;
         if ($this->has('header') && $this->has('header_spacing_override')) {
-            $p['header_spacing'] = (!$p['header'] || $p['header_layout'] > 29) && !$p['header_spacing_override'];
+            $p['remove_header_spacing'] = (!$p['header'] || $p['header_layout'] > 29) && !$p['header_spacing_override'];
         }
 
         if ($this->has('media_layout')) {

@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\PageTypeDefinition(
+return new \UBOS\Puck\Configuration\PageTypeConfiguration(
     3,
     showItemAdditions: [
         [

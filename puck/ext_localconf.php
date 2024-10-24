@@ -12,17 +12,6 @@ foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/Conte
     (include $file)?->addTypoScript();
 }
 
-// Register tsconfig
-ExtensionManagementUtility::addPageTSConfig(
-    "@import 'EXT:puck/Configuration/TSconfig/Page.tsconfig',
-    @import 'EXT:puck/Configuration/TSconfig/Powermail.tsconfig',
-    @import 'EXT:puck/Configuration/TSconfig/Mod.tsconfig'"
-);
-
-ExtensionManagementUtility::addUserTSConfig(
-    "@import 'EXT:puck/Configuration/TSconfig/User.tsconfig'"
-);
-
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBOS\Puck\Routing\Aspect\NothingMapper::class;
 
@@ -61,5 +50,4 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['doktype_typolink']['enableMiddleware'] = true;
-
 

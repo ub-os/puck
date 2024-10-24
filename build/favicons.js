@@ -32,12 +32,6 @@ function generateFavicons(sourcePath, distPath, fileName) {
                 html += icon+'' +
                     '';
             }
-            fs.writeFile('puck/Configuration/Typoscript/09_favicons.typoscript', `
-page.headerData.99999999 = TEXT
-page.headerData.99999999 {
-    value = ${ html.replaceAll('/' + distPath, '{path: EXT:'+distPath.replace(fileName, '{$favicon}')).replace(/"{path: EXT:([^"]+)"/g, '"{path: EXT:$1}"').replace('<meta name="apple-mobile-web-app-title">', '').replace('<meta name="application-name">','') }
-    insertData = 1
-}`,function(){});
         };
     favicons(sourcePath, configuration).then((response,error) => {
         callback(response);

@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'cover_media',
     label: 'Cover media',
     description: 'Media element with 50% or 100% viewport width.',

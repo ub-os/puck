@@ -7,7 +7,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Persistence\RepositoryInterface;
 use UBOS\Puck\Domain\Model\Category;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Menu\Dto\MenuDemand;

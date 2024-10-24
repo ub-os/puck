@@ -25,7 +25,7 @@ class PageItemsProcFunc extends BaseItemsProcFunc
 
     public function backendLayout(&$params): void
     {
-        $allowedList = $params['TSconfig']['doktypes.'][$this->val($params['row']['doktype'])] ?? '';
+        $allowedList = $params['TsConfig']['doktypes.'][$this->val($params['row']['doktype'])] ?? '';
         $allowedList = GeneralUtility::trimExplode(',', $allowedList, true);
         foreach($allowedList as $key) {
             $params['items'][] = [

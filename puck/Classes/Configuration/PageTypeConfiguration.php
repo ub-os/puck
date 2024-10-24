@@ -1,14 +1,13 @@
 <?php
 
-namespace UBOS\Puck;
+namespace UBOS\Puck\Configuration;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
-use UBOS\Puckloader\Utility\TcaUtility;
 
-class PageTypeDefinition
+class PageTypeConfiguration
 {
     public function __construct(
         public int $doktype,
@@ -44,12 +43,12 @@ class PageTypeDefinition
         ExtensionManagementUtility::addTcaSelectItem(
             'pages',
             'doktype',
-            TcaUtility::selectItemHelper([
-                $this->label,
-                $this->doktype,
-                $this->icon,
-                $this->group
-            ]),
+            [
+                'label' => $this->label,
+                'value' => $this->doktype,
+                'icon' => $this->icon,
+                'group' => $this->group
+            ],
             '1',
             'after'
         );

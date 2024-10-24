@@ -1,6 +1,6 @@
 <?php
 
-return new \UBOS\Puck\ContentElementDefinition(
+return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'row_container',
     label: 'Row container',
     description: 'Container for text and media columns and cards. Flexible alignment and individual column widths.',

@@ -5,4 +5,4 @@ routeEnhancers:
     index: ''
     map:
       /: 0
-      /page-menu.html: 16500000
+      -page-menu.html: 16500000

@@ -8,12 +8,10 @@
     "ichhabrecht/content-defender": "^3.4",
     "christophlehmann/pagetreefilter": "^2",
     "wapplersystems/avif": "^12.0",
-    "b13/menus": "^1.0",
     "oliveoilexpert/puck-powermail": "*",
     "kitzberger/doktype-typolink": "^3",
     "b13/slash-force": "^1.0",
-    "t3/scroll": "^2",
-    "oliveoilexpert/puck-powermail": "*"
+    "t3/scroll": "^2"
   },
   "require": {
     "php": "^8",
@@ -28,7 +26,8 @@
     "b13/container": "^3",
     "oliveoilexpert/puckloader": "dev-main",
     "oliveoilexpert/content-presets": "*",
-    "oliveoilexpert/ckeditor-icons": "^0.2"
+    "oliveoilexpert/ckeditor-icons": "^0.2",
+    "b13/menus": "dev-main"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

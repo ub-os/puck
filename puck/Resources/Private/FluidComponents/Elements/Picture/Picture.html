@@ -17,7 +17,7 @@
     <fc:renderer>
 
         <f:if condition="!{width}">
-            <f:variable name="width" value="{settings.gridWidth}"/>
+            <f:variable name="width" value="{settings.template.gridWidth}"/>
         </f:if>
         <f:if condition="{src} || {image}">
             <f:if condition="{backgroundImg}">

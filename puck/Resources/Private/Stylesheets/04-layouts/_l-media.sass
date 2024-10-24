@@ -12,12 +12,12 @@
         --grid-columns: inherit
 
     @if $media-pos == above
+      #{$name}__text
+        order: 2
       #{$name}__media + #{$name}__text
         //padding-top: spacing(m)
 
     @if $media-pos == below
-      #{$name}__media
-        order: 2
       #{$name}__media + #{$name}__text.-bodytext
         //padding-bottom: spacing(m)
 
@@ -31,10 +31,8 @@
       @media (max-width(s))
         width: 100%
 
-    #{$name}__media
-      @media (max-width(s))
-        order: 2
-      @if $media-pos == right
+    @if $media-pos == left
+      #{$name}__text
         @media (min-width(s))
           order: 2
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace UBOS\Puck;
+namespace UBOS\Puck\Configuration;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -8,10 +8,10 @@ use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
 use UBOS\Puck\Preview\PuckPreviewRenderer;
 
-class ContentElementDefinition
+class ContentElementConfiguration
 {
     public function __construct(
-        public string $key,
+        public string $type,
         public string $label,
         public string $description,
         public string $group = '01_content',
@@ -36,7 +36,7 @@ class ContentElementDefinition
 
     public function getCType(): string
     {
-        return GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName. '_'. $this->key);
+        return GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName. '_'. $this->type);
     }
 
     public function addTCA(): void
@@ -104,7 +104,7 @@ class ContentElementDefinition
                     pluginName = ' . $this->pluginName . '
                     extensionKey = ' . $this->extensionName . '
                     vendorName = ' . $this->vendorName . '
-                    templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->key)) . '
+                    templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
                     model = ' . $this->model . '
                     dataProcessing {
                         ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
@@ -116,18 +116,18 @@ class ContentElementDefinition
     }
 
     public function makeRestrictedChildElement(
-        string $key,
+        string $type,
         string $label,
         string $description,
         string $group = '',
         string $icon = '',
         array $valueOverrides = []
-    ): ContentElementDefinition
+    ): ContentElementConfiguration
     {
         if (!$this->templateName) {
-            $this->templateName = GeneralUtility::underscoredToUpperCamelCase($this->key);
+            $this->templateName = GeneralUtility::underscoredToUpperCamelCase($this->type);
         }
-        $this->key = $key;
+        $this->type = $type;
         $this->label = $label;
         $this->description = $description;
         $this->group = $group ?: $this->group;

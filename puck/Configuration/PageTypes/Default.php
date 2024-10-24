@@ -1,7 +1,7 @@
 <?php
 
-return new \UBOS\Puck\PageTypeDefinition(
-    1,
+return new \UBOS\Puck\Configuration\PageTypeConfiguration(
+    doktype: 1,
     showItemAdditions: [
         [
             '--div--;Teaser, --palette--;;teaser',

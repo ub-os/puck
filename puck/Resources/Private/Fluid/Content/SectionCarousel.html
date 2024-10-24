@@ -1,1 +1,7 @@
-<f:debug>{_all}</f:debug>
+<layout:carousel id="c{record.uid}" arrows="0" pagination="1">
+    <f:for each="{processed.children_600}" as="child">
+        <div class="splide__slide" style="width:100vw">
+            {child.renderedContent -> f:format.raw()}
+        </div>
+    </f:for>
+</layout:carousel>

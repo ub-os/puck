@@ -21,7 +21,6 @@
                 <fc:slot name="headerContent"/>
 
                 <f:if condition="{menu}">
-                    <u:var set="teaserScript">if (event.target.tagName !== 'A') { this.querySelector('a').click(); }</u:var>
                     <f:switch expression="{record.layout}">
 
                         <f:case value="default-cards">
@@ -31,7 +30,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
-                                                attributes="{onclick:teaserScript}"
+                                                attributes="{data-link-area:''}"
                                                 class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 width="6">
@@ -52,7 +51,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
-                                                attributes="{onclick:teaserScript}"
+                                                attributes="{data-link-area:''}"
                                                 class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 width="6">
@@ -74,7 +73,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:row.item class="{name}__item -stretch-content" width="6">
                                         <layout:card
-                                                attributes="{onclick:teaserScript}"
+                                                attributes="{data-link-area:''}"
                                                 class="{name}__card -variant-{record.layout}">
                                             <f:alias map="{person: item.page_persons.0}">
                                                 <div class="{name}__content">
@@ -113,7 +112,7 @@
                                         <f:variable name="media"
                                                     value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
                                         <div class="{name}__column -variant-{record.layout}"
-                                             onclick="{teaserScript}">
+                                             data-link-area>
                                             <layout:media
                                                     cropVariant="{cropVariant}"
                                                     itemWidth="{record.media_column_width}"
@@ -144,7 +143,7 @@
                                         <f:variable name="media"
                                                     value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
                                         <layout:card
-                                                attributes="{onclick:teaserScript}"
+                                                attributes="{data-link-area:''}"
                                                 class="{name}__card -variant-{record.layout}"
                                                 cropVariant="{cropVariant}"
                                                 media="{media}"

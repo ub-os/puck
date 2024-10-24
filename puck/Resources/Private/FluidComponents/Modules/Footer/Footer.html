@@ -6,16 +6,14 @@
 
     <footer id="footer" class="{name}">
       <layout:section class="{name}__nav__wrap" id="footer-1">
-        <f:comment>
-        <element:navigation name="{name}__nav" pages="{settings.navUid.footer}" class="">
+        <element:navigation name="{name}__nav" pages="{settings.navigation.footer}" class="">
           <f:comment>
             <li class="{name}__nav__item">
               <button class="{name}__nav__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen</button>
             </li>
           </f:comment>
         </element:navigation>
-        <element:navigation name="{name}__nav" pages="{settings.navUid.social}" class="-social" prependIcon="1" hideTitle="1"/>
-        </f:comment>
+        <element:navigation name="{name}__nav" pages="{settings.navigation.social}" class="-social" prependIcon="1" hideTitle="1"/>
       </layout:section>
       <fc:slot name="content"/>
     </footer>

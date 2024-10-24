@@ -32,6 +32,10 @@ class PageRecord extends Record
         if ($this->has('breadcrumb_title')) {
             $p['breadcrumb_title'] = $p['breadcrumb_title'] ?: $p['nav_title'];
         }
+        if ($this->has('target') && !$p['target']) {
+            $p['target'] = '_self';
+        }
+
         $p['link_parameter'] = $this->has('url') && $p['url'] ? $p['url'] : $this->rawRecord->getUid();
         $this->properties = $p;
     }

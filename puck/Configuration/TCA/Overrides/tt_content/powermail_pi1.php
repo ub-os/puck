@@ -11,8 +11,7 @@ $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
         --div--;Form,
             pi_flexform,
         --div--;Layout,
-            --palette--;;gridContainer,'
-        .TcaUtility::getContentShowitemBase(),
+            --palette--;;gridContainer,',
     'columnsOverrides' => [
         'bodytext' => [
             'config' => [
