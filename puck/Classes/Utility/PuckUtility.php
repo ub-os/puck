@@ -3,10 +3,6 @@ namespace UBOS\Puck\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;

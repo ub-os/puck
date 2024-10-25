@@ -2,6 +2,7 @@
 
 namespace UBOS\Puck\EventListener;
 
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -15,6 +16,8 @@ final class ModifyPageLayoutContent
 {
     protected array $row = [];
     protected int $id = 0;
+
+    #[AsEventListener]
     public function __invoke(
         ModifyPageLayoutContentEvent $event
     ): void

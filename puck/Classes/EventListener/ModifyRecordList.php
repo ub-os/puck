@@ -2,6 +2,7 @@
 namespace UBOS\Puck\EventListener;
 
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListHeaderActionsEvent;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListTableActionsEvent;
@@ -17,27 +18,13 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
  */
 final class ModifyRecordList {
 
-    /**
-     * @var LoggerInterface
-     */
-    protected LoggerInterface $logger;
-
-    protected UriBuilder $uriBuilder;
-    protected IconFactory $iconFactory;
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger, UriBuilder $uriBuilder, IconFactory $iconFactory) {
-        $this->logger = $logger;
-        $this->uriBuilder = $uriBuilder;
-        $this->iconFactory = $iconFactory;
+    public function __construct(
+        protected LoggerInterface $logger,
+        protected UriBuilder $uriBuilder,
+        protected IconFactory $iconFactory) {
     }
 
-    /**
-     * @param ModifyRecordListRecordActionsEvent $event
-     * @return void
-     */
+    #[AsEventListener]
     public function __invoke(ModifyRecordListRecordActionsEvent $event): void
     {
         $currentTable = $event->getTable();

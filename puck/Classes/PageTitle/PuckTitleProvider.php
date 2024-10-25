@@ -12,11 +12,6 @@ final class PuckTitleProvider extends AbstractPageTitleProvider
 {
     public const TITLE_DIVIDER = ' | ';
 
-    public function __construct(
-        private readonly SiteFinder $siteFinder
-    ) {
-    }
-
     public function getTitle(): string
     {
         if ($this->title) {

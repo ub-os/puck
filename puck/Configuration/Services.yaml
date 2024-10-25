@@ -7,21 +7,3 @@ services:
   UBOS\Puck\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
-
-  UBOS\Puck\PageTitle\PuckTitleProvider:
-    public: true
-
-  UBOS\Puck\EventListener\AdditionalPropertiesForSearchAction:
-    tags:
-      - name: event.listener
-        identifier: 'puck-additional-schema-properties'
-
-  UBOS\Puck\EventListener\ModifyRecordList:
-    tags:
-      - name: event.listener
-        identifier: 'puck-record-list'
-
-  UBOS\Puck\EventListener\ModifyPageLayoutContent:
-    tags:
-      - name: event.listener
-        identifier: 'puck-page-layout-content'
