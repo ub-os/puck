@@ -1,5 +1,8 @@
 .m-cover-media
   &__wrap
+    .m-main > &:where(.-top-auto:first-child)
+      margin-top: 0
+
     &.l-section[class*="-background-"]
       padding-block: 0
 
@@ -10,9 +13,9 @@
 
   &__row
     &.-layout-right
-      flex-direction: row-reverse
-    &.-layout-left
       flex-direction: row
+    &.-layout-left
+      flex-direction: row-reverse
     @media (max-width(m))
       --grid-gutter-y: 0
 
@@ -42,7 +45,7 @@
         position: absolute
         top: 0
         height: 100%
-        width: 50vw
+        width: calc(50vw - var(--scrollbar-width) * 0.5)
         max-width: calc(var(--width-page) * 0.5)
       @media (max-width(m))
         +gutter-outer($gutter-outer, $gutter-outer-mb, true)

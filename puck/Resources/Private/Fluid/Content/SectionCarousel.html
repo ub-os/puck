@@ -1,6 +1,6 @@
-<layout:carousel id="c{record.uid}" arrows="0" pagination="1">
+<layout:carousel id="c{record.uid}" arrows="0" pagination="1" class="m-section-carousel">
     <f:for each="{processed.children_600}" as="child">
-        <div class="splide__slide" style="width:100vw">
+        <div class="m-section-carousel__slide splide__slide">
             {child.renderedContent -> f:format.raw()}
         </div>
     </f:for>

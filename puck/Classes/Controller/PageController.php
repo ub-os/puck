@@ -38,6 +38,9 @@ class PageController extends ActionController
     {
         $cObj = $this->request->getAttribute('currentContentObject');
         $data = $cObj->data;
+        $site = $this->request->getAttribute('site');
+        $siteSettings = $site->getSettings();
+        $context = GeneralUtility::makeInstance(Context::class);
         $variables = [];
         $variables['settings'] = $this->settings;
         $variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
@@ -60,6 +63,12 @@ class PageController extends ActionController
             ['colPos' => 9, 'slide' => 0]
         ];
 
+        // set settings for all fluid components
+        $this->componentSettings
+            ->set('template', $siteSettings->get('template'))
+            ->set('navigation', $siteSettings->get('navigation'))
+            ->set('doktypes', $siteSettings->get('doktypes'));
+
         // to do update, replace with alternative
         $this->contentContentObject->setRequest($this->request);
         $this->contentContentObject->setContentObjectRenderer($cObj);
@@ -74,10 +83,6 @@ class PageController extends ActionController
                 'slide' => $row['slide']
             ]);
         }
-
-        $site = $this->request->getAttribute('site');
-        $siteSettings = $site->getSettings();
-        $context = GeneralUtility::makeInstance(Context::class);
         $frontendUserAspect = $context->getAspect('frontend.user');
         $variables['context'] = [
             'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
@@ -88,11 +93,6 @@ class PageController extends ActionController
             'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
         ];
 
-        // set settings for all fluid components
-        $this->componentSettings
-            ->set('template', $siteSettings->get('template'))
-            ->set('navigation', $siteSettings->get('navigation'))
-            ->set('doktypes', $siteSettings->get('doktypes'));
         $this->pageRenderer->addHeaderData($this->getFaviconHeadTags($siteSettings));
         $this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
         $this->view->assignMultiple($variables);

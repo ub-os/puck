@@ -4,13 +4,9 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use UBOS\Puck\Utility\TcaUtility;
 use UBOS\Puck\UserFunctions\FormEngine\PageItemsProcFunc;
 
-
-$cropVariants = TcaUtility::getCropVariants('3:2,16:9,1.91:1');
-
-$GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
-
-$GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
-$GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = $cropVariants;
+$GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('3:2,16:9,191:100');
+$GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('191:100');
+$GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('16:9');
 
 array_push(
     $GLOBALS['TCA']['pages']['columns']['module']['config']['items'],

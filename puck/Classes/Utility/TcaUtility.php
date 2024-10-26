@@ -1,5 +1,7 @@
 <?php
 namespace UBOS\Puck\Utility;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+
 /**
  *
  */
@@ -129,7 +131,7 @@ class TcaUtility
         }
         foreach($variants as $variant) {
             $key = $variant['key'] ?? $variant;
-            $cropVariants[$key] = self::getCropVariant($key, $variant['allowedRatios'] ?? null, $variant['disabled'] ?? false);
+            $cropVariants[$variant] = self::getCropVariant($key, $variant['allowedRatios'] ?? null, $variant['disabled'] ?? false);
 
         }
         return $cropVariants;

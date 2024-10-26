@@ -13,10 +13,11 @@ $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
     'showitem' => '
         teaser_text,
         --linebreak--,
-        teaser_cta',
+        teaser_cta,
+        --linebreak--,
+        media',
 ];
-$GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '
-    media';
+$GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '';
 
 $GLOBALS['TCA']['pages']['palettes']['title'] = [
     'label' => 'Title',
@@ -44,3 +45,4 @@ $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
         teasers
     ',
 ];
+

@@ -12,7 +12,8 @@
       <f:if condition="{record.media_layout_direction} == 'column'">
         <f:then>
           <f:if condition="{record.bodytext} || {record.header} || {record.subheader}">
-            <layout:container width="{record.container_width}" align="{record.container_position}" offset="{record.container_offset}">
+            <layout:container width="{record.container_width}" align="{record.container_position}"
+                              offset="{record.container_offset}">
               <div class="{name}__content -layout-{record.media_layout}">
                 <element:moduleHeader record="{record}"/>
                 <element:richText text="{record.bodytext}"/>
@@ -34,6 +35,12 @@
         </f:then>
         <f:else>
           <layout:row justify="space-between" class="{name}__row -layout-{record.media_layout}">
+            <layout:row.item width="5">
+              <div class="{name}__content -layout-{record.media_layout}">
+                <element:moduleHeader record="{record}"/>
+                <element:richText text="{record.bodytext}"/>
+              </div>
+            </layout:row.item>
             <layout:row.item width="6" attributes="{style:'position:relative'}">
               <element:media
                       name="{name}"
@@ -43,15 +50,8 @@
                       breakpointSources="1"
                       sources="{
                           xs: {width: 450, cropVariant: 'default'},
-                          m: {width: 975, cropVariant: 'default'},
                           1920: {width: 975, cropVariant: 'default'}
                     }"/>
-            </layout:row.item>
-            <layout:row.item width="5">
-              <div class="{name}__content -layout-{record.media_layout}">
-                <element:moduleHeader record="{record}"/>
-                <element:richText text="{record.bodytext}"/>
-              </div>
             </layout:row.item>
           </layout:row>
         </f:else>

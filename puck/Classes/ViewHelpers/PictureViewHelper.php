@@ -87,11 +87,10 @@ class PictureViewHelper extends AbstractViewHelper
         if (method_exists($this->arguments['image'], 'getAlternative')) {
             $alt = $this->arguments['image']->getAlternative() ?? '';
         }
-        $imageViewHelper = GeneralUtility::makeInstance(ImageViewHelper::class);
+        $imageArgs = [];
         if ($this->arguments['image']) {
-            $imageHtml = $this->createViewHelper(ImageViewHelper::class, [
+            $imageArgs = [
                 'image' => $this->arguments['image'],
-                'class' => "{$this->arguments['className']}__image {$this->arguments['class']}",
                 'width' => $this->arguments['width'],
                 'absolute' => true,
                 'cropVariant' => $this->arguments['cropVariant'],
@@ -100,28 +99,27 @@ class PictureViewHelper extends AbstractViewHelper
                 'alt' => $alt,
                 'loading' => $this->arguments['loading'],
                 'additionalAttributes' => array_merge($this->arguments['additionalAttributes'], ['loading' => $this->arguments['loading']]),
-            ])->render();
+            ];
         } else {
-            $imageHtml = $this->createViewHelper(ImageViewHelper::class, [
+            $imageArgs = [
                 'src' => $this->arguments['src'],
-                'class' => "{$this->arguments['className']}__image {$this->arguments['class']}",
                 'width' => $this->arguments['width'],
                 'absolute' => true,
                 'treatIdAsReference' => false,
                 'loading' => $this->arguments['loading'],
                 'additionalAttributes' => array_merge($this->arguments['additionalAttributes'], ['loading' => $this->arguments['loading']]),
-            ])->render();
+            ];
         }
+        $imageHtml = str_replace('<img ', "<img class='{$this->arguments['className']}__image {$this->arguments['class']}'", $this->createViewHelper(ImageViewHelper::class, $imageArgs)->render());
         if (!$this->arguments['image']) {
             return "{$pictureHtml}{$imageHtml}</picture>";
         }
 
         $sources = $this->arguments['sources'];
-
         if ($this->arguments['breakpointSources']) {
             $imageBreakpoints = explode(',', $this->arguments['image']->getProperties()['breakpoints']) ?? [];
             foreach ($imageBreakpoints as $breakpoint) {
-                if (!$breakpoint) {
+                if (!$breakpoint || $breakpoint === 'default') {
                     continue;
                 }
                 if (isset($sources[$breakpoint])) {
@@ -139,13 +137,13 @@ class PictureViewHelper extends AbstractViewHelper
             }
 
         }
-
+        $sourcesHtml = '';
+        uksort($sources, fn($a, $b) => ($this->arguments['breakpoints'][$a] ?? (int)$a) - ($this->arguments['breakpoints'][$b] ?? (int)$b));
         $sources['default'] = [
             'cropVariant' => $this->arguments['cropVariant'],
-            'width' => $this->arguments['width']
+            'width' => $this->arguments['width'],
+            'isDefaultSource' => true,
         ];
-
-        $sourcesHtml = '';
         foreach ($sources as $breakpoint => $source) {
             $width = $source['width'];
             if ($this->arguments['sourceMaxWidth'] > 0 && $width > $this->arguments['sourceMaxWidth']) {
@@ -178,7 +176,7 @@ class PictureViewHelper extends AbstractViewHelper
                 $maxWidth = $this->arguments['breakpoints'][$breakpoint];
             }
             $media = "media=\"(max-width: {$maxWidth}px)\"";
-            if ($breakpoint === 'default') {
+            if ($source['isDefaultSource'] ?? false) {
                 $media = '';
             }
             if ($this->arguments['avif']) {

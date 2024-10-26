@@ -41,7 +41,7 @@ $columns = [
             'type' => 'file',
             'allowed' => 'common-image-types',
             'overrideChildTca' => [
-                'columns' => ['crop' => ['config' => \UBOS\Puck\Utility\TcaUtility::getCropVariants('3:2,16:9,1.91:1')]],
+                'columns' => ['crop' => ['config' => ['cropVariants' => \UBOS\Puck\Utility\TcaUtility::getCropVariants('3:2,16:9,191:100')]]],
                 'types' => $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['types']
             ]
         ],

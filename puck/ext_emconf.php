@@ -8,7 +8,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'UBOS Puck',
+	'title' => 'Puck',
 	'description' => '',
 	'category' => 'distribution',
 	'author' => 'Amadeus Kiener / Unibrand',

@@ -1,162 +1,159 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3DataStructure>
     <sheets>
         <splide>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>Behaviour</sheetTitle>
-                </TCEforms>
+                <sheetTitle>Behaviour</sheetTitle>
                 <type>array</type>
                 <el>
                     <splide.type>
-                        <TCEforms>
-                            <label>Type</label>
-                            <onChange>reload</onChange>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items>
-                                    <numIndex index="0">
-                                        <numIndex index="0">slide</numIndex>
-                                        <numIndex index="1">slide</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1">
-                                        <numIndex index="0">loop</numIndex>
-                                        <numIndex index="1">loop</numIndex>
-                                    </numIndex>
-                                </items>
-                                <default>slide</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Type</label>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <numIndex index="0">slide</numIndex>
+                                    <numIndex index="1">slide</numIndex>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <numIndex index="0">loop</numIndex>
+                                    <numIndex index="1">loop</numIndex>
+                                </numIndex>
+                            </items>
+                            <default>slide</default>
+                        </config>
+
                     </splide.type>
                     <splide.rewind>
-                        <TCEforms>
-                            <label>Rewind</label>
-                            <displayCond>FIELD:splide.type:IN:slide,fade</displayCond>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Rewind</label>
+                        <displayCond>FIELD:splide.type:IN:slide,fade</displayCond>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>0</default>
+                        </config>
+
                     </splide.rewind>
                     <splide.autoplay>
-                        <TCEforms>
-                            <label>Autoplay</label>
-                            <onChange>reload</onChange>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Autoplay</label>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>0</default>
+                        </config>
+
                     </splide.autoplay>
                     <splide.interval>
-                        <TCEforms>
-                            <label>Autoplay interval (in milliseconds)</label>
-                            <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
-                            <config>
-                                <type>input</type>
-                                <eval>int</eval>
-                                <default>1500</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Autoplay interval (in milliseconds)</label>
+                        <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
+                        <config>
+                            <type>input</type>
+                            <eval>int</eval>
+                            <default>1500</default>
+                        </config>
+
                     </splide.interval>
                     <splide.speed>
-                        <TCEforms>
-                            <label>Slide transition speed (in milliseconds)</label>
-                            <config>
-                                <type>input</type>
-                                <eval>int</eval>
-                                <default>400</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Slide transition speed (in milliseconds)</label>
+                        <config>
+                            <type>input</type>
+                            <eval>int</eval>
+                            <default>400</default>
+                        </config>
+
                     </splide.speed>
                     <splide.easing>
-                        <TCEforms>
-                            <label>Transition easing</label>
-                            <config>
-                                <type>input</type>
-                                <default>cubic-bezier(0.25, 1, 0.5, 1)</default>
-                                <valuePicker>
-                                    <items>
-                                        <numIndex index="0">
-                                            <numIndex index="0">linear</numIndex>
-                                            <numIndex index="1">linear</numIndex>
-                                        </numIndex>
-                                        <numIndex index="1">
-                                            <numIndex index="0">ease</numIndex>
-                                            <numIndex index="1">ease</numIndex>
-                                        </numIndex>
-                                        <numIndex index="2">
-                                            <numIndex index="0">cubic-bezier(0.25, 1, 0.5, 1)</numIndex>
-                                            <numIndex index="1">cubic-bezier(0.25, 1, 0.5, 1)</numIndex>
-                                        </numIndex>
-                                    </items>
-                                </valuePicker>
-                            </config>
-                        </TCEforms>
+
+                        <label>Transition easing</label>
+                        <config>
+                            <type>input</type>
+                            <default>cubic-bezier(0.25, 1, 0.5, 1)</default>
+                            <valuePicker>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">linear</numIndex>
+                                        <numIndex index="1">linear</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">ease</numIndex>
+                                        <numIndex index="1">ease</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">cubic-bezier(0.25, 1, 0.5, 1)</numIndex>
+                                        <numIndex index="1">cubic-bezier(0.25, 1, 0.5, 1)</numIndex>
+                                    </numIndex>
+                                </items>
+                            </valuePicker>
+                        </config>
+
                     </splide.easing>
                     <splide.pauseOnHover>
-                        <TCEforms>
-                            <label>Pause on hover</label>
-                            <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>1</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Pause on hover</label>
+                        <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
+                        </config>
+
                     </splide.pauseOnHover>
                 </el>
             </ROOT>
         </splide>
         <carousel>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>Template</sheetTitle>
-                </TCEforms>
+
+                <sheetTitle>Template</sheetTitle>
+
                 <type>array</type>
                 <el>
                     <carousel.arrows>
-                        <TCEforms>
-                            <label>Arrows</label>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>1</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Arrows</label>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
+                        </config>
+
                     </carousel.arrows>
                     <carousel.pagination>
-                        <TCEforms>
-                            <label>Pagination</label>
-                            <config>
-                                <type>check</type>
-                                <renderType>checkboxToggle</renderType>
-                                <default>0</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Pagination</label>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>0</default>
+                        </config>
+
                     </carousel.pagination>
                     <carousel.trackOverflow>
-                        <TCEforms>
-                            <label>Overflow slider track</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items>
-                                    <numIndex index="0">
-                                        <numIndex index="0">hidden</numIndex>
-                                        <numIndex index="1">hidden</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1">
-                                        <numIndex index="0">visible</numIndex>
-                                        <numIndex index="1">visible</numIndex>
-                                    </numIndex>
-                                </items>
-                                <default>hidden</default>
-                            </config>
-                        </TCEforms>
+
+                        <label>Overflow slider track</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <numIndex index="0">hidden</numIndex>
+                                    <numIndex index="1">hidden</numIndex>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <numIndex index="0">visible</numIndex>
+                                    <numIndex index="1">visible</numIndex>
+                                </numIndex>
+                            </items>
+                            <default>hidden</default>
+                        </config>
+
                     </carousel.trackOverflow>
                 </el>
             </ROOT>
