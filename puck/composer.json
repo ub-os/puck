@@ -15,19 +15,19 @@
   "require": {
     "php": "^8",
     "phpoffice/phpspreadsheet": "^1.27",
-    "typo3/cms-core": "^12 || ^13",
-    "typo3/cms-lowlevel": "^12 || ^13",
-    "typo3/cms-redirects": "^12 || ^13",
-    "typo3/cms-recycler": "^12 || ^13",
-    "sitegeist/fluid-components": "*",
+    "typo3/cms-core": "^13",
+    "typo3/cms-lowlevel": "^13",
+    "typo3/cms-redirects": "^13",
+    "typo3/cms-recycler": "^13",
+    "sitegeist/fluid-components": "^3.8",
     "eliashaeussler/typo3-warming": "^3",
     "brotkrueml/schema": "^3",
     "b13/container": "^3",
-    "oliveoilexpert/puckloader": "dev-main",
-    "oliveoilexpert/content-presets": "*",
+    "oliveoilexpert/puckloader": "^0.1.4",
+    "oliveoilexpert/content-presets": "^1.0",
     "oliveoilexpert/ckeditor-icons": "^0.2",
     "b13/menus": "dev-main",
-    "wapplersystems/avif": "^12.0"
+    "wapplersystems/avif": "*"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

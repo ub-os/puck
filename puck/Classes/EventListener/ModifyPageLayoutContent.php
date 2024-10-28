@@ -38,12 +38,12 @@ final class ModifyPageLayoutContent
         $view->assign('record', $record);
         $headerContent = '';
         if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
-            $headerContent = $view->render('PageLayoutContent/Header/NewsPage.html');
+            $headerContent = $view->render('PageLayoutContent/Header/NewsPage');
         }
         if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
-            $headerContent = $view->render('PageLayoutContent/Header/PersonPage.html');
+            $headerContent = $view->render('PageLayoutContent/Header/PersonPage');
         }
-        $footerContent = $view->render('PageLayoutContent/Footer/Default.html');
+        $footerContent = $view->render('PageLayoutContent/Footer/Default');
         $event->addHeaderContent($headerContent);
         $event->addFooterContent($footerContent);
     }

@@ -6,7 +6,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
-use UBOS\Puck\Preview\PuckPreviewRenderer;
+use UBOS\Puck\Preview\BasicPreviewRenderer;
 
 class ContentElementConfiguration
 {
@@ -26,7 +26,7 @@ class ContentElementConfiguration
         public array $flexForms = [],
         public array $containerConfiguration = [],
         public array $dataProcessing = [],
-        public string $previewRenderer = PuckPreviewRenderer::class,
+        public string $previewRenderer = BasicPreviewRenderer::class,
         public bool $noCache = false,
     )
     {

@@ -7,9 +7,7 @@
         </div>
     </div>
     <div class="media-desc" style="display: none">
-        <f:for
-                each="{u:utility.backend.resolveFileReferences(row: row, table: table, field: field)}"
-                as="fileReference">
+        <f:for each="{files}" as="fileReference">
             {fileReference.description}<br>
         </f:for>
     </div>

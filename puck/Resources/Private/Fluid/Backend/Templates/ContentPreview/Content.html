@@ -6,18 +6,17 @@
 
 <f:section name="preview">
   <a href="{editLink}">
-
-    <f:render section="main" arguments="{item: item}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.media, field: 'media', table: 'tt_content'}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.image, field: 'image', table: 'tt_content'}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: item.record.assets, field: 'assets', table: 'tt_content'}" />
-    <f:if condition="{item.record.records}">
+    <f:render section="main" arguments="{item: item, record:record}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.media, field: 'media', table: 'tt_content'}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.image, field: 'image', table: 'tt_content'}" />
+    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.assets, field: 'assets', table: 'tt_content'}" />
+    <f:if condition="{record.records}">
       <em>Shortcut to:</em>
-      <f:for each="{u:utility.backend.getRecords(table: 'tt_content', uids: item.record.records)}" as="shortcut">
+      <f:for each="{record.records}" as="shortcut">
         <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
       </f:for>
     </f:if>
-    <f:render partial="PageMenuSettings" arguments="{settings:item.record.pi_flexform.settings,processed:processedMenuData}"/>
+    <f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
     <!--
     -->
   </a>
@@ -25,17 +24,17 @@
 </f:section>
 
 <f:section name="main">
-  <f:if condition="{item.record.CType} !== 'puck_anchor'">
+  <f:if condition="{record.CType} !== 'puck_anchor'">
     <f:then>
-      <f:variable name="headerType" value="{f:if(condition: '{item.record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
-      <f:if condition="{item.record.header_layout} >= 100">
+      <f:variable name="headerType" value="{f:if(condition: '{record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
+      <f:if condition="{record.header_layout} >= 100">
         <f:variable name="headerType" value="i"/>
       </f:if>
-      <f:render partial="Text" arguments="{header: item.record.header, headerType: headerType, subheader: item.record.subheader, bodytext: item.record.bodytext}" />
+      <f:render partial="Text" arguments="{header: record.header, headerType: headerType, subheader: record.subheader, bodytext: record.bodytext}" />
     </f:then>
     <f:else>
-      <span>{item.record.header}</span><br>
-      <u>#{item.record.subheader}</u>
+      <span>{record.header}</span><br>
+      <u>#{record.subheader}</u>
     </f:else>
   </f:if>
 </f:section>

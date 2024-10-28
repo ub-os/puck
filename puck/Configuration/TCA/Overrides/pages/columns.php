@@ -11,19 +11,19 @@ $GLOBALS['TCA']['pages']['columns']['twitter_image']['config']['overrideChildTca
 array_push(
     $GLOBALS['TCA']['pages']['columns']['module']['config']['items'],
     [
-        'News folder',
-        'news',
-        'news_page',
+        'label' => 'News folder',
+        'value' => 'news',
+        'icon' => 'news_page',
     ],
     [
-        'Category folder',
-        'categories',
-        'mimetypes-x-sys_category',
+        'label' => 'Category folder',
+        'value' => 'categories',
+        'icon' => 'mimetypes-x-sys_category',
     ],
     [
-        'Person folder',
-        'persons',
-        'person',
+        'label' => 'Person folder',
+        'value' => 'persons',
+        'icon' => 'person',
     ]
 );
 
@@ -34,9 +34,8 @@ $GLOBALS['TCA']['pages']['columns']['post_date'] = [
     'label' => 'Date',
     'config' => [
         'type' => 'input',
-        'renderType' => 'inputDateTime',
-        'size' => 16,
-        'eval' => 'datetime',
+        'renderType' => 'datetime',
+        'size' => 16
     ],
 ];
 $GLOBALS['TCA']['pages']['columns']['post_author'] = [

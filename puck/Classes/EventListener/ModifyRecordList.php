@@ -8,7 +8,7 @@ use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListTableActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
-use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
@@ -36,7 +36,7 @@ final class ModifyRecordList {
                 'web_layout',
                 ['id' => $currentRecord['uid']]
             );
-            $icon = $this->iconFactory->getIcon('actions-document', Icon::SIZE_SMALL);
+            $icon = $this->iconFactory->getIcon('actions-document', IconSize::SMALL);
             $event->setAction(
                 '<a aria-label="Edit content" title="Edit content" data-bs-toggle="tooltip" href="'.$uri.'" class="btn btn-default">'.$icon.'</a>',
                 'showPageInLayoutModule',

@@ -1,29 +1,28 @@
 
-<f:comment>to do update, doesnt work anymore</f:comment>
 <f:variable name="show_layout"
-            value="{f:if(condition:'{item.record.layout} != \'default\' && {item.record.layout}',
+            value="{f:if(condition:'{record.layout} != \'default\' && {record.layout}',
             then:1,else:0)}"/>
 <f:variable name="show_frame_class"
-            value="{f:if(condition:'{item.record.frame_class} != \'default\' && {item.record.frame_class}',
+            value="{f:if(condition:'{record.frame_class} != \'default\' && {record.frame_class}',
             then:1,else:0)}"/>
 <f:variable name="show_space_before"
-            value="{f:if(condition:'{item.record.space_before}',
+            value="{f:if(condition:'{record.space_before}',
             then:1,else:0)}"/>
 <f:variable name="show_space_after"
-            value="{f:if(condition:'{item.record.space_after}',
+            value="{f:if(condition:'{record.space_after}',
             then:1,else:0)}"/>
 <f:variable name="show_container_width"
-            value="{f:if(condition:'{item.record.container_width} && {item.record.container_width} != 12',
+            value="{f:if(condition:'{record.container_width} && {record.container_width} != 12',
             then:1,else:0)}"/>
 <f:variable name="show_container_position"
-            value="{f:if(condition:'{item.record.container_position} && {item.record.container_position} != \'center\'',
+            value="{f:if(condition:'{record.container_position} && {record.container_position} != \'center\'',
             then:1,else:0)}"/>
 <f:variable name="show_container_offset"
-            value="{f:if(condition:'{item.record.container_offset}',
+            value="{f:if(condition:'{record.container_offset}',
             then:1,else:0)}"/>
 
 <f:variable name="show_media_layout"
-            value="{f:if(condition:'({item.record.CType} == \'puck_media\' || {item.record.CType} == \'puck_media_column\' || {item.record.CType} == \'puck_card\' ||{item.record.CType} == \'puck_cover_media\' || {item.record.CType} == \'puck_modal\') &&  {item.record.media_layout}',
+            value="{f:if(condition:'({record.CType} == \'puck_media\' || {record.CType} == \'puck_media_column\' || {record.CType} == \'puck_card\' ||{record.CType} == \'puck_cover_media\' || {record.CType} == \'puck_modal\') &&  {record.media_layout}',
             then:1,else:0)}"/>
 
 <f:if condition="

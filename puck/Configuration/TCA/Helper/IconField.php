@@ -6,11 +6,13 @@ $iconJson = file_get_contents(ExtensionManagementUtility::extPath('puck') . "Res
 $iconJsonIterator = new RecursiveIteratorIterator(
     new RecursiveArrayIterator(json_decode($iconJson, TRUE)),
     RecursiveIteratorIterator::SELF_FIRST);
-$iconSelectItems = array(['none', '']);
+$iconSelectItems = array(['label' => 'none', 'value' => '']);
 foreach ($iconJsonIterator as $key => $val) {
-    $iconSelectItems[] = \UBOS\Puckloader\Utility\TcaUtility::selectItemHelper([
-        $key, $key, 'EXT:puck/Resources/Public/Icons/Frontend/' . $key . '.svg'
-    ]);
+    $iconSelectItems[] = [
+        'label' => $key,
+        'value' => $key,
+        'icon' => 'EXT:puck/Resources/Public/Icons/Frontend/' . $key . '.svg'
+    ];
 }
 return [
     'label' => 'Icon',
