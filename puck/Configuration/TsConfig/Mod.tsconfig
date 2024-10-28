@@ -1,16 +1,14 @@
 // Content Wizard Groups
 mod.wizards.newContentElement.wizardItems {
     01_content {
+        header = Content
         before = plugins
         after = 00_presets
     }
-    02_hero {
+    02_menu {
+        header = Menus
         before = plugins
         after = 01_content
-    }
-    03_menu {
-        before = plugins
-        after = 02_menu
     }
     forms.before = plugins
     forms.elements.powermail_pi1 < mod.wizards.newContentElement.wizardItems.ext-powermail.elements.powermail-form

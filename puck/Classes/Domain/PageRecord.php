@@ -22,7 +22,9 @@ class PageRecord extends Record
     protected function setComputedProperties(): void
     {
         $p = $this->properties;
-        $p['nav_title'] = $p['nav_title'] ?: $p['title'];
+        if ($this->has('nav_title')) {
+            $p['nav_title'] = $p['nav_title'] ?: $p['title'];
+        }
         if ($this->has('seo_title')) {
             $p['seo_title'] = $p['seo_title'] ?: $p['title'];
         }

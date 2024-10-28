@@ -21,7 +21,9 @@ final class ModifyRecordList {
     public function __construct(
         protected LoggerInterface $logger,
         protected UriBuilder $uriBuilder,
-        protected IconFactory $iconFactory) {
+        protected IconFactory $iconFactory
+    )
+    {
     }
 
     #[AsEventListener]

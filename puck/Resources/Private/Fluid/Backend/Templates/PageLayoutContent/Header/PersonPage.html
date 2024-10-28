@@ -12,7 +12,7 @@
                 Hero content element is automatically rendered from person data.
             </div>
             <div class="callout-footer" style="padding-top: 1em">
-                <be:link.editRecord uid="{page.pagePersons.0.uid}" table="tx_puck_domain_model_person" class="btn btn-default " returnUrl="{be:moduleLink(route:'web_layout', arguments:'{id:row.uid}')}">
+                <be:link.editRecord uid="{record.page_persons.0.uid}" table="tx_puck_domain_model_person" class="btn btn-default " returnUrl="{be:moduleLink(route:'web_layout', arguments:'{id:record.uid}')}">
                     <core:icon identifier="actions-open" />
                     Edit person
                 </be:link.editRecord>

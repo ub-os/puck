@@ -4,7 +4,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'anchor',
     label: 'Anchor',
     description: 'Anchor for anchor menu',
-    group: '03_menu',
+    group: '02_menu',
     icon: 'anchor',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,

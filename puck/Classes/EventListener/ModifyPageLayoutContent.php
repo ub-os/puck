@@ -5,57 +5,47 @@ namespace UBOS\Puck\EventListener;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
 final class ModifyPageLayoutContent
 {
-    protected array $row = [];
-    protected int $id = 0;
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+        protected RecordFactory        $recordFactory,
+    ) {}
 
     #[AsEventListener]
     public function __invoke(
         ModifyPageLayoutContentEvent $event
     ): void
     {
-        $this->id = $event->getRequest()->getQueryParams()['id'];
-        $this->row = BackendUtility::readPageAccess($this->id, true);
-        $event->addHeaderContent($this->renderPageTypeHeaders());
-        $defaultFooter = $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/PageLayoutContent/Footer/Default.html', [
-            'row' => $this->row,
-        ])->render();
-        $event->addFooterContent($defaultFooter);
-    }
-
-    protected function renderPageTypeHeaders(): string
-    {
-        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
-            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/PageLayoutContent/Header/NewsPage.html', [
-                'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\NewsPage', [$this->row])[0],
-                'row' => $this->row,
-            ])->render();
+        $request = $event->getRequest();
+        $row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);
+        $record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
+        $view = $this->viewFactory->create(
+            new ViewFactoryData(
+                templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates'],
+                partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials'],
+                request: $request,
+            )
+        );
+        $view->assign('record', $record);
+        $headerContent = '';
+        if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
+            $headerContent = $view->render('PageLayoutContent/Header/NewsPage.html');
         }
-        if ((int)($this->row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
-            $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            return $this->createView('EXT:puck/Resources/Private/Fluid/Backend/Templates/PageLayoutContent/Header/PersonPage.html', [
-                'page' => $dataMapper->map('UBOS\Puck\Domain\Model\Page\PersonPage', [$this->row])[0],
-                'row' => $this->row,
-            ])->render();
+        if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
+            $headerContent = $view->render('PageLayoutContent/Header/PersonPage.html');
         }
-        return '';
+        $footerContent = $view->render('PageLayoutContent/Footer/Default.html');
+        $event->addHeaderContent($headerContent);
+        $event->addFooterContent($footerContent);
     }
 
-    protected function createView(string $pathAndFilename, array $variables = null): StandaloneView
-    {
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($pathAndFilename));
-        $view->assignMultiple($variables ?? []);
-
-        return $view;
-    }
 }

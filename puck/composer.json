@@ -5,13 +5,12 @@
   "license": "GPL-2.0-or-later",
   "version": "1.0.0",
   "requiresNotReadyForV13": {
-    "ichhabrecht/content-defender": "^3.4",
     "christophlehmann/pagetreefilter": "^2",
-    "wapplersystems/avif": "^12.0",
     "oliveoilexpert/puck-powermail": "*",
     "kitzberger/doktype-typolink": "^3",
     "b13/slash-force": "^1.0",
-    "t3/scroll": "^2"
+    "t3/scroll": "^2",
+    "ichhabrecht/content-defender": "*"
   },
   "require": {
     "php": "^8",
@@ -27,7 +26,8 @@
     "oliveoilexpert/puckloader": "dev-main",
     "oliveoilexpert/content-presets": "*",
     "oliveoilexpert/ckeditor-icons": "^0.2",
-    "b13/menus": "dev-main"
+    "b13/menus": "dev-main",
+    "wapplersystems/avif": "^12.0"
   },
   "replace": {
     "typo3-ter/puck": "self.version"

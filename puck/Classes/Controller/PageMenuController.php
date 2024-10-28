@@ -78,6 +78,8 @@ class PageMenuController extends ActionController
                 GeneralUtility::makeInstance(FlexFormService::class)
                     ->convertFlexFormContentToArray($data['pi_flexform'])
             );
+            // ensure consistent uid; strict localization mode in non-default languages will return the l18n_parent as uid for the cObj
+            $data['uid'] = $recordUid;
             $this->settings = array_merge($this->settings, $flexForm['settings']);
         }
         $variables = $this->prepareVariables();

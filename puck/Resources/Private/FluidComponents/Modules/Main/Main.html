@@ -5,13 +5,13 @@
 
     <div class="{name}__padding"></div>
     <main class="{name}" id="main">
-      <f:if condition="{record.doktype} == {settings.doktype.person}">
+      <f:if condition="{record.doktype} == {settings.doktypes.person}">
         <module:hero record="{
             header:record.page_persons.0.name,
             bodytext:record.page_persons.0.bodytext,
             assets:record.page_persons.0.assets}"/>
       </f:if>
-      <f:if condition="{record.doktype} == {settings.doktype.news}">
+      <f:if condition="{record.doktype} == {settings.doktypes.news}">
         <module:hero record="{
             header:record.nav_title,
             subheader: '{record.post_date -> f:format.date(format: \'%d. %B %Y\')}'
@@ -20,7 +20,7 @@
 
       <fc:slot name="content"/>
 
-      <f:if condition="{record.doktype} == {settings.doktype.news} && {record.post_author}">
+      <f:if condition="{record.doktype} == {settings.doktypes.news} && {record.post_author}">
         <module:text
                 record="{
                 container_width: 8,
