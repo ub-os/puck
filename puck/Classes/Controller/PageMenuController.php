@@ -23,7 +23,7 @@ use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 
 class PageMenuController extends ActionController
 {
-    use ContentControllerDataProcessingTrait;
+    use ContentControllerViewPreparationTrait;
 
     protected ?MenuDemand $menuDemand = null;
     protected function getMenuDemand(): MenuDemand
@@ -57,7 +57,6 @@ class PageMenuController extends ActionController
         ?array $demand = null,
         ?int $recordUid = null): ResponseInterface
     {
-
         if ($recordUid ?? false) {
             $langId = (int)$this->request->getAttribute('language')->getLanguageId();
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
@@ -82,7 +81,10 @@ class PageMenuController extends ActionController
             $data['uid'] = $recordUid;
             $this->settings = array_merge($this->settings, $flexForm['settings']);
         }
-        $variables = $this->prepareVariables();
+
+        $this->prepareContentView();
+        $menu = [];
+        $record = $this->viewVariables['record'];
 
         if ($this->settings['demand']['overrideDemand']) {
             ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
@@ -96,7 +98,7 @@ class PageMenuController extends ActionController
                 request: $this->request,
                 uriBuilder: $this->uriBuilder,
                 menuActionName: 'pageMenu',
-                contentRecordUid: $variables['record']->getUid(),
+                contentRecordUid: $record->getUid(),
                 fetchLinkPageType: $this->pageMenuFragmentTypeNum,
             );
             $pagination = $paginationBuilder
@@ -106,15 +108,15 @@ class PageMenuController extends ActionController
             $this->view->assign('pagination', $pagination);
             $pages = $paginationBuilder->getPaginatedItems();
         }
-        $variables['menu'] = [];
+        
         foreach ($pages as $page) {
-            $variables['menu'][] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $page);
+            $menu[] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $page);
         }
 
         if ($this->settings['demand']['teasers']) {
             $teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
             foreach ($teasers as $teaser) {
-                foreach ($variables['menu'] as $pageRecord) {
+                foreach ($menu as $pageRecord) {
                     if ($pageRecord->getUid() === $teaser->page) $pageRecord->overrideWithTeaser($teaser);
                 }
             }
@@ -129,7 +131,7 @@ class PageMenuController extends ActionController
                 menuActionName: 'pageMenu',
                 menuRepository: $this->pageRepository,
                 menuDemand: $this->getMenuDemand(),
-                contentRecordUid: $variables['record']->getUid(),
+                contentRecordUid: $record->getUid(),
                 fetchLinkPageType: 16500000,
             );
             $categoryFilter = $categoryFilterBuilder
@@ -139,8 +141,7 @@ class PageMenuController extends ActionController
             $this->view->assign('categoryFilter', $categoryFilter);
         }
 
-        $this->setContentTemplatePath();
-        $this->view->assignMultiple($variables);
+        $this->view->assign('menu', $menu);
         $this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
         $this->view->assign('settings', $this->settings);
         return $this->htmlResponse();

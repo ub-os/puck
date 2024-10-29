@@ -11,36 +11,38 @@ use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 
-trait ContentControllerDataProcessingTrait
+trait ContentControllerViewPreparationTrait
 {
     protected RequestInterface $request;
     protected $view;
+    protected array $viewVariables = [];
     protected array $settings;
-    protected function prepareVariables(): array
+    protected function prepareContentView(): void
     {
         $cObj = $this->request->getAttribute('currentContentObject');
         $data = $cObj->data;
-        $variables = [];
         if ($this->settings['dataProcessing'] ?? false) {
             $processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
             $processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
                 ->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-            $variables['processed'] = $processor->process(
+            $this->viewVariables['processed'] = $processor->process(
                 $cObj,
                 ['dataProcessing.' => $processingTypoScript ?? null],
                 ['data' => $data]
             );
-            unset($variables['processed']['data']);
+            unset($this->viewVariables['processed']['data']);
         }
         if ($this->settings['model'] ?? false) {
             $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-            $variables['record'] = $dataMapper->map($this->settings['model'], [$data])[0];
+            $this->viewVariables['record'] = $dataMapper->map($this->settings['model'], [$data])[0];
         } else {
             $recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
-            $variables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
+            $this->viewVariables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
         }
-        return $variables;
+        $this->view->assignMultiple($this->viewVariables);
+        $this->setContentTemplatePath();
     }
+
     protected function setContentTemplatePath(): void
     {
         $this->view->setTemplateRootPaths(['EXT:puck/Resources/Private/Fluid/Content/']);

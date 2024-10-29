@@ -8,40 +8,31 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puckloader\Attribute\Plugin;
 
-use UBOS\Puck\Domain\Model\Content\MenuFiles;
-
 class FileMenuController extends ActionController
 {
-    use ContentControllerDataProcessingTrait;
+    use ContentControllerViewPreparationTrait;
     #[Plugin("FileMenu")]
     public function fileMenuAction(): ResponseInterface
     {
-        $variables = $this->prepareVariables();
-        $variables['menu'] = [];
-        foreach($variables['record']->get('media') as $file) {
-            $variables['menu'][] = $file;
+        $this->prepareContentView();
+        $record = $this->viewVariables['record'];
+        $menu = [];
+        foreach($record->get('media') as $file) {
+            $menu[] = $file;
         }
-        foreach($variables['record']->get('file_collections') as $fileCollection) {
+        foreach($record->get('file_collections') as $fileCollection) {
             foreach($fileCollection->get('files') as $file) {
-                $variables['menu'][] = $file;
+                $menu[] = $file;
             }
         }
-        $variables['menu'] = $this->sortMenu(
-            $variables['menu'],
-            $variables['record']->get('filelink_sorting'),
-            $variables['record']->get('filelink_sorting_direction')
+        $menu = $this->sortMenu(
+            $menu,
+            $record->get('filelink_sorting'),
+            $record->get('filelink_sorting_direction')
         );
-        $variables['settings'] = $this->settings;
-        $this->setContentTemplatePath();
-        $this->view->assignMultiple($variables);
+        $this->view->assign('settings', $this->settings);
+        $this->view->assign('menu', $menu);
         return $this->htmlResponse();
-    }
-
-    public function getFilesFromCollectionUid($uid): ?array
-    {
-        $collection = $this->fileCollectionRepository->findByUid($uid);
-        $collection->loadContents();
-        return $collection->getItems();
     }
 
     protected function sortMenu(array $menu, string $filelinkSorting, string $filelinkSortingDirection): array
