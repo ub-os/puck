@@ -2,6 +2,7 @@ routeEnhancers:
   SitemapPage:
     limitToPages: '%rootPageId%'
     type: PageType
+    index: 'sitemap-index'
     map:
       .xml: 1533906435
   Sitemap:
