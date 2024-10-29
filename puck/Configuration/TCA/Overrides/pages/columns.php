@@ -27,6 +27,14 @@ array_push(
     ]
 );
 
+$GLOBALS['TCA']['pages']['columns']['url'] = [
+    'label' => 'URL',
+    'config' => [
+        'type' => 'link',
+        'allowedTypes' => ['page','url','file']
+    ]
+];
+
 
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') .'/Configuration/TCA/Helper/IconField.php';
 

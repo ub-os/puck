@@ -5,11 +5,9 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ArrayViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -33,16 +31,17 @@ class ArrayViewHelper extends AbstractViewHelper
         $this->registerArgument('operations', 'string', '', false, 'unset changeKeys merge mergeRecursive range indexKey keys push slice filter inverseFilter search implode');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): array|string|null
+    public function getContentArgumentName(): string
     {
-        $input = $renderChildrenClosure() ?? $arguments['input'];
-        $result = self::process($input, $arguments);
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        return 'input';
+    }
+
+    public function render(): array|string|null
+    {
+        $input = $this->renderChildren();
+        $result = ArrayViewHelper::process($input, $this->arguments);
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;

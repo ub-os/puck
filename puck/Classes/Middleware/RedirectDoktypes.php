@@ -14,39 +14,27 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 class RedirectDoktypes implements MiddlewareInterface
 {
     const REDIRECT_DOKTYPES = [
-        PageRepository::DOKTYPES['news']
+        PageRepository::DOKTYPES['news'],
+        PageRepository::DOKTYPES['link'],
     ];
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $pageRow = $request->getAttribute('frontend.page.information')->getPageRecord();
         $doktype = $pageRow['doktype'];
         $url = $pageRow['url'];
-        // if url is set and doktype is in REDIRECT_DOKTYPES, redirect to url
-        if ($url && in_array($doktype, self::REDIRECT_DOKTYPES)) {
+        if (!$url || !in_array($doktype, self::REDIRECT_DOKTYPES)) {
             return $handler->handle($request);
         }
-
-        // taken from ext:doktype_typolink
+        // if url is set and doktype is in REDIRECT_DOKTYPES, redirect to url
         $urlParts = parse_url($url);
-        //if (($urlParts['scheme'] ?? false) === 't3') {
-        // it's a typolink that needs to be resolved!
-        // Initialize configuration
-        // (stolen from PrepareTypoScriptFrontendRendering)
         $controller = $request->getAttribute('frontend.controller');
-        // Get instance of ContentObjectRenderer
         $cObj = GeneralUtility::makeInstance(
             ContentObjectRenderer::class,
             $controller
         );
         $url = $cObj->typoLink_URL(['parameter' => $url, 'forceAbsoluteUrl' => true]);
-        return new RedirectResponse($url, 308);
-        //}
-
+        $statusCode = str_starts_with(($urlParts['scheme'] ?? ''), 'http') ? 303 : 307;
+        return new RedirectResponse($url, $statusCode);
     }
 }

@@ -7,8 +7,6 @@
   "requiresNotReadyForV13": {
     "christophlehmann/pagetreefilter": "^2",
     "oliveoilexpert/puck-powermail": "*",
-    "kitzberger/doktype-typolink": "^3",
-    "b13/slash-force": "^1.0",
     "t3/scroll": "^2",
     "ichhabrecht/content-defender": "*"
   },

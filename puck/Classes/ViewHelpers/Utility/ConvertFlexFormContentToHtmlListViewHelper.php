@@ -2,30 +2,21 @@
 
 namespace UBOS\Puck\ViewHelpers\Utility;
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConvertFlexFormContentToHtmlListViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments()
     {
         $this->registerArgument('flexFormString', 'string', '', false);
     }
 
-    public static function renderStatic(
-
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    )
+    public function render(): string
     {
-        $flexFormString = $arguments['flexFormString'];
+        $flexFormString = $this->arguments['flexFormString'];
         $flexFormService = GeneralUtility::makeInstance(FlexFormService::class);
-
         return self::printArrayList($flexFormService->convertFlexFormContentToArray($flexFormString)['settings']);
     }
 
