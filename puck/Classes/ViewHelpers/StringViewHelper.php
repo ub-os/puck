@@ -4,11 +4,9 @@ namespace UBOS\Puck\ViewHelpers;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class StringViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -25,16 +23,12 @@ class StringViewHelper extends AbstractViewHelper
         $this->registerArgument('operations', 'string', '', false, 'contains search dataReplace length explode');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): array|string|null|int
+    public function render(): array|string|null|int
     {
-        $input = $renderChildrenClosure() ?? $arguments['input'];
-        $result = self::process($input, $arguments);
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        $input = $this->arguments['input'] ?: $this->renderChildren() ?? '';
+        $result = self::process($input, $this->arguments);
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;

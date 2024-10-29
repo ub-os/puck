@@ -5,12 +5,10 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 
 class FileViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -20,24 +18,20 @@ class FileViewHelper extends AbstractViewHelper
         $this->registerArgument('set', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): mixed
+    public function render(): mixed
     {
         $result = null;
-        if ($arguments['get']) {
-            $result = self::getFile($arguments['get']);
+        if ($this->arguments['get']) {
+            $result = self::getFile($this->arguments['get']);
         }
-        if ($arguments['getOnlineMediaImageSrc']) {
-            $file = self::getFile($arguments['getOnlineMediaImageSrc']);
+        if ($this->arguments['getOnlineMediaImageSrc']) {
+            $file = self::getFile($this->arguments['getOnlineMediaImageSrc']);
             if (is_object($file)) {
-                return self::getOnlineMediaImageSrc($file, $arguments);
+                return self::getOnlineMediaImageSrc($file, $this->arguments);
             }
         }
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;

@@ -4,11 +4,9 @@ namespace UBOS\Puck\ViewHelpers;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class VarViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -20,26 +18,22 @@ class VarViewHelper extends AbstractViewHelper
         $this->registerArgument('set', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): mixed
+    public function render(): mixed
     {
-        $value = $renderChildrenClosure() ?? $arguments['value'];
-        if ($arguments['if'] && $arguments['then'] !== null) {
-            $value = $arguments['then'];
-        } elseif ($arguments['else'] !== null) {
-            $value = $arguments['else'];
+        $value = $this->arguments['value'] ?: $this->renderChildren() ?? null;
+        if ($this->arguments['if'] && $this->arguments['then'] !== null) {
+            $value = $this->arguments['then'];
+        } elseif ($this->arguments['else'] !== null) {
+            $value = $this->arguments['else'];
         }
-        if ($value !== null && $arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $value);
+        if ($value !== null && $this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $value);
         }
-        if ($arguments['get'] === '') {
+        if ($this->arguments['get'] === '') {
             return $value;
         }
-        if ($arguments['get'] !== null) {
-            return $arguments['get'];
+        if ($this->arguments['get'] !== null) {
+            return $this->arguments['get'];
         }
         return null;
     }

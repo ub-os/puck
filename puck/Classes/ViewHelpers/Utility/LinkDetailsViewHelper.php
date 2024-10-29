@@ -7,7 +7,7 @@ use TYPO3\CMS\Core\LinkHandling\LinkService;
 
 class LinkDetailsViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('parameter', 'string', 'stdWrap.typolink style parameter string', true);
         $this->registerArgument('returnAutoRel', 'boolean', 'Return automatically generated rel attribute', false, false);

@@ -3,32 +3,26 @@ namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderStatic;
-
 class RenderAttributesViewHelper extends AbstractViewHelper
 {
-    use CompileWithContentArgumentAndRenderStatic;
     protected $escapeOutput = false;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('attributes', 'array', '');
         $this->registerArgument('keyReplacements', 'array', '', false, ['__' => ':']);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $attributes = $renderChildrenClosure();
+    public function render(): string
+    {
+        $attributes = $this->arguments['attributes'] ?: $this->renderChildren() ?? [];
         $string = '';
         if ($attributes === null) {
             return $string;
         }
         foreach($attributes as $key => $value) {
-            if ($arguments['keyReplacements']) {
+            if ($this->arguments['keyReplacements']) {
                 // replace keys (e.g. "data____foo" => "data:foo", since ":" is not allowed in fluid array keys)
-                $key = str_replace(array_keys($arguments['keyReplacements']), array_values($arguments['keyReplacements']), $key);
+                $key = str_replace(array_keys($this->arguments['keyReplacements']), array_values($this->arguments['keyReplacements']), $key);
             }
             $string .= $key.'="'.$value.'" ';
         }

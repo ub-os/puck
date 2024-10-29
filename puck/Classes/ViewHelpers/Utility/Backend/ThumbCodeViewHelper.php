@@ -11,7 +11,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 class ThumbCodeViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('row', 'array', '', true);
         $this->registerArgument('table', 'string', '', true);
@@ -22,7 +22,7 @@ class ThumbCodeViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return BackendUtility::thumbCode($arguments['row'], $arguments['table'], $arguments['field'], '', '', null, 0, '', '', false);
+        return BackendUtility::thumbCode($this->arguments['row'], $this->arguments['table'], $this->arguments['field'], '', '', null, 0, '', '', false);
     }
 
 }

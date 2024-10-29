@@ -2,13 +2,10 @@
 namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class BemViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
@@ -18,17 +15,16 @@ class BemViewHelper extends AbstractViewHelper
         $this->registerArgument('raw', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string
+    public function render(): string
     {
-        $block = $arguments['block'] ?:
-            $renderingContext->getVariableProvider()->get('block') ?:
-                $renderingContext->getVariableProvider()->get('name') ?:
+        $block = $this->arguments['block'] ?:
+            $this->renderingContext->getVariableProvider()->get('block') ?:
+                $this->renderingContext->getVariableProvider()->get('name') ?:
                     '';
-        return trim($block . ($arguments['el'] ? '__' . $arguments['el'] : '') . self::renderModifiers($arguments['mod']) . ' ' . $arguments['raw']);
+        return trim($block
+            . ($this->arguments['el'] ? '__' . $this->arguments['el'] : '')
+            . self::renderModifiers($this->arguments['mod'])
+            . ' ' . $this->arguments['raw']);
     }
 
     protected static function renderModifiers(array $modifiers): string

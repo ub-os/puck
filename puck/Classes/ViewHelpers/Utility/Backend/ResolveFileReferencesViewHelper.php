@@ -11,7 +11,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 class ResolveFileReferencesViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('row', 'array', '', true);
         $this->registerArgument('table', 'string', '', true);
@@ -22,7 +22,7 @@ class ResolveFileReferencesViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return BackendUtility::resolveFileReferences($arguments['table'], $arguments['field'], $arguments['row']);
+        return BackendUtility::resolveFileReferences($this->arguments['table'], $this->arguments['field'], $this->arguments['row']);
     }
 }
 

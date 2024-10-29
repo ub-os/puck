@@ -16,7 +16,7 @@ use B13\Menus\DataProcessing\TreeMenu;
 
 class MenuViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('pages', 'string', '', false, '1');
         $this->registerArgument('depth', 'integer', '', false, 1);
@@ -30,12 +30,9 @@ class MenuViewHelper extends AbstractViewHelper
         $this->registerArgument('set', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $processor = $arguments['processor'];
+    public function render(): ?array
+    {
+        $processor = $this->arguments['processor'];
         $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $as = 'menu';
         switch ($processor) {
@@ -43,42 +40,42 @@ class MenuViewHelper extends AbstractViewHelper
                 $dataProcessor = GeneralUtility::makeInstance(TreeMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
-                    'entryPoints' => $arguments['pages'],
-                    'depth' => $arguments['depth'],
-                    'excludePages' => $arguments['excludePages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
-                    'excludeDoktypes' => $arguments['excludeDoktypes'],
+                    'entryPoints' => $this->arguments['pages'],
+                    'depth' => $this->arguments['depth'],
+                    'excludePages' => $this->arguments['excludePages'],
+                    'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? false,
+                    'excludeDoktypes' => $this->arguments['excludeDoktypes'],
                 ];
                 break;
             case 'language':
                 $dataProcessor = GeneralUtility::makeInstance(LanguageMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
-                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? true,
-                    'excludeLanguages' => $arguments['excludeLanguages'],
-                    'addAllSiteLanguages' => $arguments['addAllSiteLanguages'],
+                    'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? true,
+                    'excludeLanguages' => $this->arguments['excludeLanguages'],
+                    'addAllSiteLanguages' => $this->arguments['addAllSiteLanguages'],
                 ];
                 break;
             case 'breadcrumbs':
                 $dataProcessor = GeneralUtility::makeInstance(BreadcrumbsMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
-                    'excludePages' => $arguments['excludePages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
-                    'excludeDoktypes' => $arguments['excludeDoktypes'],
+                    'excludePages' => $this->arguments['excludePages'],
+                    'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? false,
+                    'excludeDoktypes' => $this->arguments['excludeDoktypes'],
                 ];
                 break;
             default:
                 $dataProcessor = GeneralUtility::makeInstance(ListMenu::class);
                 $processorConfiguration = [
                     'as' => $as,
-                    'pages' => $arguments['pages'],
-                    'includeNotInMenu' => $arguments['includeNotInMenu'] ?? false,
-                    'excludeDoktypes' => $arguments['excludeDoktypes'],
+                    'pages' => $this->arguments['pages'],
+                    'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? false,
+                    'excludeDoktypes' => $this->arguments['excludeDoktypes'],
                 ];
         }
         $processorConfiguration = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($processorConfiguration);
-        if ($arguments['processMedia']) {
+        if ($this->arguments['processMedia']) {
             $processorConfiguration['dataProcessing.'] = [
                 '10' => 'TYPO3\CMS\Frontend\DataProcessing\FilesProcessor',
                 '10.' => [
@@ -91,8 +88,8 @@ class MenuViewHelper extends AbstractViewHelper
             ];
         }
         $result = $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;

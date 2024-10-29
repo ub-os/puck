@@ -11,7 +11,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 class GetProcessedValueViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('table', 'string', '', true);
         $this->registerArgument('col', 'string', '', true);
@@ -22,8 +22,8 @@ class GetProcessedValueViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return '<b>'.BackendUtility::getItemLabel($arguments['table'], $arguments['col']).'</b> '.
-            BackendUtility::getProcessedValue($arguments['table'], $arguments['col'], $arguments['value']);
+        return '<b>'.BackendUtility::getItemLabel($this->arguments['table'], $this->arguments['col']).'</b> '.
+            BackendUtility::getProcessedValue($this->arguments['table'], $this->arguments['col'], $this->arguments['value']);
     }
 }
 

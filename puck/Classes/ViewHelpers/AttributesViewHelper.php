@@ -3,23 +3,18 @@ namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderStatic;
 
 class AttributesViewHelper extends AbstractViewHelper
 {
-    use CompileWithContentArgumentAndRenderStatic;
     protected $escapeOutput = false;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('attributes', 'mixed', '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $attributes = $renderChildrenClosure();
+    public function render(): string
+    {
+        $attributes = $this->arguments['attributes'] ?: $this->renderChildren() ?? [];
         if (is_string($attributes)) {
             return $attributes;
         }

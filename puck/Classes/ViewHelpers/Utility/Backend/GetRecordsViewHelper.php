@@ -17,7 +17,7 @@ use UBOS\Puck\ViewHelpers\Backend\QueryBuilder;
 class GetRecordsViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('table', 'string', '', true);
         $this->registerArgument('where', 'string', '', false, '');
@@ -37,10 +37,10 @@ class GetRecordsViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-      $table = $arguments['table'];
-      $sorting = $arguments['sorting'];
-      $where = $arguments['where'];
-      $uids = $arguments['uids'];
+      $table = $this->arguments['table'];
+      $sorting = $this->arguments['sorting'];
+      $where = $this->arguments['where'];
+      $uids = $this->arguments['uids'];
       $result = [];
       if ($uids) {
           if (gettype($uids) == 'string') {

@@ -3,46 +3,37 @@ namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ModelViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     public function initializeArguments(): void
     {
         // name, type, description, required, default, escape
         $this->registerArgument('data', 'array', '', false, []);
         $this->registerArgument('map', 'string', '', false, '');
-        $this->registerArgument('raw', 'object', '', false, null);
         $this->registerArgument('bulk', 'bool', '', false, false);
         $this->registerArgument('set', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): mixed
+    public function render(): mixed
     {
-        $data = $renderChildrenClosure() ?? $arguments['data'];
+        $data = $this->arguments['data'] ?: $this->renderChildren() ?? [];
         if (!isset($data['uid'])) {
             $data['uid'] = 0;
         }
-        $name = $arguments['map'];
+        $name = $this->arguments['map'];
         if (str_starts_with($name, '~')) {
             $name = 'UBOS\\Puck\\Domain\\Model\\' . substr($name, 1);
         }
         $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-        if ($arguments['bulk']) {
+        if ($this->arguments['bulk']) {
             $result = $dataMapper->map($name, $data);
         } else {
             $result = $dataMapper->map($name, [$data])[0];
         }
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;

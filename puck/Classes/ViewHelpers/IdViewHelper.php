@@ -3,13 +3,10 @@
 namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class IdViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     protected const PREFIX = 'x';
     protected static int $idx = 0;
     public function initializeArguments(): void
@@ -19,15 +16,11 @@ class IdViewHelper extends AbstractViewHelper
         $this->registerArgument('set', 'string', '', false, '');
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): ?string
+    public function render(): ?string
     {
-        $result = self::PREFIX . self::$idx++ . ($arguments['suffix'] ? '-' . $arguments['suffix'] : '');
-        if ($arguments['set']) {
-            $renderingContext->getVariableProvider()->add($arguments['set'], $result);
+        $result = self::PREFIX . self::$idx++ . ($this->arguments['suffix'] ? '-' . $this->arguments['suffix'] : '');
+        if ($this->arguments['set']) {
+            $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
             return null;
         }
         return $result;
