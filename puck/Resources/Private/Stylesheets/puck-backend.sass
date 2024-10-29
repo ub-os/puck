@@ -2,31 +2,17 @@
 @import 02-generic/icon-font
 @import 08-utilities/utilities
 
-.t3-page-ce-body-inner>strong
-  display: none
-  *
-    display: none
-  &+br
-    display: none
-
 .t3-page-ce-header-left [data-contextmenu-table] .icon-size-small
   width: 24px
   height: 24px
-  margin: -4px 0
+  position: relative
+  left: -4px
 
 .t3-page-ce-body-inner
   h2
     margin-top: 0
   h3
     margin-top: .5em
-  &>a .thumbnails
-    display: flex
-    gap: 7px
-    margin-top: 10px
-    img
-  div.media-desc
-    margin-top: 8px
-    font-size: 10px
 
 .preview-thumbnails-element
   position: relative
@@ -40,80 +26,26 @@
   &-image
     background-color: rgba(0, 0, 0, .15)
 
+
 .typo3-login-logo
   //filter: invert(1)
   img
     max-height: 120px
 
-.item-row
-  margin: -5px
-  display: flex
-  flex-wrap: wrap
-
-.item-col
-  width: 100%
-  padding: 5px
-
-.item-col.-col6
-  width: calc(100% / 6)
-.item-col.-col5
-  width: calc(100% / 5)
-.item-col.-col4
-  width: calc(100% / 4)
-.item-col.-col3
-  width: calc(100% / 3)
-.item-col.-col2
-  width: calc(100% / 2)
-
-.t3js-contextmenutrigger[data-table='tt_content'] .icon-size-small
-  //width: 24px
-  //height: 24px
-  //margin: -4px 0 -4px -3px
-
-.t3-page-ce .t3-page-ce-body-inner .thumb img
-  background: #ccc
-
-// to do update
-.form-wizards-wrap
-  .form-wizard-icon-list
-    border: var(--bs-border-width) solid #bbb
-    border-radius: var(--bs-border-radius)
-    padding: 0
-    background: white
-
-  .form-wizard-icon-list-item a:not(.active)
-    padding: calc(var(--typo3-spacing)/ 4)
-    margin: calc(var(--typo3-spacing)/ 6)
-  .form-wizard-icon-list-item a.active, .form-wizard-icon-list-item a:active
-    background: var(--bs-tertiary-bg)
-    outline: none
-    border: var(--bs-border-width) solid #bbb
-    border-radius: 0
-    border-top: none
-    border-bottom: none
-
-  .form-wizard-icon-list-item a:hover
-    background: inherit
-    outline: none
-    color: inherit
 
 .t3-page-ce-wrapper
 
   .t3-page-ce-footer
     padding: 0
 
+  .t3-page-ce-footer .t3-page-ce-info:has(div)
+    padding: calc(var(--pagemodule-grid-spacing) / 2) var(--pagemodule-grid-spacing)
+
   .t3-page-ce-body a:hover
     text-decoration: none
 
   .t3-page-ce
     overflow: visible
-
-  .t3-page-ce-header-left a:first-child
-    position: relative
-    left: -1rem
-    top: -.4em
-    scale: 1.8
-    display: inline-block
 
 
 .cke_editable
