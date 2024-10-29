@@ -31,14 +31,10 @@ class ArrayViewHelper extends AbstractViewHelper
         $this->registerArgument('operations', 'string', '', false, 'unset changeKeys merge mergeRecursive range indexKey keys push slice filter inverseFilter search implode');
     }
 
-    public function getContentArgumentName(): string
-    {
-        return 'input';
-    }
 
     public function render(): array|string|null
     {
-        $input = $this->renderChildren();
+        $input = $this->arguments['input'] ?: $this->renderChildren() ?? [];
         $result = ArrayViewHelper::process($input, $this->arguments);
         if ($this->arguments['set']) {
             $this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);

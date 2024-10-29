@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace UBOS\Puck\PageTitle;
 
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
-use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
 final class PuckTitleProvider extends AbstractPageTitleProvider
