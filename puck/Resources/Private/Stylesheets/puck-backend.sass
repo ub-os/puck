@@ -19,12 +19,26 @@
     margin-top: 0
   h3
     margin-top: .5em
-  &>a .thumb
-    margin-top: 12px
-    margin-right: 6px
+  &>a .thumbnails
+    display: flex
+    gap: 7px
+    margin-top: 10px
+    img
   div.media-desc
     margin-top: 8px
     font-size: 10px
+
+.preview-thumbnails-element
+  position: relative
+  .icon
+    position: absolute
+    display: block
+    bottom: 6px
+    right: 3px
+    height: 20px
+    width: 20px
+  &-image
+    background-color: rgba(0, 0, 0, .15)
 
 .typo3-login-logo
   //filter: invert(1)

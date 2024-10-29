@@ -7,9 +7,7 @@
 <f:section name="preview">
   <a href="{editLink}">
     <f:render section="main" arguments="{item: item, record:record}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.media, field: 'media', table: 'tt_content'}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.image, field: 'image', table: 'tt_content'}" />
-    <f:render partial="FileThumbs" arguments="{row: item.record, files: record.assets, field: 'assets', table: 'tt_content'}" />
+    {thumbnailHtml -> f:format.raw()}
     <f:if condition="{record.records}">
       <em>Shortcut to:</em>
       <f:for each="{record.records}" as="shortcut">

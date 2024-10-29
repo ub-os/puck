@@ -11,12 +11,10 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use UBOS\Puck\ViewHelpers\Backend\QueryBuilder;
 
 class GetRecordsViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
     public function initializeArguments(): void
     {
         $this->registerArgument('table', 'string', '', true);
@@ -24,19 +22,12 @@ class GetRecordsViewHelper extends AbstractViewHelper
         $this->registerArgument('uids', 'mixed', '', false, '');
         $this->registerArgument('sorting', 'string', '', false, '');
     }
-    /**
-     * @param string $table
-     * @return QueryBuilder
-     */
-    protected static function getQueryBuilderForTable($table)
+    protected function getQueryBuilderForTable($table)
     {
       return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
     }
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): array
+    {
       $table = $this->arguments['table'];
       $sorting = $this->arguments['sorting'];
       $where = $this->arguments['where'];
@@ -52,7 +43,7 @@ class GetRecordsViewHelper extends AbstractViewHelper
           }
           return $result;
       } else {
-          $queryBuilder = static::getQueryBuilderForTable($table);
+          $queryBuilder = $this->getQueryBuilderForTable($table);
           $queryBuilder->getRestrictions()
               ->removeAll()
               ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
