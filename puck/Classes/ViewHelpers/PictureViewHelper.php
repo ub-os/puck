@@ -108,7 +108,7 @@ class PictureViewHelper extends AbstractViewHelper
                 'additionalAttributes' => array_merge($this->arguments['additionalAttributes'], ['loading' => $this->arguments['loading']]),
             ];
         }
-        $imageHtml = str_replace('<img ', "<img class='{$this->arguments['className']}__image {$this->arguments['class']}'", $this->createViewHelper(ImageViewHelper::class, $imageArgs)->render());
+        $imageHtml = str_replace('<img ', "<img class='{$this->arguments['className']}__image {$this->arguments['class']}' ", $this->createViewHelper(ImageViewHelper::class, $imageArgs)->render());
         if (!$this->arguments['image']) {
             return "{$pictureHtml}{$imageHtml}</picture>";
         }
