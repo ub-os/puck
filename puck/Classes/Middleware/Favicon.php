@@ -15,7 +15,11 @@ class Favicon implements MiddlewareInterface
         if ($request->getUri()->getPath() !== '/favicon.ico') {
             return $handler->handle($request);
         }
-        $faviconPackageName = $request->getAttribute('site')->getSettings()->get('template.favicon') ?? 'default';
+        $faviconPackageName = $request
+            ->getAttribute('site')
+            ->getSettings()
+            ->get('template.favicon')
+            ?? 'default';
         $faviconFilePath = GeneralUtility::getFileAbsFileName(
             'EXT:puck/Resources/Public/Icons/Favicons/packages/'
             . $faviconPackageName

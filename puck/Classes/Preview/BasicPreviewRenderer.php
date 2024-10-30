@@ -62,10 +62,9 @@ class BasicPreviewRenderer implements PreviewRendererInterface
         $record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
         $thumbnailHtml = '';
         foreach (['media', 'image', 'assets'] as $fieldName) {
-            if (!$record->has($fieldName) || !$record->get($fieldName)) {
-                continue;
+            if ($record->has($fieldName) && $record->get($fieldName)) {
+                $thumbnailHtml .= $this->getThumbCodeUnlinked($record->get($fieldName));
             }
-            $thumbnailHtml = $this->getThumbCodeUnlinked($record->get($fieldName));
         }
 
         $this->view->assign('item', $item);

@@ -1,6 +1,5 @@
 typeNum = 0
 config {
-
     headerComment (
     )
     disableImgBorderAttr = 1
