@@ -9,6 +9,7 @@ export default class Carousel extends Aspect {
     static attributes = {
         vertical: false,
         activeClass: '--active',
+        splideBaseClass: 'splide',
         splideOptions: {},
     }
     static elements = ['control']
@@ -30,7 +31,16 @@ export default class Carousel extends Aspect {
             autoWidth: true,
             omitEnd: true,
             focus: 'left',
-            ...this.splideOptions })
+            classes: {
+                arrows: `${this.splideBaseClass}__arrows`,
+                arrow: `${this.splideBaseClass}__arrow`,
+                prev: `${this.splideBaseClass}__arrow--prev`,
+                next: `${this.splideBaseClass}__arrow--next`,
+                pagination: `${this.splideBaseClass}__pagination`,
+                page: `${this.splideBaseClass}__pagination__page`,
+            },
+            ...this.splideOptions
+        })
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
             this.controlElements.forEach(control => {
                 control.classList.remove(this.activeClass)

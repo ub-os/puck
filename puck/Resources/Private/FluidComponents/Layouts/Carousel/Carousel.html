@@ -12,21 +12,14 @@
     <u:var set="splideOptions"
            value="{
             pagination: pagination,
-            arrows: arrows,
-            classes: {
-              arrows: '{name}__arrows',
-              arrow: '{name}__arrow',
-              prev: '{name}__arrow--prev',
-              next: '{name}__arrow--next',
-              pagination: '{name}__pagination',
-              page: '{name}__page'
-            }
+            arrows: arrows
           }"/>
 
     <pk-carousel
             class="{name} {class} splide"
             id="{id}"
             data-carousel="{carouselAttributes -> f:format.json()}"
+            data-carousel.base-splide-class="{name}"
             data-carousel.splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
       <div class="{name}__track splide__track -overflow-{trackOverflow}">
         <div class="{name}__list splide__list -align-{align}">

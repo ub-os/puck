@@ -73,10 +73,8 @@ class PageMenuController extends ActionController
                 )
                 ->executeQuery()->fetchAssociative();
             $this->request->getAttribute('currentContentObject')->data = $data;
-            $flexForm = PuckUtility::convertZeroStringsToInteger(
-                GeneralUtility::makeInstance(FlexFormService::class)
-                    ->convertFlexFormContentToArray($data['pi_flexform'])
-            );
+            $flexForm = GeneralUtility::makeInstance(FlexFormService::class)
+                    ->convertFlexFormContentToArray($data['pi_flexform']);
             // ensure consistent uid; strict localization mode in non-default languages will return the l18n_parent as uid for the cObj
             $data['uid'] = $recordUid;
             $this->settings = array_merge($this->settings, $flexForm['settings']);
@@ -143,7 +141,6 @@ class PageMenuController extends ActionController
 
         $this->view->assign('menu', $menu);
         $this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
-        $this->view->assign('settings', $this->settings);
         return $this->htmlResponse();
     }
 }

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>MenuPages</title>
+    <title>PageMenu</title>
     <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="MenuPages" fill-rule="nonzero">
+        <g id="PageMenu" fill-rule="nonzero">
             <g id="bg">
-                <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
+                <polygon id="Path" fill="#515151" points="4 4 28 4 28 28 4 28"></polygon>
                 <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
                 <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
             </g>
-            <g id="Group-9" transform="translate(8.000000, 8.000000)" fill="#FBAA04">
+            <g id="Group-9" transform="translate(8, 8)" fill="#FBAA04">
                 <polygon id="Path" points="0 0 4 0 4 4 2.4938913 4 0 4"></polygon>
-                <polygon id="Path" points="6 0 10 0 10 3 8 3 8 4 6 4"></polygon>
-                <polygon id="Path" points="12 0 16 0 16 3 14.4938913 3 12 3"></polygon>
+                <polygon id="Path" points="6 0 10 0 10 3 10 4 8 4 6 4"></polygon>
+                <polygon id="Path" points="12 0 16 0 16 4 14.4938913 4 12 4"></polygon>
                 <polygon id="Path" points="0 6 4 6 4 10 2.4938913 10 0 10"></polygon>
-                <polygon id="Path" points="6 6 8 6 8 10 7.24694565 10 6 10"></polygon>
+                <polygon id="Path" points="6 6 9 6 9 10 7.87041848 10 6 10"></polygon>
                 <polygon id="Path" points="12 6 16 6 16 10 14.4938913 10 12 10"></polygon>
                 <polygon id="Path" points="0 12 4 12 4 16 2.4938913 16 0 16"></polygon>
-                <polygon id="Path" points="6 12 8 12 8 16 7.24694565 16 6 16"></polygon>
+                <polygon id="Path" points="6 12 9 12 9 16 7.87041848 16 6 16"></polygon>
                 <polygon id="Path" points="12 12 16 12 16 16 14.4938913 16 12 16"></polygon>
             </g>
-            <g id="Group" transform="translate(17.000000, 12.000000)">
-                <polygon id="Path" fill="#EFEFEF" points="0 0 0 20 15 20 15 5 10 0"></polygon>
-                <polygon id="Path" opacity="0.65" points="10 4.76190476 10 0 15 4.76190476"></polygon>
-                <polygon id="Path" fill="#212121" opacity="0.2" points="14 5.71428571 14 12.3809524 9 5.71428571"></polygon>
-                <path d="M0,0 L0,20 L15,20 L15,5 L14.985,5 L14.99,4.99 L10.01,0.0075 L10,0.0175 L10,0 L0,0 Z M1.25,1.25 L8.75,1.25 L8.75,6.25 L13.75,6.25 L13.75,18.75 L1.25,18.75 L1.25,1.25 Z M10,1.765 L13.2325,5 L10,5 L10,1.765 Z" id="Shape" fill="#212121" opacity="0.405645461"></path>
+            <g id="Group" transform="translate(18, 13)">
+                <polygon id="Path" fill="#EFEFEF" points="0 0 0 19 14 19 14 4.75 9.33333333 0"></polygon>
+                <polygon id="Path" opacity="0.65" points="9.33333333 4.52380952 9.33333333 0 14 4.52380952"></polygon>
+                <polygon id="Path" fill="#212121" opacity="0.2" points="13.0666667 5.42857143 13.0666667 11.7619048 8.4 5.42857143"></polygon>
+                <path d="M0,0 L0,19 L14,19 L14,4.75 L13.986,4.75 L13.9906667,4.7405 L9.34266667,0.007125 L9.33333333,0.016625 L9.33333333,0 L0,0 Z M1.16666667,1.1875 L8.16666667,1.1875 L8.16666667,5.9375 L12.8333333,5.9375 L12.8333333,17.8125 L1.16666667,17.8125 L1.16666667,1.1875 Z M9.33333333,1.67675 L12.3503333,4.75 L9.33333333,4.75 L9.33333333,1.67675 Z" id="Shape" fill="#333333" opacity="0.405645461"></path>
             </g>
         </g>
     </g>

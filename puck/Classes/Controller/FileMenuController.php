@@ -30,7 +30,6 @@ class FileMenuController extends ActionController
             $record->get('filelink_sorting'),
             $record->get('filelink_sorting_direction')
         );
-        $this->view->assign('settings', $this->settings);
         $this->view->assign('menu', $menu);
         return $this->htmlResponse();
     }

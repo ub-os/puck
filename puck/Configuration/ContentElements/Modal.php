@@ -3,7 +3,7 @@
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     'modal',
     label: 'Modal',
-    description: 'Modal desc new',
+    description: 'Hidden dialog that opens via hash link.',
     icon: 'modal',
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,

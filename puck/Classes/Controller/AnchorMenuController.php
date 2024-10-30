@@ -31,7 +31,6 @@ class AnchorMenuController extends ActionController
                 $queryBuilder->expr()->eq('sys_language_uid', $langId)
             )
             ->executeQuery()->fetchAllAssociative();
-        $this->view->assign('settings', $this->settings);
         $this->view->assign('menu', $menu);
         return $this->htmlResponse();
     }

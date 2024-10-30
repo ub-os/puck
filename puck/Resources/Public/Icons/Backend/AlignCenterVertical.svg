@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>AlignCenterVertical</title>
     <g id="selfmade" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="AlignCenterVertical" transform="translate(16.152484, 16.075425) rotate(90.000000) translate(-16.152484, -16.075425) translate(0.152484, 0.075425)" fill-rule="nonzero">
+        <g id="AlignCenterVertical" transform="translate(16, 16) rotate(90) translate(-16, -16)" fill-rule="nonzero">
             <polygon id="Path" fill="#FFFFFF" points="4 4 28 4 28 28 4 28"></polygon>
             <path d="M2,2 L2,30 L30,30 L30,2 L2,2 Z M4,4 L28,4 L28,28 L4,28 L4,4 Z" id="Shape" fill="#999999"></path>
             <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
             <path d="M0,0 L0,32 L32,32 L32,0 L0,0 Z M2,2 L30,2 L30,30 L2,30 L2,2 Z" id="Shape" fill-opacity="0" fill="#999999"></path>
-            <polygon id="Path" fill="#515151" points="13 2 19 2 19 30 13 30"></polygon>
+            <polygon id="Path" fill="#515151" points="13 4 19 4 19 28 13 28"></polygon>
             <polygon id="Path" fill="#515151" points="7 14 13 14 13 18 7 18"></polygon>
             <polygon id="Path" fill="#515151" points="19 14 25 14 25 18 19 18"></polygon>
         </g>

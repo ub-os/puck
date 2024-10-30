@@ -85,6 +85,9 @@ class ContentElementConfiguration
         }
         if ($this->flexForms) {
             foreach($this->flexForms as $fieldName => $flexForm) {
+                if ($fieldName === 'pi_flexform') {
+                    continue;
+                }
                 if (!isset($this->dataProcessing[$fieldName. '-flex-form'])) {
                     $this->dataProcessing[$fieldName. '-flex-form'] = ['processor' => 'flex-form', 'fieldName' => $fieldName, 'as' => $fieldName];
                 }
@@ -101,11 +104,9 @@ class ContentElementConfiguration
                 pluginName = ' . $this->pluginName . '
                 vendorName = ' . $this->vendorName . '
                 settings {
-                    pluginName = ' . $this->pluginName . '
-                    extensionKey = ' . $this->extensionName . '
-                    vendorName = ' . $this->vendorName . '
                     templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
                     model = ' . $this->model . '
+                    flexFormFields = ' . implode(',', array_keys($this->flexForms)) . '
                     dataProcessing {
                         ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
                     }
