@@ -30,19 +30,30 @@
     position: relative
     display: flex
     align-items: center
-    color: var(--color-link)
-    fill: var(--color-link)
-    transition: color .4s, transform .4s, fill .4s
-    &:hover,
-    &:focus
+
+    &__text
+      +center(vertical)
+      left: 100%
+      visibility: hidden
+      opacity: 0
+      padding: .25em
       color: var(--color-link--hover)
-      fill: var(--color-link--hover)
-      transform: scale(1.05)
+      transition: opacity .3s
 
-  &__logo
-    z-index: $z-index-header-burger
-    max-width: 90%
-    height: 4rem
-    width: 4rem
-    outline: none
+    &__logo
+      z-index: $z-index-header-burger
+      max-width: 90%
+      height: 4rem
+      width: 4rem
+      outline: none
+      transition: color .4s, transform .4s, fill .4s
 
+    &:hover &__logo,
+    &:focus &__logo
+      transform: rotate(90deg)
+
+    &:hover &__text,
+    &:focus &__text
+      visibility: visible
+      display: block
+      opacity: 1
