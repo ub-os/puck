@@ -1,5 +1,5 @@
-@use 'sass:math'
-@import 'default'
+@use 'default' as *
+@forward 'default'
 
 // GRID VARIABLES
 // if you change the grid-width, make sure to also change
@@ -81,12 +81,6 @@ $z-index-header-burger: 201
   --grid-gutter-y: #{ $gutter }
   --grid-columns: #{ $grid-columns }
 
-  --height-page-header: #{ $page-header-height }
-  --margin-block-page-header: 0
-  @media(max-width: 800px)
-    --height-page-header: #{ $page-header-height-mobile }
-    --margin-block-page-header: 1rem
-
   --width-grid: #{ $grid-width }
   --width-page: 3840px
 
@@ -96,4 +90,10 @@ $z-index-header-burger: 201
 
   --scroll-to-offset: 140
   --main-scroll-target: html
+
+  --height-page-header: #{ $page-header-height }
+  --margin-block-page-header: 0
+  @media(max-width: 800px)
+    --height-page-header: #{ $page-header-height-mobile }
+    --margin-block-page-header: 1rem
 

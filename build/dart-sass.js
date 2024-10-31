@@ -32,7 +32,7 @@ const globImporter = (path) => {
             globSync(path + canonicalUrl.pathname).forEach(file => {
                 const fileArr = file.split('/');
                 const filePath = fileArr.slice(fileArr.length - 1 - depth, fileArr.length).join('/');
-                contents += `@import "${filePath}";\n`
+                contents += `@use "${filePath}";\n`
             })
             return {
                 contents,

@@ -1,3 +1,5 @@
+@use '01-tools/toolset' as *
+
 .l-row
   &
     +grid-row()
@@ -65,7 +67,7 @@
   &:where(.-flex-grow-1, .-flex-grow) > &__item
     flex-grow: 1
 
-  @each $mb, $value in mapReverse(bps-down())
+  @each $mb, $value in reverse-map(bps-down())
     @for $i from 1 through 12
       &:where(.-#{$mb}-#{$i}) > &__item
       &__item.-#{$mb}-#{$i}

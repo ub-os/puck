@@ -1,3 +1,5 @@
+@use '01-tools/toolset' as *
+
 .e-text-table
   &__wrap
     overflow-x: auto
@@ -36,6 +38,6 @@
 
   td,
   th
-    +padding($fs-basic)
-    +padding-top($fs-basic * 1.15)
+    +rfs($fs-basic, padding)
+    +rfs($fs-basic * 1.15, padding-top)
     vertical-align: baseline

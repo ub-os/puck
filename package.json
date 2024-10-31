@@ -29,7 +29,7 @@
     "build:css": "run-s build:css:dev minifycss",
     "build:js:dev": "node build/javascript.js",
     "build:css:dev": "run-s dart-sass autoprefixer",
-    "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && node build/icons.js && run-s build:css",
+    "build:icons": "run-s build:fantasticon build:sprite-sheet build:favicons && run-s build:css",
     "build:favicons": "node build/favicons.js",
     "build:xlf-to-json": "node build/xlf-to-json.js",
     "build:fantasticon": "node build/fantasticon.js",
@@ -83,6 +83,7 @@
     "normalize.css": "^8.0.1",
     "npm-check-updates": "^17.1.9",
     "plyr": "^3.7.8",
+    "postcss-discard-duplicates": "^7.0.1",
     "rfs": "^10.0.0",
     "sass-migrator": "^2.2.1",
     "smoothscroll-polyfill": "^0.4.4"

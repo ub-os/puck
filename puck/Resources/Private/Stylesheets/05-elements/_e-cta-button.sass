@@ -1,6 +1,9 @@
+@use '01-tools/toolset' as *
+
+$width-symbol: 2.33em
+$height-symbol: $width-symbol
+
 .e-cta-button
-  $width-symbol: 2.33em
-  $height-symbol: $width-symbol
   &
     position: relative
     display: inline-block
@@ -11,8 +14,10 @@
     line-height: 1
 
   //default icon
-  &:not([class*='icon--'])
-    @extend .icon--arrow-right-regular
+  &:not([class*='icon--']):before
+    content: var(--icon-code-arrow-right-regular)
+    font-family: icons
+    line-height: 1
 
   &:before
     +center(vertical)

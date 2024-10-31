@@ -1,7 +1,7 @@
-${{ name }}-font: "{{ name }}";
+@use 'sass:map';
 
 @font-face {
-    font-family: ${{ name }}-font;
+    font-family: "{{ name }}";
     src: {{{ fontSrc }}};
 }
 
@@ -20,11 +20,11 @@ ${{ name }}-font: "{{ name }}";
     -moz-osx-font-smoothing: grayscale;
 }
 
-${{ name }}-map: (
+:root {
 {{# each codepoints }}
-    "{{ @key }}": "\\{{ codepoint this }}",
+    --icon-code-{{ @key }}: "\\{{ codepoint this }}";
 {{/ each }}
-);
+}
 
 {{# each codepoints }}
 {{# if ../selector }}
@@ -32,6 +32,6 @@ ${{ name }}-map: (
 {{ else }}
 {{ tag }}.{{ ../prefix }}-{{ @key }}:before {
 {{/ if }}
-    content: map-get(${{ ../name }}-map, "{{ @key }}");
+    content: var(--icon-code-{{ @key }});
 }
 {{/ each }}

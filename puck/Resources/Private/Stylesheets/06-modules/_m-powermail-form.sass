@@ -1,13 +1,19 @@
+@use '01-tools/toolset' as *
+
 .m-powermail-form
   &__header
-    @extend .h2
+    +typo-h2
+    padding-bottom: spacing(xs)
+    color: var(--color-headline)
 
   &__page
     scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(xs) })
     & + &
       padding-top: spacing(s)
     &__header
-      @extend .h3
+      +typo-h3
+      padding-bottom: spacing(xs)
+      color: var(--color-headline)
 
     &.-paginated
       display: none
@@ -44,7 +50,6 @@
     padding-bottom: 0
 
   &__html
-    @extend .e-rich-text
 
   &.htmx-request &__field
     opacity: .5

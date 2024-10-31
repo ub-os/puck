@@ -1,6 +1,10 @@
+@use 'sass:map'
+@use '01-tools/toolset' as *
+
+$backgrounds: 'dark-1'
+$slanted-backgrounds: 'slant-dark-1'
+
 .l-section
-  $backgrounds: 'dark-1'
-  $slanted-backgrounds: 'slant-dark-1'
   &
     position: relative
     //overflow-x: hidden
@@ -58,7 +62,7 @@
 
   @each $bg in $slanted-backgrounds
     &.-background-#{$bg}
-      +rfs(map-get(sizes(), 'l'), --responsives-slant-section-margin)
+      +rfs(map.get(sizes(), 'l'), --responsives-slant-section-margin)
       z-index: 2
       padding-block: calc( 5em + var(--clip-slant-height) * 0.66)
       //padding-top: calc( 5em + var(--clip-slant-height) * 0.75)

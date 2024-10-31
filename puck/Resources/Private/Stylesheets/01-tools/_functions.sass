@@ -1,8 +1,10 @@
 @use 'sass:math'
-@use "sass:list"
-@import '00-settings/variables'
-@import '00-settings/default'
-@import "rfs/sass"
+@use 'sass:list'
+@use 'sass:map'
+@use 'sass:meta'
+@use 'sass:string'
+@use '00-settings/variables' as *
+@use 'rfs/sass' as rfs
 
 @function rem-to-px($rem)
   @return (math.div($rem,1rem) * $rfs-rem-value) + px
@@ -39,21 +41,21 @@
     @return $result
 
 @function str-replace($string, $search, $replace: '')
-  $index: str-index($string, $search)
+  $index: string.index($string, $search)
   @if $index
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace)
   @return $string
 
 
-@function mapReverse($map)
+@function reverse-map($map)
   $result: null
 
-  @if type-of($map) == "map"
-    $keys: map-keys($map)
+  @if meta.type-of($map) == "map"
+    $keys: map.keys($map)
     $map-reversed: ()
 
-    @for $i from length($keys) through 1
-      $map-reversed: map-merge($map-reversed,(nth($keys, $i): map-get($map, nth($keys, $i))))
+    @for $i from list.length($keys) through 1
+      $map-reversed: map.merge($map-reversed,(list.nth($keys, $i): map.get($map, list.nth($keys, $i))))
 
     @if type-of($map-reversed) == "map"
       $result: $map-reversed
@@ -67,7 +69,7 @@
 
 \:root
   @each $size, $value in sizes()
-    +rfs($value, --size-#{$size})
+    +rfs.rfs($value, --size-#{$size})
 
 @function spacing($size, $multiplier: 1)
   @if $multiplier == 1
@@ -76,7 +78,7 @@
     @return calc(var(--size-#{$size}) * #{$multiplier})
 
 @function min-width($bp)
-  @return 'min-width: #{map-get(bps-up(), $bp)}'
+  @return 'min-width: #{map.get(bps-up(), $bp)}'
 
 @function max-width($bp)
-  @return 'max-width: #{map-get(bps-up(), $bp)}'
+  @return 'max-width: #{map.get(bps-up(), $bp)}'

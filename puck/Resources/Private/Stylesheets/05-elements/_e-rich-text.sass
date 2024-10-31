@@ -1,3 +1,7 @@
+@use '01-tools/toolset' as *
+@use '05-elements/e-text-list'
+@use '05-elements/e-text-table'
+
 :where(.e-rich-text)
 	&
 		width: 100%
@@ -17,7 +21,7 @@
 
 	.-quote
 		+font-size($fs-h4)
-		+padding-left($fs-h4 * 2)
+		+rfs($fs-h4 * 2, padding-left)
 		position: relative
 		padding-top: 1em
 		line-height: 1.25
@@ -32,7 +36,7 @@
 
 	.-quote-attribution
 		+font-size($fs-small)
-		+padding-left($fs-h4 * 2)
+		+rfs($fs-h4 * 2, padding-left)
 		font-weight: 500
 
 	a

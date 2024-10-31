@@ -1,4 +1,5 @@
-@import '02-generic/icon-font'
+@use 'sass:map'
+@use '01-tools/toolset' as *
 
 $checkboxRelativeSize: 1.5
 $lineHeight: 1.25
@@ -49,7 +50,7 @@ select
     &:after
       +center(vertical)
       right: 1em
-      content: map-get($icons-map, 'angle-down-regular')
+      content: var(--icon-code-angle-down-regular)
       display: block
       font-family: icons
       pointer-events: none
