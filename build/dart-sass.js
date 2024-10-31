@@ -11,7 +11,10 @@ const fileNames = [
     "puck-backend"
 ];
 
-const globImporter = (path) => {
+const globImporter = (
+    path,
+    transformFunction = ({contents}) => contents
+) => {
     if (!path.endsWith('/')) {
         path = path + '/';
     }
@@ -21,7 +24,10 @@ const globImporter = (path) => {
     return {
         canonicalize(url) {
             if (!url.includes('*')) return null;
-            return new URL('glob:' + url);
+            if (!url.includes(':')) {
+                url = 'x:' + url;
+            }
+            return new URL(url);
         },
         load(canonicalUrl) {
             let contents = '';
@@ -29,11 +35,19 @@ const globImporter = (path) => {
                 canonicalUrl.pathname = canonicalUrl.pathname.substring(1);
             }
             const depth = (canonicalUrl.pathname.match(/\//g) || []).length;
-            globSync(path + canonicalUrl.pathname).forEach(file => {
-                const fileArr = file.split('/');
-                const filePath = fileArr.slice(fileArr.length - 1 - depth, fileArr.length).join('/');
-                contents += `@use "${filePath}";\n`
+            const files = new Set()
+            globSync(path + canonicalUrl.pathname).forEach(fullPath => {
+                const pathParts = fullPath.split('/');
+                const importPath = pathParts.slice(pathParts.length - 1 - depth, pathParts.length).join('/');
+                const file = {
+                    name: pathParts[pathParts.length - 1],
+                    importPath,
+                    fullPath
+                }
+                files.add(file)
+                contents += `@use "${importPath}" as *;\n`
             })
+            contents = transformFunction({contents, canonicalUrl, files})
             return {
                 contents,
                 syntax: 'scss'
@@ -42,12 +56,28 @@ const globImporter = (path) => {
     }
 };
 
+function globImporterTransformer({ contents, canonicalUrl, files}) {
+    if (canonicalUrl.protocol !== 'mixin-auto-classes:') {
+        files.forEach(file => {
+            let className = file.name.split('.')[0]
+            if (className.startsWith('_')) {
+                className = className.substring(1)
+            }
+            if (!className.match(/^(e-|m-|l-)/)) {
+                return
+            }
+            contents += `.${className} { @include ${className}; }\n`
+        })
+    }
+    return contents
+}
+
 function renderFile(fileName) {
     const sassFile = sourcePath+fileName+".sass";
     const cssFile = distPath+fileName+".css";
     const result = sass.compile(sassFile, {
         importers: [
-            globImporter(sourcePath)
+            globImporter(sourcePath),
         ],
         loadPaths: [sourcePath, 'node_modules/'],
         quietDeps: true,
