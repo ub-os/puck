@@ -15,37 +15,41 @@ const globImporters = (symbol, path) => {
     if (!path.endsWith('/')) {
         path = path + '/';
     }
+    if (path.startsWith('./')) {
+        path = path.substring(2);
+    }
     return [
         {
             findFileUrl(url) {
                 if (!url.startsWith(symbol)) return null;
-                return new URL(url.substring(1), pathToFileURL(path));
+                return new URL(url.replace(symbol, ''), pathToFileURL(path));
             }
         },
         {
             canonicalize(url) {
                 if (!url.startsWith(symbol)) return null;
-                return new URL('glob:'+url.substring(1));
+                return new URL('glob:' + url.replace(symbol, ''));
             },
             load(canonicalUrl) {
-                let imports = '';
-                if (path.startsWith('./')) {
-                    path = path.substring(2);
-                }
+                let contents = '';
                 if (canonicalUrl.pathname.startsWith('/')) {
                     canonicalUrl.pathname = canonicalUrl.pathname.substring(1);
                 }
+                const depth = (canonicalUrl.pathname.match(/\//g) || []).length;
                 globSync(path + canonicalUrl.pathname).forEach(file => {
-                    imports += `@import "~${file.replace(path, '')}";\n`
+                    const fileArr = file.split('/');
+                    const filePath = fileArr.slice(fileArr.length - 1 - depth, fileArr.length).join('/');
+                    contents += `@import "~${filePath}";\n`
                 })
                 return {
-                    contents: imports,
+                    contents,
                     syntax: 'scss'
                 };
             }
         }
     ]
 };
+
 
 ensureDirectoryExistence(distPath);
 for (let fileName of fileNames) {
