@@ -65,7 +65,6 @@
     "jshint": "^2.13.6",
     "jsx-dom": "^8.1.5",
     "matchdep": "*",
-    "node-sass-glob-importer": "^5.3.3",
     "npm-run-all": "^4.1.5",
     "onchange": "^7.1.0",
     "postcss": "^8.4.47",
@@ -81,11 +80,8 @@
     "htmx-ext-preload": "^2.0.1",
     "htmx.org": "^2",
     "normalize.css": "^8.0.1",
-    "npm-check-updates": "^17.1.9",
     "plyr": "^3.7.8",
-    "postcss-discard-duplicates": "^7.0.1",
     "rfs": "^10.0.0",
-    "sass-migrator": "^2.2.1",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "browserslist": [

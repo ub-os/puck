@@ -2,7 +2,7 @@
 @use '05-elements/e-text-list'
 @use '05-elements/e-text-table'
 
-.e-rich-text
+:where(.e-rich-text)
 	&
 		width: 100%
 
@@ -63,7 +63,7 @@
 		color: var(--color-link--hover)
 
 	ul, ol
-		@extend .e-text-list
+		+e-text-list.e-text-list
 		padding-bottom: spacing(xs)
 
 	table
@@ -80,7 +80,7 @@
 			padding: .6em
 
 	.data-table
-		@extend .e-text-table
+		+e-text-table.e-text-table
 		padding-bottom: spacing(xs)
 
 

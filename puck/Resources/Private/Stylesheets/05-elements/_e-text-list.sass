@@ -1,6 +1,6 @@
 @use '01-tools/all' as *
 
-.e-text-list
+=e-text-list
   --width-list-offset: 1.6em
   --width-list-symbol: .66em
   --height-list-symbol: .66em
@@ -36,18 +36,14 @@
     margin-top: .5em
     &>li
       counter-increment: ol-sub-counter
-    .d-body &>li:before
+    &>li:before
       content: counter(ol-sub-counter)
 
   &>li>ul
     margin-top: .5em
-    .d-body &>li:before
+    &>li:before
       transform: scale(.6)
 
-  @for $i from 1 through 20
-    &:is(ol)[start="#{$i}"]
-      $reset: $i - 1
-      counter-reset: ol-counter $reset
   &:is(ol)>li
     counter-increment: ol-counter
 
@@ -60,3 +56,8 @@
     text-align: center
     font-weight: bold
     background: none
+
+  @for $i from 1 through 20
+    &:is(ol)[start="#{$i}"]
+      $reset: $i - 1
+      counter-reset: ol-counter $reset
