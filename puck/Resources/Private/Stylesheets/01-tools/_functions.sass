@@ -1,8 +1,8 @@
 @use 'sass:math'
 @use "sass:list"
-@import '../00-settings/variables'
-@import '../00-settings/default'
-@import "../../../../../node_modules/rfs/sass"
+@import '00-settings/variables'
+@import '00-settings/default'
+@import "rfs/sass"
 
 @function rem-to-px($rem)
   @return (math.div($rem,1rem) * $rfs-rem-value) + px

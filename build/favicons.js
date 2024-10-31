@@ -1,6 +1,11 @@
 import fs from 'fs';
 import favicons from 'favicons';
 
+const resourcePath = 'puck/Resources/Public/';
+const distPath = `${resourcePath}Icons/Favicons/packages/`;
+const sourcePath = `${resourcePath}Icons/Favicons/`;
+const sourceFileNames = [];
+
 function generateFavicons(sourcePath, distPath, fileName) {
     const
         configuration =     {
@@ -38,15 +43,11 @@ function generateFavicons(sourcePath, distPath, fileName) {
     });
 }
 
-const resourcePath = 'puck/Resources/Public/';
-const distPath = `${resourcePath}Icons/Favicons/packages/`;
-const sourcesPath = `${resourcePath}Icons/Favicons/`;
-const sourceFileNames = [];
-fs.readdirSync(sourcesPath).forEach(file => {
+fs.readdirSync(sourcePath).forEach(file => {
     if (file.includes('.svg')) {
         sourceFileNames.push(file.replace('.svg', ''));
     }
 });
 for (let sourceFileName of sourceFileNames) {
-    generateFavicons(`${sourcesPath}${sourceFileName}.svg`, `${distPath}${sourceFileName}/`, sourceFileName);
+    generateFavicons(`${sourcePath}${sourceFileName}.svg`, `${distPath}${sourceFileName}/`, sourceFileName);
 }
