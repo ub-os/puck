@@ -1,4 +1,4 @@
-@use '01-tools/toolset' as *
+@use '01-tools/all' as *
 
 .l-carousel
   &
@@ -66,23 +66,21 @@
     &.is-active
       opacity: 1
 
-.l-carousel__arrows
-  &__button
-    position: relative
-    height: 2.25em
-    width: 2.25em
-    margin: 0 .25em
-    border-radius: var(--border-radius-s)
-    transition: color .15s, background .15s, opacity .15s
+  &__arrows
+    &__button
+      position: relative
+      height: 2.25em
+      width: 2.25em
+      margin: 0 .25em
+      border-radius: var(--border-radius-s)
+      transition: color .15s, background .15s, opacity .15s
 
-  &__button:hover
-    background: white
+    &__button:hover
+      background: white
 
-  &__button.-left
+    &__button.-left
 
-  &__icon
-    +center(both)
-    height: 1em
-    width: 1em
-
-
+    &__icon
+      +center(both)
+      height: 1em
+      width: 1em

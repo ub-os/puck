@@ -67,10 +67,6 @@
 
   @return $result
 
-\:root
-  @each $size, $value in sizes()
-    +rfs.rfs($value, --size-#{$size})
-
 @function spacing($size, $multiplier: 1)
   @if $multiplier == 1
     @return var(--size-#{$size})

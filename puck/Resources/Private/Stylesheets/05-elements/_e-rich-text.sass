@@ -1,8 +1,8 @@
-@use '01-tools/toolset' as *
+@use '01-tools/all' as *
 @use '05-elements/e-text-list'
 @use '05-elements/e-text-table'
 
-:where(.e-rich-text)
+.e-rich-text
 	&
 		width: 100%
 
@@ -89,10 +89,6 @@
 	* + h3,
 	* + h4
 		margin-top: spacing(xs)
-
-	// increase button distance to previous element, if necessary
-	* + p:not(.e-button-group)>[class*='e-button-']
-		//margin-top: spacing(xs)
 
 	.char-icon
 		position: relative

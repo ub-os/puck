@@ -1,6 +1,6 @@
-@use '01-tools/toolset' as *
+@use '01-tools/all' as *
 
-=l-media-layout($layout: block, $media-pos: above, $name: '.l-media')
+=media-layout($layout: block, $media-pos: above, $name: '.l-media')
 
   // image gallery above/below text
   @if $layout == block
@@ -66,17 +66,17 @@
 
 .l-media
   &.-layout-right-float
-    +l-media-layout(float,right)
+    +media-layout(float,right)
   &.-layout-left-float
-    +l-media-layout(float,left)
+    +media-layout(float,left)
   &.-layout-right
-    +l-media-layout(inline,right)
+    +media-layout(inline,right)
   &.-layout-left
-    +l-media-layout(inline,left)
+    +media-layout(inline,left)
   &.-layout-above
-    +l-media-layout(block,above)
+    +media-layout(block,above)
   &.-layout-below
-    +l-media-layout(block,below)
+    +media-layout(block,below)
 
   &:where(.-mobile-max-height) &__file
     @media (max-width(s))
