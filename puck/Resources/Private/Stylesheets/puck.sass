@@ -1,27 +1,27 @@
 @use 'sass:meta'
-@import '00-settings/*.s*ss'
-@import '01-tools/*.s*ss'
+@import '~00-settings/*'
+@import '~01-tools/*'
 
 @layer normalize
   @include meta.load-css("../../../../node_modules/normalize.css/normalize.css")
 
 @layer generic
-  @import '02-generic/*.s*ss'
+  @import '~02-generic/*'
 
 @layer basic
-  @import '03-basic/*.s*ss'
+  @import '~03-basic/*'
   @include meta.load-css('../../../../node_modules/@splidejs/splide/dist/css/splide-core.min.css')
   //@include meta.load-css('../../../../node_modules/plyr/dist/plyr.css')
 
 @layer layouts
-  @import '04-layouts/*.s*ss'
+  @import '~04-layouts/*.sass'
 
 @layer elements
-  @import '05-elements/**/*.s*ss'
+  @import '~05-elements/*'
 
 @layer modules
-  @import '06-modules/**/*.s*ss'
-  @import '07-external/**/*.s*ss'
+  @import '~06-modules/*'
+  @import '~07-external/*'
 
 @layer utilities
-  @import '08-utilities/*.s*ss'
+  @import '~08-utilities/*'

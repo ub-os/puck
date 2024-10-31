@@ -1,7 +1,8 @@
 import * as sass from 'sass';
-import globImporter from 'node-sass-glob-importer';
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
+import { globSync } from 'glob';
 
 const sourcePath = "./puck/Resources/Private/Stylesheets/";
 const distPath = "./puck/Resources/Public/Css/dist/";
@@ -10,37 +11,69 @@ const fileNames = [
     "puck-backend"
 ];
 
+const globImporters = (symbol, path) => {
+    if (!path.endsWith('/')) {
+        path = path + '/';
+    }
+    return [
+        {
+            findFileUrl(url) {
+                if (!url.startsWith(symbol)) return null;
+                return new URL(url.substring(1), pathToFileURL(path));
+            }
+        },
+        {
+            canonicalize(url) {
+                if (!url.startsWith(symbol)) return null;
+                return new URL('glob:'+url.substring(1));
+            },
+            load(canonicalUrl) {
+                let imports = '';
+                if (path.startsWith('./')) {
+                    path = path.substring(2);
+                }
+                if (canonicalUrl.pathname.startsWith('/')) {
+                    canonicalUrl.pathname = canonicalUrl.pathname.substring(1);
+                }
+                globSync(path + canonicalUrl.pathname).forEach(file => {
+                    imports += `@import "~${file.replace(path, '')}";\n`
+                })
+                return {
+                    contents: imports,
+                    syntax: 'scss'
+                };
+            }
+        }
+    ]
+};
+
 ensureDirectoryExistence(distPath);
 for (let fileName of fileNames) {
-    renderFile(fileName);
+    await renderFile(fileName);
 }
 
-function renderFile(fileName) {
+async function renderFile(fileName) {
     const sassFile = sourcePath+fileName+".sass";
     const cssFile = distPath+fileName+".css";
-
-    sass.render({
-        file: sassFile,
-        importer: globImporter(),
+    await sass.compileAsync(sassFile, {
+        importers: [
+            ...globImporters('~', sourcePath)
+        ],
         outFile: cssFile,
-        sourceMap: true,
         quietDeps: true,
-    }, function(error, result) {
+        sourceMap: true,
+    }).then((result) => {
         console.log('Building ' + cssFile);
-        if(!error){
-            fs.mkdirSync(path.dirname(cssFile), {recursive: true})
-            fs.writeFile(cssFile, result.css, function(err){
-                if(!err) {
-                    console.log('Building complete!');
-                } else {
-                    console.log(err);
-                }
-            });
-            fs.writeFile(cssFile+".map", result.map, function(err){});
-        } else {
-            console.log(error);
-        }
-    });
+        fs.mkdirSync(path.dirname(cssFile), {recursive: true})
+        fs.writeFile(cssFile, result.css, function(err){
+            if(!err) {
+                console.log('Building complete!');
+            } else {
+                console.log(err);
+            }
+        });
+        //fs.writeFile(cssFile+".map", result.sourceMap, function(err){});
+    })
 }
 
 function ensureDirectoryExistence(filePath) {
