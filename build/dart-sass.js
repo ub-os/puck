@@ -13,7 +13,7 @@ const fileNames = [
 
 const globImporter = (
     path,
-    transformFunction = ({contents}) => contents
+    transformFunction = ({ contents }) => contents
 ) => {
     if (!path.endsWith('/')) {
         path = path + '/';
@@ -45,9 +45,9 @@ const globImporter = (
                     fullPath
                 }
                 files.add(file)
-                contents += `@use "${importPath}" as *;\n`
+                contents += `@use "${importPath}";\n`
             })
-            contents = transformFunction({contents, canonicalUrl, files})
+            contents = transformFunction({ contents, canonicalUrl, files })
             return {
                 contents,
                 syntax: 'scss'
@@ -57,27 +57,41 @@ const globImporter = (
 };
 
 function globImporterTransformer({ contents, canonicalUrl, files}) {
-    if (canonicalUrl.protocol !== 'mixin-auto-classes:') {
+    if (canonicalUrl.protocol === 'auto-class-mixins:') {
         files.forEach(file => {
-            let className = file.name.split('.')[0]
-            if (className.startsWith('_')) {
-                className = className.substring(1)
+            let namespace = file.name.split('.')[0]
+            if (namespace.startsWith('_')) {
+                namespace = namespace.substring(1)
             }
-            if (!className.match(/^(e-|m-|l-)/)) {
+            let mixinName = namespace
+            if (!mixinName.match(/^(e-|m-|l-)/)) {
                 return
             }
-            contents += `.${className} { @include ${className}; }\n`
+            contents += `.${mixinName} { @include ${namespace}.${mixinName}; }\n`
+        })
+    }
+    if (canonicalUrl.protocol === 'auto-top-mixins:') {
+        files.forEach(file => {
+            let namespace = file.name.split('.')[0]
+            if (namespace.startsWith('_')) {
+                namespace = namespace.substring(1)
+            }
+            let mixinName = namespace
+            let fileContents = fs.readFileSync(file.fullPath, 'utf8')
+            if (!fileContents.includes(`@mixin ${mixinName}`) && !fileContents.includes(`=${mixinName}`)) return
+            contents += `@include ${namespace}.${mixinName};\n`
         })
     }
     return contents
 }
 
 function renderFile(fileName) {
+    console.time('Building ' + fileName);
     const sassFile = sourcePath+fileName+".sass";
     const cssFile = distPath+fileName+".css";
     const result = sass.compile(sassFile, {
         importers: [
-            globImporter(sourcePath),
+            globImporter(sourcePath, globImporterTransformer),
         ],
         loadPaths: [sourcePath, 'node_modules/'],
         quietDeps: true,
@@ -100,6 +114,7 @@ function renderFile(fileName) {
         if (err) return console.log(err);
         console.log('Building complete!');
     });
+    console.timeEnd('Building ' + fileName);
 }
 
 
