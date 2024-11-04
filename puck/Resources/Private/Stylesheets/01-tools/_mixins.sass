@@ -34,7 +34,7 @@
 //=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
 //  width: calc(100% / #{$custom-grid-columns} * #{$columns})
 //  &>*
-//    --grid-columns-original: #{$columns}
+//    --card-width: #{$columns}
 //    @if $columns != #{var(--grid-columns)}
 //      --grid-columns: #{$columns}
 //
@@ -61,8 +61,9 @@
     --row-width: #{$custom-grid-columns}
   --column-width: #{$columns}
   &>*
-    --grid-columns-original: #{$columns}
-    --row-width: #{$columns}
+    --card-width: #{$columns}
+    @if $columns != var(--row-width)
+      --row-width: #{$columns}
 
 =grid-col-mb($mb, $columns, $custom-grid-columns: var(--row-width))
   @media (max-width($mb))
@@ -83,7 +84,6 @@
     flex-wrap: wrap
   @if $wrap
     flex-wrap: $wrap
-
 
 =center($axis: 'both')
   position: absolute

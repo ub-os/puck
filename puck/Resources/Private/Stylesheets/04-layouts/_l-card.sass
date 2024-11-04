@@ -2,8 +2,8 @@
 
 .l-card
   +color-space-card
-  --padding-block: 2em
-  --padding-inline: 2em
+  --padding-block: 1.5em
+  --padding-inline: 1.5em
   --padding-bottom: var(--padding-block)
   --background-media-opacity: 0.5
   --background-media-overlay-color: var(--background)
@@ -72,9 +72,9 @@
       @for $i from 2 through 10
         &.-media-width-#{$i}
           @media (min-width(s))
-            width: calc(100% * #{$i} / var(--grid-columns-original))
+            width: calc(100% * #{$i} / var(--card-width))
           @media (min-width(s)) and (max-width(sm))
-            width: calc(100% * #{$i * 2} / var(--grid-columns-original))
+            width: calc(100% * #{$i * 2} / var(--card-width))
 
     &.-media-size-contain:where(.-layout-above)
       padding-bottom: var(--padding-bottom)
@@ -88,9 +88,9 @@
       @for $i from 2 through 10
         &:where(.-media-width-#{$i})
           @media (min-width(s))
-            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))
+            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--card-width))
           @media (min-width(s)) and (max-width(sm))
-            width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--grid-columns-original))
+            width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--card-width))
 
 
     &.-media-size-contain:where(.-layout-right)
