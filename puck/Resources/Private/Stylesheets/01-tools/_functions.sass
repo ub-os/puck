@@ -14,11 +14,11 @@
 @function px-to-native-rem($px)
   @return math.div($px,1px * 16) * 1rem
 
-@function bps-up()
+@function bps-down()
   @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
 
-@function bps-down()
-  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'xxl': ($bp-xxl - 1), 'grid-width': rem-to-px(grid-container-width()))
+@function bps-up()
+  @return ('s': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
 
 @function sizes()
   @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
@@ -30,11 +30,17 @@
     @return calc(var(--size-#{$size}) * #{$multiplier})
 
 
-@function min-width($bp)
-  @return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bp))}'
+@function min-width($bpOrPx)
+  @if map.has-key(bps-up(), $bpOrPx)
+    @return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bpOrPx))}'
+  @else
+    @return 'min-width: #{px-to-native-rem($bpOrPx)}'
 
-@function max-width($bp)
-  @return 'max-width: #{px-to-native-rem(map.get(bps-up(), $bp))}'
+@function max-width($bpOrPx)
+  @if map.has-key(bps-down(), $bpOrPx)
+    @return 'max-width: #{px-to-native-rem(map.get(bps-down(), $bpOrPx))}'
+  @else
+    @return 'max-width: #{px-to-native-rem($bpOrPx)}'
 
 
 @function grid-gutters()
