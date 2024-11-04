@@ -10,7 +10,7 @@ export default class Modal extends Showable {
         ...Showable.attributes,
         selfClickHide: true,
         escHide: true,
-        appendTo: '[data-modal-container]',
+        appendTo: '#modal-container',
     }
     onShow(event) {
         this.el.showModal()

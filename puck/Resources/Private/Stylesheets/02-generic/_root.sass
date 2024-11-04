@@ -1,36 +1,45 @@
 @use '01-tools/all' as *
+@use 'sass:math'
 
-\:root
-  // ### border-radius / shadows
-  --border-radius-s: #{ $border-radius-s }
-  --border-radius-m: #{ $border-radius-m }
-  --border-radius-default: 0
+=root
+  \:root
+    // ### border-radius / shadows
+    --border-radius-s: #{ $border-radius-s }
+    --border-radius-m: #{ $border-radius-m }
+    --border-radius-default: 0
 
-  --box-shadow-s: #{ $box-shadow-s }
-  --box-shadow-m: #{ $box-shadow-m }
+    --box-shadow-s: #{ $box-shadow-s }
+    --box-shadow-m: #{ $box-shadow-m }
 
-  // ### widths / heights
-  --grid-gutter-x: #{ $gutter }
-  --grid-gutter-y: #{ $gutter }
-  --grid-columns: #{ $grid-columns }
+    // ### widths / heights
+    --grid-columns: #{ $grid-columns }
 
-  --width-grid: #{ $grid-width }
-  --width-page: 3840px
+    --width-grid: #{ $grid-width }
+    --width-page: 3840px
 
-  --clip-slant-height: 6vw
+    --clip-slant-height: 6vw
 
-  --scrollbar-width: 15px
+    --scrollbar-width: 15px
 
-  --scroll-to-offset: 140
-  --main-scroll-target: html
+    --scroll-to-offset: 140
+    --main-scroll-target: html
 
-  --height-page-header: #{ $page-header-height }
-  --margin-block-page-header: 0
+    --height-page-header: #{ $page-header-height }
+    --margin-block-page-header: 0
 
-  @each $size, $value in sizes()
-    +rfs($value, --size-#{$size})
+    --gutter-outer: #{ $gutter-outer }
 
-  @media(max-width: 800px)
-    --height-page-header: #{ $page-header-height-mobile }
-    --margin-block-page-header: 1rem
+    --row-width: #{ $grid-columns }
+
+    //--column-width: #{ $grid-width / $grid-columns }
+    @media(max-width(m))
+      --gutter-outer: #{ $gutter-outer-responsive }
+      --height-page-header: #{ $page-header-height-mobile }
+      --margin-block-page-header: 1rem
+
+    +responsive-size($gutter, --grid-gutter-x)
+    +responsive-size($gutter, --grid-gutter-y)
+
+    @each $size, $value in sizes()
+      +responsive-size($value, --size-#{$size})
 

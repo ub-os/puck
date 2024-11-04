@@ -4,22 +4,22 @@
   +meta.load-css("normalize.css/normalize.css")
 
 @layer generic
-  +meta.load-css('02-generic/*')
+  +meta.load-css('auto-top-mixins:02-generic/_*')
 
 @layer basic
-  +meta.load-css('03-basic/*')
+  +meta.load-css('03-basic/_*')
   +meta.load-css('@splidejs/splide/dist/css/splide-core.min.css')
   //+meta.load-css('plyr/dist/plyr.css')
 
 @layer layouts
-  +meta.load-css('04-layouts/*')
+  +meta.load-css('04-layouts/_*')
 
 @layer elements
-  +meta.load-css('05-elements/*')
+  +meta.load-css('05-elements/_*')
 
 @layer modules
-  +meta.load-css('06-modules/*')
-  +meta.load-css('07-external/*')
+  +meta.load-css('06-modules/_*')
+  +meta.load-css('07-external/_*')
 
 @layer utilities
-  +meta.load-css('08-utilities/*')
+  +meta.load-css('08-utilities/_*')

@@ -62,7 +62,7 @@ $slanted-backgrounds: 'slant-dark-1'
 
   @each $bg in $slanted-backgrounds
     &.-background-#{$bg}
-      +rfs(map.get(sizes(), 'l'), --responsives-slant-section-margin)
+      +responsive-size(map.get(sizes(), 'l'), --responsives-slant-section-margin)
       z-index: 2
       padding-block: calc( 5em + var(--clip-slant-height) * 0.66)
       //padding-top: calc( 5em + var(--clip-slant-height) * 0.75)

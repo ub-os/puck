@@ -1,4 +1,5 @@
 import Splide from '@splidejs/splide'
+import { Intersection } from '@splidejs/splide-extension-intersection'
 import { Aspect } from "~/_nexus"
 import EventHandlerSet from "~/Helper/EventHandlerSet"
 
@@ -25,12 +26,22 @@ export default class Carousel extends Aspect {
     }
     connected() {
         this.biggestSlideHeight = 0
+        let autoplay = this.splideOptions.autoplay ?? false
         this.splide = new Splide(this.el, {
             arrows: true,
             pagination: false,
             autoWidth: true,
             omitEnd: true,
             focus: 'left',
+            resetProgress: false,
+            intersection: {
+                inView: {
+                    autoplay,
+                },
+                outView: {
+                    autoplay: false,
+                },
+            },
             classes: {
                 arrows: `${this.baseSplideClass}__arrows`,
                 arrow: `${this.baseSplideClass}__arrow`,
@@ -41,19 +52,27 @@ export default class Carousel extends Aspect {
             },
             ...this.splideOptions
         })
-        console.log(this.splide)
         this.splide.on('move', (newIndex, oldIndex, destIndex) => {
             this.controlElements.forEach(control => {
                 control.classList.remove(this.activeClass)
-                if (control.dataset['carousel::move:to'] == this.splide?.index) {
+                if (control.dataset['carousel.move.to'] == this.splide?.index) {
                     control.classList.add(this.activeClass)
                 }
             })
         })
-        this.splide.on( 'pagination:mounted', data => {
+        this.splide.on('pagination:mounted', data => {
             data.list.setAttribute('data-render-excluded', '')
+            if (autoplay) {
+                data.items.forEach(page => {
+                    page.button.classList.add('-autoplay')
+                })
+            }
         } )
-        this.splide.mount()
+        this.splide.on('autoplay:playing', (rate) => {
+            this.el.style.setProperty('--splide-autoplay-progress', rate)
+        })
+        this.el.style.setProperty('--splide-speed', this.splide.options.speed + 'ms')
+        this.splide.mount({ Intersection })
         if (this.vertical) {
             // todo: replace with window.requestAnimationFrame ?
             window.addEventListener('load', () => {

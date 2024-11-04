@@ -1,25 +1,34 @@
+@use 'sass:meta' as meta
 @use '01-tools/all' as *
 
-h1, .h1
+=h1
   +typo-h1
   padding-bottom: spacing(m)
   color: var(--color-headline)
 
-h2, .h2
+=h2
   +typo-h2
   padding-bottom: spacing(s)
   color: var(--color-headline)
 
-h3, .h3
+=h3
   +typo-h3
   padding-bottom: spacing(xs)
   color: var(--color-headline)
 
-h4, .h4
+=h4
   +typo-h4
   padding-bottom: spacing(xs)
 
-.topline
+=topline
   +typo-topline
   padding-bottom: spacing(m)
   color: var(--color-accent)
+
+=headlines
+  @each $headline in ('h1', 'h2', 'h3', 'h4', 'topline')
+    //noinspection CssInvalidFunction
+    #{$headline}, .#{$headline}
+      @include meta.apply(meta.get-mixin($headline))
+
++headlines

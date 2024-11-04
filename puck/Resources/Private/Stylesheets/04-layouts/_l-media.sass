@@ -1,40 +1,40 @@
 @use '01-tools/all' as *
 
-=media-layout($layout: block, $media-pos: above, $name: '.l-media')
+=media-layout($layout: block, $media-pos: above, $class: l-media)
 
   // image gallery above/below text
   @if $layout == block
     &
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
+      //--grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
-    #{$name}__media,
-    #{$name}__text
-      width: 100%
+    .#{$class}__media,
+    .#{$class}__text
+      //width: 100%
       &>*
         --grid-columns: inherit
 
     @if $media-pos == above
-      #{$name}__text
+      .#{$class}__text
         order: 2
-      #{$name}__media + #{$name}__text
+      .#{$class}__media + .#{$class}__text
         //padding-top: spacing(m)
 
     @if $media-pos == below
-      #{$name}__media + #{$name}__text.-bodytext
+      .#{$class}__media + .#{$class}__text.-bodytext
         //padding-bottom: spacing(m)
 
   // image column beside text
   @if $layout == inline
     &
-      --grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
+      //--grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
 
-    #{$name}__text,
-    #{$name}__media
+    .#{$class}__text,
+    .#{$class}__media
       @media (max-width(s))
         width: 100%
 
     @if $media-pos == left
-      #{$name}__text
+      .#{$class}__text
         @media (min-width(s))
           order: 2
 
@@ -47,11 +47,10 @@
         display: flex
         flex-direction: column-reverse
 
-    #{$name}__text
-      +grid-col(1,1)
+    .#{$class}__text
       margin-block: 0 var(--grid-gutter-y)
 
-    #{$name}__media
+    .#{$class}__media
       margin-block: 0 var(--grid-gutter-y)
       @media (max-width(s))
         width: 100%
@@ -82,6 +81,10 @@
     @media (max-width(s))
       max-height: var(--max-height-media-mobile)
       width: auto
+
+  &__text
+    @media(max-width(sm))
+      flex-grow: 1
 
   &__file
     &__title

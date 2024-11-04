@@ -2,9 +2,8 @@
 
 .m-main__to-top
   &
-    +rfs($gutter-outer, --position-right)
     position: fixed
-    right: var(--position-right)
+    right: var(--gutter-outer)
     bottom: 4rem
     z-index: $z-index-header
     height: 2.25em
@@ -16,13 +15,10 @@
     pointer-events: none
     transform: translateY(12px)
     transition: background .15s, transform .25s, opacity .25s, border-color .15s
-    @each $mb, $value in $gutter-outer-mb
-      @media (max-width($mb))
-        --position-right: #{ $value }
     [class*="-modal--active"] &,
     [class*="-modal--deactivating"] &
       opacity: 0
-      right: calc(var(--position-right) + var(--scrollbar-width))
+      right: calc(var(--gutter-outer) + var(--scrollbar-width))
 
     @media (max-width(s))
       display: none

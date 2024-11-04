@@ -49,13 +49,14 @@
   &__pagination__page
     $width: .75em
     $margin: .75em
+    $autoplayBarWidthMultiplier: 3.5
     position: relative
     height: $width
     width: $width
     margin: $margin * 0.5
-    background: var(--color-link)
-    border-radius: 100%
-    opacity: 0.5
+    background: color-mix(in srgb, var(--color-link), transparent 50%)
+    border-radius: $width * 0.5
+    transition: width var(--splide-speed)
     &:before
       content: ''
       position: absolute
@@ -64,7 +65,20 @@
       width: $width + $margin
       height: $width + $margin
     &.is-active
-      opacity: 1
+      background: var(--color-link)
+    &.is-active.-autoplay
+      width: $width * $autoplayBarWidthMultiplier
+      background: color-mix(in srgb, var(--color-link), transparent 50%)
+      overflow: hidden
+    &.is-active.-autoplay:after
+      content: ''
+      position: absolute
+      top: 0
+      left: 0
+      width: calc(var(--splide-autoplay-progress) * #{$width * ($autoplayBarWidthMultiplier - 1)} + $width)
+      height: $width
+      background: var(--color-link)
+      border-radius: $width * 0.5
 
   &__arrows
     &__button

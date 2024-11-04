@@ -4,79 +4,84 @@
 @use '01-tools/functions' as *
 @use 'rfs/sass' as rfs with ($rfs-base-value: $rfs-base-value, $rfs-factor: $rfs-factor, $rfs-breakpoint: $rfs-breakpoint, $rfs-rem-value: $rfs-rem-value)
 
-=rfs($values, $property: font-size)
+=responsive-size($values, $property)
   +rfs.rfs($values, $property)
 
 =font-size($value)
   +rfs.rfs($value)
 
-=gutter-outer($gutter: $gutter-outer, $gutters-mb: $gutter-outer-mb, $reversal: false)
-  @if ($reversal)
-    +rfs($gutter * -1, margin-inline)
-    @each $mb, $value in $gutters-mb
-      @media (max-width($mb))
-        +rfs($value * -1, margin-inline)
-  @else
-    --gutter-outer: #{ $gutter }
-    +rfs($gutter, padding-inline)
-    @each $mb, $value in $gutters-mb
-      @media (max-width($mb))
-        --gutter-outer: #{ $value }
-        +rfs($value, padding-inline)
 
-
-=grid-container($max-width: grid-container-width(), $gutter: true)
-  @if $gutter
-    +gutter-outer()
+=grid-container($max-width: grid-container-width())
   width: 100%
   max-width: $max-width
   margin-inline: auto
 
+//=grid-row($custom-gutter: $gutter)
+//  display: flex
+//  flex-wrap: wrap
+//  margin-block: calc(var(--grid-gutter-y) * -.5)
+//  margin-inline: calc(var(--grid-gutter-x) * -.5)
+//  //gap: var(--grid-gutter-x) var(--grid-gutter-y)
+//
+//=grid-col($columns: var(--grid-columns), $custom-grid-columns: var(--grid-columns))
+//  flex-shrink: 0
+//  max-width: 100%
+//  padding-inline: calc(var(--grid-gutter-x) * .5)
+//  margin-block: calc(var(--grid-gutter-y) * .5)
+//  flex-basis: auto
+//  +grid-col-width($columns, $custom-grid-columns)
+//
+//=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
+//  width: calc(100% / #{$custom-grid-columns} * #{$columns})
+//  &>*
+//    --grid-columns-original: #{$columns}
+//    @if $columns != #{var(--grid-columns)}
+//      --grid-columns: #{$columns}
+//
+//=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
+//  @media (max-width($mb))
+//    +grid-col-width($columns, $custom-grid-columns)
 
-=grid-row($custom-gutter: $gutter)
-  @if ($custom-gutter != $gutter)
-    +rfs($custom-gutter, --grid-gutter-x)
-    --grid-gutter-y: var(--grid-gutter-x)
+
+
+=grid-row()
   display: flex
   flex-wrap: wrap
-  margin-block: calc(var(--grid-gutter-y) * -.5)
-  margin-inline: calc(var(--grid-gutter-x) * -.5)
+  gap: var(--grid-gutter-x) var(--grid-gutter-y)
 
-
-=grid-col($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
+=grid-col($columns: var(--row-width), $custom-grid-columns: var(--row-width))
   flex-shrink: 0
   max-width: 100%
-  padding-inline: calc(var(--grid-gutter-x) * .5)
-  margin-block: calc(var(--grid-gutter-y) * .5)
-  flex: 0 0 auto
-  +grid-col-width($columns, $custom-grid-columns, $columns-mb)
+  flex-basis: auto
+  width: calc((100% - (var(--row-width) - 1) * var(--grid-gutter-x)) * var(--column-width) / var(--row-width) + var(--grid-gutter-x) * (var(--column-width) - 1))
+  +grid-col-width($columns, $custom-grid-columns)
 
-
-=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
-  width: calc(100% * #{$columns} / #{$custom-grid-columns})
+=grid-col-width($columns, $custom-grid-columns: var(--row-width))
+  @if $custom-grid-columns != var(--row-width)
+    --row-width: #{$custom-grid-columns}
+  --column-width: #{$columns}
   &>*
     --grid-columns-original: #{$columns}
-    @if $columns != #{var(--grid-columns)}
-      --grid-columns: #{$columns}
-  @each $mb, $value in $columns-mb
-    +grid-col-mb($mb, list.nth($value, 1), list.nth($value, 2))
+    --row-width: #{$columns}
 
-
-=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
+=grid-col-mb($mb, $columns, $custom-grid-columns: var(--row-width))
   @media (max-width($mb))
     +grid-col-width($columns, $custom-grid-columns)
 
 
-=flex( $direction: row, $justify: n, $align: n, $wrap: n)
+
+
+
+=flex( $direction: row, $justify: 0, $align: 0, $wrap: 0)
   display: flex
   flex-direction: $direction
-  @if $justify != n
+  @if $justify
     justify-content: $justify
-  @if $align != n
+  @if $align
     align-items: $align
-  @if $direction == row and $wrap == n
+  @if $direction == row and not $wrap
     flex-wrap: wrap
-  @if $wrap != n
+  @if $wrap
     flex-wrap: $wrap
 
 

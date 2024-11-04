@@ -42,15 +42,15 @@
   &__figure
     &.-layout-right,
     &.-layout-left
-      @media (min-width(m))
+      @media (min-width(sm))
         +cover-media()
         position: absolute
         top: 0
         height: 100%
         width: calc(50vw - var(--scrollbar-width) * 0.5)
         max-width: calc(var(--width-page) * 0.5)
-      @media (max-width(m))
-        +gutter-outer($gutter-outer, $gutter-outer-mb, true)
+      @media (max-width(sm))
+        margin-inline: calc(-1 * var(--gutter-outer))
 
     &.-layout-right
       left: 0

@@ -2,17 +2,16 @@
 
 .l-container
   &
-    +grid-container(width-by-cols(12, true), false)
+    +grid-container
     display: flex
     flex-direction: column
-
 
   @for $i from 1 through 4
     &.-offset-#{$i}
       max-width: width-by-cols((12 - 2*$i), true)
 
   &__inner
-    +gutter-outer()
+    padding-inline: var(--gutter-outer)
     width: 100%
     margin-inline: auto
 
@@ -22,8 +21,16 @@
   @for $i from 4 through 12
     &:where(.-width-#{$i}) &__inner
       --grid-columns: #{$i}
+      --row-width: #{$i}
       max-width: width-by-cols($i, true)
-      //@media (max-width: rem-to-px(width-by-cols($i, true)))
+      @media (max-width(sm))
+        @if ($i < 4)
+          --grid-columns: 4
+        @if ($i == 4)
+          --grid-columns: 6
+        @if ($i > 4)
+          --grid-columns: 12
+      @media (max-width(s))
         --grid-columns: 12
 
   &:where(.-align-left) &__inner

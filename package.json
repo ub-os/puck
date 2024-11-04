@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
+    "@splidejs/splide-extension-intersection": "^0.2.0",
     "htmx-ext-head-support": "^2.0.2",
     "htmx-ext-preload": "^2.0.1",
     "htmx.org": "^2",

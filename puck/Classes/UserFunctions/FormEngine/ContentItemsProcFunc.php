@@ -164,7 +164,7 @@ class ContentItemsProcFunc extends BaseItemsProcFunc
         // maximum width = container width - media width
         if (in_array($CType, ['puck_media','puck_page_menu', 'puck_media_column', 'puck_accordion']) && in_array($mediaLayout, ['left-float','right-float','above','below'])) {
             $params['items'] = array_filter($params['items'], function ($item) use ($containerWidth) {
-                return $item[1] == $containerWidth;
+                return $item[1] <= $containerWidth;
             });
             return;
         }

@@ -3,10 +3,9 @@
 =e-text-table
   &__wrap
     overflow-x: auto
-    @each $mb, $value in $gutter-outer-mb
-      @media (max-width($mb))
-        margin: 0 0-$value
-        padding: 0 $value
+    @media (max-width(m))
+        margin: 0 0-$gutter-outer-responsive
+        padding: 0 $gutter-outer-responsive
 
   &
     width: 100%
@@ -21,12 +20,8 @@
   &__wrap:not(:last-child)
     margin-bottom: spacing(m)
 
-  thead
-    +typo-h3
-    background: lightgrey
-
   tr
-    border-bottom: 2px solid lightgrey
+    border-bottom: 2px solid color-mix(in srgb, var(--color), transparent 50%)
     &:last-of-type
       border-bottom: none
 
@@ -36,8 +31,12 @@
   th[scope='row']
     font-weight: bold
 
-  td,
-  th
-    +rfs($fs-basic, padding)
-    +rfs($fs-basic * 1.15, padding-top)
+  td
+    padding: 1.2rem
+    text-align: inherit
     vertical-align: baseline
+
+  th
+    +typo-h4
+    padding-inline: 1.2rem
+    text-align: inherit

@@ -6,12 +6,37 @@
 @use '00-settings/variables' as *
 
 @function rem-to-px($rem)
-  @return (math.div($rem,1rem) * $rfs-rem-value) + px
+  @return math.div($rem,1rem) * $rfs-rem-value * 1px
 
 @function px-to-rem($px)
-  @return math.div(math.div($px,1px), $rfs-rem-value) + rem
+  @return math.div($px,1px * $rfs-rem-value) * 1rem
 
-// computed variables
+@function px-to-native-rem($px)
+  @return math.div($px,1px * 16) * 1rem
+
+@function bps-up()
+  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
+
+@function bps-down()
+  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'xxl': ($bp-xxl - 1), 'grid-width': rem-to-px(grid-container-width()))
+
+@function sizes()
+  @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
+
+@function spacing($size, $multiplier: 1)
+  @if $multiplier == 1
+    @return var(--size-#{$size})
+  @else
+    @return calc(var(--size-#{$size}) * #{$multiplier})
+
+
+@function min-width($bp)
+  @return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bp))}'
+
+@function max-width($bp)
+  @return 'max-width: #{px-to-native-rem(map.get(bps-up(), $bp))}'
+
+
 @function grid-gutters()
   @return $grid-columns - 1
 
@@ -21,16 +46,6 @@
 @function column-width()
   @return math.div(($grid-width - $gutter * grid-gutters()), $grid-columns)
 
-@function bps-up()
-  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': grid-container-width())
-
-@function bps-down()
-  @return ('s': ($bp-s - 1), 'sm': ($bp-sm - 1), 'm': ($bp-m - 1), 'ml': ($bp-ml - 1), 'l': ($bp-l - 1), 'xl': ($bp-xl - 1), 'xxl': ($bp-xxl - 1), 'grid-width': (grid-container-width()))
-
-@function sizes()
-  @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
-
-
 // helpers
 @function width-by-cols($columns: 12, $grid-padding: false)
   $result: (column-width() * $columns) + ($gutter * ($columns - 1))
@@ -39,12 +54,12 @@
   @else
     @return $result
 
+
 @function str-replace($string, $search, $replace: '')
   $index: string.index($string, $search)
   @if $index
     @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace)
   @return $string
-
 
 @function reverse-map($map)
   $result: null
@@ -65,15 +80,3 @@
     @warn '"#{$map}" is not a valid map'
 
   @return $result
-
-@function spacing($size, $multiplier: 1)
-  @if $multiplier == 1
-    @return var(--size-#{$size})
-  @else
-    @return calc(var(--size-#{$size}) * #{$multiplier})
-
-@function min-width($bp)
-  @return 'min-width: #{map.get(bps-up(), $bp)}'
-
-@function max-width($bp)
-  @return 'max-width: #{map.get(bps-up(), $bp)}'

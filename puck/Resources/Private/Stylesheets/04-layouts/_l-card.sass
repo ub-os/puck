@@ -69,9 +69,12 @@
       @media (min-width(s))
         +cover-media
         width: 50%
-        @for $i from 2 through 10
-          &.-media-width-#{$i}
+      @for $i from 2 through 10
+        &.-media-width-#{$i}
+          @media (min-width(s))
             width: calc(100% * #{$i} / var(--grid-columns-original))
+          @media (min-width(s)) and (max-width(sm))
+            width: calc(100% * #{$i * 2} / var(--grid-columns-original))
 
     &.-media-size-contain:where(.-layout-above)
       padding-bottom: var(--padding-bottom)
@@ -82,9 +85,13 @@
     &.-media-size-contain:where(.-layout-right, .-layout-left)
       @media (min-width(s))
         width: calc((100% + #{var(--padding-inline)}) / 2)
-        @for $i from 2 through 10
-          &:where(.-media-width-#{$i})
+      @for $i from 2 through 10
+        &:where(.-media-width-#{$i})
+          @media (min-width(s))
             width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--grid-columns-original))
+          @media (min-width(s)) and (max-width(sm))
+            width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--grid-columns-original))
+
 
     &.-media-size-contain:where(.-layout-right)
       @media (min-width(s))
@@ -101,3 +108,6 @@
 
   &__figure.-media-size-background &__image
     opacity: var(--background-media-opacity)
+
+  &__image
+    width: 100%

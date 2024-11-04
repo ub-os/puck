@@ -2,7 +2,8 @@
 
 .l-row
   &
-    +grid-row()
+    +grid-row
+    //container: l-row / inline-size
 
   &:where(.u-justify-left)
     img, video
@@ -37,7 +38,7 @@
     justify-content: space-between
 
   &__item
-    +grid-col(var(--grid-columns))
+    +grid-col()
     &.-stretch-content
       display: flex
       flex-direction: column
@@ -45,21 +46,19 @@
   @for $i from 1 through 12
     &:where(.-item-width-#{$i}) > &__item,
     &__item.-width-#{$i}
-      +grid-col($i)
-      @if ($i < 3)
-        $i-m: 4
-        $i-s: 6
-        +grid-col-width($i, var(--grid-columns), (m:($i-m,var(--grid-columns)), s:($i-s,var(--grid-columns))))
-      @if ($i >= 3 and $i < 5)
-        $i-m: 6
-        +grid-col-width($i, var(--grid-columns), (m:($i-m,var(--grid-columns)), s:(12,12)))
+      +grid-col-width($i)
+      @if ($i < 4)
+        +grid-col-mb(sm, 4)
+        +grid-col-mb(s, 6)
+      @if ($i == 4)
+        +grid-col-mb(sm, 6)
+        +grid-col-mb(s, 12)
       @if ($i > 4)
-        +grid-col-width($i, var(--grid-columns), (m:(12,12)))
-      @media (max-width(m))
-      // text elements should take available width, too complicated with media though
-      //flex-grow: 1
+        +grid-col-mb(sm, 12)
+      @media (max-width(sm))
+        // text elements should take available width, too complicated with media though
+        // flex-grow: 1
       img, video
-  //width: width-by-cols($i * 1.5)
 
   &:where(.-flex-grow-0) > &__item
     flex-grow: 0
@@ -71,7 +70,7 @@
     @for $i from 1 through 12
       &:where(.-#{$mb}-#{$i}) > &__item
       &__item.-#{$mb}-#{$i}
-        +grid-col-mb($mb, $i, var(--grid-columns))
+        +grid-col-mb($mb, $i)
 
   @for $i from -10 through 10
     &__item.-responsive-order-#{$i}

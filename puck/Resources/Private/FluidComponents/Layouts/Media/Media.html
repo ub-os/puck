@@ -31,7 +31,6 @@
                 {textSnippet -> f:format.raw()}
             </f:if>
             <f:if condition="{media}">
-                <layout:row.item class="{name}__media" width="{mediaWidth}">
                     <f:if condition="{itemWidth} > 4 || !{itemWidth}">
                         <f:then>
                             <f:variable name="calcWidth" value="{settings.template.gridWidth}"/>
@@ -50,6 +49,7 @@
                     <f:if condition="{itemWidth} == {mediaWidth} && {media -> f:count()} == 1">
                         <f:then>
                             <element:media
+                                    class="{name}__media l-row__item -width-{mediaWidth}"
                                     name="{name}"
                                     file="{media.0}"
                                     cropVariant="{cropVariant}"
@@ -63,27 +63,27 @@
                                     showDesc="{showDesc}"/>
                         </f:then>
                         <f:else>
+                            <layout:row.item class="{name}__media" width="{mediaWidth}">
                             <layout:row itemWidth="{itemWidth}" justify="{justify}" align="{align}">
                                 <f:for each="{media}" as="file">
-                                    <layout:row.item>
-                                        <element:media
-                                                name="{name}"
-                                                file="{file}"
-                                                cropVariant="{cropVariant}"
-                                                width="{calcWidth}"
-                                                sources="{
-                                          xs: {width: 450, cropVariant: cropVariant},
-                                          m: {width: 975, cropVariant: cropVariant}
-                                          }"
-                                                breakpointSources="1"
-                                                showTitle="{showTitle}"
-                                                showDesc="{showDesc}"/>
-                                    </layout:row.item>
+                                    <element:media
+                                            class="l-row__item"
+                                            name="{name}"
+                                            file="{file}"
+                                            cropVariant="{cropVariant}"
+                                            width="{calcWidth}"
+                                            sources="{
+                                      xs: {width: 450, cropVariant: cropVariant},
+                                      m: {width: 975, cropVariant: cropVariant}
+                                      }"
+                                            breakpointSources="1"
+                                            showTitle="{showTitle}"
+                                            showDesc="{showDesc}"/>
                                 </f:for>
                             </layout:row>
+                            </layout:row.item>
                         </f:else>
                     </f:if>
-                </layout:row.item>
             </f:if>
             <f:if condition="({text} || {content}) && ({layout} == 'right-float' || {layout} == 'left-float')">
                 {textSnippet -> f:format.raw()}
