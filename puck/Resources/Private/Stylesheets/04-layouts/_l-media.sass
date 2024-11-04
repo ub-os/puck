@@ -43,9 +43,13 @@
     &
       display: block
       margin-block: 0 calc(-1 * var(--grid-gutter-y) )
+      gap: 0
       @media (max-width(s))
         display: flex
         flex-direction: column-reverse
+
+    .#{$class}__row
+      gap: 0
 
     .#{$class}__text
       margin-block: 0 var(--grid-gutter-y)
