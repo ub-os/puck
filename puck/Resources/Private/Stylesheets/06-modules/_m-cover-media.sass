@@ -19,8 +19,6 @@
       flex-direction: row
     &.-layout-left
       flex-direction: row-reverse
-    @media (max-width(m))
-      --grid-gutter-y: 0
 
   &__content
     &.-layout-above
@@ -50,7 +48,7 @@
         height: 100%
         width: calc(50vw - var(--scrollbar-width) * 0.5)
         max-width: calc(var(--width-page) * 0.5)
-      @media (max-width(sm))
+      @media (max-width(m))
         margin-inline: calc(-1 * var(--gutter-outer))
 
     &.-layout-right

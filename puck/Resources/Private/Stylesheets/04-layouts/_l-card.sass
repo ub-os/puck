@@ -7,9 +7,6 @@
   --padding-bottom: var(--padding-block)
   --background-media-opacity: 0.5
   --background-media-overlay-color: var(--background)
-  @media (max-width(s))
-    //--padding-block: 1.5em
-    //--padding-inline: 10%
   &
     +flex(column, flex-start, flex-start)
     position: relative
@@ -28,10 +25,10 @@
     &.-media-size-background
       padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
     &.-layout-right
-      @media (min-width(s))
+      @media (min-width(xs))
         flex-direction: row
     &.-layout-left:where(.-media)
-      @media (min-width(s))
+      @media (min-width(xs))
         flex-direction: row-reverse
     &.-layout-above:where(.-media)
       flex-direction: column-reverse
@@ -49,7 +46,7 @@
       padding: var(--padding-block) var(--padding-inline)
     &.-layout-right,
     &.-layout-left
-      @media (min-width(s))
+      @media (min-width(xs))
         width: 0
         flex-grow: 1
 
@@ -66,14 +63,14 @@
       background: var(--background-media-overlay-color)
 
     &.-media-size-cover:where(.-layout-right, .-layout-left)
-      @media (min-width(s))
+      @media (min-width(xs))
         +cover-media
         width: 50%
       @for $i from 2 through 10
         &.-media-width-#{$i}
-          @media (min-width(s))
+          @media (min-width(m))
             width: calc(100% * #{$i} / var(--card-width))
-          @media (min-width(s)) and (max-width(sm))
+          @media (min-width(xs)) and (max-width(m))
             width: calc(100% * #{$i * 2} / var(--card-width))
 
     &.-media-size-contain:where(.-layout-above)
@@ -83,26 +80,26 @@
       padding-top: var(--padding-block)
 
     &.-media-size-contain:where(.-layout-right, .-layout-left)
-      @media (min-width(s))
+      @media (min-width(xs))
         width: calc((100% + #{var(--padding-inline)}) / 2)
       @for $i from 2 through 10
         &:where(.-media-width-#{$i})
-          @media (min-width(s))
+          @media (min-width(xs))
             width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--card-width))
-          @media (min-width(s)) and (max-width(sm))
+          @media (min-width(xs)) and (max-width(m))
             width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--card-width))
 
 
     &.-media-size-contain:where(.-layout-right)
-      @media (min-width(s))
+      @media (min-width(xs))
         padding-left: var(--padding-inline)
-      @media (max-width(s))
+      @media (max-width(xs))
         padding-bottom: var(--padding-bottom)
 
     &.-media-size-contain:where(.-layout-left)
-      @media (min-width(s))
+      @media (min-width(xs))
         padding-right: var(--padding-inline)
-      @media (max-width(s))
+      @media (max-width(xs))
         padding-bottom: var(--padding-bottom)
 
 

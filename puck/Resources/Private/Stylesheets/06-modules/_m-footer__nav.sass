@@ -10,7 +10,7 @@
 	&__list
 		display: flex
 		justify-content: center
-		@media (max-width(s))
+		@media (max-width(xs))
 			flex-direction: column
 			align-items: center
 
@@ -25,13 +25,13 @@
 			+font-size($fs-extra-small)
 
 	&__item
-		@media (min-width(s))
+		@media (min-width(xs))
 			margin: 0 .66em
-		@media (max-width(s))
+		@media (max-width(xs))
 			margin: .2em 0
 
 	&.-small &__item
-		@media (min-width(s))
+		@media (min-width(xs))
 			margin: 0 1.5em
 
 	&__list.-icons &__item
@@ -42,6 +42,6 @@
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
-		@media (max-width(s))
+		@media (max-width(xs))
 			padding: .25em 0
 			display: block

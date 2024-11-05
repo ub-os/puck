@@ -15,10 +15,10 @@
   @return math.div($px,1px * 16) * 1rem
 
 @function bps-down()
-  @return ('s': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
+  @return ('xs': $bp-xs, 's': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
 
 @function bps-up()
-  @return ('s': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
+  @return ('xs': ($bp-xs + 1), 's': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
 
 @function sizes()
   @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)

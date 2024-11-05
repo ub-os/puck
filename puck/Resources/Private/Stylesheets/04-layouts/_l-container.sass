@@ -23,14 +23,14 @@
       --grid-columns: #{$i}
       --row-width: #{$i}
       max-width: width-by-cols($i, true)
-      @media (max-width(sm))
+      @media (max-width(m))
         @if ($i < 4)
           --grid-columns: 4
         @if ($i == 4)
           --grid-columns: 6
         @if ($i > 4)
           --grid-columns: 12
-      @media (max-width(s))
+      @media (max-width(xs))
         --grid-columns: 12
 
   &:where(.-align-left) &__inner
