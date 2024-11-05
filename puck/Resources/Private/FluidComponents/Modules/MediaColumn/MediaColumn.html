@@ -4,7 +4,7 @@
   <fc:param name="record" type="mixed"/>
   <fc:renderer>
 
-    <div class="{name}" id="c{record.uid}">
+    <layout:row.item class="{name}" attributes="{id:'c{record.uid}'}" width="{record.container_width}">
       <element:moduleHeader record="{record}"/>
       <layout:media
               media="{record.assets}"
@@ -16,7 +16,7 @@
               textWidth="{record.text_column_width}"
               itemWidth="{record.item_column_width}"
               mediaMobileMaxVh="{record.media_max_height}"/>
-    </div>
+    </layout:row.item>
 
   </fc:renderer>
 </fc:component>

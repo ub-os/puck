@@ -17,7 +17,7 @@
 
 
         <f:comment>todo: image always AFTER headline in html structure</f:comment>
-        <layout:row class="{name}__row {name} -layout-{layout} {class} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}"
+        <layout:row class="{name}__row {name} -layout-{layout} {class} -media-width-{mediaWidth} -text-width-{textWidth} {f:if(condition:mediaMobileMaxVh,then:'-mobile-max-height')}"
                     justify="{justify}"
                     align="{align}"
                     attributes="{style:'--max-height-media-mobile: {mediaMobileMaxVh}vh'}">
@@ -63,8 +63,8 @@
                                     showDesc="{showDesc}"/>
                         </f:then>
                         <f:else>
-                            <layout:row.item class="{name}__media" width="{mediaWidth}">
-                            <layout:row itemWidth="{itemWidth}" justify="{justify}" align="{align}">
+                            <layout:row class="{name}__media l-row__item -width-{mediaWidth}"
+                                        itemWidth="{itemWidth}" justify="{justify}" align="{align}">
                                 <f:for each="{media}" as="file">
                                     <element:media
                                             class="l-row__item"
@@ -81,7 +81,6 @@
                                             showDesc="{showDesc}"/>
                                 </f:for>
                             </layout:row>
-                            </layout:row.item>
                         </f:else>
                     </f:if>
             </f:if>

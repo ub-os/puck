@@ -33,10 +33,7 @@
         <f:defaultCase>
           <layout:row justify="{record.row_justify}" align="{record.row_align}" class="{name}__row" flexGrow="{record.flex_grow}">
             <f:for each="{children}" as="child">
-              <layout:row.item class="{name}__item {f:if(condition:'{record.row_align} === \'stretch\'', then:'-stretch-content')}"
-                               width="{child.container_width}">
                 {child.renderedContent -> f:format.raw()}
-              </layout:row.item>
             </f:for>
           </layout:row>
         </f:defaultCase>

@@ -20,8 +20,8 @@
     padding-top: spacing(xs)
 
   &__track
-    margin-block: calc(var(--grid-gutter-y) * -.5)
-    margin-inline: calc(var(--grid-gutter-x) * -.5)
+    //margin-block: calc(var(--grid-gutter-y) * -.5)
+    //margin-inline: calc(var(--grid-gutter-x) * -.5)
     overflow: visible
     overflow-x: hidden
     overflow-y: hidden
@@ -45,6 +45,9 @@
 
     &.-align-stretch
       align-items: stretch
+
+  :where(.splide__slide.l-row__item):not(:last-child)
+    margin-right: var(--grid-gutter-x)
 
   &__pagination__page
     $width: .75em
