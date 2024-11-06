@@ -1,7 +1,7 @@
 {
   "name": "puck",
   "version": "1.0.0",
-  "description": "Puck - TYPO3 site package",
+  "description": "Puck",
   "type": "module",
   "config": {
     "path": {
