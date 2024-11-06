@@ -54,7 +54,7 @@ const globImporter = (
     }
 };
 
-function globImporterTransformer({ contents, canonicalUrl, files}) {
+function globImporterTransformer({ contents, canonicalUrl, files }) {
 
     const getNamespaceFromFile = file => {
         let namespace = file.name.split('.')[0]
