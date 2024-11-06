@@ -1,6 +1,6 @@
 import { $, $$, jsx } from '~/Utility/DomUtility'
 import ScrollSensitive from "~/Aspects/ScrollSensitive";
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 /**

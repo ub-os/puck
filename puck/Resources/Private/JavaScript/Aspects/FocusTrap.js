@@ -1,5 +1,5 @@
 import { $, $$, $id } from '~/Utility/DomUtility'
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 
 export default class FocusTrap extends Aspect {
     static attributes = {

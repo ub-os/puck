@@ -1,5 +1,5 @@
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 import EventHandlerSet from "~/Helper/EventHandlerSet"
 
 /**

@@ -1,5 +1,5 @@
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 import EventHandlerSet from "~/Helper/EventHandlerSet";
 
 export default class AnchorScrolling extends Aspect {

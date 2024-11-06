@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 import EventHandlerSet from "~/Helper/EventHandlerSet"
 
 /**

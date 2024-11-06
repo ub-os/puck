@@ -1,4 +1,4 @@
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 
 export default class ScrollReveal extends Aspect {
     static attributes = {

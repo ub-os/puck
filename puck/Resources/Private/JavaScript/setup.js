@@ -1,4 +1,4 @@
-import { nexus } from '~/_nexus'
+import { stim } from '@oliveoilexpert/stim'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
 import ScrollbarWidth from "~/Aspects/ScrollbarWidth"
 import AnchorScrolling from "~/Aspects/AnchorScrolling"
@@ -26,14 +26,14 @@ Object.assign(htmx.config, {
     refreshOnHistoryMiss: true
 })
 
-window.nexus = nexus
-Object.assign(nexus.config, {
+window.stim = stim
+Object.assign(stim.config, {
     observeAttributes: false,
     observeAspectAttributes: false,
     customElementPrefix: 'pk-'
 })
 
-nexus.registerAspect({
+stim.registerAspect({
     AnchorScrolling,
     ScrollbarWidth,
     Showable,
@@ -48,13 +48,13 @@ nexus.registerAspect({
     Root,
 })
 
-nexus.registerCustomElement([
+stim.registerCustomElement([
     'carousel',
     'media-player',
     'root'
 ])
 
-nexus.registerSelectorCallback({
+stim.registerSelectorCallback({
     '.l-row': el => {
         if (el.children.length < 3) return
         el.setAttribute('role', 'list')
@@ -84,4 +84,4 @@ nexus.registerSelectorCallback({
     },
 })
 
-export { nexus, htmx }
+export { stim, htmx }

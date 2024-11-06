@@ -1,5 +1,5 @@
 import { $, $$, $id, jsx } from "~/Utility/DomUtility"
-import { Aspect } from "~/_nexus"
+import { Aspect } from '@oliveoilexpert/stim'
 
 export default class ScrollbarWidth extends Aspect {
     static attributes = {
