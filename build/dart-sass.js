@@ -23,22 +23,20 @@ const globImporter = (
     }
     return {
         canonicalize(url) {
-            if (!url.includes('*')) return null;
-            if (!url.includes(':')) {
-                url = 'x:' + url;
-            }
-            return new URL(url);
+            if (!url.includes('*')) return null
+            if (!url.includes(':')) url = 'x:' + url
+            return new URL(url)
         },
         load(canonicalUrl) {
-            let contents = '';
+            let contents = ''
             if (canonicalUrl.pathname.startsWith('/')) {
-                canonicalUrl.pathname = canonicalUrl.pathname.substring(1);
+                canonicalUrl.pathname = canonicalUrl.pathname.substring(1)
             }
-            const depth = (canonicalUrl.pathname.match(/\//g) || []).length;
+            const depth = (canonicalUrl.pathname.match(/\//g) || []).length
             const files = new Set()
             globSync(path + canonicalUrl.pathname).forEach(fullPath => {
-                const pathParts = fullPath.split('/');
-                const importPath = pathParts.slice(pathParts.length - 1 - depth, pathParts.length).join('/');
+                const pathParts = fullPath.split('/')
+                const importPath = pathParts.slice(pathParts.length - 1 - depth, pathParts.length).join('/')
                 const file = {
                     name: pathParts[pathParts.length - 1],
                     importPath,
@@ -57,33 +55,38 @@ const globImporter = (
 };
 
 function globImporterTransformer({ contents, canonicalUrl, files}) {
-    if (canonicalUrl.protocol === 'auto-class-mixins:') {
+
+    const getNamespaceFromFile = file => {
+        let namespace = file.name.split('.')[0]
+        if (namespace.startsWith('_')) {
+            namespace = namespace.substring(1)
+        }
+        return namespace
+    }
+    const fileHasMainMixin = file => {
+        let namespace = getNamespaceFromFile(file)
+        let fileContents = fs.readFileSync(file.fullPath, 'utf8')
+        if (!fileContents.includes(`@mixin ${namespace}`) && !fileContents.includes(`=${namespace}`)) return false
+        return namespace
+    }
+
+    if (canonicalUrl.protocol === 'include-mixins-in-namespace-class:') {
         files.forEach(file => {
-            let namespace = file.name.split('.')[0]
-            if (namespace.startsWith('_')) {
-                namespace = namespace.substring(1)
-            }
-            let mixinName = namespace
-            if (!mixinName.match(/^(e-|m-|l-)/)) {
-                return
-            }
-            contents += `.${mixinName} { @include ${namespace}.${mixinName}; }\n`
+            let mixinName = fileHasMainMixin(file)
+            if (!mixinName) return
+            contents += `.${mixinName} { @include ${mixinName}.${mixinName}; }\n`
         })
     }
-    if (canonicalUrl.protocol === 'auto-top-mixins:') {
+    if (canonicalUrl.protocol === 'include-mixins-at-root:') {
         files.forEach(file => {
-            let namespace = file.name.split('.')[0]
-            if (namespace.startsWith('_')) {
-                namespace = namespace.substring(1)
-            }
-            let mixinName = namespace
-            let fileContents = fs.readFileSync(file.fullPath, 'utf8')
-            if (!fileContents.includes(`@mixin ${mixinName}`) && !fileContents.includes(`=${mixinName}`)) return
-            contents += `@include ${namespace}.${mixinName};\n`
+            let mixinName = fileHasMainMixin(file)
+            if (!mixinName) return
+            contents += `@include ${mixinName}.${mixinName};\n`
         })
     }
     return contents
 }
+
 
 function renderFile(fileName) {
     console.time('Building ' + fileName);
