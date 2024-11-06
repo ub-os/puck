@@ -25,8 +25,8 @@
     +flex(row,space-between)
 
   &__list
-    --grid-gutter-x: .8em
-    --grid-gutter-y: 1.25em
+    --gutter-x: .8em
+    --gutter-y: 1.25em
 
   &__description
     +font-size($fs-small)
@@ -37,7 +37,7 @@
     &.-type-select,
     &.-type-date
       +grid-col-width(6, 12)
-      +grid-col-mb(sm, 12)
+      +grid-col-breakpoint(sm, 12)
       min-width: width-by-cols(3)
 
   &__field

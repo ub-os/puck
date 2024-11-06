@@ -7,24 +7,26 @@
     <fc:param name="outerContent" type="Slot" optional="1" default=""/>
     <fc:param name="showSelectedOption" type="boolean" optional="1" default="0"/>
     <fc:param name="attributes" type="array" optional="1"/>
-    <fc:param name="showableAttributes" type="array" optional="1" default="{outClickHide: 1}"/>
+    <fc:param name="dialogAttributes" type="array" optional="1" default="{duration:170}"/>
     <fc:renderer>
 
         <div id="{id}" class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
             <button class="{name}__button"
-                    data-connect="showable.toggle#{id}-box"
-                    data-handler="showable.toggle#{id}-box">
+                    aria-controls="{id}__dialog"
+                    data-handler="dialog.toggle#{id}__dialog">
                 {label}
                 <fc:slot name="buttonContent"/>
                 <icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
             </button>
             <fc:slot name="outerContent"/>
-            <div class="{name}__box"
-                 data-connect="showable"
-                 data-showable.out-target="#{id}"
-                 data-showable='{showableAttributes -> f:format.json()}' id="{id}-box">
+            <dialog class="{name}__dialog"
+                    data-connect="dialog"
+                    data-dialog='{dialogAttributes -> f:format.json()}'
+                    data-dialog.out-target="#{id}"
+                    aria-label="{label}"
+                    id="{id}__dialog">
                 <fc:slot name="content"/>
-            </div>
+            </dialog>
         </div>
 
     </fc:renderer>

@@ -13,9 +13,9 @@ $GLOBALS['TCA']['sys_file_reference']['columns']['breakpoints'] = [
         'type' => 'select',
         'renderType' => 'selectCheckBox',
         'items' => TcaUtility::selectItemsHelper([
-            ['Phone (<450px)', 'xs'],
-            ['Tablet (<975px)', 'm'],
-            ['Laptop (<1325px)', 'l'],
+            ['Phone (<540px)', 'xs'],
+            ['Tablet (<900px)', 'm'],
+            ['Laptop (<1340px)', 'xl'],
         ]),
         'dbFieldLength' => 10,
         'default' => 'default',

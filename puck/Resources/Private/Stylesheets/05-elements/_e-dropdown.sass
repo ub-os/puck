@@ -42,7 +42,7 @@
     &__icon
       height: 1.2em
 
-  &__box
+  &__dialog
     position: absolute
     top: 100%
     left: 0
@@ -51,22 +51,27 @@
     min-width: 15em
     visibility: hidden
     background: var(--background)
+    border: color-mix(in srgb, var(--background), black 30%) 2px solid
     border-radius: var(--border-radius-s)
     box-shadow: var(--box-shadow-m)
     opacity: 0
-    transition: opacity .15s
+    transition: opacity .17s
     &.--active
       visibility: visible
       opacity: 1
+    &.--deactivating
+      visibility: visible
 
   &__option
-    display: block
+    +flex(row, space-between, center)
     padding: .5em 1em
-    color: var(--color-alt)
+    color: var(--color)
     font-weight: 600
-    &:hover:not(.--active)
-      color: var(--color-accent)
-    &.--active
+    &.-active
+      color: var(--color-link)
+      padding-left: 1.5em
+    &:hover
+      color: var(--color-link--hover)
     //color: var(--color-accent)
     &.-disabled
       pointer-events: none

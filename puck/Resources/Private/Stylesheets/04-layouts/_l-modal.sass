@@ -52,8 +52,8 @@
       &.-width-#{$i}
         width: width-by-cols($i)
         &>*
-          --grid-columns: #{$i}
-          --grid-columns-original: #{$i}
+          --row-width: #{$i}
+          --card-width: #{$i}
 
   &::backdrop
     background: var(--background-modal-backdrop)

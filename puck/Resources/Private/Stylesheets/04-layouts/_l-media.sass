@@ -5,13 +5,12 @@
   // image gallery above/below text
   @if $layout == block
     &
-      //--grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
+      //--gutter-y: calc( var(--gutter-x) * 1.5 )
 
     .#{$class}__media,
     .#{$class}__text
       //width: 100%
       &>*
-        --grid-columns: inherit
 
     @if $media-pos == above
       .#{$class}__text
@@ -26,7 +25,7 @@
   // image column beside text
   @if $layout == inline
     &
-      //--grid-gutter-y: calc( var(--grid-gutter-x) * 1.5 )
+      //--gutter-y: calc( var(--gutter-x) * 1.5 )
 
     .#{$class}__text,
     .#{$class}__media
@@ -42,7 +41,7 @@
   @if $layout == float
     &
       display: block
-      margin-block: 0 calc(-1 * var(--grid-gutter-y) )
+      margin-block: 0 calc(-1 * var(--gutter-y) )
       gap: 0
       @media (max-width(s))
         display: flex
@@ -52,19 +51,19 @@
       gap: 0
 
     .#{$class}__text
-      margin-block: 0 var(--grid-gutter-y)
+      margin-block: 0 var(--gutter-y)
 
     .#{$class}__media
-      margin-block: 0 var(--grid-gutter-y)
+      margin-block: 0 var(--gutter-y)
       @media (max-width(s))
         width: 100%
       @if $media-pos == right
         @media (min-width(s))
-          margin-left: var(--grid-gutter-x)
+          margin-left: var(--gutter-x)
           float: right
       @if $media-pos == left
         @media (min-width(s))
-          margin-right: var(--grid-gutter-x)
+          margin-right: var(--gutter-x)
           float: left
 
 .l-media

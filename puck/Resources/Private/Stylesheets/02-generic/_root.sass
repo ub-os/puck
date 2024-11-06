@@ -29,14 +29,13 @@
 
     --clip-slant-height: 6vw
 
-    //--column-width: #{ $grid-width / $grid-columns }
     @media(max-width(m))
       --gutter-outer: #{ $gutter-outer-responsive }
       --height-page-header: #{ $page-header-height-mobile }
       --margin-block-page-header: 1rem
 
-    +responsive-size($gutter, --grid-gutter-x)
-    +responsive-size($gutter, --grid-gutter-y)
+    +responsive-size($gutter, --gutter-x)
+    +responsive-size($gutter, --gutter-y)
 
     @each $size, $value in sizes()
       +responsive-size($value, --size-#{$size})

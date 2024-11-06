@@ -4,6 +4,7 @@ import ScrollbarWidth from "~/Aspects/ScrollbarWidth"
 import AnchorScrolling from "~/Aspects/AnchorScrolling"
 import Showable from '~/Aspects/Showable'
 import Accordion from '~/Aspects/Accordion'
+import Dialog from "~/Aspects/Dialog"
 import Modal from "~/Aspects/Modal"
 import Carousel from '~/Aspects/Carousel'
 import PageHeader from "~/Aspects/PageHeader"
@@ -38,6 +39,7 @@ nexus.registerAspect({
     Showable,
     Accordion,
     Modal,
+    Dialog,
     Carousel,
     PageHeader,
     MediaPlayer,

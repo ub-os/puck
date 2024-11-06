@@ -244,8 +244,22 @@ class CategoryFilterBuilder
         );
 
         $arguments = $this->request->getArguments();
+
         foreach($this->settings['unsetArguments'] as $unsetArgument) {
             unset($arguments[$unsetArgument]);
+        }
+
+        if ($this->activeCategories) {
+            $closeArguments = $arguments;
+            unset($closeArguments['demand']['categories'][$this->settings['demandCategoriesKey']]['uids']);
+            $filter->closeItem = new CategoryFilterItem(
+                label: 'Reset',
+                url: $this->buildUri($closeArguments),
+                fetchLinkOptions: new FetchLinkOptions(
+                    url: ($this->contentRecordUid && $this->fetchLinkPageType) ? $this->buildUri($closeArguments, true) : $this->buildUri($arguments),
+                    contentId: 'c' . $this->contentRecordUid,
+                ),
+            );
         }
 
         $this->categoryRepository->setDefaultOrderings($this->settings['categoryOrder']);

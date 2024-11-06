@@ -9,6 +9,7 @@ class CategoryFilter
          * @var CategoryFilterItem[]
          */
         public array $items = [],
+        public ?CategoryFilterItem $closeItem = null,
         public int $buildTree = 1
     )
     {

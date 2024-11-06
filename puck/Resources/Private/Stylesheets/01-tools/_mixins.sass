@@ -16,60 +16,30 @@
   max-width: $max-width
   margin-inline: auto
 
-//=grid-row($custom-gutter: $gutter)
-//  display: flex
-//  flex-wrap: wrap
-//  margin-block: calc(var(--grid-gutter-y) * -.5)
-//  margin-inline: calc(var(--grid-gutter-x) * -.5)
-//  //gap: var(--grid-gutter-x) var(--grid-gutter-y)
-//
-//=grid-col($columns: var(--grid-columns), $custom-grid-columns: var(--grid-columns))
-//  flex-shrink: 0
-//  max-width: 100%
-//  padding-inline: calc(var(--grid-gutter-x) * .5)
-//  margin-block: calc(var(--grid-gutter-y) * .5)
-//  flex-basis: auto
-//  +grid-col-width($columns, $custom-grid-columns)
-//
-//=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
-//  width: calc(100% / #{$custom-grid-columns} * #{$columns})
-//  &>*
-//    --card-width: #{$columns}
-//    @if $columns != #{var(--grid-columns)}
-//      --grid-columns: #{$columns}
-//
-//=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
-//  @media (max-width($mb))
-//    +grid-col-width($columns, $custom-grid-columns)
-
-
 =grid-row()
   display: flex
   flex-wrap: wrap
-  gap: var(--grid-gutter-x) var(--grid-gutter-y)
+  gap: var(--gutter-x) var(--gutter-y)
 
-=grid-col($columns: var(--row-width), $custom-grid-columns: var(--row-width))
+=grid-col($width: var(--row-width), $row-width: var(--row-width))
   flex-shrink: 0
   max-width: 100%
   flex-basis: auto
-  width: calc((100% - (var(--row-width) - 1) * var(--grid-gutter-x)) * var(--column-width) / var(--row-width) + var(--grid-gutter-x) * (var(--column-width) - 1))
-  +grid-col-width($columns, $custom-grid-columns)
+  width: calc((100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1))
+  +grid-col-width($width, $row-width)
 
-=grid-col-width($columns, $custom-grid-columns: var(--row-width))
-  @if $custom-grid-columns != var(--row-width)
-    --row-width: #{$custom-grid-columns}
-  --column-width: #{$columns}
+=grid-col-width($width, $row-width: var(--row-width))
+  @if $row-width != var(--row-width)
+    --row-width: #{$row-width}
+  --col-width: #{$width}
   &>*
-    --card-width: #{$columns}
-    @if $columns != var(--row-width)
-      --row-width: #{$columns}
+    --card-width: #{$width}
+    @if $width != var(--row-width)
+      --row-width: #{$width}
 
-=grid-col-mb($mb, $columns, $custom-grid-columns: var(--row-width))
-  @media (max-width($mb))
-    +grid-col-width($columns, $custom-grid-columns)
-
-
-
+=grid-col-breakpoint($bp, $width, $row-width: var(--row-width))
+  @media (max-width($bp))
+    +grid-col-width($width, $row-width)
 
 
 =flex( $direction: row, $justify: false, $align: false, $wrap: false)
@@ -131,3 +101,30 @@
       @content
   @media (hover: none)
     @content
+
+
+//=grid-row($custom-gutter: $gutter)
+//  display: flex
+//  flex-wrap: wrap
+//  margin-block: calc(var(--gutter-y) * -.5)
+//  margin-inline: calc(var(--gutter-x) * -.5)
+//  //gap: var(--gutter-x) var(--gutter-y)
+//
+//=grid-col($columns: var(--grid-columns), $custom-grid-columns: var(--grid-columns))
+//  flex-shrink: 0
+//  max-width: 100%
+//  padding-inline: calc(var(--gutter-x) * .5)
+//  margin-block: calc(var(--gutter-y) * .5)
+//  flex-basis: auto
+//  +grid-col-width($columns, $custom-grid-columns)
+//
+//=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
+//  width: calc(100% / #{$custom-grid-columns} * #{$columns})
+//  &>*
+//    --card-width: #{$columns}
+//    @if $columns != #{var(--grid-columns)}
+//      --grid-columns: #{$columns}
+//
+//=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
+//  @media (max-width($mb))
+//    +grid-col-width($columns, $custom-grid-columns)

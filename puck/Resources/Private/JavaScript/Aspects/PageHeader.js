@@ -72,9 +72,9 @@ export default class PageHeader extends Aspect {
             }
         }, {passive: true})
 
-        this.handlerSet.add(window, 'DOMMouseScroll', this.scrollHandler.bind(this), {passive: true})
-        this.handlerSet.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
-        this.handlerSet.add(window, 'mousewheel', this.scrollHandler.bind(this), {passive: true})
+        //this.handlerSet.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
+        //this.handlerSet.add(window, 'wheel', this.scrollHandler.bind(this), {passive: true})
+        this.handlerSet.add(window, 'scroll', this.scrollHandler.bind(this), {passive: true})
         return this
     }
 

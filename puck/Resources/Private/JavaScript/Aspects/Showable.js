@@ -26,12 +26,16 @@ export default class Showable extends Aspect {
     urlHashShow: true,
     // remove matching hash from url on hide
     urlHashRemove: true,
+    // focus on show
+    focusOnShow: false,
     // hide on esc
     escHide: true,
     // hide on outside click
     outClickHide: false,
     // hide on self click
     selfClickHide: false,
+    // hide on focusout
+    focusOutHide: false,
     // hide on scroll
     scrollHide: false,
     // hide if matching element is clicked
@@ -72,12 +76,12 @@ export default class Showable extends Aspect {
   hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
     this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
   }
-  toggle(detail = {}, event = {}) {
+  toggle({ transition = true, changeUrlHash = true, trigger = ''}, event = {}) {
     if (this.active && (!this.switchToggles || (this.switchToggles && event.handlerTarget === this.lastUsedToggle))) {
-      this.hide(detail)
+      this.hide({ transition, changeUrlHash, trigger })
       this.lastUsedToggle = event.handlerTarget
     } else if (!this.active) {
-      this.show(detail)
+      this.show({ transition, trigger })
       this.lastUsedToggle = event.handlerTarget
     }
   }
@@ -87,6 +91,13 @@ export default class Showable extends Aspect {
     if (event.detail.transition) this.transitionClass(this.activatingClass)
     if (this.groupEl) {
       this.dispatch('toggle-group', { target: this.groupEl, detail: {showTarget: this.el} })
+    }
+    if (this.focusOnShow) {
+      if (this.el.$('[data-autofocus]')) {
+        this.el.$('[data-autofocus]').focus()
+      } else {
+        this.el.focus()
+      }
     }
     return true
   }
@@ -122,6 +133,7 @@ export default class Showable extends Aspect {
 
   connected() {
     this.groupEl = this.groupId ? $id(this.groupId) : null
+    this.outEl = this.outTarget ? $target(this.outTarget, 'Showable') : this.el
     if (this.pauseMediaOnHide) {
       this.mediaChildren = this.el.$$('video, audio')
     }
@@ -148,14 +160,23 @@ export default class Showable extends Aspect {
       })
     }
     if (this.outClickHide) {
-      const target = this.outTarget ? $target(this.outTarget, 'Showable') : this.el
       this.handlerSet.add(document, 'click', event => {
-        if (this.active && !target.contains(event.target)) this.hide({ trigger: 'outClick' })
+        if (this.active && !this.outEl.contains(event.target)) this.hide({ trigger: 'outClick' })
       })
     }
     if (this.selfClickHide) {
       this.handlerSet.add(this.el, 'click', event => {
         if (this.active && event.target === this.el) this.hide({ trigger: 'selfClick' })
+      })
+    }
+    if (this.focusOutHide) {
+      let focusOut = false
+      this.handlerSet.add(this.outEl, 'focusin', event => focusOut = false)
+      this.handlerSet.add(this.outEl, 'focusout', event => {
+        focusOut = true
+        window.requestAnimationFrame(() => {
+          if (focusOut && this.active) this.hide({ trigger: 'focusOut' })
+        })
       })
     }
     if (this.escHide) {

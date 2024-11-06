@@ -25,7 +25,7 @@ class PictureViewHelper extends AbstractViewHelper
         $this->registerArgument('avif', 'boolean', '', false, false);
         $this->registerArgument('retina', 'boolean', '', false, false);
         $this->registerArgument('loading', 'string', '', false, 'lazy');
-        $this->registerArgument('breakpoints', 'array', '', false, ['xs' => 450, 's' => 625, 'sm' => 800, 'm' => 975, 'ml' => 1150, 'l' => 1325, 'xl' => 1500]);
+        $this->registerArgument('breakpoints', 'array', '', false, ['xs' => 540, 's' => 660, 'sm' => 780, 'm' => 900, 'ml' => 1040, 'l' => 1180, 'xl' => 1340]);
         $this->registerArgument('backgroundImage', 'boolean', '', false, false);
         $this->registerArgument('reserveHeight', 'string', '', false, '');
         $this->registerArgument('additionalAttributes', 'array', '', false, []);

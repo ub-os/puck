@@ -16,21 +16,10 @@
                       <li class="{name}__item">
                       <f:if condition="{item.items}">
                           <f:then>
+                              <f:debug>{categoryFilter}</f:debug>
                               <element:dropdown
                                       id="{sectionId}-filter-{i.index}-dropdown"
                                       label="{item.label}">
-                                  <fc:content slot="buttonContent">
-                                       
-                                      <f:if condition="{item.closeItem}">
-                                          <a href="{item.closeItem.url}"
-                                             class="e-dropdown__close"
-                                             data-hx-get="{item.closeItem.fetchLinkOptions.url}"
-                                             data-hx-push-url="{item.closeItem.url}">
-                                              {item.activeChildren -> f:count()}
-                                              <icon:char icon="xmark-regular" class="e-dropdown__close__icon"/>
-                                          </a> 
-                                      </f:if>
-                                  </fc:content>
                                   <f:for each="{item.items}" as="childItem">
                                           <a href="{childItem.url}"
                                              class="{u:bem(
@@ -38,6 +27,7 @@
                                                 el:'option',
                                                 mod:{active:childItem.active, disabled:childItem.hasNoPotential}
                                              )}"
+                                             data-autofocus
                                              data-hx-get="{childItem.fetchLinkOptions.url}"
                                              data-hx-push-url="{childItem.url}">
                                               {childItem.label}
@@ -56,6 +46,7 @@
                                     raw:'e-button',
                                     mod:{active:item.active, disabled:item.hasNoPotential, icon: item.active}
                                  )}"
+                                 data-autofocus
                                  data-hx-get="{item.fetchLinkOptions.url}"
                                  data-hx-push-url="{item.url}">
                                   {item.label}
@@ -68,6 +59,18 @@
                       </f:if>
                       </li>
                   </f:for>
+                  <f:if condition="{categoryFilter.closeItem}">
+                      <li class="{name}__item" style="margin-left: auto">
+                          <a href="{categoryFilter.closeItem.url}"
+                             class="{name}__link e-button -icon -icon-right"
+                             data-autofocus
+                             data-hx-get="{categoryFilter.closeItem.fetchLinkOptions.url}"
+                             data-hx-push-url="{categoryFilter.closeItem.url}">
+                              {categoryFilter.closeItem.label}
+                              <icon:char icon="xmark-regular"/>
+                          </a>
+                      </li>
+                  </f:if>
               </ul>
           </div>
       </f:if>
