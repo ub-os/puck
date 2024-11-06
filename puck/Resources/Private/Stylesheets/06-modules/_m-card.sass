@@ -1,7 +1,7 @@
 @use '01-tools/all' as *
 
 .m-card
-  .l-card__content
+  :where(.l-card__content)
     display: flex
     @media (max-width(xs))
       display: block

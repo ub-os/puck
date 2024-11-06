@@ -28,26 +28,12 @@
 
     &.--active:hover &__icon
 
-
-  &__close
-    position: relative
-    display: inline-flex
-    margin-block: -0.5em
-    margin-right: -1em
-    color: color-mix(in srgb, var(--color) 32%, transparent)
-    border-radius: 100%
-    &:hover
-      color: var(--color-button)
-    //background: var(--color-accent)
-    &__icon
-      height: 1.2em
-
   &__dialog
     position: absolute
     top: 100%
     left: 0
     z-index: 99
-    padding: 1em 0
+    padding: .75em 0
     min-width: 15em
     visibility: hidden
     background: var(--background)
@@ -70,9 +56,8 @@
     &.-active
       color: var(--color-link)
       padding-left: 1.5em
-    &:hover
+    &:hover, &:focus-visible
       color: var(--color-link--hover)
-    //color: var(--color-accent)
     &.-disabled
       pointer-events: none
       opacity: .5

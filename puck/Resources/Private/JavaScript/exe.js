@@ -40,7 +40,21 @@ window.requestAnimationFrame(() => {
 on("htmx:historyRestore", (event) => {
     $$('[data-render-excluded]').forEach(el => el.remove())
 })
+
+let focusAfterSwapSelector
+const setFocusAfterSwapSelector = () => {
+    focusAfterSwapSelector = document.activeElement
+        .closest('[data-hx-focus-after-swap]')
+        ?.getAttribute('data-hx-focus-after-swap')
+}
+const resolveFocusAfterSwap = () => {
+    if (!focusAfterSwapSelector) return
+    $(focusAfterSwapSelector)?.focus()
+    focusAfterSwapSelector = null
+}
+
 on("htmx:beforeRequest", (event) => {
+    setFocusAfterSwapSelector()
     if (event.target.tagName === "A" && event.target.pathname === window.location.pathname) {
         event.preventDefault()
         Logger.console.log('prevent htmx navigation to same page')
@@ -53,7 +67,10 @@ on("htmx:responseError", (event) => {
 on("htmx:load", (event) => {
     if (isBodySwapEvent(event)) {
         //window.UC_UI?.restartCMP() // restart Usercentrics CMP UI if available
+    } else {
+        resolveFocusAfterSwap()
     }
+    focusAfterSwapSelector = null
 })
 const isBodySwapEvent = event => {
     return event.target?.tagName === 'BODY' || event.target?.id === 'root' || event.elt?.id === 'root'

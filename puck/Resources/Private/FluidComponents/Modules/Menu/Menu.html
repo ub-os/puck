@@ -25,138 +25,127 @@
 
                         <f:case value="default-cards">
                             <layout:row class="{name}__row"
-                                        flexGrow="0" justify="left" align="top"
-                                        >
+                                        id="c{record.uid}-list"
+                                        flexGrow="0" justify="left" align="top">
                                 <f:for as="item" each="{menu}" iteration="i">
-                                    <layout:row.item class="{name}__item -stretch-content" width="6">
-                                        <layout:card
-                                                attributes="{data-link-area:''}"
-                                                class="{name}__card -variant-{record.layout}"
-                                                cropVariant="{cropVariant}"
-                                                width="6">
-                                            <module:menu.teaser
-                                                    config="{teaserText:1}"
-                                                    page="{item}"
-                                                    name="{name}"/>
-                                        </layout:card>
-                                    </layout:row.item>
+                                    <layout:card
+                                            attributes="{data-link-area:''}"
+                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            cropVariant="{cropVariant}"
+                                            width="6">
+                                        <module:menu.teaser
+                                                config="{teaserText:1}"
+                                                page="{item}"
+                                                name="{name}"/>
+                                    </layout:card>
                                 </f:for>
                             </layout:row>
                         </f:case>
 
                         <f:case value="blog-cards">
                             <layout:row class="{name}__row"
-                                        flexGrow="0" justify="left" align="top"
-                                        >
+                                        id="c{record.uid}-list"
+                                        flexGrow="0" justify="left" align="top">
                                 <f:for as="item" each="{menu}" iteration="i">
-                                    <layout:row.item class="{name}__item -stretch-content" width="6">
-                                        <layout:card
-                                                attributes="{data-link-area:''}"
-                                                class="{name}__card -variant-{record.layout}"
-                                                cropVariant="{cropVariant}"
-                                                width="6">
-                                            <module:menu.teaser
-                                                    config="{postDate:1, categories: 1}"
-                                                    page="{item}"
-                                                    name="{name}"/>
-                                        </layout:card>
-                                    </layout:row.item>
+                                    <layout:card
+                                            attributes="{data-link-area:''}"
+                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            cropVariant="{cropVariant}"
+                                            width="6">
+                                        <module:menu.teaser
+                                                config="{postDate:1, categories: 1}"
+                                                page="{item}"
+                                                name="{name}"/>
+                                    </layout:card>
                                 </f:for>
                             </layout:row>
                         </f:case>
 
                         <f:case value="team-cards">
                             <layout:row class="{name}__row"
-                                        align="top" flexGrow="0" justify="left"
-
-                                        >
+                                        id="c{record.uid}-list"
+                                        align="top" flexGrow="0" justify="left">
                                 <f:for as="item" each="{menu}" iteration="i">
-                                    <layout:row.item class="{name}__item -stretch-content" width="6">
-                                        <layout:card
-                                                attributes="{data-link-area:''}"
-                                                class="{name}__card -variant-{record.layout}">
-                                            <f:alias map="{person: item.page_persons.0}">
-                                                <div class="{name}__content">
-                                                    <h3 class="{name}__headline">{person.name}</h3>
-                                                    <ul>
-                                                        <f:if condition="{person.position}">
-                                                            <li class="{name}__position">{person.position}</li>
-                                                        </f:if>
-                                                        <f:if condition="{person.phone}">
-                                                            <li><a class="{name}__phone"
-                                                                    href="tel:{person.phone}">{person.phone}</a></li>
-                                                        </f:if>
-                                                        <f:if condition="{person.email}">
-                                                            <li>
-                                                                <f:link.email class="{name}__email" email="{person.email}">
-                                                                    {person.email}
-                                                                </f:link.email>
-                                                            </li>
-                                                        </f:if>
-                                                    </ul>
-                                                </div>
-                                            </f:alias>
-                                        </layout:card>
-                                    </layout:row.item>
+                                    <layout:card
+                                            attributes="{data-link-area:''}"
+                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            width="6">
+                                        <f:alias map="{person: item.page_persons.0}">
+                                            <div class="{name}__content">
+                                                <h3 class="{name}__headline">{person.name}</h3>
+                                                <ul>
+                                                    <f:if condition="{person.position}">
+                                                        <li class="{name}__position">{person.position}</li>
+                                                    </f:if>
+                                                    <f:if condition="{person.phone}">
+                                                        <li><a class="{name}__phone"
+                                                                href="tel:{person.phone}">{person.phone}</a></li>
+                                                    </f:if>
+                                                    <f:if condition="{person.email}">
+                                                        <li>
+                                                            <f:link.email class="{name}__email" email="{person.email}">
+                                                                {person.email}
+                                                            </f:link.email>
+                                                        </li>
+                                                    </f:if>
+                                                </ul>
+                                            </div>
+                                        </f:alias>
+                                    </layout:card>
                                 </f:for>
                             </layout:row>
                         </f:case>
 
                         <f:case value="columns">
                             <layout:row class="{name}__row"
-                                        flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}"
-                                        >
+                                        id="c{record.uid}-list"
+                                        flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}">
                                 <f:for as="item" each="{menu}" iteration="i">
-                                    <layout:row.item class="{name}__item -stretch-content"
-                                                     width="{record.item_column_width}">
-                                        <f:variable name="media"
-                                                    value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
-                                        <div class="{name}__column -variant-{record.layout}"
-                                             data-link-area>
-                                            <layout:media
-                                                    cropVariant="{cropVariant}"
-                                                    itemWidth="{record.media_column_width}"
-                                                    layout="{record.media_layout}"
-                                                    media="{media}"
-                                                    showTitle="0"
-                                                    showDesc="0"
-                                                    mediaWidth="{record.media_column_width}"
-                                                    textWidth="{record.text_column_width}">
-                                                <module:menu.teaser
-                                                        config="{record.menu_item_config}"
-                                                        page="{item}"
-                                                        name="{name}"/>
-                                            </layout:media>
-                                        </div>
-                                    </layout:row.item>
+                                    <f:variable name="media"
+                                                value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
+                                    <div class="{name}__column l-row__item -width-{record.item_column_width} -variant-{record.layout}"
+                                         data-link-area>
+                                        <layout:media
+                                                cropVariant="{cropVariant}"
+                                                itemWidth="{record.media_column_width}"
+                                                layout="{record.media_layout}"
+                                                media="{media}"
+                                                showTitle="0"
+                                                showDesc="0"
+                                                mediaWidth="{record.media_column_width}"
+                                                textWidth="{record.text_column_width}">
+                                            <module:menu.teaser
+                                                    config="{record.menu_item_config}"
+                                                    page="{item}"
+                                                    name="{name}"/>
+                                        </layout:media>
+                                    </div>
                                 </f:for>
                             </layout:row>
                         </f:case>
 
                         <f:defaultCase>
                             <layout:row class="{name}__row"
+                                        id="c{record.uid}-list"
                                         flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}">
 
                                 <f:for as="item" each="{menu}" iteration="i">
-                                    <layout:row.item class="{name}__item -stretch-content"
-                                                     width="{record.item_column_width}">
-                                        <f:variable name="media"
-                                                    value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
-                                        <layout:card
-                                                attributes="{data-link-area:''}"
-                                                class="{name}__card -variant-{record.layout}"
-                                                cropVariant="{cropVariant}"
-                                                media="{media}"
-                                                mediaLayout="{record.media_layout}"
-                                                mediaSize="{record.card_media_size}"
-                                                mediaWidth="{record.media_column_width}"
-                                                width="{record.item_column_width}">
-                                            <module:menu.teaser
-                                                    config="{record.menu_item_config}"
-                                                    page="{item}"
-                                                    name="{name}"/>
-                                        </layout:card>
-                                    </layout:row.item>
+                                    <f:variable name="media"
+                                                value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
+                                    <layout:card
+                                            attributes="{data-link-area:''}"
+                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            cropVariant="{cropVariant}"
+                                            media="{media}"
+                                            mediaLayout="{record.media_layout}"
+                                            mediaSize="{record.card_media_size}"
+                                            mediaWidth="{record.media_column_width}"
+                                            width="{record.item_column_width}">
+                                        <module:menu.teaser
+                                                config="{record.menu_item_config}"
+                                                page="{item}"
+                                                name="{name}"/>
+                                    </layout:card>
                                 </f:for>
                             </layout:row>
                         </f:defaultCase>

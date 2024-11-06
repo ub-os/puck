@@ -34,8 +34,8 @@
       --height-page-header: #{ $page-header-height-mobile }
       --margin-block-page-header: 1rem
 
-    +responsive-size($gutter, --gutter-x)
-    +responsive-size($gutter, --gutter-y)
+    +responsive-size($gutter-x, --gutter-x)
+    +responsive-size($gutter-y, --gutter-y)
 
     @each $size, $value in sizes()
       +responsive-size($value, --size-#{$size})

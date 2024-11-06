@@ -9,6 +9,7 @@
           <div class="{name}"
                id="{sectionId}-filter"
                data-hx-swap="outerHTML"
+               data-hx-focus-after-swap="#{sectionId}-list a"
                data-hx-select="#{sectionId}-body"
                data-hx-target="#{sectionId}-body">
               <ul class="{name}__list">
@@ -16,7 +17,6 @@
                       <li class="{name}__item">
                       <f:if condition="{item.items}">
                           <f:then>
-                              <f:debug>{categoryFilter}</f:debug>
                               <element:dropdown
                                       id="{sectionId}-filter-{i.index}-dropdown"
                                       label="{item.label}">

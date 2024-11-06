@@ -13,6 +13,7 @@
         <ul class="{name}"
             id="{sectionId}-pagination"
             data-hx-swap="outerHTML"
+            data-hx-focus-after-swap="#{sectionId}-list a"
             data-hx-select="#{sectionId}-body"
             data-hx-target="#{sectionId}-body">
           <f:if condition="{pagination.prev}">
@@ -25,7 +26,7 @@
              {pagination.separatorString} 
           </f:if>
           <f:for each="{pagination.items}" as="item" iteration="i">
-            <module:menu.pagination.item item="{item}"  sectionId="{sectionId}"/>
+            <module:menu.pagination.item item="{item}" sectionId="{sectionId}"/>
           </f:for>
           <f:if condition="{pagination.separatorRight}">
              {pagination.separatorString} 

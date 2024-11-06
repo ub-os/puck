@@ -50,11 +50,11 @@
   @return $grid-width + 2 * $gutter-outer
 
 @function column-width()
-  @return math.div(($grid-width - $gutter * grid-gutters()), $grid-columns)
+  @return math.div(($grid-width - $gutter-x * grid-gutters()), $grid-columns)
 
 // helpers
 @function width-by-cols($columns: 12, $grid-padding: false)
-  $result: (column-width() * $columns) + ($gutter * ($columns - 1))
+  $result: (column-width() * $columns) + ($gutter-x * ($columns - 1))
   @if ($grid-padding == true)
     @return $result + (2 * $gutter-outer)
   @else

@@ -63,24 +63,26 @@
                                     showDesc="{showDesc}"/>
                         </f:then>
                         <f:else>
-                            <layout:row class="{name}__media l-row__item -width-{mediaWidth}"
-                                        itemWidth="{itemWidth}" justify="{justify}" align="{align}">
-                                <f:for each="{media}" as="file">
-                                    <element:media
-                                            class="l-row__item"
-                                            name="{name}"
-                                            file="{file}"
-                                            cropVariant="{cropVariant}"
-                                            width="{calcWidth}"
-                                            sources="{
+                            <layout:row.item class="{name}__media" width="{mediaWidth}">
+                                <layout:row class="{name}__media__row"
+                                            itemWidth="{itemWidth}" justify="{justify}" align="{align}">
+                                    <f:for each="{media}" as="file">
+                                        <element:media
+                                                class="l-row__item"
+                                                name="{name}"
+                                                file="{file}"
+                                                cropVariant="{cropVariant}"
+                                                width="{calcWidth}"
+                                                sources="{
                                       xs: {width: 430, cropVariant: cropVariant},
                                       m: {width: 900, cropVariant: cropVariant}
                                       }"
-                                            breakpointSources="1"
-                                            showTitle="{showTitle}"
-                                            showDesc="{showDesc}"/>
-                                </f:for>
-                            </layout:row>
+                                                breakpointSources="1"
+                                                showTitle="{showTitle}"
+                                                showDesc="{showDesc}"/>
+                                    </f:for>
+                                </layout:row>
+                            </layout:row.item>
                         </f:else>
                     </f:if>
             </f:if>
