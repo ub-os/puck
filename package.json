@@ -75,7 +75,7 @@
     "xliff": "^6.2.1"
   },
   "dependencies": {
-    "@oliveoilexpert/stim": "^1.0.1",
+    "@oliveoilexpert/stim": "^1.0.3",
     "@splidejs/splide": "^4.1.4",
     "@splidejs/splide-extension-intersection": "^0.2.0",
     "htmx-ext-head-support": "^2.0.2",
