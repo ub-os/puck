@@ -13,6 +13,11 @@ export default class Dialog extends Showable {
         focusOutHide: true,
         outClickHide: true,
     }
+
+    /**
+     * @return {HTMLDialogElement}
+     */
+    get el() { return super.el }
     onShow(event) {
         this.el.show()
         super.onShow(event);

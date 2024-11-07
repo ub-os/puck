@@ -30,7 +30,7 @@ window.stim = stim
 Object.assign(stim.config, {
     observeAttributes: false,
     observeAspectAttributes: false,
-    customElementPrefix: 'pk-'
+    customElementPrefix: 'pk-',
 })
 
 stim.registerAspect({
@@ -45,7 +45,7 @@ stim.registerAspect({
     MediaPlayer,
     ScrollSensitive,
     FormPage,
-    Root,
+    Root
 })
 
 stim.registerCustomElement([
@@ -53,7 +53,6 @@ stim.registerCustomElement([
     'media-player',
     'root'
 ])
-
 stim.registerSelectorCallback({
     '.l-row': el => {
         if (el.children.length < 3) return

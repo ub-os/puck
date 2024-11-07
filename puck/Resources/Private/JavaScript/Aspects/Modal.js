@@ -13,6 +13,11 @@ export default class Modal extends Showable {
         appendTo: '#modal-container',
         focusOnShow: true,
     }
+
+    /**
+     * @return {HTMLDialogElement}
+     */
+    get el() { return super.el }
     onShow(event) {
         this.el.showModal()
         super.onShow(event);

@@ -77,12 +77,13 @@ export default class Showable extends Aspect {
     this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
   }
   toggle({ transition = true, changeUrlHash = true, trigger = ''}, event = {}) {
-    if (this.active && (!this.switchToggles || (this.switchToggles && event.handlerTarget === this.lastUsedToggle))) {
+    console.log(event.currentTarget)
+    if (this.active && (!this.switchToggles || (this.switchToggles && event.currentTarget === this.lastUsedToggle))) {
       this.hide({ transition, changeUrlHash, trigger })
-      this.lastUsedToggle = event.handlerTarget
+      this.lastUsedToggle = event.currentTarget
     } else if (!this.active) {
       this.show({ transition, trigger })
-      this.lastUsedToggle = event.handlerTarget
+      this.lastUsedToggle = event.currentTarget
     }
   }
   onShow(event) {
