@@ -105,6 +105,18 @@
                         </config>
 
                     </splide.pauseOnHover>
+                    <splide.start>
+                        <TCEforms>
+                            <label>Starting slide index</label>
+                            <config>
+                                <type>number</type>
+                                <default>0</default>
+                                <range>
+                                    <lower>0</lower>
+                                </range>
+                            </config>
+                        </TCEforms>
+                    </splide.start>
                 </el>
             </ROOT>
         </splide>
