@@ -68,3 +68,6 @@ Run the `Admin Tools > Maintenance > Analyze Database Structure` task in the TYP
 #### Setup extension and create distribution database records
 In TYPO3 project root run:
 <pre> vendor/bin/typo3 extension:setup</pre>
+
+#### Override .htaccess
+Replace the contents of the .htaccess file in the root of the TYPO3 project with the contents of root.htaccess.txt in the repository root directory.
