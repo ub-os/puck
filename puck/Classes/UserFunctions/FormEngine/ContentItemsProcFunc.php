@@ -8,8 +8,10 @@ use UBOS\Puck\Domain\Repository\PageRepository;
 /**
  *
  */
-class ContentItemsProcFunc extends BaseItemsProcFunc
+class ContentItemsProcFunc
 {
+    use ItemsProcFuncUtils;
+
     /**
      * @var array|array[]
      */

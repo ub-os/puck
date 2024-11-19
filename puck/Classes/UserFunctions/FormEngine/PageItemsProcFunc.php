@@ -5,10 +5,11 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Domain\Repository\PageRepository;
-use UBOS\Puck\UserFunctions\FormEngine\BaseItemsProcFunc;
 
-class PageItemsProcFunc extends BaseItemsProcFunc
+class PageItemsProcFunc
 {
+    use ItemsProcFuncUtils;
+
     protected array $keepItemsMap = [
     ];
 
@@ -25,7 +26,7 @@ class PageItemsProcFunc extends BaseItemsProcFunc
 
     public function backendLayout(&$params): void
     {
-        $allowedList = $params['TsConfig']['doktypes.'][$this->val($params['row']['doktype'])] ?? '';
+        $allowedList = $params['TSconfig']['doktypes.'][$this->val($params['row']['doktype'])] ?? '';
         $allowedList = GeneralUtility::trimExplode(',', $allowedList, true);
         foreach($allowedList as $key) {
             $params['items'][] = [
