@@ -71,6 +71,9 @@ export default class Showable extends Aspect {
     }
   }
   show({ transition = true, trigger = '' } = {}) {
+    if (this.groupEl) {
+      this.dispatch('toggle-group', { target: this.groupEl, detail: {showTarget: this.el} })
+    }
     this.dispatch('show', { detail: { transition, trigger } })
   }
   hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
@@ -89,9 +92,6 @@ export default class Showable extends Aspect {
     this.active = true
     this.setClass('add', this.activeClass)
     if (event.detail.transition) this.transitionClass(this.activatingClass)
-    if (this.groupEl) {
-      this.dispatch('toggle-group', { target: this.groupEl, detail: {showTarget: this.el} })
-    }
     if (this.focusOnShow) {
       if (this.el.$('[data-autofocus]')) {
         this.el.$('[data-autofocus]').focus()

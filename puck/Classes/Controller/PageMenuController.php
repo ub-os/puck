@@ -72,11 +72,11 @@ class PageMenuController extends ActionController
                     $queryBuilder->expr()->eq('sys_language_uid', $langId),
                 )
                 ->executeQuery()->fetchAssociative();
+            // ensure consistent uid; strict localization mode in non-default languages will return the l18n_parent as uid for the cObj
+            $data['uid'] = $recordUid;
             $this->request->getAttribute('currentContentObject')->data = $data;
             $flexForm = GeneralUtility::makeInstance(FlexFormService::class)
                     ->convertFlexFormContentToArray($data['pi_flexform']);
-            // ensure consistent uid; strict localization mode in non-default languages will return the l18n_parent as uid for the cObj
-            $data['uid'] = $recordUid;
             $this->settings = array_merge($this->settings, $flexForm['settings']);
         }
 

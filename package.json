@@ -72,7 +72,8 @@
     "sass": "^1.80.5",
     "svgstore": "^3.0.1",
     "uglify-js": "^3.19.3",
-    "xliff": "^6.2.1"
+    "xliff": "^6.2.1",
+    "rfs": "^10.0.0"
   },
   "dependencies": {
     "@oliveoilexpert/stim": "^1.0.3",
@@ -83,7 +84,6 @@
     "htmx.org": "^2",
     "normalize.css": "^8.0.1",
     "plyr": "^3.7.8",
-    "rfs": "^10.0.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "browserslist": [
