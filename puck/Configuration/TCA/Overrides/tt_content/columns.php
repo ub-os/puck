@@ -41,25 +41,33 @@ $columns['header_layout'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'disableNoMatchingValueElement' => true,
-        'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+        'items' => [
             // 0 = default
-            ['H2', 0],
-
-            // 20-29 reserved for h2 styles, these styles increase spacing to preceeding element
+            ['label' => 'H2', 'value' => 0, 'group' => 'h2'],
+            // 20-29 reserved for h2 styles, these styles increase spacing to preceding element
             // for example: ['H2 alternative color', 21],
 
             // 25-29 reserved for h2 styles that enable subheader
-            ['H2 in topline style', 25],
+            ['label' => 'H2 in topline style (with subheader)', 'value' => 25, 'group' => 'h2'],
 
-            // 30-39 reserved for h3 styles
-            ['H3', 30],
-            ['H2 in H3-style', 31],
+            // 30-39 reserved for headlines in h3 style, these styles do NOT increase spacing to preceding element
+            ['label' => 'H3', 'value' => 30, 'group' => 'h3'],
+            ['label' => 'H2 in H3-style', 'value' => 31, 'group' => 'h2'],
 
-            ['Paragraph', 50],
+            ['label' => 'Paragraph', 'value' => 50, 'group' => 'other'],
+
+            // 90-99 reserved for screen reader only
+            ['label' => 'H2 screen reader only', 'value' => 90, 'group' => 'h2'],
+            ['label' => 'H3 screen reader only', 'value' => 91, 'group' => 'h3'],
 
             // 100 is hidden and for backend only
-            ['Hidden', 100],
-        ]),
+            ['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'other'],
+        ],
+        'itemGroups' => [
+            'h2' => 'H2',
+            'h3' => 'H3',
+            'other' => 'Other'
+        ],
         'default' => 0
     ],
 ];

@@ -82,6 +82,7 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout']['config'] = array_merge(
         'disableNoMatchingValueElement' => true,
     ]
 );
+
 $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = array_merge(
     $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'],
     [

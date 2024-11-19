@@ -9,7 +9,9 @@
       <f:if condition="{record.header}">
         <f:switch expression="{record.header_layout}">
           <f:case value="25">
-            <h2 class="{name}__headline topline {f:if(condition:'{record.subheader}',then:'-accent')} u-text-{record.header_position} {class}">{record.header -> f:format.raw()}</h2>
+            <h2 class="{name}__headline topline {f:if(condition:'{record.subheader}',then:'-accent')} u-text-{record.header_position} {class}">
+              {record.header -> f:format.raw()}
+            </h2>
           </f:case>
           <f:case value="31">
             <h2 class="{name}__headline h3 u-text-{record.header_position} {class}">{record.header -> f:format.raw()}</h2>
@@ -19,6 +21,12 @@
           </f:case>
           <f:case value="50">
             <p class="{name}__headline u-text-{record.header_position} {class}">{record.header -> f:format.raw()}</p>
+          </f:case>
+          <f:case value="90">
+            <h2 class="sr-only">{record.header -> f:format.raw()}</h2>
+          </f:case>
+          <f:case value="91">
+            <h3 class="sr-only">{record.header -> f:format.raw()}</h3>
           </f:case>
           <f:case value="100">
           </f:case>
