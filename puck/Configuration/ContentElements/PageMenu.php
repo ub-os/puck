@@ -6,6 +6,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     description: 'Plugin to display a menu of pages. Flexible layout options.',
     group: '02_menu',
     icon: 'page_menu',
+    sorting: 110,
     showItem: '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

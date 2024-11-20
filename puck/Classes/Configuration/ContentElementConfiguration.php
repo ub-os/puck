@@ -10,12 +10,29 @@ use UBOS\Puck\Preview\BasicPreviewRenderer;
 
 class ContentElementConfiguration
 {
+    public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
+    {
+        $configurations = [];
+        $files = glob(ExtensionManagementUtility::extPath($extensionName, $folder));
+        foreach ($files as $file) {
+            $return = (include $file);
+            if ($return instanceof ContentElementConfiguration) {
+                $configurations[] = $return;
+            }
+        }
+        usort($configurations, function ($a, $b) {
+            return $a->sorting - $b->sorting;
+        });
+        return $configurations;
+    }
+
     public function __construct(
         public string $type,
         public string $label,
         public string $description,
         public string $group = '01_content',
         public string $icon = 'default',
+        public float  $sorting = 1000,
         public string $showItem = '',
         public array $columnsOverrides = [],
         public string $pluginName = 'Content',
@@ -122,6 +139,7 @@ class ContentElementConfiguration
         string $description,
         string $group = '',
         string $icon = '',
+        float $sorting = 0,
         array $valueOverrides = []
     ): ContentElementConfiguration
     {
@@ -133,6 +151,7 @@ class ContentElementConfiguration
         $this->description = $description;
         $this->group = $group ?: $this->group;
         $this->icon = $icon ?: $this->icon;
+        $this->sorting = $sorting ?: $this->sorting;
         $this->setOverriddenFields($valueOverrides);
         return $this;
     }

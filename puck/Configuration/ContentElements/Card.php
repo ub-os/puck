@@ -5,6 +5,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     label: 'Card',
     description: 'Card child content element.',
     icon: 'card',
+    sorting: 50,
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

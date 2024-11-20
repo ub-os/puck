@@ -5,6 +5,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     label: 'Media column',
     description: 'Text and media child content element.',
     icon: 'media_column',
+    sorting: 40,
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

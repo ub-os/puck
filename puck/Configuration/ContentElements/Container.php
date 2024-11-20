@@ -5,6 +5,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     label: 'Simple container',
     description: 'Container for accordions and other block items.',
     icon: 'container',
+    sorting: 70,
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

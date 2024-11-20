@@ -5,6 +5,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     label: 'Section carousel',
     description: 'Carousel container that slides between section-level content elements.',
     icon: 'section_carousel',
+    sorting: 90,
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

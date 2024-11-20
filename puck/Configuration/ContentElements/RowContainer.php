@@ -5,6 +5,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     label: 'Row container',
     description: 'Container for text and media columns and cards. Flexible alignment and individual column widths.',
     icon: 'row_container',
+    sorting: 80,
     showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,

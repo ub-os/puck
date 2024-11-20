@@ -6,6 +6,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
     description: 'Navigation of on-page anchors.',
     group: '02_menu',
     icon: 'anchor_menu',
+    sorting: 130,
     showItem: '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
