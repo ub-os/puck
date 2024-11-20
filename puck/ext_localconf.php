@@ -3,12 +3,12 @@ defined('TYPO3') or die();
 
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 use UBOS\Puckloader\Loader;
 
 Loader::loadConf('puck');
 
-foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/ContentElements/*.php') as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) as $file) {
     (include $file)?->addTypoScript();
 }
 
@@ -21,10 +21,10 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_header'] = 'EXT:puck/Configu
 
 // Define fluid_components Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
-    'UBOS\\Puck\\Layouts' => ExtensionManagementUtility::extPath('puck', 'Resources/Private/FluidComponents/Layouts'),
-    'UBOS\\Puck\\Elements' => ExtensionManagementUtility::extPath('puck', 'Resources/Private/FluidComponents/Elements'),
-    'UBOS\\Puck\\Modules' => ExtensionManagementUtility::extPath('puck', 'Resources/Private/FluidComponents/Modules'),
-    'UBOS\\Puck\\Icons' => ExtensionManagementUtility::extPath('puck', 'Resources/Private/FluidComponents/Icons')
+    'UBOS\\Puck\\Layouts' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Layouts'),
+    'UBOS\\Puck\\Elements' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Elements'),
+    'UBOS\\Puck\\Modules' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Modules'),
+    'UBOS\\Puck\\Icons' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Icons')
 ];
 
 // Add Global Fluid Namespaces
@@ -49,3 +49,12 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:pu
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#3a3d3a';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
 
+// temporary content_defender <-> container fix, remove when content_defender is updated
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['ColumnConfigurationManipulationHook']['tx_container'] =
+    \B13\Container\ContentDefender\Hooks\ColumnConfigurationManipulationHook::class;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\IchHabRecht\ContentDefender\Hooks\DatamapDataHandlerHook::class] = [
+    'className' => \B13\Container\ContentDefender\Xclasses\DatamapHook::class,
+];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\IchHabRecht\ContentDefender\Hooks\CmdmapDataHandlerHook::class] = [
+    'className' => \B13\Container\ContentDefender\Xclasses\CommandMapHook::class,
+];

@@ -1,11 +1,11 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 
-foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/TCA/Overrides/pages/*.php') as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/pages/*.php')) as $file) {
     include $file;
 }
-foreach (glob(ExtensionManagementUtility::extPath('puck') . 'Configuration/PageTypes/*.php') as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/PageTypes/*.php')) as $file) {
     (include $file)?->addTCA();
 }
 

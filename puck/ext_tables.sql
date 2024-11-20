@@ -7,5 +7,5 @@ CREATE TABLE tt_content (
 );
 
 CREATE TABLE pages (
-  doktype int DEFAULT '0' NOT NULL,
+    doktype int DEFAULT '0' NOT NULL,
 );
