@@ -79,6 +79,7 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout']['config'] = array_merge(
         'itemsProcFunc' => PageItemsProcFunc::class . '->backendLayout',
         'items' => [],
         'default' => 'pagets__default',
+        'dbFieldLength' => 255,
         'disableNoMatchingValueElement' => true,
     ]
 );
@@ -91,6 +92,7 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = arr
             ['label' => 'default', 'value' => 'pagets__default']
         ],
         'default' => 'pagets__default',
+        'dbFieldLength' => 255,
         'disableNoMatchingValueElement' => true,
     ]
 );

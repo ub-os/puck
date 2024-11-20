@@ -6,3 +6,6 @@ CREATE TABLE tt_content (
     item_column_width int DEFAULT '0' NOT NULL,
 );
 
+CREATE TABLE pages (
+  doktype int DEFAULT '0' NOT NULL,
+);
