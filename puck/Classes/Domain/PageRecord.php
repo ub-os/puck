@@ -38,7 +38,10 @@ class PageRecord extends Record
             $p['target'] = '_self';
         }
 
-        $p['link_parameter'] = $this->has('url') && $p['url'] ? $p['url'] : $this->rawRecord->getUid();
+        if ($this->has('url') && $p['url'] instanceof \TYPO3\CMS\Core\Domain\RecordPropertyClosure) {
+            $p['url'] = $p['url']->instantiate();
+        }
+        $p['link_parameter'] = $this->has('url') && $p['url']->url ? $p['url'] : $this->rawRecord->getUid();
         $this->properties = $p;
     }
 
