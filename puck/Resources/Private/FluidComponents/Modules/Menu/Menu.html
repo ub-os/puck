@@ -30,7 +30,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:card
                                             attributes="{data-link-area:''}"
-                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
                                             cropVariant="{cropVariant}"
                                             width="6">
                                         <module:menu.teaser
@@ -49,7 +49,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:card
                                             attributes="{data-link-area:''}"
-                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
                                             cropVariant="{cropVariant}"
                                             width="6">
                                         <module:menu.teaser
@@ -68,7 +68,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <layout:card
                                             attributes="{data-link-area:''}"
-                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
                                             width="6">
                                         <f:alias map="{person: item.page_persons.0}">
                                             <div class="{name}__content">
@@ -103,7 +103,7 @@
                                 <f:for as="item" each="{menu}" iteration="i">
                                     <f:variable name="media"
                                                 value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
-                                    <div class="{name}__column l-row__item -width-{record.item_column_width} -variant-{record.layout}"
+                                    <div class="{name}__column l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"
                                          data-link-area>
                                         <layout:media
                                                 cropVariant="{cropVariant}"
@@ -134,7 +134,7 @@
                                                 value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
                                     <layout:card
                                             attributes="{data-link-area:''}"
-                                            class="{name}__card l-row__item -variant-{record.layout}"
+                                            class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
                                             cropVariant="{cropVariant}"
                                             media="{media}"
                                             mediaLayout="{record.media_layout}"

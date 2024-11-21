@@ -35,13 +35,13 @@
         </f:then>
         <f:else>
           <layout:row justify="space-between" class="{name}__row -layout-{record.media_layout}">
-            <layout:row.item width="5">
+            <layout:row.item width="5" breakpoints="{sm:12}">
               <div class="{name}__content -layout-{record.media_layout}">
                 <element:moduleHeader record="{record}"/>
                 <element:richText text="{record.bodytext}"/>
               </div>
             </layout:row.item>
-            <layout:row.item width="6">
+            <layout:row.item width="6" breakpoints="{sm:12}">
               <element:media
                       name="{name}"
                       class="-layout-{record.media_layout}"

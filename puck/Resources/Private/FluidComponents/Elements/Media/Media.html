@@ -26,7 +26,7 @@
 
         {u:file(get:fileItem, set:'file')}
 
-          <figure class="{name}__figure {class}">
+          <div class="{name}__figure {class}" {f:if(condition:'{showDesc} && {file.description}',then:'role="figure"')}>
 
             <u:var set="mediaContent">
               <f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
@@ -91,10 +91,10 @@
             </f:if>
 
             <f:if condition="{showDesc} && {file.description}">
-              <figcaption class="{name}__file__desc">{file.description}</figcaption>
+              <div class="{name}__file__desc" role="caption">{file.description}</div>
             </f:if>
 
-          </figure>
+          </div>
       </f:for>
     </f:if>
 

@@ -47,14 +47,15 @@
     &:where(.-item-width-#{$i}) > &__item,
     &__item.-width-#{$i}
       +grid-col-width($i)
-      @if ($i < 4)
-        +grid-col-breakpoint(m, 4)
-        +grid-col-breakpoint(xs, 6)
-      @if ($i == 4)
-        +grid-col-breakpoint(m, 6)
-        +grid-col-breakpoint(xs, 12)
-      @if ($i > 4)
-        +grid-col-breakpoint(m, 12)
+      &:where(.-bp-auto)
+        @if ($i < 4)
+          +grid-col-breakpoint(m, 4)
+          +grid-col-breakpoint(xs, 6)
+        @if ($i == 4)
+          +grid-col-breakpoint(m, 6)
+          +grid-col-breakpoint(xs, 12)
+        @if ($i > 4)
+          +grid-col-breakpoint(m, 12)
       @media (max-width(m))
         // text elements should take available width, too complicated with media though
         // flex-grow: 1

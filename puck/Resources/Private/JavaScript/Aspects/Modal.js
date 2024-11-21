@@ -12,6 +12,8 @@ export default class Modal extends Showable {
         escHide: true,
         appendTo: '#modal-container',
         focusOnShow: true,
+        pauseMediaOnHide: true,
+        reloadIframeOnHide: true,
     }
 
     /**

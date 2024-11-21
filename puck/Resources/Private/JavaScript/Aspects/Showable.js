@@ -43,9 +43,9 @@ export default class Showable extends Aspect {
     // target which is checked for outside click
     outTarget: null,
     // media is paused on hide
-    pauseMediaOnHide: true,
+    pauseMediaOnHide: false,
     // iframes are reloaded on hide
-    reloadIframeOnHide: true,
+    reloadIframeOnHide: false,
     // hide only works on the toggle that toggled on
     switchToggles: false,
     alwaysActive: false,
@@ -105,13 +105,13 @@ export default class Showable extends Aspect {
     this.active = false
     this.setClass('remove', this.activeClass)
     if (event.detail.transition) this.transitionClass(this.deactivatingClass)
-    if (this.pauseMediaOnHide && this.mediaChildren) {
-      this.mediaChildren.forEach(item => {
+    if (this.pauseMediaOnHide) {
+      this.el.$$('video, audio').forEach(item => {
         if (item.pause) item.pause()
       })
     }
-    if (this.reloadIframeOnHide && this.iframeChildren) {
-      this.iframeChildren.forEach(item => {
+    if (this.reloadIframeOnHide) {
+      this.el.$$('iframe').forEach(item => {
         if (item.src) {
           let src = item.src
           item.src = src
@@ -134,12 +134,6 @@ export default class Showable extends Aspect {
   connected() {
     this.groupEl = this.groupId ? $id(this.groupId) : null
     this.outEl = this.outTarget ? $target(this.outTarget, 'Showable') : this.el
-    if (this.pauseMediaOnHide) {
-      this.mediaChildren = this.el.$$('video, audio')
-    }
-    if (this.reloadIframeOnHide) {
-      this.iframeChildren = this.el.$$('iframe')
-    }
     this.active ? this.onShow({ detail: {transition: false} }) : this.onHide({ detail: { transition: false, changeUrlHash: false }})
 
     this.handlerSet.add(this.el, `${this.token}:show`, event => window.requestAnimationFrame(() => {

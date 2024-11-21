@@ -4,6 +4,7 @@ export default class Accordion extends Showable {
     static attributes = {
         ...Showable.attributes,
         useMinHeight: false,
+        pauseMediaOnHide: true,
     }
     toggleElementConnected(el) {
         el.ariaControls = this.el.id

@@ -49,40 +49,39 @@
                     <f:if condition="{itemWidth} == {mediaWidth} && {media -> f:count()} == 1">
                         <f:then>
                             <element:media
-                                    class="{name}__media l-row__item -width-{mediaWidth}"
+                                    class="{name}__media l-row__item -bp-auto -width-{mediaWidth}"
                                     name="{name}"
                                     file="{media.0}"
                                     cropVariant="{cropVariant}"
                                     width="{calcWidth}"
                                     sources="{
-                                          xs: {width: 430, cropVariant: cropVariant},
-                                          m: {width: 900, cropVariant: cropVariant}
-                                          }"
+                                      xs: {width: 430, cropVariant: cropVariant},
+                                      m: {width: 900, cropVariant: cropVariant}
+                                      }"
                                     breakpointSources="1"
                                     showTitle="{showTitle}"
                                     showDesc="{showDesc}"/>
                         </f:then>
                         <f:else>
-                            <layout:row.item class="{name}__media" width="{mediaWidth}">
-                                <layout:row class="{name}__media__row"
-                                            itemWidth="{itemWidth}" justify="{justify}" align="{align}">
+                            <layout:row class="{name}__media {name}__media__row l-row__item -bp-auto -width-{mediaWidth}"
+                                        justify="{justify}" align="{align}">
                                     <f:for each="{media}" as="file">
-                                        <element:media
-                                                class="l-row__item"
-                                                name="{name}"
-                                                file="{file}"
-                                                cropVariant="{cropVariant}"
-                                                width="{calcWidth}"
-                                                sources="{
-                                      xs: {width: 430, cropVariant: cropVariant},
-                                      m: {width: 900, cropVariant: cropVariant}
-                                      }"
-                                                breakpointSources="1"
-                                                showTitle="{showTitle}"
-                                                showDesc="{showDesc}"/>
+                                        <layout:row.item width="{itemWidth}">
+                                            <element:media
+                                                    name="{name}"
+                                                    file="{file}"
+                                                    cropVariant="{cropVariant}"
+                                                    width="{calcWidth}"
+                                                    sources="{
+                                                      xs: {width: 430, cropVariant: cropVariant},
+                                                      m: {width: 900, cropVariant: cropVariant}
+                                                      }"
+                                                    breakpointSources="1"
+                                                    showTitle="{showTitle}"
+                                                    showDesc="{showDesc}"/>
+                                        </layout:row.item>
                                     </f:for>
                                 </layout:row>
-                            </layout:row.item>
                         </f:else>
                     </f:if>
             </f:if>
