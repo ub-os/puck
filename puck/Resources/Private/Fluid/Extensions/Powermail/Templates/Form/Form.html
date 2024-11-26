@@ -2,7 +2,6 @@
 <html>
 
 {u:var(set:'name', value:'m-powermail-form')}
-{u:model(set:'record', data:ttContentData, map:'~Content\PowermailForm')}
 <module:text record="{ttContentData}">
     <f:alias map="{flashMessageClass:'powermail_message_error'}">
         <f:render partial="Misc/FlashMessages" arguments="{_all}" />
@@ -39,7 +38,6 @@
                         <f:render partial="Form/Page" arguments="{_all}" />
                     </f:for>
                 </div>
-
 
                 <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid" respectSubmittedDataValue="false" />
                 <f:render partial="Misc/HoneyPod" arguments="{form:form}"/>
