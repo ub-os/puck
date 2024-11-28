@@ -55,7 +55,7 @@ const resolveFocusAfterSwap = () => {
 
 on("htmx:beforeRequest", (event) => {
     setFocusAfterSwapSelector()
-    if (event.target.tagName === "A" && event.target.pathname === window.location.pathname) {
+    if (event.target.tagName === "A" && event.target.pathname === window.location.pathname && event.target.search === window.location.search) {
         event.preventDefault()
         Logger.console.log('prevent htmx navigation to same page')
     }

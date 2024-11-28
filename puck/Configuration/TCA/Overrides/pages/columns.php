@@ -43,7 +43,10 @@ $GLOBALS['TCA']['pages']['columns']['post_date'] = [
     'config' => [
         'type' => 'input',
         'renderType' => 'datetime',
-        'size' => 16
+        'size' => 16,
+        'behaviour' => [
+            'allowLanguageSynchronization' => true
+        ]
     ],
 ];
 $GLOBALS['TCA']['pages']['columns']['post_author'] = [

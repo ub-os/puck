@@ -46,12 +46,16 @@ class FileViewHelper extends AbstractViewHelper
             try {
                 return $resourceFactory->getFileObject($file);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return false;
             }
         }
         if (is_string($file)) {
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-            return $resourceFactory->getFileObjectFromCombinedIdentifier($file);
+            try {
+                return $resourceFactory->getFileObjectFromCombinedIdentifier($file);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
         if (is_object($file)) {
             if (get_class($file) === 'SMS\FluidComponents\Domain\Model\FalFile') {

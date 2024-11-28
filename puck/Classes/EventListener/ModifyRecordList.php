@@ -32,9 +32,10 @@ final class ModifyRecordList {
         $currentTable = $event->getTable();
         if ($currentTable === 'pages') {
             $currentRecord = $event->getRecord();
+            $uid = $currentRecord['l10n_parent'] ?: $currentRecord['uid'];
             $uri = $this->uriBuilder->buildUriFromRoute(
                 'web_layout',
-                ['id' => $currentRecord['uid']]
+                ['id' => $uid, 'language' => $currentRecord['sys_language_uid']]
             );
             $icon = $this->iconFactory->getIcon('actions-document', IconSize::SMALL);
             $event->setAction(
