@@ -70,10 +70,7 @@ class StringViewHelper extends AbstractViewHelper
     }
     protected static function search(string $string, string $search, array $args): bool|string
     {
-        if ($args['replace']) {
-            return str_replace($search, $args['replace'], $string);
-        }
-        return str_contains($string, $search);
+        return str_replace($search, $args['replace'], $string);
     }
 
     protected static function dataReplace(string $string, array $dataReplace): string

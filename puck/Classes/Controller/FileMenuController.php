@@ -3,6 +3,7 @@
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -11,6 +12,13 @@ use UBOS\Puckloader\Attribute\Plugin;
 class FileMenuController extends ActionController
 {
     use ContentControllerViewPreparationTrait;
+
+    public function __construct(
+        protected ResourceFactory $resourceFactory
+    )
+    {
+    }
+
     #[Plugin("FileMenu")]
     public function fileMenuAction(): ResponseInterface
     {
@@ -18,11 +26,13 @@ class FileMenuController extends ActionController
         $record = $this->viewVariables['record'];
         $menu = [];
         foreach($record->get('media') as $file) {
-            $menu[] = $file;
+            $menu[$file->getIdentifier()] = $file;
         }
-        foreach($record->get('file_collections') as $fileCollection) {
-            foreach($fileCollection->get('files') as $file) {
-                $menu[] = $file;
+        foreach($record->get('file_collections') as $collectionRecord) {
+            $collectionDomainObject = $this->resourceFactory->createCollectionObject($collectionRecord->getRawRecord()->toArray());
+            $collectionDomainObject->loadContents();
+            foreach($collectionDomainObject->getItems() as $file) {
+                $menu[$file->getIdentifier()] = $file;
             }
         }
         $menu = $this->sortMenu(
