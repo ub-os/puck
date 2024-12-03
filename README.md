@@ -45,10 +45,6 @@ npm run build
     {
         "url": "https://github.com/oliveoilexpert/puckloader.git",
         "type": "git"
-    },
-    {
-        "url": "https://github.com/b13/menus.git",
-        "type": "git"
     }
 ],
 "prefer-stable": true,
