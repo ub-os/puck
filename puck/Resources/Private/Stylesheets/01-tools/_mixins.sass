@@ -25,7 +25,7 @@
   flex-shrink: 0
   max-width: 100%
   flex-basis: auto
-  width: calc((100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1))
+  width: round(down, (100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1), 1px)
   +grid-col-width($width, $row-width)
 
 =grid-col-width($width, $row-width: var(--row-width))
