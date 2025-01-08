@@ -1,20 +1,24 @@
-
-const disabledConsole = {}
-for(let prop in console) {
-    if(typeof console[prop] == "function") {
-        disabledConsole[prop] = () => {}
-    }
+class Logger {
+	disabledConsole = {}
+	enabled = false
+	get console() {
+		return this.enabled ? console : this.disabledConsole
+	}
+	constructor() {
+		for (const prop in console) {
+			if (typeof console[prop] == 'function') {
+				this.disabledConsole[prop] = () => {}
+			}
+		}
+	}
+	enable() {
+		this.enabled = true
+	}
+	disable() {
+		this.enabled = false
+	}
 }
-export default class Logger {
-    static enabled = false
-    static enable() {
-        this.enabled = true
-    }
-    static disable() {
-        this.enabled = false
-    }
-    static get console() {
-        return this.enabled ? console : disabledConsole
-    }
-}
-if (document.getElementById('root').getAttribute('data-logger') === 'enabled') Logger.enable()
+const logger = new Logger()
+export default logger
+if (document.getElementById('root').getAttribute('data-logger') === 'enabled')
+	logger.enable()

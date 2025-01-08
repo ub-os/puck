@@ -1,43 +1,44 @@
 {
-  "name": "ubos/puck",
-  "type": "typo3-cms-extension",
-  "description": "Puck",
-  "license": "GPL-2.0-or-later",
-  "version": "1.0.0",
-  "requiresNotReadyForV13": {
-    "christophlehmann/pagetreefilter": "^2",
-    "oliveoilexpert/puck-powermail": "*",
-    "t3/scroll": "^2"
-  },
-  "require": {
-    "php": "^8",
-    "phpoffice/phpspreadsheet": "^1.27",
-    "typo3/cms-core": "^13",
-    "typo3/cms-lowlevel": "^13",
-    "typo3/cms-redirects": "^13",
-    "typo3/cms-recycler": "^13",
-    "sitegeist/fluid-components": "^3.8",
-    "eliashaeussler/typo3-warming": "^3",
-    "brotkrueml/schema": "^3",
-    "b13/container": "^3",
-    "oliveoilexpert/puckloader": "^0.1.4",
-    "oliveoilexpert/content-presets": "^1.0",
-    "oliveoilexpert/ckeditor-icons": "^0.2",
-    "b13/menus": "^1",
-    "ichhabrecht/content-defender": "^3.5",
-    "wapplersystems/avif": "*"
-  },
-  "replace": {
-    "typo3-ter/puck": "self.version"
-  },
-  "autoload": {
-    "psr-4": {
-      "UBOS\\Puck\\": "Classes/"
-    }
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "puck"
-    }
-  }
+	"name": "ubos/puck",
+	"type": "typo3-cms-extension",
+	"description": "Puck",
+	"license": "GPL-2.0-or-later",
+	"version": "1.0.0",
+	"requiresNotReadyForV13": {
+		"christophlehmann/pagetreefilter": "^2",
+		"oliveoilexpert/puck-powermail": "*",
+		"t3/scroll": "^2"
+	},
+	"require": {
+		"php": "^8",
+		"phpoffice/phpspreadsheet": "^1.27",
+		"typo3/cms-core": "^13",
+		"typo3/cms-lowlevel": "^13",
+		"typo3/cms-redirects": "^13",
+		"typo3/cms-recycler": "^13",
+		"sitegeist/fluid-components": "^3.8",
+		"eliashaeussler/typo3-warming": "^3",
+		"brotkrueml/schema": "^3",
+		"b13/container": "^3",
+		"oliveoilexpert/puckloader": "^0.1.4",
+		"oliveoilexpert/content-presets": "^1.0",
+		"oliveoilexpert/ckeditor-icons": "^0.2",
+		"b13/menus": "^1",
+		"ichhabrecht/content-defender": "^3.5",
+		"wapplersystems/avif": "*",
+		"wapplersystems/save_and_close": "^13"
+	},
+	"replace": {
+		"typo3-ter/puck": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"UBOS\\Puck\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "puck"
+		}
+	}
 }
