@@ -21,6 +21,7 @@ export default class ScrollSensitive extends Aspect {
 	}
 
 	handlerSet = new EventHandlerSet()
+
 	observerCallback(entry, observer) {
 		if (entry.rootBounds === null) return
 		for (const side of ['top', 'bottom']) {

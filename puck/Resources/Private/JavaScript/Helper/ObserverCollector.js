@@ -200,7 +200,13 @@ class ObserverCollector {
 		return {
 			id,
 			add(target, opts = defaultOpts) {
-				return self.#observe({ obsName, target, opts, callbackId: id, id: '' })
+				return self.#observe({
+					obsName,
+					target,
+					opts,
+					callbackId: id,
+					id: '',
+				})
 			},
 			addById(id, target, opts = defaultOpts) {
 				return self.#observe({ obsName, target, opts, callbackId: id, id })
