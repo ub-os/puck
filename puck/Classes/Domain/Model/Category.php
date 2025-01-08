@@ -10,24 +10,24 @@ use UBOS\Puckloader\Attribute\ModelPersistence;
 #[ModelPersistence("sys_category")]
 class Category extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public string $title = '';
+	/**
+	 * @var string
+	 */
+	public string $title = '';
 
-    /**
-     * @var ObjectStorage<Category>|null
-     */
-    #[Lazy]
-    protected ?ObjectStorage $parent = null;
+	/**
+	 * @var ObjectStorage<Category>|null
+	 */
+	#[Lazy]
+	protected ?ObjectStorage $parent = null;
 
-    /**
-     * @var string
-     */
-    public string $slug = '';
+	/**
+	 * @var string
+	 */
+	public string $slug = '';
 
-    public function getParent(): ?Category
-    {
-        return $this->parent?->current();
-    }
+	public function getParent(): ?Category
+	{
+		return $this->parent?->current();
+	}
 }

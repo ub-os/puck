@@ -6,12 +6,13 @@ use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 
 class NothingMapper implements StaticMappableAspectInterface
 {
-    public function generate(string $value): ?string
-    {
-        return $value;
-    }
-    public function resolve(string $value): ?string
-    {
-        return $value;
-    }
+	public function generate(string $value): ?string
+	{
+		return $value;
+	}
+
+	public function resolve(string $value): ?string
+	{
+		return $value;
+	}
 }

@@ -7,5 +7,5 @@ use UBOS\Puck\Menu\Dto\MenuDemand;
 
 interface MenuDemandRepository
 {
-    public function findByMenuDemand(MenuDemand $demand) : QueryResult|array;
+	public function findByMenuDemand(MenuDemand $demand): QueryResult|array;
 }

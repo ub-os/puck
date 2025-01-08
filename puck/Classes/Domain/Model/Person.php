@@ -11,64 +11,64 @@ use UBOS\Puckloader\Attribute\ModelPersistence;
 #[ModelPersistence("tx_puck_domain_model_person")]
 class Person extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public string $name = '';
+	/**
+	 * @var string
+	 */
+	public string $name = '';
 
-    /**
-     * @var string
-     */
-    public string $slug = '';
+	/**
+	 * @var string
+	 */
+	public string $slug = '';
 
-    /**
-     * @var int
-     */
-    public int $isTeamMember = 0;
+	/**
+	 * @var int
+	 */
+	public int $isTeamMember = 0;
 
-    /**
-     * @var string
-     */
-    public string $description = '';
+	/**
+	 * @var string
+	 */
+	public string $description = '';
 
-    /**
-     * @var string
-     */
-    public string $position = '';
+	/**
+	 * @var string
+	 */
+	public string $position = '';
 
-    /**
-     * @var string
-     */
-    public string $email = '';
+	/**
+	 * @var string
+	 */
+	public string $email = '';
 
-    /**
-     * @var string
-     */
-    public string $phone = '';
+	/**
+	 * @var string
+	 */
+	public string $phone = '';
 
-    /**
-     * @var ObjectStorage<Page>|null
-     * @Lazy
-     */
-    public ObjectStorage|null $pages = null;
+	/**
+	 * @var ObjectStorage<Page>|null
+	 * @Lazy
+	 */
+	public ObjectStorage|null $pages = null;
 
-    /**
-     * @var string
-     */
-    public string $link = '';
+	/**
+	 * @var string
+	 */
+	public string $link = '';
 
-    /**
-     * @var string
-     */
-    public string $linkLinkedin = '';
+	/**
+	 * @var string
+	 */
+	public string $linkLinkedin = '';
 
-    /**
-     * @var string
-     */
-    public string $linkXing = '';
+	/**
+	 * @var string
+	 */
+	public string $linkXing = '';
 
-    /**
-     * @var ObjectStorage<FileReference>|null
-     */
-    public ObjectStorage|null $assets = null;
+	/**
+	 * @var ObjectStorage<FileReference>|null
+	 */
+	public ObjectStorage|null $assets = null;
 }

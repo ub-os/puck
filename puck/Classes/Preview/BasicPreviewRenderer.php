@@ -23,140 +23,141 @@ use B13\Container\Tca\Registry;
 
 class BasicPreviewRenderer implements PreviewRendererInterface
 {
-    protected ViewInterface $view;
-    protected RecordFactory $recordFactory;
-    public function __construct()
-    {
-        $this->view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(
-            new ViewFactoryData(
-                templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates/ContentPreview/'],
-                partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials/ContentPreview/'],
-            )
-        );
-        $this->recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
-    }
+	protected ViewInterface $view;
+	protected RecordFactory $recordFactory;
 
-    public function renderPageModulePreviewHeader(GridColumnItem $item): string
-    {
-        $record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
-        $this->view->assign('item', $item);
-        $this->view->assign('record', $record);
-        $this->view->assign('editLink', $this->getEditLink($record));
-        return $this->view->render('Header');
-    }
+	public function __construct()
+	{
+		$this->view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(
+			new ViewFactoryData(
+				templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates/ContentPreview/'],
+				partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials/ContentPreview/'],
+			)
+		);
+		$this->recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
+	}
 
-    public function renderPageModulePreviewContent(GridColumnItem $item): string
-    {
-        $record = $item->getRecord();
+	public function renderPageModulePreviewHeader(GridColumnItem $item): string
+	{
+		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
+		$this->view->assign('item', $item);
+		$this->view->assign('record', $record);
+		$this->view->assign('editLink', $this->getEditLink($record));
+		return $this->view->render('Header');
+	}
 
-        // check if the record is a container element, if so, render the container preview
-        $containerPreview = '';
-        $containerRegistry = GeneralUtility::makeInstance(Registry::class);
-        if ($containerRegistry->isContainerElement($record['CType'])) {
-            $containerPreviewRenderer = GeneralUtility::makeInstance(ContainerPreviewRenderer::class);
-            $containerPreview = $containerPreviewRenderer->renderPageModulePreviewContent($item);
-        }
+	public function renderPageModulePreviewContent(GridColumnItem $item): string
+	{
+		$record = $item->getRecord();
 
-        $item->setRecord($record);
+		// check if the record is a container element, if so, render the container preview
+		$containerPreview = '';
+		$containerRegistry = GeneralUtility::makeInstance(Registry::class);
+		if ($containerRegistry->isContainerElement($record['CType'])) {
+			$containerPreviewRenderer = GeneralUtility::makeInstance(ContainerPreviewRenderer::class);
+			$containerPreview = $containerPreviewRenderer->renderPageModulePreviewContent($item);
+		}
 
-        $record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
-        $thumbnailHtml = '';
-        foreach (['media', 'image', 'assets'] as $fieldName) {
-            if ($record->has($fieldName) && $record->get($fieldName)) {
-                $thumbnailHtml .= $this->getThumbCodeUnlinked($record->get($fieldName));
-            }
-        }
+		$item->setRecord($record);
 
-        $this->view->assign('item', $item);
-        $this->view->assign('record', $record);
-        $this->view->assign('editLink', $this->getEditLink($record));
-        $this->view->assign('thumbnailHtml', $thumbnailHtml);
-        return $this->view->render('Content') . $containerPreview;
-    }
+		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
+		$thumbnailHtml = '';
+		foreach (['media', 'image', 'assets'] as $fieldName) {
+			if ($record->has($fieldName) && $record->get($fieldName)) {
+				$thumbnailHtml .= $this->getThumbCodeUnlinked($record->get($fieldName));
+			}
+		}
 
-    public function renderPageModulePreviewFooter(GridColumnItem $item): string
-    {
-        $this->view->assign('item', $item);
-        $this->view->assign('record', $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord()));
-        return $this->view->render('Footer');
-    }
+		$this->view->assign('item', $item);
+		$this->view->assign('record', $record);
+		$this->view->assign('editLink', $this->getEditLink($record));
+		$this->view->assign('thumbnailHtml', $thumbnailHtml);
+		return $this->view->render('Content') . $containerPreview;
+	}
 
-    public function wrapPageModulePreview(string $header, string $content, GridColumnItem $item): string
-    {
-        return $header . $content;
-    }
+	public function renderPageModulePreviewFooter(GridColumnItem $item): string
+	{
+		$this->view->assign('item', $item);
+		$this->view->assign('record', $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord()));
+		return $this->view->render('Footer');
+	}
 
-    protected function getEditLink($record): string
-    {
-        return GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', [
-            'edit' => [
-                'tt_content' => [
-                    $record->getUid() => 'edit'
-                ]
-            ],
-            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
-        ]);
-    }
+	public function wrapPageModulePreview(string $header, string $content, GridColumnItem $item): string
+	{
+		return $header . $content;
+	}
 
-    protected function getThumbCodeUnlinked(iterable|FileReference $fileReferences, $size = 128): string
-    {
-        $thumbData = '';
-        $fileReferences = $fileReferences instanceof FileReference ? [$fileReferences] : $fileReferences;
-        foreach ($fileReferences as $fileReferenceObject) {
-            // Do not show previews of hidden references
-            if ($fileReferenceObject->getProperty('hidden')) {
-                continue;
-            }
-            $fileObject = $fileReferenceObject->getOriginalFile();
-            if ($fileObject->isMissing()) {
-                $missingFileIcon = $this->getIconFactory()
-                    ->getIcon('mimetypes-other-other', IconSize::MEDIUM, 'overlay-missing')
-                    ->setTitle(static::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:warning.file_missing') . ' ' . $fileObject->getName())
-                    ->render();
-                $thumbData .= '<div class="preview-thumbnails-element"><div class="preview-thumbnails-element-image">' . $missingFileIcon . '</div></div>';
-                continue;
-            }
+	protected function getEditLink($record): string
+	{
+		return GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', [
+			'edit' => [
+				'tt_content' => [
+					$record->getUid() => 'edit'
+				]
+			],
+			'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+		]);
+	}
 
-            $imgTag = '';
-            // Preview web image or media elements
-            if ($GLOBALS['TYPO3_CONF_VARS']['GFX']['thumbnails']
-                && ($fileReferenceObject->getOriginalFile()->isImage() || $fileReferenceObject->getOriginalFile()->isMediaFile())
-            ) {
-                $cropVariantCollection = CropVariantCollection::create((string)$fileReferenceObject->getProperty('crop'));
-                $cropArea = $cropVariantCollection->getCropArea();
-                $taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
-                $processingConfiguration = [
-                    'width' => $size,
-                    'height' => $size,
-                ];
-                if (!$cropArea->isEmpty()) {
-                    $taskType = ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
-                    $processingConfiguration = [
-                        'maxWidth' => $size,
-                        'maxHeight' => $size,
-                        'crop' => $cropArea->makeAbsoluteBasedOnFile($fileReferenceObject),
-                    ];
-                }
-                $processedImage = $fileObject->process($taskType, $processingConfiguration);
-                $attributes = [
-                    'src' => $processedImage->getPublicUrl() ?? '',
-                    'width' => $processedImage->getProperty('width'),
-                    'height' => $processedImage->getProperty('height'),
-                    'alt' => $fileReferenceObject->getAlternative() ?: $fileReferenceObject->getName(),
-                    'loading' => 'lazy',
-                ];
-                $imgTag .= '<img ' . GeneralUtility::implodeAttributes($attributes, true) . '/>';
-            } else {
-            }
-            $imgTag .= $this->getIconFactory()->getIconForResource($fileObject)->setTitle($fileObject->getName())->render();
-            $thumbData .= '<div class="preview-thumbnails-element"><div class="preview-thumbnails-element-image">' . $imgTag . '</div></div>';
-        }
+	protected function getThumbCodeUnlinked(iterable|FileReference $fileReferences, $size = 128): string
+	{
+		$thumbData = '';
+		$fileReferences = $fileReferences instanceof FileReference ? [$fileReferences] : $fileReferences;
+		foreach ($fileReferences as $fileReferenceObject) {
+			// Do not show previews of hidden references
+			if ($fileReferenceObject->getProperty('hidden')) {
+				continue;
+			}
+			$fileObject = $fileReferenceObject->getOriginalFile();
+			if ($fileObject->isMissing()) {
+				$missingFileIcon = $this->getIconFactory()
+					->getIcon('mimetypes-other-other', IconSize::MEDIUM, 'overlay-missing')
+					->setTitle(static::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:warning.file_missing') . ' ' . $fileObject->getName())
+					->render();
+				$thumbData .= '<div class="preview-thumbnails-element"><div class="preview-thumbnails-element-image">' . $missingFileIcon . '</div></div>';
+				continue;
+			}
 
-        return $thumbData ? '<div class="preview-thumbnails" style="--preview-thumbnails-size: '.$size.'px">' . $thumbData . '</div>' : '';
-    }
+			$imgTag = '';
+			// Preview web image or media elements
+			if ($GLOBALS['TYPO3_CONF_VARS']['GFX']['thumbnails']
+				&& ($fileReferenceObject->getOriginalFile()->isImage() || $fileReferenceObject->getOriginalFile()->isMediaFile())
+			) {
+				$cropVariantCollection = CropVariantCollection::create((string)$fileReferenceObject->getProperty('crop'));
+				$cropArea = $cropVariantCollection->getCropArea();
+				$taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
+				$processingConfiguration = [
+					'width' => $size,
+					'height' => $size,
+				];
+				if (!$cropArea->isEmpty()) {
+					$taskType = ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
+					$processingConfiguration = [
+						'maxWidth' => $size,
+						'maxHeight' => $size,
+						'crop' => $cropArea->makeAbsoluteBasedOnFile($fileReferenceObject),
+					];
+				}
+				$processedImage = $fileObject->process($taskType, $processingConfiguration);
+				$attributes = [
+					'src' => $processedImage->getPublicUrl() ?? '',
+					'width' => $processedImage->getProperty('width'),
+					'height' => $processedImage->getProperty('height'),
+					'alt' => $fileReferenceObject->getAlternative() ?: $fileReferenceObject->getName(),
+					'loading' => 'lazy',
+				];
+				$imgTag .= '<img ' . GeneralUtility::implodeAttributes($attributes, true) . '/>';
+			} else {
+			}
+			$imgTag .= $this->getIconFactory()->getIconForResource($fileObject)->setTitle($fileObject->getName())->render();
+			$thumbData .= '<div class="preview-thumbnails-element"><div class="preview-thumbnails-element-image">' . $imgTag . '</div></div>';
+		}
 
-    protected function getIconFactory(): IconFactory
-    {
-        return GeneralUtility::makeInstance(IconFactory::class);
-    }
+		return $thumbData ? '<div class="preview-thumbnails" style="--preview-thumbnails-size: ' . $size . 'px">' . $thumbData . '</div>' : '';
+	}
+
+	protected function getIconFactory(): IconFactory
+	{
+		return GeneralUtility::makeInstance(IconFactory::class);
+	}
 }

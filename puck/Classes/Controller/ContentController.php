@@ -12,14 +12,15 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class ContentController extends ActionController
 {
-    use ContentControllerViewPreparationTrait;
-    #[Plugin("Content")]
-    public function indexAction(): ResponseInterface
-    {
-        $this->prepareContentView();
-        $context = $this->view->getRenderingContext();
-        $context->setControllerAction($this->settings['templateName']);
-        $this->view->setRenderingContext($context);
-        return $this->htmlResponse();
-    }
+	use ContentControllerViewPreparationTrait;
+
+	#[Plugin("Content")]
+	public function indexAction(): ResponseInterface
+	{
+		$this->prepareContentView();
+		$context = $this->view->getRenderingContext();
+		$context->setControllerAction($this->settings['templateName']);
+		$this->view->setRenderingContext($context);
+		return $this->htmlResponse();
+	}
 }

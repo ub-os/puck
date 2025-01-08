@@ -11,22 +11,22 @@ use UBOS\Puck\Domain\PageRecord;
 final class RecordCreation
 {
 
-    #[AsEventListener]
-    public function __invoke(RecordCreationEvent $event): void
-    {
-        if ($event->getRawRecord()->getMainType() === 'tt_content') {
-            $event->setRecord(new ContentRecord(
-                $event->getRawRecord(),
-                $event->getProperties(),
-                $event->getSystemProperties()
-            ));
-        }
-        if ($event->getRawRecord()->getMainType() === 'pages') {
-            $event->setRecord(new PageRecord(
-                $event->getRawRecord(),
-                $event->getProperties(),
-                $event->getSystemProperties()
-            ));
-        }
-    }
+	#[AsEventListener]
+	public function __invoke(RecordCreationEvent $event): void
+	{
+		if ($event->getRawRecord()->getMainType() === 'tt_content') {
+			$event->setRecord(new ContentRecord(
+				$event->getRawRecord(),
+				$event->getProperties(),
+				$event->getSystemProperties()
+			));
+		}
+		if ($event->getRawRecord()->getMainType() === 'pages') {
+			$event->setRecord(new PageRecord(
+				$event->getRawRecord(),
+				$event->getProperties(),
+				$event->getSystemProperties()
+			));
+		}
+	}
 }

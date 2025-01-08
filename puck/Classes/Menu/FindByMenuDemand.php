@@ -12,128 +12,128 @@ use UBOS\Puck\Menu\Dto\MenuDemand;
 
 trait FindByMenuDemand
 {
-    abstract public function createQuery();
+	abstract public function createQuery();
 
-    public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
-    {
-        return [];
-    }
+	public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
+	{
+		return [];
+	}
 
-    public function map(array $rows): array
-    {
-        return GeneralUtility::makeInstance(DataMapper::class)->map($this->objectType, $rows);
-    }
+	public function map(array $rows): array
+	{
+		return GeneralUtility::makeInstance(DataMapper::class)->map($this->objectType, $rows);
+	}
 
-    public function findByMenuDemand(MenuDemand $demand, bool $returnRawQueryResult = false) : array
-    {
-        $query = $this->createQuery();
-        $constraints = $this->additionalMenuDemandConstraints($query, $demand->additionalSettings);
-        $pidUidConstraints = [];
-        if ($demand->records) {
-            foreach (explode(',', $demand->records) as $key => $value) {
-                $pidUidConstraints[] = $query->equals('uid', $value);
-                $pidUidConstraints[] = $query->equals('l10n_parent', $value);
-            }
-        }
-        if ($demand->parents) {
-            foreach (explode(',', $demand->parents) as $key => $value) {
-                $pidUidConstraints[] = $query->equals('pid', $value);
-            }
-        }
-        if ($pidUidConstraints) {
-            // to do update, logicalOr needs multiple arguments of type ConstraintInterface
-            $constraints[] = $query->logicalOr(...$pidUidConstraints);
-        }
+	public function findByMenuDemand(MenuDemand $demand, bool $returnRawQueryResult = false): array
+	{
+		$query = $this->createQuery();
+		$constraints = $this->additionalMenuDemandConstraints($query, $demand->additionalSettings);
+		$pidUidConstraints = [];
+		if ($demand->records) {
+			foreach (explode(',', $demand->records) as $key => $value) {
+				$pidUidConstraints[] = $query->equals('uid', $value);
+				$pidUidConstraints[] = $query->equals('l10n_parent', $value);
+			}
+		}
+		if ($demand->parents) {
+			foreach (explode(',', $demand->parents) as $key => $value) {
+				$pidUidConstraints[] = $query->equals('pid', $value);
+			}
+		}
+		if ($pidUidConstraints) {
+			// to do update, logicalOr needs multiple arguments of type ConstraintInterface
+			$constraints[] = $query->logicalOr(...$pidUidConstraints);
+		}
 
-        $categoriesConstraints = [];
-        foreach ($demand->categories as $key => $group) {
-            if ($group['uids'] ?? '') {
-                $categoriesConstraints[] = $this->createCategoryConstraint($query, $group['uids'] ?? '', $group['conjunction'] ?? 'or');
-            }
-        }
-        if ($categoriesConstraints) {
-            $constraints[] = match (strtolower($demand->categoriesConjunction)) {
-                'or' => $query->logicalOr(...$categoriesConstraints),
-                'and' => $query->logicalAnd(...$categoriesConstraints),
-                'notor' => $query->logicalNot($query->logicalOr(...$categoriesConstraints)),
-                'notand' => $query->logicalNot($query->logicalAnd(...$categoriesConstraints))
-            };
-        }
+		$categoriesConstraints = [];
+		foreach ($demand->categories as $key => $group) {
+			if ($group['uids'] ?? '') {
+				$categoriesConstraints[] = $this->createCategoryConstraint($query, $group['uids'] ?? '', $group['conjunction'] ?? 'or');
+			}
+		}
+		if ($categoriesConstraints) {
+			$constraints[] = match (strtolower($demand->categoriesConjunction)) {
+				'or' => $query->logicalOr(...$categoriesConstraints),
+				'and' => $query->logicalAnd(...$categoriesConstraints),
+				'notor' => $query->logicalNot($query->logicalOr(...$categoriesConstraints)),
+				'notand' => $query->logicalNot($query->logicalAnd(...$categoriesConstraints))
+			};
+		}
 
-        if ($demand->limit) {
-            $query->setLimit($demand->limit);
-        }
-        if ($demand->offset) {
-            $query->setOffset($demand->offset);
-        }
-        $orderDirection = $demand->orderDirection === 'desc' ? QueryInterface::ORDER_DESCENDING : QueryInterface::ORDER_ASCENDING;
-        $query->setOrderings([$demand->orderField => $orderDirection, 'sorting' => $orderDirection]);
-        if (!$constraints) {
-            $constraints[] = $query->greaterThan('uid', 0);
-        }
+		if ($demand->limit) {
+			$query->setLimit($demand->limit);
+		}
+		if ($demand->offset) {
+			$query->setOffset($demand->offset);
+		}
+		$orderDirection = $demand->orderDirection === 'desc' ? QueryInterface::ORDER_DESCENDING : QueryInterface::ORDER_ASCENDING;
+		$query->setOrderings([$demand->orderField => $orderDirection, 'sorting' => $orderDirection]);
+		if (!$constraints) {
+			$constraints[] = $query->greaterThan('uid', 0);
+		}
 
-        // to do update, logicalAnd needs multiple arguments of type ConstraintInterface
-        $records = $query->matching($query->logicalAnd(...$constraints))->execute($returnRawQueryResult);
-        if (!$returnRawQueryResult) {
-            $records = $records->toArray();
-        }
+		// to do update, logicalAnd needs multiple arguments of type ConstraintInterface
+		$records = $query->matching($query->logicalAnd(...$constraints))->execute($returnRawQueryResult);
+		if (!$returnRawQueryResult) {
+			$records = $records->toArray();
+		}
 
-        if ($demand->orderByRecordsProperty) {
-            $recordUids = explode(',', $demand->records);
-            $notInUidsIterator = 0;
-            $newArray = [];
-            foreach ($records as $record) {
-                $uid = is_array($record) ? $record['uid'] : $record->getUid();
-                $selectionPosition = array_search($uid, $recordUids);
-                if ($selectionPosition !== false) {
-                    $newArray[$selectionPosition] = $record;
-                } else {
-                    $newArray[count($recordUids) + $notInUidsIterator] = $record;
-                    $notInUidsIterator++;
-                }
-            }
-            ksort($newArray);
-            return $newArray;
-        }
-        return $records;
-    }
+		if ($demand->orderByRecordsProperty) {
+			$recordUids = explode(',', $demand->records);
+			$notInUidsIterator = 0;
+			$newArray = [];
+			foreach ($records as $record) {
+				$uid = is_array($record) ? $record['uid'] : $record->getUid();
+				$selectionPosition = array_search($uid, $recordUids);
+				if ($selectionPosition !== false) {
+					$newArray[$selectionPosition] = $record;
+				} else {
+					$newArray[count($recordUids) + $notInUidsIterator] = $record;
+					$notInUidsIterator++;
+				}
+			}
+			ksort($newArray);
+			return $newArray;
+		}
+		return $records;
+	}
 
-    /**
-     * Returns a category constraint created by
-     * a given list of categories and a junction string
-     *
-     * @param QueryInterface $query
-     * @param  array $categories
-     * @param  string $conjunction
-     * @return ConstraintInterface|null
-     */
-    protected function createCategoryConstraint(
-        QueryInterface $query,
-        string|array $categories,
-        string $conjunction,
-    ): ?ConstraintInterface
-    {
-        $constraint = null;
-        $categoryConstraints = [];
+	/**
+	 * Returns a category constraint created by
+	 * a given list of categories and a junction string
+	 *
+	 * @param QueryInterface $query
+	 * @param array $categories
+	 * @param string $conjunction
+	 * @return ConstraintInterface|null
+	 */
+	protected function createCategoryConstraint(
+		QueryInterface $query,
+		string|array   $categories,
+		string         $conjunction,
+	): ?ConstraintInterface
+	{
+		$constraint = null;
+		$categoryConstraints = [];
 
-        if (empty($conjunction)) {
-            return null;
-        }
-        if (!is_array($categories)) {
-            $categories = GeneralUtility::intExplode(',', $categories, true);
-        }
-        foreach ($categories as $category) {
-            $categoryConstraints[] = $query->contains('categories', $category);
-        }
-        if ($categoryConstraints) {
-            // to do update, logicalAnd needs multiple arguments of type ConstraintInterface
-            $constraint = match (strtolower($conjunction)) {
-                'or' => $query->logicalOr(...$categoryConstraints),
-                'and' => $query->logicalAnd(...$categoryConstraints),
-                'notor' => $query->logicalNot($query->logicalOr(...$categoryConstraints)),
-                'notand' => $query->logicalNot($query->logicalAnd(...$categoryConstraints))
-            };
-        }
-        return $constraint;
-    }
+		if (empty($conjunction)) {
+			return null;
+		}
+		if (!is_array($categories)) {
+			$categories = GeneralUtility::intExplode(',', $categories, true);
+		}
+		foreach ($categories as $category) {
+			$categoryConstraints[] = $query->contains('categories', $category);
+		}
+		if ($categoryConstraints) {
+			// to do update, logicalAnd needs multiple arguments of type ConstraintInterface
+			$constraint = match (strtolower($conjunction)) {
+				'or' => $query->logicalOr(...$categoryConstraints),
+				'and' => $query->logicalAnd(...$categoryConstraints),
+				'notor' => $query->logicalNot($query->logicalOr(...$categoryConstraints)),
+				'notand' => $query->logicalNot($query->logicalAnd(...$categoryConstraints))
+			};
+		}
+		return $constraint;
+	}
 }

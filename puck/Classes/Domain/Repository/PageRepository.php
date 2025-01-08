@@ -13,81 +13,84 @@ use UBOS\Puck\Menu\FindByMenuDemand;
 
 class PageRepository extends Repository implements MenuDemandRepository
 {
-    use FindByMenuDemand;
+	use FindByMenuDemand;
 
-    public const DOKTYPES = [
-        'default' => CorePageRepository::DOKTYPE_DEFAULT,
-        'shortcut' => CorePageRepository::DOKTYPE_SHORTCUT,
-        'link' => CorePageRepository::DOKTYPE_LINK,
-        'sysfolder' => CorePageRepository::DOKTYPE_SYSFOLDER,
-        'mountpoint' => CorePageRepository::DOKTYPE_MOUNTPOINT,
-        'spacer' => CorePageRepository::DOKTYPE_SPACER,
+	public const DOKTYPES = [
+		'default' => CorePageRepository::DOKTYPE_DEFAULT,
+		'shortcut' => CorePageRepository::DOKTYPE_SHORTCUT,
+		'link' => CorePageRepository::DOKTYPE_LINK,
+		'sysfolder' => CorePageRepository::DOKTYPE_SYSFOLDER,
+		'mountpoint' => CorePageRepository::DOKTYPE_MOUNTPOINT,
+		'spacer' => CorePageRepository::DOKTYPE_SPACER,
 
-        'start' => 16501,
-        'news' => 16503,
-        'person' => 16504,
-        'plugin' => 16511,
-    ];
-    public const DEFAULT_ALLOWED_TYPES = [
-        self::DOKTYPES['default'],
-        self::DOKTYPES['shortcut'],
-        self::DOKTYPES['link'],
-        self::DOKTYPES['start'],
-        self::DOKTYPES['person'],
-        self::DOKTYPES['plugin'],
-    ];
-    /**
-     * @var array
-     */
-    protected $defaultOrderings = array(
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    );
+		'start' => 16501,
+		'news' => 16503,
+		'person' => 16504,
+		'plugin' => 16511,
+	];
+	public const DEFAULT_ALLOWED_TYPES = [
+		self::DOKTYPES['default'],
+		self::DOKTYPES['shortcut'],
+		self::DOKTYPES['link'],
+		self::DOKTYPES['start'],
+		self::DOKTYPES['person'],
+		self::DOKTYPES['plugin'],
+	];
+	/**
+	 * @var array
+	 */
+	protected $defaultOrderings = array(
+		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+	);
 
-    protected array $allowedTypes = self::DEFAULT_ALLOWED_TYPES;
-    /**
-     * @return array
-     */
-    public function getAllowedTypes(): array
-    {
-        return $this->allowedTypes;
-    }
-    /**
-     * @param array $allowedTypes
-     */
-    public function setAllowedTypes(array $allowedTypes): self
-    {
-        $this->allowedTypes = $allowedTypes;
-        return $this;
-    }
+	protected array $allowedTypes = self::DEFAULT_ALLOWED_TYPES;
 
-    public function setPageObjectType(string $className): void
-    {
-        $this->objectType = $className;
-    }
-    /**
-     * @return void
-     */
-    public function initializeObject(): void
-    {
-        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
-        $querySettings->setRespectStoragePage(false);
-        $this->setDefaultQuerySettings($querySettings);
-    }
+	/**
+	 * @return array
+	 */
+	public function getAllowedTypes(): array
+	{
+		return $this->allowedTypes;
+	}
 
-    public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
-    {
-        $constraints = [
-            $query->in('doktype', explode(',', $settings['types']) ?? $this->allowedTypes),
-            $query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0))
-        ];
-        if ($settings['navHide']) {
-            $constraints[] = $query->equals('nav_hide', 0);
-        }
-        if ($settings['authors']) {
-            $constraints[] = $query->equals('post_author', $settings['authors']);
-        }
-        return $constraints;
+	/**
+	 * @param array $allowedTypes
+	 */
+	public function setAllowedTypes(array $allowedTypes): self
+	{
+		$this->allowedTypes = $allowedTypes;
+		return $this;
+	}
 
-    }
+	public function setPageObjectType(string $className): void
+	{
+		$this->objectType = $className;
+	}
+
+	/**
+	 * @return void
+	 */
+	public function initializeObject(): void
+	{
+		$querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+		$querySettings->setRespectStoragePage(false);
+		$this->setDefaultQuerySettings($querySettings);
+	}
+
+	public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
+	{
+		$constraints = [
+			$query->in('doktype', explode(',', $settings['types']) ?? $this->allowedTypes),
+			$query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0))
+		];
+		if ($settings['navHide']) {
+			$constraints[] = $query->equals('nav_hide', 0);
+		}
+		if ($settings['authors']) {
+			$constraints[] = $query->equals('post_author', $settings['authors']);
+		}
+		return $constraints;
+
+	}
 
 }

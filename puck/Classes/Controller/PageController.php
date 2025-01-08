@@ -26,96 +26,96 @@ use UBOS\Puckloader\Attribute\Plugin;
  */
 class PageController extends ActionController
 {
-    public function __construct(
-        protected ContentContentObject $contentContentObject,
-        protected RecordFactory        $recordFactory,
-        protected ComponentSettings    $componentSettings,
-        protected PageRenderer         $pageRenderer,
-        protected ViewFactoryInterface $viewFactory
-    )
-    {
-    }
+	public function __construct(
+		protected ContentContentObject $contentContentObject,
+		protected RecordFactory        $recordFactory,
+		protected ComponentSettings    $componentSettings,
+		protected PageRenderer         $pageRenderer,
+		protected ViewFactoryInterface $viewFactory
+	)
+	{
+	}
 
-    #[Plugin("Page")]
-    public function indexAction(): ResponseInterface
-    {
-        $cObj = $this->request->getAttribute('currentContentObject');
-        $data = $cObj->data;
-        $site = $this->request->getAttribute('site');
-        $siteSettings = $site->getSettings();
-        $context = GeneralUtility::makeInstance(Context::class);
-        $variables = [];
-        $variables['settings'] = $this->settings;
-        $variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
+	#[Plugin("Page")]
+	public function indexAction(): ResponseInterface
+	{
+		$cObj = $this->request->getAttribute('currentContentObject');
+		$data = $cObj->data;
+		$site = $this->request->getAttribute('site');
+		$siteSettings = $site->getSettings();
+		$context = GeneralUtility::makeInstance(Context::class);
+		$variables = [];
+		$variables['settings'] = $this->settings;
+		$variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
 
-        if ($this->settings['dataProcessing'] ?? false) {
-            $processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-            $processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
-                ->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-            $variables['processed'] = $processor->process(
-                $cObj,
-                ['dataProcessing.' => $processingTypoScript ?? null],
-                ['data' => $data]
-            );
-            unset($variables['processed']['data']);
-        }
+		if ($this->settings['dataProcessing'] ?? false) {
+			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
+				->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+			$variables['processed'] = $processor->process(
+				$cObj,
+				['dataProcessing.' => $processingTypoScript ?? null],
+				['data' => $data]
+			);
+			unset($variables['processed']['data']);
+		}
 
-        $backendRows = [
-            ['colPos' => 1, 'slide' => 0],
-            ['colPos' => 3, 'slide' => -1],
-            ['colPos' => 9, 'slide' => 0]
-        ];
+		$backendRows = [
+			['colPos' => 1, 'slide' => 0],
+			['colPos' => 3, 'slide' => -1],
+			['colPos' => 9, 'slide' => 0]
+		];
 
-        // set settings for all fluid components
-        $this->componentSettings
-            ->set('template', $siteSettings->get('template'))
-            ->set('navigation', $siteSettings->get('navigation'))
-            ->set('doktypes', $siteSettings->get('doktypes'));
+		// set settings for all fluid components
+		$this->componentSettings
+			->set('template', $siteSettings->get('template'))
+			->set('navigation', $siteSettings->get('navigation'))
+			->set('doktypes', $siteSettings->get('doktypes'));
 
-        // to do update, replace with alternative
-        $this->contentContentObject->setRequest($this->request);
-        $this->contentContentObject->setContentObjectRenderer($cObj);
-        foreach ($backendRows as $row) {
-            $variables['contentElements']['colPos' . $row['colPos']] = $this->contentContentObject->render([
-                'table' => 'tt_content',
-                'select.' => [
-                    'pidInList' => $data['uid'],
-                    'where' => '{#colPos}=' . $row['colPos'],
-                    'orderBy' => 'sorting',
-                ],
-                'slide' => $row['slide']
-            ]);
-        }
-        $frontendUserAspect = $context->getAspect('frontend.user');
-        $variables['context'] = [
-            'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
-            'site' => $site,
-            'frontendUser' => [
-                'isLoggedIn' => $frontendUserAspect->get('isLoggedIn'),
-            ],
-            'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
-        ];
+		// to do update, replace with alternative
+		$this->contentContentObject->setRequest($this->request);
+		$this->contentContentObject->setContentObjectRenderer($cObj);
+		foreach ($backendRows as $row) {
+			$variables['contentElements']['colPos' . $row['colPos']] = $this->contentContentObject->render([
+				'table' => 'tt_content',
+				'select.' => [
+					'pidInList' => $data['uid'],
+					'where' => '{#colPos}=' . $row['colPos'],
+					'orderBy' => 'sorting',
+				],
+				'slide' => $row['slide']
+			]);
+		}
+		$frontendUserAspect = $context->getAspect('frontend.user');
+		$variables['context'] = [
+			'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
+			'site' => $site,
+			'frontendUser' => [
+				'isLoggedIn' => $frontendUserAspect->get('isLoggedIn'),
+			],
+			'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
+		];
 
-        $this->pageRenderer->addHeaderData($this->renderFaviconHeadTags($siteSettings));
-        $this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
-        $this->view->assignMultiple($variables);
-        return $this->htmlResponse();
-    }
+		$this->pageRenderer->addHeaderData($this->renderFaviconHeadTags($siteSettings));
+		$this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
+		$this->view->assignMultiple($variables);
+		return $this->htmlResponse();
+	}
 
 
-    protected function renderFaviconHeadTags($siteSettings): string
-    {
-        $faviconPath = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
-            'EXT:puck/Resources/Public/Icons/Favicons/packages/'
-            . ($siteSettings->get('template.favicon') ?? 'default')
-        ));
-        $view = $this->viewFactory->create(
-            new ViewFactoryData(
-                templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Page/Head'],
-                request: $this->request,
-            )
-        );
-        $view->assign('faviconPath', $faviconPath);
-        return $view->render('FaviconTags');
-    }
+	protected function renderFaviconHeadTags($siteSettings): string
+	{
+		$faviconPath = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
+			'EXT:puck/Resources/Public/Icons/Favicons/packages/'
+			. ($siteSettings->get('template.favicon') ?? 'default')
+		));
+		$view = $this->viewFactory->create(
+			new ViewFactoryData(
+				templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Page/Head'],
+				request: $this->request,
+			)
+		);
+		$view->assign('faviconPath', $faviconPath);
+		return $view->render('FaviconTags');
+	}
 }

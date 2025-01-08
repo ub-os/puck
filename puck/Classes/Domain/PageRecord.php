@@ -10,46 +10,46 @@ use UBOS\Puck\Domain\Model\PageTeaser;
 
 class PageRecord extends Record
 {
-    public function __construct(
-        protected readonly RawRecord         $rawRecord,
-        protected array                      $properties,
-        protected readonly ?SystemProperties $systemProperties = null,
-    )
-    {
-        $this->setComputedProperties();
-    }
+	public function __construct(
+		protected readonly RawRecord         $rawRecord,
+		protected array                      $properties,
+		protected readonly ?SystemProperties $systemProperties = null,
+	)
+	{
+		$this->setComputedProperties();
+	}
 
-    protected function setComputedProperties(): void
-    {
-        $p = $this->properties;
-        if ($this->has('nav_title')) {
-            $p['nav_title'] = $p['nav_title'] ?: $p['title'];
-        }
-        if ($this->has('seo_title')) {
-            $p['seo_title'] = $p['seo_title'] ?: $p['title'];
-        }
-        if ($this->has('teaser_title')) {
-            $p['teaser_title'] = $p['teaser_title'] ?: $p['title'];
-        }
-        if ($this->has('breadcrumb_title')) {
-            $p['breadcrumb_title'] = $p['breadcrumb_title'] ?: $p['nav_title'];
-        }
-        if ($this->has('target') && !$p['target']) {
-            $p['target'] = '_self';
-        }
+	protected function setComputedProperties(): void
+	{
+		$p = $this->properties;
+		if ($this->has('nav_title')) {
+			$p['nav_title'] = $p['nav_title'] ?: $p['title'];
+		}
+		if ($this->has('seo_title')) {
+			$p['seo_title'] = $p['seo_title'] ?: $p['title'];
+		}
+		if ($this->has('teaser_title')) {
+			$p['teaser_title'] = $p['teaser_title'] ?: $p['title'];
+		}
+		if ($this->has('breadcrumb_title')) {
+			$p['breadcrumb_title'] = $p['breadcrumb_title'] ?: $p['nav_title'];
+		}
+		if ($this->has('target') && !$p['target']) {
+			$p['target'] = '_self';
+		}
 
-        if ($this->has('url') && $p['url'] instanceof \TYPO3\CMS\Core\Domain\RecordPropertyClosure) {
-            $p['url'] = $p['url']->instantiate();
-        }
-        $p['link_parameter'] = $this->has('url') && $p['url']->url ? $p['url'] : $this->rawRecord->getUid();
-        $this->properties = $p;
-    }
+		if ($this->has('url') && $p['url'] instanceof \TYPO3\CMS\Core\Domain\RecordPropertyClosure) {
+			$p['url'] = $p['url']->instantiate();
+		}
+		$p['link_parameter'] = $this->has('url') && $p['url']->url ? $p['url'] : $this->rawRecord->getUid();
+		$this->properties = $p;
+	}
 
-    public function overrideWithTeaser(PageTeaser $teaser): void
-    {
-        $this->properties['teaser_title'] = $teaser->title;
-        $this->properties['teaser_text'] = $teaser->text;
-        $this->properties['media'] = $teaser->media;
-    }
+	public function overrideWithTeaser(PageTeaser $teaser): void
+	{
+		$this->properties['teaser_title'] = $teaser->title;
+		$this->properties['teaser_text'] = $teaser->text;
+		$this->properties['media'] = $teaser->media;
+	}
 
 }

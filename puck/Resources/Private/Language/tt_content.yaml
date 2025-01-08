@@ -1,0 +1,28 @@
+languages: [en, de]
+
+ctype_01_content:
+  en: Content
+  de: Inhaltselemente
+ctype_02_menus:
+  en: Menus
+  de: Menüs
+ctype_accordion:
+  en: Accordion
+  de: Akkordeon
+ctype_accordion_desc:
+  en: 'Accordion element'
+  de: 'Akkordeon Element'
+header:
+  en: Header
+  de: überschrift
+header_0:
+  en: H2
+  de: H2
+header_90:
+  en: H2 screen reader only
+  de: H2 nur für Screenreader sichtbar
+pages_doktype_news_page:
+  en: News page
+  de: News-Seite
+
+

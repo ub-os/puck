@@ -1,5 +1,7 @@
 <?php
+
 namespace UBOS\Puck\Utility;
+
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
 /**
@@ -7,181 +9,181 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
  */
 class TcaUtility
 {
-    public const STANDARD_CROP_RATIOS = [
-        'free' => [
-            'title' => 'free',
-            'value' => 'NaN'
-        ],
-        '1:1' => [
-            'title' => '1:1',
-            'value' => 1
-        ],
-        '2:1' => [
-            'title' => '2:1',
-            'value' => 2
-        ],
-        '3:1' => [
-            'title' => '3:1',
-            'value' => 3
-        ],
-        '3:2' => [
-            'title' => '3:2',
-            'value' => 3 / 2
-        ],
-        '4:1' => [
-            'title' => '4:1',
-            'value' => 4
-        ],
-        '4:3' => [
-            'title' => '4:3',
-            'value' => 4 / 3
-        ],
-        '5:2' => [
-            'title' => '5:2',
-            'value' => 5 / 2
-        ],
-        '5:3' => [
-            'title' => '5:3',
-            'value' => 5 / 3
-        ],
-        '5:4' => [
-            'title' => '5:4',
-            'value' => 5 / 4
-        ],
-        '16:9' => [
-            'title' => '16:9',
-            'value' => 16 / 9
-        ],
-        '16:10' => [
-            'title' => '16:10',
-            'value' => 16 / 10
-        ]
-    ];
+	public const STANDARD_CROP_RATIOS = [
+		'free' => [
+			'title' => 'free',
+			'value' => 'NaN'
+		],
+		'1:1' => [
+			'title' => '1:1',
+			'value' => 1
+		],
+		'2:1' => [
+			'title' => '2:1',
+			'value' => 2
+		],
+		'3:1' => [
+			'title' => '3:1',
+			'value' => 3
+		],
+		'3:2' => [
+			'title' => '3:2',
+			'value' => 3 / 2
+		],
+		'4:1' => [
+			'title' => '4:1',
+			'value' => 4
+		],
+		'4:3' => [
+			'title' => '4:3',
+			'value' => 4 / 3
+		],
+		'5:2' => [
+			'title' => '5:2',
+			'value' => 5 / 2
+		],
+		'5:3' => [
+			'title' => '5:3',
+			'value' => 5 / 3
+		],
+		'5:4' => [
+			'title' => '5:4',
+			'value' => 5 / 4
+		],
+		'16:9' => [
+			'title' => '16:9',
+			'value' => 16 / 9
+		],
+		'16:10' => [
+			'title' => '16:10',
+			'value' => 16 / 10
+		]
+	];
 
-    public const CROP_VARIANT_PRESETS = [
-        'free' => [
-            'title' => 'Free',
-            'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-        ],
-        'freeBreakpoints' => [
-            'default' => [
-                'title' => 'Default',
-                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-            ],
-            'l' => [
-                'title' => '[Laptop]',
-                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-            ],
-            'm' => [
-                'title' => '[Tablet]',
-                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-            ],
-            'xs' => [
-                'title' => '[Phone]',
-                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-            ],
-        ],
-    ];
+	public const CROP_VARIANT_PRESETS = [
+		'free' => [
+			'title' => 'Free',
+			'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+		],
+		'freeBreakpoints' => [
+			'default' => [
+				'title' => 'Default',
+				'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+			],
+			'l' => [
+				'title' => '[Laptop]',
+				'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+			],
+			'm' => [
+				'title' => '[Tablet]',
+				'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+			],
+			'xs' => [
+				'title' => '[Phone]',
+				'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+			],
+		],
+	];
 
-    /**
-     * Return cropVariant array for TCA.
-     * If $allowedRatios isn't set, the key is used as ratio, e.g. '16:9' => ['title' => '16:9', 'value' => 16/9]
-     * @param string $key
-     * @param array|string|null $allowedRatios
-     * @return array
-     *
-     */
-    public static function getCropVariant(string $key, array|string|null $allowedRatios = null, $disabled = false): array
-    {
-        if ($allowedRatios === 'standard') {
-            return [
-                'title' => $key,
-                'disabled' => $disabled,
-                'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
-            ];
-        }
-        if (is_string($allowedRatios) && isset(explode(',', $allowedRatios)[1]) ) {
-            $allowedRatios = explode(',', $allowedRatios);
-        }
-        if (!is_array($allowedRatios)) {
-            $allowedRatios = [$key];
-        }
-        $allowedAspectRatios = [];
-        foreach($allowedRatios as $ratio) {
-            $ratioArr = explode(':', $ratio);
-            $dividend = floatval($ratioArr[0]) ?: 1;
-            $divisor = floatval($ratioArr[1]) ?: 1;
-            $allowedAspectRatios[$ratio] = [
-                'title' => $ratio,
-                'value' => $dividend /$divisor
-            ];
-        }
-        return [
-            'title' => $key,
-            'disabled' => $disabled,
-            'allowedAspectRatios' => $allowedAspectRatios,
-        ];
-    }
+	/**
+	 * Return cropVariant array for TCA.
+	 * If $allowedRatios isn't set, the key is used as ratio, e.g. '16:9' => ['title' => '16:9', 'value' => 16/9]
+	 * @param string $key
+	 * @param array|string|null $allowedRatios
+	 * @return array
+	 *
+	 */
+	public static function getCropVariant(string $key, array|string|null $allowedRatios = null, $disabled = false): array
+	{
+		if ($allowedRatios === 'standard') {
+			return [
+				'title' => $key,
+				'disabled' => $disabled,
+				'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,
+			];
+		}
+		if (is_string($allowedRatios) && isset(explode(',', $allowedRatios)[1])) {
+			$allowedRatios = explode(',', $allowedRatios);
+		}
+		if (!is_array($allowedRatios)) {
+			$allowedRatios = [$key];
+		}
+		$allowedAspectRatios = [];
+		foreach ($allowedRatios as $ratio) {
+			$ratioArr = explode(':', $ratio);
+			$dividend = floatval($ratioArr[0]) ?: 1;
+			$divisor = floatval($ratioArr[1]) ?: 1;
+			$allowedAspectRatios[$ratio] = [
+				'title' => $ratio,
+				'value' => $dividend / $divisor
+			];
+		}
+		return [
+			'title' => $key,
+			'disabled' => $disabled,
+			'allowedAspectRatios' => $allowedAspectRatios,
+		];
+	}
 
-    public static function getCropVariants(array|string $variants): array
-    {
-        $cropVariants = [];
-        if (!is_array($variants)) {
-            $variants = explode(',', $variants);
-        }
-        foreach($variants as $variant) {
-            $key = $variant['key'] ?? $variant;
-            $cropVariants[$variant] = self::getCropVariant($key, $variant['allowedRatios'] ?? null, $variant['disabled'] ?? false);
+	public static function getCropVariants(array|string $variants): array
+	{
+		$cropVariants = [];
+		if (!is_array($variants)) {
+			$variants = explode(',', $variants);
+		}
+		foreach ($variants as $variant) {
+			$key = $variant['key'] ?? $variant;
+			$cropVariants[$variant] = self::getCropVariant($key, $variant['allowedRatios'] ?? null, $variant['disabled'] ?? false);
 
-        }
-        return $cropVariants;
-    }
+		}
+		return $cropVariants;
+	}
 
-    public static function configOverrideWithCropVariants(array|string $variants, array|string $disableVariants = 'default'): array
-    {
-        $cropVariants = self::getCropVariants($variants);
-        if (!is_array($disableVariants)) {
-            $disableVariants = explode(',', $disableVariants);
-        }
-        foreach($disableVariants as $key) {
-            $cropVariants[$key] = ['disabled' => true];
-        }
-        return [
-            'config' => [
-                'overrideChildTca' => [
-                    'columns' => [
-                        'crop' => [
-                            'config' => [
-                                'cropVariants' => $cropVariants
-                            ],
-                        ],
-                    ],
-                ]
-            ]
-        ];
-    }
+	public static function configOverrideWithCropVariants(array|string $variants, array|string $disableVariants = 'default'): array
+	{
+		$cropVariants = self::getCropVariants($variants);
+		if (!is_array($disableVariants)) {
+			$disableVariants = explode(',', $disableVariants);
+		}
+		foreach ($disableVariants as $key) {
+			$cropVariants[$key] = ['disabled' => true];
+		}
+		return [
+			'config' => [
+				'overrideChildTca' => [
+					'columns' => [
+						'crop' => [
+							'config' => [
+								'cropVariants' => $cropVariants
+							],
+						],
+					],
+				]
+			]
+		];
+	}
 
-    public static function configOverrideWithBreakpointCropVariants(): array
-    {
-        return [
-            'config' => [
-                'overrideChildTca' => [
-                    'columns' => [
-                        'crop' => [
-                            'config' => [
-                                'cropVariants' => self::CROP_VARIANT_PRESETS['freeBreakpoints']
-                            ],
-                        ],
-                    ],
-                    'types' => [
-                        0 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
-                        1 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
-                        2 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
-                        5 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
-                    ],
-                ]
-            ]
-        ];
-    }
+	public static function configOverrideWithBreakpointCropVariants(): array
+	{
+		return [
+			'config' => [
+				'overrideChildTca' => [
+					'columns' => [
+						'crop' => [
+							'config' => [
+								'cropVariants' => self::CROP_VARIANT_PRESETS['freeBreakpoints']
+							],
+						],
+					],
+					'types' => [
+						0 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+						1 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+						2 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+						5 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
+					],
+				]
+			]
+		];
+	}
 
 }

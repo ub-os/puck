@@ -9,11 +9,11 @@ use Brotkrueml\Schema\Model\Type\SearchAction;
 
 final class AdditionalPropertiesForSearchAction
 {
-    #[AsEventListener]
-    public function __invoke(RegisterAdditionalTypePropertiesEvent $event): void
-    {
-        if ($event->getType() === SearchAction::class) {
-            $event->registerAdditionalProperty('query-input');
-        }
-    }
+	#[AsEventListener]
+	public function __invoke(RegisterAdditionalTypePropertiesEvent $event): void
+	{
+		if ($event->getType() === SearchAction::class) {
+			$event->registerAdditionalProperty('query-input');
+		}
+	}
 }

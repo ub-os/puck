@@ -15,37 +15,39 @@ use UBOS\Puck\Domain\Repository\PageRepository;
 final class ModifyPageLayoutContent
 {
 
-    public function __construct(
-        private readonly ViewFactoryInterface $viewFactory,
-        protected RecordFactory        $recordFactory,
-    ) {}
+	public function __construct(
+		private readonly ViewFactoryInterface $viewFactory,
+		protected RecordFactory               $recordFactory,
+	)
+	{
+	}
 
-    #[AsEventListener]
-    public function __invoke(
-        ModifyPageLayoutContentEvent $event
-    ): void
-    {
-        $request = $event->getRequest();
-        $row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);
-        $record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
-        $view = $this->viewFactory->create(
-            new ViewFactoryData(
-                templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates'],
-                partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials'],
-                request: $request,
-            )
-        );
-        $view->assign('record', $record);
-        $headerContent = '';
-        if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
-            $headerContent = $view->render('PageLayoutContent/Header/NewsPage');
-        }
-        if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
-            $headerContent = $view->render('PageLayoutContent/Header/PersonPage');
-        }
-        $footerContent = $view->render('PageLayoutContent/Footer/Default');
-        $event->addHeaderContent($headerContent);
-        $event->addFooterContent($footerContent);
-    }
+	#[AsEventListener]
+	public function __invoke(
+		ModifyPageLayoutContentEvent $event
+	): void
+	{
+		$request = $event->getRequest();
+		$row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);
+		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
+		$view = $this->viewFactory->create(
+			new ViewFactoryData(
+				templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates'],
+				partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials'],
+				request: $request,
+			)
+		);
+		$view->assign('record', $record);
+		$headerContent = '';
+		if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
+			$headerContent = $view->render('PageLayoutContent/Header/NewsPage');
+		}
+		if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
+			$headerContent = $view->render('PageLayoutContent/Header/PersonPage');
+		}
+		$footerContent = $view->render('PageLayoutContent/Footer/Default');
+		$event->addHeaderContent($headerContent);
+		$event->addFooterContent($footerContent);
+	}
 
 }

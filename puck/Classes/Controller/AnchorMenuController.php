@@ -13,26 +13,27 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class AnchorMenuController extends ActionController
 {
-    use ContentControllerViewPreparationTrait;
-    #[Plugin("AnchorMenu")]
-    public function anchorMenuAction(): ResponseInterface
-    {
-        $this->prepareContentView();
-        $langId = (int)$this->request->getAttribute('language')->getLanguageId();
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tt_content');
-        $menu = $queryBuilder
-            ->select('*')->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq('pid', $this->viewVariables['record']->getPid()),
-                $queryBuilder->expr()->eq('CType',$queryBuilder->createNamedParameter('puck_anchor')),
-                $queryBuilder->expr()->eq('hidden', 0),
-                $queryBuilder->expr()->eq('deleted', 0),
-                $queryBuilder->expr()->eq('sys_language_uid', $langId)
-            )
-            ->executeQuery()->fetchAllAssociative();
-        $this->view->assign('menu', $menu);
-        return $this->htmlResponse();
-    }
+	use ContentControllerViewPreparationTrait;
+
+	#[Plugin("AnchorMenu")]
+	public function anchorMenuAction(): ResponseInterface
+	{
+		$this->prepareContentView();
+		$langId = (int)$this->request->getAttribute('language')->getLanguageId();
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable('tt_content');
+		$menu = $queryBuilder
+			->select('*')->from('tt_content')
+			->where(
+				$queryBuilder->expr()->eq('pid', $this->viewVariables['record']->getPid()),
+				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
+				$queryBuilder->expr()->eq('hidden', 0),
+				$queryBuilder->expr()->eq('deleted', 0),
+				$queryBuilder->expr()->eq('sys_language_uid', $langId)
+			)
+			->executeQuery()->fetchAllAssociative();
+		$this->view->assign('menu', $menu);
+		return $this->htmlResponse();
+	}
 
 }
