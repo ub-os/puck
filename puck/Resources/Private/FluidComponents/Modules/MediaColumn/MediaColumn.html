@@ -1,23 +1,22 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-media-column"/>
-  <fc:param name="record" type="mixed"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-media-column"/>
+	<fc:param name="record" type="mixed"/>
+	<fc:renderer>
 
-    <layout:row.item class="{name}" attributes="{id:'c{record.uid}'}" width="{record.container_width}">
-      <element:moduleHeader record="{record}"/>
-      <layout:media
-              media="{record.assets}"
-              text="{record.bodytext}"
-              layout="{record.media_layout}"
-              justify="{record.row_justify}"
-              align="{record.row_align}"
-              mediaWidth="{record.media_column_width}"
-              textWidth="{record.text_column_width}"
-              itemWidth="{record.item_column_width}"
-              mediaMobileMaxVh="{record.media_max_height}"/>
-    </layout:row.item>
+		<layout:row.item class="{name}" attributes="{id:'c{record.uid}'}" width="{record.container_width}">
+			<element:moduleHeader record="{record}"/>
+			<layout:media
+				media="{record.assets}"
+				text="{record.bodytext}"
+				layout="{record.media_layout}"
+				justify="{record.row_justify}"
+				align="{record.row_align}"
+				mediaWidth="{record.media_column_width}"
+				textWidth="{record.text_column_width}"
+				itemWidth="{record.item_column_width}"
+				mediaMobileMaxVh="{record.media_max_height}"/>
+		</layout:row.item>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 

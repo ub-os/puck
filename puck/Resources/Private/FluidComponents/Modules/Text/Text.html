@@ -1,19 +1,18 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-text"/>
-  <fc:param name="record" type="mixed"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-text"/>
+	<fc:param name="record" type="mixed"/>
+	<fc:renderer>
 
-    <layout:section
-            class="{name}__wrap {f:if(condition: '!{record.bodytext}', then: '-headline-only')} {class}"
-            record="{record}"
-            id="c{record.uid}">
-        <element:moduleHeader record="{record}"/>
-        <element:richText text="{record.bodytext}"/>
-        <fc:slot name="content"/>
-    </layout:section>
+		<layout:section
+			class="{name}__wrap {f:if(condition: '!{record.bodytext}', then: '-headline-only')} {class}"
+			record="{record}"
+			id="c{record.uid}">
+			<element:moduleHeader record="{record}"/>
+			<element:richText text="{record.bodytext}"/>
+			<fc:slot name="content"/>
+		</layout:section>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 
 

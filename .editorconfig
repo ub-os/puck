@@ -1,4 +1,4 @@
 root = true
 
-[*.{php,js,ts,jsx,tsx,css,scss,sass}]
+[*.{php,js,ts,jsx,tsx,css,scss,sass,html}]
 indent_style = tab

@@ -1,16 +1,15 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="l-section"/>
-  <fc:param name="id" type="string" optional="1"/>
-  <fc:param name="record" type="mixed" optional="1"/>
-  <fc:param name="top" type="string" optional="1" default="auto"/>
-  <fc:param name="bottom" type="string" optional="1" default="auto"/>
-  <fc:param name="container" type="boolean" optional="1" default="1" />
-  <fc:param name="customContainer" type="string" optional="1" default="" />
-  <fc:param name="attributes" type="array" optional="1"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="l-section"/>
+	<fc:param name="id" type="string" optional="1"/>
+	<fc:param name="record" type="mixed" optional="1"/>
+	<fc:param name="top" type="string" optional="1" default="auto"/>
+	<fc:param name="bottom" type="string" optional="1" default="auto"/>
+	<fc:param name="container" type="boolean" optional="1" default="1"/>
+	<fc:param name="customContainer" type="string" optional="1" default=""/>
+	<fc:param name="attributes" type="array" optional="1"/>
+	<fc:renderer>
 
-    <section class="{u:bem(
+		<section class="{u:bem(
                raw:class,
                mod:{
                   background: record.frame_class,
@@ -20,26 +19,26 @@
                   no-h2-spacing: record.remove_header_spacing
                   }
              )}"
-             id="{id}"
-             {attributes -> u:renderAttributes()}>
-      <f:if condition="!{container}">
-        <f:then>
-          <fc:slot name="content"/>
-        </f:then>
-        <f:else if="{customContainer}">
-          <layout:container class="{customContainer}__container">
-            <fc:slot name="content"/>
-          </layout:container>
-        </f:else>
-        <f:else>
-          <layout:container
-                  width="{record.container_width}"
-                  align="{record.container_position}"
-                  offset="{record.container_offset}">
-            <fc:slot name="content"/>
-          </layout:container>
-        </f:else>
-      </f:if>
-    </section>
-  </fc:renderer>
+				 id="{id}"
+				 {attributes -> u:renderAttributes()}>
+			<f:if condition="!{container}">
+				<f:then>
+					<fc:slot name="content"/>
+				</f:then>
+				<f:else if="{customContainer}">
+					<layout:container class="{customContainer}__container">
+						<fc:slot name="content"/>
+					</layout:container>
+				</f:else>
+				<f:else>
+					<layout:container
+						width="{record.container_width}"
+						align="{record.container_position}"
+						offset="{record.container_offset}">
+						<fc:slot name="content"/>
+					</layout:container>
+				</f:else>
+			</f:if>
+		</section>
+	</fc:renderer>
 </fc:component>

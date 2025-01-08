@@ -1,18 +1,20 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
-<f:render partial="Form/FieldLabel" arguments="{_all}" />
+<f:render partial="Form/FieldLabel" arguments="{_all}"/>
 <f:for each="{field.modifiedSettings}" as="setting" iteration="index">
     <div class="{name}__checkbox__group {settings.styles.framework.checkClasses} {vh:validation.errorClass(field:field, class:'powermail_field_error')}">
         <f:form.checkbox
-            property="{field.marker}"
-            value="{setting.value}"
-            multiple="true"
-            checked="{vh:misc.prefillMultiField(field:field, mail:mail, cycle:index.cycle)}"
-            id="powermail_field_{field.marker}_{index.cycle}"
-            additionalAttributes="{vh:validation.validationDataAttribute(field:field, iteration:index)}"
-            class="{name}__checkbox -marker-{field.marker}" />
+                property="{field.marker}"
+                value="{setting.value}"
+                multiple="true"
+                checked="{vh:misc.prefillMultiField(field:field, mail:mail, cycle:index.cycle)}"
+                id="powermail_field_{field.marker}_{index.cycle}"
+                additionalAttributes="{vh:validation.validationDataAttribute(field:field, iteration:index)}"
+                class="{name}__checkbox -marker-{field.marker}"/>
         <label class="{name}__checkbox__label -marker-{field.marker}"
                for="powermail_field_{field.marker}_{index.cycle}">
-            <f:format.raw>{setting.label}<f:if condition="{field.mandatory}">*</f:if></f:format.raw>
+            <f:format.raw>{setting.label}
+                <f:if condition="{field.mandatory}">*</f:if>
+            </f:format.raw>
         </label>
     </div>
 </f:for>

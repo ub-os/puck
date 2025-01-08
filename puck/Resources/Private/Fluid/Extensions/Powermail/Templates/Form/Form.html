@@ -4,7 +4,7 @@
 {u:var(set:'name', value:'m-powermail-form')}
 <module:text record="{ttContentData}">
     <f:alias map="{flashMessageClass:'powermail_message_error'}">
-        <f:render partial="Misc/FlashMessages" arguments="{_all}" />
+        <f:render partial="Misc/FlashMessages" arguments="{_all}"/>
     </f:alias>
     <f:if condition="{object.bodytext}">
         <p></p>
@@ -15,10 +15,10 @@
             if:'({settings.thx.redirect} && !{settings.main.optin}) || {settings.optinPage.redirect}',
             then:'',
             else:{
-                data-hx-post:'{f:uri.action(action:action)}',
-                data-hx-select:'#c{object.uid}',
-                data-hx-target:'#c{object.uid}',
-                data-hx-swap:'outerHTML show:#c{object.uid}:top'
+            data-hx-post:'{f:uri.action(action:action)}',
+            data-hx-select:'#c{object.uid}',
+            data-hx-target:'#c{object.uid}',
+            data-hx-swap:'outerHTML show:#c{object.uid}:top'
             })}
             <f:form
                     action="{action}"
@@ -31,21 +31,22 @@
                 <f:if condition="{form.css} != 'nolabel'">
                     <header class="{name}__header">{form.title}</header>
                 </f:if>
-                <f:render partial="Misc/FormError" arguments="{_all}" />
+                <f:render partial="Misc/FormError" arguments="{_all}"/>
 
                 <div data-hx-disinherit="hx-select hx-target">
                     <f:for each="{form.pages}" as="page" iteration="pageIteration">
-                        <f:render partial="Form/Page" arguments="{_all}" />
+                        <f:render partial="Form/Page" arguments="{_all}"/>
                     </f:for>
                 </div>
 
-                <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid" respectSubmittedDataValue="false" />
+                <f:form.hidden name="mail[form]" value="{form.uid}" class="powermail_form_uid"
+                               respectSubmittedDataValue="false"/>
                 <f:render partial="Misc/HoneyPod" arguments="{form:form}"/>
 
             </f:form>
         </f:then>
         <f:else>
-            <f:translate key="error_no_form" />
+            <f:translate key="error_no_form"/>
         </f:else>
     </f:if>
 </module:text>

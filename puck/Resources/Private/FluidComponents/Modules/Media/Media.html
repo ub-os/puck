@@ -1,29 +1,28 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-media"/>
-  <fc:param name="record" type="mixed"/>
-  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-media"/>
+	<fc:param name="record" type="mixed"/>
+	<fc:param name="cropVariant" type="string" optional="1" default="default"/>
+	<fc:renderer>
 
-    <layout:section
-            class="{name}__wrap"
-            record="{record}"
-            id="c{record.uid}">
-      <element:moduleHeader record="{record}"/>
-      <layout:media
-              media="{record.assets}"
-              text="{record.bodytext}"
-              layout="{record.media_layout}"
-              justify="{record.row_justify}"
-              align="{record.row_align}"
-              mediaWidth="{record.media_column_width}"
-              textWidth="{record.text_column_width}"
-              itemWidth="{record.item_column_width}"
-              mediaMobileMaxVh="{record.media_max_height}"
-              cropVariant="{cropVariant}"/>
-    </layout:section>
+		<layout:section
+			class="{name}__wrap"
+			record="{record}"
+			id="c{record.uid}">
+			<element:moduleHeader record="{record}"/>
+			<layout:media
+				media="{record.assets}"
+				text="{record.bodytext}"
+				layout="{record.media_layout}"
+				justify="{record.row_justify}"
+				align="{record.row_align}"
+				mediaWidth="{record.media_column_width}"
+				textWidth="{record.text_column_width}"
+				itemWidth="{record.item_column_width}"
+				mediaMobileMaxVh="{record.media_max_height}"
+				cropVariant="{cropVariant}"/>
+		</layout:section>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 
 

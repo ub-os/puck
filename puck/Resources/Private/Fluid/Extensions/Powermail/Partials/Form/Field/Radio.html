@@ -1,18 +1,22 @@
 {namespace vh=In2code\Powermail\ViewHelpers}
 
-<f:render partial="Form/FieldLabel" arguments="{_all}" />
+<f:render partial="Form/FieldLabel" arguments="{_all}"/>
 <f:for each="{field.modifiedSettings}" as="setting" iteration="index">
     <div class="{name}__radio__group {settings.styles.framework.radioClasses} {vh:validation.errorClass(field:field, class:'powermail_field_error')}">
         <f:form.radio
-            property="{field.marker}"
-            value="{setting.value}"
-            checked="{vh:misc.prefillMultiField(field:field, mail:mail, cycle:index.cycle)}"
-            id="powermail_field_{field.marker}_{index.cycle}"
-            additionalAttributes="{vh:validation.validationDataAttribute(field:field, iteration:index)}"
-            class="{name}__radio -marker-{field.marker}" />
+                property="{field.marker}"
+                value="{setting.value}"
+                checked="{vh:misc.prefillMultiField(field:field, mail:mail, cycle:index.cycle)}"
+                id="powermail_field_{field.marker}_{index.cycle}"
+                additionalAttributes="{vh:validation.validationDataAttribute(field:field, iteration:index)}"
+                class="{name}__radio -marker-{field.marker}"/>
         <label class="{name}__radio__label -marker-{field.marker}"
                for="powermail_field_{field.marker}_{index.cycle}">
-            <vh:string.escapeLabels>{setting.label} <f:comment><f:if condition="{field.mandatory}">*</f:if></f:comment></vh:string.escapeLabels>
+            <vh:string.escapeLabels>{setting.label}
+                <f:comment>
+                    <f:if condition="{field.mandatory}">*</f:if>
+                </f:comment>
+            </vh:string.escapeLabels>
         </label>
     </div>
 </f:for>

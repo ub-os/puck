@@ -2,16 +2,18 @@
 
 <a href="{editLink}">
 
-        <f:if condition="{record.CType} == 'list'">
-            <f:then>
-                <p><small>
+    <f:if condition="{record.CType} == 'list'">
+        <f:then>
+            <p><small>
                 <strong>
-                    Plugin: <f:translate key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{record.list_type -> u:string(search:'puck_',replace:'')}" />
+                    Plugin:
+                    <f:translate
+                            key="LLL:EXT:puck/Resources/Private/Language/locallang_be.xlf:wizard.{record.list_type -> u:string(search:'puck_',replace:'')}"/>
                 </strong>
-                </small></p>
-            </f:then>
-            <f:else>
-            </f:else>
-        </f:if>
-<!--        id:{record.uid}-->
+            </small></p>
+        </f:then>
+        <f:else>
+        </f:else>
+    </f:if>
+    <!--        id:{record.uid}-->
 </a>

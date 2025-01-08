@@ -1,4 +1,5 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers" data-namespace-typo3-fluid="true">
 
 <layout:section class="form-framework">
     <formvh:renderRenderable renderable="{form}">
@@ -14,12 +15,12 @@
                 additionalParams="{form.renderingOptions.additionalParams}"
                 additionalAttributes="{formvh:translateElementProperty(element: form, property: 'fluidAdditionalAttributes')}"
         >
-            <f:render partial="{form.currentPage.templateName}" arguments="{page: form.currentPage}" />
+            <f:render partial="{form.currentPage.templateName}" arguments="{page: form.currentPage}"/>
             <div class="actions">
                 <div class="form-required-note">
                     *Pflichtfeld
                 </div>
-                <f:render partial="Form/Navigation" arguments="{form: form}" />
+                <f:render partial="Form/Navigation" arguments="{form: form}"/>
             </div>
         </formvh:form>
     </formvh:renderRenderable>

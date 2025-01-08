@@ -1,59 +1,64 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-menu"/>
-  <fc:param name="page" type="mixed" optional="1"/>
-  <fc:param name="config" type="array" optional="1" default="{}"/>
-  <fc:param name="attributes" type="array" optional="1"/>
+	<fc:param name="name" type="string" optional="1" default="m-menu"/>
+	<fc:param name="page" type="mixed" optional="1"/>
+	<fc:param name="config" type="array" optional="1" default="{}"/>
+	<fc:param name="attributes" type="array" optional="1"/>
 
-  <fc:renderer>
+	<fc:renderer>
 
-      <div class="{name}__teaser">
-        <f:if condition="{config.categories} && {page.categories}">
-          <div class="{name}__categories">
-            <f:for each="{page.categories}" as="cat" iteration="i">
-              <span class="{name}__category">{cat.title}</span>
-              <f:if condition="!{i.isLast}">
-                <span class="{name}__categories__divider">|</span>
-              </f:if>
-            </f:for>
-          </div>
-        </f:if>
-        <f:if condition="{page.post_date} && {config.postDate}">
-          <time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}">{page.post_date -> f:format.date(format: 'd.m.Y')}</time>
-        </f:if>
-        <f:if condition="{page.lastUpdated} && {config.lastUpdated}">
-          <time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">{page.lastUpdated -> f:format.date(format: 'd.m.Y')}</time>
-        </f:if>
-        <f:if condition="{page.icon} && {config.icon}">
-          <icon:svg icon="{page.icon}" class="{name}__icon"/>
-        </f:if>
-        <a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
-           class="{name}__headline"
-           target="{page.target}">
-          {page.teaser_title -> f:format.raw()}
-        </a>
-        <f:if condition="{page.subtitle} && {config.subtitle}">
-          <div class="{name}__subtitle">
-            {page.subtitle}
-          </div>
-        </f:if>
-        <f:if condition="{config.teaserText} && {page.teaser_text}">
-          <div class="{name}__teaser-text">{page.teaser_text -> f:format.crop(maxCharacters:300) -> f:format.raw()}</div>
-        </f:if>
-        <f:if condition="{page.author} && {config.author}">
-          <div class="{name}__author">
-            {page.author}
-          </div>
-        </f:if>
-        <f:if condition="{config.cta}">
-          <div class="{name}__cta__wrap">
-            <button class="{name}__cta e-cta-button" tabindex="-1">
-              <f:translate extensionName="puck" key="learn-more"/>
-            </button>
-          </div>
-        </f:if>
-      </div>
+		<div class="{name}__teaser">
+			<f:if condition="{config.categories} && {page.categories}">
+				<div class="{name}__categories">
+					<f:for each="{page.categories}" as="cat" iteration="i">
+						<span class="{name}__category">{cat.title}</span>
+						<f:if condition="!{i.isLast}">
+							<span class="{name}__categories__divider">|</span>
+						</f:if>
+					</f:for>
+				</div>
+			</f:if>
+			<f:if condition="{page.post_date} && {config.postDate}">
+				<time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}">
+					{page.post_date -> f:format.date(format: 'd.m.Y')}
+				</time>
+			</f:if>
+			<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
+				<time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">
+					{page.lastUpdated -> f:format.date(format: 'd.m.Y')}
+				</time>
+			</f:if>
+			<f:if condition="{page.icon} && {config.icon}">
+				<icon:svg icon="{page.icon}" class="{name}__icon"/>
+			</f:if>
+			<a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
+			   class="{name}__headline"
+			   target="{page.target}">
+				{page.teaser_title -> f:format.raw()}
+			</a>
+			<f:if condition="{page.subtitle} && {config.subtitle}">
+				<div class="{name}__subtitle">
+					{page.subtitle}
+				</div>
+			</f:if>
+			<f:if condition="{config.teaserText} && {page.teaser_text}">
+				<div class="{name}__teaser-text">{page.teaser_text -> f:format.crop(maxCharacters:300) ->
+					f:format.raw()}
+				</div>
+			</f:if>
+			<f:if condition="{page.author} && {config.author}">
+				<div class="{name}__author">
+					{page.author}
+				</div>
+			</f:if>
+			<f:if condition="{config.cta}">
+				<div class="{name}__cta__wrap">
+					<button class="{name}__cta e-cta-button" tabindex="-1">
+						<f:translate extensionName="puck" key="learn-more"/>
+					</button>
+				</div>
+			</f:if>
+		</div>
 
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>

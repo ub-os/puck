@@ -2,26 +2,26 @@
 <f:variable name="name" value="m-indexedsearch"/>
 
 <div class="{name}__result" onclick="this.querySelector('a').click()" role="listitem" hx-boost="false">
-  <h3 class="{name}__result__header">
-    <span class="{row.CSSsuffix}">{row.title -> f:format.raw()}</span>
-  </h3>
-  <p class="{name}__result__description">{row.description -> f:format.raw()}</p>
-  <a href="{row.pathUri}" class="{name}__result__link" data-link-to-stop>
-    <f:if condition="{row.pathUri} == '/'">
-      <f:then>
-        <f:uri.typolink parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}" absolute="1"/>
-      </f:then>
-      <f:else>
-        <f:uri.typolink parameter="{row.pathUri}" absolute="1"/>
-      </f:else>
+    <h3 class="{name}__result__header">
+        <span class="{row.CSSsuffix}">{row.title -> f:format.raw()}</span>
+    </h3>
+    <p class="{name}__result__description">{row.description -> f:format.raw()}</p>
+    <a href="{row.pathUri}" class="{name}__result__link" data-link-to-stop>
+        <f:if condition="{row.pathUri} == '/'">
+            <f:then>
+                <f:uri.typolink parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}" absolute="1"/>
+            </f:then>
+            <f:else>
+                <f:uri.typolink parameter="{row.pathUri}" absolute="1"/>
+            </f:else>
+        </f:if>
+    </a>
+    <f:if condition="{row.subresults}">
+        <ul class="{name}__list -sub">
+            <f:for each="{row.subresults.items}" as="subrow">
+                <f:render partial="Searchresult" arguments="{row: subrow}"/>
+            </f:for>
+        </ul>
     </f:if>
-  </a>
-  <f:if condition="{row.subresults}">
-    <ul class="{name}__list -sub">
-      <f:for each="{row.subresults.items}" as="subrow">
-        <f:render partial="Searchresult" arguments="{row: subrow}" />
-      </f:for>
-    </ul>
-  </f:if>
 </div>
 </html>

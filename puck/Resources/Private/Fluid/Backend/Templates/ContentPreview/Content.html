@@ -2,50 +2,52 @@
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
 
 
-<f:render section="preview" arguments="{_all}" />
+<f:render section="preview" arguments="{_all}"/>
 
 <f:section name="preview">
-  <a href="{editLink}">
-    <f:render section="main" arguments="{item: item, record:record}" />
-    {thumbnailHtml -> f:format.raw()}
-    <f:if condition="{record.records}">
-      <em>Shortcut to:</em>
-      <f:for each="{record.records}" as="shortcut">
-        <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}" />
-      </f:for>
-    </f:if>
-    <f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
-    <!--
-    -->
-  </a>
+    <a href="{editLink}">
+		<f:render section="main" arguments="{item: item, record:record}"/>
+        {thumbnailHtml -> f:format.raw()}
+        <f:if condition="{record.records}">
+            <em>Shortcut to:</em>
+            <f:for each="{record.records}" as="shortcut">
+                <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}"/>
+            </f:for>
+        </f:if>
+        <f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
+        <!--
+        -->
+    </a>
 
 </f:section>
 
 <f:section name="main">
-  <f:if condition="{record.CType} !== 'puck_anchor'">
-    <f:then>
-      <f:variable name="headerType" value="{f:if(condition: '{record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
-      <f:if condition="{record.header_layout} >= 100">
-        <f:variable name="headerType" value="i"/>
-      </f:if>
-      <f:render partial="Text" arguments="{header: record.header, headerType: headerType, subheader: record.subheader, bodytext: record.bodytext}" />
-    </f:then>
-    <f:else>
-      <span>{record.header}</span><br>
-      <u>#{record.subheader}</u>
-    </f:else>
-  </f:if>
+    <f:if condition="{record.CType} !== 'puck_anchor'">
+        <f:then>
+            <f:variable name="headerType"
+                        value="{f:if(condition: '{record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
+            <f:if condition="{record.header_layout} >= 100">
+                <f:variable name="headerType" value="i"/>
+            </f:if>
+            <f:render partial="Text"
+                      arguments="{header: record.header, headerType: headerType, subheader: record.subheader, bodytext: record.bodytext}"/>
+        </f:then>
+        <f:else>
+            <span>{record.header}</span><br>
+            <u>#{record.subheader}</u>
+        </f:else>
+    </f:if>
 </f:section>
 
 <f:section name="group">
-  <f:if condition="{group}">
-    <em>{headline}:</em>
-    <ul>
-      <f:for each="{u:utility.backend.getRecords(table: table, uids: group)}" as="item">
-        <li>
-          {item.title}
-        </li>
-      </f:for>
-    </ul>
-  </f:if>
+    <f:if condition="{group}">
+        <em>{headline}:</em>
+        <ul>
+            <f:for each="{u:utility.backend.getRecords(table: table, uids: group)}" as="item">
+                <li>
+                    {item.title}
+                </li>
+            </f:for>
+        </ul>
+    </f:if>
 </f:section>

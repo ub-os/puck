@@ -1,29 +1,28 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-error-text"/>
-  <fc:param name="record" type="mixed"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-error-text"/>
+	<fc:param name="record" type="mixed"/>
+	<fc:renderer>
 
-    <layout:section
-            class="{name}__wrap {class}"
-            record="{record}"
-            id="c{record.uid}">
-        <div class="{name}">
-            <h1 class="{name}__header">
-                {record.header}
-            </h1>
-            <p class="{name}__subheader">
-                {record.subheader}
-            </p>
-            <fc:slot name="content"/>
-            <a href="/">
-                <f:image class="{name}__logo" src="EXT:puck/Resources/Public/Icons/Logos/default.svg"/>
-            </a>
-            <element:richText text="{record.bodytext}"/>
-        </div>
-    </layout:section>
+		<layout:section
+			class="{name}__wrap {class}"
+			record="{record}"
+			id="c{record.uid}">
+			<div class="{name}">
+				<h1 class="{name}__header">
+					{record.header}
+				</h1>
+				<p class="{name}__subheader">
+					{record.subheader}
+				</p>
+				<fc:slot name="content"/>
+				<a href="/">
+					<f:image class="{name}__logo" src="EXT:puck/Resources/Public/Icons/Logos/default.svg"/>
+				</a>
+				<element:richText text="{record.bodytext}"/>
+			</div>
+		</layout:section>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 
 

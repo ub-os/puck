@@ -1,19 +1,18 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-header__burger"/>
-  <fc:param name="controls" type="string" optional="1" default="sidebar-nav-modal"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-header__burger"/>
+	<fc:param name="controls" type="string" optional="1" default="sidebar-nav-modal"/>
+	<fc:renderer>
 
-    <button class="{name}"
-            data-handler="modal.show#{controls}"
-            aria-controls="{controls}"
-            aria-label="Navigation">
-      <span class="{name}__slice"></span>
-      <span class="{name}__slice"></span>
-      <span class="{name}__slice"></span>
-    </button>
+		<button class="{name}"
+				data-handler="modal.show#{controls}"
+				aria-controls="{controls}"
+				aria-label="Navigation">
+			<span class="{name}__slice"></span>
+			<span class="{name}__slice"></span>
+			<span class="{name}__slice"></span>
+		</button>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 
 

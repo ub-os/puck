@@ -1,102 +1,104 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="e-media"/>
-  <fc:param name="file" type="SMS\FluidComponents\Domain\Model\File" optional="1"/>
-  <fc:param name="files" type="array" optional="1"/>
-  <fc:param name="width" type="integer" optional="1"/>
-  <fc:param name="sources" type="array" optional="1"/>
-  <fc:param name="breakpointSources" type="boolean" optional="1" default="0"/>
-  <fc:param name="cropVariant" type="string" optional="1" default="default"/>
-  <fc:param name="webp" type="boolean" optional="1" default="0"/>
-  <fc:param name="avif" type="boolean" optional="1" default="0"/>
-  <fc:param name="retina" type="boolean" optional="1" default="1"/>
-  <fc:param name="loading" type="string" optional="1" default="lazy"/>
-  <fc:param name="additionalConfig" type="array" optional="1" default="{controls:1,autoplay:0,loop:0}"/>
-  <fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
-  <fc:param name="reserveHeight" type="string" optional="1"/>
-  <fc:param name="usePlayerComponentForLocalVideoFiles" type="boolean" optional="1" default="1"/>
-  <fc:param name="showTitle" type="boolean" optional="1" default="0"/>
-  <fc:param name="showDesc" type="boolean" optional="1" default="0"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="e-media"/>
+	<fc:param name="file" type="SMS\FluidComponents\Domain\Model\File" optional="1"/>
+	<fc:param name="files" type="array" optional="1"/>
+	<fc:param name="width" type="integer" optional="1"/>
+	<fc:param name="sources" type="array" optional="1"/>
+	<fc:param name="breakpointSources" type="boolean" optional="1" default="0"/>
+	<fc:param name="cropVariant" type="string" optional="1" default="default"/>
+	<fc:param name="webp" type="boolean" optional="1" default="0"/>
+	<fc:param name="avif" type="boolean" optional="1" default="0"/>
+	<fc:param name="retina" type="boolean" optional="1" default="1"/>
+	<fc:param name="loading" type="string" optional="1" default="lazy"/>
+	<fc:param name="additionalConfig" type="array" optional="1" default="{controls:1,autoplay:0,loop:0}"/>
+	<fc:param name="backgroundImg" type="boolean" optional="1" default="0"/>
+	<fc:param name="reserveHeight" type="string" optional="1"/>
+	<fc:param name="usePlayerComponentForLocalVideoFiles" type="boolean" optional="1" default="1"/>
+	<fc:param name="showTitle" type="boolean" optional="1" default="0"/>
+	<fc:param name="showDesc" type="boolean" optional="1" default="0"/>
+	<fc:renderer>
 
-    {u:var(set:'files', if:'{file}', then:{0: file}, else:files)}
+		{u:var(set:'files', if:'{file}', then:{0: file}, else:files)}
 
-    <f:if condition="{files}">
-      <f:for each="{files}" as="fileItem" iteration="i">
+		<f:if condition="{files}">
+			<f:for each="{files}" as="fileItem" iteration="i">
 
-        {u:file(get:fileItem, set:'file')}
+				{u:file(get:fileItem, set:'file')}
 
-          <div class="{name}__figure {class}" {f:if(condition:'{showDesc} && {file.description}',then:'role="figure"')}>
+				<div class="{name}__figure {class}" {f:if(condition:
+				'{showDesc} && {file.description}',then:'role="figure"')}>
 
-            <u:var set="mediaContent">
-              <f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
-                <f:then>
-                  <u:picture
-                          image="{file}"
-                          className="{name}"
-                          class="{name}__file"
-                          cropVariant="{cropVariant}"
-                          width="{width}"
-                          retina="{retina}"
-                          webp="{webp}"
-                          avif="{avif}"
-                          backgroundImage="{backgroundImg}"
-                          loading="{loading}"
-                          reserveHeight="{reserveHeight}"
-                          breakpointSources="{breakpointSources}"
-                          sources="{sources}"
-                          sourceMaxWidth="{width}"
-                  />
-                </f:then>
-                <f:else if="{file.extension} == 'svg'">
-                  <f:image image="{file}"
-                           class="{name}__image {name}__file"
-                           width="{width}"
-                           absolute="true"
-                           additionalAttributes="{additionalAttributes}"
-                           alt="{file.alternative}" />
-                </f:else>
-                <f:else if="{file.extension} == 'youtube' || {file.extension} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({file.extension} == 'mp4' || {file.extension} == 'webm'))">
-                  <div class="{name}__file {name}__{file.extension}">
-                    <element:mediaPlayer  file="{file}"
-                                          width="{width}"
-                                          posterWebp="{webp}"
-                                          posterSources="{sources}"
-                                          posterRetina="{retina}"/>
-                  </div>
-                </f:else>
-                <f:else>
-                  <f:media file="{file}"
-                           width="{width}"
-                           additionalConfig="{autoplay:additionalConfig.autoplay, controls:additionalConfig.controls, loop:additionalConfig.loop, playsinline:additionalConfig.autoplay, muted:additionalConfig.autoplay}"
-                           class="{name}__{file.extension} {name}__file"
-                           alt="{file.alternative}" />
-                </f:else>
-              </f:if>
-            </u:var>
-            
-            <f:if condition="{file.link}">
-              <f:then>
-                <f:link.typolink parameter="{file.link}" class="{name}__file__link">
-                    {mediaContent -> f:spaceless() -> f:format.raw()}
-                </f:link.typolink>
-              </f:then>
-              <f:else>
-                {mediaContent -> f:spaceless() -> f:format.raw()}
-              </f:else>
-            </f:if>
-            
-            <f:if condition="{showTitle} && {file.title}">
-              <div class="{name}__file__title">{file.title}</div>
-            </f:if>
+				<u:var set="mediaContent">
+					<f:if
+						condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
+						<f:then>
+							<u:picture
+								image="{file}"
+								className="{name}"
+								class="{name}__file"
+								cropVariant="{cropVariant}"
+								width="{width}"
+								retina="{retina}"
+								webp="{webp}"
+								avif="{avif}"
+								backgroundImage="{backgroundImg}"
+								loading="{loading}"
+								reserveHeight="{reserveHeight}"
+								breakpointSources="{breakpointSources}"
+								sources="{sources}"
+								sourceMaxWidth="{width}"
+							/>
+						</f:then>
+						<f:else if="{file.extension} == 'svg'">
+							<f:image image="{file}"
+									 class="{name}__image {name}__file"
+									 width="{width}"
+									 absolute="true"
+									 additionalAttributes="{additionalAttributes}"
+									 alt="{file.alternative}"/>
+						</f:else>
+						<f:else
+							if="{file.extension} == 'youtube' || {file.extension} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({file.extension} == 'mp4' || {file.extension} == 'webm'))">
+							<div class="{name}__file {name}__{file.extension}">
+								<element:mediaPlayer file="{file}"
+													 width="{width}"
+													 posterWebp="{webp}"
+													 posterSources="{sources}"
+													 posterRetina="{retina}"/>
+							</div>
+						</f:else>
+						<f:else>
+							<f:media file="{file}"
+									 width="{width}"
+									 additionalConfig="{autoplay:additionalConfig.autoplay, controls:additionalConfig.controls, loop:additionalConfig.loop, playsinline:additionalConfig.autoplay, muted:additionalConfig.autoplay}"
+									 class="{name}__{file.extension} {name}__file"
+									 alt="{file.alternative}"/>
+						</f:else>
+					</f:if>
+				</u:var>
 
-            <f:if condition="{showDesc} && {file.description}">
-              <div class="{name}__file__desc" role="caption">{file.description}</div>
-            </f:if>
+				<f:if condition="{file.link}">
+					<f:then>
+						<f:link.typolink parameter="{file.link}" class="{name}__file__link">
+							{mediaContent -> f:spaceless() -> f:format.raw()}
+						</f:link.typolink>
+					</f:then>
+					<f:else>
+						{mediaContent -> f:spaceless() -> f:format.raw()}
+					</f:else>
+				</f:if>
 
-          </div>
-      </f:for>
-    </f:if>
+				<f:if condition="{showTitle} && {file.title}">
+					<div class="{name}__file__title">{file.title}</div>
+				</f:if>
 
-  </fc:renderer>
+				<f:if condition="{showDesc} && {file.description}">
+					<div class="{name}__file__desc" role="caption">{file.description}</div>
+				</f:if>
+
+				</div>
+			</f:for>
+		</f:if>
+
+	</fc:renderer>
 </fc:component>

@@ -1,33 +1,32 @@
-
 <fc:component>
-  <fc:param name="name" type="string" optional="1" default="m-sidebar-nav"/>
-  <fc:param name="record" type="mixed"/>
-  <fc:renderer>
+	<fc:param name="name" type="string" optional="1" default="m-sidebar-nav"/>
+	<fc:param name="record" type="mixed"/>
+	<fc:renderer>
 
-      <dialog data-connect="modal"
-              class="{name}__modal"
-              data-modal.duration="300"
-              data-modal.append-to=""
-              data-modal.click-hide-selector="a"
-              data-hx-swap="innerHTML swap:0.2s"
-              id="sidebar-nav-modal">
-        <div class="{name}__wrap">
-          <div class="{name}__header">
-            <button class="{name}__close"
-                    data-autofocus
-                    data-handler="modal.hide"
-                    aria-controls="sidebar-nav-modal"
-                    aria-label="{f:translate(key:'close')}">
-              <icon:char icon="close" />
-            </button>
-          </div>
-          <element:navigation name="{name}"
-                              pages="{settings.navigation.main}"
-                              label="{f:translate(key:'navigation.main')}"/>
-        </div>
-      </dialog>
+		<dialog data-connect="modal"
+				class="{name}__modal"
+				data-modal.duration="300"
+				data-modal.append-to=""
+				data-modal.click-hide-selector="a"
+				data-hx-swap="innerHTML swap:0.2s"
+				id="sidebar-nav-modal">
+			<div class="{name}__wrap">
+				<div class="{name}__header">
+					<button class="{name}__close"
+							data-autofocus
+							data-handler="modal.hide"
+							aria-controls="sidebar-nav-modal"
+							aria-label="{f:translate(key:'close')}">
+						<icon:char icon="close"/>
+					</button>
+				</div>
+				<element:navigation name="{name}"
+									pages="{settings.navigation.main}"
+									label="{f:translate(key:'navigation.main')}"/>
+			</div>
+		</dialog>
 
-  </fc:renderer>
+	</fc:renderer>
 </fc:component>
 
 
