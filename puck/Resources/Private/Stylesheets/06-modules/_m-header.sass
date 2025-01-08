@@ -1,61 +1,62 @@
 @use '01-tools/all' as *
 
 .m-header
-  &
-    //position: sticky
-    position: fixed
-    top: 0
-    z-index: $z-index-modal - 1
-    width: calc(100vw - var(--scrollbar-width))
-    max-width: var(--width-page)
-    height: var(--height-page-header)
-    margin-bottom: var(--margin-block-page-header)
-    background: var(--background-modal)
-    border-bottom: 2px solid var(--background)
-    transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
+	&
+		//position: sticky
+		position: fixed
+		top: 0
+		z-index: $z-index-modal - 1
+		width: calc(100vw - var(--scrollbar-width))
+		max-width: var(--width-page)
+		height: var(--height-page-header)
+		margin-bottom: var(--margin-block-page-header)
+		background: var(--background-modal)
+		border-bottom: 2px solid var(--background)
+		transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
-  &.--stuck
-    //background: var(--background-modal)
+	&.--stuck
+	//background: var(--background-modal)
 
-  &:where(.--scroll)
-    &.--scroll-up, &.--scroll-down
-    transition: background .5s, transform .4s
-    &.--scroll-down
-      transform: translateY(-100%)
+	&:where(.--scroll)
+		&.--scroll-up, &.--scroll-down
+		transition: background .5s, transform .4s
 
-  &__container
-    +flex(row, space-between, center, nowrap)
-    padding-inline: var(--gutter-outer)
-    height: 100%
+		&.--scroll-down
+			transform: translateY(-100%)
 
-  &__anchor
-    position: relative
-    z-index: $z-index-header-burger
-    display: flex
-    align-items: center
+	&__container
+		+flex(row, space-between, center, nowrap)
+		padding-inline: var(--gutter-outer)
+		height: 100%
 
-    &__text
-      +center(vertical)
-      left: 100%
-      visibility: hidden
-      opacity: 0
-      padding: .25em
-      color: var(--color-link--hover)
-      transition: opacity .3s
+	&__anchor
+		position: relative
+		z-index: $z-index-header-burger
+		display: flex
+		align-items: center
 
-    &__logo
-      max-width: 90%
-      height: 4rem
-      width: 4rem
-      outline: none
-      transition: color .4s, transform .4s, fill .4s
+		&__text
+			+center(vertical)
+			left: 100%
+			visibility: hidden
+			opacity: 0
+			padding: .25em
+			color: var(--color-link--hover)
+			transition: opacity .3s
 
-    &:hover &__logo,
-    &:focus &__logo
-      transform: rotate(90deg)
+		&__logo
+			max-width: 90%
+			height: 4rem
+			width: 4rem
+			outline: none
+			transition: color .4s, transform .4s, fill .4s
 
-    &:hover &__text,
-    &:focus &__text
-      visibility: visible
-      display: block
-      opacity: 1
+		&:hover &__logo,
+		&:focus &__logo
+			transform: rotate(90deg)
+
+		&:hover &__text,
+		&:focus &__text
+			visibility: visible
+			display: block
+			opacity: 1

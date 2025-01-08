@@ -1,58 +1,62 @@
 @use '01-tools/all' as *
 
 .m-menu
-  &__bodytext
-    padding-bottom: spacing(m)
+	&__bodytext
+		padding-bottom: spacing(m)
 
-  &__card
-    transition: transform .25s
-    &:hover
-      transform: translateY(-5px)
+	&__card
+		transition: transform .25s
 
-  &__column
-    cursor: pointer
+		&:hover
+			transform: translateY(-5px)
 
-  &__column :where(.l-media__image)
-    transition: transform .25s
-  &__column:hover :where(.l-media__image)
-    transform: scale(.97)
+	&__column
+		cursor: pointer
 
-  &__teaser
-    +flex(row,flex-start,flex-start,wrap)
-    width: 100%
+	&__column :where(.l-media__image)
+		transition: transform .25s
 
-  &__headline
-    +typo-h3
-    width: 100%
-    color: var(--color-link)
-    &:hover,
-    &:focus-visible
-      color: var(--color-link--hover)
+	&__column:hover :where(.l-media__image)
+		transform: scale(.97)
 
-  &__card:hover &__headline,
-  &__card:hover &__cta,
-  &__column:hover &__headline,
-  &__column:hover &__cta
-    color: var(--color-link--hover)
-    --background-button: var(--background-button--hover)
+	&__teaser
+		+flex(row, flex-start, flex-start, wrap)
+		width: 100%
 
-  &__subtitle
-    width: 100%
-    color: var(--color-accent)
+	&__headline
+		+typo-h3
+		width: 100%
+		color: var(--color-link)
 
-  &__categories
-    width: 100%
-    color: var(--color-accent)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
 
-  &__date
-    +font-size($fs-small)
+	&__card:hover &__headline,
+	&__card:hover &__cta,
+	&__column:hover &__headline,
+	&__column:hover &__cta
+		color: var(--color-link--hover)
+		--background-button: var(--background-button--hover)
 
-  &__teaser-text
-    width: 100%
-    padding-top: spacing(xxs)
+	&__subtitle
+		width: 100%
+		color: var(--color-accent)
 
-  &__cta
-    margin-top: spacing(xs)
-    margin-left: auto
-    &__wrap
-      margin-top: auto
+	&__categories
+		width: 100%
+		color: var(--color-accent)
+
+	&__date
+		+font-size($fs-small)
+
+	&__teaser-text
+		width: 100%
+		padding-top: spacing(xxs)
+
+	&__cta
+		margin-top: spacing(xs)
+		margin-left: auto
+
+		&__wrap
+			margin-top: auto

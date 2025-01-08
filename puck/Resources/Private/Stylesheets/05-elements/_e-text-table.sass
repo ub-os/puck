@@ -1,42 +1,43 @@
 @use '01-tools/all' as *
 
 =e-text-table
-  &__wrap
-    overflow-x: auto
-    @media (max-width(m))
-        margin: 0 0-$gutter-outer-responsive
-        padding: 0 $gutter-outer-responsive
+	&__wrap
+		overflow-x: auto
+		@media (max-width(m))
+			margin: 0 0-$gutter-outer-responsive
+			padding: 0 $gutter-outer-responsive
 
-  &
-    width: 100%
-    border: none
-    @media (min-width(m))
-      table-layout: fixed
+	&
+		width: 100%
+		border: none
+		@media (min-width(m))
+			table-layout: fixed
 
-  .-small
-    +font-size($fs-small)
+	.-small
+		+font-size($fs-small)
 
-  &:not(:last-child),
-  &__wrap:not(:last-child)
-    margin-bottom: spacing(m)
+	&:not(:last-child),
+	&__wrap:not(:last-child)
+		margin-bottom: spacing(m)
 
-  tr
-    border-bottom: 2px solid color-mix(in srgb, var(--color), transparent 50%)
-    &:last-of-type
-      border-bottom: none
+	tr
+		border-bottom: 2px solid color-mix(in srgb, var(--color), transparent 50%)
 
-  tr>:first-child
-    padding-left: 0
+		&:last-of-type
+			border-bottom: none
 
-  th[scope='row']
-    font-weight: bold
+	tr > :first-child
+		padding-left: 0
 
-  td
-    padding: 1.2rem
-    text-align: inherit
-    vertical-align: baseline
+	th[scope='row']
+		font-weight: bold
 
-  th
-    +typo-h4
-    padding-inline: 1.2rem
-    text-align: inherit
+	td
+		padding: 1.2rem
+		text-align: inherit
+		vertical-align: baseline
+
+	th
+		+typo-h4
+		padding-inline: 1.2rem
+		text-align: inherit

@@ -1,32 +1,34 @@
 @use '01-tools/all' as *
 
 .m-header__burger
-  &
-    +flex(column, space-between, center)
-    z-index: $z-index-header-burger
-    position: relative
-    width: 4rem
-    height: 3rem
-    padding: .5rem
-    margin-right: -.5rem
-    color: var(--color-link)
-    cursor: pointer
-    border-radius: var(--border-radius-s)
-    transition: transform .15s, box-shadow .15s
-    @media (min-width($bp-mobile-nav))
-      display: none
+	&
+		+flex(column, space-between, center)
+		z-index: $z-index-header-burger
+		position: relative
+		width: 4rem
+		height: 3rem
+		padding: .5rem
+		margin-right: -.5rem
+		color: var(--color-link)
+		cursor: pointer
+		border-radius: var(--border-radius-s)
+		transition: transform .15s, box-shadow .15s
+		@media (min-width($bp-mobile-nav))
+			display: none
 
-  &.--active &__slice:nth-child(1)
-    transform: translateY(1rem)
-  &.--active &__slice:nth-child(3)
-    transform: translateY(-1rem)
-  &:hover,
-  &:focus-visible
-    color: var(--color-link--hover)
+	&.--active &__slice:nth-child(1)
+		transform: translateY(1rem)
 
-  &__slice
-    height: 3px
-    width: 100%
-    background: currentColor
-    border-radius: 2px
-    transition: transform .15s
+	&.--active &__slice:nth-child(3)
+		transform: translateY(-1rem)
+
+	&:hover,
+	&:focus-visible
+		color: var(--color-link--hover)
+
+	&__slice
+		height: 3px
+		width: 100%
+		background: currentColor
+		border-radius: 2px
+		transition: transform .15s

@@ -8,150 +8,158 @@ $paddingTop: ($checkboxRelativeSize - 1) * 0.5em
 $checkboxOffset: calc(($lineHeight - 1) * $checkboxSize * 0.66 / $checkboxRelativeSize)
 
 fieldset
-  padding: 0
-  border: none
+	padding: 0
+	border: none
 
 input, textarea, select
-  margin: 0
-  padding: 0
-  color: var(--color-input)
-  background: var(--background-input)
-  outline: 0
-  &::placeholder
-    opacity: 0.5
-  &:active, &:focus
-    color: var(--color-input--active)
-    background: var(--background-input--active)
-    &::placeholder
-      opacity: 1
+	margin: 0
+	padding: 0
+	color: var(--color-input)
+	background: var(--background-input)
+	outline: 0
+
+	&::placeholder
+		opacity: 0.5
+
+	&:active, &:focus
+		color: var(--color-input--active)
+		background: var(--background-input--active)
+
+		&::placeholder
+			opacity: 1
 
 textarea
-  width: 100%
-  height: 9.5em
-  resize: none
+	width: 100%
+	height: 9.5em
+	resize: none
 
 select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
-  width: 100%
+	width: 100%
 
 textarea, select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
-  min-height: 2.66em
-  padding: .66em
-  border: 2px solid var(--color-input-border)
-  border-radius: var(--border-radius-s)
-  transition: background .15s, border-color .15s, color .15s, box-shadow .15s
-  &:active, &:focus, &:hover
-    border-color: var(--color-input-border--active)
+	min-height: 2.66em
+	padding: .66em
+	border: 2px solid var(--color-input-border)
+	border-radius: var(--border-radius-s)
+	transition: background .15s, border-color .15s, color .15s, box-shadow .15s
+
+	&:active, &:focus, &:hover
+		border-color: var(--color-input-border--active)
 
 select
-  appearance: none
-  padding-right: 2em
-  .select-wrap:where(:has(> &))
-    position: relative
-    &:after
-      +center(vertical)
-      right: 1em
-      content: var(--icon-code-angle-down-regular)
-      display: block
-      font-family: icons
-      pointer-events: none
+	appearance: none
+	padding-right: 2em
+
+	.select-wrap:where(:has(> &))
+		position: relative
+
+		&:after
+			+center(vertical)
+			right: 1em
+			content: var(--icon-code-angle-down-regular)
+			display: block
+			font-family: icons
+			pointer-events: none
 
 
 [type="checkbox"], [type="radio"]
-  position: absolute
-  width: $checkboxSize
-  height: $checkboxSize
-  opacity: 0
-  z-index: -1
+	position: absolute
+	width: $checkboxSize
+	height: $checkboxSize
+	opacity: 0
+	z-index: -1
 
-  & + label
-    cursor: pointer
-    position: relative
-    padding: $paddingTop 0 0 $checkboxSize * 1.5
-    line-height: 1.5
+	& + label
+		cursor: pointer
+		position: relative
+		padding: $paddingTop 0 0 $checkboxSize * 1.5
+		line-height: 1.5
 
-  & + label:after, & + label:before
-    position: absolute
-    content: ''
-    display: inline-block
+	& + label:after, & + label:before
+		position: absolute
+		content: ''
+		display: inline-block
 
-  & + label:before
-    top: $checkboxOffset
-    left: 0
-    width: $checkboxSize
-    height: $checkboxSize
-    background: var(--background-input)
-    transition: border-color .15s
+	& + label:before
+		top: $checkboxOffset
+		left: 0
+		width: $checkboxSize
+		height: $checkboxSize
+		background: var(--background-input)
+		transition: border-color .15s
 
-  & + label:after
-    box-sizing: border-box
-    background: var(--color-input--active)
-    top: $checkboxSize * 0.25 + $checkboxOffset
-    left: $checkboxSize * 0.25
-    width: $checkboxSize * 0.5
-    height: $checkboxSize * 0.5
-    opacity: 0
-    scale: 0.5
-    transition: border-color .15s, background .15s, opacity .15s, scale .15s
+	& + label:after
+		box-sizing: border-box
+		background: var(--color-input--active)
+		top: $checkboxSize * 0.25 + $checkboxOffset
+		left: $checkboxSize * 0.25
+		width: $checkboxSize * 0.5
+		height: $checkboxSize * 0.5
+		opacity: 0
+		scale: 0.5
+		transition: border-color .15s, background .15s, opacity .15s, scale .15s
 
-  &:not(:checked) + label:hover:after
-    opacity: .5
+	&:not(:checked) + label:hover:after
+		opacity: .5
 
-  &:not(:checked) + label:hover:after
+	&:not(:checked) + label:hover:after
 
-  &:checked + label:after
-    opacity: 1
-    scale: 1
+	&:checked + label:after
+		opacity: 1
+		scale: 1
 
 [type="radio"]
-  & + label:after, & + label:before
-    border-radius: 100%
+	& + label:after, & + label:before
+		border-radius: 100%
 
 [type="checkbox"]
-  & + label
-    display: block
-    max-width: 100%
-    width: 100%
+	& + label
+		display: block
+		max-width: 100%
+		width: 100%
 
 [type="submit"]
 
 input[type="range"]
-  -webkit-appearance: none
-  //width: 50vw
-  //min-width: 20rem
-  //max-width: 50rem
-  margin-bottom: 0
-  height: 7px
-  border-radius: 5px
+	-webkit-appearance: none
+	//width: 50vw
+	//min-width: 20rem
+	//max-width: 50rem
+	margin-bottom: 0
+	height: 7px
+	border-radius: 5px
 
 
 input[type="range"]::-webkit-slider-thumb
-  -webkit-appearance: none
-  height: 1em
-  width: 1em
-  border-radius: 50%
-  transition: background .3s ease-in-out
+	-webkit-appearance: none
+	height: 1em
+	width: 1em
+	border-radius: 50%
+	transition: background .3s ease-in-out
 
 input[type="range"]::-moz-range-thumb
-  height: 1em
-  width: 1em
-  border-radius: 50%
-  transition: background .3s ease-in-out
-  border: none
+	height: 1em
+	width: 1em
+	border-radius: 50%
+	transition: background .3s ease-in-out
+	border: none
 
 input[type="range"]::-webkit-slider-runnable-track
-  -webkit-appearance: none
-  box-shadow: none
-  border: none
-  background: transparent
+	-webkit-appearance: none
+	box-shadow: none
+	border: none
+	background: transparent
 
 label
-  display: inline-block
-  margin-bottom: .5em
-  a
-    color: var(--color-link)
-    text-decoration: underline
-    transition: color .15s
-    &:hover
-      color: var(--color-link--hover)
+	display: inline-block
+	margin-bottom: .5em
+
+	a
+		color: var(--color-link)
+		text-decoration: underline
+		transition: color .15s
+
+		&:hover
+			color: var(--color-link--hover)
 
 

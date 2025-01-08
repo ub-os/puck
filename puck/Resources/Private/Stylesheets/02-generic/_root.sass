@@ -2,40 +2,40 @@
 @use 'sass:math'
 
 \:root
-  // ### border-radius / shadows
-  --border-radius-s: #{ $border-radius-s }
-  --border-radius-m: #{ $border-radius-m }
-  --border-radius-default: 0
+	// ### border-radius / shadows
+	--border-radius-s: #{ $border-radius-s }
+	--border-radius-m: #{ $border-radius-m }
+	--border-radius-default: 0
 
-  --box-shadow-s: #{ $box-shadow-s }
-  --box-shadow-m: #{ $box-shadow-m }
+	--box-shadow-s: #{ $box-shadow-s }
+	--box-shadow-m: #{ $box-shadow-m }
 
-  // ### widths / heights
-  --scrollbar-width: 15px
+	// ### widths / heights
+	--scrollbar-width: 15px
 
-  --scroll-to-offset: 140
-  --main-scroll-target: html
+	--scroll-to-offset: 140
+	--main-scroll-target: html
 
-  --height-page-header: #{ $page-header-height }
-  --margin-block-page-header: 0
+	--height-page-header: #{ $page-header-height }
+	--margin-block-page-header: 0
 
-  --width-grid: #{ $grid-width }
-  --width-page: 3840px
+	--width-grid: #{ $grid-width }
+	--width-page: 3840px
 
-  --grid-columns: #{ $grid-columns }
-  --row-width: #{ $grid-columns }
-  --gutter-outer: #{ $gutter-outer }
+	--grid-columns: #{ $grid-columns }
+	--row-width: #{ $grid-columns }
+	--gutter-outer: #{ $gutter-outer }
 
-  --clip-slant-height: 6vw
+	--clip-slant-height: 6vw
 
-  @media(max-width(m))
-    --gutter-outer: #{ $gutter-outer-responsive }
-    --height-page-header: #{ $page-header-height-mobile }
-    --margin-block-page-header: 1rem
+	@media(max-width(m))
+		--gutter-outer: #{ $gutter-outer-responsive }
+		--height-page-header: #{ $page-header-height-mobile }
+		--margin-block-page-header: 1rem
 
-  +responsive-size($gutter-x, --gutter-x)
-  +responsive-size($gutter-y, --gutter-y)
+	+responsive-size($gutter-x, --gutter-x)
+	+responsive-size($gutter-y, --gutter-y)
 
-  @each $size, $value in sizes()
-    +responsive-size($value, --size-#{$size})
+	@each $size, $value in sizes()
+		+responsive-size($value, --size-#{$size})
 

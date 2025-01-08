@@ -1,110 +1,120 @@
 @use '01-tools/all' as *
 
 .l-card
-  +color-space-card
-  --padding-block: 1.6em
-  --padding-inline: 1.6em
-  --padding-bottom: var(--padding-block)
-  --background-media-opacity: 0.5
-  --background-media-overlay-color: var(--background)
+	+color-space-card
+	--padding-block: 1.6em
+	--padding-inline: 1.6em
+	--padding-bottom: var(--padding-block)
+	--background-media-opacity: 0.5
+	--background-media-overlay-color: var(--background)
 
-  &
-    +flex(column, flex-start, flex-start)
-    position: relative
-    color: var(--color)
-    background: var(--background)
-    border-radius: var(--border-radius-s)
-    overflow: hidden
-    &.-media
-      flex-direction: column-reverse
-      justify-content: space-between
-    &.-media-size-background
-      +color-space-card-image-background
+	&
+		+flex(column, flex-start, flex-start)
+		position: relative
+		color: var(--color)
+		background: var(--background)
+		border-radius: var(--border-radius-s)
+		overflow: hidden
 
-    &.-media-size-contain,
-    &.-media-size-background
-      padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
-    &.-layout-right
-      @media (min-width(xs))
-        flex-direction: row
-    &.-layout-left:where(.-media)
-      @media (min-width(xs))
-        flex-direction: row-reverse
-    &.-layout-above:where(.-media)
-      flex-direction: column-reverse
-    &.-layout-below
-      flex-direction: column
-    &.-media-size-cover:where(.-layout-right, .-layout-left)
-      align-items: stretch
+		&.-media
+			flex-direction: column-reverse
+			justify-content: space-between
 
-  &__content
-    position: relative
-    width: 100%
-    height: 100%
-    z-index: 1
-    &.-media-size-cover
-      padding: var(--padding-block) var(--padding-inline)
-    &.-layout-right,
-    &.-layout-left
-      @media (min-width(xs))
-        width: 0
-        flex-grow: 1
+		&.-media-size-background
+			+color-space-card-image-background
 
-  &__figure
-    width: 100%
-    &.-media-size-background
-      +cover-media
-      position: absolute
-      z-index: 0
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-      background: var(--background-media-overlay-color)
+		&.-media-size-contain,
+		&.-media-size-background
+			padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
 
-    &.-media-size-cover:where(.-layout-right, .-layout-left)
-      @media (min-width(xs))
-        +cover-media
-        width: 50%
-      @for $i from 2 through 10
-        &.-media-width-#{$i}
-          @media (min-width(m))
-            width: calc(100% * #{$i} / var(--card-width))
-          @media (min-width(xs)) and (max-width(m))
-            width: calc(100% * #{$i * 2} / var(--card-width))
+		&.-layout-right
+			@media (min-width(xs))
+				flex-direction: row
 
-    &.-media-size-contain:where(.-layout-above)
-      padding-bottom: var(--padding-bottom)
+		&.-layout-left:where(.-media)
+			@media (min-width(xs))
+				flex-direction: row-reverse
 
-    &.-media-size-contain:where(.-layout-below)
-      padding-top: var(--padding-block)
+		&.-layout-above:where(.-media)
+			flex-direction: column-reverse
 
-    &.-media-size-contain:where(.-layout-right, .-layout-left)
-      @media (min-width(xs))
-        width: calc((100% + #{var(--padding-inline)}) / 2)
-      @for $i from 2 through 10
-        &:where(.-media-width-#{$i})
-          @media (min-width(xs))
-            width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--card-width))
-          @media (min-width(xs)) and (max-width(m))
-            width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--card-width))
+		&.-layout-below
+			flex-direction: column
 
+		&.-media-size-cover:where(.-layout-right, .-layout-left)
+			align-items: stretch
 
-    &.-media-size-contain:where(.-layout-right)
-      @media (min-width(xs))
-        padding-left: var(--padding-inline)
-      @media (max-width(xs))
-        padding-bottom: var(--padding-bottom)
+	&__content
+		position: relative
+		width: 100%
+		height: 100%
+		z-index: 1
 
-    &.-media-size-contain:where(.-layout-left)
-      @media (min-width(xs))
-        padding-right: var(--padding-inline)
-      @media (max-width(xs))
-        padding-bottom: var(--padding-bottom)
+		&.-media-size-cover
+			padding: var(--padding-block) var(--padding-inline)
+
+		&.-layout-right,
+		&.-layout-left
+			@media (min-width(xs))
+				width: 0
+				flex-grow: 1
+
+	&__figure
+		width: 100%
+
+		&.-media-size-background
+			+cover-media
+			position: absolute
+			z-index: 0
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background: var(--background-media-overlay-color)
+
+		&.-media-size-cover:where(.-layout-right, .-layout-left)
+			@media (min-width(xs))
+				+cover-media
+				width: 50%
+			@for $i from 2 through 10
+				&.-media-width-#{$i}
+					@media (min-width(m))
+						width: calc(100% * #{$i} / var(--card-width))
+					@media (min-width(xs)) and (max-width(m))
+						width: calc(100% * #{$i * 2} / var(--card-width))
+
+		&.-media-size-contain:where(.-layout-above)
+			padding-bottom: var(--padding-bottom)
+
+		&.-media-size-contain:where(.-layout-below)
+			padding-top: var(--padding-block)
+
+		&.-media-size-contain:where(.-layout-right, .-layout-left)
+			@media (min-width(xs))
+				width: calc((100% + #{var(--padding-inline)}) / 2)
+			@for $i from 2 through 10
+				&:where(.-media-width-#{$i})
+					@media (min-width(xs))
+						width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--card-width))
+					@media (min-width(xs)) and (max-width(m))
+						width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--card-width))
 
 
-  &__figure.-media-size-background &__image
-    opacity: var(--background-media-opacity)
+		&.-media-size-contain:where(.-layout-right)
+			@media (min-width(xs))
+				padding-left: var(--padding-inline)
+			@media (max-width(xs))
+				padding-bottom: var(--padding-bottom)
 
-  &__image
-    width: 100%
+		&.-media-size-contain:where(.-layout-left)
+			@media (min-width(xs))
+				padding-right: var(--padding-inline)
+			@media (max-width(xs))
+				padding-bottom: var(--padding-bottom)
+
+
+	&__figure.-media-size-background &__image
+		opacity: var(--background-media-opacity)
+
+	&__image
+		width: 100%

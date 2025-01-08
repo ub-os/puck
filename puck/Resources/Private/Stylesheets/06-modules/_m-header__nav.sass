@@ -1,53 +1,55 @@
 @use '01-tools/all' as *
 
 .m-header__nav
-  &__wrap
-    +flex(column, flex-start, flex-end, nowrap)
-    margin-left: auto
-    @media (max-width($bp-mobile-nav))
-      display: none
+	&__wrap
+		+flex(column, flex-start, flex-end, nowrap)
+		margin-left: auto
+		@media (max-width($bp-mobile-nav))
+			display: none
 
-  &
-    +typo-nav
-    +flex(column, flex-end, flex-end)
-    margin: -.2em -1em
-    flex-grow: 1
+	&
+		+typo-nav
+		+flex(column, flex-end, flex-end)
+		margin: -.2em -1em
+		flex-grow: 1
 
-  & + &
-    @media (min-width($bp-mobile-nav))
-      padding-left: 2em
+	& + &
+		@media (min-width($bp-mobile-nav))
+			padding-left: 2em
 
-  &.-social
-    margin: -.2em -.5em
+	&.-social
+		margin: -.2em -.5em
 
-  &__meta__wrap
-    @media (min-width($bp-mobile-nav))
-      display: flex
+	&__meta__wrap
+		@media (min-width($bp-mobile-nav))
+			display: flex
 
-  &__list
-    position: relative
-    display: flex
-    justify-content: flex-end
+	&__list
+		position: relative
+		display: flex
+		justify-content: flex-end
 
-  &__item
-  //margin-left: 2em
+	&__item
+	//margin-left: 2em
 
-  &__link
-    display: block
-    padding: .2em 1em
-    color: var(--color-link)
-    transition: opacity .15s, color .15s
-    &:hover,
-    &:focus-visible
-      color: var(--color-link--hover)
-    &.-rootline
-      color: var(--color-accent)
+	&__link
+		display: block
+		padding: .2em 1em
+		color: var(--color-link)
+		transition: opacity .15s, color .15s
 
-  &.-small
-    +font-size($fs-extra-small)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
 
-  &__close
-    display: none
+		&.-rootline
+			color: var(--color-accent)
 
-  &__header
-    display: none
+	&.-small
+		+font-size($fs-extra-small)
+
+	&__close
+		display: none
+
+	&__header
+		display: none

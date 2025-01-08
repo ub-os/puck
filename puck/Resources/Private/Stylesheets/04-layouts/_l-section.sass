@@ -5,85 +5,97 @@ $backgrounds: 'dark-1'
 $slanted-backgrounds: 'slant-dark-1'
 
 .l-section
-  &
-    position: relative
-    //overflow-x: hidden
-    width: 100%
-    margin-block: spacing(m)
-    color: var(--color)
-    background: var(--background)
-    scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(xs) })
+	&
+		position: relative
+		//overflow-x: hidden
+		width: 100%
+		margin-block: spacing(m)
+		color: var(--color)
+		background: var(--background)
+		scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(xs) })
 
-  // Spacing
-  &.-top
-    &-none
-      margin-top: 0
-    &-small
-      margin-top: spacing(s)
-    &-medium
-      margin-top: spacing(m)
-    &-large
-      margin-top: spacing(l)
+	// Spacing
+	&.-top
+		&-none
+			margin-top: 0
 
-  &.-bottom
-    &-none
-      margin-bottom: 0
-    &-small
-      margin-bottom: spacing(s)
-    &-medium
-      margin-bottom: spacing(m)
-    &-large
-      margin-bottom: spacing(l)
+		&-small
+			margin-top: spacing(s)
 
-  // Auto spacing rules
-  .m-main > &:where(.-bottom-auto:last-of-type)
-    padding-bottom: spacing(xl)
-    margin-bottom: 0
+		&-medium
+			margin-top: spacing(m)
 
-  &:where(:not([class*="-background-"]))
-    &:where(.-bottom-auto) + &:where(.-top-auto.-no-h2-spacing),
-    &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto.-no-h2-spacing)
-      margin-top: 0
+		&-large
+			margin-top: spacing(l)
 
-  &:where([class*="-background-"])
-    padding-block: spacing(m, 2)
-    & + &,
-    & + .e-anchor + :where(&)
-      margin-top: spacing(m, -1)
+	&.-bottom
+		&-none
+			margin-bottom: 0
 
-  @each $bg in $backgrounds
-    &:where(.-background-#{$bg})
-      &:where(.-bottom-auto) + &:where(.-top-auto),
-      &:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto)
-        margin-top: spacing(m, -1)
-        padding-top: 0
-        &:where(.-no-h2-spacing)
-          margin-top: spacing(m, -2)
+		&-small
+			margin-bottom: spacing(s)
 
-  @each $bg in $slanted-backgrounds
-    &.-background-#{$bg}
-      +responsive-size(map.get(sizes(), 'l'), --responsives-slant-section-margin)
-      z-index: 2
-      padding-block: calc( 5em + var(--clip-slant-height) * 0.66)
-      //padding-top: calc( 5em + var(--clip-slant-height) * 0.75)
-      //padding-bottom: calc( 5em + var(--clip-slant-height) * 0.5)
+		&-medium
+			margin-bottom: spacing(m)
 
-      margin-block: calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5)
-      clip-path: polygon(0 var(--clip-slant-height), 100% 2px, 100% calc(100% - var(--clip-slant-height)), 0% calc(100% - 2px))
-      &:last-child
-        margin-bottom: 0
-        padding-bottom: 5em
-        clip-path: polygon(0 var(--clip-slant-height), 100% 2px, 100% 100%, 0% 100%)
-      &:where(.-bottom-auto) + &:where(.-top-auto)
-        padding-top: calc(var(--responsives-slant-section-margin) + var(--clip-slant-height) * 0.33)
-        &:where(.-no-h2-spacing)
-          padding-top: calc(var(--clip-slant-height) * 0.33)
-      @each $bg2 in $slanted-backgrounds
-        &:where(.-bottom-auto) + .l-section:where(.-background-#{$bg2}.-top-auto),
-        &:where(.-bottom-auto) + :where(.e-anchor) + .l-section:where(.-background-#{$bg2}.-top-auto)
-          margin-top: calc(-1 * calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5) - var(--clip-slant-height))
+		&-large
+			margin-bottom: spacing(l)
+
+	// Auto spacing rules
+	.m-main > &:where(.-bottom-auto:last-of-type)
+		padding-bottom: spacing(xl)
+		margin-bottom: 0
+
+	&:where(:not([class*="-background-"]))
+		&:where(.-bottom-auto) + &:where(.-top-auto.-no-h2-spacing),
+		&:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto.-no-h2-spacing)
+			margin-top: 0
+
+	&:where([class*="-background-"])
+		padding-block: spacing(m, 2)
+
+		& + &,
+		& + .e-anchor + :where(&)
+			margin-top: spacing(m, -1)
+
+	@each $bg in $backgrounds
+		&:where(.-background-#{$bg})
+			&:where(.-bottom-auto) + &:where(.-top-auto),
+			&:where(.-bottom-auto) + :where(.e-anchor) + &:where(.-top-auto)
+				margin-top: spacing(m, -1)
+				padding-top: 0
+
+				&:where(.-no-h2-spacing)
+					margin-top: spacing(m, -2)
+
+	@each $bg in $slanted-backgrounds
+		&.-background-#{$bg}
+			+responsive-size(map.get(sizes(), 'l'), --responsives-slant-section-margin)
+			z-index: 2
+			padding-block: calc(5em + var(--clip-slant-height) * 0.66)
+			//padding-top: calc( 5em + var(--clip-slant-height) * 0.75)
+			//padding-bottom: calc( 5em + var(--clip-slant-height) * 0.5)
+
+			margin-block: calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5)
+			clip-path: polygon(0 var(--clip-slant-height), 100% 2px, 100% calc(100% - var(--clip-slant-height)), 0% calc(100% - 2px))
+
+			&:last-child
+				margin-bottom: 0
+				padding-bottom: 5em
+				clip-path: polygon(0 var(--clip-slant-height), 100% 2px, 100% 100%, 0% 100%)
+
+			&:where(.-bottom-auto) + &:where(.-top-auto)
+				padding-top: calc(var(--responsives-slant-section-margin) + var(--clip-slant-height) * 0.33)
+
+				&:where(.-no-h2-spacing)
+					padding-top: calc(var(--clip-slant-height) * 0.33)
+
+			@each $bg2 in $slanted-backgrounds
+				&:where(.-bottom-auto) + .l-section:where(.-background-#{$bg2}.-top-auto),
+				&:where(.-bottom-auto) + :where(.e-anchor) + .l-section:where(.-background-#{$bg2}.-top-auto)
+					margin-top: calc(-1 * calc(var(--responsives-slant-section-margin) - var(--clip-slant-height) * 0.5) - var(--clip-slant-height))
 
 
-  // Backgrounds
-  &.-background-dark-1
-    +color-space-dark-1
+	// Backgrounds
+	&.-background-dark-1
+		+color-space-dark-1

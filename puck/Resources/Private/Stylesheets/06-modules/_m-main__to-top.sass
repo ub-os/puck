@@ -1,37 +1,38 @@
 @use '01-tools/all' as *
 
 .m-main__to-top
-  &
-    position: fixed
-    right: var(--gutter-outer)
-    bottom: 4rem
-    z-index: $z-index-header
-    height: 2.25em
-    width: 2.25em
-    color: var(--color)
-    background: var(--background-modal)
-    border-radius: var(--border-radius-s)
-    opacity: 0
-    pointer-events: none
-    transform: translateY(12px)
-    transition: background .15s, transform .25s, opacity .25s, border-color .15s
-    [class*="-modal--active"] &,
-    [class*="-modal--deactivating"] &
-      opacity: 0
-      right: calc(var(--gutter-outer) + var(--scrollbar-width))
+	&
+		position: fixed
+		right: var(--gutter-outer)
+		bottom: 4rem
+		z-index: $z-index-header
+		height: 2.25em
+		width: 2.25em
+		color: var(--color)
+		background: var(--background-modal)
+		border-radius: var(--border-radius-s)
+		opacity: 0
+		pointer-events: none
+		transform: translateY(12px)
+		transition: background .15s, transform .25s, opacity .25s, border-color .15s
 
-    @media (max-width(s))
-      display: none
+		[class*="-modal--active"] &,
+		[class*="-modal--deactivating"] &
+			opacity: 0
+			right: calc(var(--gutter-outer) + var(--scrollbar-width))
 
-  &.--scroll
-    opacity: 1
-    pointer-events: initial
-    cursor: pointer
-    transform: translateY(0px)
+		@media (max-width(s))
+			display: none
 
-  &.--scroll:hover
-    opacity: 1
-    transform: translateY(-6px)
+	&.--scroll
+		opacity: 1
+		pointer-events: initial
+		cursor: pointer
+		transform: translateY(0px)
 
-  &__icon
-    +center(both)
+	&.--scroll:hover
+		opacity: 1
+		transform: translateY(-6px)
+
+	&__icon
+		+center(both)

@@ -1,103 +1,108 @@
 @use '01-tools/all' as *
 
 .l-carousel
-  &
+	&
 
-  &__controls
-    +flex(row,center,center)
-    padding-top: spacing(xs)
+	&__controls
+		+flex(row, center, center)
+		padding-top: spacing(xs)
 
-    &__prev,
-    &__next
-      margin: 0 .5em
-      color: var(--color-link)
-      &:hover,
-      &:focus-visible
-        color: var(--color-link)
+		&__prev,
+		&__next
+			margin: 0 .5em
+			color: var(--color-link)
 
-  &__pagination
-    +flex(row,center,center)
-    padding-top: spacing(xs)
+			&:hover,
+			&:focus-visible
+				color: var(--color-link)
 
-  &__track
-    //margin-block: calc(var(--gutter-y) * -.5)
-    //margin-inline: calc(var(--gutter-x) * -.5)
-    overflow: visible
-    overflow-x: hidden
-    overflow-y: hidden
-    overflow-x: clip
-    overflow-y: clip
+	&__pagination
+		+flex(row, center, center)
+		padding-top: spacing(xs)
 
-  &__track.-overflow-visible
-    overflow: visible
-    overflow-x: visible
-    overflow-y: visible
+	&__track
+		//margin-block: calc(var(--gutter-y) * -.5)
+		//margin-inline: calc(var(--gutter-x) * -.5)
+		overflow: visible
+		overflow-x: hidden
+		overflow-y: hidden
+		overflow-x: clip
+		overflow-y: clip
 
-  &__list
-    &.-align-start
-      align-items: flex-start
+	&__track.-overflow-visible
+		overflow: visible
+		overflow-x: visible
+		overflow-y: visible
 
-    &.-align-center
-      align-items: center
+	&__list
+		&.-align-start
+			align-items: flex-start
 
-    &.-align-end
-      align-items: flex-end
+		&.-align-center
+			align-items: center
 
-    &.-align-stretch
-      align-items: stretch
+		&.-align-end
+			align-items: flex-end
 
-  :where(.splide__slide.l-row__item):not(:last-child)
-    margin-right: var(--gutter-x)
+		&.-align-stretch
+			align-items: stretch
 
-  &__pagination__page
-    $width: .75em
-    $margin: .75em
-    $autoplayBarWidthMultiplier: 3.5
-    position: relative
-    height: $width
-    width: $width
-    margin: $margin * 0.5
-    background: color-mix(in srgb, var(--color-link), transparent 50%)
-    border-radius: $width * 0.5
-    transition: width var(--splide-speed)
-    &:before
-      content: ''
-      position: absolute
-      top: $margin * (-0.5)
-      left: $margin * (-0.5)
-      width: $width + $margin
-      height: $width + $margin
-    &.is-active
-      background: var(--color-link)
-    &.is-active.-autoplay
-      width: $width * $autoplayBarWidthMultiplier
-      background: color-mix(in srgb, var(--color-link), transparent 50%)
-      overflow: hidden
-    &.is-active.-autoplay:after
-      content: ''
-      position: absolute
-      top: 0
-      left: 0
-      width: calc(var(--splide-autoplay-progress) * #{$width * ($autoplayBarWidthMultiplier - 1)} + $width)
-      height: $width
-      background: var(--color-link)
-      border-radius: $width * 0.5
+	:where(.splide__slide.l-row__item):not(:last-child)
+		margin-right: var(--gutter-x)
 
-  &__arrows
-    &__button
-      position: relative
-      height: 2.25em
-      width: 2.25em
-      margin: 0 .25em
-      border-radius: var(--border-radius-s)
-      transition: color .15s, background .15s, opacity .15s
+	&__pagination__page
+		$width: .75em
+		$margin: .75em
+		$autoplayBarWidthMultiplier: 3.5
+		position: relative
+		height: $width
+		width: $width
+		margin: $margin * 0.5
+		background: color-mix(in srgb, var(--color-link), transparent 50%)
+		border-radius: $width * 0.5
+		transition: width var(--splide-speed)
 
-    &__button:hover
-      background: white
+		&:before
+			content: ''
+			position: absolute
+			top: $margin * (-0.5)
+			left: $margin * (-0.5)
+			width: $width + $margin
+			height: $width + $margin
 
-    &__button.-left
+		&.is-active
+			background: var(--color-link)
 
-    &__icon
-      +center(both)
-      height: 1em
-      width: 1em
+		&.is-active.-autoplay
+			width: $width * $autoplayBarWidthMultiplier
+			background: color-mix(in srgb, var(--color-link), transparent 50%)
+			overflow: hidden
+
+		&.is-active.-autoplay:after
+			content: ''
+			position: absolute
+			top: 0
+			left: 0
+			width: calc(var(--splide-autoplay-progress) * #{$width * ($autoplayBarWidthMultiplier - 1)} + $width)
+			height: $width
+			background: var(--color-link)
+			border-radius: $width * 0.5
+
+	&__arrows
+		&__button
+			position: relative
+			height: 2.25em
+			width: 2.25em
+			margin: 0 .25em
+			border-radius: var(--border-radius-s)
+			transition: color .15s, background .15s, opacity .15s
+
+		&__button:hover
+			background: white
+
+		&__button.-left
+
+		&__icon
+			+center(both)
+			height: 1em
+			width: 1em

@@ -6,83 +6,83 @@
 @use '00-settings/variables' as *
 
 @function rem-to-px($rem)
-  @return math.div($rem,1rem) * $rfs-rem-value * 1px
+	@return math.div($rem,1rem) * $rfs-rem-value * 1px
 
 @function px-to-rem($px)
-  @return math.div($px,1px * $rfs-rem-value) * 1rem
+	@return math.div($px,1px * $rfs-rem-value) * 1rem
 
 @function px-to-native-rem($px)
-  @return math.div($px,1px * 16) * 1rem
+	@return math.div($px,1px * 16) * 1rem
 
 @function bps-down()
-  @return ('xs': $bp-xs, 's': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
+	@return ('xs': $bp-xs, 's': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl, 'grid-width': rem-to-px(grid-container-width()))
 
 @function bps-up()
-  @return ('xs': ($bp-xs + 1), 's': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
+	@return ('xs': ($bp-xs + 1), 's': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
 
 @function sizes()
-  @return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
+	@return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
 
 @function spacing($size, $multiplier: 1)
-  @if $multiplier == 1
-    @return var(--size-#{$size})
-  @else
-    @return calc(var(--size-#{$size}) * #{$multiplier})
+	@if $multiplier == 1
+		@return var(--size-#{$size})
+	@else
+		@return calc(var(--size-#{$size}) * #{$multiplier})
 
 
 @function min-width($bpOrPx)
-  @if map.has-key(bps-up(), $bpOrPx)
-    @return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bpOrPx))}'
-  @else
-    @return 'min-width: #{px-to-native-rem($bpOrPx)}'
+	@if map.has-key(bps-up(), $bpOrPx)
+		@return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bpOrPx))}'
+	@else
+		@return 'min-width: #{px-to-native-rem($bpOrPx)}'
 
 @function max-width($bpOrPx)
-  @if map.has-key(bps-down(), $bpOrPx)
-    @return 'max-width: #{px-to-native-rem(map.get(bps-down(), $bpOrPx))}'
-  @else
-    @return 'max-width: #{px-to-native-rem($bpOrPx)}'
+	@if map.has-key(bps-down(), $bpOrPx)
+		@return 'max-width: #{px-to-native-rem(map.get(bps-down(), $bpOrPx))}'
+	@else
+		@return 'max-width: #{px-to-native-rem($bpOrPx)}'
 
 
 @function grid-gutters()
-  @return $grid-columns - 1
+	@return $grid-columns - 1
 
 @function grid-container-width()
-  @return $grid-width + 2 * $gutter-outer
+	@return $grid-width + 2 * $gutter-outer
 
 @function column-width()
-  @return math.div(($grid-width - $gutter-x * grid-gutters()), $grid-columns)
+	@return math.div(($grid-width - $gutter-x * grid-gutters()), $grid-columns)
 
 // helpers
 @function width-by-cols($columns: 12, $grid-padding: false)
-  $result: (column-width() * $columns) + ($gutter-x * ($columns - 1))
-  @if ($grid-padding == true)
-    @return $result + (2 * $gutter-outer)
-  @else
-    @return $result
+	$result: (column-width() * $columns) + ($gutter-x * ($columns - 1))
+	@if ($grid-padding == true)
+		@return $result + (2 * $gutter-outer)
+	@else
+		@return $result
 
 
 @function str-replace($string, $search, $replace: '')
-  $index: string.index($string, $search)
-  @if $index
-    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace)
-  @return $string
+	$index: string.index($string, $search)
+	@if $index
+		@return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace)
+	@return $string
 
 @function reverse-map($map)
-  $result: null
+	$result: null
 
-  @if meta.type-of($map) == "map"
-    $keys: map.keys($map)
-    $map-reversed: ()
+	@if meta.type-of($map) == "map"
+		$keys: map.keys($map)
+		$map-reversed: ()
 
-    @for $i from list.length($keys) through 1
-      $map-reversed: map.merge($map-reversed,(list.nth($keys, $i): map.get($map, list.nth($keys, $i))))
+		@for $i from list.length($keys) through 1
+			$map-reversed: map.merge($map-reversed, (list.nth($keys, $i): map.get($map, list.nth($keys, $i))))
 
-    @if type-of($map-reversed) == "map"
-      $result: $map-reversed
-    @else
-      @warn 'There was an error reversing the order of "#{$map}"'
+		@if type-of($map-reversed) == "map"
+			$result: $map-reversed
+		@else
+			@warn 'There was an error reversing the order of "#{$map}"'
 
-  @else
-    @warn '"#{$map}" is not a valid map'
+	@else
+		@warn '"#{$map}" is not a valid map'
 
-  @return $result
+	@return $result

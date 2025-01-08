@@ -1,24 +1,26 @@
 @use '01-tools/all' as *
 
 .m-menu__pagination
-  &
-    +font-size($fs-h4)
-    +flex(row,center,center)
-    padding-top: spacing(s)
+	&
+		+font-size($fs-h4)
+		+flex(row, center, center)
+		padding-top: spacing(s)
 
-  &__item
+	&__item
 
-  &__link
-    display: block
-    padding: 0.25em .5em
-    margin: 0 .25em
-    color: var(--color-link)
-    &:hover,
-    &:focus-visible
-      color: var(--color-link--hover)
-    &.-disabled
-      color: var(--color-accent)
+	&__link
+		display: block
+		padding: 0.25em .5em
+		margin: 0 .25em
+		color: var(--color-link)
 
-  &__prev,
-  &__next
-    display: block
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
+
+		&.-disabled
+			color: var(--color-accent)
+
+	&__prev,
+	&__next
+		display: block

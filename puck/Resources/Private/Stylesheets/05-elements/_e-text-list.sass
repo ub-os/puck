@@ -1,63 +1,67 @@
 @use '01-tools/all' as *
 
 =e-text-list
-  --width-list-offset: 1.6em
-  --width-list-symbol: .66em
-  --height-list-symbol: .66em
-  --color-list-symbol: var(--color-accent)
+	--width-list-offset: 1.6em
+	--width-list-symbol: .66em
+	--height-list-symbol: .66em
+	--color-list-symbol: var(--color-accent)
 
-  &
-    padding-left: 0
+	&
+		padding-left: 0
 
-  &:last-child
-    margin-bottom: 0
+	&:last-child
+		margin-bottom: 0
 
-  &>li
-    margin-bottom: .5em
-    padding-left: var(--width-list-offset)
-    &:last-child
-      margin-bottom: 0
+	& > li
+		margin-bottom: .5em
+		padding-left: var(--width-list-offset)
 
-  &>li:before
-    position: relative
-    bottom: .1em
-    content: ''
-    box-sizing: border-box
-    display: inline-block
-    width: var(--width-list-symbol)
-    height: var(--height-list-symbol)
-    margin-left: calc( -1 * var(--width-list-offset))
-    margin-right: calc( var(--width-list-offset) - var(--width-list-symbol) )
-    vertical-align: middle
-    color: var(--color-list-symbol)
-    background: var(--color-list-symbol)
+		&:last-child
+			margin-bottom: 0
 
-  &>li>ol
-    margin-top: .5em
-    &>li
-      counter-increment: ol-sub-counter
-    &>li:before
-      content: counter(ol-sub-counter)
+	& > li:before
+		position: relative
+		bottom: .1em
+		content: ''
+		box-sizing: border-box
+		display: inline-block
+		width: var(--width-list-symbol)
+		height: var(--height-list-symbol)
+		margin-left: calc(-1 * var(--width-list-offset))
+		margin-right: calc(var(--width-list-offset) - var(--width-list-symbol))
+		vertical-align: middle
+		color: var(--color-list-symbol)
+		background: var(--color-list-symbol)
 
-  &>li>ul
-    margin-top: .5em
-    &>li:before
-      transform: scale(.6)
+	& > li > ol
+		margin-top: .5em
 
-  &:is(ol)>li
-    counter-increment: ol-counter
+		& > li
+			counter-increment: ol-sub-counter
 
-  &:is(ol)>li:before
-    content: counter(ol-counter)'.'
-    height: 100%
-    bottom: .05em
-    padding-left: 1px
-    background: var(--color-list-symbol)
-    text-align: center
-    font-weight: bold
-    background: none
+		& > li:before
+			content: counter(ol-sub-counter)
 
-  @for $i from 1 through 20
-    &:is(ol)[start="#{$i}"]
-      $reset: $i - 1
-      counter-reset: ol-counter $reset
+	& > li > ul
+		margin-top: .5em
+
+		& > li:before
+			transform: scale(.6)
+
+	&:is(ol) > li
+		counter-increment: ol-counter
+
+	&:is(ol) > li:before
+		content: counter(ol-counter) '.'
+		height: 100%
+		bottom: .05em
+		padding-left: 1px
+		background: var(--color-list-symbol)
+		text-align: center
+		font-weight: bold
+		background: none
+
+	@for $i from 1 through 20
+		&:is(ol)[start="#{$i}"]
+			$reset: $i - 1
+			counter-reset: ol-counter $reset

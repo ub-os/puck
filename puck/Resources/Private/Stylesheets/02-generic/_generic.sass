@@ -3,13 +3,17 @@
 	box-sizing: border-box
 	background-position: center center
 	background-size: cover
+
 	&:focus
 		outline: initial
+
 	&:not(img)::selection
 		background-color: var(--color) !important
 		color: var(--background) !important
+
 		&:after, &:before
 			color: var(--background) !important
+
 	& img::selection
 		background-color: var(--color)
 		opacity: .4

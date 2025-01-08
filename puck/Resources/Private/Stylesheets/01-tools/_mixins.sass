@@ -5,102 +5,102 @@
 @use 'rfs/sass' as rfs with ($rfs-base-value: $rfs-base-value, $rfs-factor: $rfs-factor, $rfs-breakpoint: $rfs-breakpoint, $rfs-rem-value: $rfs-rem-value)
 
 =responsive-size($values, $property)
-  +rfs.rfs($values, $property)
+	+rfs.rfs($values, $property)
 
 =font-size($value)
-  +rfs.rfs($value)
+	+rfs.rfs($value)
 
 
 =grid-container($max-width: grid-container-width())
-  width: 100%
-  max-width: $max-width
-  margin-inline: auto
+	width: 100%
+	max-width: $max-width
+	margin-inline: auto
 
 =grid-row()
-  display: flex
-  flex-wrap: wrap
-  gap: var(--gutter-y) var(--gutter-x)
+	display: flex
+	flex-wrap: wrap
+	gap: var(--gutter-y) var(--gutter-x)
 
 =grid-col($width: var(--row-width), $row-width: var(--row-width))
-  flex-shrink: 0
-  max-width: 100%
-  flex-basis: auto
-  width: round(down, (100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1), 1px)
-  +grid-col-width($width, $row-width)
+	flex-shrink: 0
+	max-width: 100%
+	flex-basis: auto
+	width: round(down, (100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1), 1px)
+	+grid-col-width($width, $row-width)
 
 =grid-col-width($width, $row-width: var(--row-width))
-  @if $row-width != var(--row-width)
-    --row-width: #{$row-width}
-  --col-width: #{$width}
-  &>*
-    --card-width: #{$width}
-    @if $width != var(--row-width)
-      --row-width: #{$width}
+	@if $row-width != var(--row-width)
+		--row-width: #{$row-width}
+	--col-width: #{$width}
+	& > *
+		--card-width: #{$width}
+		@if $width != var(--row-width)
+			--row-width: #{$width}
 
 =grid-col-breakpoint($bp, $width, $row-width: var(--row-width))
-  @media (max-width($bp))
-    +grid-col-width($width, $row-width)
+	@media (max-width($bp))
+		+grid-col-width($width, $row-width)
 
 
 =flex( $direction: row, $justify: false, $align: false, $wrap: false)
-  display: flex
-  flex-direction: $direction
-  @if $justify
-    justify-content: $justify
-  @if $align
-    align-items: $align
-  @if $direction == row and not $wrap
-    flex-wrap: wrap
-  @if $wrap
-    flex-wrap: $wrap
+	display: flex
+	flex-direction: $direction
+	@if $justify
+		justify-content: $justify
+	@if $align
+		align-items: $align
+	@if $direction == row and not $wrap
+		flex-wrap: wrap
+	@if $wrap
+		flex-wrap: $wrap
 
 =center($axis: 'both')
-  position: absolute
-  @if $axis == 'vertical'
-    top: 50%
-    transform: translateY(-50%)
-  @else if $axis == 'horizontal'
-    left: 50%
-    transform: translate(-50%)
-  @else if $axis == 'both'
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
+	position: absolute
+	@if $axis == 'vertical'
+		top: 50%
+		transform: translateY(-50%)
+	@else if $axis == 'horizontal'
+		left: 50%
+		transform: translate(-50%)
+	@else if $axis == 'both'
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
 
 =cover($position: center)
-  object-fit: cover
-  object-position: $position
-  height: 100%
-  width: 100%
+	object-fit: cover
+	object-position: $position
+	height: 100%
+	width: 100%
 
 =cover-media($position: center)
-  overflow: hidden
-  &>div
-    width: 100%
-    height: 100%
-  .e-media-player
-    padding-top: 0
-    width: 100%
-    height: 100%
+	overflow: hidden
+	& > div
+		width: 100%
+		height: 100%
+	.e-media-player
+		padding-top: 0
+		width: 100%
+		height: 100%
 
-  &>picture>img, &>video, &>iframe, .e-media-player>img
-    +cover($position)
+	& > picture > img, & > video, & > iframe, .e-media-player > img
+		+cover($position)
 
 =hover()
-  @media (hover: hover)
-    &:hover:not(:disabled)
-      @content
+	@media (hover: hover)
+		&:hover:not(:disabled)
+			@content
 
 =hover-child($parentClass)
-  .#{$parentClass}:hover &
-    @content
+	.#{$parentClass}:hover &
+		@content
 
 =hover-and-touch-devices()
-  @media (hover: hover)
-    &:hover:not(:disabled)
-      @content
-  @media (hover: none)
-    @content
+	@media (hover: hover)
+		&:hover:not(:disabled)
+			@content
+	@media (hover: none)
+		@content
 
 
 //=grid-row($custom-gutter: $gutter)

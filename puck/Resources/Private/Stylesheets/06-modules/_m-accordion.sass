@@ -1,77 +1,78 @@
 @use '01-tools/all' as *
 
 .m-accordion
-  &
-    border-radius: var(--border-radius-s)
+	&
+		border-radius: var(--border-radius-s)
 
-  & + &
-    margin-top: spacing(xs)
+	& + &
+		margin-top: spacing(xs)
 
-    // to do for container
-  .e-rich-text + &
-    margin-top: spacing(m)
+	// to do for container
+	.e-rich-text + &
+		margin-top: spacing(m)
 
-  &__button
-    +typo-h4
-    display: flex
-    justify-content: space-between
-    width: 100%
-    line-height: 1.5
-    color: var(--color-link)
-    cursor: pointer
-    transition: color .15s, background-color .15s, transform .15s, border-color .15s
-    &:hover,
-    &:focus-visible
-      color: var(--color-link--hover)
+	&__button
+		+typo-h4
+		display: flex
+		justify-content: space-between
+		width: 100%
+		line-height: 1.5
+		color: var(--color-link)
+		cursor: pointer
+		transition: color .15s, background-color .15s, transform .15s, border-color .15s
 
-  &__title
-    padding:
-      right: 1em
-    text-align: left
-    transition: transform .2s
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
 
-  &
-    display: block
-    overflow: hidden
-    transition: height .22s ease-out, min-height .22s ease-out
+	&__title
+		padding:
+			right: 1em
+		text-align: left
+		transition: transform .2s
 
-  &.--active,
-  &.--deactivating
+	&
+		display: block
+		overflow: hidden
+		transition: height .22s ease-out, min-height .22s ease-out
 
-  &.--active:not(.--activating)
-    height: auto
+	&.--active,
+	&.--deactivating
 
-  &__content
-    padding-top: spacing(xs)
-    padding-bottom: spacing(s)
-    opacity: 0
-    transition: opacity .22s ease-out
+	&.--active:not(.--activating)
+		height: auto
 
-  &.--active &__content
-    opacity: 1
+	&__content
+		padding-top: spacing(xs)
+		padding-bottom: spacing(s)
+		opacity: 0
+		transition: opacity .22s ease-out
 
-  &__icon
-    position: relative
-    height: 1em
-    width: 1em
-    transform: translateY(.2em)
+	&.--active &__content
+		opacity: 1
 
-  &__icon:before,
-  &__icon:after
-    +center(both)
-    content: ''
-    display: block
-    height: .85em
-    width: 2px
-    background: currentColor
-    transform-origin: center
-    transition: transform .2s
+	&__icon
+		position: relative
+		height: 1em
+		width: 1em
+		transform: translateY(.2em)
 
-  &__icon:after
-    transform: translate(-50%, -50%) rotate(90deg)
+	&__icon:before,
+	&__icon:after
+		+center(both)
+		content: ''
+		display: block
+		height: .85em
+		width: 2px
+		background: currentColor
+		transform-origin: center
+		transition: transform .2s
 
-  &.--active &__icon:before
-    transform: translate(-50%,-50%) scaleY(0)
+	&__icon:after
+		transform: translate(-50%, -50%) rotate(90deg)
 
-  &.--active &__icon:after
-    transform: translate(-50%,-50%) rotate(90deg)
+	&.--active &__icon:before
+		transform: translate(-50%, -50%) scaleY(0)
+
+	&.--active &__icon:after
+		transform: translate(-50%, -50%) rotate(90deg)

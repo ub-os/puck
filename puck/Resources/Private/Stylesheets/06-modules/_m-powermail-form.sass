@@ -1,72 +1,77 @@
 @use '01-tools/all' as *
 
 .m-powermail-form
-  &__header
-    +typo-h2
-    padding-bottom: spacing(xs)
-    color: var(--color-headline)
+	&__header
+		+typo-h2
+		padding-bottom: spacing(xs)
+		color: var(--color-headline)
 
-  &__page
-    scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(xs) })
-    & + &
-      padding-top: spacing(s)
-    &__header
-      +typo-h3
-      padding-bottom: spacing(xs)
-      color: var(--color-headline)
+	&__page
+		scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ spacing(xs) })
 
-    &.-paginated
-      display: none
-      padding-top: 0
-    &.-paginated.--active
-      display: block
+		& + &
+			padding-top: spacing(s)
 
-  &__page__navigation
-    +flex(row,space-between)
+		&__header
+			+typo-h3
+			padding-bottom: spacing(xs)
+			color: var(--color-headline)
 
-  &__list
-    --gutter-x: .8em
-    --gutter-y: 1.25em
+		&.-paginated
+			display: none
+			padding-top: 0
 
-  &__description
-    +font-size($fs-small)
-    margin-block: -.5em .5em
+		&.-paginated.--active
+			display: block
 
-  &__item
-    &.-type-input,
-    &.-type-select,
-    &.-type-date
-      +grid-col-width(6, 12)
-      +grid-col-breakpoint(sm, 12)
-      min-width: width-by-cols(3)
+	&__page__navigation
+		+flex(row, space-between)
 
-  &__field
-    &.-type-submit
-      +flex(row,space-between)
-      margin-top: 1em
-      position: relative
+	&__list
+		--gutter-x: .8em
+		--gutter-y: 1.25em
+
+	&__description
+		+font-size($fs-small)
+		margin-block: -.5em .5em
+
+	&__item
+		&.-type-input,
+		&.-type-select,
+		&.-type-date
+			+grid-col-width(6, 12)
+			+grid-col-breakpoint(sm, 12)
+			min-width: width-by-cols(3)
+
+	&__field
+		&.-type-submit
+			+flex(row, space-between)
+			margin-top: 1em
+			position: relative
 
 
-  &__text__headline:last-child
-    padding-bottom: 0
+	&__text__headline:last-child
+		padding-bottom: 0
 
-  &__html
+	&__html
 
-  &.htmx-request &__field
-    opacity: .5
-    pointer-events: none
-    &.-type-submit
-      opacity: 1
-  &.htmx-request &__submit
-    opacity: .5
-    pointer-events: none
+	&.htmx-request &__field
+		opacity: .5
+		pointer-events: none
 
-  &__loading-indicator
-    +center(both)
-    font-size: 1.5em
-    color: var(--color-link)
-    display: none
+		&.-type-submit
+			opacity: 1
 
-  &.htmx-request &__loading-indicator
-    display: block
+	&.htmx-request &__submit
+		opacity: .5
+		pointer-events: none
+
+	&__loading-indicator
+		+center(both)
+		font-size: 1.5em
+		color: var(--color-link)
+		display: none
+
+	&.htmx-request &__loading-indicator
+		display: block
 

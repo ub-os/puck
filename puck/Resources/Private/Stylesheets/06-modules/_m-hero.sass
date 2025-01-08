@@ -1,13 +1,15 @@
 @use '01-tools/all' as *
 
 .m-hero
-  &__wrap
+	&__wrap
     .m-cover-media__wrap + &:where(.-top-auto)
-        margin-top: 0
-  &
-    +flex(column-reverse, flex-start, center)
+		margin-top: 0
 
-  &__headline
-    color: var(--color-accent-alt)
-    &:last-child
-      padding-bottom: 0
+	&
+		+flex(column-reverse, flex-start, center)
+
+	&__headline
+		color: var(--color-accent-alt)
+
+		&:last-child
+			padding-bottom: 0

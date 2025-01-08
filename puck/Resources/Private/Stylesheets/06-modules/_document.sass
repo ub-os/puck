@@ -1,75 +1,79 @@
 @use '01-tools/all' as *
 
 #document
-  +color-space-base
-  height: 100dvh
-  overflow-x: clip
-  overflow-y: scroll
-  overscroll-behavior-x: none
-  &[class*="-modal--active"],
-  &[class*="-modal--deactivating"]
-    overflow: hidden
-    padding-right: var(--scrollbar-width)
+	+color-space-base
+	height: 100dvh
+	overflow-x: clip
+	overflow-y: scroll
+	overscroll-behavior-x: none
 
-  --scroll-margin-top-base: var(--height-page-header)
-  &.--header--scroll-down
-    --scroll-margin-top-base: 0px
-  &:where(:has(.m-anchor-menu__wrap))
-    --scroll-margin-top-base: calc(var(--height-page-header) + 7rem)
-    &.--header--scroll-down
-      --scroll-margin-top-base: 7rem
+	&[class*="-modal--active"],
+	&[class*="-modal--deactivating"]
+		overflow: hidden
+		padding-right: var(--scrollbar-width)
+
+	--scroll-margin-top-base: var(--height-page-header)
+
+	&.--header--scroll-down
+		--scroll-margin-top-base: 0px
+
+	&:where(:has(.m-anchor-menu__wrap))
+		--scroll-margin-top-base: calc(var(--height-page-header) + 7rem)
+
+		&.--header--scroll-down
+			--scroll-margin-top-base: 7rem
 
 #body
-  +typo-basic
-  width: 100%
-  color: var(--color)
-  background: var(--background)
+	+typo-basic
+	width: 100%
+	color: var(--color)
+	background: var(--background)
 
 #root
-  +flex(column, flex-start, center)
-  width: 100%
-  max-width: var(--width-page)
-  min-height: 100dvh
-  overflow-x: clip
-  margin-inline: auto
+	+flex(column, flex-start, center)
+	width: 100%
+	max-width: var(--width-page)
+	min-height: 100dvh
+	overflow-x: clip
+	margin-inline: auto
 
 #root-loading-bar
-  $show-loading-bar-delay: 1s
-  position: fixed
-  top: 0
-  left: 0
-  z-index: 1000
-  width: 100%
-  height: 5px
-  background: var(--color)
-  visibility: hidden
-  pointer-events: none
+	$show-loading-bar-delay: 1s
+	position: fixed
+	top: 0
+	left: 0
+	z-index: 1000
+	width: 100%
+	height: 5px
+	background: var(--color)
+	visibility: hidden
+	pointer-events: none
 
-  &:after
-    display: block
-    content: ''
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background: var(--color-accent)
-    transform: scaleX(0)
-    transform-origin: left
+	&:after
+		display: block
+		content: ''
+		position: absolute
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background: var(--color-accent)
+		transform: scaleX(0)
+		transform-origin: left
 
-  &.htmx-request
-    transition: visibility 0s $show-loading-bar-delay
+	&.htmx-request
+		transition: visibility 0s $show-loading-bar-delay
 
-    &:after
-      animation: loading-bar 90s $show-loading-bar-delay infinite
-      animation-timing-function: cubic-bezier(0, 0.97, 0, 0.97)
+		&:after
+			animation: loading-bar 90s $show-loading-bar-delay infinite
+			animation-timing-function: cubic-bezier(0, 0.97, 0, 0.97)
 
 @keyframes loading-bar
-  0%
-    visibility: visible
-    transform: scaleX(0)
-  100%
-    visibility: visible
-    transform: scaleX(1)
+	0%
+		visibility: visible
+		transform: scaleX(0)
+	100%
+		visibility: visible
+		transform: scaleX(1)
 
 

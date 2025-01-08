@@ -1,27 +1,30 @@
 @use '01-tools/all' as *
 
 .m-anchor-menu
-  &__wrap
-    position: sticky
-    top: 0
-    z-index: 2
-    background: var(--background)
-    transition: background .5s, top .4s
-    :where(.m-header.--scroll:not(.--scroll-down)) ~ .m-main &
-      top: var(--height-page-header)
-    &.--stuck
-      background: var(--background-modal)
+	&__wrap
+		position: sticky
+		top: 0
+		z-index: 2
+		background: var(--background)
+		transition: background .5s, top .4s
 
-  &__list
-    +flex(row, center, flex-start, wrap)
-    padding-block: 1em
-    gap: .5em 1.5em
+		:where(.m-header.--scroll:not(.--scroll-down)) ~ .m-main &
+			top: var(--height-page-header)
 
-  &__header
+		&.--stuck
+			background: var(--background-modal)
 
-  &__link
-    color: var(--color-link)
-    &:hover,
-    &:focus-visible
-      color: var(--color-link--hover)
+	&__list
+		+flex(row, center, flex-start, wrap)
+		padding-block: 1em
+		gap: .5em 1.5em
+
+	&__header
+
+	&__link
+		color: var(--color-link)
+
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
 

@@ -2,66 +2,72 @@
 @use 'e-button'
 
 .e-dropdown
-  &
-    position: relative
+	&
+		position: relative
 
-  &__button
-    @extend .e-button
-    min-width: 12em
-    text-align: left
-    padding-right: calc(var(--padding-inline) + 2em) !important
-    &:hover
+	&__button
+		@extend .e-button
+		min-width: 12em
+		text-align: left
+		padding-right: calc(var(--padding-inline) + 2em) !important
 
-    &.--active
+		&:hover
 
-    &__icon
-      +center(vertical)
-      right: .45em
-      font-size: 1.5em
-      color: color-mix(in srgb, var(--color-button) 32%, transparent)
-      transition: rotate .15s, color .15s
+		&.--active
 
-    &:hover &__icon
-      color: var(--color-button)
+		&__icon
+			+center(vertical)
+			right: .45em
+			font-size: 1.5em
+			color: color-mix(in srgb, var(--color-button) 32%, transparent)
+			transition: rotate .15s, color .15s
 
-    &.--active &__icon
-      rotate: 180deg
-      transform-origin: top
+		&:hover &__icon
+			color: var(--color-button)
 
-    &.--active:hover &__icon
+		&.--active &__icon
+			rotate: 180deg
+			transform-origin: top
 
-  &__dialog
-    position: absolute
-    top: 100%
-    left: 0
-    z-index: 99
-    padding: .75em 0
-    min-width: 12em
-    visibility: hidden
-    background: var(--background)
-    border: color-mix(in srgb, var(--background), black 30%) 2px solid
-    border-radius: var(--border-radius-s)
-    box-shadow: var(--box-shadow-m)
-    opacity: 0
-    transition: opacity .17s
-    &.--active
-      visibility: visible
-      opacity: 1
-    &.--deactivating
-      visibility: visible
+		&.--active:hover &__icon
 
-  &__option
-    +flex(row, space-between, center)
-    padding: .5em 1em
-    color: var(--color)
-    font-weight: 600
-    &.-active
-      color: var(--color-link)
-      padding-left: 1.5em
-    &:hover, &:focus-visible
-      color: var(--color-link--hover)
-    &.-disabled
-      pointer-events: none
-      opacity: .5
+	&__dialog
+		position: absolute
+		top: 100%
+		left: 0
+		z-index: 99
+		padding: .75em 0
+		min-width: 12em
+		visibility: hidden
+		background: var(--background)
+		border: color-mix(in srgb, var(--background), black 30%) 2px solid
+		border-radius: var(--border-radius-s)
+		box-shadow: var(--box-shadow-m)
+		opacity: 0
+		transition: opacity .17s
+
+		&.--active
+			visibility: visible
+			opacity: 1
+
+		&.--deactivating
+			visibility: visible
+
+	&__option
+		+flex(row, space-between, center)
+		padding: .5em 1em
+		color: var(--color)
+		font-weight: 600
+
+		&.-active
+			color: var(--color-link)
+			padding-left: 1.5em
+
+		&:hover, &:focus-visible
+			color: var(--color-link--hover)
+
+		&.-disabled
+			pointer-events: none
+			opacity: .5
 
 
