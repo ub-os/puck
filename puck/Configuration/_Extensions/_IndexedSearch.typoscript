@@ -1,17 +1,20 @@
 plugin.tx_indexedsearch {
-    settings{
+    settings {
         targetPid = {$search.pid}
         displayAdvancedSearchLink = 0
         blind.numberOfResults = 200
     }
+
     view {
         templateRootPaths {
             1000 = EXT:puck/Resources/Private/Fluid/Extensions/IndexedSearch/Templates/
         }
+
         partialRootPaths {
             1000 = EXT:puck/Resources/Private/Fluid/Extensions/IndexedSearch/Partials/
         }
     }
+
     _LOCAL_LANG.default.pi_list_browseresults_page >
     _LOCAL_LANG.default.pi_list_browseresults_page =
     _LOCAL_LANG.default.pi_list_browseresults_page (
@@ -25,6 +28,7 @@ plugin.tx_indexedsearch {
     )
     pi_list_browseresults_page >
 }
+
 plugin.tx_fluid {
 
 }

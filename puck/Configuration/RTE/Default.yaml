@@ -23,7 +23,7 @@ editor:
         #Paragraphs
         - { name: "Small paragraph", element: "p", classes: [ "-small" ] }
         - { name: "Large paragraph", element: "p", classes: [ "-large" ] }
-        - { name: "Footnote paragraph", element: "p", classes: [ "-footnote"] }
+        - { name: "Footnote paragraph", element: "p", classes: [ "-footnote" ] }
         - { name: "Quote paragraph", element: "p", classes: [ "-quote" ] }
         - { name: "Quote attribution paragraph", element: "p", classes: [ "-quote-attribution" ] }
         - { name: "Like h2 paragraph", element: "p", classes: [ "h2" ] }
@@ -34,8 +34,8 @@ editor:
         # Headlines
 
         # link styles
-        - { name: "Button", element: "a", classes: [ "e-button"] }
-        - { name: "Symbol button", element: "a", classes: [ "e-cta-button"] }
+        - { name: "Button", element: "a", classes: [ "e-button" ] }
+        - { name: "Symbol button", element: "a", classes: [ "e-cta-button" ] }
         - { name: "Button: full-width", element: "a", classes: [ '-block' ] }
         - { name: "Button: light", element: "a", classes: [ '-light' ] }
         - { name: "Button: outline", element: "a",classes: [ '-outline' ] }
@@ -49,8 +49,8 @@ editor:
         #List items
 
         # Tables
-        - { name: "Row layout table", element: "table", classes: [ "row-layout-table"] }
-        - { name: "Data table", element: "table", classes: ["data-table"] }
+        - { name: "Row layout table", element: "table", classes: [ "row-layout-table" ] }
+        - { name: "Data table", element: "table", classes: [ "data-table" ] }
 
     heading:
       options:
@@ -105,7 +105,7 @@ editor:
         - { name: 'justify', className: 'u-text-justify' }
 
 
-    extraAllowedContent : "span(*); *(*)[data-*]; p[data-*]; a[data-*]; a span;"
+    extraAllowedContent: "span(*); *(*)[data-*]; p[data-*]; a[data-*]; a span;"
 
     qtRows: 20
     qtColumns: 6

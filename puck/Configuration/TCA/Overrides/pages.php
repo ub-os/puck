@@ -3,10 +3,10 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 
 foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/pages/*.php')) as $file) {
-    include $file;
+	include $file;
 }
 foreach (glob(ExtUtil::extPath('puck', 'Configuration/PageTypes/*.php')) as $file) {
-    (include $file)?->addTCA();
+	(include $file)?->addTCA();
 }
 
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news'] = 'news_folder';

@@ -3,10 +3,12 @@ plugin.tx_powermail {
         templateRootPaths {
             200 = EXT:puck/Resources/Private/Fluid/Extensions/Powermail/Templates
         }
+
         partialRootPaths {
             200 = EXT:puck/Resources/Private/Fluid/Extensions/Powermail/Partials
         }
     }
+
     settings {
         javascript {
             addJQueryFromGoogle = 0

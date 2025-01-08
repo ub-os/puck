@@ -14,8 +14,7 @@ TYPO3:
                 layoutRootPaths:
                   20: 'EXT:puck/Configuration/_Extensions/Form/Layouts/'
               variants:
-                -
-                  identifier: template-variant
+                - identifier: template-variant
                   renderingOptions:
                     formNavigation:
                       btnPreviousClassAttribute: 'e-button'

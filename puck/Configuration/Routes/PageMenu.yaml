@@ -5,41 +5,33 @@ routeEnhancers:
     extension: Puck
     plugin: PageMenu
     routes:
-#      -
-#        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-#        _controller: 'PageMenu::pageMenu'
-#      -
-#        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
-#        _controller: 'PageMenu::pageMenu'
-#      -
-#        routePath: '/{authorLabel}:{demand/authors}'
-#        _controller: 'PageMenu::pageMenu'
-#      -
-#        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-#        _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}/c{recordUid}'
+      #      -
+      #        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+      #        _controller: 'PageMenu::pageMenu'
+      #      -
+      #        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
+      #        _controller: 'PageMenu::pageMenu'
+      #      -
+      #        routePath: '/{authorLabel}:{demand/authors}'
+      #        _controller: 'PageMenu::pageMenu'
+      #      -
+      #        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
+      #        _controller: 'PageMenu::pageMenu'
+      - routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}/c{recordUid}'
+      - routePath: '/{categoryLabel}:{demand/categories/0/uids}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
+      - routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{pageLabel}-{page}/c{recordUid}'
+      - routePath: '/{pageLabel}-{page}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{categoryLabel}:{demand/categories/0/uids}'
+      - routePath: '/{categoryLabel}:{demand/categories/0/uids}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/{pageLabel}-{page}'
+      - routePath: '/{pageLabel}-{page}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/c{recordUid}'
+      - routePath: '/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
-      -
-        routePath: '/'
+      - routePath: '/'
         _controller: 'PageMenu::pageMenu'
     aspects:
       pluginPrefix:

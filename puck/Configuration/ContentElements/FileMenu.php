@@ -1,13 +1,13 @@
 <?php
 
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
-    'file_menu',
-    label: 'File menu',
-    description: 'Menu of downloadable files.',
-    group: '02_menu',
-    icon: 'file_menu',
-    sorting: 120,
-    showItem: '
+	'file_menu',
+	label: 'File menu',
+	description: 'Menu of downloadable files.',
+	group: '02_menu',
+	icon: 'file_menu',
+	sorting: 120,
+	showItem: '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
             --palette--;;appearanceLayout,
@@ -17,12 +17,12 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             item_column_width,
         --div--;Files,
             --palette--;;fileMenu,',
-    columnsOverrides: [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ]
-        ]
-    ],
-    pluginName: 'FileMenu',
+	columnsOverrides: [
+		'bodytext' => [
+			'config' => [
+				'enableRichtext' => true,
+			]
+		]
+	],
+	pluginName: 'FileMenu',
 );

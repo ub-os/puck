@@ -21,6 +21,7 @@ config {
     htmlTag.attributes {
         id = document
     }
+
     uniqueLinkVars = 1
     linkVars = L(int)
     sys_language_uid = 0
@@ -45,11 +46,10 @@ config {
     config.compressCss = 0
     config.compressJs = 0
 [END]
+
 [applicationContext == "Development" && backend.user.isLoggedIn]
     config.no_cache = 1
 [global]
-
-
 
 
 // force absolute URLs in Typolinks

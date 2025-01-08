@@ -6,16 +6,19 @@ page.1 = TEXT
 page.includeCSS {
     puck = EXT:puck/Resources/Public/Css/dist/puck.min.css
 }
+
 page.includeJS {
     puck = EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
     puck.defer = 1
     puck.async = 0
 }
+
 page.includeJSFooter {
     puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js
     puck-body.defer = 1
     puck-body.async = 1
 }
+
 [applicationContext == "Development"]
     page.includeCSS.puck = EXT:puck/Resources/Public/Css/dist/puck.css
     page.includeJS.puck = EXT:puck/Resources/Public/JavaScript/dist/puck.js
@@ -43,9 +46,11 @@ page.bodyTagAdd = id="body" data-hx-ext="head-support,preload" class="u-no-trans
 [traverse(page, "og_title")]
     page.meta.og:title.field = og_title
 [end]
+
 [traverse(page, "og_description")]
     page.meta.og:description.field = og_description
 [end]
+
 [!traverse(page, "og_image")]
     page.headerData.40 < lib.ogImageFallback
 [end]

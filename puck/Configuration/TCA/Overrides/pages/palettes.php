@@ -5,12 +5,12 @@ $GLOBALS['TCA']['pages']['palettes']['standard']['showitem'] = '
         doktype, post_date, icon,';
 
 $GLOBALS['TCA']['pages']['palettes']['author'] = [
-  'label' => 'Author',
-    'showitem' => 'post_author'
+	'label' => 'Author',
+	'showitem' => 'post_author'
 ];
 $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
-    'label' => 'Teaser',
-    'showitem' => '
+	'label' => 'Teaser',
+	'showitem' => '
         teaser_text,
         --linebreak--,
         teaser_cta,
@@ -20,8 +20,8 @@ $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
 $GLOBALS['TCA']['pages']['palettes']['media']['showitem'] = '';
 
 $GLOBALS['TCA']['pages']['palettes']['title'] = [
-    'label' => 'Title',
-    'showitem' => '
+	'label' => 'Title',
+	'showitem' => '
         title,
         --linebreak--,
         slug,
@@ -34,8 +34,8 @@ $GLOBALS['TCA']['pages']['palettes']['title'] = [
     ',
 ];
 $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
-    'label' => 'Teaser',
-    'showitem' => '
+	'label' => 'Teaser',
+	'showitem' => '
         teaser_title,
         --linebreak--,
         teaser_text,

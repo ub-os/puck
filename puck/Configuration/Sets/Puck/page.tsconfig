@@ -9,27 +9,32 @@ RTE.default {
             type = url
             target = _top
         }
+
         page {
             class = local
             type = page
             target = _top
         }
+
         file {
             class = download
             type = file
             target = _blank
         }
+
         folder {
             class = folder
             type = folder
             target = _blank
         }
+
         mail {
             class = mail
             type = mail
         }
     }
-    buttons.link{
+
+    buttons.link {
         page.properties.class.default = local
         url.properties.class.default = external
         folder.properties.class.default = folder

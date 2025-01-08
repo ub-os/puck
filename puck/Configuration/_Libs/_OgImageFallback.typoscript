@@ -7,6 +7,7 @@ lib.ogImageFallback {
         10 {
             references.data = levelmedia:-1, slide
         }
+
         20 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
         20 {
             references.fieldName = logo

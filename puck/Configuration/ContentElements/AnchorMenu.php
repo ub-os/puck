@@ -1,22 +1,22 @@
 <?php
 
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
-    'anchor_menu',
-    label: 'Anchor menu',
-    description: 'Navigation of on-page anchors.',
-    group: '02_menu',
-    icon: 'anchor_menu',
-    sorting: 130,
-    showItem: '    
+	'anchor_menu',
+	label: 'Anchor menu',
+	description: 'Navigation of on-page anchors.',
+	group: '02_menu',
+	icon: 'anchor_menu',
+	sorting: 130,
+	showItem: '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
         --palette--;;general,
         --palette--;;headers,',
-    columnsOverrides: [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ]
-        ]
-    ],
-    pluginName: 'AnchorMenu',
+	columnsOverrides: [
+		'bodytext' => [
+			'config' => [
+				'enableRichtext' => true,
+			]
+		]
+	],
+	pluginName: 'AnchorMenu',
 );

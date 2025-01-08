@@ -28,5 +28,6 @@ lib.formatAnchorId {
             replace = -
         }
     }
+
     stdWrap.case = lower
 }

@@ -5,11 +5,13 @@ mod.wizards.newContentElement.wizardItems {
         before = plugins
         after = 00_presets
     }
+
     02_menu {
         header = Menus
         before = plugins
         after = 01_content
     }
+
     forms.before = plugins
     forms.elements.powermail_pi1 < mod.wizards.newContentElement.wizardItems.ext-powermail.elements.powermail-form
     forms.show = powermail_pi1, felogin_login, search
@@ -41,6 +43,7 @@ mod.web_layout.BackendLayouts {
                             }
                         }
                     }
+
                     3 {
                         columns {
                             1 {
@@ -55,6 +58,7 @@ mod.web_layout.BackendLayouts {
             }
         }
     }
+
     error {
         title = Error
         config {
@@ -74,6 +78,7 @@ mod.web_layout.BackendLayouts {
             }
         }
     }
+
     folder {
         title = Folder
         config.backend_layout {
@@ -90,6 +95,7 @@ mod.web_layout.BackendLayouts {
             }
         }
     }
+
     detail-plugin {
         title = Plugin detail page
         config.backend_layout {

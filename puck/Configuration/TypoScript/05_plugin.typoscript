@@ -1,4 +1,3 @@
-
 plugin {
     tx_puck {
         view {
@@ -8,5 +7,6 @@ plugin {
             defaultPid = auto
         }
     }
+
     tx_puck_pagemenu.view.defaultPid = 1
 }

@@ -8,6 +8,7 @@ plugin.tx_seo {
                         excludedDoktypes = 3, 4, 6, 7, 199, 254, 255, 16503
                     }
                 }
+
                 news {
                     provider = TYPO3\CMS\Seo\XmlSitemap\PagesXmlSitemapDataProvider
                     config {

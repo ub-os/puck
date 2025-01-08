@@ -1,8 +1,9 @@
 <?php
+
 use UBOS\Puck\Utility\TcaUtility;
 
 $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
-    'showitem' => '
+	'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
             --palette--;;appearance,
@@ -12,14 +13,14 @@ $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
             pi_flexform,
         --div--;Layout,
             --palette--;;gridContainer,',
-    'columnsOverrides' => [
-        'bodytext' => [
-            'config' => [
-                'enableRichtext' => true,
-            ],
-        ],
-        'item_column_width' => [
-            'label' => 'Media item width',
-        ],
-    ]
+	'columnsOverrides' => [
+		'bodytext' => [
+			'config' => [
+				'enableRichtext' => true,
+			],
+		],
+		'item_column_width' => [
+			'label' => 'Media item width',
+		],
+	]
 ];

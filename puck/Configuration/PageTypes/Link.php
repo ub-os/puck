@@ -1,15 +1,15 @@
 <?php
 
 return new \UBOS\Puck\Configuration\PageTypeConfiguration(
-    3,
-    showItemAdditions: [
-        [
-            '--palette--;;standard',
-            'replace:doktype'
-        ],
-        [
-            '--div--;Teaser, --palette--;;teaser',
-            'after:--palette--;;external'
-        ]
-    ],
+	3,
+	showItemAdditions: [
+		[
+			'--palette--;;standard',
+			'replace:doktype'
+		],
+		[
+			'--div--;Teaser, --palette--;;teaser',
+			'after:--palette--;;external'
+		]
+	],
 );

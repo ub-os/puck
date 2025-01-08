@@ -1,15 +1,17 @@
-
 // Render Content Elements
 lib.contentElement {
     partialRootPaths {
         200 = EXT:puck/Resources/Private/Fluid/Content/Partials/
     }
+
     templateRootPaths {
         200 = EXT:puck/Resources/Private/Fluid/Content/
     }
+
     layoutRootPaths {
         200 = EXT:puck/Resources/Private/Fluid/Content/Layouts/
     }
+
     settings {
         media {
             additionalConfig {
@@ -22,6 +24,7 @@ lib.contentElement {
         }
     }
 }
+
 lib.content {
     render = CONTENT
     render {
@@ -40,6 +43,7 @@ lib.content {
             }
         }
     }
+
     inherit = CONTENT
     inherit {
         table = tt_content

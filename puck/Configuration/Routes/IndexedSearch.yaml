@@ -4,15 +4,12 @@ routeEnhancers:
     type: Extbase
     namespace: tx_indexedsearch_pi2
     routes:
-      -
-        routePath: '/{results-label}'
+      - routePath: '/{results-label}'
         _controller: 'Search::search'
-      -
-        routePath: '/{results-label}::{search/sword}'
+      - routePath: '/{results-label}::{search/sword}'
         _controller: 'Search::search'
         requirements:
-          -
-            search/sword: '[^/=?]*'
+          - search/sword: '[^/=?]*'
     aspects:
       results-label:
         type: LocaleModifier
