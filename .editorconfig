@@ -1,0 +1,4 @@
+root = true
+
+[*.{php,js,ts,jsx,tsx,css,scss,sass}]
+indent_style = tab
