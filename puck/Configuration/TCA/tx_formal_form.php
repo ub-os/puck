@@ -35,11 +35,11 @@ $columns = [
 			'required' => true,
 		],
 	],
-	'fieldsets' => [
-		'label' => 'Fieldsets',
+	'steps' => [
+		'label' => 'Steps',
 		'config' => [
 			'type' => 'inline',
-			'foreign_table' => 'tx_formal_fieldset',
+			'foreign_table' => 'tx_formal_step',
 			'foreign_field' => 'form',
 			'foreign_sortby' => 'sorting',
 			'appearance' => [
@@ -53,7 +53,7 @@ $palettes = [];
 $showItem = '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
         title, 
-        fieldsets,
+        steps,
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
         sys_language_uid, 
         l10n_parent, 

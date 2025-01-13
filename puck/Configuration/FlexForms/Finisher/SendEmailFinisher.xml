@@ -1,0 +1,54 @@
+<T3DataStructure>
+    <sheets>
+        <general>
+            <ROOT>
+                <sheetTitle>General</sheetTitle>
+                <type>array</type>
+                <el>
+                    <recipientAddressField>
+                        <label>Recipient email address field</label>
+                        <description>Identifier of form field that contains email addresses to send to</description>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </recipientAddressField>
+                    <recipientAddress>
+                        <label>Recipient email address</label>
+                        <description>Comma separated list of email addresses to send to</description>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </recipientAddress>
+                    <senderAddress>
+                        <label>Sender email address</label>
+                        <description>Optional, falls back to [MAIL][defaultMailFromAddress]</description>
+                        <config>
+                            <type>email</type>
+                        </config>
+                    </senderAddress>
+                </el>
+            </ROOT>
+        </general>
+        <content>
+            <ROOT>
+                <sheetTitle>Content</sheetTitle>
+                <type>array</type>
+                <el>
+                    <mailSubject>
+                        <label>Mail subject</label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </mailSubject>
+                    <mailBody>
+                        <label>Mail body</label>
+                        <config>
+                            <type>text</type>
+                            <enableRichtext>1</enableRichtext>
+                        </config>
+                    </mailBody>
+                </el>
+            </ROOT>
+        </content>
+    </sheets>
+</T3DataStructure>

@@ -1,0 +1,5 @@
+mod.web_list.tableDisplayOrder {
+    tx_formal_step.after = tx_formal_form
+    tx_formal_field.after = tx_formal_step
+    tx_formal_field_option.after = tx_formal_field
+}

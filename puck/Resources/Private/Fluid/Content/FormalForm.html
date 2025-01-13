@@ -1,0 +1,100 @@
+<f:debug>{record}</f:debug>
+<f:variable name="name" value="formal"/>
+<layout:section>
+	<f:form class="{name}__form"
+			action="formalSubmit"
+			id="{form.uid}-formal"
+			name="{formName}"
+			enctype="multipart/form-data">
+		<h2>{form.title}</h2>
+		<f:for each="{form.steps}" as="step">
+			<fieldset class="{name}__step">
+				<div class="{name}__step__header">
+					<h3>{step.title}</h3>
+				</div>
+				<f:for each="{step.fields}" as="field">
+					<f:render partial="Fieldwrap" arguments="{_all}" contentAs="content">
+						<f:switch expression="{field.type}">
+							<f:case value="textarea">
+								<f:render section="label" arguments="{_all}"/>
+								<f:form.textarea property="{field.identifier}"
+												 additionalAttributes="{u:formFieldAttribute(record:field)}"
+												 id="{record.uid}-{field.identifier}"/>
+							</f:case>
+							<f:case value="single-checkbox">
+								<f:form.checkbox property="{field.identifier}"
+												 checked="{field.default_value}"
+												 value="1"
+												 additionalAttributes="{u:formFieldAttribute(record:field)}"
+												 id="{record.uid}-{field.identifier}"/>
+								<f:render section="label" arguments="{_all}"/>
+							</f:case>
+							<f:case value="checkbox">
+								<f:render section="label" arguments="{_all}"/>
+								<f:for each="{field.field_options}" as="option">
+									<f:form.checkbox property="{field.identifier}"
+													 checked="{option.selected}"
+													 multiple="1"
+													 value="{option.value}"
+													 additionalAttributes="{u:formFieldAttribute(record:field)}"
+													 id="{record.uid}-{field.identifier}-{option.value}"/>
+									<label class="{name}__label" for="{record.uid}-{field.identifier}-{option.value}">{option.label}</label>
+								</f:for>
+								<script>
+									const checks = document.currentScript.parentNode.querySelectorAll('[type="checkbox"]');
+									checks.forEach(check => {
+										check.addEventListener
+									});
+								</script>
+							</f:case>
+							<f:case value="radio">
+								<f:render section="label" arguments="{_all}"/>
+								<f:for each="{field.field_options}" as="option">
+									<f:form.radio property="{field.identifier}"
+												  checked="{option.selected}"
+												  value="{option.value}"
+												  additionalAttributes="{u:formFieldAttribute(record:field)}"
+												  id="{record.uid}-{field.identifier}-{option.value}"/>
+									<label class="{name}__label" for="{record.uid}-{field.identifier}-{option.value}">{option.label}</label>
+								</f:for>
+							</f:case>
+							<f:case value="select">
+								<f:render section="label" arguments="{_all}"/>
+								<f:form.select property="{field.identifier}"
+											   additionalAttributes="{u:formFieldAttribute(record:field)}"
+											   id="{record.uid}-{field.identifier}">
+									<f:for each="{field.field_options}" as="option">
+										<f:form.select.option value="{option.value}">{option.label}</f:form.select.option>
+									</f:for>
+								</f:form.select>
+							</f:case>
+							<f:case value="hidden">
+								<f:form.hidden property="{field.identifier}"
+											   value="{field.default_value}"
+											   id="{record.uid}-{field.identifier}"/>
+							</f:case>
+							<f:case value="rte">
+								<element:richText text="{field.description}"/>
+							</f:case>
+							<f:case value="captcha">
+								captcha?
+							</f:case>
+							<f:defaultCase>
+								<f:render section="label" arguments="{_all}"/>
+								<f:form.textfield property="{field.identifier}"
+												  type="{field.type}"
+												  additionalAttributes="{u:formFieldAttribute(record:field)}"
+												  id="{record.uid}-{field.identifier}"/>
+							</f:defaultCase>
+						</f:switch>
+					</f:render>
+				</f:for>
+			</fieldset>
+		</f:for>
+		<button type="submit" class="e-button">Submit</button>
+	</f:form>
+</layout:section>
+
+<f:section name="label">
+	<label class="{name}__label" for="{record.uid}-{field.identifier}">{field.label}</label>
+</f:section>

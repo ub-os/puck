@@ -5,9 +5,8 @@ use UBOS\Puckloader\Utility\TcaUtility;
 
 $ctrl = [
 	'label' => 'title',
-	'label_alt' => 'type',
 	'label_alt_force' => true,
-	'title' => 'Fieldset',
+	'title' => 'Form step',
 	'tstamp' => 'tstamp',
 	'crdate' => 'crdate',
 	'origUid' => 't3_origuid',
@@ -22,7 +21,6 @@ $ctrl = [
 		'disabled' => 'hidden',
 	],
 	'searchFields' => 'title',
-	'type' => 'type'
 ];
 $interface = [];
 $columns = [
@@ -56,17 +54,12 @@ $columns = [
 			],
 		],
 	],
-	'type' => [
-		'label' => 'Type',
+	'display_condition' => [
+		'label' => 'Display condition',
 		'config' => [
-			'type' => 'select',
-			'renderType' => 'selectSingle',
-			'items' => TcaUtility::selectItemsHelper([
-				['Fieldset', 'fieldset'],
-				['Pagination step', 'step'],
-			]),
-			'default' => 'fieldset',
-		]
+			'type' => 'input',
+			'size' => 40,
+		],
 	],
 	'prev_label' => [
 		'label' => 'Previous button label',
@@ -87,13 +80,17 @@ $columns = [
 ];
 $palettes = [
 	'title' => [
-		'showitem' => 'title, type',
+		'showitem' => 'title',
 	],
 	'step-labels' => [
-		'showitem' => 'prev_label, next_label, type',
+		'showitem' => 'prev_label, next_label',
 	]
 ];
-$baseShowItem = '
+$showItem = '
+	--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
+		--palette--;;title,
+		fields,
+		--palette--;;step-labels,
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
         sys_language_uid, 
         l10n_parent, 
@@ -108,20 +105,7 @@ return [
 	'palettes' => $palettes,
 	'types' => [
 		'0' => [
-			'showitem' => 'type,'.$baseShowItem
-		],
-		'fieldset' => [
-			'showitem' => '
-				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-					--palette--;;title,
-					fields,'
-				.$baseShowItem,
-		],
-		'step' => [
-			'showitem' => '
-				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-					--palette--;;step-labels,'
-				.$baseShowItem,
+			'showitem' => $showItem
 		],
 	],
 ];

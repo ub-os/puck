@@ -5,7 +5,7 @@ use UBOS\Puck\Utility\TcaUtility;
 
 $ctrl = [
 	'label' => 'label',
-	'title' => 'Field',
+	'title' => 'Form field',
 	'tstamp' => 'tstamp',
 	'crdate' => 'crdate',
 	'origUid' => 't3_origuid',
@@ -20,7 +20,31 @@ $ctrl = [
 		'disabled' => 'hidden',
 	],
 	'searchFields' => 'label',
-	'type' => 'type'
+	'type' => 'type',
+	'typeicon_column' => 'type',
+	'typeicon_classes' => [
+		'text' => 'form-text',
+		'textarea' => 'form-textarea',
+		'select' => 'form-single-select',
+		'single-checkbox' => 'form-checkbox',
+		'checkbox' => 'form-multi-checkbox',
+		'radio' => 'form-radio-button',
+		'email' => 'form-email',
+		'number' => 'form-number',
+		'tel' => 'form-telephone',
+		'password' => 'form-password',
+		'url' => 'form-url',
+		'color' => 'default',
+		'range' => 'form-text',
+		'date' => 'form-date-picker',
+		'file' => 'form-file-upload',
+		'reset' => 'default',
+		'captcha' => 'default',
+		'country' => 'default',
+		'hidden' => 'form-hidden',
+		'rte' => 'form-static-text',
+		'content' => 'form-content-element',
+	],
 
 ];
 $interface = [];
@@ -56,27 +80,27 @@ $columns = [
 			'type' => 'select',
 			'renderType' => 'selectSingle',
 			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
-				['Text field', 'text', '', 'basic'],
-				['Textarea', 'textarea', '', 'basic'],
-				['Select', 'select', '', 'basic'],
-				['Single checkbox', 'single-checkbox', '', 'basic'],
-				['Checkboxes', 'checkbox', '', 'basic'],
-				['Radio buttons', 'radio', '', 'basic'],
-				['Email', 'email', '', 'typed-text-inputs'],
-				['Number', 'number', '', 'typed-text-inputs'],
-				['Phone number', 'tel', '', 'typed-text-inputs'],
-				['Password', 'password', '', 'typed-text-inputs'],
-				['URL', 'url', '', 'typed-text-inputs'],
-				['Color', 'color', '', 'special'],
-				['Range', 'range', '', 'special'],
-				['Date', 'date', '', 'special'],
-				['File', 'file', '', 'special'],
-				['Reset', 'reset', '', 'special'],
-				['Captcha', 'captcha', '', 'special'],
-				['Country select', 'country', '', 'special'],
-				['Hidden input', 'hidden', '', 'special'],
-				['Rich text content', 'rte', '', 'no-input'],
-				['Content element', 'content', '', 'no-input'],
+				['Text field', 'text', 'form-text', 'basic'],
+				['Textarea', 'textarea', 'form-textarea', 'basic'],
+				['Select', 'select', 'form-single-select', 'basic'],
+				['Single checkbox', 'single-checkbox', 'form-checkbox', 'basic'],
+				['Checkboxes', 'checkbox', 'form-multi-checkbox', 'basic'],
+				['Radio buttons', 'radio', 'form-radio-button', 'basic'],
+				['Email', 'email', 'form-email', 'typed-text-inputs'],
+				['Number', 'number', 'form-number', 'typed-text-inputs'],
+				['Phone number', 'tel', 'form-telephone', 'typed-text-inputs'],
+				['Password', 'password', 'form-password', 'typed-text-inputs'],
+				['URL', 'url', 'form-url', 'typed-text-inputs'],
+				['Color', 'color', 'default', 'special'],
+				['Range', 'range', 'default', 'special'],
+				['Date', 'date', 'form-date-picker', 'special'],
+				['File', 'file', 'form-file-upload', 'special'],
+				['Reset', 'reset', 'default', 'special'],
+				['Captcha', 'captcha', 'default', 'special'],
+				['Country select', 'country', 'default', 'special'],
+				['Hidden input', 'hidden', 'form-hidden', 'special'],
+				['Rich text content', 'rte', 'form-static-text', 'no-input'],
+				['Content element', 'content', 'form-content-element', 'no-input'],
 			]),
 			'itemGroups' => [
 				'basic' => 'Basic',
@@ -88,16 +112,18 @@ $columns = [
 	],
 	'default_value' => [
 		'label' => 'Default value',
+		'displayCond' => 'FIELD:type:!IN:select,checkbox,radio',
 		'config' => [
 			'type' => 'input',
 			'size' => 30,
+			'default' => null,
 		],
 	],
 	'fieldset' => [
 		'label' => 'Fieldset',
 		'config' => [
 			'type' => 'select',
-			'foreign_table' => 'tx_formal_fieldset',
+			'foreign_table' => 'tx_formal_step',
 			'minitems' => 0,
 			'maxitems' => 1,
 		],
@@ -171,6 +197,17 @@ $columns = [
 			]),
 		],
 	],
+	'label_layout' => [
+		'label' => 'Label layout',
+		'config' => [
+			'type' => 'select',
+			'renderType' => 'selectSingle',
+			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+				['Default', 'default'],
+				['Hidden', 'hidden'],
+			]),
+		],
+	],
 	'width' => [
 		'label' => 'Width (%)',
 		'config' => [
@@ -202,6 +239,13 @@ $columns = [
 			'size' => 30,
 		],
 	],
+	'validation_message' => [
+		'label' => 'Custom validation message',
+		'config' => [
+			'type' => 'input',
+			'size' => 30,
+		],
+	],
 	'disabled' => [
 		'label' => 'Disabled',
 		'config' => [
@@ -214,9 +258,24 @@ $columns = [
 			'type' => 'check',
 		],
 	],
+	'multiple' => [
+		'label' => 'Multiple',
+		'displayCond' => 'FIELD:type:IN:select,file,email',
+		'config' => [
+			'type' => 'check',
+		],
+	],
 	'pattern' => [
 		'label' => 'RegEx pattern',
 		'displayCond' => 'FIELD:type:IN:text,textarea,email,tel,password,url',
+		'config' => [
+			'type' => 'input',
+			'size' => 40,
+		],
+	],
+	'accept' => [
+		'label' => 'Accept',
+		'displayCond' => 'FIELD:type:IN:file',
 		'config' => [
 			'type' => 'input',
 			'size' => 40,
@@ -240,6 +299,8 @@ $columns = [
 			'type' => 'input',
 			'eval' => 'is_in',
 			'is_in' => '0123456789-.',
+			'nullable' => true,
+			'default' => null
 		],
 	],
 	'max' => [
@@ -249,6 +310,8 @@ $columns = [
 			'type' => 'input',
 			'eval' => 'is_in',
 			'is_in' => '0123456789-.',
+			'nullable' => true,
+			'default' => null
 		],
 	],
 	'step' => [
@@ -267,6 +330,16 @@ $columns = [
 		'config' => [
 			'type' => 'input',
 			'size' => 40,
+		],
+	],
+	'autocomplete' => [
+		'label' => 'Autocomplete',
+		'config' => [
+			'type' => 'input',
+			'valuePicker' => [
+				'items' => [
+				],
+			],
 		],
 	],
 
@@ -290,12 +363,20 @@ $palettes = [
 	],
 	'layout' => [
 		'label' => 'Layout',
-		'showitem' => 'layout, css_class, --linebreak--, width',
+		'showitem' => 'layout, css_class, --linebreak--, width, validation_message',
 	],
 	'attributes' => [
 		'label' => 'Attributes',
-		'showitem' => 'disabled, readonly, --linebreak--, pattern, maxlength, --linebreak--, min, max, step',
+		'showitem' => '
+		disabled, readonly, multiple, 
+		--linebreak--, 
+		pattern, accept, maxlength, 
+		--linebreak--, 
+		min, max, step',
 	],
+	'rte' => [
+		'showitem' => 'type, --linebreak--, label, --linebreak--, description',
+	]
 ];
 $showItem = '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
@@ -320,5 +401,114 @@ return [
 		'0' => [
 			'showitem' => $showItem,
 		],
+		'number' => [
+			'showitem' => $showItem,
+			'columnsOverrides' => [
+				'default_value' => [
+					'config' => [
+						'type' => 'input',
+						'eval' => 'is_in',
+						'is_in' => '0123456789.',
+						'default' => null
+					],
+				],
+				'min' => [
+					'config' => [
+						'type' => 'number',
+						'format' => 'decimal',
+						'mode' => 'useOrOverridePlaceholder',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+				'max' => [
+					'config' => [
+						'type' => 'number',
+						'format' => 'decimal',
+						'mode' => 'useOrOverridePlaceholder',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+			],
+		],
+		'range' => [
+			'showitem' => $showItem,
+			'columnsOverrides' => [
+				'default_value' => [
+					'config' => [
+						'type' => 'input',
+						'eval' => 'is_in',
+						'is_in' => '0123456789.',
+						'default' => null
+					],
+				],
+				'min' => [
+					'config' => [
+						'type' => 'number',
+						'format' => 'decimal',
+						'mode' => 'useOrOverridePlaceholder',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+				'max' => [
+					'config' => [
+						'type' => 'number',
+						'format' => 'decimal',
+						'mode' => 'useOrOverridePlaceholder',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+			],
+		],
+		'date' => [
+			'showitem' => $showItem,
+			'columnsOverrides' => [
+				'default_value' => [
+					'config' => [
+						'type' => 'datetime',
+						'format' => 'date',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+				'min' => [
+					'config' => [
+						'type' => 'datetime',
+						'format' => 'date',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+				'max' => [
+					'config' => [
+						'type' => 'datetime',
+						'format' => 'date',
+						'nullable' => true,
+						'default' => null
+					],
+				],
+			],
+		],
+		'rte' => [
+			'showitem' => '
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
+					--palette--;;rte, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
+					sys_language_uid, 
+					l10n_parent, 
+					l10n_diffsource, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+					hidden',
+			'columnsOverrides' => [
+				'description' => [
+					'config' => [
+						'enableRichtext' => true,
+					]
+				],
+			]
+		]
 	],
 ];

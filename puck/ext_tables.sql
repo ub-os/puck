@@ -9,3 +9,9 @@ CREATE TABLE tt_content (
 CREATE TABLE pages (
     doktype int DEFAULT '0' NOT NULL,
 );
+
+CREATE TABLE tx_formal_field (
+    default_value varchar(255) DEFAULT NULL,
+    min varchar(255) DEFAULT NULL,
+    max varchar(255) DEFAULT NULL,
+);

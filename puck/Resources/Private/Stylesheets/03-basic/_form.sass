@@ -112,7 +112,7 @@ select
 	& + label:after, & + label:before
 		border-radius: 100%
 
-[type="checkbox"]
+[type="checkbox"], [type="radio"]
 	& + label
 		display: block
 		max-width: 100%
@@ -121,34 +121,11 @@ select
 [type="submit"]
 
 input[type="range"]
-	-webkit-appearance: none
-	//width: 50vw
-	//min-width: 20rem
-	//max-width: 50rem
 	margin-bottom: 0
 	height: 7px
 	border-radius: 5px
-
-
-input[type="range"]::-webkit-slider-thumb
-	-webkit-appearance: none
-	height: 1em
-	width: 1em
-	border-radius: 50%
-	transition: background .3s ease-in-out
-
-input[type="range"]::-moz-range-thumb
-	height: 1em
-	width: 1em
-	border-radius: 50%
-	transition: background .3s ease-in-out
-	border: none
-
-input[type="range"]::-webkit-slider-runnable-track
-	-webkit-appearance: none
-	box-shadow: none
-	border: none
-	background: transparent
+	accent-color: var(--color-input)
+	background: var(--background-input)
 
 label
 	display: inline-block

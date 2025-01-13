@@ -1,0 +1,22 @@
+.formal {
+	&__form {
+		--formal-field-width: 100%;
+		--formal-fieldset-gap: 1em;
+	}
+	&__fieldset {
+		display: flex;
+		flex-wrap: wrap;
+		margin: calc(var(--formal-fieldset-gap) / -2);
+	}
+	&__fieldset + &__fieldset {
+		margin-top: var(--formal-fieldset-gap);
+	}
+	&__fieldset__header {
+		width: 100%;
+		padding: calc(var(--formal-fieldset-gap) / 2);
+	}
+	&__field {
+		width: var(--formal-field-width);
+		padding: calc(var(--formal-fieldset-gap) / 2);
+	}
+}

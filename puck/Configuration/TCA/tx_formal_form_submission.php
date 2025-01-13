@@ -4,65 +4,65 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use UBOS\Puck\Utility\TcaUtility;
 
 $ctrl = [
-	'label' => 'label',
-	'title' => 'Form field option',
+	'label' => 'tstamp',
+	'title' => 'Form submission',
 	'tstamp' => 'tstamp',
 	'crdate' => 'crdate',
 	'origUid' => 't3_origuid',
 	'sortby' => 'sorting',
 	'delete' => 'deleted',
-	'versioningWS' => true,
-	'languageField' => 'sys_language_uid',
-	'transOrigPointerField' => 'l10n_parent',
-	'transOrigDiffSourceField' => 'l10n_diffsource',
 	'iconfile' => 'EXT:puck/Resources/Public/Icons/Backend/Default.svg',
 	'enablecolumns' => [
 		'disabled' => 'hidden',
 	],
-	'searchFields' => 'label',
+	'searchFields' => 'title',
+	'security' => [
+		'ignorePageTypeRestriction' => true,
+	],
 ];
 $interface = [];
 $columns = [
-	'label' => [
-		'label' => 'Label',
+	'form' => [
+		'label' => 'Form',
 		'config' => [
-			'type' => 'input',
-			'size' => 30,
-			'eval' => 'trim',
+			'type' => 'group',
+			'allowed' => 'tx_formal_form',
+			'size' => 1,
+			'maxitems' => 1
 		],
 	],
-	'value' => [
-		'label' => 'Value',
+	'plugin' => [
+		'label' => 'Plugin',
 		'config' => [
-			'type' => 'input',
-			'size' => 30,
-			'eval' => 'trim',
+			'type' => 'group',
+			'allowed' => 'tt_content',
+			'size' => 1,
+			'maxitems' => 1
 		],
 	],
-	'selected' => [
-		'label' => 'Selected',
+	'form_values' => [
+		'label' => 'Field values',
 		'config' => [
-			'type' => 'check',
+			'type' => 'json',
 		],
 	],
-	'field' => [
-		'label' => 'Field',
+	'tstamp' => [
+		'exclude' => true,
+		'label' => 'Timestamp',
 		'config' => [
-			'type' => 'select',
-			'foreign_table' => 'tx_formal_field',
-			'minitems' => 0,
-			'maxitems' => 1,
+			'type' => 'datetime',
+			'readOnly' => true,
 		],
 	],
 ];
-$palettes = [
-	'base' => [
-		'showitem' => 'label, value, selected',
-	],
-];
+$palettes = [];
 $showItem = '
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
-        --palette--;;base,';
+    	tstamp,
+        form, 
+        form_values,
+    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, 
+        hidden';
 
 return [
 	'ctrl' => $ctrl,
