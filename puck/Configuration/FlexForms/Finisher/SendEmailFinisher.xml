@@ -1,8 +1,8 @@
 <T3DataStructure>
     <sheets>
-        <general>
+        <recipient>
             <ROOT>
-                <sheetTitle>General</sheetTitle>
+                <sheetTitle>Recipient</sheetTitle>
                 <type>array</type>
                 <el>
                     <recipientAddressField>
@@ -19,6 +19,14 @@
                             <type>input</type>
                         </config>
                     </recipientAddress>
+                </el>
+            </ROOT>
+        </recipient>
+        <sender>
+            <ROOT>
+                <sheetTitle>Sender</sheetTitle>
+                <type>array</type>
+                <el>
                     <senderAddress>
                         <label>Sender email address</label>
                         <description>Optional, falls back to [MAIL][defaultMailFromAddress]</description>
@@ -26,29 +34,42 @@
                             <type>email</type>
                         </config>
                     </senderAddress>
+                    <senderName>
+                        <label>Sender name</label>
+                        <description>Optional, falls back to [MAIL][defaultMailFromName]</description>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </senderName>
                 </el>
             </ROOT>
-        </general>
-        <content>
+        </sender>
+        <mail>
             <ROOT>
-                <sheetTitle>Content</sheetTitle>
+                <sheetTitle>Mail</sheetTitle>
                 <type>array</type>
                 <el>
                     <mailSubject>
-                        <label>Mail subject</label>
+                        <label>Subject</label>
                         <config>
                             <type>input</type>
                         </config>
                     </mailSubject>
                     <mailBody>
-                        <label>Mail body</label>
+                        <label>Body</label>
                         <config>
                             <type>text</type>
                             <enableRichtext>1</enableRichtext>
                         </config>
                     </mailBody>
+                    <mailTemplate>
+                        <label>Template name</label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </mailTemplate>
                 </el>
             </ROOT>
-        </content>
+        </mail>
     </sheets>
 </T3DataStructure>

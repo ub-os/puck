@@ -5,12 +5,11 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	label: 'Formal form',
 	description: 'Plugin to render a formal form.',
 	group: 'forms',
-	icon: 'menu',
+	icon: 'content-form',
 	sorting: 110,
 	showItem: '    
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
-        --div--;Advanced,
             pi_flexform,',
 	columnsOverrides: [
 	],

@@ -1,11 +1,12 @@
-<f:debug>{record}</f:debug>
 <f:variable name="name" value="formal"/>
 <layout:section>
 	<f:form class="{name}__form"
+			data-hx-boost="false"
 			action="formalSubmit"
 			id="{form.uid}-formal"
 			name="{formName}"
-			enctype="multipart/form-data">
+			enctype="multipart/form-data"
+			method="post">
 		<h2>{form.title}</h2>
 		<f:for each="{form.steps}" as="step">
 			<fieldset class="{name}__step">

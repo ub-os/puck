@@ -10,49 +10,91 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck;
 
+
+// todo: dispatch events
+// todo: exceptions
+// todo: consent finisher
+// todo: file upload handling
+// todo: captcha field
+// todo: spam protection / honeypot
+// todo: tca utlitity like addFinisherType, addFieldType
 class FormalController extends ActionController
 {
 	use ContentControllerViewPreparationTrait;
 
 	protected ?Core\Domain\Record $formRecord = null;
+
 	#[Plugin(
 		"FormalForm",
-		actions: [FormalController::class => 'formalForm, formalSubmit'],
-		noCacheActions: [FormalController::class => 'formalSubmit']
+		actions: [FormalController::class =>
+			'formalForm, formalSubmit, formalFinisher'],
+		noCacheActions: [FormalController::class =>
+			'formalSubmit, formalFinisher']
 	)]
 	public function formalFormAction(): ResponseInterface
 	{
 		$this->prepareContentView();
 		$this->view->assign('form', $this->getFormRecord());
 		$this->view->assign('formName', 'formData');
-		DebugUtility::debug($this->getFinishers());
-		DebugUtility::debug($this->request);
 		return $this->htmlResponse();
 	}
 
 	public function formalSubmitAction(): ResponseInterface
 	{
-		DebugUtility::debug($this->request);
 		$formValues = $this->request->getArguments()['formData'] ?? [];
-		$finishers = $this->getFinishers();
-		foreach ($finishers as $finisher) {
-			try {
-				$this->makeFinisherInstance($finisher['type'])
-					?->execute($this->request, $this->settings, $finisher['settings'], $formValues, $this->getFormRecord());
+		if (!$this->validateFormValues($formValues)) {
+			return $this->errorResponse('Invalid form values');
+		}
+		return $this->redirect(
+			'formalFinisher',
+			arguments: ['formValues' => $formValues]
+		);
+	}
 
+
+	// todo: validation
+	protected function validateFormValues(array $formValues): bool
+	{
+		return true;
+	}
+
+	// todo: error responses
+	protected function errorResponse(string $message): ResponseInterface
+	{
+		return $this->htmlResponse($message);
+	}
+
+
+	public function formalFinisherAction(array $formValues): ResponseInterface
+	{
+		$response = null;
+		foreach ($this->getFinishers() as $finisherData) {
+			// todo: add condition support
+			if ($finisherData['condition'] ?? false) {
+				continue;
+			}
+			try {
+				$response = $this->makeFinisherInstance($finisherData)?->execute(
+						$this->request,
+						$finisherData,
+						$this->getFormRecord(),
+						$this->settings,
+						$formValues
+				) ?? $response;
 			} catch (\Exception $e) {
 				DebugUtility::debug($e);
 				continue;
 			}
 		}
-		DebugUtility::debug($formValues);
-		return $this->htmlResponse('submitti');
+		return $response ?? $this->htmlResponse('finished');
 	}
 
-	protected function makeFinisherInstance(string $className): ?\UBOS\Puck\Domain\Finisher\AbstractFinisher
+	protected function makeFinisherInstance(array $finisherData): ?Puck\Domain\Finisher\AbstractFinisher
 	{
-		if (!class_exists($className)) {
+		$className = $finisherData['type'] ?? '';
+		if (!$className || !class_exists($className)) {
 			return null;
 		}
 		return GeneralUtility::makeInstance($className);
@@ -71,10 +113,9 @@ class FormalController extends ActionController
 				$queryBuilder->expr()->eq('deleted', 0),
 			)
 			->executeQuery()->fetchAllAssociative() ?? [];
-		foreach ($finishers as $key => $finisher) {
-			$finishers[$key]['settings'] = GeneralUtility::makeInstance(Core\Service\FlexFormService::class)
-				->convertFlexFormContentToArray($finishers[$key]['settings']);
-		}
+		//$recordFactory = GeneralUtility::makeInstance(Core\Domain\RecordFactory::class);
+		//$finishers = [];
+		//$finisherRecords[] = $recordFactory->createResolvedRecordFromDatabaseRow('tx_formal_finisher', $row);
 		return $finishers;
 	}
 

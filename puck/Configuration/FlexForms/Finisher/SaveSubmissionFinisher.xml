@@ -21,6 +21,12 @@
                             <type>input</type>
                         </config>
                     </excludeFields>
+                    <saveIp>
+                        <label>Save submitter IP-address</label>
+                        <config>
+                            <type>checkbox</type>
+                        </config>
+                    </saveIp>
                 </el>
             </ROOT>
         </general>

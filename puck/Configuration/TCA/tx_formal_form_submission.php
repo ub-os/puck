@@ -11,7 +11,7 @@ $ctrl = [
 	'origUid' => 't3_origuid',
 	'sortby' => 'sorting',
 	'delete' => 'deleted',
-	'iconfile' => 'EXT:puck/Resources/Public/Icons/Backend/Default.svg',
+	'iconfile' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/content/content-elements-mailform.svg',
 	'enablecolumns' => [
 		'disabled' => 'hidden',
 	],
@@ -28,7 +28,7 @@ $columns = [
 			'type' => 'group',
 			'allowed' => 'tx_formal_form',
 			'size' => 1,
-			'maxitems' => 1
+			'maxitems' => 1,
 		],
 	],
 	'plugin' => [
@@ -37,7 +37,7 @@ $columns = [
 			'type' => 'group',
 			'allowed' => 'tt_content',
 			'size' => 1,
-			'maxitems' => 1
+			'maxitems' => 1,
 		],
 	],
 	'form_values' => [
