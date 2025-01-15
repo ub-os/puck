@@ -50,3 +50,15 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
 
 $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][5273] = 'EXT:puck/Resources/Private/Fluid/Mail/Templates/';
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'puck',
+	'FormalForm',
+	[
+		\UBOS\Puck\Controller\FormalController::class => 'formalForm, formalFormStep, formalSubmit, formalFinisher'
+	],
+	[
+		\UBOS\Puck\Controller\FormalController::class => 'formalFormStep, formalSubmit, formalFinisher'
+	],
+	'CType'
+);

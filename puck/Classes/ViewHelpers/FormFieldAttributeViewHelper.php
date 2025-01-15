@@ -36,7 +36,7 @@ class FormFieldAttributeViewHelper extends AbstractViewHelper
 			}
 		}
 		if ($record->get('default_value')) {
-			$attributes['value'] = $this->stringFromValue($record->get('default_value'));
+			//$attributes['value'] = $this->stringFromValue($record->get('default_value'));
 		}
 		if ($record->get('validation_message')) {
 			$attributes['oninvalid'] = 'this.setCustomValidity("' . $record->get('validation_message') . '")';

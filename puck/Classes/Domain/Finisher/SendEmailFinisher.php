@@ -68,7 +68,10 @@ class SendEmailFinisher extends AbstractFinisher
 	protected function interpolateStringWithFormValues(string $string): string
 	{
 		foreach ($this->formValues as $key => $value) {
-			$string = str_replace('{' . $key . '}', $value, $string);
+			if (is_array($value)) {
+				$value = implode(', ', $value);
+			}
+			$string = str_replace('{' . $key . '}', $value ?? '', $string);
 		}
 		return $string;
 	}

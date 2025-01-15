@@ -260,7 +260,7 @@ $columns = [
 	],
 	'multiple' => [
 		'label' => 'Multiple',
-		'displayCond' => 'FIELD:type:IN:select,file,email',
+		'displayCond' => 'FIELD:type:IN:file,email',
 		'config' => [
 			'type' => 'check',
 		],

@@ -13,44 +13,114 @@ use UBOS\Puckloader\Attribute\Plugin;
 use UBOS\Puck;
 
 
+// todo: file upload handling
+// todo: spam protection / honeypot
+// todo: password field handling
+// todo: consent finisher
+// todo: repeatable fields
 // todo: dispatch events
 // todo: exceptions
-// todo: consent finisher
-// todo: file upload handling
 // todo: captcha field
-// todo: spam protection / honeypot
-// todo: tca utlitity like addFinisherType, addFieldType
 class FormalController extends ActionController
 {
 	use ContentControllerViewPreparationTrait;
 
 	protected ?Core\Domain\Record $formRecord = null;
+	private string $formName = 'formalFormValues';
+	protected ?array $formValues = null;
 
-	#[Plugin(
-		"FormalForm",
-		actions: [FormalController::class =>
-			'formalForm, formalSubmit, formalFinisher'],
-		noCacheActions: [FormalController::class =>
-			'formalSubmit, formalFinisher']
-	)]
 	public function formalFormAction(): ResponseInterface
 	{
 		$this->prepareContentView();
-		$this->view->assign('form', $this->getFormRecord());
-		$this->view->assign('formName', 'formData');
+		$step = 1;
+		$lastStep = count($this->getFormRecord()->get('steps'));
+		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
+		$cObj = $this->request->getAttribute('currentContentObject');
+		$contentRecord = GeneralUtility::makeInstance(Core\Domain\RecordFactory::class)
+			->createResolvedRecordFromDatabaseRow('tt_content', $cObj->data);
+		$viewVariables = [
+			'form' => $this->getFormRecord(),
+			'content' => $contentRecord,
+			'formName' => $this->formName,
+			'step' => $step,
+			'nextStep' => $lastStep === $step ? null : $step + 1,
+			'previousStep' => null,
+			'isFirstStep' => true,
+			'isLastStep' => $lastStep === $step,
+			'currentStepRecord' => $currentStepRecord,
+			'action' => $step < $lastStep ? 'formalFormStep' : 'formalSubmit',
+			'otherStepsFieldValues' => [],
+		];
+		$this->view->assignMultiple($viewVariables);
+		return $this->htmlResponse();
+	}
+
+	public function formalFormStepAction(int $step = 1): ResponseInterface
+	{
+		$formValues = $this->request->getArguments()[$this->formName] ?? [];
+		// if step is greater than 0 and no previous step form values are available, redirect to first step
+		if (!$formValues) {
+			return $this->redirect('formalForm');
+		}
+		$this->prepareContentView();
+		$lastStep = count($this->getFormRecord()->get('steps'));
+		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
+		foreach ($currentStepRecord->get('fields') as $field) {
+			$identifier = $field->get('identifier');
+			if (isset($formValues[$identifier])) {
+				$field->setValue($formValues[$identifier]);
+				unset($formValues[$identifier]);
+			}
+		}
+		$otherStepsFieldValues = $formValues;
+		$cObj = $this->request->getAttribute('currentContentObject');
+		$contentRecord = GeneralUtility::makeInstance(Core\Domain\RecordFactory::class)
+			->createResolvedRecordFromDatabaseRow('tt_content', $cObj->data);
+		$viewVariables = [
+			'form' => $this->getFormRecord(),
+			'content' => $contentRecord,
+			'formName' => $this->formName,
+			'step' => $step,
+			'nextStep' => $lastStep === $step ? null : $step + 1,
+			'previousStep' => $step - 1,
+			'isFirstStep' => $step === 1,
+			'isLastStep' => $step === $lastStep,
+			'currentStepRecord' => $currentStepRecord,
+			'action' => $step < $lastStep ? 'formalFormStep' : 'formalSubmit',
+			'otherStepsFieldValues' => $otherStepsFieldValues,
+			//'currentStepFieldValues' => $currentStepFieldValues,
+		];
+		$this->view->assignMultiple($viewVariables);
+		$this->view->setTemplate('formalForm');
 		return $this->htmlResponse();
 	}
 
 	public function formalSubmitAction(): ResponseInterface
 	{
-		$formValues = $this->request->getArguments()['formData'] ?? [];
+		$formValues = $this->request->getArguments()[$this->formName] ?? [];
 		if (!$this->validateFormValues($formValues)) {
 			return $this->errorResponse('Invalid form values');
 		}
-		return $this->redirect(
-			'formalFinisher',
-			arguments: ['formValues' => $formValues]
-		);
+		$response = null;
+		foreach ($this->getFinishers() as $finisherData) {
+			// todo: add condition support
+			if ($finisherData['condition'] ?? false) {
+				continue;
+			}
+			try {
+				$response = $this->makeFinisherInstance($finisherData)?->execute(
+					$this->request,
+					$finisherData,
+					$this->getFormRecord(),
+					$this->settings,
+					$formValues
+				) ?? $response;
+			} catch (\Exception $e) {
+				DebugUtility::debug($e);
+				continue;
+			}
+		}
+		return $response ?? $this->htmlResponse('finished');
 	}
 
 
@@ -64,31 +134,6 @@ class FormalController extends ActionController
 	protected function errorResponse(string $message): ResponseInterface
 	{
 		return $this->htmlResponse($message);
-	}
-
-
-	public function formalFinisherAction(array $formValues): ResponseInterface
-	{
-		$response = null;
-		foreach ($this->getFinishers() as $finisherData) {
-			// todo: add condition support
-			if ($finisherData['condition'] ?? false) {
-				continue;
-			}
-			try {
-				$response = $this->makeFinisherInstance($finisherData)?->execute(
-						$this->request,
-						$finisherData,
-						$this->getFormRecord(),
-						$this->settings,
-						$formValues
-				) ?? $response;
-			} catch (\Exception $e) {
-				DebugUtility::debug($e);
-				continue;
-			}
-		}
-		return $response ?? $this->htmlResponse('finished');
 	}
 
 	protected function makeFinisherInstance(array $finisherData): ?Puck\Domain\Finisher\AbstractFinisher
@@ -136,8 +181,8 @@ class FormalController extends ActionController
 				$queryBuilder->expr()->eq('sys_language_uid', $langId),
 			)
 			->executeQuery()->fetchAllAssociative()[0];
-		$recordFactory = GeneralUtility::makeInstance(Core\Domain\RecordFactory::class);
-		$this->formRecord = $recordFactory->createResolvedRecordFromDatabaseRow('tx_formal_form', $row);
+		$this->formRecord = GeneralUtility::makeInstance(Core\Domain\RecordFactory::class)
+			->createResolvedRecordFromDatabaseRow('tx_formal_form', $row);
 		return $this->formRecord;
 	}
 }

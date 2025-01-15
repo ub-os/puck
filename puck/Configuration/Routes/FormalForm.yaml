@@ -1,0 +1,36 @@
+routeEnhancers:
+  FormalForm:
+    limitToPages: [234]
+    type: Extbase
+    extension: Puck
+    plugin: FormalForm
+    routes:
+      - routePath: '/{finisherLabel}'
+        _controller: 'Formal::formalFinisher'
+      - routePath: '/{submitLabel}'
+        _controller: 'Formal::formalSubmit'
+      - routePath: '/{stepLabel}-{step}'
+        _controller: 'Formal::formalFormStep'
+    aspects:
+      finisherLabel:
+        type: LocaleModifier
+        default: 'finish'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'finish'
+      submitLabel:
+        type: LocaleModifier
+        default: 'submit'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'submit'
+      stepLabel:
+        type: LocaleModifier
+        default: 'step'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'step'
+      step:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'
