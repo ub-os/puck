@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase;
 class SaveSubmissionFinisher extends AbstractFinisher
 {
 	const TABLE_NAME = 'tx_formal_form_submission';
-	protected function executeInternal(): void
+	public function execute(): ?ResponseInterface
 	{
 		$this->settings = array_merge([
 			'storagePage' => '',
@@ -27,5 +27,6 @@ class SaveSubmissionFinisher extends AbstractFinisher
 				'tstamp' => time(),
 			])
 			->executeQuery();
+		return null;
 	}
 }

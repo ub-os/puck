@@ -9,7 +9,7 @@ use TYPO3\CMS\Extbase;
 
 class SaveToAnyTableFinisher extends AbstractFinisher
 {
-	protected function executeInternal(): void
+	public function execute(): ?ResponseInterface
 	{
 		$this->settings = array_merge([
 			'table' => '',
@@ -17,7 +17,7 @@ class SaveToAnyTableFinisher extends AbstractFinisher
 			'mapping' => [],
 		], $this->settings);
 		if (!$this->settings['table']) {
-			return;
+			return null;
 		}
 		$queryBuilder = GeneralUtility::makeInstance(Core\Database\ConnectionPool::class)
 			->getQueryBuilderForTable($this->settings['table']);
@@ -31,5 +31,6 @@ class SaveToAnyTableFinisher extends AbstractFinisher
 		$queryBuilder->insert($this->settings['table'])
 			->values($values)
 			->executeQuery();
+		return null;
 	}
 }

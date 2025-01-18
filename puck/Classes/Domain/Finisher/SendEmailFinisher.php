@@ -11,12 +11,11 @@ use TYPO3\CMS\Extbase;
 
 class SendEmailFinisher extends AbstractFinisher
 {
-
 	const TEMPLATE_NAME = 'SendEmailFinisher';
 	const SUBJECT_FALLBACK = 'TYPO3 Formal Finisher Email';
 	const MAIL_FORMAT = Core\Mail\FluidEmail::FORMAT_BOTH;
 
-	protected function executeInternal(): void
+	public function execute(): ?ResponseInterface
 	{
 		$this->settings = array_merge([
 			'mailSubject' => '',
@@ -43,6 +42,7 @@ class SendEmailFinisher extends AbstractFinisher
 				'interpolatedMailBody' => $this->interpolateStringWithFormValues($this->settings['mailBody']),
 			]);
 		GeneralUtility::makeInstance(Core\Mail\MailerInterface::class)->send($email);
+		return null;
 	}
 
 	protected function resolveSenderAddress(): Address

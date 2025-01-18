@@ -5,12 +5,12 @@ routeEnhancers:
     extension: Puck
     plugin: FormalForm
     routes:
-      - routePath: '/{finisherLabel}'
-        _controller: 'Formal::formalFinisher'
       - routePath: '/{submitLabel}'
         _controller: 'Formal::formalSubmit'
       - routePath: '/{stepLabel}-{step}'
         _controller: 'Formal::formalFormStep'
+      - routePath: '/'
+        _controller: 'Formal::formalForm'
     aspects:
       finisherLabel:
         type: LocaleModifier

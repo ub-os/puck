@@ -10,14 +10,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class RedirectFinisher extends AbstractFinisher
 {
 	protected string $url;
-	protected function executeInternal(): void
+	public function execute(): ?ResponseInterface
 	{
 		$this->settings = array_merge([
 			'uri' => '',
 			'statusCode' => 303,
 		], $this->settings);
 		if (!$this->settings['uri']) {
-			return;
+			return null;
 		}
 		$controller = $this->request->getAttribute('frontend.controller');
 		$cObj = GeneralUtility::makeInstance(
@@ -26,9 +26,6 @@ class RedirectFinisher extends AbstractFinisher
 		);
 		// for record: $this->settings['uri']->instantiate()->url
 		$this->url = $cObj->typoLink_URL(['parameter' => $this->settings['uri'], 'forceAbsoluteUrl' => true]);
-	}
-	protected function responseOverride(): ?ResponseInterface
-	{
 		if (!$this->url) {
 			return null;
 		}

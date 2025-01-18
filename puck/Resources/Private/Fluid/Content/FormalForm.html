@@ -3,25 +3,43 @@
 <layout:section>
 	<f:form class="{name}__form"
 			data-hx-boost="{f:if(condition:'{isLastStep}',then:'false',else:'false')}"
-			action="{action}"
+			action="formalForm"
 			id="{formElementId}"
 			name="{formName}"
 			enctype="multipart/form-data"
-			arguments="{step: nextStep}"
-			section="{formElementId}">
+			data-action="{f:uri.action(action:action,arguments:{step:nextStep})}">
 		<h2>{form.title}</h2>
-		<f:for each="{otherStepsFieldValues}" as="value" key="identifier">
-			<f:if condition="{value.0}">
-				<f:then>
-					<f:for each="{value}" as="valueItem" iteration="i">
-						<f:form.hidden name="{formName}[{identifier}][]" value="{valueItem}" id="{record.uid}-{identifier}-{i.index}"/>
-					</f:for>
-				</f:then>
-				<f:else>
-					<f:form.hidden property="{identifier}" value="{value}" id="{record.uid}-{identifier}"/>
-				</f:else>
-			</f:if>
-		</f:for>
+		<script>
+			const _form = document.currentScript.parentElement
+			_form.addEventListener('focusin', () => _form.action = _form.dataset.action)
+		</script>
+		<div>
+			<f:form.textfield autocomplete="off" name="__email" id="f000" tabindex="-1"/>
+			<style>#f000 {position:absolute;margin-left:-999em}</style>
+		</div>
+
+		<f:if condition="{session}">
+			<div data-session>
+				<f:form.hidden name="session[id]" value="{session.id}"/>
+				<f:form.hidden name="session[prevStep]" value="{step}"/>
+				<f:for each="{session.filenames}" as="value" key="key">
+					<f:form.hidden name="session[filenames][{key}]" value="{value}"/>
+				</f:for>
+				<f:for each="{session.prevStepValues}" as="value" key="identifier">
+					<f:if condition="{value.0}">
+						<f:then>
+							<f:for each="{value}" as="valueItem" iteration="i">
+								<f:form.hidden name="{formName}[{identifier}][]" value="{valueItem}"/>
+							</f:for>
+						</f:then>
+						<f:else>
+							<f:form.hidden property="{identifier}" value="{value}"/>
+						</f:else>
+					</f:if>
+				</f:for>
+			</div>
+		</f:if>
+
 		<div class="{name}__step">
 			<div class="{name}__step__header">
 				<h3>{currentStepRecord.title}</h3>
@@ -93,6 +111,17 @@
 						</f:case>
 						<f:case value="captcha">
 							captcha?
+						</f:case>
+						<f:case value="file">
+							<f:render section="label" arguments="{_all}"/>
+							<f:if condition="{session.filenames.{field.identifier}}">
+								<span>{session.filenames.{field.identifier}}</span>
+							</f:if>
+							<f:form.upload property="{field.identifier}"
+										   type="{field.type}"
+										   value="{field.value}"
+										   additionalAttributes="{u:formFieldAttribute(record:field)}"
+										   id="{record.uid}-{field.identifier}"/>
 						</f:case>
 						<f:defaultCase>
 							<f:render section="label" arguments="{_all}"/>

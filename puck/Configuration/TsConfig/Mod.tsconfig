@@ -14,7 +14,7 @@ mod.wizards.newContentElement.wizardItems {
 
     forms.before = plugins
     forms.elements.powermail_pi1 < mod.wizards.newContentElement.wizardItems.ext-powermail.elements.powermail-form
-    forms.show = powermail_pi1, felogin_login, search
+    forms.show = powermail_pi1, felogin_login, search, form_formframework
     ext-powermail.show =
     menu.show =
     common.show =
@@ -22,7 +22,7 @@ mod.wizards.newContentElement.wizardItems {
 
 // Page Backend Layouts
 defaultAllowedContent (
-list, shortcut, html, puck_text, puck_media, puck_container, puck_row_container, puck_section_carousel, puck_row, puck_columns, puck_cover_media, puck_hero, puck_page_menu, puck_anchor, puck_anchor_menu, puck_file_menu, powermail_pi1, puck_formal_form
+list, shortcut, html, puck_text, puck_media, puck_container, puck_row_container, puck_section_carousel, puck_row, puck_columns, puck_cover_media, puck_hero, puck_page_menu, puck_anchor, puck_anchor_menu, puck_file_menu, powermail_pi1, puck_formal_form, form_formframework
 )
 mod.web_layout.BackendLayouts {
     // layout with key "default" needs to be defined!
