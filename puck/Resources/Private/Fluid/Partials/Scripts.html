@@ -1,0 +1,21 @@
+{parsing off}
+<script>
+	window.__tx_formal = {}
+	window.__tx_formal.addFromTemplate = e => {
+		const container = document.getElementById(e.currentTarget.dataset.addFromTemplate)
+		if (!container) return
+		const template = container.querySelector('template')
+		if (!template) return
+		const index = template.dataset.iteration
+		const nextIndex = (parseInt(index) + 1).toString()
+
+		const clone = template.content.cloneNode(true)
+		clone.querySelectorAll('input, textarea, select').forEach((input) => {
+			input.name = input.name.replaceAll(`[__INDEX]`, `[${index}]`)
+			console.log(input.name)
+		});
+		container.appendChild(clone)
+
+		template.dataset.iteration = nextIndex
+	}
+</script>

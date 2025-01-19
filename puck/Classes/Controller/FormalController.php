@@ -14,13 +14,14 @@ use TYPO3\CMS\Extbase\Validation\Validator;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 use UBOS\Puck;
 
-
+// todo: condition support
+// todo: validation
 // todo: consent finisher
-// todo: repeatable fields
 // todo: dispatch events
 // todo: exceptions
 // todo: captcha field
 // todo: delete/move uploads finisher?
+// note: upload and radio fields will not be in formValues if no value is set
 class FormalController extends Extbase\Mvc\Controller\ActionController
 {
 	use ContentControllerViewPreparationTrait;
@@ -28,17 +29,35 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 	protected ?Core\Domain\Record $formRecord = null;
 	protected ?Core\Domain\Record $contentRecord = null;
 
-	private string $formName = 'formalFormValues';
-	protected ?array $formValues = null;
+	private string $formName = 'values';
 	protected ?array $session = [
 		'id' => '',
 		'prevStep' => 1,
-		'prevStepValues' => [],
+		'values' => [],
 		'filenames' => [],
 	];
+	protected array $validationErrors = [];
+	protected bool $hasValidationError = false;
+
 	public function __construct(
 		private readonly Core\Resource\StorageRepository $storageRepository,
 	) {}
+
+
+	protected function initializeSession(bool $validateAll = false): void
+	{
+		if (!isset($this->request->getArguments()[$this->formName])) {
+			return;
+		}
+		$this->session = json_decode($this->request->getArguments()['session'] ?? '[]', true);
+		$postValues = $this->request->getArguments()[$this->formName];
+		$mergedValues = array_merge($this->session['values'], $postValues);
+		$this->hasValidationError = !$this->validateFormValues($validateAll ? $mergedValues : $postValues);
+		if ($this->hasValidationError) {
+			return;
+		}
+		$this->session['values'] = $mergedValues;
+	}
 
 	public function formalFormAction(): ResponseInterface
 	{
@@ -49,8 +68,9 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		$cObj = $this->request->getAttribute('currentContentObject');
 		$viewVariables = [
 			'session' => $this->session,
+			'sessionJson' => json_encode($this->session),
 			'form' => $this->getFormRecord(),
-			'content' => $this->getContentRecord(),
+			'contentData' => $this->getContentRecord(),
 			'formName' => $this->formName,
 			'step' => $step,
 			'nextStep' => $lastStep === $step ? null : $step + 1,
@@ -80,64 +100,71 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 
 	public function formalFormStepAction(int $step = 1): ResponseInterface
 	{
-		$formValues = $this->request->getArguments()[$this->formName] ?? [];
-		$this->session = $this->request->getArguments()['session'] ?? [];
+		$this->initializeSession();
 		// if step is greater than 0 and no previous step form values are available, redirect to first step
-		if (!$formValues) {
+		if ($this->hasValidationError) {
+			return $this->redirect('formalForm');
+		}
+		if (!$this->session['values']) {
 			return $this->redirect('formalForm');
 		}
 		$this->session['id'] = $this->session['id'] ?: GeneralUtility::makeInstance(Core\Crypto\Random::class)->generateRandomHexString(20);
 
 		$isStepBack = $this->session['prevStep'] ?? 1 > $step;
 
-		DebugUtility::debug($formValues);
-		$this->session['prevStepValues'] = $formValues;
 /*		foreach ($formValues as $fieldId => $value) {
 			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
 				$this->saveUploadedFile($value, $fieldId);
-				$this->session['prevStepValues'][$fieldId] = '';
+				$this->session['values'][$fieldId] = '';
 			}
 		}*/
+
 
 		$passwordHasher = GeneralUtility::makeInstance(Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
 
 
-		foreach($this->getFormRecord()->get('steps')[$this->session['prevStep']]->get('fields') as $field) {
+		foreach($this->getFormRecord()->get('steps')[$this->session['prevStep']-1]->get('fields') as $field) {
 			$id = $field->get('identifier');
-			if (!isset($formValues[$id])) {
+			if (!isset($this->session['values'][$id])) {
 				continue;
 			}
-			$value = $formValues[$id];
+			$value = $this->session['values'][$id];
 			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
 				$this->saveUploadedFile($value, $id);
-				$this->session['prevStepValues'][$id] = '';
+				$this->session['values'][$id] = '';
 			}
 			if ($field->get('type') === 'password') {
-				//$formValues[$id] = $passwordHasher->getHashedPassword($value);
+				//$this->session['values'][$id] = $passwordHasher->getHashedPassword($value);
 			}
 		}
 
+		DebugUtility::debug($this->session['values']);
 		$this->prepareContentView();
 		$lastStep = count($this->getFormRecord()->get('steps'));
 		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
+
 		foreach ($currentStepRecord->get('fields') as $field) {
-			$identifier = $field->get('identifier');
-			if (isset($formValues[$identifier])) {
-				$field->setValue($formValues[$identifier]);
-				unset($this->session['prevStepValues'][$identifier]);
+			$id = $field->get('identifier');
+			if (isset($this->session['values'][$id])) {
+				$field->setValue($this->session['values'][$id]);
+				unset($this->session['values'][$id]);
+			}
+			if ($field->get('type') === 'repeatable-container' && $field->getValue()) {
+				$field->createRepeatableContainerPrevFields($field->getValue());
 			}
 		}
 
 		// use fe_session to store form session?
 		// how to handle garbage collection?
-		// GeneralUtility::makeInstance(Core\Session\UserSessionManager::class)->collectGarbage();
+		//Core\Session\UserSessionManager::create('FE')->collectGarbage(10);
 		//$this->getFrontendUser()->setKey('ses', $this->getSessionKey(), $this->session);
 		//DebugUtility::debug($this->getFrontendUser()->getKey('ses', $this->getSessionKey()));
 
 		$viewVariables = [
 			'session' => $this->session,
+			'sessionJson' => json_encode($this->session),
 			'form' => $this->getFormRecord(),
-			'content' => $this->getContentRecord(),
+			'contentData' => $this->getContentRecord(),
 			'formName' => $this->formName,
 			'step' => $step,
 			'nextStep' => $lastStep === $step ? null : $step + 1,
@@ -153,43 +180,23 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		return $this->htmlResponse();
 	}
 
-	protected function saveUploadedFile(Core\Http\UploadedFile $file, string $fieldId): void
-	{
-		$storage = $this->storageRepository->getDefaultStorage();
-		$folderId = $this->getSessionFileFolder();
-		$fileName = $file->getClientFilename();
-		if (!$storage->hasFolder($folderId)) {
-			$storage->createFolder($folderId);
-		}
-		$newFile = $storage->addUploadedFile(
-			$file,
-			$storage->getFolder($folderId),
-			$fileName,
-			Core\Resource\Enum\DuplicationBehavior::RENAME
-		);
-		if (!isset($this->session['filenames'])) {
-			$this->session['filenames'] = [];
-		}
-		$this->session['filenames'][$fieldId] = $newFile->getName();
-	}
-
 	public function formalSubmitAction(): ResponseInterface
 	{
-		$formValues = $this->request->getArguments()[$this->formName] ?? [];
-		$this->session = $this->request->getArguments()['session'] ?? [];
-		if (!$this->validateFormValues($formValues)) {
+		$this->initializeSession();
+		if (!$this->session['values']) {
+			return $this->redirect('formalForm');
+		}
+		if (!$this->validateFormValues($this->session['values'])) {
 			return $this->errorResponse('Invalid form values');
 		}
-		foreach ($formValues as $identifier => $value) {
+		foreach ($this->session['values'] as $identifier => $value) {
 			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
 				$this->saveUploadedFile($value, $identifier);
 			}
 		}
 		foreach ($this->session['filenames'] as $fieldId => $filename) {
-			$formValues[$fieldId] = $this->getSessionFileFolder() . '/' . $filename;
+			$this->session['values'][$fieldId] = $this->getSessionFileFolder() . '/' . $filename;
 		}
-		DebugUtility::debug($formValues);
-		DebugUtility::debug($this->session);
 		$response = null;
 		foreach ($this->getFinishers() as $finisherData) {
 			// todo: add condition support
@@ -197,7 +204,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 				continue;
 			}
 			try {
-				$response = $this->makeFinisherInstance($finisherData, $formValues)?->execute() ?? $response;
+				$response = $this->makeFinisherInstance($finisherData, $this->session['values'])?->execute() ?? $response;
 			} catch (\Exception $e) {
 				DebugUtility::debug($e);
 				continue;
@@ -313,6 +320,26 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 			$this->settings,
 			$this->getFormRecord(),
 			$formValues);
+	}
+
+	protected function saveUploadedFile(Core\Http\UploadedFile $file, string $fieldId): void
+	{
+		$storage = $this->storageRepository->getDefaultStorage();
+		$folderId = $this->getSessionFileFolder();
+		$fileName = $file->getClientFilename();
+		if (!$storage->hasFolder($folderId)) {
+			$storage->createFolder($folderId);
+		}
+		$newFile = $storage->addUploadedFile(
+			$file,
+			$storage->getFolder($folderId),
+			$fileName,
+			Core\Resource\Enum\DuplicationBehavior::RENAME
+		);
+		if (!isset($this->session['filenames'])) {
+			$this->session['filenames'] = [];
+		}
+		$this->session['filenames'][$fieldId] = $newFile->getName();
 	}
 
 	protected function getFinishers(): array

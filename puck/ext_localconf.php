@@ -17,7 +17,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBO
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
-$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_header'] = 'EXT:puck/Configuration/RTE/Header.yaml';
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_input_field'] = 'EXT:puck/Configuration/RTE/InputField.yaml';
 
 // Define fluid_components Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
@@ -62,3 +62,4 @@ $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][5273] = 'EXT:puck/Resou
 	],
 	'CType'
 );
+//$GLOBALS['TYPO3_CONF_VARS']['FE']['sessionDataLifetime'] = 3600;

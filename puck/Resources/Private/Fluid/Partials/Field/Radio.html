@@ -1,0 +1,11 @@
+<f:render partial="Fieldwrap" contentAs="content" arguments="{_all}">
+	<f:render partial="Fieldlabel" arguments="{_all}"/>
+	<f:for each="{field.field_options}" as="option">
+		<f:form.radio name="{namespace}[{field.identifier}]"
+					  checked="{field.value} == {option.value}"
+					  value="{option.value}"
+					  additionalAttributes="{u:formFieldAttributes(record:field)}"
+					  id="c{contentData.uid}-field-{field.identifier}-{option.value}"/>
+		<label class="{name}__label" for="c{contentData.uid}-field-{field.identifier}-{option.value}">{option.label}</label>
+	</f:for>
+</f:render>

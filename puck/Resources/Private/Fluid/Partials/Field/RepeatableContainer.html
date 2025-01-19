@@ -1,0 +1,29 @@
+<f:render partial="Fieldwrap" contentAs="content" arguments="{_all}">
+	<f:variable name="id" value="c{contentData.uid}-field-{field.identifier}"/>
+	<div id="{id}">
+		<button class="e-button"
+				type="button"
+				for="{id}"
+				onclick="window.__tx_formal.addFromTemplate(event)"
+				data-add-from-template="{id}">
+			Add fieldset
+		</button>
+		<f:variable name="startingIndex" value="{field.repeatableContainerPrevFields -> f:count()}"/>
+		<template data-iteration="{startingIndex}">
+			<div>
+				<f:alias map="{fields:field.fields, namespace:'{namespace}[{field.identifier}][__INDEX]'}">
+					<f:render partial="Fields" arguments="{_all}"/>
+				</f:alias>
+			</div>
+		</template>
+		<f:if condition="{field.repeatableContainerPrevFields}">
+			<f:for each="{field.repeatableContainerPrevFields}" as="prevFields" iteration="i">
+				<div>
+					<f:alias map="{fields:prevFields, namespace:'{namespace}[{field.identifier}][{i.index}]'}">
+						<f:render partial="Fields" arguments="{_all}"/>
+					</f:alias>
+				</div>
+			</f:for>
+		</f:if>
+	</div>
+</f:render>

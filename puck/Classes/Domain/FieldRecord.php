@@ -11,6 +11,24 @@ class FieldRecord extends Record
 {
 	protected mixed $value = null;
 	protected ?array $selectedOptions = null;
+
+	public array $repeatableContainerPrevFields = [];
+
+	public function createRepeatableContainerPrevFields(array $valueSets): void
+	{
+		$index = 0;
+		foreach ($valueSets as $values) {
+			foreach($this->get('fields') as $childField) {
+				$newField = clone $childField;
+				if (isset($values[$newField->get('identifier')])) {
+					$newField->setValue($values[$newField->get('identifier')]);
+				}
+				$this->repeatableContainerPrevFields[$index][] = $newField;
+			}
+			$index++;
+		}
+	}
+
 	public function __construct(
 		protected readonly RawRecord         $rawRecord,
 		protected array                      $properties,
@@ -22,11 +40,14 @@ class FieldRecord extends Record
 
 	protected function computeDefaultValue(): void
 	{
+		if (!$this->has('default_value')) {
+			$this->properties['default_value'] = null;
+		}
 		$defaultValue = $this->get('default_value');
 		if (gettype($defaultValue) === 'object' && (get_class($defaultValue) === 'DateTime' || get_class($defaultValue) === 'DateTimeImmutable')) {
 			$this->properties['default_value'] = $defaultValue->format('Y-m-d');
 		}
-		if ($this->get('type') === 'radio') {
+		if (in_array($this->get('type'), ['radio', 'select'])) {
 			$value = null;
 			foreach ($this->get('field_options') as $option) {
 				if ($option->get('selected')) {
@@ -36,7 +57,7 @@ class FieldRecord extends Record
 			}
 			$this->properties['default_value'] = $value;
 		}
-		if (in_array($this->get('type'), ['checkbox', 'select'])) {
+		if (in_array($this->get('type'), ['checkbox'])) {
 			$value = [];
 			foreach ($this->get('field_options') as $option) {
 				if ($option->get('selected')) {
@@ -54,12 +75,17 @@ class FieldRecord extends Record
 	{
 		return $this->value ?? $this->get('default_value');
 	}
+
+	public function getCamelCaseType(): string
+	{
+		return ucFirst(str_replace('-', '', ucwords($this->get('type'), '-')));
+	}
 	public function getSelectedOptions(): ?array
 	{
 		if ($this->selectedOptions !== null) {
 			return $this->selectedOptions;
 		}
-		if (!in_array($this->get('type'), ['checkbox', 'select'])) {
+		if (!in_array($this->get('type'), ['checkbox'])) {
 			return null;
 		}
 		$selectedOptions = [];

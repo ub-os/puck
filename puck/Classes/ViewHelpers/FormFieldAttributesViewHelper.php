@@ -5,12 +5,13 @@ namespace UBOS\Puck\ViewHelpers;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class FormFieldAttributeViewHelper extends AbstractViewHelper
+class FormFieldAttributesViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
 	{
 		// name, type, description, required, default, escape
 		$this->registerArgument('record', 'object', '', true);
+		$this->registerArgument('attributes', 'array', '', false, []);
 	}
 
 	public function render(): array
@@ -42,7 +43,7 @@ class FormFieldAttributeViewHelper extends AbstractViewHelper
 			$attributes['oninvalid'] = 'this.setCustomValidity("' . $record->get('validation_message') . '")';
 			$attributes['oninput'] = 'this.setCustomValidity("")';
 		}
-		return $attributes;
+		return array_merge($attributes, $this->arguments['attributes']);
 	}
 
 	protected function stringFromValue($val): string

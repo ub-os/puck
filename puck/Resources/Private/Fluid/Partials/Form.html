@@ -1,0 +1,38 @@
+<f:variable name="name" value="formal"/>
+<f:variable name="formElementId" value="c{contentData.uid}-{form.uid}-form"/>
+<f:form class="{name}__form"
+		data-hx-boost="{f:if(condition:'{isLastStep}',then:'false',else:'false')}"
+		action="formalForm"
+		id="{formElementId}"
+		name="{formName}"
+		enctype="multipart/form-data"
+		data-action="{f:uri.action(action:action,arguments:{step:nextStep})}">
+
+	<h2 class="{name}__form__header">{form.title}</h2>
+
+	<div class="{name}__step">
+		<h3 class="{name}__step__header">{currentStepRecord.title}</h3>
+		<fieldset class="{name}__fieldset">
+			<f:alias map="{fields: currentStepRecord.fields, namespace:formName}">
+				<f:render partial="Fields" arguments="{_all}"></f:render>
+			</f:alias>
+		</fieldset>
+	</div>
+
+	<p></p>
+
+	<f:if condition="!{isFirstStep}">
+		<button type="submit" class="e-button"
+				formnovalidate
+				formaction="{f:uri.action(action:'formalFormStep', arguments:{step:previousStep}, section:formElementId)}">
+			{currentStepRecord.prev_label}
+		</button>
+	</f:if>
+	<button type="submit" class="e-button">
+		{currentStepRecord.next_label}
+	</button>
+
+	<f:form.hidden name="session" value='{sessionJson}'/>
+	<f:render partial="SpamProtection" arguments="{_all}"/>
+	<f:render partial="Scripts" arguments="{_all}"/>
+</f:form>

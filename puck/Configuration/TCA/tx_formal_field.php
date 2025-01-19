@@ -44,6 +44,7 @@ $ctrl = [
 		'hidden' => 'form-hidden',
 		'rte' => 'form-static-text',
 		'content' => 'form-content-element',
+		'repeatable-container' => 'default',
 	],
 
 ];
@@ -101,6 +102,8 @@ $columns = [
 				['Hidden input', 'hidden', 'form-hidden', 'special'],
 				['Rich text content', 'rte', 'form-static-text', 'no-input'],
 				['Content element', 'content', 'form-content-element', 'no-input'],
+				['Repeatable fields', 'repeatable-container', 'default', 'special'],
+
 			]),
 			'itemGroups' => [
 				'basic' => 'Basic',
@@ -122,10 +125,23 @@ $columns = [
 	'fieldset' => [
 		'label' => 'Fieldset',
 		'config' => [
-			'type' => 'select',
-			'foreign_table' => 'tx_formal_step',
+			'type' => 'group',
+			'allowed' => 'tx_formal_step,tx_formal_field',
 			'minitems' => 0,
 			'maxitems' => 1,
+		],
+	],
+	'fields' => [
+		'label' => 'Fields',
+		'config' => [
+			'type' => 'inline',
+			'foreign_table' => 'tx_formal_field',
+			'foreign_field' => 'fieldset',
+			'foreign_sortby' => 'sorting',
+			'appearance' => [
+				'expandSingle' => true,
+				'useSortable' => true
+			],
 		],
 	],
 	'identifier' => [
@@ -135,9 +151,7 @@ $columns = [
 			'generatorOptions' => [
 				'fields' => ['label'],
 				'fieldSeparator' => '-',
-				'replacements' => [
-					'/' => '',
-				],
+				'replacements' => [ '/' => '' ],
 			],
 			'appearance' => [
 				'prefix' => \UBOS\Puck\UserFunctions\FormEngine\SlugPrefix::class . '->getHash',
@@ -245,6 +259,16 @@ $columns = [
 			'type' => 'input',
 			'size' => 30,
 		],
+	],
+	'rte_label' => [
+		'label' => 'RTE label',
+		'config' => [
+			'type' => 'text',
+			'rows' => 1,
+			'max' => 255,
+			'enableRichtext' => true,
+			'richtextConfiguration' => 'puck_input_field',
+		]
 	],
 	'disabled' => [
 		'label' => 'Disabled',
@@ -361,9 +385,9 @@ $palettes = [
 	'detail' => [
 		'showitem' => '',
 	],
-	'layout' => [
-		'label' => 'Layout',
-		'showitem' => 'layout, css_class, --linebreak--, width, validation_message',
+	'appearance' => [
+		'label' => 'Appearance',
+		'showitem' => 'layout, css_class, --linebreak--, width, validation_message, --linebreak--, rte_label',
 	],
 	'attributes' => [
 		'label' => 'Attributes',
@@ -376,6 +400,9 @@ $palettes = [
 	],
 	'rte' => [
 		'showitem' => 'type, --linebreak--, label, --linebreak--, description',
+	],
+	'repeatable-container' => [
+		'showitem' => 'type, --linebreak--, label, identifier, --linebreak--, fields',
 	]
 ];
 $showItem = '
@@ -383,7 +410,7 @@ $showItem = '
         --palette--;;base, 
         --palette--;;detail,
 	--div--;Advanced,
-        --palette--;;layout,
+        --palette--;;appearance,
        	--palette--;;attributes, 
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
         sys_language_uid, 
@@ -509,6 +536,17 @@ return [
 					]
 				],
 			]
+		],
+		'repeatable-container' => [
+			'showitem' => '
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
+					--palette--;;repeatable-container, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
+					sys_language_uid, 
+					l10n_parent, 
+					l10n_diffsource, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+					hidden',
 		]
 	],
 ];
