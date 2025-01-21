@@ -14,13 +14,15 @@ use TYPO3\CMS\Extbase\Validation\Validator;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 use UBOS\Puck;
 
-// todo: condition support
 // todo: validation
 // todo: consent finisher
 // todo: dispatch events
 // todo: exceptions
 // todo: captcha field
 // todo: delete/move uploads finisher?
+// todo: clean up FieldRecord, maybe multiple classes for different field types
+// todo: helper function to create new field type like existing field type
+// todo: rework js as actual file, replace onchange and onclick with event listeners, add "process" function for when fields are added dynamically
 // note: upload and radio fields will not be in formValues if no value is set
 class FormalController extends Extbase\Mvc\Controller\ActionController
 {
@@ -40,7 +42,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 	protected bool $hasValidationError = false;
 
 	public function __construct(
-		private readonly Core\Resource\StorageRepository $storageRepository,
+		private readonly Core\Resource\StorageRepository $storageRepository
 	) {}
 
 
@@ -66,6 +68,20 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		$lastStep = count($this->getFormRecord()->get('steps'));
 		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
 		$cObj = $this->request->getAttribute('currentContentObject');
+
+		$conditionResolver = $this->getConditionResolver();
+		foreach ($currentStepRecord->get('fields') as $field) {
+			if ($field->has('display_condition') && $field->get('display_condition')) {
+				$conditionResult = $conditionResolver->evaluate($field->get('display_condition'));
+				DebugUtility::debug($conditionResult);
+				if (!$conditionResult) {
+					$field->shouldDisplay = false;
+					continue;
+				}
+			}
+		}
+
+		// form render event
 		$viewVariables = [
 			'session' => $this->session,
 			'sessionJson' => json_encode($this->session),
@@ -108,32 +124,29 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		if (!$this->session['values']) {
 			return $this->redirect('formalForm');
 		}
-		$this->session['id'] = $this->session['id'] ?: GeneralUtility::makeInstance(Core\Crypto\Random::class)->generateRandomHexString(20);
+		$this->session['id'] = $this->session['id'] ?: GeneralUtility::makeInstance(Core\Crypto\Random::class)->generateRandomHexString(32);
 
 		$isStepBack = $this->session['prevStep'] ?? 1 > $step;
-
-/*		foreach ($formValues as $fieldId => $value) {
-			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
-				$this->saveUploadedFile($value, $fieldId);
-				$this->session['values'][$fieldId] = '';
-			}
-		}*/
-
 
 		$passwordHasher = GeneralUtility::makeInstance(Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
 
 
 		foreach($this->getFormRecord()->get('steps')[$this->session['prevStep']-1]->get('fields') as $field) {
+			if (!$field->has('identifier')) {
+				continue;
+			}
 			$id = $field->get('identifier');
 			if (!isset($this->session['values'][$id])) {
 				continue;
 			}
 			$value = $this->session['values'][$id];
 			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
+				// file upload event
 				$this->saveUploadedFile($value, $id);
 				$this->session['values'][$id] = '';
 			}
 			if ($field->get('type') === 'password') {
+				// save password event
 				//$this->session['values'][$id] = $passwordHasher->getHashedPassword($value);
 			}
 		}
@@ -143,8 +156,20 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		$lastStep = count($this->getFormRecord()->get('steps'));
 		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
 
+
+		$conditionResolver = $this->getConditionResolver();
 		foreach ($currentStepRecord->get('fields') as $field) {
+			if (!$field->has('identifier')) {
+				continue;
+			}
 			$id = $field->get('identifier');
+			if ($field->has('display_condition') && $field->get('display_condition')) {
+				$conditionResult = $conditionResolver->evaluate($field->get('display_condition'));
+				DebugUtility::debug($conditionResult);
+				if (!$conditionResult) {
+					$field->shouldDisplay = false;
+				}
+			}
 			if (isset($this->session['values'][$id])) {
 				$field->setValue($this->session['values'][$id]);
 				unset($this->session['values'][$id]);
@@ -160,6 +185,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		//$this->getFrontendUser()->setKey('ses', $this->getSessionKey(), $this->session);
 		//DebugUtility::debug($this->getFrontendUser()->getKey('ses', $this->getSessionKey()));
 
+		// form render event
 		$viewVariables = [
 			'session' => $this->session,
 			'sessionJson' => json_encode($this->session),
@@ -199,11 +225,15 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		}
 		$response = null;
 		foreach ($this->getFinishers() as $finisherData) {
-			// todo: add condition support
 			if ($finisherData['condition'] ?? false) {
-				continue;
+				$conditionResolver = $this->getConditionResolver();
+				$conditionResult = $conditionResolver->evaluate($finisherData['condition']);
+				if (!$conditionResult) {
+					continue;
+				}
 			}
 			try {
+				// execute finisher event
 				$response = $this->makeFinisherInstance($finisherData, $this->session['values'])?->execute() ?? $response;
 			} catch (\Exception $e) {
 				DebugUtility::debug($e);
@@ -228,9 +258,11 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 			$type = $field->get('type');
 			$id = $field->get('identifier');
 			$value = $values[$id] ?? null;
+			$errors = [];
 			if ($type === 'file') {
 				continue;
 			}
+			// add FieldValidation Event
 			if ($field->get('pattern')) {
 				if ($this->hasValidationError(
 					Validator\RegexValidator::class,
@@ -340,6 +372,24 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 			$this->session['filenames'] = [];
 		}
 		$this->session['filenames'][$fieldId] = $newFile->getName();
+	}
+
+	protected function getConditionResolver()
+	{
+		return GeneralUtility::makeInstance(
+			Core\ExpressionLanguage\Resolver::class,
+			'tx_formal',
+			[
+				'formValues' => $this->session['values'],
+//				'stepIdentifier' => $page->getIdentifier(),
+//				'stepType' => $page->getType(),
+//				'finisherIdentifier' => $finisherIdentifier,
+//				'contentObject' => $contentObjectData,
+				'request' => new Core\ExpressionLanguage\RequestWrapper($this->request),
+				'site' => $this->request->getAttribute('site'),
+				'siteLanguage' => $this->request->getAttribute('language'),
+			]
+		);
 	}
 
 	protected function getFinishers(): array

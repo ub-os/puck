@@ -1,4 +1,6 @@
 <div class="{name}__field -type-{field.type}"
-	 style="--formal-field-width: {field.width}%">
+	 data-wrap-for="{field.identifier}"
+	 style="--formal-field-width: {field.width}%"
+	 {f:if(condition:'{field.js_display_condition}',then:'data-condition="{field.js_display_condition}"')}>
 	{content -> f:format.raw()}
 </div>

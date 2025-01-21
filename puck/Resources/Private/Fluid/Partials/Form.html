@@ -5,6 +5,7 @@
 		action="formalForm"
 		id="{formElementId}"
 		name="{formName}"
+		autocomplete="on"
 		enctype="multipart/form-data"
 		data-action="{f:uri.action(action:action,arguments:{step:nextStep})}">
 
@@ -19,20 +20,25 @@
 		</fieldset>
 	</div>
 
-	<p></p>
-
-	<f:if condition="!{isFirstStep}">
-		<button type="submit" class="e-button"
-				formnovalidate
-				formaction="{f:uri.action(action:'formalFormStep', arguments:{step:previousStep}, section:formElementId)}">
-			{currentStepRecord.prev_label}
+	<div class="{name}__navigation">
+		<f:if condition="!{isFirstStep}">
+			<button type="submit"
+					class="{name}__navigation__button -prev e-button"
+					formnovalidate
+					formaction="{f:uri.action(action:'formalFormStep', arguments:{step:previousStep}, section:formElementId)}">
+				{currentStepRecord.prev_label}
+			</button>
+		</f:if>
+		<button type="submit"
+				class="{name}__navigation__button -next e-button"
+		>
+			{currentStepRecord.next_label}
 		</button>
-	</f:if>
-	<button type="submit" class="e-button">
-		{currentStepRecord.next_label}
-	</button>
+	</div>
 
-	<f:form.hidden name="session" value='{sessionJson}'/>
-	<f:render partial="SpamProtection" arguments="{_all}"/>
-	<f:render partial="Scripts" arguments="{_all}"/>
+	<div>
+		<f:form.hidden name="session" value='{sessionJson}'/>
+		<f:render partial="SpamProtection" arguments="{_all}"/>
+		<f:render partial="Scripts" arguments="{_all}"/>
+	</div>
 </f:form>

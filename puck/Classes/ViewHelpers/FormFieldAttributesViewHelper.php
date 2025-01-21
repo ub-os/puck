@@ -17,7 +17,13 @@ class FormFieldAttributesViewHelper extends AbstractViewHelper
 	public function render(): array
 	{
 		$record = $this->arguments['record'];
-		$attributes = [];
+		$attributes = [
+			'data-field-id' => $record->get('identifier'),
+		];
+		$attributes['onchange'] = 'window.__tx_formal.evalConditions()';
+		if ($record->has('js_display_condition') && $record->get('js_display_condition')) {
+			//
+		}
 		foreach (['required', 'readonly', 'disabled', 'multiple'] as $attribute) {
 			$val = $record->get($attribute);
 			if ($val) {

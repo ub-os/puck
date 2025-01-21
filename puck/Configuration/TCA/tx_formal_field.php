@@ -42,6 +42,7 @@ $ctrl = [
 		'captcha' => 'default',
 		'country' => 'default',
 		'hidden' => 'form-hidden',
+		'header' => 'form-static-text',
 		'rte' => 'form-static-text',
 		'content' => 'form-content-element',
 		'repeatable-container' => 'default',
@@ -100,10 +101,10 @@ $columns = [
 				['Captcha', 'captcha', 'default', 'special'],
 				['Country select', 'country', 'default', 'special'],
 				['Hidden input', 'hidden', 'form-hidden', 'special'],
+				['Repeatable fields', 'repeatable-container', 'default', 'special'],
+				['Header', 'header', 'form-static-text', 'no-input'],
 				['Rich text content', 'rte', 'form-static-text', 'no-input'],
 				['Content element', 'content', 'form-content-element', 'no-input'],
-				['Repeatable fields', 'repeatable-container', 'default', 'special'],
-
 			]),
 			'itemGroups' => [
 				'basic' => 'Basic',
@@ -181,26 +182,40 @@ $columns = [
 			],
 		],
 	],
-	'validation' => [
-		'label' => 'Validation',
-		'onChange' => 'reload',
-		'config' => [
-			'type' => 'select',
-			'renderType' => 'selectSingle',
-			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
-				['Auto', ''],
-				['Length', 'length'],
-				['RegEx', 'regex'],
-			]),
-		],
-	],
-	'validation_config' => [
-		'label' => 'Validation Configuration',
-		'displayCond' => 'FIELD:validation:IN:length,regex',
-		'config' => [
-			'type' => 'input',
-		],
-	],
+//	'server_validators' => [
+//		'label' => 'Server-side validators',
+//		'config' => [
+//			'type' => 'select',
+//			'renderType' => 'selectMultipleSideBySide',
+//			'default' => 'auto-validators',
+//			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+//				['Add validators based on type and attributes', 'auto-validators'],
+//				['AlphaNumeric', 'TYPO3\CMS\Extbase\Validation\Validator\AlphaNumericValidator'],
+//				['Boolean', 'TYPO3\CMS\Extbase\Validation\Validator\BooleanValidator'],
+//				['DateTime', 'TYPO3\CMS\Extbase\Validation\Validator\DateTimeValidator'],
+//				['EmailAddress', 'TYPO3\CMS\Extbase\Validation\Validator\EmailAddressValidator'],
+//				['FileName', 'TYPO3\CMS\Extbase\Validation\Validator\FileNameValidator'],
+//				['FileSize', 'TYPO3\CMS\Extbase\Validation\Validator\FileSizeValidator'],
+//				['Float', 'TYPO3\CMS\Extbase\Validation\Validator\FloatValidator'],
+//				['ImageDimensions', 'TYPO3\CMS\Extbase\Validation\Validator\ImageDimensionsValidator'],
+//				['Integer', 'TYPO3\CMS\Extbase\Validation\Validator\IntegerValidator'],
+//				['MimeType', 'TYPO3\CMS\Extbase\Validation\Validator\MimeTypeValidator'],
+//				['NotEmpty', 'TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator'],
+//				['NumberRange', 'TYPO3\CMS\Extbase\Validation\Validator\NumberRangeValidator'],
+//				['Number', 'TYPO3\CMS\Extbase\Validation\Validator\NumberValidator'],
+//				['RegularExpression', 'TYPO3\CMS\Extbase\Validation\Validator\RegularExpressionValidator'],
+//				['String', 'TYPO3\CMS\Extbase\Validation\Validator\StringValidator'],
+//				['Text', 'TYPO3\CMS\Extbase\Validation\Validator\TextValidator'],
+//				['Url', 'TYPO3\CMS\Extbase\Validation\Validator\UrlValidator'],
+//			]),
+//		],
+//	],
+//	'server_validators_options' => [
+//		'label' => ' Validator options',
+//		'config' => [
+//			'type' => 'json',
+//		],
+//	],
 	'layout' => [
 		'label' => 'Layout',
 		'config' => [
@@ -349,24 +364,129 @@ $columns = [
 			'default' => null
 		],
 	],
-	'display_condition' => [
-		'label' => 'Display condition',
-		'config' => [
-			'type' => 'input',
-			'size' => 40,
-		],
-	],
 	'autocomplete' => [
 		'label' => 'Autocomplete',
 		'config' => [
+			'type' => 'select',
+			'renderType' => 'selectMultipleSideBySide',
+			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+
+				['off', 'off'],
+				['on', 'on'],
+
+				['language', 'language', '', 'other'],
+				['organization', 'organization', '', 'other'],
+				['organization-title', 'organization-title', '', 'other'],
+				['photo', 'photo', '', 'other'],
+				['sex', 'sex', '', 'other'],
+				['transaction-amount', 'transaction-amount', '', 'other'],
+				['transaction-currency', 'transaction-currency', '', 'other'],
+				['url', 'url', '', 'other'],
+
+				['name', 'name', '', 'name'],
+				['family-name', 'family-name', '', 'name'],
+				['given-name', 'given-name', '', 'name'],
+				['additional-name', 'additional-name', '', 'name'],
+				['nickname', 'nickname', '', 'name'],
+				['honoric-prefix', 'honoric-prefix', '', 'name'],
+				['honoric-suffix', 'honoric-suffix', '', 'name'],
+				['username', 'username', '', 'name'],
+
+				['street-address', 'street-address', '', 'address'],
+				['postal-code', 'postal-code', '', 'address'],
+				['country', 'country', '', 'address'],
+				['country-name', 'country-name', '', 'address'],
+				['address-level1', 'address-level1', '', 'address'],
+				['address-level2', 'address-level2', '', 'address'],
+				['address-level3', 'address-level3', '', 'address'],
+				['address-level4', 'address-level4', '', 'address'],
+				['address-line1', 'address-line1', '', 'address'],
+				['address-line2', 'address-line2', '', 'address'],
+				['address-line3', 'address-line3', '', 'address'],
+
+				['bday', 'bday', '', 'birthday'],
+				['bday-day', 'bday-day', '', 'birthday'],
+				['bday-month', 'bday-month', '', 'birthday'],
+				['bday-year', 'bday-year', '', 'birthday'],
+
+				['email', 'email', '', 'digital-contact'],
+				['tel', 'tel', '', 'digital-contact'],
+				['tel-area-code', 'tel-area-code', '', 'digital-contact'],
+				['tel-country-code', 'tel-country-code', '', 'digital-contact'],
+				['tel-extension', 'tel-extension', '', 'digital-contact'],
+				['tel-local', 'tel-local', '', 'digital-contact'],
+				['tel-local-prefix', 'tel-local-prefix', '', 'digital-contact'],
+				['tel-local-suffix', 'tel-local-suffix', '', 'digital-contact'],
+				['tel-national', 'tel-national', '', 'digital-contact'],
+				['impp', 'impp', '', 'digital-contact'],
+
+				['cc-name', 'cc-name', '', 'credit-card'],
+				['cc-family-name', 'cc-family-name', '', 'credit-card'],
+				['cc-given-name', 'cc-given-name', '', 'credit-card'],
+				['cc-additional-name', 'cc-additional-name', '', 'credit-card'],
+				['cc-csc', 'cc-csc', '', 'credit-card'],
+				['cc-exp', 'cc-exp', '', 'credit-card'],
+				['cc-exp-month', 'cc-exp-month', '', 'credit-card'],
+				['cc-exp-year', 'cc-exp-year', '', 'credit-card'],
+				['cc-number', 'cc-number', '', 'credit-card'],
+				['cc-type', 'cc-type', '', 'credit-card'],
+
+				['current-password', 'current-password', '', 'password'],
+				['new-password', 'new-password', '', 'password'],
+				['one-time-code', 'one-time-code', '', 'password'],
+
+				['shipping', 'shipping', '', 'address-group'],
+				['billing', 'billing', '', 'address-group'],
+
+				['home', 'home', '', 'contact-type'],
+				['work', 'work', '', 'contact-type'],
+				['mobile', 'mobile', '', 'contact-type'],
+				['fax', 'fax', '', 'contact-type'],
+				['page', 'page', '', 'contact-type'],
+			]),
+			'default' => 'on',
+			'itemGroups' => [
+				'name' => 'Name',
+				'address' => 'Address',
+				'birthday' => 'Birthday',
+				'digital-contact' => 'Digital contact',
+				'credit-card' => 'Credit card',
+				'password' => 'Password',
+				'address-group' => 'Address group',
+				'contact-type' => 'Contact type',
+				'other' => 'Other',
+
+			]
+		],
+	],
+	'display_condition' => [
+		'label' => 'Display condition',
+		'description' => 'Condition in Symfony Expression Language.',
+		'config' => [
 			'type' => 'input',
+			'size' => 100,
 			'valuePicker' => [
 				'items' => [
+					['Field value is true / not empty', 'value("field-id")'],
+					['Field value is equal to', 'value("field-id") == "some-value"'],
 				],
 			],
 		],
 	],
-
+	'js_display_condition' => [
+		'label' => 'Display condition',
+		'description' => 'Condition in jexl.',
+		'config' => [
+			'type' => 'input',
+			'size' => 100,
+			'valuePicker' => [
+				'items' => [
+					['Field value is true / not empty', 'value("field-id")'],
+					['Field value is equal to', 'value("field-id") == "some-value"'],
+				],
+			],
+		],
+	],
 ];
 $palettes = [
 	'base' => [
@@ -403,6 +523,12 @@ $palettes = [
 	],
 	'repeatable-container' => [
 		'showitem' => 'type, --linebreak--, label, identifier, --linebreak--, fields',
+	],
+	'condition' => [
+		'showitem' => 'display_condition, --linebreak--, js_display_condition',
+	],
+	'validation' => [
+		'showitem' => 'server_validators, --linebreak--, server_validators_options',
 	]
 ];
 $showItem = '
@@ -412,6 +538,10 @@ $showItem = '
 	--div--;Advanced,
         --palette--;;appearance,
        	--palette--;;attributes, 
+    --div--;Autocomplete,
+    	autocomplete,   	
+    --div--;Condition,
+    	--palette--;;condition, 
     --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
         sys_language_uid, 
         l10n_parent, 
@@ -518,6 +648,19 @@ return [
 					],
 				],
 			],
+		],
+		'header' => [
+			'showitem' => '
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 
+					--palette--;;rte, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
+					sys_language_uid, 
+					l10n_parent, 
+					l10n_diffsource, 
+				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+					hidden',
+			'columnsOverrides' => [
+			]
 		],
 		'rte' => [
 			'showitem' => '

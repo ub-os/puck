@@ -1,11 +1,13 @@
 .formal {
 	&__form {
 		--formal-field-width: 100%;
-		--formal-fieldset-gap: 1em;
+		--formal-fieldset-gap: 2rem;
+	}
+	&__step {
+		padding-bottom: var(--formal-fieldset-gap);
 	}
 	&__step__header {
 		width: 100%;
-		padding: calc(var(--formal-fieldset-gap) / 2);
 	}
 	&__fieldset {
 		display: flex;
@@ -15,5 +17,16 @@
 	&__field {
 		width: var(--formal-field-width);
 		padding: calc(var(--formal-fieldset-gap) / 2);
+	}
+	&__field.-type-header {
+		margin-top: var(--formal-fieldset-gap);
+	}
+	&__navigation {
+		display: flex;
+		gap: var(--formal-fieldset-gap);
+		margin-top: var(--formal-fieldset-gap);
+	}
+	&__navigation__button.-next {
+		margin-left: auto;
 	}
 }

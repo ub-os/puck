@@ -53,16 +53,14 @@ $columns = [
 	],
 	'condition' => [
 		'label' => 'Condition',
+		'description' => 'Condition in Symfony Expression Language.',
 		'config' => [
 			'type' => 'input',
-			//'renderType' => 'codeEditor',
-			//'format' => 'javascript',
-			//'rows' => 1,
 			'size' => 100,
 			'valuePicker' => [
 				'items' => [
-					['Field value is true / not empty', 'formValue("field-identifier")'],
-					['Field value is equal to', 'formValue("field-identifier") == "some-value"'],
+					['Field value is true / not empty', 'value("field-id")'],
+					['Field value is equal to', 'value("field-id") == "some-value"'],
 					['Consent was approved', 'isConsentApproved()'],
 					['Consent was dismissed', 'isConsentDismissed()'],
 				],

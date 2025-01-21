@@ -1,8 +1,21 @@
-{parsing off}
-<script>
+
+<script type="module" id="tx-formal-script">
+	{parsing off}
+
+	import jexl from 'https://cdn.jsdelivr.net/npm/jexl@2.3.0/+esm'
+
 	window.__tx_formal = {}
-	window.__tx_formal.addFromTemplate = e => {
-		const container = document.getElementById(e.currentTarget.dataset.addFromTemplate)
+
+	window.__tx_formal.addFieldsFromTemplate = e => {
+		const button = e.currentTarget
+		if (!button.disabled) {
+			button.setAttribute('disabled', '')
+			setTimeout(() => {
+				button.removeAttribute('disabled')
+			}, 500)
+		}
+
+		const container = document.getElementById(button.dataset.templateContainer)
 		if (!container) return
 		const template = container.querySelector('template')
 		if (!template) return
@@ -12,10 +25,47 @@
 		const clone = template.content.cloneNode(true)
 		clone.querySelectorAll('input, textarea, select').forEach((input) => {
 			input.name = input.name.replaceAll(`[__INDEX]`, `[${index}]`)
-			console.log(input.name)
+			const newId = input.id + '-' + index
+			clone.querySelector(`label[for="${input.id}"]`)?.setAttribute('for', newId)
+			input.id = newId
 		});
 		container.appendChild(clone)
 
 		template.dataset.iteration = nextIndex
 	}
+
+	const script = document.getElementById('tx-formal-script')
+	const form = script.closest('form')
+	let formData = {}
+
+	const getValue = fieldId => {
+		return formData[`tx_puck_formalform[values][${fieldId}]`] ?? null
+	}
+	jexl.addFunction('value', fieldId => {
+		return getValue(fieldId)
+	})
+
+	window.__tx_formal.evalConditions = () => {
+		const conditionalFields = form.querySelectorAll(`[data-condition]`)
+		if (!conditionalFields.length) return
+
+		formData = Object.fromEntries(new FormData(form))
+		conditionalFields.forEach(field => {
+			const condition = field.dataset.condition
+			const inputs = field.querySelectorAll('[data-field-id]')
+			if (jexl.evalSync(condition)) {
+				field.style.display = ''
+				inputs.forEach(input => {
+					input.disabled = false
+				})
+			} else {
+				field.style.display = 'none'
+				inputs.forEach(input => {
+					input.disabled = true
+				})
+			}
+		})
+	}
+	window.__tx_formal.evalConditions(false)
+
 </script>

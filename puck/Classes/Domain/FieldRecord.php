@@ -11,6 +11,7 @@ class FieldRecord extends Record
 {
 	protected mixed $value = null;
 	protected ?array $selectedOptions = null;
+	public bool $shouldDisplay = true;
 
 	public array $repeatableContainerPrevFields = [];
 
