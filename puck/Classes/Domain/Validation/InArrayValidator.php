@@ -15,7 +15,7 @@ final class InArrayValidator extends AbstractValidator
 
 	public function isValid(mixed $value): void
 	{
-		if (in_array($value, $this->options['array'], $this->options['strict'])) {
+		if (!in_array($value, $this->options['array'], $this->options['strict'])) {
 			$this->addError(
 				'LLL:EXT:puck/Resources/Private/Language/locallang.xlf:validator.inarray.false',
 				// todo: find a better error code

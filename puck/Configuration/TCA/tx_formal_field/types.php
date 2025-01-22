@@ -250,6 +250,25 @@ return [
 			]
 		]
 	],
+	'file' => [
+		'showitem' => $showItem,
+		'columnsOverrides' => [
+			'min' => [
+				'label' => 'Minimum file size in kB',
+				'config' => [
+					'type' => 'number',
+					'format' => 'integer',
+				]
+			],
+			'max' => [
+				'label' => 'Maximum file size in kB',
+				'config' => [
+					'type' => 'number',
+					'format' => 'integer',
+				]
+			]
+		]
+	],
 	'header' => [
 		'showitem' => '
 				--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, 

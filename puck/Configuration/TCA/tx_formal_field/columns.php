@@ -305,7 +305,7 @@ return [
 	],
 	'min' => [
 		'label' => 'Min',
-		'displayCond' => 'FIELD:type:IN:number,range,date,datetime-local,time,month,week',
+		'displayCond' => 'FIELD:type:IN:number,range,file,date,datetime-local,time,month,week',
 		'config' => [
 			'type' => 'input',
 			'eval' => 'is_in',
@@ -316,7 +316,7 @@ return [
 	],
 	'max' => [
 		'label' => 'Max',
-		'displayCond' => 'FIELD:type:IN:number,range,date,datetime-local,time,month,week',
+		'displayCond' => 'FIELD:type:IN:number,range,file,date,datetime-local,time,month,week',
 		'config' => [
 			'type' => 'input',
 			'eval' => 'is_in',
