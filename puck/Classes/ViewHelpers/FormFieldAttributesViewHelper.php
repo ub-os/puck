@@ -19,10 +19,13 @@ class FormFieldAttributesViewHelper extends AbstractViewHelper
 		$record = $this->arguments['record'];
 		$attributes = [
 			'data-field-id' => $record->get('identifier'),
+			// replace with event listener in script
+			'onchange' => 'window.__tx_formal.evalConditions()'
 		];
-		$attributes['onchange'] = 'window.__tx_formal.evalConditions()';
-		if ($record->has('js_display_condition') && $record->get('js_display_condition')) {
-			//
+		if ($record->get('validation_message')) {
+			// replace with data-custom-validation and event listener in script
+			$attributes['oninvalid'] = 'this.setCustomValidity("' . $record->get('validation_message') . '")';
+			$attributes['oninput'] = 'this.setCustomValidity("")';
 		}
 		foreach (['required', 'readonly', 'disabled', 'multiple'] as $attribute) {
 			$val = $record->get($attribute);
@@ -39,25 +42,13 @@ class FormFieldAttributesViewHelper extends AbstractViewHelper
 		foreach (['min', 'max'] as $attribute) {
 			$val = $record->get($attribute);
 			if ($val || $val === 0) {
-				$attributes[$attribute] = $this->stringFromValue($val);
+				$attributes[$attribute] = (string)$val;
 			}
 		}
-		if ($record->get('default_value')) {
-			//$attributes['value'] = $this->stringFromValue($record->get('default_value'));
-		}
-		if ($record->get('validation_message')) {
-			$attributes['oninvalid'] = 'this.setCustomValidity("' . $record->get('validation_message') . '")';
-			$attributes['oninput'] = 'this.setCustomValidity("")';
+		if ($record->has('autocomplete') && $record->get('autocomplete')) {
+			$attributes['autocomplete'] = $record->get('autocomplete_modifier') . $record->get('autocomplete');
 		}
 		return array_merge($attributes, $this->arguments['attributes']);
-	}
-
-	protected function stringFromValue($val): string
-	{
-		if (gettype($val) === 'object' && (get_class($val) === 'DateTime' || get_class($val) === 'DateTimeImmutable')) {
-			$val = $val->format('Y-m-d');
-		}
-		return (string)$val;
 	}
 
 }

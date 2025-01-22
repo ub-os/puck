@@ -7,7 +7,7 @@
 		name="{formName}"
 		autocomplete="on"
 		enctype="multipart/form-data"
-		data-action="{f:uri.action(action:action,arguments:{step:nextStep})}">
+		data-action="{f:uri.action(action:action,arguments:{step:forwardStep})}">
 
 	<h2 class="{name}__form__header">{form.title}</h2>
 
@@ -25,13 +25,12 @@
 			<button type="submit"
 					class="{name}__navigation__button -prev e-button"
 					formnovalidate
-					formaction="{f:uri.action(action:'formalFormStep', arguments:{step:previousStep}, section:formElementId)}">
+					formaction="{f:uri.action(action:'formalFormStep', arguments:{step:backStep}, section:formElementId)}">
 				{currentStepRecord.prev_label}
 			</button>
 		</f:if>
 		<button type="submit"
-				class="{name}__navigation__button -next e-button"
-		>
+				class="{name}__navigation__button -next e-button">
 			{currentStepRecord.next_label}
 		</button>
 	</div>

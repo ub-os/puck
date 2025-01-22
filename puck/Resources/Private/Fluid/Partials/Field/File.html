@@ -5,7 +5,7 @@
 	</f:if>
 	<f:form.upload name="{namespace}[{field.identifier}]"
 				   type="{field.type}"
-				   value="{field.value}"
+				   value="{field.sessionValue}"
 				   additionalAttributes="{u:formFieldAttributes(record:field)}"
 				   id="c{contentData.uid}-field-{field.identifier}"/>
 </f:render>

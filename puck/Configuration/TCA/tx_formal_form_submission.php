@@ -1,8 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\Utility\TcaUtility;
-
 $ctrl = [
 	'label' => 'tstamp',
 	'title' => 'Form submission',

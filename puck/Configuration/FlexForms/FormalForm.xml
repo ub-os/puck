@@ -21,7 +21,7 @@
                         <config>
                             <type>inline</type>
                             <foreign_table>tx_formal_finisher</foreign_table>
-                            <foreign_field>plugin_uid</foreign_field>
+                            <foreign_field>content_parent</foreign_field>
                             <foreign_sortby>sorting</foreign_sortby>
                             <appearance>
                                 <useSortable>1</useSortable>

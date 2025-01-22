@@ -1,8 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\Utility\TcaUtility;
-
 $ctrl = [
 	'label' => 'type',
 	'title' => 'Form finisher',
@@ -27,11 +24,11 @@ $ctrl = [
 ];
 $interface = [];
 $columns = [
-	'plugin_uid' => [
-		'label' => 'Plugin',
+	'content_parent' => [
+		'label' => 'Content element parent',
 		'config' => [
-			'type' => 'group',
-			'allowed' => 'tt_content',
+			'type' => 'select',
+			'foreign_table' => 'tt_content',
 			'size' => 1,
 			'maxitems' => 1
 		],
@@ -47,6 +44,7 @@ $columns = [
 				['Mail consent process', 'UBOS\Puck\Domain\Finisher\ConsentFinisher'],
 				['Save to any table', 'UBOS\Puck\Domain\Finisher\SaveToAnyTableFinisher'],
 				['Send email', 'UBOS\Puck\Domain\Finisher\SendEmailFinisher'],
+				['Show content elements', 'UBOS\Puck\Domain\Finisher\ShowContentElementsFinisher'],
 				['Redirect', 'UBOS\Puck\Domain\Finisher\RedirectFinisher'],
 			]),
 		],
@@ -79,6 +77,7 @@ $columns = [
 				'UBOS\Puck\Domain\Finisher\SaveToAnyTableFinisher' => 'FILE:EXT:puck/Configuration/FlexForms/Finisher/SaveToAnyTableFinisher.xml',
 				'UBOS\Puck\Domain\Finisher\SendEmailFinisher' => 'FILE:EXT:puck/Configuration/FlexForms/Finisher/SendEmailFinisher.xml',
 				'UBOS\Puck\Domain\Finisher\RedirectFinisher' => 'FILE:EXT:puck/Configuration/FlexForms/Finisher/RedirectFinisher.xml',
+				'UBOS\Puck\Domain\Finisher\ShowContentElementsFinisher' => 'FILE:EXT:puck/Configuration/FlexForms/Finisher/ShowContentElementsFinisher.xml',
 			],
 			'ds_pointerField' => 'type',
 		],

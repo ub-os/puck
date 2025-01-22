@@ -1,7 +1,7 @@
 <f:if condition="{session}">
 	<div data-session>
 		<f:form.hidden name="session[id]" value="{session.id}"/>
-		<f:form.hidden name="session[prevStep]" value="{step}"/>
+		<f:form.hidden name="session[previousStep]" value="{step}"/>
 		<f:for each="{session.filenames}" as="value" key="key">
 			<f:form.hidden name="session[filenames][{key}]" value="{value}"/>
 		</f:for>

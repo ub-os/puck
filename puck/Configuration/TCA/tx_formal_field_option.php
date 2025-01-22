@@ -1,8 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\Utility\TcaUtility;
-
 $ctrl = [
 	'label' => 'label',
 	'title' => 'Form field option',
@@ -45,8 +42,8 @@ $columns = [
 			'type' => 'check',
 		],
 	],
-	'field' => [
-		'label' => 'Field',
+	'field_parent' => [
+		'label' => 'Field parent',
 		'config' => [
 			'type' => 'select',
 			'foreign_table' => 'tx_formal_field',

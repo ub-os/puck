@@ -1,8 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puckloader\Utility\TcaUtility;
-
 $ctrl = [
 	'label' => 'title',
 	'label_alt_force' => true,
@@ -32,7 +29,7 @@ $columns = [
 			'eval' => 'trim',
 		],
 	],
-	'form' => [
+	'form_parent' => [
 		'label' => 'Form',
 		'config' => [
 			'type' => 'select',
@@ -46,7 +43,7 @@ $columns = [
 		'config' => [
 			'type' => 'inline',
 			'foreign_table' => 'tx_formal_field',
-			'foreign_field' => 'fieldset',
+			'foreign_field' => 'step_parent',
 			'foreign_sortby' => 'sorting',
 			'appearance' => [
 				'expandSingle' => true,

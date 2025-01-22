@@ -1,0 +1,27 @@
+<?php
+
+namespace UBOS\Puck\Domain;
+
+class DatetimeFieldRecord extends GenericFieldRecord
+{
+	const FORMATS = [
+		'date' => 'Y-m-d',
+		'time' => 'H:i',
+		'datetime' => 'Y-m-d H:i',
+		'datetime-local' => 'Y-m-d\TH:i',
+		'week' => 'Y-\WW',
+		'month' => 'Y-m',
+	];
+
+	public array $dateTimeProperties = ['default_value', 'min', 'max'];
+
+	public function computeProperties(): void
+	{
+		foreach($this->dateTimeProperties as $key) {
+			$value = $this->get($key);
+			if ($value instanceof \DateTimeInterface) {
+				$this->properties[$key] = $this->properties[$key]->format(self::FORMATS[$this->get('type')]);
+			}
+		}
+	}
+}

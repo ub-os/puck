@@ -4,7 +4,6 @@ namespace UBOS\Puck\Domain\Finisher;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase;
 
 abstract class AbstractFinisher
@@ -12,13 +11,14 @@ abstract class AbstractFinisher
 	protected array $settings = [];
 	public function __construct(
 		protected Extbase\Mvc\RequestInterface $request,
-		protected array $data,
+		protected Core\View\ViewInterface $view,
 		protected array $pluginSettings,
 		protected Core\Domain\Record $formRecord,
 		protected array $formValues,
+		protected array $data,
 	)
 	{
-		$flexFormService = GeneralUtility::makeInstance(Core\Service\FlexFormService::class);
+		$flexFormService = Core\Utility\GeneralUtility::makeInstance(Core\Service\FlexFormService::class);
 		$this->settings = $flexFormService->convertFlexFormContentToArray($data['settings']);
 	}
 

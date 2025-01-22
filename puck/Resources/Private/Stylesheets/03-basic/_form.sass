@@ -33,10 +33,12 @@ textarea
 	height: 9.5em
 	resize: none
 
-select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
+$fieldInputs: '[type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"], [type="datetime-local"], [type="month"], [type="week"], [type="time"], [type="url"], [type="search"], [type="color"]'
+
+select, #{$fieldInputs}
 	width: 100%
 
-textarea, select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
+textarea, select, #{$fieldInputs}
 	min-height: 2.66em
 	padding: .66em
 	border: 2px solid var(--color-input-border)

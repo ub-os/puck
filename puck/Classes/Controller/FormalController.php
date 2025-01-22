@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase;
 use TYPO3\CMS\Frontend;
 use TYPO3\CMS\Extbase\Validation\Validator;
-use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
+use UBOS\Puck\Domain\Validation;
 use UBOS\Puck;
 
 // todo: validation
@@ -20,10 +20,20 @@ use UBOS\Puck;
 // todo: exceptions
 // todo: captcha field
 // todo: delete/move uploads finisher?
-// todo: clean up FieldRecord, maybe multiple classes for different field types
+// todo: clean up GenericFieldRecord, maybe multiple classes for different field types
 // todo: helper function to create new field type like existing field type
 // todo: rework js as actual file, replace onchange and onclick with event listeners, add "process" function for when fields are added dynamically
+// todo: webhook finisher
+// todo: submission export in list module
+// todo: language/translation stuff
 // note: upload and radio fields will not be in formValues if no value is set
+// use fe_session to store form session?
+// how to handle garbage collection?
+// Core\Session\UserSessionManager::create('FE')->collectGarbage(10);
+// $this->getFrontendUser()->setKey('ses', $this->getSessionKey(), $this->session);
+// DebugUtility::debug($this->getFrontendUser()->getKey('ses', $this->getSessionKey()));
+
+
 class FormalController extends Extbase\Mvc\Controller\ActionController
 {
 	use ContentControllerViewPreparationTrait;
@@ -32,51 +42,53 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 	protected ?Core\Domain\Record $contentRecord = null;
 
 	private string $formName = 'values';
+
+	// todo: replace with FormSession class
 	protected ?array $session = [
 		'id' => '',
-		'prevStep' => 1,
 		'values' => [],
 		'filenames' => [],
+		'validationResults' => [],
+		'errorsByField' => [],
+		'previousStep' => 1,
 	];
 	protected array $validationErrors = [];
-	protected bool $hasValidationError = false;
+	protected bool $getValidationResult = false;
+	protected bool $hasErrors = false;
 
 	public function __construct(
 		private readonly Core\Resource\StorageRepository $storageRepository
 	) {}
 
-
-	protected function initializeSession(bool $validateAll = false): void
-	{
-		if (!isset($this->request->getArguments()[$this->formName])) {
-			return;
-		}
-		$this->session = json_decode($this->request->getArguments()['session'] ?? '[]', true);
-		$postValues = $this->request->getArguments()[$this->formName];
-		$mergedValues = array_merge($this->session['values'], $postValues);
-		$this->hasValidationError = !$this->validateFormValues($validateAll ? $mergedValues : $postValues);
-		if ($this->hasValidationError) {
-			return;
-		}
-		$this->session['values'] = $mergedValues;
-	}
-
 	public function formalFormAction(): ResponseInterface
 	{
-		$this->prepareContentView();
-		$step = 1;
+		return $this->renderForm();
+	}
+
+	protected function resolveFieldDisplayCondition(Core\Domain\RecordInterface $field): bool
+	{
+		if (!$field->has('display_condition') || !$field->get('display_condition')) {
+			return true;
+		}
+		return $this->getConditionResolver()->evaluate($field->get('display_condition'));
+	}
+
+	protected function renderForm(int $step = 1): ?ResponseInterface
+	{
 		$lastStep = count($this->getFormRecord()->get('steps'));
 		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
-		$cObj = $this->request->getAttribute('currentContentObject');
 
-		$conditionResolver = $this->getConditionResolver();
-		foreach ($currentStepRecord->get('fields') as $field) {
-			if ($field->has('display_condition') && $field->get('display_condition')) {
-				$conditionResult = $conditionResolver->evaluate($field->get('display_condition'));
-				DebugUtility::debug($conditionResult);
-				if (!$conditionResult) {
-					$field->shouldDisplay = false;
+		// process current step fields
+		if ($this->session['values']) {
+			foreach ($currentStepRecord->get('fields') as $field) {
+				$field->shouldDisplay = $this->resolveFieldDisplayCondition($field);
+				if (!$field->has('identifier')) {
 					continue;
+				}
+				$id = $field->get('identifier');
+				if (isset($this->session['values'][$id])) {
+					$field->setSessionValue($this->session['values'][$id]);
+					unset($this->session['values'][$id]);
 				}
 			}
 		}
@@ -89,17 +101,18 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 			'contentData' => $this->getContentRecord(),
 			'formName' => $this->formName,
 			'step' => $step,
-			'nextStep' => $lastStep === $step ? null : $step + 1,
-			'previousStep' => null,
-			'isFirstStep' => true,
-			'isLastStep' => $lastStep === $step,
+			'backStep' => $step - 1 ?: null,
+			'forwardStep' => $lastStep === $step ? null : $step + 1,
+			'isFirstStep' => $step === 1,
+			'isLastStep' => $step === $lastStep,
 			'currentStepRecord' => $currentStepRecord,
 			'action' => $step < $lastStep ? 'formalFormStep' : 'formalSubmit',
 		];
+
 		$this->view->assignMultiple($viewVariables);
+		$this->view->setTemplate('formalForm');
 		return $this->htmlResponse();
 	}
-
 
 	protected function getSessionFileFolder(): string
 	{
@@ -114,96 +127,59 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		return 'tx_formal_c' . $this->getContentRecord()->getUid() . '_f' . $this->getFormRecord()->getUid();
 	}
 
+
+	protected function initializeSession(): void
+	{
+		$this->session['id'] = $this->session['id'] ?: GeneralUtility::makeInstance(Core\Crypto\Random::class)->generateRandomHexString(32);
+		$this->session = json_decode($this->request->getArguments()['session'] ?? '[]', true);
+		if (!isset($this->request->getArguments()[$this->formName])) {
+			return;
+		}
+		$postValues = $this->request->getArguments()[$this->formName];
+		$mergedValues = array_merge($this->session['values'], $postValues);
+		$this->session['values'] = $mergedValues;
+	}
+
 	public function formalFormStepAction(int $step = 1): ResponseInterface
 	{
 		$this->initializeSession();
-		// if step is greater than 0 and no previous step form values are available, redirect to first step
-		if ($this->hasValidationError) {
-			return $this->redirect('formalForm');
-		}
 		if (!$this->session['values']) {
 			return $this->redirect('formalForm');
 		}
-		$this->session['id'] = $this->session['id'] ?: GeneralUtility::makeInstance(Core\Crypto\Random::class)->generateRandomHexString(32);
-
-		$isStepBack = $this->session['prevStep'] ?? 1 > $step;
-
-		$passwordHasher = GeneralUtility::makeInstance(Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
-
-
-		foreach($this->getFormRecord()->get('steps')[$this->session['prevStep']-1]->get('fields') as $field) {
-			if (!$field->has('identifier')) {
-				continue;
-			}
-			$id = $field->get('identifier');
-			if (!isset($this->session['values'][$id])) {
-				continue;
-			}
-			$value = $this->session['values'][$id];
-			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
-				// file upload event
-				$this->saveUploadedFile($value, $id);
-				$this->session['values'][$id] = '';
-			}
-			if ($field->get('type') === 'password') {
-				// save password event
-				//$this->session['values'][$id] = $passwordHasher->getHashedPassword($value);
-			}
+		// $passwordHasher = GeneralUtility::makeInstance(Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+		$isStepBack = $this->session['previousStep'] ?? 1 > $step;
+		$previousStepRecord = $this->getFormRecord()->get('steps')[$this->session['previousStep']-1];
+		// validate
+		if (!$isStepBack) {
+			$this->validateStep($previousStepRecord);
 		}
-
-		DebugUtility::debug($this->session['values']);
-		$this->prepareContentView();
-		$lastStep = count($this->getFormRecord()->get('steps'));
-		$currentStepRecord = $this->getFormRecord()->get('steps')[$step - 1];
-
-
-		$conditionResolver = $this->getConditionResolver();
-		foreach ($currentStepRecord->get('fields') as $field) {
-			if (!$field->has('identifier')) {
-				continue;
-			}
-			$id = $field->get('identifier');
-			if ($field->has('display_condition') && $field->get('display_condition')) {
-				$conditionResult = $conditionResolver->evaluate($field->get('display_condition'));
-				DebugUtility::debug($conditionResult);
-				if (!$conditionResult) {
-					$field->shouldDisplay = false;
+		// if errors, go back to previous step
+		if ($this->hasErrors) {
+			$step = $this->session['previousStep'];
+		} else {
+			// else process values of previous step
+			foreach($previousStepRecord->get('fields') as $field) {
+				if (!$field->has('identifier')) {
+					continue;
+				}
+				$id = $field->get('identifier');
+				if (!isset($this->session['values'][$id])) {
+					continue;
+				}
+				$value = $this->session['values'][$id];
+				if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
+					// file upload event
+					$this->saveUploadedFile($value, $id);
+					$this->session['values'][$id] = '';
+				}
+				if ($field->get('type') === 'password') {
+					// save password event
+					//$this->session['values'][$id] = $passwordHasher->getHashedPassword($value);
 				}
 			}
-			if (isset($this->session['values'][$id])) {
-				$field->setValue($this->session['values'][$id]);
-				unset($this->session['values'][$id]);
-			}
-			if ($field->get('type') === 'repeatable-container' && $field->getValue()) {
-				$field->createRepeatableContainerPrevFields($field->getValue());
-			}
 		}
 
-		// use fe_session to store form session?
-		// how to handle garbage collection?
-		//Core\Session\UserSessionManager::create('FE')->collectGarbage(10);
-		//$this->getFrontendUser()->setKey('ses', $this->getSessionKey(), $this->session);
-		//DebugUtility::debug($this->getFrontendUser()->getKey('ses', $this->getSessionKey()));
-
-		// form render event
-		$viewVariables = [
-			'session' => $this->session,
-			'sessionJson' => json_encode($this->session),
-			'form' => $this->getFormRecord(),
-			'contentData' => $this->getContentRecord(),
-			'formName' => $this->formName,
-			'step' => $step,
-			'nextStep' => $lastStep === $step ? null : $step + 1,
-			'previousStep' => $step - 1,
-			'isFirstStep' => $step === 1,
-			'isLastStep' => $step === $lastStep,
-			'currentStepRecord' => $currentStepRecord,
-			'action' => $step < $lastStep ? 'formalFormStep' : 'formalSubmit',
-			//'currentStepFieldValues' => $currentStepFieldValues,
-		];
-		$this->view->assignMultiple($viewVariables);
-		$this->view->setTemplate('formalForm');
-		return $this->htmlResponse();
+		return $this->renderForm($step);
 	}
 
 	public function formalSubmitAction(): ResponseInterface
@@ -212,9 +188,13 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		if (!$this->session['values']) {
 			return $this->redirect('formalForm');
 		}
-		if (!$this->validateFormValues($this->session['values'])) {
-			return $this->errorResponse('Invalid form values');
+		// validate
+		$this->validateForm($this->getFormRecord());
+		// if errors, go back to previous step
+		if ($this->hasErrors) {
+			return $this->renderForm(1);
 		}
+
 		foreach ($this->session['values'] as $identifier => $value) {
 			if (is_object($value) && get_class($value) === Core\Http\UploadedFile::class) {
 				$this->saveUploadedFile($value, $identifier);
@@ -223,6 +203,12 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		foreach ($this->session['filenames'] as $fieldId => $filename) {
 			$this->session['values'][$fieldId] = $this->getSessionFileFolder() . '/' . $filename;
 		}
+
+		return $this->executeFinishers();
+	}
+
+	protected function executeFinishers(): ?ResponseInterface
+	{
 		$response = null;
 		foreach ($this->getFinishers() as $finisherData) {
 			if ($finisherData['condition'] ?? false) {
@@ -243,94 +229,149 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		return $response ?? $this->htmlResponse('finished');
 	}
 
-
-	// todo: validation
-	protected function validateFormValues(array $formValues): bool
+	protected function validateStep(Core\Domain\RecordInterface $step): void
 	{
-		return true;
+		if (!$step->has('fields')) {
+			return;
+		}
+		$this->validateFields($step->get('fields'));
 	}
 
-	protected function validateFields(array $values, array $fields): bool
+	protected function validateForm(Core\Domain\RecordInterface $form): void
 	{
-		$valid = true;
-		$validationErrors = [];
+		if (!$form->has('steps')) {
+			return;
+		}
+		foreach ($form->get('steps') as $step) {
+			$this->validateStep($step);
+		}
+	}
+
+	protected function validateFields($fields): void
+	{
+		$values = $this->session['values'];
 		foreach ($fields as $field) {
+
 			$type = $field->get('type');
 			$id = $field->get('identifier');
 			$value = $values[$id] ?? null;
-			$errors = [];
+
+			// todo: add FieldValidation Event
+			// todo: PhoneNumberValidator, ColorValidator,
+
+
+			// if ($event->addDefaultValidators()) {}
+
+			$validator = GeneralUtility::makeInstance(Validator\ConjunctionValidator::class);
 			if ($type === 'file') {
+				// todo: filename, filesize
 				continue;
 			}
-			// add FieldValidation Event
-			if ($field->get('pattern')) {
-				if ($this->hasValidationError(
-					Validator\RegexValidator::class,
-					['regularExpression' => $field->get('pattern')],
-					$value)) {
-					$valid = false;
-				}
+			if ($field->get('required') && $this->resolveFieldDisplayCondition($field)) {
+				$validator->addValidator($this->makeValidator(
+					Validator\NotEmptyValidator::class
+				));
 			}
-			if ($field->get('required')) {
-				if ($this->hasValidationError(
-					Validator\NotEmptyValidator::class,
-					[],
-					$value)) {
-					$valid = false;
-				}
+			if ($field->get('pattern')) {
+				$validator->addValidator($this->makeValidator(
+					Validator\RegularExpressionValidator::class,
+					['regularExpression' => $field->get('pattern')]
+				));
 			}
 			if ($type === 'email') {
-				if ($this->hasValidationError(
-					Validator\EmailAddressValidator::class,
-					[],
-					$value)) {
-					$valid = false;
-				}
+				$validator->addValidator($this->makeValidator(
+					Validator\EmailAddressValidator::class
+				));
 			}
 			if ($field->get('accept')) {
-				if ($this->hasValidationError(
+				$validator->addValidator($this->makeValidator(
 					Validator\MimeTypeValidator::class,
 					['allowedMimeTypes' => explode(',', $field->get('accept'))],
-					$value)) {
-					$valid = false;
-				}
-
+				));
 			}
 			if ($field->get('maxlength')) {
-				if ($this->hasValidationError(
+				$validator->addValidator($this->makeValidator(
 					Validator\StringLengthValidator::class,
 					['maximum' => $field->get('maxlength')],
-					$value)) {
-					$valid = false;
-				}
+				));
 			}
 			if ($type === 'url') {
-				if ($this->hasValidationError(
-					Validator\UrlValidator::class,
-					[],
-					$value)) {
-					$valid = false;
-				}
+				$validator->addValidator($this->makeValidator(
+					Validator\UrlValidator::class
+				));
 			}
-			if ($type === 'number') {
-				if ($this->hasValidationError(
-					Validator\NumberValidator::class,
-					[],
-					$value)) {
-					$valid = false;
+			if ($type === 'select') {
+				$optionValues = [];
+				foreach ($field->get('options') as $option) {
+					$optionValues[] = $option->get('value');
 				}
+				$validator->addValidator($this->makeValidator(
+					Validation\InArrayValidator::class,
+					['array' => $optionValues]
+				));
 			}
 
+			if ($type === 'multi-checkbox') {
+				$optionValues = [];
+				foreach ($field->get('options') as $option) {
+					$optionValues[] = $option->get('value');
+				}
+				$validator->addValidator($this->makeValidator(
+					Validation\SubsetOfArrayValidator::class,
+					['array' => $optionValues]
+				));
+			}
+
+			if ($type === 'number') {
+
+				$value = (int)$value;
+
+				if ($field->get('min') !== null || $field->get('max') !== null) {
+					$validator->addValidator($this->makeValidator(
+						Validator\NumberRangeValidator::class,
+						['minimum' => $field->get('min') ?? 0,
+						'maximum' => $field->get('max') ?? PHP_INT_MAX]
+					));
+				}
+			}
+			if ($field instanceof Puck\Domain\DatetimeFieldRecord) {
+
+				$format = Puck\Domain\DatetimeFieldRecord::FORMATS[$field->get('type')];
+				$value = \DateTime::createFromFormat($format, $value);
+				// todo: pattern matching is "date string"?, DateRangeValidator(min,max)
+				$validator->addValidator($this->makeValidator(
+					\TYPO3\CMS\Form\Mvc\Validation\DateRangeValidator::class,
+					[
+						'minimum' => $field->get('min') ?? null,
+						'maximum' => $field->get('max') ?? null,
+						'format' => $format]
+					]
+				));
+
+			}
+
+			// if ($event->doValidation()) {}
+
+			$result = $validator->validate($value);
+			$this->session['validationResults'][$id] = $result;
+			// if field has errors, set hasErrors to true, add errors in session and remove value from session
+			if ($result->hasErrors()) {
+				$this->hasErrors = true;
+				$this->session['errorsByField'][$id] = $result->getErrors();
+				//unset($this->session['values'][$id]);
+			}
+//			DebugUtility::debug($validator);
 		}
-		return true;
+//		DebugUtility::debug($this->session['validationResults']);
+//		DebugUtility::debug($this->hasErrors);
 	}
 
 
-	protected function hasValidationError(string $validator, array $options, mixed $value): bool
+	protected function makeValidator(string $validator, array $options = []): Validator\ValidatorInterface
 	{
 		$validator = GeneralUtility::makeInstance($validator);
 		$validator->setOptions($options);
-		return $validator->validate($value)->hasError();
+		return $validator;
 	}
 
 	// todo: error responses
@@ -348,10 +389,12 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		return GeneralUtility::makeInstance(
 			$className,
 			$this->request,
-			$finisherData,
+			$this->view,
 			$this->settings,
 			$this->getFormRecord(),
-			$formValues);
+			$formValues,
+			$finisherData,
+		);
 	}
 
 	protected function saveUploadedFile(Core\Http\UploadedFile $file, string $fieldId): void
@@ -374,9 +417,13 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		$this->session['filenames'][$fieldId] = $newFile->getName();
 	}
 
-	protected function getConditionResolver()
+	protected ?Core\ExpressionLanguage\Resolver $conditionResolver = null;
+	protected function getConditionResolver(): Core\ExpressionLanguage\Resolver
 	{
-		return GeneralUtility::makeInstance(
+		if ($this->conditionResolver) {
+			return $this->conditionResolver;
+		}
+		$this->conditionResolver = GeneralUtility::makeInstance(
 			Core\ExpressionLanguage\Resolver::class,
 			'tx_formal',
 			[
@@ -390,6 +437,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 				'siteLanguage' => $this->request->getAttribute('language'),
 			]
 		);
+		return $this->conditionResolver;
 	}
 
 	protected function getFinishers(): array
@@ -400,7 +448,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		$finishers = $queryBuilder
 			->select('*')->from('tx_formal_finisher')
 			->where(
-				$queryBuilder->expr()->eq('plugin_uid', $cObj->data['uid']),
+				$queryBuilder->expr()->eq('content_parent', $cObj->data['uid']),
 				$queryBuilder->expr()->eq('hidden', 0),
 				$queryBuilder->expr()->eq('deleted', 0),
 			)
@@ -411,7 +459,7 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 		return $finishers;
 	}
 
-	protected function getFormRecord(): ?Core\Domain\Record
+	protected function getFormRecord(): ?Core\Domain\RecordInterface
 	{
 		if ($this->formRecord) {
 			return $this->formRecord;
@@ -432,7 +480,8 @@ class FormalController extends Extbase\Mvc\Controller\ActionController
 			->createResolvedRecordFromDatabaseRow('tx_formal_form', $row);
 		return $this->formRecord;
 	}
-	protected function getContentRecord(): Core\Domain\Record
+
+	protected function getContentRecord(): Core\Domain\RecordInterface
 	{
 		if ($this->contentRecord) {
 			return $this->contentRecord;
