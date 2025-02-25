@@ -1,0 +1,9 @@
+plugin.tx_shape {
+    view {
+        templateRootPaths.200 = EXT:puck/Resources/Private/Fluid/Extensions/Shape/Templates
+        partialRootPaths.200 = EXT:puck/Resources/Private/Fluid/Extensions/Shape/Partials
+    }
+    settings {
+
+    }
+}

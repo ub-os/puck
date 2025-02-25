@@ -1,0 +1,13 @@
+<f:variable name="blockClass" value="yform"/>
+<f:variable name="buttonClass" value="e-button"/>
+<f:variable name="idPrefix" value="c{plugin.uid}-"/>
+
+<layout:section id="c{plugin.uid}"
+				record="{plugin}"
+				class="{blockClass}__wrap">
+	<element:moduleHeader record="{plugin}"/>
+	<div data-hx-boost="false">
+		<f:render partial="Form" arguments="{_all}"/>
+	</div>
+	<f:render partial="Assets"/>
+</layout:section>

@@ -67,7 +67,7 @@
 		"postcss": "^8.4.47",
 		"postcss-cli": "^11.0.0",
 		"rfs": "^10.0.0",
-		"sass": "^1.80.5",
+		"sass": "^1.85.1",
 		"svgstore": "^3.0.1",
 		"uglify-js": "^3.19.3",
 		"xliff": "^6.2.1"
@@ -83,5 +83,7 @@
 		"plyr": "^3.7.8",
 		"smoothscroll-polyfill": "^0.4.4"
 	},
-	"browserslist": ["defaults"]
+	"browserslist": [
+		"defaults"
+	]
 }

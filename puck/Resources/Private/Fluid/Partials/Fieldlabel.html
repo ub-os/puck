@@ -1,9 +1,0 @@
-<label class="{name}__label" for="c{contentData.uid}-field-{field.identifier}">
-	<f:if condition="{field.rte_label}">
-		<f:then>
-			<f:variable name="allowedTags" value="<br><strong><em><a><span><sup><sub><s><u>"/>
-			{field.rte_label -> f:format.html() -> f:format.stripTags(allowedTags:allowedTags)}
-		</f:then>
-		<f:else>{field.label}</f:else>
-	</f:if>
-</label>

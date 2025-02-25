@@ -17,7 +17,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBO
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
-$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_input_field'] = 'EXT:puck/Configuration/RTE/InputField.yaml';
 
 // Define fluid_components Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
@@ -35,9 +34,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Puck\
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['puck'] = ['UBOS\Puck\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['u'] = ['UBOS\Puck\ViewHelpers'];
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['v'] = ['FluidTYPO3\Vhs\ViewHelpers'];
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['n'] = ['GeorgRinger\News\ViewHelpers'];
-
 // Set css and js gzip compression
 $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
@@ -48,18 +44,3 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#3a3d3a';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
-
-$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][5273] = 'EXT:puck/Resources/Private/Fluid/Mail/Templates/';
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'puck',
-	'FormalForm',
-	[
-		\UBOS\Puck\Controller\FormalController::class => 'formalForm, formalFormStep, formalSubmit, formalFinisher'
-	],
-	[
-		\UBOS\Puck\Controller\FormalController::class => 'formalFormStep, formalSubmit, formalFinisher'
-	],
-	'CType'
-);
-//$GLOBALS['TYPO3_CONF_VARS']['FE']['sessionDataLifetime'] = 3600;
