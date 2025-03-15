@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
-final class ModifyPageLayoutContent
+final class BackendPageLayoutModifier
 {
 
 	public function __construct(
@@ -23,9 +23,7 @@ final class ModifyPageLayoutContent
 	}
 
 	#[AsEventListener]
-	public function __invoke(
-		ModifyPageLayoutContentEvent $event
-	): void
+	public function __invoke(ModifyPageLayoutContentEvent $event): void
 	{
 		$request = $event->getRequest();
 		$row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);

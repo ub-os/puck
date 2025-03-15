@@ -7,7 +7,7 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use Brotkrueml\Schema\Event\RegisterAdditionalTypePropertiesEvent;
 use Brotkrueml\Schema\Model\Type\SearchAction;
 
-final class AdditionalPropertiesForSearchAction
+final class SchemaTypePropertiesModifier
 {
 	#[AsEventListener]
 	public function __invoke(RegisterAdditionalTypePropertiesEvent $event): void
