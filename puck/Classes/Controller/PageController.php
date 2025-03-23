@@ -86,13 +86,9 @@ class PageController extends ActionController
 				'slide' => $row['slide']
 			]);
 		}
-		$frontendUserAspect = $context->getAspect('frontend.user');
 		$variables['context'] = [
 			'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
 			'site' => $site,
-			'frontendUser' => [
-				'isLoggedIn' => $frontendUserAspect->get('isLoggedIn'),
-			],
 			'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
 		];
 

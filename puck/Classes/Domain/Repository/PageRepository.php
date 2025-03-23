@@ -81,7 +81,8 @@ class PageRepository extends Repository implements MenuDemandRepository
 	{
 		$constraints = [
 			$query->in('doktype', explode(',', $settings['types']) ?? $this->allowedTypes),
-			$query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0))
+			$query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0)),
+			$query->logicalNot($query->equals('l10n_parent', $settings['currentPageId'] ?? 0))
 		];
 		if ($settings['navHide']) {
 			$constraints[] = $query->equals('nav_hide', 0);

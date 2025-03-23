@@ -57,7 +57,8 @@ class PageMenuController extends ActionController
 	#[Plugin("PageMenu", fragment: 16500000)]
 	public function pageMenuAction(
 		?array $demand = null,
-		?int   $recordUid = null): ResponseInterface
+		?int   $recordUid = null,
+	): ResponseInterface
 	{
 		if ($recordUid ?? false) {
 			$langId = (int)$this->request->getAttribute('language')->getLanguageId();

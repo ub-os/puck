@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\ContentRecord;
 use UBOS\Puck\Domain\PageRecord;
 
-final class RecordCreation
+final class RecordCreator
 {
 
 	#[AsEventListener]

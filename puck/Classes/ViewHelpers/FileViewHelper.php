@@ -79,7 +79,7 @@ class FileViewHelper extends AbstractViewHelper
 
 	protected static function getOnlineMediaImageSrc($file, $arguments = array())
 	{
-
+		$id = $file->getContents();
 		if ($file->getProperty('extension') === 'youtube') {
 			if ($arguments['useUcSource']) {
 				return "https://privacy-proxy-server.usercentrics.eu/video/youtube/{$id}-poster-image";

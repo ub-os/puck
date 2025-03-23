@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 /**
  *
  */
-final class ModifyRecordList
+final class PageRecordListActionEnhancer
 {
 
 	public function __construct(

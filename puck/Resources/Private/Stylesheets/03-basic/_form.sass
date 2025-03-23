@@ -17,7 +17,7 @@ input, textarea, select
 	color: var(--color-input)
 	background: var(--background-input)
 	outline: 0
-
+	color-scheme: light dark
 	&::placeholder
 		opacity: 0.5
 
@@ -29,16 +29,16 @@ input, textarea, select
 			opacity: 1
 
 textarea
-	width: 100%
 	height: 9.5em
 	resize: none
 
-select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
-	width: 100%
+$fieldInputs: '[type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"], [type="datetime-local"], [type="month"], [type="week"], [type="time"], [type="url"], [type="search"], [type="color"]'
 
-textarea, select, [type="text"], [type="email"], [type="password"], [type="number"], [type="date"], [type="tel"]
+textarea, select, #{$fieldInputs}
+	width: 100%
 	min-height: 2.66em
 	padding: .66em
+	line-height: 1
 	border: 2px solid var(--color-input-border)
 	border-radius: var(--border-radius-s)
 	transition: background .15s, border-color .15s, color .15s, box-shadow .15s
@@ -46,21 +46,17 @@ textarea, select, [type="text"], [type="email"], [type="password"], [type="numbe
 	&:active, &:focus, &:hover
 		border-color: var(--color-input-border--active)
 
-select
-	appearance: none
-	padding-right: 2em
+select:not([multiple])
+	&, &:focus
+		appearance: none
+		padding-right: 2em
+		background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%)
+		background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px)
+		background-size: 5px 5px, 5px 5px
+		background-repeat: no-repeat
 
-	.select-wrap:where(:has(> &))
-		position: relative
-
-		&:after
-			+center(vertical)
-			right: 1em
-			content: var(--icon-code-angle-down-regular)
-			display: block
-			font-family: icons
-			pointer-events: none
-
+select[multiple]
+	overflow: auto
 
 [type="checkbox"], [type="radio"]
 	position: absolute
@@ -112,7 +108,7 @@ select
 	& + label:after, & + label:before
 		border-radius: 100%
 
-[type="checkbox"]
+[type="checkbox"], [type="radio"]
 	& + label
 		display: block
 		max-width: 100%
@@ -121,34 +117,11 @@ select
 [type="submit"]
 
 input[type="range"]
-	-webkit-appearance: none
-	//width: 50vw
-	//min-width: 20rem
-	//max-width: 50rem
 	margin-bottom: 0
 	height: 7px
 	border-radius: 5px
-
-
-input[type="range"]::-webkit-slider-thumb
-	-webkit-appearance: none
-	height: 1em
-	width: 1em
-	border-radius: 50%
-	transition: background .3s ease-in-out
-
-input[type="range"]::-moz-range-thumb
-	height: 1em
-	width: 1em
-	border-radius: 50%
-	transition: background .3s ease-in-out
-	border: none
-
-input[type="range"]::-webkit-slider-runnable-track
-	-webkit-appearance: none
-	box-shadow: none
-	border: none
-	background: transparent
+	accent-color: var(--color-input)
+	background: var(--background-input)
 
 label
 	display: inline-block
