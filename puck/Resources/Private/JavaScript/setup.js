@@ -1,17 +1,15 @@
-import { stim } from '@oliveoilexpert/stim'
+import { stim } from '~/stim2'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
-import Accordion from '~/Aspects/Accordion'
-import AnchorScrolling from '~/Aspects/AnchorScrolling'
-import Carousel from '~/Aspects/Carousel'
-import Dialog from '~/Aspects/Dialog'
-import FormPage from '~/Aspects/FormPage'
-import MediaPlayer from '~/Aspects/MediaPlayer'
-import Modal from '~/Aspects/Modal'
-import PageHeader from '~/Aspects/PageHeader'
-import Root from '~/Aspects/Root'
-import ScrollSensitive from '~/Aspects/ScrollSensitive'
-import ScrollbarWidth from '~/Aspects/ScrollbarWidth'
-import Showable from '~/Aspects/Showable'
+import Accordion from '~/stim2/Accordion'
+import AnchorScrolling from '~/stim2/AnchorScrolling'
+import Carousel from '~/stim2/Carousel'
+import Dialog from '~/stim2/Dialog'
+import MediaPlayer from '~/stim2/MediaPlayer'
+import Modal from '~/stim2/Modal'
+import PageHeader from '~/stim2/PageHeader'
+import ScrollSensitive from '~/stim2/ScrollSensitive'
+import ScrollbarWidth from '~/stim2/ScrollbarWidth'
+import Showable from '~/stim2/Showable'
 import { noDragClick } from '~/Utility/DomUtility'
 
 window.htmx = htmx
@@ -27,13 +25,13 @@ Object.assign(htmx.config, {
 })
 
 window.stim = stim
-Object.assign(stim.config, {
-	observeAttributes: false,
-	observeAspectAttributes: false,
-	customElementPrefix: 'pk-',
-})
+// Object.assign(stim.config, {
+// 	observeAttributes: false,
+// 	observeAspectAttributes: false,
+// 	customElementPrefix: 'pk-',
+// })
 
-stim.registerAspect({
+stim.registerTrait({
 	AnchorScrolling,
 	ScrollbarWidth,
 	Showable,
@@ -44,11 +42,9 @@ stim.registerAspect({
 	PageHeader,
 	MediaPlayer,
 	ScrollSensitive,
-	FormPage,
-	Root,
 })
 
-stim.registerCustomElement(['carousel', 'media-player', 'root'])
+//stim.registerCustomElement(['carousel', 'media-player', 'root'])
 stim.registerSelectorCallback({
 	'.l-row': el => {
 		if (el.children.length < 3) return

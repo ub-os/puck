@@ -7,7 +7,7 @@
 	<fc:renderer>
 
 		{u:var(set:'defaultModalAttributes',value:'{duration:170}')}
-		<dialog data-connect="modal"
+		<dialog data-trait="modal"
 				class="{name} {class} -width-{width}"
 				id="{id}"
 				data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"

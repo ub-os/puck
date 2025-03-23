@@ -14,9 +14,10 @@
             arrows: arrows
           }"/>
 
-		<pk-carousel
+		<div
 			class="{name} {class} splide"
 			id="{id}"
+			data-trait="carousel"
 			data-carousel="{carouselAttributes -> f:format.json()}"
 			data-carousel.base-splide-class="{name}"
 			data-carousel.splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
@@ -37,7 +38,7 @@
 				</div>
 			</f:if>
 
-		</pk-carousel>
+		</div>
 
 	</fc:renderer>
 </fc:component>

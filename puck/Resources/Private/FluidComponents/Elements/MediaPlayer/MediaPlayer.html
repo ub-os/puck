@@ -18,11 +18,12 @@
 		set:'playerAttributes')}
 
 		<u:var set="playerContent">
-			<pk-media-player
+			<div
 				id="{id}"
 				class="{name}__modal__frame"
+				data-trait="media-player"
 				data-media-player='{playerAttributes -> f:format.json()}'>
-			</pk-media-player>
+			</div>
 		</u:var>
 
 		<div class="{name}">

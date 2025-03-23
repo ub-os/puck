@@ -373,6 +373,15 @@ class Stim {
 		}
 		this.traitRegister[token] = traitClass
 	}
+	registerSelectorCallback(selector, callback) {
+		if (typeof selector === 'object') {
+			for (const [key, value] of Object.entries(selector)) {
+				this.registerSelectorCallback(key, value)
+			}
+			return
+		}
+		this.selectorRegister.set(selector, callback)
+	}
 }
 
 const stim = new Stim()
@@ -443,4 +452,4 @@ class ElementTrait {
 	attributeChanged(name, oldValue, newValue) {}
 }
 
-//export { stim, ElementTrait }
+export { stim, ElementTrait }

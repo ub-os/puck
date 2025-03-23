@@ -1,10 +1,11 @@
-<pk-root
+<page-root
         id="root"
         class="-layout-{record.backend_layout} "
-        data-hx-boost="true"
-        data-hx-swap="innerHTML"
-        data-hx-indicator="#root-loading-bar"
+        hx-boost="true"
+        hx-swap="innerHTML"
+        hx-indicator="#root-loading-bar"
         preload="mousedown"
+        data-trait="anchor-scrollling scrollbar-width"
         data-logger="{f:if(condition:'{context.backendUser}', then:'enabled')}">
     <!--TYPO3SEARCH_end-->
     <f:if condition="{record.backend_layout} !== 'pagets__error'">
@@ -27,4 +28,4 @@
         {contentElements.colPos9 -> f:format.raw()}
     </div>
     <div id="root-loading-bar"></div>
-</pk-root>
+</page-root>
