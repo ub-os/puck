@@ -1,5 +1,5 @@
 import { Aspect } from '@oliveoilexpert/stim'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $target, jsx } from '~/Utility/DomUtility'
 
 export default class ScrollSensitive extends Aspect {

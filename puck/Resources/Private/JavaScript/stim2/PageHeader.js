@@ -1,12 +1,12 @@
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 import ScrollSensitive from '~/stim2/ScrollSensitive'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 
 /**
  * @property {ScrollSensitive} scrollSensitiveAspect
  */
-export default class PageHeader extends Aspect {
+export default class PageHeader extends ElementTrait {
 	static props = {
 		scrollTop: 100,
 		scrollClass: '--scroll',
@@ -16,9 +16,9 @@ export default class PageHeader extends Aspect {
 		scrollSensitive: false,
 	}
 
-	static aspects = ['scroll-sensitive']
+	//static aspects = ['scroll-sensitive']
 
-	handlerSet = new EventHandlerSet()
+	listeners = new EventListenerRegistry()
 	lastScrollTop = 0
 	scrollDirection = ''
 	ticking = false
@@ -66,9 +66,9 @@ export default class PageHeader extends Aspect {
 
 	connected() {
 		if (!this.scrollSensitive) {
-			this.scrollSensitiveAspect.asleep = true
+			//this.scrollSensitiveAspect.asleep = true
 		}
-		this.handlerSet.add(
+		this.listeners.add(
 			window,
 			'scroll',
 			e => {
@@ -91,20 +91,20 @@ export default class PageHeader extends Aspect {
 			{ passive: true },
 		)
 
-		//this.handlerSet.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
-		//this.handlerSet.add(window, 'wheel', this.scrollHandler.bind(this), {passive: true})
-		this.handlerSet.add(window, 'scroll', this.scrollHandler.bind(this), {
+		//this.listeners.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
+		//this.listeners.add(window, 'wheel', this.scrollHandler.bind(this), {passive: true})
+		this.listeners.add(window, 'scroll', this.scrollHandler.bind(this), {
 			passive: true,
 		})
 		return this
 	}
 
-	scrollSensitiveChanged(oldVal, newVal) {
-		this.scrollSensitiveAspect.asleep = !newVal
-	}
+	// scrollSensitiveChanged(oldVal, newVal) {
+	// 	this.scrollSensitiveAspect.asleep = !newVal
+	// }
 
 	disconnected() {
-		this.handlerSet.clear()
+		this.listeners.clear()
 		this.el.classList.remove(this.downClass, this.upClass, this.scrollClass)
 	}
 }

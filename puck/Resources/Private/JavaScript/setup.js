@@ -10,6 +10,7 @@ import PageHeader from '~/stim2/PageHeader'
 import ScrollSensitive from '~/stim2/ScrollSensitive'
 import ScrollbarWidth from '~/stim2/ScrollbarWidth'
 import Showable from '~/stim2/Showable'
+import Root from '~/stim2/Root'
 import { noDragClick } from '~/Utility/DomUtility'
 
 window.htmx = htmx
@@ -32,6 +33,7 @@ window.stim = stim
 // })
 
 stim.registerTrait({
+	Root,
 	AnchorScrolling,
 	ScrollbarWidth,
 	Showable,

@@ -1,8 +1,8 @@
-import { Aspect } from '@oliveoilexpert/stim'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { ElementTrait } from '~/stim2'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $target, jsx } from '~/Utility/DomUtility'
 
-export default class ScrollSensitive extends Aspect {
+export default class ScrollSensitive extends ElementTrait {
 	static props = {
 		topInsideClass: '--top-inside-view',
 		topAboveClass: '--top-above-view',
@@ -20,7 +20,7 @@ export default class ScrollSensitive extends Aspect {
 		scrollTop: '',
 	}
 
-	handlerSet = new EventHandlerSet()
+	listeners = new EventListenerRegistry()
 
 	observerCallback(entry, observer) {
 		if (entry.rootBounds === null) return
@@ -69,7 +69,7 @@ export default class ScrollSensitive extends Aspect {
 			this.el = clone
 		}
 		if (this.scrollTop) {
-			this.handlerSet.add(
+			this.listeners.add(
 				this.root || window,
 				'scroll',
 				e => {
@@ -107,7 +107,7 @@ export default class ScrollSensitive extends Aspect {
 	}
 
 	disconnected() {
-		this.handlerSet.clear()
+		this.listeners.clear()
 		this.el.classList.remove(this.scrollClass)
 		this.resizeObserver?.disconnect()
 		this.intersectionObserver?.disconnect()

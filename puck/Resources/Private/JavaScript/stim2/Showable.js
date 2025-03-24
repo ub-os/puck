@@ -1,11 +1,11 @@
-import { Aspect } from '@oliveoilexpert/stim'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { ElementTrait } from '~/stim2'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
 
 /**
  * @property {Map} controlRefs
  */
-export default class Showable extends Aspect {
+export default class Showable extends ElementTrait {
 	static refs = ['control']
 	static props = {
 		active: false,
@@ -50,7 +50,7 @@ export default class Showable extends Aspect {
 		switchToggles: false,
 		alwaysActive: false,
 	}
-	handlerSet = new EventHandlerSet()
+	listeners = new EventListenerRegistry()
 	lastUsedToggle = null
 	durationTimer = null
 
@@ -79,7 +79,6 @@ export default class Showable extends Aspect {
 		this.el.dispatchEvent(new CustomEvent(`${this.token}:show`, { detail: { transition, trigger } }))
 	}
 	hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
-		this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
 		this.el.dispatchEvent(new CustomEvent(`${this.token}:hide`, { detail: { transition, trigger } }))
 
 	}
@@ -148,6 +147,11 @@ export default class Showable extends Aspect {
 		if (this.active) {
 			el.classList.add(this.activeClass)
 		}
+		this.listeners.add(el, 'click', e => this.toggle({ trigger: 'control' }, e))
+	}
+
+	controlRefDisconnected(el) {
+		this.listeners.clearTarget(el)
 	}
 
 	connected() {
@@ -157,13 +161,13 @@ export default class Showable extends Aspect {
 			? this.onShow({ detail: { transition: false } })
 			: this.onHide({ detail: { transition: false, changeUrlHash: false } })
 
-		this.handlerSet.add(this.el, `${this.token}:show`, event =>
+		this.listeners.add(this.el, `${this.token}:show`, event =>
 			window.requestAnimationFrame(() => {
 				if (this.active || event.defaultPrevented) return
 				this.onShow(event)
 			}),
 		)
-		this.handlerSet.add(this.el, `${this.token}:hide`, event =>
+		this.listeners.add(this.el, `${this.token}:hide`, event =>
 			window.requestAnimationFrame(() => {
 				if (!this.active || event.defaultPrevented) return
 				this.onHide(event)
@@ -171,7 +175,7 @@ export default class Showable extends Aspect {
 		)
 
 		if (this.groupEl) {
-			this.handlerSet.add(this.groupEl, `${this.token}:toggle-group`, event => {
+			this.listeners.add(this.groupEl, `${this.token}:toggle-group`, event => {
 				if (event.defaultPrevented) return
 				if (
 					this.exclusiveGroup &&
@@ -184,21 +188,21 @@ export default class Showable extends Aspect {
 			})
 		}
 		if (this.outClickHide) {
-			this.handlerSet.add(document, 'click', event => {
+			this.listeners.add(document, 'click', event => {
 				if (this.active && !this.outEl.contains(event.target))
 					this.hide({ trigger: 'outClick' })
 			})
 		}
 		if (this.selfClickHide) {
-			this.handlerSet.add(this.el, 'click', event => {
+			this.listeners.add(this.el, 'click', event => {
 				if (this.active && event.target === this.el)
 					this.hide({ trigger: 'selfClick' })
 			})
 		}
 		if (this.focusOutHide) {
 			let focusOut = false
-			this.handlerSet.add(this.outEl, 'focusin', event => (focusOut = false))
-			this.handlerSet.add(this.outEl, 'focusout', event => {
+			this.listeners.add(this.outEl, 'focusin', event => (focusOut = false))
+			this.listeners.add(this.outEl, 'focusout', event => {
 				focusOut = true
 				window.requestAnimationFrame(() => {
 					if (focusOut && this.active) this.hide({ trigger: 'focusOut' })
@@ -206,12 +210,12 @@ export default class Showable extends Aspect {
 			})
 		}
 		if (this.escHide) {
-			this.handlerSet.add(this.el, 'keydown', event => {
+			this.listeners.add(this.el, 'keydown', event => {
 				if (event.key === 'Escape') this.hide({ trigger: 'esc' })
 			})
 		}
 		if (this.scrollHide) {
-			this.handlerSet.add(
+			this.listeners.add(
 				window,
 				'scroll',
 				() => {
@@ -221,7 +225,7 @@ export default class Showable extends Aspect {
 			)
 		}
 		if (this.clickHideSelector) {
-			this.handlerSet.addDelegate(
+			this.listeners.addDelegate(
 				this.el,
 				this.clickHideSelector,
 				'click',
@@ -234,7 +238,7 @@ export default class Showable extends Aspect {
 		if (this.urlHashShow) {
 			if (window.location.hash.split('?')[0] === `#${this.el.id}`)
 				this.show({ trigger: 'urlHash' })
-			this.handlerSet.add(this.el, 'hash-link-click', event => {
+			this.listeners.add(this.el, 'hash-link-click', event => {
 				this.lastUsedToggle = event.detail.linkElement
 				this.show({ trigger: 'urlHash' })
 			})
@@ -243,6 +247,6 @@ export default class Showable extends Aspect {
 	}
 	disconnected() {
 		this.hide({ transition: false, changeUrlHash: false })
-		this.handlerSet.clear()
+		this.listeners.clear()
 	}
 }

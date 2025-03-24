@@ -1,6 +1,13 @@
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 
-export default class Root extends Aspect {
+export default class Root extends ElementTrait {
 	static props = {}
-	static aspects = ['anchor-scrolling', 'scrollbar-width']
+	static traits = {
+		'anchor-scrolling': {
+			scrollTopOnCurrentLink: false
+		},
+		'scrollbar-width': {
+			sensorId: 'hanslanda'
+		}
+	}
 }

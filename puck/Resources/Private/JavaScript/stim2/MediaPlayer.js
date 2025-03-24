@@ -1,5 +1,5 @@
 const Plyr = class {}
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 
@@ -16,7 +16,7 @@ const plyrDefaultControls = [
 	'airplay',
 	'fullscreen',
 ]
-export default class MediaPlayer extends Aspect {
+export default class MediaPlayer extends ElementTrait {
 	static props = {
 		provider: 'mp4',
 		width: 1920,

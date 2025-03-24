@@ -1,7 +1,7 @@
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 import { $, $$, $id, jsx } from '~/Utility/DomUtility'
 
-export default class ScrollbarWidth extends Aspect {
+export default class ScrollbarWidth extends ElementTrait {
 	static props = {
 		sensorId: 'scrollbar-width-sensor',
 		updateOnResize: true,

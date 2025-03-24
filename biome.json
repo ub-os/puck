@@ -28,6 +28,9 @@
 			"suspicious": {
 				"noAssignInExpressions": "off",
 				"noDoubleEquals": "off"
+			},
+			"style": {
+				"useSingleVarDeclarator": "off"
 			}
 		}
 	},

@@ -1,6 +1,6 @@
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 
-export default class ScrollReveal extends Aspect {
+export default class ScrollReveal extends ElementTrait {
 	static props = {
 		preset: 'slide-up',
 		presetTranslate: 10,

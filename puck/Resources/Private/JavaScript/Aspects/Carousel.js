@@ -1,7 +1,7 @@
 import { Aspect } from '@oliveoilexpert/stim'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 
 /**
  * @property {Map} controlElements

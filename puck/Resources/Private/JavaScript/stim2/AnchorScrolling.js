@@ -1,12 +1,12 @@
-import { Aspect } from '@oliveoilexpert/stim'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { ElementTrait } from '~/stim2'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 
-export default class AnchorScrolling extends Aspect {
+export default class AnchorScrolling extends ElementTrait {
 	static props = {
 		scrollTopOnCurrentLink: true,
 	}
-	handlerSet = new EventHandlerSet()
+	listeners = new EventListenerRegistry()
 	isCurrentLink(el) {
 		return (
 			el.origin === window.location.origin &&
@@ -31,7 +31,7 @@ export default class AnchorScrolling extends Aspect {
 	}
 
 	connected() {
-		this.handlerSet.addDelegate(this.el, 'a', 'click', e => {
+		this.listeners.addDelegate(this.el, 'a', 'click', e => {
 			if (!this.isCurrentLink(e.delegateTarget)) return
 			if (!this.isHashLink(e.delegateTarget)) {
 				if (!this.scrollTopOnCurrentLink) return
@@ -65,6 +65,6 @@ export default class AnchorScrolling extends Aspect {
 	}
 
 	disconnected() {
-		this.handlerSet.clear()
+		this.listeners.clear()
 	}
 }

@@ -1,12 +1,12 @@
-import { Aspect } from '@oliveoilexpert/stim'
+import { ElementTrait } from '~/stim2'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
-import EventHandlerSet from '~/Helper/EventHandlerSet'
+import { EventListenerRegistry } from '~/Helper/EventListener.js'
 
 /**
  * @property {Map} controlRefs
  */
-export default class Carousel extends Aspect {
+export default class Carousel extends ElementTrait {
 	static props = {
 		vertical: false,
 		activeClass: '--active',
@@ -14,7 +14,6 @@ export default class Carousel extends Aspect {
 		splideOptions: {},
 	}
 	static refs = ['control']
-	//handlerSet = new EventHandlerSet()
 	controlRefConnected(el) {
 		el.ariaControls = this.el.id
 		if (el.dataset['carousel.move.to'] == this.splide?.index) {

@@ -39,12 +39,12 @@ export default class Dialog extends Showable {
 		super.connected()
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close
-		this.handlerSet.add(this.el, 'cancel', event => event.preventDefault())
+		this.listeners.add(this.el, 'cancel', event => event.preventDefault())
 		return this
 	}
 
 	disconnected() {
 		super.disconnected()
-		this.handlerSet.clear()
+		this.listeners.clear()
 	}
 }

@@ -7,9 +7,8 @@ export default class Accordion extends Showable {
 		pauseMediaOnHide: true,
 	}
 	controlRefConnected(el) {
-		el.ariaControls = this.el.id
+		super.controlRefConnected(el)
 		if (this.active) {
-			el.classList.add(this.activeClass)
 			el.ariaExpanded = 'true'
 		} else {
 			el.ariaExpanded = 'false'
