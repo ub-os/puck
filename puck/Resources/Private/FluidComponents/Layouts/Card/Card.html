@@ -20,15 +20,18 @@
 			<div class="{u:bem(el:'content', mod:bemMod)}">
 				<fc:slot name="content"/>
 			</div>
-			<f:if condition="{mediaWidth} > 4 || !{mediaWidth}">
+			<f:if condition="{itemWidth} > 4 || !{itemWidth}">
 				<f:then>
 					<f:variable name="calcWidth" value="{settings.template.gridWidth}"/>
 				</f:then>
-				<f:else if="{mediaWidth} > 2">
-					<f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/2')}"/>
+				<f:else if="{itemWidth} == 4">
+					<f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/3')}"/>
+				</f:else>
+				<f:else if="{itemWidth} == 3">
+					<f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/4')}"/>
 				</f:else>
 				<f:else>
-					<f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/3')}"/>
+					<f:variable name="calcWidth" value="{u:math(eval:'{settings.template.gridWidth}/5')}"/>
 				</f:else>
 			</f:if>
 			<f:if condition="{media}">

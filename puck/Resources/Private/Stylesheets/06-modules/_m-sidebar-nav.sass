@@ -33,6 +33,9 @@
 		max-width: width-by-cols(3, true)
 		@media (max-width(s))
 			max-width: 85%
+		@media (min-width($bp-mobile-nav))
+			display: none
+			visibility: hidden
 
 		&.--active
 			transform: translateX(0)

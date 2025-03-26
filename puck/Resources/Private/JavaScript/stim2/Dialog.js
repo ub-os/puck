@@ -37,6 +37,7 @@ export default class Dialog extends Showable {
 		if (this.el.tagName !== 'DIALOG')
 			throw new Error('Dialog Aspect should only be used on dialog elements')
 		super.connected()
+		console.log(`connected dialog ${this.el.id}`)
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close
 		this.listeners.add(this.el, 'cancel', event => event.preventDefault())
@@ -45,6 +46,7 @@ export default class Dialog extends Showable {
 
 	disconnected() {
 		super.disconnected()
+		console.log(`disconnected dialog ${this.el.id}`)
 		this.listeners.clear()
 	}
 }

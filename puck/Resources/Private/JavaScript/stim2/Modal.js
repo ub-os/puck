@@ -42,6 +42,9 @@ export default class Modal extends Showable {
 	}
 
 	connected() {
+		//console.log(this.el.parentElement)
+		console.log(`connected modal ${this.el.id}`)
+		//console.log(this.el.parentElement)
 		if (this.el.tagName !== 'DIALOG')
 			throw new Error('Modal Aspect should only be used on dialog elements')
 		super.connected()
@@ -52,6 +55,7 @@ export default class Modal extends Showable {
 	}
 
 	disconnected() {
+		console.log(`disconnected modal ${this.el.id}`)
 		super.disconnected()
 		this.listeners.clear()
 	}

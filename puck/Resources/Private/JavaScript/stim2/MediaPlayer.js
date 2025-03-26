@@ -132,7 +132,6 @@ export default class MediaPlayer extends ElementTrait {
 
 	connected() {
 		if (!this.lazyLoad) this.load()
-		return this
 	}
 
 	disconnected() {

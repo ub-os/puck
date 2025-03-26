@@ -42,11 +42,12 @@
 		box-shadow: var(--box-shadow-m)
 		opacity: 0
 		overflow: hidden
-
+		&:not(.--active)
+			display: none
+			visibility: hidden
 		&.--active
 			opacity: 1
 			animation: modal-open .17s ease-out
-
 		&.--deactivating
 			animation: modal-close .17s ease-out
 			opacity: 0

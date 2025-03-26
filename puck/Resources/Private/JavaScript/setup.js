@@ -66,9 +66,9 @@ stim.registerSelectorCallback({
 	'[data-link-area]': el => {
 		el.style.cursor = 'pointer'
 		noDragClick(el, e => {
-			if (e.target.tagName === 'A') return
+			if (e.button > 1 || e.target.tagName === 'A') return
 			const link = el.querySelector('a')
-			if (e.metaKey) {
+			if (e.metaKey || e.button == 1) {
 				window.open(link.href, '_blank')
 				return
 			}
