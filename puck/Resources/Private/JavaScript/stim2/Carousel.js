@@ -20,7 +20,7 @@ export default class Carousel extends Controller {
 			el.classList.add(this.activeClass)
 		}
 	}
-	move({ to } = {}) {
+	move({ to = '>' }) {
 		this.splide.go(to)
 	}
 	connected() {

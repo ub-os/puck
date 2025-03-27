@@ -1,12 +1,12 @@
 import { Controller } from '~/stim2'
-import { EventListenerRegistry } from '~/Helper/EventListener.js'
+import { EventListenerSet } from '~/Helper/EventListener.js'
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 
-export default class AnchorScrolling extends Controller {
+export default class AnchorHandler extends Controller {
 	static props = {
 		scrollTopOnCurrentLink: true,
 	}
-	listeners = new EventListenerRegistry()
+	listeners = new EventListenerSet()
 	isCurrentLink(el) {
 		return (
 			el.origin === window.location.origin &&
@@ -31,7 +31,7 @@ export default class AnchorScrolling extends Controller {
 	}
 
 	connected() {
-		this.listeners.addDelegate(this.element, 'a', 'click', e => {
+		this.listeners.addDelegate(document.body, 'a', 'click', e => {
 			if (!this.isCurrentLink(e.delegateTarget)) return
 			if (!this.isHashLink(e.delegateTarget)) {
 				if (!this.scrollTopOnCurrentLink) return
@@ -47,7 +47,7 @@ export default class AnchorScrolling extends Controller {
 			const anchorTarget = this.getTargetFromHash(e.delegateTarget.hash)
 			if (!anchorTarget) return
 			anchorTarget.dispatchEvent(
-				new CustomEvent('hash-link-click', {
+				new CustomEvent(`${this.identifier}:hash-link-click`, {
 					detail: { linkElement: e.delegateTarget },
 				}),
 			)

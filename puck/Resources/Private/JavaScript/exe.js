@@ -32,11 +32,7 @@ Logger.console.log(stim)
 htmx.logger = (el, eventType, event) => {
 	if (!htmxLifecycleEvents[eventType]) return
 	const additional = isBodySwapEvent(event) ? '@root' : ''
-	Logger.console.log(
-		`%c${eventType}${additional}`,
-		htmxLifecycleEvents[eventType],
-		event,
-	)
+	Logger.console.log(`%c${eventType}${additional}`, htmxLifecycleEvents[eventType], event)
 }
 window.requestAnimationFrame(() => {
 	$id('body').classList.remove('u-no-transition')
@@ -47,9 +43,7 @@ on('htmx:historyRestore', event => {
 
 let focusAfterSwapSelector
 const setFocusAfterSwapSelector = () => {
-	focusAfterSwapSelector = document.activeElement
-		.closest('[data-hx-focus-after-swap]')
-		?.getAttribute('data-hx-focus-after-swap')
+	focusAfterSwapSelector = document.activeElement.closest('[data-hx-focus-after-swap]')?.getAttribute('data-hx-focus-after-swap')
 }
 const resolveFocusAfterSwap = () => {
 	if (!focusAfterSwapSelector) return

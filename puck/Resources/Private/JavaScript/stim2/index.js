@@ -62,7 +62,7 @@ class PropSyncer {
 		}
 		element.setAttribute(this.#keys[key], writeVal)
 	}
-	attributeChanged(object, element, name, oldVal, newVal) {
+	attrChange(object, element, name, oldVal, newVal) {
 		if (name === this.#propsAttr) {
 			this.init(object, element)
 			return
@@ -129,18 +129,23 @@ class Stim {
 		}),
 		attribute: new MutationObserver(mutations => {
 			mutations.forEach(mutation => {
-				// disable changing controllers, targets, actions attributes?
-				if (mutation.target.isConnected && [this.#controllerAttr, this.#targetAttr, this.#actionAttr].includes(mutation.attributeName)) {
-					mutation.target.setAttribute(mutation.attributeName, mutation.oldValue)
+				const el = mutation.target
+				const newVal = el.getAttribute(mutation.attributeName)
+				if (mutation.attributeName === this.#controllerAttr) {
+					//const targetElsInScope =
+					for (const targetEl of el.querySelectorAll(`[${this.#targetAttr}]`)) {
+						this.#setTargets(targetEl, null)
+						queueMicrotask(() => this.#setTargets(targetEl, targetEl.getAttribute(this.#targetAttr)))
+					}
+					this.#setControllers(el, newVal)
+					// for (const targetEl of targetElsInScope) {
+					// 	this.#setTargets(targetEl, targetEl.getAttribute(this.#targetAttr))
+					// }
+				} else if (mutation.attributeName === this.#targetAttr) {
+					this.#setTargets(el, newVal)
+				} else if (mutation.attributeName === this.#actionAttr) {
+					this.#setActions(el, newVal)
 				}
-				// const el = mutation.target
-				// if (mutation.attributeName === this.#controllerAttr) {
-				// 	this.#setControllers(el, el.getAttribute(this.#controllerAttr))
-				// } else if (mutation.attributeName === this.#targetAttr) {
-				// 	this.#setTargets(el, el.getAttribute(this.#targetAttr))
-				// } else if (mutation.attributeName === this.#actionAttr) {
-				// 	this.#setActions(el, el.getAttribute(this.#actionAttr))
-				// }
 			})
 		}),
 		controller: new MutationObserver(mutations => {
@@ -150,7 +155,7 @@ class Stim {
 				const newVal = el.getAttribute(mutation.attributeName)
 				if (mutation.oldValue == newVal) return
 				for (const token in this.#controllers.get(el)) {
-					this.#syncers[token].attributeChanged(this.#controllers.get(el)[token], el, mutation.attributeName, mutation.oldValue, newVal)
+					this.#syncers[token].attrChange(this.#controllers.get(el)[token], el, mutation.attributeName, mutation.oldValue, newVal)
 				}
 			})
 		})
@@ -190,16 +195,16 @@ class Stim {
 	}
 	#updateSubtreeConnections(rootEl, removeAll = false) {
 		if (rootEl.nodeType !== Node.ELEMENT_NODE) return
-		const elements = [rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)]
-		const actions = [], targets = [], controllers = []
-		for (const element of elements) {
-			element.hasAttribute(this.#controllerAttr) && controllers.push(element)
-			element.hasAttribute(this.#targetAttr) && targets.push(element)
-			element.hasAttribute(this.#actionAttr) && actions.push(element)
+		const els = [rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)]
+		const actionEls = [], targetEls = [], controllerEls = []
+		for (const el of els) {
+			el.hasAttribute(this.#controllerAttr) && controllerEls.push(el)
+			el.hasAttribute(this.#targetAttr) && targetEls.push(el)
+			el.hasAttribute(this.#actionAttr) && actionEls.push(el)
 		}
-		for (const element of controllers) this.#setControllers(element, removeAll ? null : element.getAttribute(this.#controllerAttr))
-		for (const element of targets) this.#setTargets(element, removeAll ? null : element.getAttribute(this.#targetAttr))
-		for (const element of actions) this.#setActions(element, removeAll ? null : element.getAttribute(this.#actionAttr))
+		for (const el of controllerEls) this.#setControllers(el, removeAll ? null : el.getAttribute(this.#controllerAttr))
+		for (const el of targetEls) this.#setTargets(el, removeAll ? null : el.getAttribute(this.#targetAttr))
+		for (const el of actionEls) this.#setActions(el, removeAll ? null : el.getAttribute(this.#actionAttr))
 	}
 	#setControllers(el, tokens) {
 		const controllers = this.#controllers.get(el) ?? {}
@@ -239,19 +244,19 @@ class Stim {
 					}
 				}
 			}
-			return true
 			// for (const target of this.#orphans.get('')) {
-			// 	if (el.contains(target.el) && target.token == token) {
+			// 	if (target.token == token && el.contains(target.el)) {
 			// 		this.#addTarget(target)
 			// 	}
 			// }
+			return true
 		})
 	}
 	#removeController(controller) {
 		this.#disconnectInstance(controller, () => {
 			controller.disconnected()
-			for (const type in controller._$targets) {
-				for (const target of controller._$targets[type]) {
+			for (const type in controller.$targets) {
+				for (const target of controller.$targets[type]) {
 					this.#removeTarget(target, true)
 				}
 			}
@@ -273,12 +278,12 @@ class Stim {
 		this.#connectInstance(target, () => {
 			const host = target.hostId ? document.getElementById(target.hostId) : target.el.closest(`[${this.#controllerAttr}]`)
 			target.controller = this.#controllers.get(host)?.[target.token]
-			if (!target.controller) {
+			if (!target.controller?.$connected) {
 				this.#addOrphan(target)
 				return false
 			}
 			this.#removeOrphan(target)
-			target.controller._$targets[target.type].add(target.el)
+			target.controller.$targets[target.type].add(target.el)
 			if (!this.#targets.get(target.el)) this.#targets.set(target.el, {})
 			this.#targets.get(target.el)[target.descriptor] = target
 			const callbackName = `${camelCase(target.type)}TargetConnected`
@@ -291,7 +296,7 @@ class Stim {
 	#removeTarget(target, addOrphan = false) {
 		this.#disconnectInstance(target, () => {
 			addOrphan ? this.#addOrphan(target) : this.#removeOrphan(target)
-			target.controller._$targets[target.type].delete(target.el)
+			target.controller.$targets[target.type].delete(target.el)
 			const callbackName = `${camelCase(target.type)}TargetDisconnected`
 			if (typeof target.controller[callbackName] == 'function') {
 				target.controller[callbackName](target.el)
@@ -315,7 +320,7 @@ class Stim {
 			action.listener = event => {
 				const host = action.hostId ? document.getElementById(action.hostId) : action.el.closest(`[${this.#controllerAttr}]`)
 				const controller = this.#controllers.get(host)?.[action.token]
-				if (!controller?._$connected) return
+				if (!controller?.$connected) return
 				if (action.options.prevent) event.preventDefault()
 				if (action.options.stop) event.stopPropagation()
 				const paramAttr = `${config.attributePrefix + action.token}.${action.method}`
@@ -337,28 +342,30 @@ class Stim {
 		this.#disconnectInstance(action, () => action.el.removeEventListener(action.event, action.listener, action.options))
 	}
 	#connectInstance(instance, callback) {
-		instance._$connecting = true
+		instance.$connecting = true
 		queueMicrotask(() => {
-			if (instance._$connected || !instance._$connecting) return
-			instance._$connecting = false
-			instance._$connected = callback()
+			if (instance.$connected || !instance.$connecting) return
+			instance.$connecting = false
+			instance.$connected = callback()
 		})
 	}
 	#disconnectInstance(instance, callback) {
-		instance._$connecting = false
-		if (!instance._$connected) return
-		instance._$connected = false
+		instance.$connecting = false
+		if (!instance.$connected) return
+		instance.$connected = false
 		callback()
 	}
 	#addOrphan(target) {
-		if (!target.hostId) {
-			//this.#orphans.get('').add(target)
-			return
+		// if (!target.hostId) {
+		// 	this.#orphans.get('').add(target)
+		// 	return
+		// }
+		if (target.hostId) {
+			if (!this.#orphans.has(target.hostId)) {
+				this.#orphans.set(target.hostId, new Set())
+			}
+			this.#orphans.get(target.hostId).add(target)
 		}
-		if (!this.#orphans.has(target.hostId)) {
-			this.#orphans.set(target.hostId, new Set())
-		}
-		this.#orphans.get(target.hostId).add(target)
 	}
 	#removeOrphan(target) {
 		if (target.hostId) {
@@ -386,23 +393,23 @@ class Stim {
 					return this[`_${key}`]
 				},
 				set(val) {
-					self.syncers[this._$proptoken].set(this, this._$el, key, val, true)
+					self.syncers[this.$proptoken].set(this, this.$el, key, val, true)
 				}
 			})
 		}
-		Object.defineProperty(controllerClass.prototype, '_$targets', {
+		Object.defineProperty(controllerClass.prototype, '$targets', {
 			value: Object.fromEntries(controllerClass.targets.map(key => [key, new Set()]))
 		})
 		for (const type of controllerClass.targets) {
 			const camelCasedType = camelCase(type)
 			Object.defineProperty(controllerClass.prototype, `${camelCasedType}Targets`, {
 				get() {
-					return this._$targets[type] ?? []
+					return this.$targets[type] ?? []
 				},
 			})
 			Object.defineProperty(controllerClass.prototype, `${camelCasedType}Target`, {
 				get() {
-					return this._$targets[type]?.values()?.next()?.value
+					return this.$targets[type]?.values()?.next()?.value
 				},
 			})
 		}
@@ -410,7 +417,7 @@ class Stim {
 		for (const injectToken in controllerClass.injects) {
 			Object.defineProperty(controllerClass.prototype, `${camelCase(injectToken)}Inject`, {
 				get() {
-					return self.controllers.get(this._$el)?.[injectToken]
+					return self.controllers.get(this.$el)?.[injectToken]
 				},
 			})
 			this.#injectTokens[token].push(`${injectToken}/${token}`)
@@ -447,7 +454,7 @@ class ControllerAction {
 			descriptor = `${defaultEvents[el.tagName] ?? 'click'}->${descriptor}`
 		}
 		let eventDescriptor, optionDescriptor
-		[this.el, eventDescriptor, this.token, this.method] = [el, ...descriptor.split(/->|\.|#/, 3)]
+		;[this.el, eventDescriptor, this.identifier, this.method] = [el, ...descriptor.split(/->|\.|#/, 3)]
 		this.hostId = descriptor.includes('#') ? descriptor.slice(descriptor.lastIndexOf('#') + 1) : ''
 		;[this.event, optionDescriptor] = eventDescriptor.split('[')
 		if (optionDescriptor) {
@@ -465,7 +472,7 @@ class ControllerAction {
 
 class ControllerTarget {
 	constructor(el, descriptor) {
-		[this.el, this.descriptor, this.token, this.type] = [el, descriptor, ...descriptor.split(/[.#]/, 2)]
+		[this.el, this.descriptor, this.identifier, this.type] = [el, descriptor, ...descriptor.split(/[.#]/, 2)]
 		this.hostId = descriptor.includes('#') ? descriptor.slice(descriptor.lastIndexOf('#') + 1) : ''
 	}
 }
@@ -480,14 +487,14 @@ class Controller {
 		return this.constructor.token
 	}
 	get element() {
-		return this._$el
+		return this.$el
 	}
 	get stim() {
 		return stim
 	}
 	constructor(el, propToken) {
-		this._$el = el
-		this._$proptoken = propToken
+		this.$el = el
+		this.$proptoken = propToken
 	}
 	initialized() {}
 	connected() {}

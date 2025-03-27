@@ -1,7 +1,7 @@
 import { stim } from '~/stim2'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
 import Accordion from '~/stim2/Accordion'
-import AnchorScrolling from '~/stim2/AnchorScrolling'
+import AnchorHandler from '~/stim2/AnchorHandler.js'
 import Carousel from '~/stim2/Carousel'
 import Dialog from '~/stim2/Dialog'
 import MediaPlayer from '~/stim2/MediaPlayer'
@@ -10,7 +10,6 @@ import PageHeader from '~/stim2/PageHeader'
 import ScrollSensitive from '~/stim2/ScrollSensitive'
 import ScrollbarWidth from '~/stim2/ScrollbarWidth'
 import Showable from '~/stim2/Showable'
-import Root from '~/stim2/Root'
 import { noDragClick } from '~/Utility/DomUtility'
 
 window.htmx = htmx
@@ -33,8 +32,7 @@ window.stim = stim
 // })
 
 stim.registerController({
-	Root,
-	AnchorScrolling,
+	AnchorHandler,
 	ScrollbarWidth,
 	Showable,
 	Accordion,

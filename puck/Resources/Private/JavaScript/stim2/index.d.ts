@@ -1,6 +1,6 @@
 type ControllerProps = Record<string, string|number|boolean|object>
 type ControllerConstructor = { new (...args: ConstructorParameters<typeof Controller>): Controller }
-type TokenToControllerConstructorDictionary = Record<string, ControllerConstructor>
+type IdentifierToControllerConstructorDictionary = Record<string, ControllerConstructor>
 type SelectorToCallbackDictionary = Record<string, (target: HTMLElement) => void>
 declare class ControllerTarget {
 	constructor(el: HTMLElement, descriptor: string)
@@ -14,7 +14,7 @@ declare class PropSyncer {
 type Config = {
     observeChildList: boolean,
     observeAttributes: boolean,
-    observeAspectAttributes: boolean,
+	observeControllerAttributes: boolean,
     attributePrefix: string,
     controllerAttribute: string,
 	targetAttribute: string,
@@ -22,7 +22,7 @@ type Config = {
 }
 declare class Stim {
 	get config(): Config
-	get controllerRegister(): TokenToControllerConstructorDictionary
+	get controllerRegister(): IdentifierToControllerConstructorDictionary
 	get selectorRegister(): SelectorToCallbackDictionary
 	get syncers(): Record<string, PropSyncer>
 	get controllers(): WeakMap<HTMLElement, Record<string, Controller>>
@@ -32,7 +32,7 @@ declare class Stim {
     disconnect(): void
     connectElement(element: HTMLElement): void
     disconnectElement(element: HTMLElement): void
-	registerController(token: string|TokenToControllerConstructorDictionary, controllerClass?: ControllerConstructor): void
+	registerController(identifier: string|IdentifierToControllerConstructorDictionary, controllerClass?: ControllerConstructor): void
 	registerSelectorCallback(selector: string|SelectorToCallbackDictionary, callback?: (target: HTMLElement) => void): void
 }
 declare const stim: Stim
