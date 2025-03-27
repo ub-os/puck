@@ -3,7 +3,7 @@
 	<fc:param name="record" type="mixed"/>
 	<fc:renderer>
 
-		<dialog data-trait="modal"
+		<dialog data-controller="modal"
 				class="{name}__modal"
 				data-modal.duration="300"
 				data-modal.append-to=""
@@ -14,7 +14,7 @@
 				<div class="{name}__header">
 					<button class="{name}__close"
 							data-autofocus
-							data-handler="modal.hide"
+							data-action="modal.hide"
 							aria-controls="sidebar-nav-modal"
 							aria-label="{f:translate(key:'close')}">
 						<icon:char icon="close"/>

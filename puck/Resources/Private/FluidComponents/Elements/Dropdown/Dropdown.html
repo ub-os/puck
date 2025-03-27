@@ -11,15 +11,14 @@
 
 		<div id="{id}" class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
 			<button class="{name}__button"
-					aria-controls="{id}__dialog"
-					data-handler="dialog.toggle#{id}__dialog">
+					data-target="dialog.control#{id}__dialog">
 				{label}
 				<fc:slot name="buttonContent"/>
 				<icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
 			</button>
 			<fc:slot name="outerContent"/>
 			<dialog class="{name}__dialog"
-					data-trait="dialog"
+					data-controller="dialog"
 					data-dialog='{dialogAttributes -> f:format.json()}'
 					data-dialog.out-target="#{id}"
 					aria-label="{label}"

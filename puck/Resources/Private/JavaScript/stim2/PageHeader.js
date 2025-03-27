@@ -1,4 +1,4 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import ScrollSensitive from '~/stim2/ScrollSensitive'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, jsx } from '~/Utility/DomUtility'
@@ -6,7 +6,7 @@ import { $, $$, jsx } from '~/Utility/DomUtility'
 /**
  * @property {ScrollSensitive} scrollSensitiveAspect
  */
-export default class PageHeader extends ElementTrait {
+export default class PageHeader extends Controller {
 	static props = {
 		scrollTop: 100,
 		scrollClass: '--scroll',
@@ -49,14 +49,14 @@ export default class PageHeader extends ElementTrait {
 					this.scrollDirection === 'down'
 						? { add: this.downClass, remove: this.upClass }
 						: { add: this.upClass, remove: this.downClass }
-				this.el.classList.add(classes.add)
-				this.el.classList.remove(classes.remove)
+				this.element.classList.add(classes.add)
+				this.element.classList.remove(classes.remove)
 				if (this.documentClassing) {
 					document.documentElement.classList.add(
-						`--${this.el.id}${classes.add}`,
+						`--${this.element.id}${classes.add}`,
 					)
 					document.documentElement.classList.remove(
-						`--${this.el.id}${classes.remove}`,
+						`--${this.element.id}${classes.remove}`,
 					)
 				}
 			})
@@ -73,17 +73,17 @@ export default class PageHeader extends ElementTrait {
 			'scroll',
 			e => {
 				if (document.documentElement.scrollTop < this.scrollTop) {
-					this.el.classList.remove(this.scrollClass)
+					this.element.classList.remove(this.scrollClass)
 					if (this.documentClassing) {
 						document.documentElement.classList.remove(
-							`--${this.el.id}${this.scrollClass}`,
+							`--${this.element.id}${this.scrollClass}`,
 						)
 					}
 				} else {
-					this.el.classList.add(this.scrollClass)
+					this.element.classList.add(this.scrollClass)
 					if (this.documentClassing) {
 						document.documentElement.classList.add(
-							`--${this.el.id}${this.scrollClass}`,
+							`--${this.element.id}${this.scrollClass}`,
 						)
 					}
 				}
@@ -96,7 +96,6 @@ export default class PageHeader extends ElementTrait {
 		this.listeners.add(window, 'scroll', this.scrollHandler.bind(this), {
 			passive: true,
 		})
-		return this
 	}
 
 	// scrollSensitiveChanged(oldVal, newVal) {
@@ -105,6 +104,6 @@ export default class PageHeader extends ElementTrait {
 
 	disconnected() {
 		this.listeners.clear()
-		this.el.classList.remove(this.downClass, this.upClass, this.scrollClass)
+		this.element.classList.remove(this.downClass, this.upClass, this.scrollClass)
 	}
 }

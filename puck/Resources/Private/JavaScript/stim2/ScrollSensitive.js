@@ -1,8 +1,8 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $target, jsx } from '~/Utility/DomUtility'
 
-export default class ScrollSensitive extends ElementTrait {
+export default class ScrollSensitive extends Controller {
 	static props = {
 		topInsideClass: '--top-inside-view',
 		topAboveClass: '--top-above-view',
@@ -65,8 +65,8 @@ export default class ScrollSensitive extends ElementTrait {
 		if (this.cloneElementToRetainFlow) {
 			const clone = this.node.cloneNode(true)
 			clone.classList.add(this.cloneClass)
-			this.el.parentNode.insertBefore(clone, this.el)
-			this.el = clone
+			this.element.parentNode.insertBefore(clone, this.element)
+			this.element = clone
 		}
 		if (this.scrollTop) {
 			this.listeners.add(
@@ -77,9 +77,9 @@ export default class ScrollSensitive extends ElementTrait {
 						(this.root || document.documentElement).scrollTop <
 						this.correctScrollTop
 					) {
-						this.el.classList.remove(this.scrollClass)
+						this.element.classList.remove(this.scrollClass)
 					} else {
-						this.el.classList.add(this.scrollClass)
+						this.element.classList.add(this.scrollClass)
 					}
 				},
 				{ passive: true },
@@ -88,7 +88,6 @@ export default class ScrollSensitive extends ElementTrait {
 				this.__correctScrollTop = null
 			})
 			this.resizeObserver.observe(document.body)
-			return this
 		}
 		this.intersectionObserver = new IntersectionObserver(
 			(entries, observer) => {
@@ -101,14 +100,13 @@ export default class ScrollSensitive extends ElementTrait {
 			},
 		)
 		this.intersectionObserver.observe(
-			this.target ? $target(this.target) : this.el,
+			this.target ? $target(this.target) : this.element,
 		)
-		return this
 	}
 
 	disconnected() {
 		this.listeners.clear()
-		this.el.classList.remove(this.scrollClass)
+		this.element.classList.remove(this.scrollClass)
 		this.resizeObserver?.disconnect()
 		this.intersectionObserver?.disconnect()
 	}

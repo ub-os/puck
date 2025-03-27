@@ -8,7 +8,7 @@
         <div class="{name}__page__navigation">
             <f:if condition="!{pageIteration.isFirst}">
                 <div class="{name}__page__prev e-button"
-                     data-handler="form-page.toggle#form-{form.uid}-page-{u:math(eval:'{pageIteration.index} - 1')}"
+                     data-action="form-page.toggle#form-{form.uid}-page-{u:math(eval:'{pageIteration.index} - 1')}"
                      data-form-page.toggle.validate="false"
                      data-form-page.toggle.scroll-into-view
                      role="button">
@@ -17,7 +17,7 @@
             </f:if>
             <f:if condition="!{pageIteration.isLast}">
                 <div class="{name}__page__next e-button"
-                     data-handler="form-page.toggle#form-{form.uid}-page-{u:math(eval:'{pageIteration.index} + 1')}"
+                     data-action="form-page.toggle#form-{form.uid}-page-{u:math(eval:'{pageIteration.index} + 1')}"
                      data-form-page.toggle.validate="true"
                      data-form-page.toggle.scroll-into-view="true"
                      role="button">

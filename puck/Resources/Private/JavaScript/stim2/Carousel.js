@@ -1,21 +1,21 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
 
 /**
- * @property {Map} controlRefs
+ * @property {Map} controlTargets
  */
-export default class Carousel extends ElementTrait {
+export default class Carousel extends Controller {
 	static props = {
 		vertical: false,
 		activeClass: '--active',
 		baseSplideClass: 'splide',
 		splideOptions: {},
 	}
-	static refs = ['control']
-	controlRefConnected(el) {
-		el.ariaControls = this.el.id
+	static targets = ['control']
+	controlTargetConnected(el) {
+		el.ariaControls = this.element.id
 		if (el.dataset['carousel.move.to'] == this.splide?.index) {
 			el.classList.add(this.activeClass)
 		}
@@ -26,7 +26,7 @@ export default class Carousel extends ElementTrait {
 	connected() {
 		this.biggestSlideHeight = 0
 		const autoplay = this.splideOptions.autoplay ?? false
-		this.splide = new Splide(this.el, {
+		this.splide = new Splide(this.element, {
 			arrows: true,
 			pagination: false,
 			autoWidth: true,
@@ -52,7 +52,7 @@ export default class Carousel extends ElementTrait {
 			...this.splideOptions,
 		})
 		this.splide.on('move', (newIndex, oldIndex, destIndex) => {
-			this.controlRefs.forEach(control => {
+			this.controlTargets.forEach(control => {
 				control.classList.remove(this.activeClass)
 				if (control.dataset['carousel.move.to'] == this.splide?.index) {
 					control.classList.add(this.activeClass)
@@ -68,9 +68,9 @@ export default class Carousel extends ElementTrait {
 			}
 		})
 		this.splide.on('autoplay:playing', rate => {
-			this.el.style.setProperty('--splide-autoplay-progress', rate)
+			this.element.style.setProperty('--splide-autoplay-progress', rate)
 		})
-		this.el.style.setProperty(
+		this.element.style.setProperty(
 			'--splide-speed',
 			`${this.splide.options.speed}ms`,
 		)
@@ -78,7 +78,7 @@ export default class Carousel extends ElementTrait {
 		if (this.vertical) {
 			// todo: replace with window.requestAnimationFrame ?
 			window.addEventListener('load', () => {
-				this.el.querySelectorAll('.splide__slide').forEach(slide => {
+				this.element.querySelectorAll('.splide__slide').forEach(slide => {
 					const rect = slide.getBoundingClientRect()
 					if (rect.height > this.biggestSlideHeight) {
 						this.biggestSlideHeight = rect.height
@@ -90,7 +90,6 @@ export default class Carousel extends ElementTrait {
 				}
 			})
 		}
-		return this
 	}
 	disconnected() {
 		this.splide.destroy()

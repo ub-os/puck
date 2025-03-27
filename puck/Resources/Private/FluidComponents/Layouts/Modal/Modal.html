@@ -7,14 +7,14 @@
 	<fc:renderer>
 
 		{u:var(set:'defaultModalAttributes',value:'{duration:170}')}
-		<dialog data-trait="modal"
+		<dialog data-controller="modal"
 				class="{name} {class} -width-{width}"
 				id="{id}"
 				data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
 				{attributes -> u:renderAttributes()}>
 			<button class="{name}__close"
 					data-autofocus
-					data-handler="modal.hide"
+					data-action="modal.hide"
 					aria-label="{f:translate(key:'close')}">
 				<icon:char icon="close"/>
 			</button>

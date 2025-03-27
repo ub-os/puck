@@ -4,13 +4,13 @@
 	<fc:renderer>
 
 		<details class="{name}"
-				 data-trait="accordion"
+				 data-controller="accordion"
 				 data-accordion.duration="150"
 				 data-accordion.group-id="c{record.tx_container_parent.uid}"
 				 aria-labelledby="c{record.uid}-button"
 				 id="c{record.uid}">
 			<summary class="{name}__button"
-					 data-handler="accordion.toggle"
+					 data-action="accordion.toggle"
 					 aria-controls="c{record.uid}"
 					 id="c{record.uid}-button">
 				<span class="{name}__title">{record.header -> f:format.raw()}</span>

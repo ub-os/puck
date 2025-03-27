@@ -1,7 +1,7 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import { $, $$, $id, jsx } from '~/Utility/DomUtility'
 
-export default class ScrollbarWidth extends ElementTrait {
+export default class ScrollbarWidth extends Controller {
 	static props = {
 		sensorId: 'scrollbar-width-sensor',
 		updateOnResize: true,
@@ -22,7 +22,7 @@ export default class ScrollbarWidth extends ElementTrait {
 	connected() {
 		this.sensorEl =
 			$id(this.sensorId) ||
-			this.el.appendChild(
+			this.element.appendChild(
 				<div
 					id={this.sensorId}
 					data-render-excluded
@@ -36,7 +36,6 @@ export default class ScrollbarWidth extends ElementTrait {
 			this.resizeObserver = new ResizeObserver(this.updateScrollbarWidth)
 			this.resizeObserver.observe(this.sensorEl.firstElementChild)
 		}
-		return this
 	}
 	disconnected() {
 		this.sensorEl?.remove()

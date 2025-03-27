@@ -1,8 +1,8 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 
-export default class Root extends ElementTrait {
+export default class Root extends Controller {
 	static props = {}
-	static traits = {
+	static injects = {
 		'anchor-scrolling': {
 			scrollTopOnCurrentLink: false
 		},

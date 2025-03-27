@@ -1,12 +1,12 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $id, $target } from '~/Utility/DomUtility'
 
 /**
- * @property {Map} controlRefs
+ * @property {Map} controlTargets
  */
-export default class Showable extends ElementTrait {
-	static refs = ['control']
+export default class Showable extends Controller {
+	static targets = ['control']
 	static props = {
 		active: false,
 		groupId: '',
@@ -55,13 +55,13 @@ export default class Showable extends ElementTrait {
 	durationTimer = null
 
 	setClass(operation, className) {
-		this.el.classList[operation](className)
+		this.element.classList[operation](className)
 		if (this.documentClassing) {
 			document.documentElement.classList[operation](
-				`--${this.el.id}-${this.token}${className}`,
+				`--${this.element.id}-${this.token}${className}`,
 			)
 		}
-		this.controlRefs.forEach(t => t.classList[operation](className))
+		this.controlTargets.forEach(t => t.classList[operation](className))
 	}
 	transitionClass(className) {
 		if (this.duration > 0) {
@@ -74,12 +74,12 @@ export default class Showable extends ElementTrait {
 	}
 	show({ transition = true, trigger = '' } = {}) {
 		if (this.groupEl) {
-			this.groupEl.dispatchEvent(new CustomEvent(`${this.token}:toggle-group`, {detail: { showTarget: this.el }}))
+			this.groupEl.dispatchEvent(new CustomEvent(`${this.token}:toggle-group`, {detail: { showTarget: this.element }}))
 		}
-		this.el.dispatchEvent(new CustomEvent(`${this.token}:show`, { detail: { transition, trigger } }))
+		this.element.dispatchEvent(new CustomEvent(`${this.token}:show`, { detail: { transition, trigger } }))
 	}
 	hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
-		this.el.dispatchEvent(new CustomEvent(`${this.token}:hide`, { detail: { transition, trigger } }))
+		this.element.dispatchEvent(new CustomEvent(`${this.token}:hide`, { detail: { transition, trigger } }))
 
 	}
 	toggle(
@@ -103,10 +103,10 @@ export default class Showable extends ElementTrait {
 		this.setClass('add', this.activeClass)
 		if (event.detail.transition) this.transitionClass(this.activatingClass)
 		if (this.focusOnShow) {
-			if (this.el.$('[data-autofocus]')) {
-				this.el.$('[data-autofocus]').focus()
+			if (this.element.$('[data-autofocus]')) {
+				this.element.$('[data-autofocus]').focus()
 			} else {
-				this.el.focus()
+				this.element.focus()
 			}
 		}
 		return true
@@ -116,12 +116,12 @@ export default class Showable extends ElementTrait {
 		this.setClass('remove', this.activeClass)
 		if (event.detail.transition) this.transitionClass(this.deactivatingClass)
 		if (this.pauseMediaOnHide) {
-			this.el.$$('video, audio').forEach(item => {
+			this.element.$$('video, audio').forEach(item => {
 				if (item.pause) item.pause()
 			})
 		}
 		if (this.reloadIframeOnHide) {
-			this.el.$$('iframe').forEach(item => {
+			this.element.$$('iframe').forEach(item => {
 				if (item.src) {
 					const src = item.src
 					item.src = src
@@ -131,43 +131,43 @@ export default class Showable extends ElementTrait {
 		if (
 			event.detail.changeUrlHash &&
 			this.urlHashRemove &&
-			window.location.hash.split('?')[0] === `#${this.el.id}`
+			window.location.hash.split('?')[0] === `#${this.element.id}`
 		) {
 			history.replaceState(
 				history.state,
 				document.title,
-				location.href.replace(`#${this.el.id}`, ''),
+				location.href.replace(`#${this.element.id}`, ''),
 			) // remove hash from url
 		}
 		return true
 	}
 
-	controlRefConnected(el) {
-		el.ariaControls = this.el.id
+	controlTargetConnected(el) {
+		el.ariaControls = this.element.id
 		if (this.active) {
 			el.classList.add(this.activeClass)
 		}
 		this.listeners.add(el, 'click', e => this.toggle({ trigger: 'control' }, e))
 	}
 
-	controlRefDisconnected(el) {
+	controlTargetDisconnected(el) {
 		this.listeners.clearTarget(el)
 	}
 
 	connected() {
 		this.groupEl = this.groupId ? $id(this.groupId) : null
-		this.outEl = this.outTarget ? $target(this.outTarget, 'Showable') : this.el
+		this.outEl = this.outTarget ? $target(this.outTarget, 'Showable') : this.element
 		this.active
 			? this.onShow({ detail: { transition: false } })
 			: this.onHide({ detail: { transition: false, changeUrlHash: false } })
 
-		this.listeners.add(this.el, `${this.token}:show`, event =>
+		this.listeners.add(this.element, `${this.token}:show`, event =>
 			window.requestAnimationFrame(() => {
 				if (this.active || event.defaultPrevented) return
 				this.onShow(event)
 			}),
 		)
-		this.listeners.add(this.el, `${this.token}:hide`, event =>
+		this.listeners.add(this.element, `${this.token}:hide`, event =>
 			window.requestAnimationFrame(() => {
 				if (!this.active || event.defaultPrevented) return
 				this.onHide(event)
@@ -181,7 +181,7 @@ export default class Showable extends ElementTrait {
 					this.exclusiveGroup &&
 					this.active &&
 					!this.alwaysActive &&
-					event.detail.showTarget !== this.el
+					event.detail.showTarget !== this.element
 				) {
 					this.hide({ trigger: 'exclusiveGroup' })
 				}
@@ -194,8 +194,8 @@ export default class Showable extends ElementTrait {
 			})
 		}
 		if (this.selfClickHide) {
-			this.listeners.add(this.el, 'click', event => {
-				if (this.active && event.target === this.el)
+			this.listeners.add(this.element, 'click', event => {
+				if (this.active && event.target === this.element)
 					this.hide({ trigger: 'selfClick' })
 			})
 		}
@@ -210,7 +210,7 @@ export default class Showable extends ElementTrait {
 			})
 		}
 		if (this.escHide) {
-			this.listeners.add(this.el, 'keydown', event => {
+			this.listeners.add(this.element, 'keydown', event => {
 				if (event.key === 'Escape') this.hide({ trigger: 'esc' })
 			})
 		}
@@ -226,7 +226,7 @@ export default class Showable extends ElementTrait {
 		}
 		if (this.clickHideSelector) {
 			this.listeners.addDelegate(
-				this.el,
+				this.element,
 				this.clickHideSelector,
 				'click',
 				event => {
@@ -236,14 +236,13 @@ export default class Showable extends ElementTrait {
 			)
 		}
 		if (this.urlHashShow) {
-			if (window.location.hash.split('?')[0] === `#${this.el.id}`)
+			if (window.location.hash.split('?')[0] === `#${this.element.id}`)
 				this.show({ trigger: 'urlHash' })
-			this.listeners.add(this.el, 'hash-link-click', event => {
+			this.listeners.add(this.element, 'hash-link-click', event => {
 				this.lastUsedToggle = event.detail.linkElement
 				this.show({ trigger: 'urlHash' })
 			})
 		}
-		return this
 	}
 	disconnected() {
 		this.hide({ transition: false, changeUrlHash: false })

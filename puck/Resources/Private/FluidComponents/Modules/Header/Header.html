@@ -4,7 +4,7 @@
 	<fc:param name="context" type="array"/>
 	<fc:renderer>
 
-		<header data-trait="page-header" class="{name}" id="header">
+		<header data-controller="page-header" class="{name}" id="header">
 			<div class="{name}__background"></div>
 			<div class="{name}__container">
 
@@ -28,7 +28,7 @@
 							<f:if condition="{record.uid} != {settings.search.pid}">
 								<li class="{name}__nav__item">
 									<button class="{name}__nav__link"
-											data-handler="modal.toggle#header-search-modal">
+											data-action="modal.toggle#header-search-modal">
 										{f:translate(extensionName:'puck',key:'search')}
 									</button>
 								</li>

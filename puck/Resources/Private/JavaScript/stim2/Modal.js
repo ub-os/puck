@@ -23,39 +23,38 @@ export default class Modal extends Showable {
 		return super.el
 	}
 	onShow(event) {
-		this.el.showModal()
+		this.element.showModal()
 		super.onShow(event)
-		this.el.ariaModal = 'true'
+		this.element.ariaModal = 'true'
 	}
 	onHide(event) {
 		super.onHide(event)
-		this.el.removeAttribute('aria-modal')
+		this.element.removeAttribute('aria-modal')
 		if (event.detail.transition) {
-			setTimeout(() => this.el.close(), this.duration)
+			setTimeout(() => this.element.close(), this.duration)
 		} else {
-			this.el.close()
+			this.element.close()
 		}
 	}
 
 	initialized() {
-		if (this.appendTo) $(this.appendTo)?.appendChild(this.el)
+		if (this.appendTo) $(this.appendTo)?.appendChild(this.element)
 	}
 
 	connected() {
-		//console.log(this.el.parentElement)
-		console.log(`connected modal ${this.el.id}`)
-		//console.log(this.el.parentElement)
-		if (this.el.tagName !== 'DIALOG')
+		//console.log(this.element.parentElement)
+		console.log(`connected modal ${this.element.id}`)
+		//console.log(this.element.parentElement)
+		if (this.element.tagName !== 'DIALOG')
 			throw new Error('Modal Aspect should only be used on dialog elements')
 		super.connected()
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close
-		this.listeners.add(this.el, 'cancel', event => event.preventDefault())
-		return this
+		this.listeners.add(this.element, 'cancel', event => event.preventDefault())
 	}
 
 	disconnected() {
-		console.log(`disconnected modal ${this.el.id}`)
+		console.log(`disconnected modal ${this.element.id}`)
 		super.disconnected()
 		this.listeners.clear()
 	}

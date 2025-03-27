@@ -72,7 +72,6 @@ class EventListener {
 	}
 	remove() {
 		this.target.removeEventListener(this.type, this.listener, this.options)
-		return this
 	}
 }
 

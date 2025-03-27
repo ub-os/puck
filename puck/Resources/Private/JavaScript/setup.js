@@ -32,7 +32,7 @@ window.stim = stim
 // 	customElementPrefix: 'pk-',
 // })
 
-stim.registerTrait({
+stim.registerController({
 	Root,
 	AnchorScrolling,
 	ScrollbarWidth,

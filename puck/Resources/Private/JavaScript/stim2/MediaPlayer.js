@@ -1,5 +1,5 @@
 const Plyr = class {}
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 //import Plyr from 'plyr'
 import { $, $$, jsx } from '~/Utility/DomUtility'
 
@@ -16,7 +16,7 @@ const plyrDefaultControls = [
 	'airplay',
 	'fullscreen',
 ]
-export default class MediaPlayer extends ElementTrait {
+export default class MediaPlayer extends Controller {
 	static props = {
 		provider: 'mp4',
 		width: 1920,
@@ -46,7 +46,7 @@ export default class MediaPlayer extends ElementTrait {
 			default:
 				this.playerEl = this.getHtml5PlayerEl()
 		}
-		this.el.append(this.playerEl)
+		this.element.append(this.playerEl)
 		this.loaded = true
 		if (this.usePlyr) {
 			let plyrOptions = this.plyrOptions
@@ -73,7 +73,7 @@ export default class MediaPlayer extends ElementTrait {
 					style={
 						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
 					}
-					id={`${this.el.id}-video`}
+					id={`${this.element.id}-video`}
 					tabindex={'0'}
 					data-poster={this.poster}
 					{...attributes}
@@ -98,7 +98,7 @@ export default class MediaPlayer extends ElementTrait {
 					style={
 						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
 					}
-					id={`${this.el.id}-iframe`}
+					id={`${this.element.id}-iframe`}
 					src={`https://www.youtube-nocookie.com/embed/${this.embedId}?autohide=1&controls=${this.controls}&enablejsapi=1`}
 					width={this.width}
 					allowFullScreen={true}
@@ -117,7 +117,7 @@ export default class MediaPlayer extends ElementTrait {
 					style={
 						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
 					}
-					id={`${this.el.id}-iframe`}
+					id={`${this.element.id}-iframe`}
 					src={`https://player.vimeo.com/video/${this.embedId}?h=70f64fa69b&title=0&byline=0&portrait=0`}
 					width={this.width}
 					allowfullscreen={true}

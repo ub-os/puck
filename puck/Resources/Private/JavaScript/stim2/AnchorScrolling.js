@@ -1,8 +1,8 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
 import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 
-export default class AnchorScrolling extends ElementTrait {
+export default class AnchorScrolling extends Controller {
 	static props = {
 		scrollTopOnCurrentLink: true,
 	}
@@ -31,7 +31,7 @@ export default class AnchorScrolling extends ElementTrait {
 	}
 
 	connected() {
-		this.listeners.addDelegate(this.el, 'a', 'click', e => {
+		this.listeners.addDelegate(this.element, 'a', 'click', e => {
 			if (!this.isCurrentLink(e.delegateTarget)) return
 			if (!this.isHashLink(e.delegateTarget)) {
 				if (!this.scrollTopOnCurrentLink) return
@@ -61,7 +61,6 @@ export default class AnchorScrolling extends ElementTrait {
 			if (!anchorTarget) return
 			this.scrollToTarget(anchorTarget)
 		})
-		return this
 	}
 
 	disconnected() {

@@ -1,6 +1,6 @@
-import { ElementTrait } from '~/stim2'
+import { Controller } from '~/stim2'
 
-export default class ScrollReveal extends ElementTrait {
+export default class ScrollReveal extends Controller {
 	static props = {
 		preset: 'slide-up',
 		presetTranslate: 10,
@@ -35,9 +35,9 @@ export default class ScrollReveal extends ElementTrait {
 		this.animate()
 	}
 	animate() {
-		const animation = this.el.animate(this.animation, this.timing)
+		const animation = this.element.animate(this.animation, this.timing)
 		animation.addEventListener('finish', () => {
-			this.el.style.opacity = 1
+			this.element.style.opacity = 1
 		})
 	}
 	connected() {
@@ -58,11 +58,11 @@ export default class ScrollReveal extends ElementTrait {
 			this.animation = this.getAnimationPresets(this.preset)
 		}
 		window.requestAnimationFrame(() => {
-			if (this.el.getBoundingClientRect().top > window.innerHeight) {
-				this.el.style.opacity = 0
+			if (this.element.getBoundingClientRect().top > window.innerHeight) {
+				this.element.style.opacity = 0
 				this.revealed = false
 			}
-			if (this.revealed) return this
+			if (this.revealed) return
 			this.intersectionObserver = new IntersectionObserver(
 				(entries, observer) => {
 					entries.forEach(entry => {
@@ -81,7 +81,6 @@ export default class ScrollReveal extends ElementTrait {
 			this.on('scrollReveal', () => {
 				this.reveal()
 			})
-			return this
 		})
 	}
 

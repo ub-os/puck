@@ -6,8 +6,8 @@ export default class Accordion extends Showable {
 		useMinHeight: false,
 		pauseMediaOnHide: true,
 	}
-	controlRefConnected(el) {
-		super.controlRefConnected(el)
+	controlTargetConnected(el) {
+		super.controlTargetConnected(el)
 		if (this.active) {
 			el.ariaExpanded = 'true'
 		} else {
@@ -17,38 +17,37 @@ export default class Accordion extends Showable {
 	onShow(event) {
 		super.onShow(event)
 		this.setShowHeight()
-		this.controlRefs.forEach(t => (t.ariaExpanded = 'true'))
+		this.controlTargets.forEach(t => (t.ariaExpanded = 'true'))
 	}
 	onHide(event) {
 		super.onHide(event)
 		this.setHideHeight()
 		// hacky way to enable exit transition, otherwise content instantly disappears
 		if (event.detail.transition) {
-			this.el.setAttribute('open', '')
+			this.element.setAttribute('open', '')
 			setTimeout(() => {
-				this.el.removeAttribute('open')
+				this.element.removeAttribute('open')
 			}, this.duration)
 		} else {
-			this.el.removeAttribute('open')
+			this.element.removeAttribute('open')
 		}
-		this.controlRefs.forEach(t => (t.ariaExpanded = 'false'))
+		this.controlTargets.forEach(t => (t.ariaExpanded = 'false'))
 	}
 	setShowHeight() {
-		this.el.style[this.useMinHeight ? 'minHeight' : 'height'] =
-			`${(this.el.scrollHeight).toString()}px`
+		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =
+			`${(this.element.scrollHeight).toString()}px`
 	}
 	setHideHeight() {
-		this.el.style[this.useMinHeight ? 'minHeight' : 'height'] =
-			`${this.el.$('summary')?.offsetHeight ?? '0'}px`
+		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =
+			`${this.element.$('summary')?.offsetHeight ?? '0'}px`
 	}
 	connected() {
 		super.connected()
-		console.log(`connected accordion ${this.el.id}`)
+		console.log(`connected accordion ${this.element.id}`)
 		this.active ? this.setShowHeight() : this.setHideHeight()
-		return this
 	}
 	disconnected() {
 		super.disconnected()
-		console.log(`disconnected accordion ${this.el.id}`)
+		console.log(`disconnected accordion ${this.element.id}`)
 	}
 }
