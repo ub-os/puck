@@ -36,6 +36,9 @@
 		@media (min-width($bp-mobile-nav))
 			display: none
 			visibility: hidden
+		&:not(.--active, .--deactivating)
+			display: none
+			visibility: hidden
 
 		&.--active
 			transform: translateX(0)

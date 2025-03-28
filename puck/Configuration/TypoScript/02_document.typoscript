@@ -5,24 +5,32 @@ page.1 = TEXT
 ## css & js
 page.includeCSS {
     puck = EXT:puck/Resources/Public/Css/dist/puck.min.css
+    puck.data-hx-preserve = true
 }
-
 page.includeJS {
     puck = EXT:puck/Resources/Public/JavaScript/dist/puck.min.js
-    puck.defer = 1
-    puck.async = 0
+    puck.data {
+        defer = defer
+        data-hx-preserve = true
+    }
 }
-
 page.includeJSFooter {
     puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js
-    puck-body.defer = 1
-    puck-body.async = 1
+    puck-body.data {
+        defer = defer
+        async = async
+    }
 }
-
 [applicationContext == "Development"]
     page.includeCSS.puck = EXT:puck/Resources/Public/Css/dist/puck.css
     page.includeJS.puck = EXT:puck/Resources/Public/JavaScript/dist/puck.js
     page.includeJSFooter.puck-body = EXT:puck/Resources/Public/JavaScript/dist/puck-body.js
+[END]
+
+// the hash appended to asset file names can lead to them being included multiple times when htmx merges the head, because the file names are not identical => we remove the assets from the head on htmx requests
+[traverse(request.getHeaders(), 'hx-request') == true]
+    page.includeCSS.puck =
+    page.includeJS.puck =
 [END]
 
 ## Meta
@@ -59,6 +67,7 @@ page.shortcutIcon = EXT:puck/Resources/Public/Icons/Favicons/favicon.ico
 
 page.headerData.110 = TEXT
 page.headerData.110.value (
+
 )
 
 page.headerData.120 = TEXT

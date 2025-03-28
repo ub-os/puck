@@ -107,7 +107,9 @@ export default class Showable extends Controller {
 	onHide(event) {
 		this.active = false
 		this.setClass('remove', this.activeClass)
-		if (event.detail.transition) this.transitionClass(this.deactivatingClass)
+		if (event.detail.transition) {
+			this.transitionClass(this.deactivatingClass)
+		}
 		if (this.pauseMediaOnHide) {
 			this.element.$$('video, audio').forEach(item => {
 				if (item.pause) item.pause()
@@ -168,7 +170,7 @@ export default class Showable extends Controller {
 		)
 
 		if (this.groupEl) {
-			this.listeners.add(this.groupEl, `${this.token}:toggle-group`, event => {
+			this.listeners.add(this.groupEl, `${this.identifier}:toggle-group`, event => {
 				if (event.defaultPrevented) return
 				if (
 					this.exclusiveGroup &&
@@ -238,7 +240,8 @@ export default class Showable extends Controller {
 		}
 	}
 	disconnected() {
-		this.hide({ transition: false, changeUrlHash: false })
+		this.setClass('remove', this.deactivatingClass)
+		this.onHide({ detail: { transition: false, changeUrlHash: false } })
 		this.listeners.clear()
 	}
 }

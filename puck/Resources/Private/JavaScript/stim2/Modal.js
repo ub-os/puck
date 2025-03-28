@@ -16,12 +16,6 @@ export default class Modal extends Showable {
 		reloadIframeOnHide: true,
 	}
 
-	/**
-	 * @return {HTMLDialogElement}
-	 */
-	get el() {
-		return super.el
-	}
 	onShow(event) {
 		this.element.showModal()
 		super.onShow(event)
@@ -43,7 +37,6 @@ export default class Modal extends Showable {
 
 	connected() {
 		//console.log(this.element.parentElement)
-		console.log(`connected modal ${this.element.id}`)
 		//console.log(this.element.parentElement)
 		if (this.element.tagName !== 'DIALOG')
 			throw new Error('Modal Aspect should only be used on dialog elements')
@@ -54,7 +47,6 @@ export default class Modal extends Showable {
 	}
 
 	disconnected() {
-		console.log(`disconnected modal ${this.element.id}`)
 		super.disconnected()
 		this.listeners.clear()
 	}

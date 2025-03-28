@@ -19,7 +19,8 @@ export default class AnchorHandler extends Controller {
 	}
 
 	getTargetFromHash(hash) {
-		return $id(hash?.substring(1).split('?')[0])
+		const id = hash?.substring(1).split('?')[0]
+		return id ? $id(id) : null
 	}
 
 	scrollToTarget(target, { behavior = 'smooth', block = 'start' } = {}) {

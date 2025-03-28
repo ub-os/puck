@@ -21,15 +21,10 @@ Object.assign(htmx.config, {
 	globalViewTransitions: true,
 	allowScriptTags: true,
 	allowEval: false,
-	refreshOnHistoryMiss: true,
+	//refreshOnHistoryMiss: true,
 })
 
 window.stim = stim
-// Object.assign(stim.config, {
-// 	observeAttributes: false,
-// 	observeAspectAttributes: false,
-// 	customElementPrefix: 'pk-',
-// })
 
 stim.registerController({
 	AnchorHandler,
@@ -44,7 +39,6 @@ stim.registerController({
 	ScrollSensitive,
 })
 
-//stim.registerCustomElement(['carousel', 'media-player', 'root'])
 stim.registerSelectorCallback({
 	'.l-row': el => {
 		if (el.children.length < 3) return

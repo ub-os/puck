@@ -132,15 +132,11 @@ class Stim {
 				const el = mutation.target
 				const newVal = el.getAttribute(mutation.attributeName)
 				if (mutation.attributeName === this.#controllerAttr) {
-					//const targetElsInScope =
-					for (const targetEl of el.querySelectorAll(`[${this.#targetAttr}]`)) {
+					el.querySelectorAll(`[${this.#targetAttr}]`).forEach(targetEl => {
 						this.#setTargets(targetEl, null)
 						queueMicrotask(() => this.#setTargets(targetEl, targetEl.getAttribute(this.#targetAttr)))
-					}
+					})
 					this.#setControllers(el, newVal)
-					// for (const targetEl of targetElsInScope) {
-					// 	this.#setTargets(targetEl, targetEl.getAttribute(this.#targetAttr))
-					// }
 				} else if (mutation.attributeName === this.#targetAttr) {
 					this.#setTargets(el, newVal)
 				} else if (mutation.attributeName === this.#actionAttr) {
@@ -180,44 +176,41 @@ class Stim {
 		if (el.nodeType !== Node.ELEMENT_NODE) return
 		const selectors = Object.keys(this.#selectorRegister)
 		const combinedSelector = selectors.join(',')
-		const elements = [el, ...el.querySelectorAll(combinedSelector)]
-		for (const element of elements) {
-			for (const selector of selectors) {
+		;[el, ...el.querySelectorAll(combinedSelector)].forEach(element => {
+			selectors.forEach(selector => {
 				if (element.matches(selector)) {
 					this.#selectorRegister[selector](element)
 				}
-			}
-		}
+			})
+		})
 		this.#updateSubtreeConnections(el)
 	}
 	disconnectElement(el) {
+		if (el.nodeType !== Node.ELEMENT_NODE) return
 		this.#updateSubtreeConnections(el, true)
 	}
 	#updateSubtreeConnections(rootEl, removeAll = false) {
-		if (rootEl.nodeType !== Node.ELEMENT_NODE) return
-		const els = [rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)]
+		// const els = [rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)]
 		const actionEls = [], targetEls = [], controllerEls = []
-		for (const el of els) {
+		;[rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)].forEach(el => {
 			el.hasAttribute(this.#controllerAttr) && controllerEls.push(el)
 			el.hasAttribute(this.#targetAttr) && targetEls.push(el)
 			el.hasAttribute(this.#actionAttr) && actionEls.push(el)
-		}
-		for (const el of controllerEls) this.#setControllers(el, removeAll ? null : el.getAttribute(this.#controllerAttr))
-		for (const el of targetEls) this.#setTargets(el, removeAll ? null : el.getAttribute(this.#targetAttr))
-		for (const el of actionEls) this.#setActions(el, removeAll ? null : el.getAttribute(this.#actionAttr))
+		})
+		controllerEls.forEach(el => this.#setControllers(el, removeAll ? null : el.getAttribute(this.#controllerAttr)))
+		targetEls.forEach(el => this.#setTargets(el, removeAll ? null : el.getAttribute(this.#targetAttr)))
+		actionEls.forEach(el => this.#setActions(el, removeAll ? null : el.getAttribute(this.#actionAttr)))
 	}
 	#setControllers(el, tokens) {
 		const controllers = this.#controllers.get(el) ?? {}
 		const addTokens = new Set(tokens?.split(' ').flatMap(token => this.#injectTokens[token] ?? []))
 		const removeTokens = new Set(Object.keys(controllers))
-		for (const propToken of addTokens) {
+		addTokens.forEach(propToken => {
 			const token = propToken.split('/')[0]
 			removeTokens.delete(token)
 			this.#addController(el, propToken)
-		}
-		for (const token of removeTokens) {
-			this.#removeController(controllers[token])
-		}
+		})
+		removeTokens.forEach(token => this.#removeController(controllers[token]))
 	}
 	#addController(el, propToken) {
 		if (!this.#controllers.get(el)) this.#controllers.set(el, {})
@@ -238,11 +231,11 @@ class Stim {
 		this.#connectInstance(controller, () => {
 			controller.connected()
 			if (el.id && this.#orphans.has(el.id)) {
-				for (const target of this.#orphans.get(el.id)) {
+				this.#orphans.get(el.id).forEach(target => {
 					if (target.token == token) {
 						this.#addTarget(target)
 					}
-				}
+				})
 			}
 			// for (const target of this.#orphans.get('')) {
 			// 	if (target.token == token && el.contains(target.el)) {
@@ -256,9 +249,10 @@ class Stim {
 		this.#disconnectInstance(controller, () => {
 			controller.disconnected()
 			for (const type in controller.$targets) {
-				for (const target of controller.$targets[type]) {
-					this.#removeTarget(target, true)
-				}
+				controller.$targets[type].forEach(target => this.#removeTarget(target, true))
+				// for (const target of controller.$targets[type]) {
+				// 	this.#removeTarget(target, true)
+				// }
 			}
 		})
 	}
@@ -270,9 +264,9 @@ class Stim {
 				this.#removeTarget(targets[descriptor])
 			}
 		}
-		for (const descriptor of descriptorSet) {
+		descriptorSet.forEach(descriptor => {
 			this.#addTarget(this.#targets.get(el)?.[descriptor] || new ControllerTarget(el, descriptor))
-		}
+		})
 	}
 	#addTarget(target) {
 		this.#connectInstance(target, () => {
@@ -311,9 +305,9 @@ class Stim {
 				this.#removeAction(actions[descriptor])
 			}
 		}
-		for (const descriptor of descriptorSet) {
+		descriptorSet.forEach(descriptor => {
 			this.#addAction(this.#actions.get(el)?.[descriptor] || new ControllerAction(el, descriptor))
-		}
+		})
 	}
 	#addAction(action) {
 		this.#connectInstance(action, () => {
@@ -380,8 +374,8 @@ class Stim {
 	}
 	registerController(token, controllerClass) {
 		if (typeof token === 'object') {
-			for (const [key, value] of Object.entries(token)) {
-				this.registerController(kebabCase(key), value)
+			for (const key in token) {
+				this.registerController(kebabCase(key), token[key])
 			}
 			return
 		}
@@ -427,8 +421,8 @@ class Stim {
 	}
 	registerSelectorCallback(selector, callback) {
 		if (typeof selector === 'object') {
-			for (const [key, value] of Object.entries(selector)) {
-				this.registerSelectorCallback(key, value)
+			for (const key in selector) {
+				this.registerSelectorCallback(key, selector[key])
 			}
 			return
 		}
@@ -454,7 +448,7 @@ class ControllerAction {
 			descriptor = `${defaultEvents[el.tagName] ?? 'click'}->${descriptor}`
 		}
 		let eventDescriptor, optionDescriptor
-		;[this.el, eventDescriptor, this.identifier, this.method] = [el, ...descriptor.split(/->|\.|#/, 3)]
+		;[this.el, eventDescriptor, this.token, this.method] = [el, ...descriptor.split(/->|\.|#/, 3)]
 		this.hostId = descriptor.includes('#') ? descriptor.slice(descriptor.lastIndexOf('#') + 1) : ''
 		;[this.event, optionDescriptor] = eventDescriptor.split('[')
 		if (optionDescriptor) {
@@ -472,7 +466,7 @@ class ControllerAction {
 
 class ControllerTarget {
 	constructor(el, descriptor) {
-		[this.el, this.descriptor, this.identifier, this.type] = [el, descriptor, ...descriptor.split(/[.#]/, 2)]
+		[this.el, this.descriptor, this.token, this.type] = [el, descriptor, ...descriptor.split(/[.#]/, 2)]
 		this.hostId = descriptor.includes('#') ? descriptor.slice(descriptor.lastIndexOf('#') + 1) : ''
 	}
 }

@@ -60,7 +60,7 @@ export default class Carousel extends Controller {
 			})
 		})
 		this.splide.on('pagination:mounted', data => {
-			data.list.setAttribute('data-render-excluded', '')
+			data.list.setAttribute('data-history-excluded', '')
 			if (autoplay) {
 				data.items.forEach(page => {
 					page.button.classList.add('-autoplay')

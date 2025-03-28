@@ -43,11 +43,9 @@ export default class Accordion extends Showable {
 	}
 	connected() {
 		super.connected()
-		console.log(`connected accordion ${this.element.id}`)
 		this.active ? this.setShowHeight() : this.setHideHeight()
 	}
 	disconnected() {
 		super.disconnected()
-		console.log(`disconnected accordion ${this.element.id}`)
 	}
 }

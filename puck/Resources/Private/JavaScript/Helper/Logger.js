@@ -20,5 +20,6 @@ class Logger {
 }
 const logger = new Logger()
 export default logger
-if (document.getElementById('root').getAttribute('data-logger') === 'enabled')
+if (document.getElementById('root').getAttribute('data-logger') === 'enabled') {
 	logger.enable()
+}

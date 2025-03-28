@@ -37,9 +37,6 @@ htmx.logger = (el, eventType, event) => {
 window.requestAnimationFrame(() => {
 	$id('body').classList.remove('u-no-transition')
 })
-on('htmx:historyRestore', event => {
-	$$('[data-render-excluded]').forEach(el => el.remove())
-})
 
 let focusAfterSwapSelector
 const setFocusAfterSwapSelector = () => {
@@ -74,6 +71,12 @@ on('htmx:load', event => {
 	}
 	focusAfterSwapSelector = null
 })
+
+on('htmx:beforeHistorySave', event => {
+	stim.disconnectElement(event.target)
+	event.target.$$('[data-history-excluded]').forEach(el => el.remove())
+})
+
 const isBodySwapEvent = event => {
 	return (
 		event.target?.tagName === 'BODY' ||
