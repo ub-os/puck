@@ -501,6 +501,12 @@ class Controller {
 	connected() {}
 	disconnected() {}
 	attributeChanged(name, oldValue, newValue) {}
+	dispatch(type, options = {}) {
+		const prefix = options.prefix ?? this.identifier
+		const event = new CustomEvent(prefix ? `${prefix}:${type}` : type, options)
+		;(options.target ?? this.$el).dispatchEvent(event)
+		return event
+	}
 }
 
-//export { stim, Controller }
+export { stim, Controller }

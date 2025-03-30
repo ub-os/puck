@@ -1,5 +1,5 @@
 import { Controller } from '~/stim2'
-import { EventListenerRegistry } from '~/Helper/EventListener.js'
+import { EventListenerRegistry } from '~/Helper/EventListener'
 
 export default class Showable extends Controller {
 	static targets = ['control']
@@ -49,7 +49,7 @@ export default class Showable extends Controller {
 	listeners = new EventListenerRegistry()
 	lastUsedToggle = null
 	durationTimer = null
-	controlTargets
+	/*** @property {Set<HTMLElement>} controlTargets */
 	setClass(operation, className) {
 		this.element.classList[operation](className)
 		if (this.documentClassing) {
@@ -76,6 +76,8 @@ export default class Showable extends Controller {
 	}
 	hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
 		this.element.dispatchEvent(new CustomEvent(`${this.identifier}:hide`, { detail: { transition, changeUrlHash, trigger } }))
+
+		this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
 
 	}
 	toggle({ transition = true, changeUrlHash = true, trigger = '' }, event = {}) {

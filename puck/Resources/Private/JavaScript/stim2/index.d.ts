@@ -11,6 +11,14 @@ declare class ControllerAction {
 declare class PropSyncer {
 	constructor(props: ControllerProps, token: string)
 }
+type DispatchOptions = {
+	target?: HTMLElement,
+	prefix?: string,
+	detail?: object,
+	bubbles?: boolean,
+	cancelable?: boolean,
+	composed?: boolean,
+}
 type Config = {
     observeChildList: boolean,
     observeAttributes: boolean,
@@ -52,6 +60,7 @@ declare class Controller {
     connected(): void
     disconnected(): void
     attributeChanged(name: string, oldValue: string, newValue: string): void
+	dispatch(type: string, options?: DispatchOptions): CustomEvent
 }
 
 export { stim, Controller }

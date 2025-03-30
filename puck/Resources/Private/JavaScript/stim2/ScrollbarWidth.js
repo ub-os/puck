@@ -1,4 +1,5 @@
 import { Controller } from '~/stim2'
+import { jsx } from '~/Utility/DomUtility'
 
 export default class ScrollbarWidth extends Controller {
 	static props = {

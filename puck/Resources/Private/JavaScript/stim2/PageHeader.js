@@ -1,5 +1,5 @@
 import { Controller } from '~/stim2'
-import { EventListenerRegistry } from '~/Helper/EventListener.js'
+import { EventListenerRegistry } from '~/Helper/EventListener'
 
 export default class PageHeader extends Controller {
 	static props = {

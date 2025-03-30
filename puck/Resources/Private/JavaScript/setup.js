@@ -1,7 +1,7 @@
 import { stim } from '~/stim2'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
 import Accordion from '~/stim2/Accordion'
-import AnchorHandler from '~/stim2/AnchorHandler.js'
+import AnchorHandler from '~/stim2/AnchorHandler'
 import Carousel from '~/stim2/Carousel'
 import Dialog from '~/stim2/Dialog'
 import MediaPlayer from '~/stim2/MediaPlayer'

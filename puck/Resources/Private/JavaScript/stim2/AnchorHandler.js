@@ -1,5 +1,5 @@
 import { Controller } from '~/stim2'
-import { EventListenerSet } from '~/Helper/EventListener.js'
+import { EventListenerSet } from '~/Helper/EventListener'
 
 export default class AnchorHandler extends Controller {
 	static props = {
