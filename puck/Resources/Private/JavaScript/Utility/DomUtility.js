@@ -1,37 +1,3 @@
-const $ = (arg1, arg2 = '') => {
-	if (arg2) return arg1.querySelector(arg2)
-	return document.querySelector(arg1)
-}
-const $$ = (arg1, arg2 = '') => {
-	if (arg2) return arg1.querySelectorAll(arg2)
-	return document.querySelectorAll(arg1)
-}
-const $id = id => document.getElementById(id)
-const $target = (target, objectName) => {
-	if (target instanceof Element) return target
-	if (typeof target !== 'string') {
-		console.trace(
-			`${objectName && `${objectName}: `}No valid element or selector provided as target.`,
-		)
-		return false
-	}
-	let el = document.getElementById(target)
-	if (el) return el
-	el = document.querySelector(target)
-	if (el) return el
-
-	console.trace(
-		`${objectName && `${objectName}: `}No valid element or selector provided as target.`,
-	)
-	return null
-}
-
-Element.prototype.$ = function (selector) {
-	return this.querySelector(selector)
-}
-Element.prototype.$$ = function (selector) {
-	return this.querySelectorAll(selector)
-}
 
 // jsx pragma method
 const jsx = (tag, props, ...children) => {
@@ -51,16 +17,6 @@ const jsx = (tag, props, ...children) => {
 		)
 	})
 	return element
-}
-
-const delegateListener = (selector, type, callback) => {
-	document.addEventListener(type, event => {
-		const target = event.target.closest(selector)
-		if (target) {
-			event.delegateTarget = target
-			callback(event)
-		}
-	})
 }
 
 const noDragClick = (element, callbackFunc, delta = 6) => {
@@ -87,12 +43,10 @@ const noDragClick = (element, callbackFunc, delta = 6) => {
 	}
 }
 
-const scrollToEvent = new Event('scrollTo')
 const scrollTo = (target, offset = 0) => {
-	const element = $target(target)
-	if (element && getComputedStyle(element).position !== 'fixed') {
+	if (target && getComputedStyle(target).position !== 'fixed') {
 		const height =
-			element.getBoundingClientRect().top +
+			target.getBoundingClientRect().top +
 			document.documentElement.scrollTop -
 			offset
 		window.scrollTo({
@@ -102,20 +56,6 @@ const scrollTo = (target, offset = 0) => {
 		})
 	}
 }
-
-function $parents(target, parentSelector = document) {
-	const element = target($target)
-	const parents = []
-	let p = element.parentNode
-	while (p !== parentSelector) {
-		const o = p
-		parents.push(o)
-		p = o.parentNode
-	}
-	parents.push(parentSelector) // Push that parentSelector you wanted to stop at
-	return parents
-}
-
 const tryViewTransition = callback => {
 	if (document.startViewTransition) {
 		document.startViewTransition(callback)
@@ -124,17 +64,9 @@ const tryViewTransition = callback => {
 	}
 }
 
-const nextFrame = callback => window.requestAnimationFrame(callback)
-
 export {
-	$,
-	$$,
-	$id,
-	$target,
-	$parents,
 	jsx,
 	noDragClick,
 	scrollTo,
 	tryViewTransition,
-	nextFrame,
 }

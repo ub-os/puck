@@ -1,5 +1,4 @@
 import Showable from '~/stim2/Showable'
-import { $, $$, jsx } from '~/Utility/DomUtility'
 
 /**
  * Modal Aspect
@@ -32,12 +31,10 @@ export default class Modal extends Showable {
 	}
 
 	initialized() {
-		if (this.appendTo) $(this.appendTo)?.appendChild(this.element)
+		if (this.appendTo) document.querySelector(this.appendTo)?.appendChild(this.element)
 	}
 
 	connected() {
-		//console.log(this.element.parentElement)
-		//console.log(this.element.parentElement)
 		if (this.element.tagName !== 'DIALOG')
 			throw new Error('Modal Aspect should only be used on dialog elements')
 		super.connected()

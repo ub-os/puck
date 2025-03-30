@@ -1,6 +1,5 @@
 import { Controller } from '~/stim2'
 import { EventListenerSet } from '~/Helper/EventListener.js'
-import { $, $$, $id, scrollTo } from '~/Utility/DomUtility'
 
 export default class AnchorHandler extends Controller {
 	static props = {
@@ -20,7 +19,7 @@ export default class AnchorHandler extends Controller {
 
 	getTargetFromHash(hash) {
 		const id = hash?.substring(1).split('?')[0]
-		return id ? $id(id) : null
+		return id ? document.getElementById(id) : null
 	}
 
 	scrollToTarget(target, { behavior = 'smooth', block = 'start' } = {}) {

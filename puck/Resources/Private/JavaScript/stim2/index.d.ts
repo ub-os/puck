@@ -32,6 +32,8 @@ declare class Stim {
     disconnect(): void
     connectElement(element: HTMLElement): void
     disconnectElement(element: HTMLElement): void
+	clearMutationQueue(): void
+	getController(element: HTMLElement, identifier: string): Controller|undefined
 	registerController(identifier: string|IdentifierToControllerConstructorDictionary, controllerClass?: ControllerConstructor): void
 	registerSelectorCallback(selector: string|SelectorToCallbackDictionary, callback?: (target: HTMLElement) => void): void
 }

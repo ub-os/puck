@@ -80,7 +80,7 @@ class ObserverCollector {
 			)
 			return
 		}
-		const el = $target(target)
+		const el = document.querySelector(target)
 		if (!el.id) {
 			el.id = `pux-observer-manager-${this.#elIdx++}`
 		}

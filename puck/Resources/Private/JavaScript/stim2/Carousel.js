@@ -1,11 +1,7 @@
 import { Controller } from '~/stim2'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
-import { EventListenerRegistry } from '~/Helper/EventListener.js'
 
-/**
- * @property {Map} controlTargets
- */
 export default class Carousel extends Controller {
 	static props = {
 		vertical: false,

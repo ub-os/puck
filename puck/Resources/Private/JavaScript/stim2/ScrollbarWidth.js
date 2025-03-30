@@ -1,5 +1,4 @@
 import { Controller } from '~/stim2'
-import { $, $$, $id, jsx } from '~/Utility/DomUtility'
 
 export default class ScrollbarWidth extends Controller {
 	static props = {
@@ -21,7 +20,7 @@ export default class ScrollbarWidth extends Controller {
 	}
 	connected() {
 		this.sensorEl =
-			$id(this.sensorId) ||
+			document.getElementById(this.sensorId) ||
 			this.element.appendChild(
 				<div
 					id={this.sensorId}

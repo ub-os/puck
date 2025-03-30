@@ -1,8 +1,7 @@
 import Showable from '~/stim2/Showable'
-import { $, $$, jsx } from '~/Utility/DomUtility'
 
 /**
- * Dialog Aspect
+ * Dialog Controller
  * Should only be used on <dialog> elements
  */
 export default class Dialog extends Showable {

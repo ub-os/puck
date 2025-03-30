@@ -1,11 +1,6 @@
 import { Controller } from '~/stim2'
-import ScrollSensitive from '~/stim2/ScrollSensitive'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
-import { $, $$, jsx } from '~/Utility/DomUtility'
 
-/**
- * @property {ScrollSensitive} scrollSensitiveAspect
- */
 export default class PageHeader extends Controller {
 	static props = {
 		scrollTop: 100,
@@ -13,7 +8,6 @@ export default class PageHeader extends Controller {
 		downClass: '--scroll-down',
 		upClass: '--scroll-up',
 		documentClassing: true,
-		scrollSensitive: false,
 	}
 
 	//static aspects = ['scroll-sensitive']
@@ -65,9 +59,6 @@ export default class PageHeader extends Controller {
 	}
 
 	connected() {
-		if (!this.scrollSensitive) {
-			//this.scrollSensitiveAspect.asleep = true
-		}
 		this.listeners.add(
 			window,
 			'scroll',
@@ -97,10 +88,6 @@ export default class PageHeader extends Controller {
 			passive: true,
 		})
 	}
-
-	// scrollSensitiveChanged(oldVal, newVal) {
-	// 	this.scrollSensitiveAspect.asleep = !newVal
-	// }
 
 	disconnected() {
 		this.listeners.clear()

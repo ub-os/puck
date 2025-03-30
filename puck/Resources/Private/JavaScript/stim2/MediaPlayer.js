@@ -1,7 +1,6 @@
 const Plyr = class {}
 import { Controller } from '~/stim2'
 //import Plyr from 'plyr'
-import { $, $$, jsx } from '~/Utility/DomUtility'
 
 const plyrDefaultControls = [
 	'play-large',

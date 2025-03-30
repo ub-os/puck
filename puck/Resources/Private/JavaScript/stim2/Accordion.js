@@ -39,7 +39,7 @@ export default class Accordion extends Showable {
 	}
 	setHideHeight() {
 		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =
-			`${this.element.$('summary')?.offsetHeight ?? '0'}px`
+			`${this.element.querySelector('summary')?.offsetHeight ?? '0'}px`
 	}
 	connected() {
 		super.connected()

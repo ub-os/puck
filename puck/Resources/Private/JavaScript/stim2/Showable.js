@@ -1,10 +1,6 @@
 import { Controller } from '~/stim2'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
-import { $, $$, $id, $target } from '~/Utility/DomUtility'
 
-/**
- * @property {Map} controlTargets
- */
 export default class Showable extends Controller {
 	static targets = ['control']
 	static props = {
@@ -53,7 +49,7 @@ export default class Showable extends Controller {
 	listeners = new EventListenerRegistry()
 	lastUsedToggle = null
 	durationTimer = null
-
+	controlTargets
 	setClass(operation, className) {
 		this.element.classList[operation](className)
 		if (this.documentClassing) {
@@ -96,11 +92,8 @@ export default class Showable extends Controller {
 		this.setClass('add', this.activeClass)
 		if (event.detail.transition) this.transitionClass(this.activatingClass)
 		if (this.focusOnShow) {
-			if (this.element.$('[data-autofocus]')) {
-				this.element.$('[data-autofocus]').focus()
-			} else {
-				this.element.focus()
-			}
+			const focusTarget = this.element.querySelector('[data-autofocus]') || this.element
+			focusTarget.focus()
 		}
 		return true
 	}
@@ -111,12 +104,12 @@ export default class Showable extends Controller {
 			this.transitionClass(this.deactivatingClass)
 		}
 		if (this.pauseMediaOnHide) {
-			this.element.$$('video, audio').forEach(item => {
+			this.element.querySelectorAll('video, audio').forEach(item => {
 				if (item.pause) item.pause()
 			})
 		}
 		if (this.reloadIframeOnHide) {
-			this.element.$$('iframe').forEach(item => {
+			this.element.querySelectorAll('iframe').forEach(item => {
 				if (item.src) {
 					const src = item.src
 					item.src = src
@@ -150,8 +143,8 @@ export default class Showable extends Controller {
 	}
 
 	connected() {
-		this.groupEl = this.groupId ? $id(this.groupId) : null
-		this.outEl = this.outTarget ? $target(this.outTarget, 'Showable') : this.element
+		this.groupEl = this.groupId ? document.getElementById(this.groupId) : null
+		this.outEl = this.outTarget ? document.querySelector(this.outTarget) : this.element
 		this.active
 			? this.onShow({ detail: { transition: false } })
 			: this.onHide({ detail: { transition: false, changeUrlHash: false } })

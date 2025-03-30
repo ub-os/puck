@@ -167,10 +167,14 @@ class Stim {
 	}
 	disconnect() {
 		for (const observer of this.#observer) {
-			observer.takeRecords()
 			observer.disconnect()
 		}
 		this.disconnectElement(document.documentElement)
+	}
+	clearMutationQueue() {
+		for (const observer of this.#observer) {
+			observer.takeRecords()
+		}
 	}
 	connectElement(el) {
 		if (el.nodeType !== Node.ELEMENT_NODE) return
@@ -188,6 +192,9 @@ class Stim {
 	disconnectElement(el) {
 		if (el.nodeType !== Node.ELEMENT_NODE) return
 		this.#updateSubtreeConnections(el, true)
+	}
+	getController(el, identifier) {
+		return this.#controllers.get(el)?.[identifier] || null
 	}
 	#updateSubtreeConnections(rootEl, removeAll = false) {
 		// const els = [rootEl, ...rootEl.querySelectorAll(`[${this.#controllerAttr}],[${this.#targetAttr}],[${this.#actionAttr}]`)]
@@ -411,7 +418,7 @@ class Stim {
 		for (const injectToken in controllerClass.injects) {
 			Object.defineProperty(controllerClass.prototype, `${camelCase(injectToken)}Inject`, {
 				get() {
-					return self.controllers.get(this.$el)?.[injectToken]
+					return self.getController(this.$el, injectToken)
 				},
 			})
 			this.#injectTokens[token].push(`${injectToken}/${token}`)
@@ -496,4 +503,4 @@ class Controller {
 	attributeChanged(name, oldValue, newValue) {}
 }
 
-export { stim, Controller }
+//export { stim, Controller }

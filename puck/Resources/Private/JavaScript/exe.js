@@ -1,6 +1,4 @@
-import smoothscroll from 'smoothscroll-polyfill'
 import Logger from '~/Helper/Logger'
-import { $, $$, $id, jsx, scrollTo } from '~/Utility/DomUtility'
 import { htmx, stim } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
@@ -25,7 +23,6 @@ const htmxLifecycleEvents = {
 	'htmx:responseError': `color:${colors.error}`,
 }
 
-smoothscroll.polyfill()
 stim.connect()
 Logger.console.log(stim)
 
@@ -35,7 +32,7 @@ htmx.logger = (el, eventType, event) => {
 	Logger.console.log(`%c${eventType}${additional}`, htmxLifecycleEvents[eventType], event)
 }
 window.requestAnimationFrame(() => {
-	$id('body').classList.remove('u-no-transition')
+	document.body.classList.remove('u-no-transition')
 })
 
 let focusAfterSwapSelector
@@ -44,7 +41,7 @@ const setFocusAfterSwapSelector = () => {
 }
 const resolveFocusAfterSwap = () => {
 	if (!focusAfterSwapSelector) return
-	$(focusAfterSwapSelector)?.focus()
+	document.querySelector(focusAfterSwapSelector)?.focus()
 	focusAfterSwapSelector = null
 }
 
@@ -73,8 +70,9 @@ on('htmx:load', event => {
 })
 
 on('htmx:beforeHistorySave', event => {
+	stim.clearMutationQueue()
 	stim.disconnectElement(event.target)
-	event.target.$$('[data-history-excluded]').forEach(el => el.remove())
+	event.target.querySelectorAll('[data-history-excluded]').forEach(el => el.remove())
 })
 
 const isBodySwapEvent = event => {

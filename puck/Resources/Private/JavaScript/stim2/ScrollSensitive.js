@@ -1,6 +1,5 @@
 import { Controller } from '~/stim2'
 import { EventListenerRegistry } from '~/Helper/EventListener.js'
-import { $, $$, $target, jsx } from '~/Utility/DomUtility'
 
 export default class ScrollSensitive extends Controller {
 	static props = {
@@ -61,7 +60,7 @@ export default class ScrollSensitive extends Controller {
 	}
 
 	connected() {
-		this.root = this.root ? $(this.root) : null
+		this.root = this.root ? document.querySelector(this.root) : null
 		if (this.cloneElementToRetainFlow) {
 			const clone = this.node.cloneNode(true)
 			clone.classList.add(this.cloneClass)
@@ -100,7 +99,7 @@ export default class ScrollSensitive extends Controller {
 			},
 		)
 		this.intersectionObserver.observe(
-			this.target ? $target(this.target) : this.element,
+			this.target ? document.querySelector(this.target) : this.element,
 		)
 	}
 
