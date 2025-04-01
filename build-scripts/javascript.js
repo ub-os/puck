@@ -24,7 +24,27 @@ function renderFile(fileName) {
 	const minifiedDistFilePath = `${distPath + fileName}.min.js`
 	const sourceMapFilePath = `${distPath + fileName}.js.map`
 
-	const b = browserify(srcFilePath, { debug: true }).transform(babelify)
+	const b = browserify(srcFilePath, { debug: true }).transform(babelify, {
+			global: true,
+			"presets": ["@babel/preset-env"],
+			"plugins": [
+				["@babel/plugin-transform-react-jsx", { "pragma": "jsx" }],
+				["@babel/plugin-transform-private-methods"],
+				["@babel/plugin-transform-class-properties"],
+				[
+					"module-resolver",
+					{
+						"cwd": "babelrc",
+						"root": ["./"],
+						"alias": {
+							"~": "./puck/Resources/Private/JavaScript"
+						}
+					}
+				]
+			],
+			"comments": false
+		}
+	)
 
 	const bundleStream = b
 		.bundle()

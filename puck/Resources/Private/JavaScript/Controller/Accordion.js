@@ -1,4 +1,4 @@
-import Showable from '~/stim2/Showable'
+import Showable from '~/Controller/Showable'
 
 export default class Accordion extends Showable {
 	static props = {

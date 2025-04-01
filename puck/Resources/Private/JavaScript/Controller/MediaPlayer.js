@@ -1,5 +1,5 @@
 const Plyr = class {}
-import { Controller } from '~/stim2'
+import { Controller } from '@oliveoilexpert/stim'
 import { jsx } from '~/Utility/DomUtility'
 //import Plyr from 'plyr'
 

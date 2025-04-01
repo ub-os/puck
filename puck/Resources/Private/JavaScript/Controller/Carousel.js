@@ -1,4 +1,4 @@
-import { Controller } from '~/stim2'
+import { Controller } from '@oliveoilexpert/stim'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
 

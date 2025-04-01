@@ -1,28 +1,23 @@
-import Showable from '~/stim2/Showable'
+import Showable from '~/Controller/Showable'
 
 /**
- * Modal Aspect
+ * Dialog Controller
  * Should only be used on <dialog> elements
  */
-export default class Modal extends Showable {
+export default class Dialog extends Showable {
 	static props = {
 		...Showable.props,
-		selfClickHide: true,
 		escHide: true,
-		appendTo: '#modal-container',
 		focusOnShow: true,
-		pauseMediaOnHide: true,
-		reloadIframeOnHide: true,
+		focusOutHide: true,
+		outClickHide: true,
 	}
-
 	onShow(event) {
-		this.element.showModal()
+		this.element.show()
 		super.onShow(event)
-		this.element.ariaModal = 'true'
 	}
 	onHide(event) {
 		super.onHide(event)
-		this.element.removeAttribute('aria-modal')
 		if (event.detail.transition) {
 			setTimeout(() => this.element.close(), this.duration)
 		} else {
@@ -30,13 +25,9 @@ export default class Modal extends Showable {
 		}
 	}
 
-	initialized() {
-		if (this.appendTo) document.querySelector(this.appendTo)?.appendChild(this.element)
-	}
-
 	connected() {
 		if (this.element.tagName !== 'DIALOG')
-			throw new Error('Modal Aspect should only be used on dialog elements')
+			throw new Error('Dialog Aspect should only be used on dialog elements')
 		super.connected()
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close

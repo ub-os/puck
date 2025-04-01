@@ -1,13 +1,10 @@
-import fs from 'node:fs'
 import { generateFonts } from 'fantasticon'
+import { ensureDirectoryExistence } from './utils'
 
 const resourcePath = 'puck/Resources/Public/'
-if (!fs.existsSync(`${resourcePath}Fonts/Icons`)) {
-	fs.mkdirSync(`${resourcePath}Fonts/Icons`, { recursive: true })
-}
 generateFonts({
-	inputDir: `${resourcePath}Icons/Frontend`, // (required)
-	outputDir: `${resourcePath}Fonts/Icons`, // (required)
+	inputDir: `${resourcePath}Icons/Frontend`,
+	outputDir: ensureDirectoryExistence(`${resourcePath}Fonts/Icons`),
 	assetTypes: ['scss', 'json', 'html', 'css'],
 	fontTypes: ['ttf', 'woff', 'woff2'],
 	fontsUrl: '../../Fonts/Icons',

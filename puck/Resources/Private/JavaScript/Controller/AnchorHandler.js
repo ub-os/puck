@@ -1,4 +1,4 @@
-import { Controller } from '~/stim2'
+import { Controller } from '@oliveoilexpert/stim'
 import { EventListenerSet } from '~/Helper/EventListener'
 
 export default class AnchorHandler extends Controller {

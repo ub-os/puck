@@ -1,4 +1,4 @@
-import { Controller } from '~/stim2'
+import { Controller } from '@oliveoilexpert/stim'
 import { jsx } from '~/Utility/DomUtility'
 
 export default class ScrollbarWidth extends Controller {

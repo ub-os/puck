@@ -1,4 +1,4 @@
-import { Controller } from '~/stim2'
+import { Controller } from '@oliveoilexpert/stim'
 import { EventListenerRegistry } from '~/Helper/EventListener'
 
 export default class ScrollSensitive extends Controller {

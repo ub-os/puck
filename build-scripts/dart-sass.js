@@ -3,10 +3,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { globSync } from 'glob'
 import * as sass from 'sass'
+import { ensureDirectoryExistence } from './utils'
 
 const sourcePath = 'puck/Resources/Private/Stylesheets/'
-const distPath = 'puck/Resources/Public/Css/dist/'
 const fileNames = ['puck', 'puck-backend']
+const distPath = ensureDirectoryExistence('puck/Resources/Public/Css/dist/')
 
 const globImporter = (path, transformFunction = ({ contents }) => contents) => {
 	let cleanPath = path
@@ -116,17 +117,6 @@ function renderFile(fileName) {
 	})
 	console.timeEnd(`Building ${fileName}`)
 }
-
-function ensureDirectoryExistence(filePath) {
-	const dirname = path.dirname(filePath)
-	if (fs.existsSync(dirname)) {
-		return true
-	}
-	ensureDirectoryExistence(dirname)
-	fs.mkdirSync(dirname)
-}
-
-ensureDirectoryExistence(distPath)
 
 for (const fileName of fileNames) {
 	renderFile(fileName)

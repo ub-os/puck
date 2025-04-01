@@ -45,7 +45,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.26.0",
-		"@babel/plugin-proposal-decorators": "^7.25.9",
+		"@babel/plugin-transform-class-properties": "^7.25.9",
 		"@babel/plugin-transform-private-methods": "^7.25.9",
 		"@babel/plugin-transform-react-jsx": "^7.25.9",
 		"@babel/preset-env": "^7.26.0",
@@ -73,17 +73,18 @@
 		"xliff": "^6.2.1"
 	},
 	"dependencies": {
-		"@oliveoilexpert/stim": "^1.0.3",
+		"@oliveoilexpert/stim": "^2.0",
 		"@splidejs/splide": "^4.1.4",
 		"@splidejs/splide-extension-intersection": "^0.2.0",
+		"esbuild": "^0.25.2",
+		"esbuild-plugin-alias": "^0.2.1",
 		"htmx-ext-head-support": "^2.0.2",
 		"htmx-ext-preload": "^2.0.1",
 		"htmx.org": "^2",
 		"normalize.css": "^8.0.1",
-		"plyr": "^3.7.8",
-		"smoothscroll-polyfill": "^0.4.4"
+		"plyr": "^3.7.8"
 	},
 	"browserslist": [
-		"defaults"
+		"defaults and fully supports es6-module"
 	]
 }
