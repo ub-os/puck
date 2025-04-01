@@ -1,14 +1,24 @@
 import esbuild from 'esbuild'
 import { ensureDirectoryExistence } from './utils.js'
 
-esbuild.build({
-	entryPoints: ['./puck/Resources/Private/JavaScript/puck.js', './puck/Resources/Private/JavaScript/puck-body.js'],
-	bundle: true,
-	minify: true,
-	target: ['es2020'],
-	jsx: 'transform',
-	outdir: ensureDirectoryExistence('./puck/Resources/Public/JavaScript/dist/'),
-	alias: {
-		'~': './puck/Resources/Private/JavaScript/',
-	},
-})
+const distPath = ensureDirectoryExistence('./puck/Resources/Public/JavaScript/dist/')
+const filePaths = ['./puck/Resources/Private/JavaScript/puck.js', './puck/Resources/Private/JavaScript/puck-body.js']
+function buildFiles(entryPoints, outdir, minify = false) {
+	esbuild.build({
+		entryPoints,
+		outdir,
+		minify,
+		bundle: true,
+		target: ['es2020'],
+		jsx: 'transform',
+		sourcemap: true,
+		outExtension: {
+			'.js': minify ? '.min.js' : '.js',
+		},
+		alias: {
+			'~': './puck/Resources/Private/JavaScript/',
+		},
+	})
+}
+buildFiles(filePaths, distPath, false)
+buildFiles(filePaths, distPath, true)
