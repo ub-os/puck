@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { globSync } from 'glob'
 import * as sass from 'sass'
-import { ensureDirectoryExistence } from './utils'
+import { ensureDirectoryExistence } from './utils.js'
 
 const sourcePath = 'puck/Resources/Private/Stylesheets/'
 const fileNames = ['puck', 'puck-backend']
@@ -32,9 +32,7 @@ const globImporter = (path, transformFunction = ({ contents }) => contents) => {
 			const files = new Set()
 			globSync(cleanPath + canonicalUrl.pathname).forEach(fullPath => {
 				const pathParts = fullPath.split('/')
-				const importPath = pathParts
-					.slice(pathParts.length - 1 - depth, pathParts.length)
-					.join('/')
+				const importPath = pathParts.slice(pathParts.length - 1 - depth, pathParts.length).join('/')
 				const file = {
 					name: pathParts[pathParts.length - 1],
 					importPath,
@@ -63,11 +61,7 @@ function globImporterTransformer({ contents, canonicalUrl, files }) {
 	const fileHasMainMixin = file => {
 		const namespace = getNamespaceFromFile(file)
 		const fileContents = fs.readFileSync(file.fullPath, 'utf8')
-		if (
-			!fileContents.includes(`@mixin ${namespace}`) &&
-			!fileContents.includes(`=${namespace}`)
-		)
-			return false
+		if (!fileContents.includes(`@mixin ${namespace}`) && !fileContents.includes(`=${namespace}`)) return false
 		return namespace
 	}
 

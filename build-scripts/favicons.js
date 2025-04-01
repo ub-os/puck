@@ -47,9 +47,5 @@ fs.readdirSync(sourcePath).forEach(file => {
 	}
 })
 for (const sourceFileName of sourceFileNames) {
-	generateFavicons(
-		`${sourcePath}${sourceFileName}.svg`,
-		`${distPath}${sourceFileName}/`,
-		sourceFileName,
-	)
+	generateFavicons(`${sourcePath}${sourceFileName}.svg`, `${distPath}${sourceFileName}/`, sourceFileName)
 }

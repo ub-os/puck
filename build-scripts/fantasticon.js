@@ -1,10 +1,11 @@
+import fs from 'node:fs'
 import { generateFonts } from 'fantasticon'
-import { ensureDirectoryExistence } from './utils'
+import { ensureDirectoryExistence } from './utils.js'
 
 const resourcePath = 'puck/Resources/Public/'
 generateFonts({
-	inputDir: `${resourcePath}Icons/Frontend`,
-	outputDir: ensureDirectoryExistence(`${resourcePath}Fonts/Icons`),
+	inputDir: `${resourcePath}Icons/Frontend/`,
+	outputDir: ensureDirectoryExistence(`${resourcePath}Fonts/Icons/`),
 	assetTypes: ['scss', 'json', 'html', 'css'],
 	fontTypes: ['ttf', 'woff', 'woff2'],
 	fontsUrl: '../../Fonts/Icons',
@@ -20,7 +21,7 @@ generateFonts({
 		},
 	},
 	templates: {
-		scss: 'build/templates/fantasticon/scss.hbs',
+		scss: 'build-scripts/templates/fantasticon/scss.hbs',
 	},
 	pathOptions: {
 		scss: 'puck/Resources/Private/Stylesheets/02-generic/_icon-font.scss',

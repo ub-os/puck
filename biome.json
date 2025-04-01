@@ -36,6 +36,7 @@
 	},
 	"javascript": {
 		"formatter": {
+			"lineWidth": 200,
 			"semicolons": "asNeeded",
 			"quoteStyle": "single",
 			"arrowParentheses": "asNeeded"

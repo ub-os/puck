@@ -1,12 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-function ensureDirectoryExistence(path) {
-	const dirname = path.dirname(path)
-	if (!fs.existsSync(dirname)) {
-		fs.mkdirSync(dirname, { recursive: true })
+function ensureDirectoryExistence(filePath) {
+	const isDirectory = !path.extname(filePath) || filePath.endsWith('/') || filePath.endsWith('\\')
+	const dirPath = isDirectory ? filePath : path.dirname(filePath)
+	if (!fs.existsSync(dirPath)) {
+		fs.mkdirSync(dirPath, { recursive: true })
 	}
-	return path
+	return filePath
 }
 
 export { ensureDirectoryExistence }

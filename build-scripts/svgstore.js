@@ -13,9 +13,6 @@ function getIcons(path) {
 const icons = getIcons(iconPath)
 const sprites = svgstore()
 for (const ic of icons) {
-	sprites.add(
-		ic.replace('.svg', '').toLowerCase(),
-		fs.readFileSync(`${iconPath}/${ic}`, 'utf8'),
-	)
+	sprites.add(ic.replace('.svg', '').toLowerCase(), fs.readFileSync(`${iconPath}/${ic}`, 'utf8'))
 }
 fs.writeFileSync(`${distPath}/${storeName}`, sprites.toString())
