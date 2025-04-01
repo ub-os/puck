@@ -1,14 +1,26 @@
 import fs from 'node:fs'
 import favicons from 'favicons'
+import { ensureDirectoryExistence, log } from './utils.js'
 
-const resourcePath = 'puck/Resources/Public/'
-const distPath = `${resourcePath}Icons/Favicons/packages/`
-const sourcePath = `${resourcePath}Icons/Favicons/`
+const sourcePath = 'puck/Resources/Public/Icons/Favicons/'
 const sourceFileNames = []
+const distPath = ensureDirectoryExistence('puck/Resources/Public/Icons/Favicons/packages/')
 
-function generateFavicons(sourcePath, distPath, fileName) {
-	const configuration = {
-		path: distPath,
+log.header('Building Favicons')
+log.info(`Source directory: ${sourcePath}`)
+log.info(`Output directory: ${distPath}`)
+
+fs.readdirSync(sourcePath).forEach(file => {
+	if (!file.includes('.svg')) {
+		return
+	}
+
+	const fileName = file.replace('.svg', '')
+	const path = ensureDirectoryExistence(`${distPath}${fileName}/`)
+	log.info(`Building package from file: ${fileName}.svg`)
+
+	favicons(`${sourcePath}${fileName}.svg`, {
+		path,
 		lang: 'de-DE',
 		start_url: '/',
 		icons: {
@@ -19,33 +31,12 @@ function generateFavicons(sourcePath, distPath, fileName) {
 			windows: false,
 			yandex: false,
 		},
-	}
-	const callback = (response, error) => {
-		if (error) {
-			console.log(error.message) // Error description e.g. "An unknown error has occurred"
-			return
-		}
-		if (!fs.existsSync(distPath)) {
-			fs.mkdirSync(distPath, { recursive: true })
-		}
+	}).then(response => {
 		for (const file of response.images.concat(response.files)) {
-			fs.writeFile(`${distPath + file.name}`, file.contents, () => {})
+			fs.writeFile(`${path + file.name}`, file.contents, () => {})
 		}
-		let html = ''
-		for (const icon of response.html) {
-			html += `${icon}`
-		}
-	}
-	favicons(sourcePath, configuration).then((response, error) => {
-		callback(response)
+		log.success(`Favicon Package Build "${fileName}" Build successful`)
+	}).catch(error => {
+		log.error(error)
 	})
-}
-
-fs.readdirSync(sourcePath).forEach(file => {
-	if (file.includes('.svg')) {
-		sourceFileNames.push(file.replace('.svg', ''))
-	}
 })
-for (const sourceFileName of sourceFileNames) {
-	generateFavicons(`${sourcePath}${sourceFileName}.svg`, `${distPath}${sourceFileName}/`, sourceFileName)
-}

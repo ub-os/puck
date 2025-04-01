@@ -1,13 +1,16 @@
 import { Buffer } from 'node:buffer'
 import fs from 'node:fs'
-import path from 'node:path'
 import { globSync } from 'glob'
 import * as sass from 'sass'
-import { ensureDirectoryExistence } from './utils.js'
+import { ensureDirectoryExistence, log } from './utils.js'
 
 const sourcePath = 'puck/Resources/Private/Stylesheets/'
 const fileNames = ['puck', 'puck-backend']
 const distPath = ensureDirectoryExistence('puck/Resources/Public/Css/dist/')
+
+log.header('Building CSS from SASS')
+log.info(`Source files: ${fileNames.map(name => sourcePath + name).join(', ')}`)
+log.info(`Output directory: ${distPath}`)
 
 const globImporter = (path, transformFunction = ({ contents }) => contents) => {
 	let cleanPath = path
@@ -82,8 +85,11 @@ function globImporterTransformer({ contents, canonicalUrl, files }) {
 	return contents
 }
 
+for (const fileName of fileNames) {
+	renderFile(fileName)
+}
+
 function renderFile(fileName) {
-	console.time(`Building ${fileName}`)
 	const sassFile = `${sourcePath + fileName}.sass`
 	const cssFile = `${distPath + fileName}.css`
 	const result = sass.compile(sassFile, {
@@ -92,8 +98,8 @@ function renderFile(fileName) {
 		quietDeps: true,
 		sourceMap: true,
 	})
-	console.log(`Building ${cssFile}`)
-	fs.mkdirSync(path.dirname(cssFile), { recursive: true })
+	log.info(`Building ${cssFile}`)
+	ensureDirectoryExistence(cssFile)
 	result.sourceMap.sources = result.sourceMap.sources.map(source => {
 		if (source.startsWith('file://')) {
 			const pathParts = source.split('/')
@@ -106,12 +112,7 @@ function renderFile(fileName) {
 	const smComment = `/*# sourceMappingURL=data:application/json;charset=utf-8;base64,${smBase64} */`
 	const css = result.css.toString() + '\n'.repeat(2) + smComment
 	fs.writeFile(cssFile, css, err => {
-		if (err) return console.log(err)
-		console.log('Building complete!')
+		if (err) return log.error(err)
+		log.success(`CSS Build "${fileName}" successful`)
 	})
-	console.timeEnd(`Building ${fileName}`)
-}
-
-for (const fileName of fileNames) {
-	renderFile(fileName)
 }

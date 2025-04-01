@@ -21,7 +21,6 @@ config {
     htmlTag.attributes {
         id = document
     }
-
     uniqueLinkVars = 1
     linkVars = L(int)
     sys_language_uid = 0

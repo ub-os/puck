@@ -1,11 +1,17 @@
 import fs from 'node:fs'
 import { generateFonts } from 'fantasticon'
-import { ensureDirectoryExistence } from './utils.js'
+import { ensureDirectoryExistence, log } from './utils.js'
 
-const resourcePath = 'puck/Resources/Public/'
+const inputDir = 'puck/Resources/Public/Icons/Frontend/'
+const outputDir = ensureDirectoryExistence('puck/Resources/Public/Fonts/Icons/')
+
+log.header('Building Icon Font')
+log.info(`Source directory: ${inputDir}`)
+log.info(`Output directory: ${outputDir}`)
+
 generateFonts({
-	inputDir: `${resourcePath}Icons/Frontend/`,
-	outputDir: ensureDirectoryExistence(`${resourcePath}Fonts/Icons/`),
+	inputDir,
+	outputDir,
 	assetTypes: ['scss', 'json', 'html', 'css'],
 	fontTypes: ['ttf', 'woff', 'woff2'],
 	fontsUrl: '../../Fonts/Icons',
@@ -37,5 +43,9 @@ generateFonts({
 }).then(results => {
 	// create js file with codepoints
 	const jsString = `export default ${JSON.stringify(results.codepoints)};`
-	fs.writeFileSync(`${resourcePath}Fonts/Icons/icons.js`, jsString)
+	fs.writeFileSync(`${outputDir}icons.js`, jsString)
+	log.success('Icon Font Build successful')
+}).catch(error => {
+	log.error(error)
+	process.exit(1)
 })
