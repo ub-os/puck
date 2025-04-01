@@ -72,10 +72,7 @@ export default class ScrollSensitive extends Controller {
 				this.root || window,
 				'scroll',
 				e => {
-					if (
-						(this.root || document.documentElement).scrollTop <
-						this.correctScrollTop
-					) {
+					if ((this.root || document.documentElement).scrollTop < this.correctScrollTop) {
 						this.element.classList.remove(this.scrollClass)
 					} else {
 						this.element.classList.add(this.scrollClass)
@@ -98,9 +95,7 @@ export default class ScrollSensitive extends Controller {
 				threshold: this.threshold,
 			},
 		)
-		this.intersectionObserver.observe(
-			this.target ? document.querySelector(this.target) : this.element,
-		)
+		this.intersectionObserver.observe(this.target ? document.querySelector(this.target) : this.element)
 	}
 
 	disconnected() {

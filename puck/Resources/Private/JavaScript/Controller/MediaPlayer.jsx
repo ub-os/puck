@@ -1,6 +1,5 @@
 const Plyr = class {}
 import { Controller } from '@oliveoilexpert/stim'
-import { jsx } from '~/Utility/DomUtility'
 //import Plyr from 'plyr'
 
 const plyrDefaultControls = [
@@ -66,23 +65,15 @@ export default class MediaPlayer extends Controller {
 			if (attr) attributes[attr] = ''
 		})
 		return (
-			<div
-				style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}
-			>
+			<div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
 				<video
-					style={
-						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
-					}
+					style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
 					id={`${this.element.id}-video`}
 					tabindex={'0'}
 					data-poster={this.poster}
 					{...attributes}
 				>
-					<source
-						src={this.src}
-						type={`video/${this.provider}`}
-						width={this.width}
-					/>
+					<source src={this.src} type={`video/${this.provider}`} width={this.width} />
 				</video>
 			</div>
 		)
@@ -90,14 +81,10 @@ export default class MediaPlayer extends Controller {
 
 	getYoutubePlayerEl() {
 		return (
-			<div
-				style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}
-			>
+			<div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
 				<iframe
 					title={'YouTube video player'}
-					style={
-						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
-					}
+					style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
 					id={`${this.element.id}-iframe`}
 					src={`https://www.youtube-nocookie.com/embed/${this.embedId}?autohide=1&controls=${this.controls}&enablejsapi=1`}
 					width={this.width}
@@ -109,14 +96,10 @@ export default class MediaPlayer extends Controller {
 
 	getVimeoPlayerEl() {
 		return (
-			<div
-				style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}
-			>
+			<div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
 				<iframe
 					title={'Vimeo video player'}
-					style={
-						'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'
-					}
+					style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
 					id={`${this.element.id}-iframe`}
 					src={`https://player.vimeo.com/video/${this.embedId}?h=70f64fa69b&title=0&byline=0&portrait=0`}
 					width={this.width}

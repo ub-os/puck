@@ -19,14 +19,11 @@ export default class PageHeader extends Controller {
 	pausedTimeOut = null
 
 	checkScrollDirection() {
-		const currentScrollTop =
-			document.documentElement.scrollTop || document.body.scrollTop
+		const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
 		const difference = Math.abs(currentScrollTop - this.lastScrollTop)
 		if (difference < 2) return this.scrollDirection
-		const scrollDirection =
-			currentScrollTop > this.lastScrollTop ? 'down' : 'up'
-		this.lastScrollTop =
-			document.documentElement.scrollTop || document.body.scrollTop
+		const scrollDirection = currentScrollTop > this.lastScrollTop ? 'down' : 'up'
+		this.lastScrollTop = document.documentElement.scrollTop || document.body.scrollTop
 		return scrollDirection
 	}
 
@@ -46,12 +43,8 @@ export default class PageHeader extends Controller {
 				this.element.classList.add(classes.add)
 				this.element.classList.remove(classes.remove)
 				if (this.documentClassing) {
-					document.documentElement.classList.add(
-						`--${this.element.id}${classes.add}`,
-					)
-					document.documentElement.classList.remove(
-						`--${this.element.id}${classes.remove}`,
-					)
+					document.documentElement.classList.add(`--${this.element.id}${classes.add}`)
+					document.documentElement.classList.remove(`--${this.element.id}${classes.remove}`)
 				}
 			})
 			this.ticking = true
@@ -66,16 +59,12 @@ export default class PageHeader extends Controller {
 				if (document.documentElement.scrollTop < this.scrollTop) {
 					this.element.classList.remove(this.scrollClass)
 					if (this.documentClassing) {
-						document.documentElement.classList.remove(
-							`--${this.element.id}${this.scrollClass}`,
-						)
+						document.documentElement.classList.remove(`--${this.element.id}${this.scrollClass}`)
 					}
 				} else {
 					this.element.classList.add(this.scrollClass)
 					if (this.documentClassing) {
-						document.documentElement.classList.add(
-							`--${this.element.id}${this.scrollClass}`,
-						)
+						document.documentElement.classList.add(`--${this.element.id}${this.scrollClass}`)
 					}
 				}
 			},

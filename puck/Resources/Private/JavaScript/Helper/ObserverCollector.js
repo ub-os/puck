@@ -70,14 +70,10 @@ class ObserverCollector {
 
 	#observe({ obsName, id, target, callbackId, opts }) {
 		if (this.#idMap[id]) {
-			Logger.console.warn(
-				`ObserverManager: id "${id}" is already in use. Overriding.`,
-			)
+			Logger.console.warn(`ObserverManager: id "${id}" is already in use. Overriding.`)
 		}
 		if (!this.#callbacks[obsName][callbackId]) {
-			Logger.console.warn(
-				`ObserverCollector: callbackId "${callbackId}" is not registered. Skipping.`,
-			)
+			Logger.console.warn(`ObserverCollector: callbackId "${callbackId}" is not registered. Skipping.`)
 			return
 		}
 		const el = document.querySelector(target)
@@ -110,15 +106,13 @@ class ObserverCollector {
 				})
 			} else if (obsName === MutationObserver.name) {
 				obs = new window[obsName]((mutations, observer) => {
-					observer.callbacksByElId[mutations[0].target.id].forEach(
-						(cbId, i) => {
-							if (this.#callbacks[obsName][cbId]) {
-								this.#callbacks[obsName][cbId](mutations, observer, el)
-							} else {
-								this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
-							}
-						},
-					)
+					observer.callbacksByElId[mutations[0].target.id].forEach((cbId, i) => {
+						if (this.#callbacks[obsName][cbId]) {
+							this.#callbacks[obsName][cbId](mutations, observer, el)
+						} else {
+							this.#callbackDeletedHandler(observer, elId, i, obsName, obsId)
+						}
+					})
 				})
 			} else {
 				obs = new window[obsName]((entries, observer) => {
@@ -159,17 +153,11 @@ class ObserverCollector {
 	#unobserve(id) {
 		const map = this.#idMap[id]
 		if (!map) {
-			Logger.console.warn(
-				`ObserverCollector: id "${id}" does not exist. Skipping detachment.`,
-			)
+			Logger.console.warn(`ObserverCollector: id "${id}" does not exist. Skipping detachment.`)
 			return
 		}
-		const callbacksByElId =
-			this.#observers[map.obsName][map.obsId].callbacksByElId
-		if (
-			Object.keys(callbacksByElId).length < 2 &&
-			callbacksByElId[map.elId].length < 2
-		) {
+		const callbacksByElId = this.#observers[map.obsName][map.obsId].callbacksByElId
+		if (Object.keys(callbacksByElId).length < 2 && callbacksByElId[map.elId].length < 2) {
 			this.#observers[map.obsName][map.obsId].disconnect()
 			delete this.#observers[map.obsName][map.obsId]
 			return
@@ -177,13 +165,8 @@ class ObserverCollector {
 		const fnIndex = callbacksByElId[map.elId].indexOf(map.fn)
 		callbacksByElId[map.elId].splice(fnIndex, 1)
 		if (!callbacksByElId[map.elId].length) {
-			if (
-				this.#observers[map.obsName][map.obsId].unobserve &&
-				document.getElementById(map.elId)
-			) {
-				this.#observers[map.obsName][map.obsId].unobserve(
-					document.getElementById(map.elId),
-				)
+			if (this.#observers[map.obsName][map.obsId].unobserve && document.getElementById(map.elId)) {
+				this.#observers[map.obsName][map.obsId].unobserve(document.getElementById(map.elId))
 			}
 			delete callbacksByElId[map.elId]
 		}
@@ -224,11 +207,7 @@ class ObserverCollector {
 	#singleManager(obsName, defaultOpts) {
 		return {
 			sharedCallback: fn => {
-				return this.#getCallbackObject(
-					this.#registerCallback(fn, obsName),
-					obsName,
-					defaultOpts,
-				)
+				return this.#getCallbackObject(this.#registerCallback(fn, obsName), obsName, defaultOpts)
 			},
 			add: (target, fn, opts = defaultOpts) => {
 				const callbackId = this.#registerCallback(fn, obsName, defaultOpts)
@@ -288,11 +267,9 @@ class ObserverCollector {
 			[ResizeObserver.name]: [],
 			[MutationObserver.name]: [],
 		}
-		Object.entries(this.#observers[MutationObserver.name]).forEach(
-			([obsId, obs]) => {
-				obs.takeRecords()
-			},
-		)
+		Object.entries(this.#observers[MutationObserver.name]).forEach(([obsId, obs]) => {
+			obs.takeRecords()
+		})
 		this.#observers = {
 			[IntersectionObserver.name]: {},
 			[ResizeObserver.name]: {},
@@ -305,9 +282,4 @@ const ResizeManager = ObserverCollector.resize
 const IntersectionManager = ObserverCollector.intersection
 const MutationManager = ObserverCollector.mutation
 
-export {
-	ObserverCollector,
-	ResizeManager,
-	IntersectionManager,
-	MutationManager,
-}
+export { ObserverCollector, ResizeManager, IntersectionManager, MutationManager }

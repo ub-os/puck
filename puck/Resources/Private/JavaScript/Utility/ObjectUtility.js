@@ -15,12 +15,7 @@ function extendClass(base, extension, exclude = ['length'], protoExclude = []) {
 function mixClass(options, ...classes) {
 	const base = class {}
 	classes.forEach(extension => {
-		extendClass(
-			base,
-			extension,
-			options.exclude ?? ['length'],
-			options.protoExclude ?? [],
-		)
+		extendClass(base, extension, options.exclude ?? ['length'], options.protoExclude ?? [])
 	})
 	return base
 }

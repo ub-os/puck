@@ -34,8 +34,7 @@ export default class Accordion extends Showable {
 		this.controlTargets.forEach(t => (t.ariaExpanded = 'false'))
 	}
 	setShowHeight() {
-		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =
-			`${(this.element.scrollHeight).toString()}px`
+		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.element.scrollHeight).toString()}px`
 	}
 	setHideHeight() {
 		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =

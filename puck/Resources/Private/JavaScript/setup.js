@@ -1,16 +1,16 @@
 import { stim } from '@oliveoilexpert/stim'
 import htmx from 'htmx.org/dist/htmx.cjs.js'
-import { noDragClick } from '~/Utility/DomUtility'
 import Accordion from '~/Controller/Accordion'
 import AnchorHandler from '~/Controller/AnchorHandler'
 import Carousel from '~/Controller/Carousel'
 import Dialog from '~/Controller/Dialog'
-import MediaPlayer from '~/Controller/MediaPlayer'
+import MediaPlayer from '~/Controller/MediaPlayer.jsx'
 import Modal from '~/Controller/Modal'
 import PageHeader from '~/Controller/PageHeader'
 import ScrollSensitive from '~/Controller/ScrollSensitive'
-import ScrollbarWidth from '~/Controller/ScrollbarWidth'
+import ScrollbarWidth from '~/Controller/ScrollbarWidth.jsx'
 import Showable from '~/Controller/Showable'
+import { noDragClick } from '~/Utility/DomUtility'
 
 window.htmx = htmx
 Object.assign(htmx.config, {

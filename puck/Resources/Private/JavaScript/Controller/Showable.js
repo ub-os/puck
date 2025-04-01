@@ -53,9 +53,7 @@ export default class Showable extends Controller {
 	setClass(operation, className) {
 		this.element.classList[operation](className)
 		if (this.documentClassing) {
-			document.documentElement.classList[operation](
-				`--${this.element.id}-${this.identifier}${className}`,
-			)
+			document.documentElement.classList[operation](`--${this.element.id}-${this.identifier}${className}`)
 		}
 		this.controlTargets.forEach(t => t.classList[operation](className))
 	}
@@ -70,18 +68,29 @@ export default class Showable extends Controller {
 	}
 	show({ transition = true, trigger = '' }) {
 		if (this.groupEl) {
-			this.groupEl.dispatchEvent(new CustomEvent(`${this.identifier}:toggle-group`, {detail: { showTarget: this.element }}))
+			this.groupEl.dispatchEvent(
+				new CustomEvent(`${this.identifier}:toggle-group`, {
+					detail: { showTarget: this.element },
+				}),
+			)
 		}
-		this.element.dispatchEvent(new CustomEvent(`${this.identifier}:show`, { detail: { transition, trigger } }))
+		this.element.dispatchEvent(
+			new CustomEvent(`${this.identifier}:show`, {
+				detail: { transition, trigger },
+			}),
+		)
 	}
 	hide({ transition = true, changeUrlHash = true, trigger = '' } = {}) {
-		this.element.dispatchEvent(new CustomEvent(`${this.identifier}:hide`, { detail: { transition, changeUrlHash, trigger } }))
+		this.element.dispatchEvent(
+			new CustomEvent(`${this.identifier}:hide`, {
+				detail: { transition, changeUrlHash, trigger },
+			}),
+		)
 
 		this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
-
 	}
 	toggle({ transition = true, changeUrlHash = true, trigger = '' }, event = {}) {
-		if (this.active && (!this.switchToggles || (event.currentTarget === this.lastUsedToggle))) {
+		if (this.active && (!this.switchToggles || event.currentTarget === this.lastUsedToggle)) {
 			this.hide({ transition, changeUrlHash, trigger })
 			this.lastUsedToggle = event.currentTarget
 		} else if (!this.active) {
@@ -123,11 +132,7 @@ export default class Showable extends Controller {
 			this.urlHashRemove &&
 			window.location.hash.split('?')[0] === `#${this.element.id}`
 		) {
-			history.replaceState(
-				history.state,
-				document.title,
-				location.href.replace(`#${this.element.id}`, ''),
-			) // remove hash from url
+			history.replaceState(history.state, document.title, location.href.replace(`#${this.element.id}`, '')) // remove hash from url
 		}
 		return true
 	}
@@ -167,26 +172,19 @@ export default class Showable extends Controller {
 		if (this.groupEl) {
 			this.listeners.add(this.groupEl, `${this.identifier}:toggle-group`, event => {
 				if (event.defaultPrevented) return
-				if (
-					this.exclusiveGroup &&
-					this.active &&
-					!this.alwaysActive &&
-					event.detail.showTarget !== this.element
-				) {
+				if (this.exclusiveGroup && this.active && !this.alwaysActive && event.detail.showTarget !== this.element) {
 					this.hide({ trigger: 'exclusiveGroup' })
 				}
 			})
 		}
 		if (this.outClickHide) {
 			this.listeners.add(document, 'click', event => {
-				if (this.active && !this.outEl.contains(event.target))
-					this.hide({ trigger: 'outClick' })
+				if (this.active && !this.outEl.contains(event.target)) this.hide({ trigger: 'outClick' })
 			})
 		}
 		if (this.selfClickHide) {
 			this.listeners.add(this.element, 'click', event => {
-				if (this.active && event.target === this.element)
-					this.hide({ trigger: 'selfClick' })
+				if (this.active && event.target === this.element) this.hide({ trigger: 'selfClick' })
 			})
 		}
 		if (this.focusOutHide) {
@@ -215,19 +213,12 @@ export default class Showable extends Controller {
 			)
 		}
 		if (this.clickHideSelector) {
-			this.listeners.addDelegate(
-				this.element,
-				this.clickHideSelector,
-				'click',
-				event => {
-					if (this.active)
-						this.hide({ trigger: `clickOnSelector:${this.clickHideSelector}` })
-				},
-			)
+			this.listeners.addDelegate(this.element, this.clickHideSelector, 'click', event => {
+				if (this.active) this.hide({ trigger: `clickOnSelector:${this.clickHideSelector}` })
+			})
 		}
 		if (this.urlHashShow) {
-			if (window.location.hash.split('?')[0] === `#${this.element.id}`)
-				this.show({ trigger: 'urlHash' })
+			if (window.location.hash.split('?')[0] === `#${this.element.id}`) this.show({ trigger: 'urlHash' })
 			this.listeners.add(this.element, 'anchor-handler:hash-link-click', event => {
 				this.lastUsedToggle = event.detail.linkElement
 				this.show({ trigger: 'urlHash' })

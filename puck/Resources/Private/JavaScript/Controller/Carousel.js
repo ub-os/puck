@@ -66,10 +66,7 @@ export default class Carousel extends Controller {
 		this.splide.on('autoplay:playing', rate => {
 			this.element.style.setProperty('--splide-autoplay-progress', rate)
 		})
-		this.element.style.setProperty(
-			'--splide-speed',
-			`${this.splide.options.speed}ms`,
-		)
+		this.element.style.setProperty('--splide-speed', `${this.splide.options.speed}ms`)
 		this.splide.mount({ Intersection })
 		if (this.vertical) {
 			// todo: replace with window.requestAnimationFrame ?

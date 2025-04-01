@@ -1,5 +1,4 @@
 import { Controller } from '@oliveoilexpert/stim'
-import { jsx } from '~/Utility/DomUtility'
 
 export default class ScrollbarWidth extends Controller {
 	static props = {
@@ -8,16 +7,10 @@ export default class ScrollbarWidth extends Controller {
 	}
 
 	get scrollbarWidth() {
-		return (
-			this.sensorEl.getBoundingClientRect().width -
-			this.sensorEl.firstElementChild.getBoundingClientRect().width
-		)
+		return this.sensorEl.getBoundingClientRect().width - this.sensorEl.firstElementChild.getBoundingClientRect().width
 	}
 	updateScrollbarWidth = () => {
-		document.documentElement.style.setProperty(
-			'--scrollbar-width',
-			`${this.scrollbarWidth}px`,
-		)
+		document.documentElement.style.setProperty('--scrollbar-width', `${this.scrollbarWidth}px`)
 	}
 	connected() {
 		this.sensorEl =

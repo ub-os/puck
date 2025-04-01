@@ -7,10 +7,7 @@ export default class AnchorHandler extends Controller {
 	}
 	listeners = new EventListenerSet()
 	isCurrentLink(el) {
-		return (
-			el.origin === window.location.origin &&
-			el.pathname === window.location.pathname
-		)
+		return el.origin === window.location.origin && el.pathname === window.location.pathname
 	}
 
 	isHashLink(el) {

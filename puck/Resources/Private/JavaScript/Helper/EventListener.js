@@ -84,7 +84,7 @@ class EventListenerSet {
 	}
 	add(target, type, listener, options = {}) {
 		if (typeof target?.addEventListener !== 'function') {
-			throw new TypeError("parameter 1 is not of type 'EventTarget'");
+			throw new TypeError("parameter 1 is not of type 'EventTarget'")
 		}
 		const eventListener = new EventListener(target, type, listener, options)
 		this.#set.add(eventListener)
@@ -193,7 +193,7 @@ class EventListenerRegistry {
 	}
 	*listeners() {
 		for (const set of this.#map.values()) {
-			yield* set;
+			yield* set
 		}
 	}
 	forEach(callback) {

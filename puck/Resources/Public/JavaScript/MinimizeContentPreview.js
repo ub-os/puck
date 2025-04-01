@@ -1,11 +1,7 @@
 function minimizeContentPreview() {
 	console.log('minimize content preview script loaded')
-	const template = document.getElementById(
-		'ubos-minimize-content-preview-button-template',
-	)
-	const pageColumnHeaders = document.querySelectorAll(
-		'.t3-page-column-header-icons',
-	)
+	const template = document.getElementById('ubos-minimize-content-preview-button-template')
+	const pageColumnHeaders = document.querySelectorAll('.t3-page-column-header-icons')
 	pageColumnHeaders.forEach(header => {
 		const button = template.content.cloneNode(true).firstElementChild
 		const tbody = header.closest('tbody')

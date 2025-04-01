@@ -1,4 +1,3 @@
-
 // jsx pragma method
 const jsx = (tag, props, ...children) => {
 	const element = document.createElement(tag)
@@ -10,11 +9,7 @@ const jsx = (tag, props, ...children) => {
 	})
 
 	children.forEach(child => {
-		element.appendChild(
-			child.nodeName === undefined
-				? document.createTextNode(child.toString())
-				: child,
-		)
+		element.appendChild(child.nodeName === undefined ? document.createTextNode(child.toString()) : child)
 	})
 	return element
 }
@@ -45,10 +40,7 @@ const noDragClick = (element, callbackFunc, delta = 6) => {
 
 const scrollTo = (target, offset = 0) => {
 	if (target && getComputedStyle(target).position !== 'fixed') {
-		const height =
-			target.getBoundingClientRect().top +
-			document.documentElement.scrollTop -
-			offset
+		const height = target.getBoundingClientRect().top + document.documentElement.scrollTop - offset
 		window.scrollTo({
 			top: height,
 			left: 0,
@@ -64,9 +56,4 @@ const tryViewTransition = callback => {
 	}
 }
 
-export {
-	jsx,
-	noDragClick,
-	scrollTo,
-	tryViewTransition,
-}
+export { jsx, noDragClick, scrollTo, tryViewTransition }

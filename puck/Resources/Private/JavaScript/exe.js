@@ -3,8 +3,7 @@ import { htmx, stim } from '~/setup'
 import 'htmx-ext-head-support'
 import 'htmx-ext-preload'
 
-const on = (event, callback, options = {}) =>
-	document.documentElement.addEventListener(event, callback, options)
+const on = (event, callback, options = {}) => document.documentElement.addEventListener(event, callback, options)
 const colors = {
 	before: '#00ffd9',
 	after: '#00ffd9',
@@ -37,7 +36,9 @@ window.requestAnimationFrame(() => {
 
 let focusAfterSwapSelector
 const setFocusAfterSwapSelector = () => {
-	focusAfterSwapSelector = document.activeElement.closest('[data-hx-focus-after-swap]')?.getAttribute('data-hx-focus-after-swap')
+	focusAfterSwapSelector = document.activeElement
+		.closest('[data-hx-focus-after-swap]')
+		?.getAttribute('data-hx-focus-after-swap')
 }
 const resolveFocusAfterSwap = () => {
 	if (!focusAfterSwapSelector) return
@@ -76,9 +77,5 @@ on('htmx:beforeHistorySave', event => {
 })
 
 const isBodySwapEvent = event => {
-	return (
-		event.target?.tagName === 'BODY' ||
-		event.target?.id === 'root' ||
-		event.elt?.id === 'root'
-	)
+	return event.target?.tagName === 'BODY' || event.target?.id === 'root' || event.elt?.id === 'root'
 }
