@@ -82,10 +82,12 @@ trait ContentModuleControllerTrait
 		$componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
 		$componentRenderer->setComponentNamespace($namespace);
 		$renderingContext = $this->view->getRenderingContext();
+
 		// argument 'content' is required by the component renderer
+		$arguments['content'] = $arguments['content'] ?? '';
 		return $renderingContext->getViewHelperInvoker()->invoke(
 			$componentRenderer,
-			array_merge($arguments, ['content' => $arguments['content'] ?? '']),
+			$arguments,
 			$renderingContext,
 		);
 	}

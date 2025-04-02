@@ -54,7 +54,10 @@ class AttributeReflection
 			);
 
 			if ($pluginConfig->fragmentTypeNum) {
-				$ts = '
+				ExtensionManagementUtility::addTypoScript(
+					$extensionKey,
+					'setup',
+					'
 					' . $pluginConfig->name . 'PluginFragmentPage = PAGE
 					' . $pluginConfig->name . 'PluginFragmentPage {
 						typeNum = ' . $pluginConfig->fragmentTypeNum . '
@@ -76,12 +79,7 @@ class AttributeReflection
 							no_cache = ' . ($pluginConfig->fragmentNoCache ? '1' : '0') . '
 						}
 					}
-				';
-				DebugUtility::debug($ts);
-				ExtensionManagementUtility::addTypoScript(
-					$extensionKey,
-					'setup',
-					$ts,
+				',
 					'defaultContentRendering'
 				);
 			}
