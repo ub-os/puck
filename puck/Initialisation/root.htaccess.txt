@@ -318,7 +318,7 @@ AddDefaultCharset utf-8
 	RewriteCond %{SCRIPT_FILENAME} -f
 	RewriteRule (?:^|/)\. - [F]
 
-    # ADDED: Serve AVIF images if the browser supports it
+    # ▓▓▓▓▓▓▓▓▓▓ AVIF IMAGE FORMAT SUPPORT ▓▓▓▓▓▓▓▓▓▓
     RewriteCond %{HTTP_ACCEPT} image/avif
     RewriteCond %{REQUEST_FILENAME} (.*)\.(png|gif|jpe?g)$
     RewriteCond %{REQUEST_FILENAME}\.avif -f
@@ -385,7 +385,7 @@ Options -MultiViews
 		Header unset X-UA-Compatible
 	</FilesMatch>
 
-     # ADDED: Serve AVIF images if the browser supports it
+    # ▓▓▓▓▓▓▓▓▓▓ IMAGE CONTENT NEGOTIATION ▓▓▓▓▓▓▓▓▓▓
     <FilesMatch "\.(png|gif|jpe?g)$">
         Header append Vary Accept
     </FilesMatch>
@@ -404,12 +404,11 @@ FileETag None
 
 # Add your own rules here.
 
-# ADDED: Set Application Context variable
-# !IMPORTANT: Comment out for live sites
+# ▓▓▓▓▓▓▓▓▓▓ DEVELOPMENT PPLICATION CONTEXT ▓▓▓▓▓▓▓▓▓▓
 SetEnv TYPO3_CONTEXT Development
 
-# ADDED: Basic Auth
+# ▓▓▓▓▓▓▓▓▓▓ DEVELOPMENT AUTH ▓▓▓▓▓▓▓▓▓▓
 #AuthType Basic
 #AuthName "Restricted Area"
-#AuthUserFile /home/www/p670653/html/typo3-composer/public/.htpasswd
+#AuthUserFile /home/www/???/html/typo3-composer/public/.htpasswd
 #require valid-user
