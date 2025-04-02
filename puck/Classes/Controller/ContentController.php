@@ -8,13 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck\Attribute\AsPlugin;
 
+#[AsPlugin("Content")]
 class ContentController extends ActionController
 {
 	use ContentModuleControllerTrait;
 
-	#[Plugin("Content")]
 	public function indexAction(): ResponseInterface
 	{
 		$this->prepareContentView();

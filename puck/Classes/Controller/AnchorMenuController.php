@@ -9,13 +9,13 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck\Attribute\AsPlugin;
 
+#[AsPlugin("AnchorMenu")]
 class AnchorMenuController extends ActionController
 {
 	use ContentModuleControllerTrait;
 
-	#[Plugin("AnchorMenu")]
 	public function anchorMenuAction(): ResponseInterface
 	{
 		$this->prepareContentView();

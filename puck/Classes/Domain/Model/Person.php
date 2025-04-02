@@ -6,9 +6,9 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puck\Attribute\Persistence;
 
-#[ModelPersistence("tx_puck_domain_model_person")]
+#[Persistence("tx_puck_domain_model_person")]
 class Person extends AbstractEntity
 {
 	/**

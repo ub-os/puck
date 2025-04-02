@@ -20,7 +20,6 @@
 		"eliashaeussler/typo3-warming": "^3",
 		"brotkrueml/schema": "^3",
 		"b13/container": "^3",
-		"oliveoilexpert/puckloader": "^0.1.4",
 		"oliveoilexpert/content-presets": "^1.0",
 		"oliveoilexpert/ckeditor-icons": "^0.2",
 		"oliveoilexpert/typo3-shape": "*",

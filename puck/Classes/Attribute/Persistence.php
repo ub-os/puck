@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace UBOS\Puck\Attribute;
+
+#[\Attribute]
+class Persistence
+{
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(
+        public string $name,
+	)
+    {
+	}
+}

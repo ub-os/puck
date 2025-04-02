@@ -7,8 +7,9 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck\Attribute\AsPlugin;
 
+#[AsPlugin("FileMenu")]
 class FileMenuController extends ActionController
 {
 	use ContentModuleControllerTrait;
@@ -19,7 +20,6 @@ class FileMenuController extends ActionController
 	{
 	}
 
-	#[Plugin("FileMenu")]
 	public function fileMenuAction(): ResponseInterface
 	{
 		$this->prepareContentView();

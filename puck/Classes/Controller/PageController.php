@@ -19,11 +19,12 @@ use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use SMS\FluidComponents\Utility\ComponentSettings;
 
-use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck\Attribute\AsPlugin;
 
 /**
  * Page Controller.
  */
+#[AsPlugin("Page")]
 class PageController extends ActionController
 {
 	public function __construct(
@@ -36,7 +37,6 @@ class PageController extends ActionController
 	{
 	}
 
-	#[Plugin("Page")]
 	public function indexAction(): ResponseInterface
 	{
 		$cObj = $this->request->getAttribute('currentContentObject');

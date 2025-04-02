@@ -12,9 +12,9 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
-use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puck\Attribute\Persistence;
 
-#[ModelPersistence("pages")]
+#[Persistence("pages")]
 class Page extends AbstractEntity
 {
 	public int $doktype = 0;

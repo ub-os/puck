@@ -5,9 +5,9 @@ namespace UBOS\Puck\Domain\Model;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use UBOS\Puckloader\Attribute\ModelPersistence;
+use UBOS\Puck\Attribute\Persistence;
 
-#[ModelPersistence("tx_puck_domain_model_page_teaser")]
+#[Persistence("tx_puck_domain_model_page_teaser")]
 class PageTeaser extends AbstractEntity
 {
 	/**

@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puckloader\Attribute\Plugin;
+use UBOS\Puck\Attribute\AsPlugin;
 use UBOS\Puck\Utility\PuckUtility;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 use UBOS\Puck\Menu\CategoryFilterBuilder;
@@ -21,6 +21,7 @@ use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 
+#[AsPlugin("PageMenu", fragmentTypeNum: 16500000)]
 class PageMenuController extends ActionController
 {
 	use ContentModuleControllerTrait;
@@ -54,7 +55,6 @@ class PageMenuController extends ActionController
 
 	protected int $pageMenuFragmentTypeNum = 16500000;
 
-	#[Plugin("PageMenu", fragment: 16500000)]
 	public function pageMenuAction(
 		?array $demand = null,
 		?int   $recordUid = null,

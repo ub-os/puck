@@ -1,12 +1,14 @@
 <?php
 defined('TYPO3') or die();
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
-use UBOS\Puckloader\Loader;
+use UBOS\Puck\Attribute\AttributeReflection;
 
-Loader::loadConf('puck');
+AttributeReflection::configurePlugins(
+	'puck',
+	ExtUtil::extPath('puck', 'Classes/Controller/'),
+	'UBOS\\Puck\\Controller\\'
+);
 
 foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) as $file) {
     (include $file)?->addTypoScript();

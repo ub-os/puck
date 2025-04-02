@@ -1,6 +1,10 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use UBOS\Puckloader\Utility\PuckloaderUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use UBOS\Puck\Attribute\AttributeReflection;
 
-return PuckloaderUtility::getExtbasePersistenceMapping('puck');
+return AttributeReflection::createPersistenceMapping(
+	'puck',
+	ExtensionManagementUtility::extPath('puck', 'Classes/Domain/Model/'),
+	'UBOS\\Puck\\Domain\\Model\\'
+);
