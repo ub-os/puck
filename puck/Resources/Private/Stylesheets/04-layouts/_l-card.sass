@@ -60,6 +60,24 @@
 
 	&__figure
 		width: 100%
+		@for $i from 2 through 10
+			&:where(.-media-width-#{$i})
+				--card-media-width: #{$i}
+				@if ($i < 4)
+					@media(max-width(m))
+						--card-media-width: calc(var(--card-width) / 3)
+						max-width: calc(var(--card-width) / 3)
+					@media(max-width(xs))
+						--card-media-width: calc(var(--card-width) / 2)
+				@if ($i == 4)
+					@media(max-width(m))
+						--card-media-width: calc(var(--card-width) / 2)
+					@media(max-width(xs))
+						--card-media-width: var(--card-width)
+				@if ($i > 4)
+					@media(max-width(xs))
+						--card-media-width: var(--card-width)
+
 
 		&.-media-size-background
 			+cover-media
@@ -72,15 +90,8 @@
 			background: var(--background-media-overlay-color)
 
 		&.-media-size-cover:where(.-layout-right, .-layout-left)
-			@media (min-width(xs))
-				+cover-media
-				width: 50%
-			@for $i from 2 through 10
-				&.-media-width-#{$i}
-					@media (min-width(m))
-						width: calc(100% * #{$i} / var(--card-width))
-					@media (min-width(xs)) and (max-width(m))
-						width: calc(100% * #{$i * 2} / var(--card-width))
+			+cover-media
+			width: calc(100% * var(--card-media-width) / var(--card-width))
 
 		&.-media-size-contain:where(.-layout-above)
 			padding-bottom: var(--padding-bottom)
@@ -89,15 +100,7 @@
 			padding-top: var(--padding-block)
 
 		&.-media-size-contain:where(.-layout-right, .-layout-left)
-			@media (min-width(xs))
-				width: calc((100% + #{var(--padding-inline)}) / 2)
-			@for $i from 2 through 10
-				&:where(.-media-width-#{$i})
-					@media (min-width(xs))
-						width: calc((100% + #{var(--padding-inline)}) * #{$i} / var(--card-width))
-					@media (min-width(xs)) and (max-width(m))
-						width: calc((100% + #{var(--padding-inline)}) * #{$i * 2} / var(--card-width))
-
+			width: calc((100% + #{var(--padding-inline)}) * var(--card-media-width) / var(--card-width))
 
 		&.-media-size-contain:where(.-layout-right)
 			@media (min-width(xs))

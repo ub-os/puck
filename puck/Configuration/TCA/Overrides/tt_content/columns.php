@@ -12,10 +12,10 @@ $columns['frame_class'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Default', 'default'],
 			['Alternative 1', 'dark-1'],
-		]),
+		],
 		'default' => 'default'
 	],
 ];
@@ -27,9 +27,9 @@ $columns['layout'] = [
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Default', 'default'],
-		]),
+		],
 		'disableNoMatchingValueElement' => true,
 		'default' => 'default'
 	],
@@ -93,13 +93,13 @@ $columns['imagecols'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['1', 1],
 			['2', 2],
 			['3', 3],
 			['4', 4],
 			['5', 5],
-		]),
+		],
 		'default' => 1
 	],
 ];
@@ -110,7 +110,7 @@ $columns['media_layout'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Below text', 'below',
 				'media_layout_below',
 			],
@@ -129,8 +129,7 @@ $columns['media_layout'] = [
 			['Left in text', 'left-float',
 				'media_layout_left_float'
 			],
-
-		]),
+		],
 		'itemsProcFunc' => ContentItemsProcFunc::class . '->mediaLayout',
 		'dbFieldLength' => 255,
 		'default' => 'below',
@@ -165,7 +164,7 @@ $columns['space_before_class'] = [
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Auto', '',
 				'auto'
 			],
@@ -181,7 +180,7 @@ $columns['space_before_class'] = [
 			['Large', 'large',
 				'space_large'
 			],
-		]),
+		],
 		'default' => '',
 	]
 ];
@@ -258,12 +257,12 @@ $columns['row_justify'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Left', 'left', 'align_left'],
 			['Center', 'center', 'align_center'],
 			['Right', 'right', 'align_right'],
 			['Space between', 'space-between', 'align_space_between'],
-		]),
+		],
 		'default' => 'left',
 		'fieldWizard' => [
 			'selectIcons' => [
@@ -278,12 +277,12 @@ $columns['row_align'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Top', 'start', 'align_top'],
 			['Center', 'center', 'align_center_vertical'],
 			['Bottom', 'end', 'align_bottom'],
 			['Stretch', 'stretch', 'align_stretch']
-		]),
+		],
 		'default' => 'top',
 		'fieldWizard' => [
 			'selectIcons' => [
@@ -299,11 +298,11 @@ $columns['container_position'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Left', 'left', 'align_left'],
 			['Center', 'center', 'align_center'],
 			['Right', 'right', 'align_right'],
-		]),
+		],
 		'default' => 'center',
 		'fieldWizard' => [
 			'selectIcons' => [
@@ -319,13 +318,13 @@ $columns['container_offset'] = [
 		'renderType' => 'selectSingle',
 		'itemsProcFunc' => ContentItemsProcFunc::class . '->containerOffset',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['0', 0],
 			['1', 1],
 			['2', 2],
 			['3', 3],
 			['4', 4]
-		]),
+		],
 		'default' => 0,
 	],
 ];
@@ -335,11 +334,11 @@ $columns['card_media_size'] = [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Full-width / full-height', 'cover', 'size_cover'],
 			['Contained', 'contain', 'size_contain'],
 			['Background', 'background'],
-		]),
+		],
 		'default' => 'cover',
 		'fieldWizard' => [
 			'selectIcons' => [
@@ -374,7 +373,7 @@ $columns['menu_item_config'] = [
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectMultipleSideBySide',
-		'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+		'items' => [
 			['Teaser text', 'teaserText'],
 			['Subtitle', 'subtitle'],
 			['Media', 'media'],
@@ -383,7 +382,7 @@ $columns['menu_item_config'] = [
 			['Date (lastUpdated)', 'lastUpdated'],
 			['Icon', 'icon'],
 			['Call to action', 'cta']
-		]),
+		],
 		'default' => 'teaserText,media',
 	]
 ];

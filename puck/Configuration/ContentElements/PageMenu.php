@@ -27,13 +27,13 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		],
 		'layout' => [
 			'config' => [
-				'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+				'items' => [
 					['Default cards', 'default-cards'],
 					['Blog cards', 'blog-cards'],
 					['Team cards', 'team-cards'],
 					['Cards (custom settings)', 'cards'],
 					['Columns (custom settings)', 'columns'],
-				]),
+				],
 				'default' => 'default-cards'
 			]
 		],

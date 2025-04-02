@@ -82,9 +82,9 @@ $columns = [
 		'config' => [
 			'type' => 'select',
 			'renderType' => 'selectSingle',
-			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+			'items' => [
 				['', 0],
-			]),
+			],
 			'foreign_table' => 'tx_puck_domain_model_page_teaser',
 			'foreign_table_where' => 'AND {#tx_puck_domain_model_page_teaser}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_page_teaser}.{#sys_language_uid} IN (-1,0)',
 			'default' => 0,

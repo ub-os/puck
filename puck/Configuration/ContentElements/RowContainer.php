@@ -25,10 +25,10 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		],
 		'layout' => [
 			'config' => [
-				'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+				'items' =>\UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
 					['Rows', 'default', 'row_layout_row'],
 					['Carousel', 'carousel', 'row_layout_carousel'],
-				]),
+				],
 			]
 		],
 		'options' => [

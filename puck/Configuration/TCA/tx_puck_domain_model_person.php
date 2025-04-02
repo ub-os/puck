@@ -134,9 +134,9 @@ $columns = [
 		'config' => [
 			'type' => 'select',
 			'renderType' => 'selectSingle',
-			'items' => \UBOS\Puckloader\Utility\TcaUtility::selectItemsHelper([
+			'items' => [
 				['', 0],
-			]),
+			],
 			'foreign_table' => 'tx_puck_domain_model_person',
 			'foreign_table_where' => 'AND {#tx_puck_domain_model_person}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_person}.{#sys_language_uid} IN (-1,0)',
 			'default' => 0,
