@@ -13,7 +13,7 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class AnchorMenuController extends ActionController
 {
-	use ContentControllerViewPreparationTrait;
+	use ContentModuleControllerTrait;
 
 	#[Plugin("AnchorMenu")]
 	public function anchorMenuAction(): ResponseInterface
@@ -32,8 +32,13 @@ class AnchorMenuController extends ActionController
 				$queryBuilder->expr()->eq('sys_language_uid', $langId)
 			)
 			->executeQuery()->fetchAllAssociative();
-		$this->view->assign('menu', $menu);
-		return $this->htmlResponse();
+		$this->viewVariables['menu'] = $menu;
+		return $this->htmlResponse(
+			$this->renderFluidComponent(
+				'UBOS\Puck\Modules\\'.$this->settings['templateName'],
+				$this->viewVariables
+			)
+		);
 	}
 
 }

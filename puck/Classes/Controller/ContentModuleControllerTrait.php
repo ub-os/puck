@@ -10,8 +10,9 @@ use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use UBOS\Puck\Utility\PuckUtility;
+use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
-trait ContentControllerViewPreparationTrait
+trait ContentModuleControllerTrait
 {
 	protected RequestInterface $request;
 	protected $view;
@@ -27,19 +28,27 @@ trait ContentControllerViewPreparationTrait
 			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
 			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
 				->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-			$this->viewVariables['processed'] = $processor->process(
+			$this->viewVariables = $processor->process(
 				$cObj,
 				['dataProcessing.' => $processingTypoScript ?? null],
 				['data' => $data]
 			);
-			unset($this->viewVariables['processed']['data']);
+			unset($this->viewVariables['data']);
+		}
+
+		// Fluid component arguments must be camelCase
+		foreach ($this->viewVariables as $key => $value) {
+			if (str_contains($key, '_')) {
+				$this->viewVariables[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+				unset($this->viewVariables[$key]);
+			}
 		}
 
 		if (($this->settings['flexFormFields'] ?? false) && $flexFormConvertZeroStringsToInteger) {
 			foreach (explode(',', $this->settings['flexFormFields']) as $fieldName) {
-				if ($this->viewVariables['processed'][$fieldName] ?? false) {
-					$this->viewVariables['processed'][$fieldName] = PuckUtility::convertZeroStringsToInteger(
-						$this->viewVariables['processed'][$fieldName]
+				if ($this->viewVariables[$fieldName] ?? false) {
+					$this->viewVariables[$fieldName] = PuckUtility::convertZeroStringsToInteger(
+						$this->viewVariables[$fieldName]
 					);
 				}
 			}
@@ -64,5 +73,20 @@ trait ContentControllerViewPreparationTrait
 	protected function setContentTemplatePath(): void
 	{
 		$this->view->setTemplateRootPaths(['EXT:puck/Resources/Private/Fluid/Content/']);
+	}
+
+	protected function renderFluidComponent(
+		string $namespace,
+		array $arguments = [],
+	): string {
+		$componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
+		$componentRenderer->setComponentNamespace($namespace);
+		$renderingContext = $this->view->getRenderingContext();
+		// argument 'content' is required by the component renderer
+		return $renderingContext->getViewHelperInvoker()->invoke(
+			$componentRenderer,
+			array_merge($arguments, ['content' => $arguments['content'] ?? '']),
+			$renderingContext,
+		);
 	}
 }

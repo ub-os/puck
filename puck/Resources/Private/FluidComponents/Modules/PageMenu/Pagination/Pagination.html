@@ -6,7 +6,7 @@
 
 		<f:if condition="{pagination.loadMore}">
 			<f:then>
-				<module:menu.loadMoreButton loadMoreItem="{pagination.loadMore}" sectionId="{sectionId}"/>
+				<module:pageMenu.loadMoreButton loadMoreItem="{pagination.loadMore}" sectionId="{sectionId}"/>
 			</f:then>
 			<f:else if="{pagination.items}">
 				<ul class="{name}"
@@ -16,25 +16,25 @@
 					data-hx-select="#{sectionId}-body"
 					data-hx-target="#{sectionId}-body">
 					<f:if condition="{pagination.prev}">
-						<module:menu.pagination.item item="{pagination.prev}" sectionId="{sectionId}"/>
+						<module:pageMenu.pagination.item item="{pagination.prev}" sectionId="{sectionId}"/>
 					</f:if>
 					<f:if condition="{pagination.first}">
-						<module:menu.pagination.item item="{pagination.first}" sectionId="{sectionId}"/>
+						<module:pageMenu.pagination.item item="{pagination.first}" sectionId="{sectionId}"/>
 					</f:if>
 					<f:if condition="{pagination.separatorLeft}">
 						 {pagination.separatorString} 
 					</f:if>
 					<f:for each="{pagination.items}" as="item" iteration="i">
-						<module:menu.pagination.item item="{item}" sectionId="{sectionId}"/>
+						<module:pageMenu.pagination.item item="{item}" sectionId="{sectionId}"/>
 					</f:for>
 					<f:if condition="{pagination.separatorRight}">
 						 {pagination.separatorString} 
 					</f:if>
 					<f:if condition="{pagination.last}">
-						<module:menu.pagination.item item="{pagination.last}" sectionId="{sectionId}"/>
+						<module:pageMenu.pagination.item item="{pagination.last}" sectionId="{sectionId}"/>
 					</f:if>
 					<f:if condition="{pagination.next}">
-						<module:menu.pagination.item item="{pagination.next}" sectionId="{sectionId}"/>
+						<module:pageMenu.pagination.item item="{pagination.next}" sectionId="{sectionId}"/>
 					</f:if>
 				</ul>
 			</f:else>

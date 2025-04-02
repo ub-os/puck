@@ -2,6 +2,8 @@
 	<fc:param name="name" optional="1" type="string" default="m-menu"/>
 	<fc:param name="record" type="mixed"/>
 	<fc:param name="menu" type="array" optional="1"/>
+	<fc:param name="pagination" type="UBOS\Puck\Menu\Dto\Pagination" optional="1"/>
+	<fc:param name="categoryFilter" type="UBOS\Puck\Menu\Dto\CategoryFilter" optional="1"/>
 	<fc:param name="headerContent" type="Slot" default="" optional="1"/>
 	<fc:param name="footerContent" type="Slot" default="" optional="1"/>
 	<fc:param default="3:2" name="cropVariant" optional="1" type="string"/>
@@ -20,6 +22,10 @@
 
 				<fc:slot name="headerContent"/>
 
+				<f:if condition="{categoryFilter}">
+					<module:pageMenu.filter categoryFilter="{categoryFilter}" sectionId="c{record.uid}"/>
+				</f:if>
+
 				<f:if condition="{menu}">
 					<f:switch expression="{record.layout}">
 
@@ -33,7 +39,7 @@
 										class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
 										cropVariant="{cropVariant}"
 										width="6">
-										<module:menu.teaser
+										<module:pageMenu.teaser
 											config="{teaserText:1}"
 											page="{item}"
 											name="{name}"/>
@@ -52,7 +58,7 @@
 										class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
 										cropVariant="{cropVariant}"
 										width="6">
-										<module:menu.teaser
+										<module:pageMenu.teaser
 											config="{postDate:1, categories: 1}"
 											page="{item}"
 											name="{name}"/>
@@ -116,7 +122,7 @@
 											showDesc="0"
 											mediaWidth="{record.media_column_width}"
 											textWidth="{record.text_column_width}">
-											<module:menu.teaser
+											<module:pageMenu.teaser
 												config="{record.menu_item_config}"
 												page="{item}"
 												name="{name}"/>
@@ -144,7 +150,7 @@
 										mediaSize="{record.card_media_size}"
 										mediaWidth="{record.media_column_width}"
 										width="{record.item_column_width}">
-										<module:menu.teaser
+										<module:pageMenu.teaser
 											config="{record.menu_item_config}"
 											page="{item}"
 											name="{name}"/>
@@ -153,6 +159,10 @@
 							</layout:row>
 						</f:defaultCase>
 					</f:switch>
+				</f:if>
+
+				<f:if condition="{pagination}">
+					<module:pageMenu.pagination pagination="{pagination}" sectionId="c{record.uid}"/>
 				</f:if>
 
 				<fc:slot name="footerContent"/>

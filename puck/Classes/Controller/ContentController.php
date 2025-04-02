@@ -12,7 +12,7 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class ContentController extends ActionController
 {
-	use ContentControllerViewPreparationTrait;
+	use ContentModuleControllerTrait;
 
 	#[Plugin("Content")]
 	public function indexAction(): ResponseInterface
@@ -21,6 +21,11 @@ class ContentController extends ActionController
 		$context = $this->view->getRenderingContext();
 		$context->setControllerAction($this->settings['templateName']);
 		$this->view->setRenderingContext($context);
-		return $this->htmlResponse();
+		return $this->htmlResponse(
+			$this->renderFluidComponent(
+				'UBOS\Puck\Modules\\'.$this->settings['templateName'],
+				$this->viewVariables
+			)
+		);
 	}
 }

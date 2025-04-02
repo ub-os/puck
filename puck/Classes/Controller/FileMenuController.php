@@ -11,7 +11,7 @@ use UBOS\Puckloader\Attribute\Plugin;
 
 class FileMenuController extends ActionController
 {
-	use ContentControllerViewPreparationTrait;
+	use ContentModuleControllerTrait;
 
 	public function __construct(
 		protected ResourceFactory $resourceFactory
@@ -40,8 +40,13 @@ class FileMenuController extends ActionController
 			$record->get('filelink_sorting'),
 			$record->get('filelink_sorting_direction')
 		);
-		$this->view->assign('menu', $menu);
-		return $this->htmlResponse();
+		$this->viewVariables['menu'] = $menu;
+		return $this->htmlResponse(
+			$this->renderFluidComponent(
+				'UBOS\Puck\Modules\\'.$this->settings['templateName'],
+				$this->viewVariables
+			)
+		);
 	}
 
 	protected function sortMenu(array $menu, string $filelinkSorting, string $filelinkSortingDirection): array

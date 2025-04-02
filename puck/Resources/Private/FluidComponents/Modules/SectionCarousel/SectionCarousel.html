@@ -1,7 +1,7 @@
 <fc:component>
 	<fc:param name="name" type="string" optional="1" default="m-section-carousel"/>
 	<fc:param name="record" type="mixed"/>
-	<fc:param name="children" type="array" optional="1"/>
+	<fc:param name="children600" type="array" optional="1"/>
 	<fc:param name="options" type="array" optional="1"/>
 	<fc:renderer>
 
@@ -11,7 +11,7 @@
 						 pagination="{options.carousel.pagination}"
 						 trackOverflow="{options.carousel.trackOverflow}"
 						 carouselAttributes="{splideOptions: options.splide}">
-			<f:for each="{children}" as="child">
+			<f:for each="{children600}" as="child">
 				<div class="{name}__slide splide__slide">
 					{child.renderedContent -> f:format.raw()}
 				</div>

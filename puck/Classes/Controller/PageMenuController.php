@@ -23,7 +23,7 @@ use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 
 class PageMenuController extends ActionController
 {
-	use ContentControllerViewPreparationTrait;
+	use ContentModuleControllerTrait;
 
 	protected ?MenuDemand $menuDemand = null;
 
@@ -106,7 +106,7 @@ class PageMenuController extends ActionController
 				->configure($this->settings['pagination'])
 				->addPaginationLinksToHead()
 				->build();
-			$this->view->assign('pagination', $pagination);
+			$this->viewVariables['pagination'] = $pagination;
 			$pages = $paginationBuilder->getPaginatedItems();
 		}
 
@@ -139,11 +139,15 @@ class PageMenuController extends ActionController
 				->configure($this->settings['categoryFilter'])
 				->addCategorySuffixToPageTitle()
 				->build();
-			$this->view->assign('categoryFilter', $categoryFilter);
+			$this->viewVariables['categoryFilter'] = $categoryFilter;
 		}
 
-		$this->view->assign('menu', $menu);
-		$this->view->assign('isFragment', (int)$this->request->getAttribute('routing')->getPageType() === $this->pageMenuFragmentTypeNum);
-		return $this->htmlResponse();
+		$this->viewVariables['menu'] = $menu;
+		return $this->htmlResponse(
+			$this->renderFluidComponent(
+				'UBOS\Puck\Modules\PageMenu',
+				$this->viewVariables
+			)
+		);
 	}
 }
