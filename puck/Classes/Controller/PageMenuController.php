@@ -27,7 +27,6 @@ use UBOS\Puck\Domain\Repository\PageTeaserRepository;
  * Will also build CategoryFilter and Pagination objects and override page records with teaser records if configured.
  * @see CategoryFilterBuilder
  * @see PaginationBuilder
- * @see \UBOS\Puck\Domain\Model\PageTeaser
  * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
  */
 #[AsPlugin("PageMenu", fragmentTypeNum: 16500000)]
