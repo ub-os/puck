@@ -12,10 +12,10 @@ use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
 /**
  * Controller trait for content element plugins
- * specifically CTypes configured with @see \UBOS\Puck\Configuration\ContentElementConfiguration
+ * specifically for CTypes configured with @see \UBOS\Puck\Configuration\ContentElementConfiguration
  *
- * Provides methods to prepare the view (map data to model or record, run data processing)
- * and render Fluid components.
+ * Provides methods to prepare the view (map data to model or record, run data processing) based on settings
+ * and directly render Fluid components.
  */
 trait ContentModuleControllerTrait
 {
@@ -75,6 +75,7 @@ trait ContentModuleControllerTrait
 	 * Directly render a Fluid component
 	 * @param string|null $namespace Namespace of the component, defaults to 'UBOS\Puck\Modules\{settings[templateName] ?? controllerAction}'
 	 * @param array|null $arguments Arguments to pass to the component, defaults to viewVariables
+	 * @return string Rendered component
 	 */
 	protected function renderFluidComponent(
 		?string $namespace = null,

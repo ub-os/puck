@@ -19,7 +19,7 @@ class AttributeReflection
 	/**
 	 * Configures Plugins by scanning controller classes for the AsPlugin attribute
 	 * Registers plugins with ExtensionUtility::configurePlugin()
-	 * Sets up TypoScript for plugin fragment rendering if AsPlugin::fragmentTypeNum is set.
+	 * Sets up TypoScript for plugin html fragment rendering if AsPlugin::fragmentTypeNum is set.
 	 *
 	 * @param string $extensionKey The extension key
 	 * @param string $controllerDirectory Relative path to the controllers directory
