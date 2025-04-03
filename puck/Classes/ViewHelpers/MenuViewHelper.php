@@ -6,10 +6,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-
 use B13\Menus\DataProcessing\BreadcrumbsMenu;
 use B13\Menus\DataProcessing\LanguageMenu;
 use B13\Menus\DataProcessing\ListMenu;

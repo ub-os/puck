@@ -2,12 +2,10 @@
 
 namespace UBOS\Puck\Menu;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 
 trait FindByMenuDemandRepositoryTrait

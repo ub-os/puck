@@ -5,11 +5,9 @@ namespace UBOS\Puck\Controller;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use UBOS\Puck\Utility\PuckUtility;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
 /**

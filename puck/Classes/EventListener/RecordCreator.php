@@ -4,7 +4,6 @@ namespace UBOS\Puck\EventListener;
 
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Domain\Event\RecordCreationEvent;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\ContentRecord;
 use UBOS\Puck\Domain\PageRecord;
 

@@ -2,8 +2,6 @@
 
 namespace UBOS\Puck\Utility;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;

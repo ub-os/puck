@@ -3,8 +3,6 @@
 namespace UBOS\Puck\Domain\Model;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\Transient;
 use TYPO3\CMS\Extbase\Domain\Model\Category;

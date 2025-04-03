@@ -5,7 +5,6 @@ namespace UBOS\Puck\Domain;
 use TYPO3\CMS\Core\Domain\Record;
 use TYPO3\CMS\Core\Domain\RawRecord;
 use TYPO3\CMS\Core\Domain\Record\SystemProperties;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\Model\PageTeaser;
 
 /**

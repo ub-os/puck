@@ -2,14 +2,12 @@
 
 namespace UBOS\Puck\Error;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Error\DebugExceptionHandler;
 use TYPO3\CMS\Core\Error\ProductionExceptionHandler;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerInterface;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerNotConfiguredException;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

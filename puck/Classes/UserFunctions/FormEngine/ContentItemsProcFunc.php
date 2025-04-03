@@ -3,8 +3,6 @@
 namespace UBOS\Puck\UserFunctions\FormEngine;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
 /**

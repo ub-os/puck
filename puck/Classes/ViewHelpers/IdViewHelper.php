@@ -2,7 +2,6 @@
 
 namespace UBOS\Puck\ViewHelpers;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**

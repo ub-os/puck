@@ -2,7 +2,6 @@
 
 namespace UBOS\Puck\Menu\Dto;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Utility\PuckUtility;
 
 class MenuDemand

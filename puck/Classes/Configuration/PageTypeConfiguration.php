@@ -3,7 +3,6 @@
 namespace UBOS\Puck\Configuration;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
 
