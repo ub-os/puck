@@ -22,9 +22,10 @@ use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 /**
  * Controller for the PageMenu plugin.
  * Creates a menu of pages records based on the @see MenuDemand created from the plugin settings.
- * Will also build CategoryFilter and Pagination objects and override page records with teaser records if configured.
+ * Will also build CategoryFilter and Pagination objects with
  * @see CategoryFilterBuilder
  * @see PaginationBuilder
+ * and override teaser properties of menu items with values from teaser records if configured in settings.
  * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
  */
 #[AsPlugin("PageMenu", fragmentTypeNum: 16500000)]
@@ -94,7 +95,7 @@ class PageMenuController extends ActionController
 		$menu = [];
 		$record = $this->viewVariables['record'];
 
-		// override demand with demand url parameter
+		// apply demand overrides from url parameter
 		if ($this->settings['demand']['overrideDemand']) {
 			ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
 		}
@@ -136,7 +137,7 @@ class PageMenuController extends ActionController
 			}
 		}
 
-		// build category filter
+		// build optional category filter
 		if ($this->settings['categoryFilter']['active']) {
 			$categoryFilterBuilder = new CategoryFilterBuilder(
 				request: $this->request,

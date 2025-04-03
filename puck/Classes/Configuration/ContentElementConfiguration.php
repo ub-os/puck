@@ -49,7 +49,7 @@ class ContentElementConfiguration
 	}
 
 	/**
-	 * @param string $type Content element CType
+	 * @param string $type Content element CType (will be converted to lower_case_underscore and prefixed with the extension name)
 	 * @param string $label Human-readable name of the content element
 	 * @param string $description Description for the content element
 	 * @param string $group Group in content element wizard (default: '01_content')
@@ -64,7 +64,7 @@ class ContentElementConfiguration
 	 * @param array $flexForms Array of field names => flexform file string, e.g. ['pi_flexform' => 'EXT:puck/Resources/Private/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration
 	 * @param array $dataProcessing Data processor configurations
-	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer)
+	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer::class)
 	 * @param bool $noCache Whether to disable caching (default: false)
 	 */
 	public function __construct(
@@ -190,7 +190,7 @@ class ContentElementConfiguration
 	 * @param float $sorting Sorting value for content element wizard (optional)
 	 * @param array $valueOverrides These fields will be hidden in the backend and overridden with the given values when using ContentRecord
 	 * @return ContentElementConfiguration The modified configuration instance
-	 * @see \UBOS\Puck\Domain\ContentRecord
+	 * @see \UBOS\Puck\Domain\ContentRecord::setOverriddenProperties
 	 */
 	public function makeRestrictedChildElement(
 		string $type,

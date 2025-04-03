@@ -12,7 +12,7 @@ use UBOS\Puck\Attribute\AsPlugin;
 
 /**
  * Controller for the AnchorMenu plugin.
- * Finds all tt_content records of type 'puck_anchor' in the same page and language as the current record to render a menu.
+ * Finds all 'tt_content' records of type 'puck_anchor' on the plugin's page to create a menu.
  */
 #[AsPlugin("AnchorMenu")]
 class AnchorMenuController extends ActionController
