@@ -6,8 +6,8 @@ use UBOS\Puck\Attribute\AttributeReflection;
 
 AttributeReflection::configurePlugins(
 	'puck',
-	ExtUtil::extPath('puck', 'Classes/Controller/'),
-	'UBOS\\Puck\\Controller\\'
+	'Classes/Controller',
+	'UBOS\Puck\Controller'
 );
 
 foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) as $file) {
