@@ -14,7 +14,7 @@ foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) a
     (include $file)?->addTypoScript();
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasMapperOfCommaList'] = \UBOS\Puck\Routing\Aspect\PersistedAliasMapperOfCommaList::class;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasListMapper'] = \UBOS\Puck\Routing\Aspect\PersistedAliasListMapper::class;
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBOS\Puck\Routing\Aspect\NothingMapper::class;
 
 // Register RTE configuration file

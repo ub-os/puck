@@ -8,6 +8,17 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper as UriImageViewHelper;
 
+/**
+ * Advanced picture element ViewHelper with multiple source support
+ *
+ * Creates HTML5 <picture> elements with support for modern image formats (WebP, AVIF),
+ * responsive breakpoints, retina displays, and various other features.
+ *
+ * Example usage:
+ * <u:picture image="{image}" webp="true" breakpointSources="true" />
+ * <u:picture src="fileadmin/image.jpg" class="hero-image" retina="true" />
+ * <u:picture image="{image}" backgroundImage="true" width="1200" />
+ */
 class PictureViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
@@ -32,6 +43,13 @@ class PictureViewHelper extends AbstractViewHelper
 		$this->registerArgument('additionalAttributes', 'array', '', false, []);
 	}
 
+	/**
+	 * Creates a ViewHelper instance with default and custom arguments
+	 *
+	 * @param string $className Name of the ViewHelper class to instantiate
+	 * @param array $arguments Custom arguments to set on the ViewHelper
+	 * @return mixed ViewHelper instance
+	 */
 	protected function createViewHelper(string $className, array $arguments = []): mixed
 	{
 		$helper = GeneralUtility::makeInstance($className);
@@ -46,6 +64,18 @@ class PictureViewHelper extends AbstractViewHelper
 		return $helper;
 	}
 
+	/**
+	 * Renders the picture element with appropriate sources
+	 *
+	 * Can create:
+	 * - Standard picture element with multiple sources
+	 * - Background image div with inline style
+	 * - Responsive images with breakpoint-specific crop variants
+	 * - WebP and AVIF format alternatives with fallbacks
+	 * - Retina (2x) resolution variants
+	 *
+	 * @return string HTML output of the picture element or empty string if no image
+	 */
 	public function render(): string
 	{
 		if ($this->arguments['image'] === null && $this->arguments['src'] === '') {

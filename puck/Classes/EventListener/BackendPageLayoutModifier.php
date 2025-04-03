@@ -12,6 +12,9 @@ use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
+/**
+ * Adds doktype specific header and footer content to the backend page layout.
+ */
 final class BackendPageLayoutModifier
 {
 

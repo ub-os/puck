@@ -7,22 +7,17 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use UBOS\Puck\Attribute\Persistence;
 
+/**
+ * Model for 'tx_puck_domain_model_page_teaser'
+ * used in @see \UBOS\Puck\Controller\PageMenuController to override teaser defaults of page menu items
+ */
 #[Persistence("tx_puck_domain_model_page_teaser")]
 class PageTeaser extends AbstractEntity
 {
-	/**
-	 * @var int
-	 */
 	public int $page;
 
-	/**
-	 * @var string
-	 */
 	public string $title = '';
 
-	/**
-	 * @var string
-	 */
 	public string $text = '';
 
 	/**
@@ -30,13 +25,7 @@ class PageTeaser extends AbstractEntity
 	 */
 	public ObjectStorage|null $media = null;
 
-	/**
-	 * @var string
-	 */
 	public string $icon = '';
 
-	/**
-	 * @var string
-	 */
 	public string $parentTable;
 }

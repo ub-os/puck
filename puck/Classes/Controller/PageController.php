@@ -21,8 +21,9 @@ use SMS\FluidComponents\Utility\ComponentSettings;
 
 use UBOS\Puck\Attribute\AsPlugin;
 
+
 /**
- * Page Controller.
+ * Default Page Controller.
  */
 #[AsPlugin("Page")]
 class PageController extends ActionController
@@ -48,6 +49,7 @@ class PageController extends ActionController
 		$variables['settings'] = $this->settings;
 		$variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
 
+		// run data processing
 		if ($this->settings['dataProcessing'] ?? false) {
 			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
 			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
@@ -60,19 +62,18 @@ class PageController extends ActionController
 			unset($variables['processed']['data']);
 		}
 
-		$backendRows = [
-			['colPos' => 1, 'slide' => 0],
-			['colPos' => 3, 'slide' => -1],
-			['colPos' => 9, 'slide' => 0]
-		];
-
 		// set settings for all fluid components
 		$this->componentSettings
 			->set('template', $siteSettings->get('template'))
 			->set('navigation', $siteSettings->get('navigation'))
 			->set('doktypes', $siteSettings->get('doktypes'));
 
-		// to do update, replace with alternative
+		// render content elements
+		$backendRows = [
+			['colPos' => 1, 'slide' => 0],
+			['colPos' => 3, 'slide' => -1],
+			['colPos' => 9, 'slide' => 0]
+		];
 		$this->contentContentObject->setRequest($this->request);
 		$this->contentContentObject->setContentObjectRenderer($cObj);
 		foreach ($backendRows as $row) {
@@ -86,6 +87,8 @@ class PageController extends ActionController
 				'slide' => $row['slide']
 			]);
 		}
+
+		// add context variable
 		$variables['context'] = [
 			'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
 			'site' => $site,
@@ -99,6 +102,9 @@ class PageController extends ActionController
 	}
 
 
+	/**
+	 * Render the favicon head tags based on favicon name configured in site settings.
+	 */
 	protected function renderFaviconHeadTags($siteSettings): string
 	{
 		$faviconPath = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(

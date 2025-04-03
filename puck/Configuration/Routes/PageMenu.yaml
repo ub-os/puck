@@ -63,12 +63,12 @@ routeEnhancers:
         start: '1'
         end: '1000'
       demand/categories/0/uids:
-        type: PersistedAliasMapperOfCommaList
+        type: PersistedAliasListMapper
         tableName: sys_category
         routeFieldName: slug
         slugSeparator: '.'
       demand/authors:
-        type: PersistedAliasMapperOfCommaList
+        type: PersistedAliasListMapper
         tableName: tx_puck_domain_model_person
         routeFieldName: slug
         slugSeparator: '.'

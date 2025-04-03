@@ -14,6 +14,9 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Frontend\Page\PageLayoutResolver;
 use UBOS\Puck\Attribute\Persistence;
 
+/**
+ * Default model for 'pages'
+ */
 #[Persistence("pages")]
 class Page extends AbstractEntity
 {

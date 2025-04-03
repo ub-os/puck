@@ -10,11 +10,11 @@ use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * Repository for 'tx_puck_domain_model_person'
+ */
 class PersonRepository extends Repository
 {
-	/**
-	 * @return void
-	 */
 	public function initializeObject()
 	{
 		$querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
@@ -22,17 +22,10 @@ class PersonRepository extends Repository
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
-	/**
-	 * @var array
-	 */
 	protected $defaultOrderings = array(
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
 	);
 
-	/**
-	 * @param array $settings
-	 * @return QueryResult
-	 */
 	public function findByListSettings(array $settings): QueryResult
 	{
 		$demand = $settings['demand'];

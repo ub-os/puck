@@ -6,8 +6,23 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
+/**
+ * Utility class that scans directories for PHP classes with specific attributes
+ * and performs configuration tasks based on those attributes.
+ * @see AsPlugin Attribute on controller classes that should be configured as plugins
+ * @see DefaultAction Attribute on controller action method to be used as default action
+ * @see UncachedAction Attribute on controller actions that should not be cached
+ * @see Persistence Attribute on model classes and properties to configure Extbase persistence mapping
+ */
 class AttributeReflection
 {
+	/**
+	 * Configures Plugins by scanning controller classes for the AsPlugin attribute
+	 *
+	 * @param string $extensionKey The extension key
+	 * @param string $controllerDirectory Relative path to the controllers directory
+	 * @param string $controllerNamespace Namespace prefix for the controllers
+	 */
 	public static function configurePlugins(
 		string $extensionKey,
 		string $controllerDirectory,
@@ -85,6 +100,14 @@ class AttributeReflection
 		);
 	}
 
+	/**
+	 * Creates Extbase persistence mapping configuration by scanning model classes
+	 *
+	 * @param string $extensionKey The extension key
+	 * @param string $modelDirectory Relative path to the models directory
+	 * @param string $modelNamespace Namespace prefix for the models
+	 * @return array The generated persistence mapping configuration
+	 */
 	public static function createExtbasePersistenceMapping(
 		string $extensionKey,
 		string $modelDirectory,
@@ -119,6 +142,9 @@ class AttributeReflection
 		return $mapping;
 	}
 
+	/**
+	 * Helper method that performs reflection on PHP classes in a directory
+	 */
 	protected static function reflectDirectory(
 		string $extensionKey,
 		string $relativeDirectory,

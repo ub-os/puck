@@ -12,6 +12,13 @@ use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use UBOS\Puck\Utility\PuckUtility;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
+/**
+ * Controller trait for content element plugins
+ * specifically CTypes configured with @see \UBOS\Puck\Configuration\ContentElementConfiguration
+ *
+ * Provides methods to prepare the view (map data to model or record, run data processing)
+ * and render Fluid components.
+ */
 trait ContentModuleControllerTrait
 {
 	protected RequestInterface $request;
@@ -20,7 +27,10 @@ trait ContentModuleControllerTrait
 	protected array $settings;
 	protected string $defaultFluidComponentNamespace = 'UBOS\Puck\Modules\\';
 
-	protected function prepareContentView($flexFormConvertZeroStringsToInteger = true): void
+	/**
+	 * Run data processing and populate viewVariables
+	 */
+	protected function prepareContentView(): void
 	{
 		$cObj = $this->request->getAttribute('currentContentObject');
 		$data = $cObj->data;
@@ -45,19 +55,6 @@ trait ContentModuleControllerTrait
 			}
 		}
 
-		if (($this->settings['flexFormFields'] ?? false) && $flexFormConvertZeroStringsToInteger) {
-			foreach (explode(',', $this->settings['flexFormFields']) as $fieldName) {
-				if ($this->viewVariables[$fieldName] ?? false) {
-					$this->viewVariables[$fieldName] = PuckUtility::convertZeroStringsToInteger(
-						$this->viewVariables[$fieldName]
-					);
-				}
-			}
-		}
-		if ($flexFormConvertZeroStringsToInteger) {
-			$this->settings = PuckUtility::convertZeroStringsToInteger($this->settings);
-		}
-
 		if ($this->settings['model'] ?? false) {
 			$dataMapper = GeneralUtility::makeInstance(DataMapper::class);
 			$this->viewVariables['record'] = $dataMapper->map($this->settings['model'], [$data])[0];
@@ -76,6 +73,11 @@ trait ContentModuleControllerTrait
 		$this->view->setTemplateRootPaths(['EXT:puck/Resources/Private/Fluid/Content/']);
 	}
 
+	/**
+	 * Directly render a Fluid component
+	 * @param string|null $namespace Namespace of the component, defaults to 'UBOS\Puck\Modules\{settings[templateName] ?? controllerAction}'
+	 * @param array|null $arguments Arguments to pass to the component, defaults to viewVariables
+	 */
 	protected function renderFluidComponent(
 		?string $namespace = null,
 		?array $arguments = null,

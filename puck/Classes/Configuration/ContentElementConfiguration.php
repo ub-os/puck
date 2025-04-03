@@ -7,9 +7,31 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
 use UBOS\Puck\Preview\BasicPreviewRenderer;
+use UBOS\Puck\Controller;
 
+/**
+ * Provides a centralized way to define and configure TYPO3 content elements types (CTypes).
+ *
+ * Defines configuration for TCA, TypoScript setup, ext:container, Data Processors, FlexForms, etc.
+ * Content elements defined here always render an Extbase plugin, default is @see Controller\ContentController
+ * Flexform and data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ContentModuleControllerTrait::prepareContentView()
+ *
+ * How to use:
+ * Create a new instance for every CType and call its methods
+ * 'addTCA' in @see puck/Configuration/TCA/Overrides/tt_content.php
+ * 'addTypoScript' in @see puck/ext_localconf.php respectively.
+ *
+ * @see puck/Configuration/ContentElements/ for examples
+ */
 class ContentElementConfiguration
 {
+	/**
+	 * Loads and sorts content element configurations from a specified folder
+	 *
+	 * @param string $folder Path to folder containing content element configurations
+	 * @param string $extensionName Extension name (default: 'puck')
+	 * @return array Sorted array of ContentElementConfiguration objects
+	 */
 	public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
 	{
 		$configurations = [];
@@ -26,6 +48,25 @@ class ContentElementConfiguration
 		return $configurations;
 	}
 
+	/**
+	 * @param string $type Content element CType
+	 * @param string $label Human-readable name of the content element
+	 * @param string $description Description for the content element
+	 * @param string $group Group in content element wizard (default: '01_content')
+	 * @param string $icon Icon identifier (default: 'default')
+	 * @param float $sorting Sorting value for content element wizard (default: 1000)
+	 * @param string $showItem TCA showitem configuration
+	 * @param array $columnsOverrides TCA column overrides
+	 * @param string $pluginName Name of the plugin this element renders (default: 'Content')
+	 * @param string $extensionName Plugin extension name (default: 'Puck')
+	 * @param string $templateName Template name (defaults to CamelCase of $type)
+	 * @param string $model Model class name, if content data should be mapped to a model instead of a generic record
+	 * @param array $flexForms Array of field names => flexform file string, e.g. ['pi_flexform' => 'EXT:puck/Resources/Private/FlexForms/ContentElement.xml']
+	 * @param array $containerConfiguration Container column configuration
+	 * @param array $dataProcessing Data processor configurations
+	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer)
+	 * @param bool $noCache Whether to disable caching (default: false)
+	 */
 	public function __construct(
 		public string $type,
 		public string $label,
@@ -37,7 +78,6 @@ class ContentElementConfiguration
 		public array  $columnsOverrides = [],
 		public string $pluginName = 'Content',
 		public string $extensionName = 'Puck',
-		public string $vendorName = 'UBOS',
 		public string $templateName = '',
 		public string $model = '',
 		public array  $flexForms = [],
@@ -51,11 +91,14 @@ class ContentElementConfiguration
 
 	protected array $valueOverrides = [];
 
-	public function getCType(): string
+	protected function getCType(): string
 	{
 		return GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName . '_' . $this->type);
 	}
 
+	/**
+	 * Adds TCA configuration for the content element type
+	 */
 	public function addTCA(): void
 	{
 		if ($this->containerConfiguration) {
@@ -95,6 +138,10 @@ class ContentElementConfiguration
 		);
 	}
 
+
+	/**
+	 * Adds the necessary TypoScript configuration for content element type
+	 */
 	public function addTypoScript(): void
 	{
 		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
@@ -119,7 +166,6 @@ class ContentElementConfiguration
                 userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
-                vendorName = ' . $this->vendorName . '
                 settings {
                     templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
                     model = ' . $this->model . '
@@ -133,6 +179,19 @@ class ContentElementConfiguration
 		);
 	}
 
+	/**
+	 * Creates a new element configuration with restricted fields based on this configuration
+	 *
+	 * @param string $type Content element CType
+	 * @param string $label Human-readable name for the content element
+	 * @param string $description Description for the content element
+	 * @param string $group Group in content element wizard (optional)
+	 * @param string $icon Icon identifier (optional)
+	 * @param float $sorting Sorting value for content element wizard (optional)
+	 * @param array $valueOverrides These fields will be hidden in the backend and overridden with the given values when using ContentRecord
+	 * @return ContentElementConfiguration The modified configuration instance
+	 * @see \UBOS\Puck\Domain\ContentRecord
+	 */
 	public function makeRestrictedChildElement(
 		string $type,
 		string $label,

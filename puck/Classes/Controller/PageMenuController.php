@@ -21,6 +21,15 @@ use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 
+/**
+ * Controller for the PageMenu plugin.
+ * Creates a menu of pages records based on the @see MenuDemand created from the plugin settings.
+ * Will also build CategoryFilter and Pagination objects and override page records with teaser records if configured.
+ * @see CategoryFilterBuilder
+ * @see PaginationBuilder
+ * @see \UBOS\Puck\Domain\Model\PageTeaser
+ * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
+ */
 #[AsPlugin("PageMenu", fragmentTypeNum: 16500000)]
 class PageMenuController extends ActionController
 {
@@ -60,6 +69,7 @@ class PageMenuController extends ActionController
 		?int   $recordUid = null,
 	): ResponseInterface
 	{
+		// fetch the correct plugin record for contexts where it is not the 'currentContentObject'
 		if ($recordUid ?? false) {
 			$langId = (int)$this->request->getAttribute('language')->getLanguageId();
 			$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
@@ -87,11 +97,15 @@ class PageMenuController extends ActionController
 		$menu = [];
 		$record = $this->viewVariables['record'];
 
+		// override demand with demand url parameter
 		if ($this->settings['demand']['overrideDemand']) {
 			ArrayUtility::mergeRecursiveWithOverrule($this->settings['demand'], $demand ?? []);
 		}
 
+		// get raw page records from database
 		$pages = $this->pageRepository->findByMenuDemand($this->getMenuDemand(), true);
+
+		// build optional pagination
 		$itemsPerPage = (int)$this->settings['pagination']['itemsPerPage'] ?: 12;
 		if ($this->settings['pagination']['active'] && count($pages) > $itemsPerPage) {
 			$paginationBuilder = new PaginationBuilder(
@@ -110,10 +124,12 @@ class PageMenuController extends ActionController
 			$pages = $paginationBuilder->getPaginatedItems();
 		}
 
+		// populate menu with resolved page records
 		foreach ($pages as $page) {
 			$menu[] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $page);
 		}
 
+		// apply teaser overrides to page records
 		if ($this->settings['demand']['teasers']) {
 			$teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
 			foreach ($teasers as $teaser) {
@@ -123,7 +139,7 @@ class PageMenuController extends ActionController
 			}
 		}
 
-		// add filter categories to view
+		// build category filter
 		if ($this->settings['categoryFilter']['active']) {
 			$categoryFilterBuilder = new CategoryFilterBuilder(
 				request: $this->request,

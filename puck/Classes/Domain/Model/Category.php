@@ -7,12 +7,12 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use UBOS\Puck\Attribute\Persistence;
 
+/**
+ * Default model for 'sys_category'
+ */
 #[Persistence("sys_category")]
 class Category extends AbstractEntity
 {
-	/**
-	 * @var string
-	 */
 	public string $title = '';
 
 	/**
@@ -21,9 +21,6 @@ class Category extends AbstractEntity
 	#[Lazy]
 	protected ?ObjectStorage $parent = null;
 
-	/**
-	 * @var string
-	 */
 	public string $slug = '';
 
 	public function getParent(): ?Category

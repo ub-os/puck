@@ -11,6 +11,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puck\Attribute\AsPlugin;
 
+/**
+ * Controller for the AnchorMenu plugin.
+ * Finds all tt_content records of type 'puck_anchor' in the same page and language as the current record to render a menu.
+ */
 #[AsPlugin("AnchorMenu")]
 class AnchorMenuController extends ActionController
 {

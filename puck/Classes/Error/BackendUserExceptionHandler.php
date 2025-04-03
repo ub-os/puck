@@ -12,6 +12,12 @@ use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Handles exceptions based on the backend user login state.
+ * Echo debug exception page if the backend user is logged in
+ * Echo production exception page if the backend user is not logged in
+ * Echo basic error page if the backend user is not logged in and no site is found
+ */
 class BackendUserExceptionHandler extends DebugExceptionHandler
 {
 

@@ -8,18 +8,15 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Core\Context\Context;
 
+/**
+ * Repository for 'tx_puck_domain_model_page_teaser'
+ */
 class PageTeaserRepository extends Repository
 {
-	/**
-	 * @var array
-	 */
 	protected $defaultOrderings = array(
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
 	);
 
-	/**
-	 * @return void
-	 */
 	public function initializeObject(): void
 	{
 		$querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);

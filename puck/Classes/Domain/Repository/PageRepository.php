@@ -9,11 +9,15 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use UBOS\Puck\Menu\MenuDemandRepository;
-use UBOS\Puck\Menu\FindByMenuDemand;
+use UBOS\Puck\Menu\FindByMenuDemandRepositoryTrait;
 
+
+/**
+ * Repository for 'pages'
+ */
 class PageRepository extends Repository implements MenuDemandRepository
 {
-	use FindByMenuDemand;
+	use FindByMenuDemandRepositoryTrait;
 
 	public const DOKTYPES = [
 		'default' => CorePageRepository::DOKTYPE_DEFAULT,

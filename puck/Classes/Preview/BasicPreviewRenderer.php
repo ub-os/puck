@@ -21,6 +21,9 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use B13\Container\Backend\Preview\ContainerPreviewRenderer;
 use B13\Container\Tca\Registry;
 
+/**
+ * Default preview renderer for content elements.
+ */
 class BasicPreviewRenderer implements PreviewRendererInterface
 {
 	protected ViewInterface $view;

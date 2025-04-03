@@ -8,11 +8,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
 /**
- *
+ * ItemsProcFunc methods for 'tt_content' fields
  */
 class ContentItemsProcFunc
 {
-	use ItemsProcFuncUtils;
+	use ItemsProcFuncUtilsTrait;
 
 	/**
 	 * @var array|array[]

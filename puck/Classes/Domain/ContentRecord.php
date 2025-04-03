@@ -6,6 +6,9 @@ use TYPO3\CMS\Core\Domain\Record;
 use TYPO3\CMS\Core\Domain\RawRecord;
 use TYPO3\CMS\Core\Domain\Record\SystemProperties;
 
+/**
+ * Record for 'tt_content'
+ */
 class ContentRecord extends Record
 {
 	public function __construct(
@@ -18,6 +21,10 @@ class ContentRecord extends Record
 		$this->setComputedProperties();
 	}
 
+	/**
+	 * override property values based on TCA 'valueOverrides'
+	 * @see \UBOS\Puck\Configuration\ContentElementConfiguration
+	 */
 	protected function setOverriddenProperties(): void
 	{
 		foreach ($GLOBALS['TCA']['tt_content']['types'][$this->properties['CType']]['valueOverrides'] ?? [] as $fieldName => $value) {
@@ -25,6 +32,9 @@ class ContentRecord extends Record
 		}
 	}
 
+	/**
+	 * initialize computed properties based on the current properties
+	 */
 	protected function setComputedProperties(): void
 	{
 		$p = $this->properties;

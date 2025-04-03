@@ -8,6 +8,9 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\ContentRecord;
 use UBOS\Puck\Domain\PageRecord;
 
+/**
+ * Creates different record objects based on the main type of the record.
+ */
 final class RecordCreator
 {
 

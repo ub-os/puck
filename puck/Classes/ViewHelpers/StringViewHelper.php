@@ -2,10 +2,19 @@
 
 namespace UBOS\Puck\ViewHelpers;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * ViewHelper for string manipulation operations
+ *
+ * Provides various string operations like searching, replacing, exploding,
+ * and template-based substitution. Multiple operations can be chained together.
+ *
+ * Example usage:
+ * <u:string input="Hello World" search="Hello" replace="Hi" />
+ * <u:string input="item1,item2,item3" explode="," set="items" />
+ * <u:string dataReplace="{name: 'Jane'}" input="Hello {{name}}" />
+ */
 class StringViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
@@ -24,6 +33,11 @@ class StringViewHelper extends AbstractViewHelper
 		$this->registerArgument('operations', 'string', '', false, 'contains search dataReplace length explode');
 	}
 
+	/**
+	 * Performs string operations based on the provided arguments
+	 *
+	 * @return array|string|null|int The processed result, which varies based on operations performed
+	 */
 	public function render(): array|string|null|int
 	{
 		$input = $this->arguments['input'] ?: $this->renderChildren() ?? '';
@@ -35,6 +49,13 @@ class StringViewHelper extends AbstractViewHelper
 		return $result;
 	}
 
+	/**
+	 * Processes input based on provided arguments
+	 *
+	 * @param array|string $input The input to process
+	 * @param array $arguments ViewHelper arguments
+	 * @return array|string|null The processed result
+	 */
 	protected static function process(array|string $input, array $arguments): array|string|null
 	{
 		if ($arguments['if'] !== null && !$arguments['if']) {
@@ -49,6 +70,13 @@ class StringViewHelper extends AbstractViewHelper
 		}
 	}
 
+	/**
+	 * Applies operations to the string in the order specified
+	 *
+	 * @param string $string The string to process
+	 * @param array $arguments ViewHelper arguments
+	 * @return string|array The string after all operations or array if exploded
+	 */
 	protected static function doOperations(string $string, array $arguments): string|array
 	{
 		$operations = explode(' ', $arguments['operations']);
@@ -60,21 +88,53 @@ class StringViewHelper extends AbstractViewHelper
 		return $string;
 	}
 
+	/**
+	 * Checks if a string contains a substring
+	 *
+	 * @param string $string The string to check
+	 * @param string $contains The substring to look for
+	 * @return bool True if the substring is found
+	 */
 	protected static function contains(string $string, string $contains): bool
 	{
 		return str_contains($string, $contains);
 	}
 
+	/**
+	 * Gets the length of a string
+	 *
+	 * @param string $string The string to measure
+	 * @param string $length Unused parameter (for consistency with other operations)
+	 * @return int The length of the string
+	 */
 	protected static function length(string $string, string $length): int
 	{
 		return strlen($string);
 	}
 
+	/**
+	 * Replaces all occurrences of a search string with a replacement
+	 *
+	 * @param string $string The string to search in
+	 * @param string $search The string to search for
+	 * @param array $args Arguments containing 'replace' key with replacement string
+	 * @return bool|string The resulting string with replacements
+	 */
 	protected static function search(string $string, string $search, array $args): bool|string
 	{
 		return str_replace($search, $args['replace'], $string);
 	}
 
+	/**
+	 * Performs template-based substitution with variables in {{var}} format
+	 *
+	 * Replaces variables in the format {{variable.path}} with values from
+	 * the dataReplace array. Supports nested paths with dot notation.
+	 *
+	 * @param string $string The template string containing {{var}} placeholders
+	 * @param array $dataReplace Array of replacement values
+	 * @return string The string with replacements made
+	 */
 	protected static function dataReplace(string $string, array $dataReplace): string
 	{
 		preg_match_all("/\{\{(.*?)\}\}/", $string, $matches);
@@ -104,6 +164,13 @@ class StringViewHelper extends AbstractViewHelper
 		return $string;
 	}
 
+	/**
+	 * Splits a string into an array using a delimiter
+	 *
+	 * @param string $string The string to split
+	 * @param string $explode The delimiter to split by
+	 * @return array The resulting array of substrings
+	 */
 	protected static function explode(string $string, string $explode): array
 	{
 		return explode($explode, $string);

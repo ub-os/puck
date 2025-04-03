@@ -9,15 +9,13 @@ use GeorgRinger\NumberedPagination\NumberedPagination;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 /**
- *
+ * General utility functions for Puck
  */
 class PuckUtility
 {
 	/**
-	 * @param string $filepath
-	 * @param bool $keysFromFirstRow
-	 * @param string $delimiter
-	 * @return array
+	 * read a file and return its contents as an associative array
+	 * for json, csv, xml and xlsx files
 	 */
 	public static function getArrayFromFile(string $filepath, bool $keysFromFirstRow = true, string $delimiter = ','): array
 	{
@@ -87,19 +85,6 @@ class PuckUtility
 				}
 		}
 		return $result;
-	}
-
-	public static function getBaseFilesInDir(string $dirPath, string $fileExtension): array
-	{
-		if (!is_dir($dirPath)) {
-			return [];
-		}
-		$files = GeneralUtility::getFilesInDir($dirPath, $fileExtension);
-		foreach ($files as $key => $file) {
-			$files[$key] = PathUtility::pathinfo($file, PATHINFO_FILENAME);
-		}
-
-		return array_values($files);
 	}
 
 	public static function convertZeroStringsToInteger(mixed $value, bool $convertToNull = false): mixed

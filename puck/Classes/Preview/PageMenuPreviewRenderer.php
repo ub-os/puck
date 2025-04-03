@@ -11,6 +11,9 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 
 use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
 
+/**
+ * Preview renderer for the PageMenu plugin.
+ */
 class PageMenuPreviewRenderer extends BasicPreviewRenderer
 {
 

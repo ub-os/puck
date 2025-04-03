@@ -12,6 +12,12 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 
+/**
+ * Middleware to enable redirection for specific doktypes, similar to the core doktype 'shortcut'.
+ *
+ * If the doktype of the requested page is in the list of REDIRECT_DOKTYPES
+ * and the 'url' field is set, redirect to the URL.
+ */
 class RedirectDoktypes implements MiddlewareInterface
 {
 	const REDIRECT_DOKTYPES = [

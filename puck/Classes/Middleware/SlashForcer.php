@@ -10,7 +10,10 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\Site;
 
-// taken from https://github.com/b13/slash-force/
+/**
+ * taken from https://github.com/b13/slash-force/
+ * Middleware to force trailing slashes on URLs.
+ */
 class SlashForcer implements MiddlewareInterface
 {
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

@@ -7,9 +7,12 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Domain\Repository\PageRepository;
 
+/**
+ * ItemsProcFunc methods for 'pages' fields
+ */
 class PageItemsProcFunc
 {
-	use ItemsProcFuncUtils;
+	use ItemsProcFuncUtilsTrait;
 
 	protected array $keepItemsMap = [
 	];

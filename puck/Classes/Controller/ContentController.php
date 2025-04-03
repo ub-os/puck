@@ -10,6 +10,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puck\Attribute\AsPlugin;
 
+/**
+ * Controller for the Content plugin.
+ * Default plugin for content elements.
+ */
 #[AsPlugin("Content")]
 class ContentController extends ActionController
 {

@@ -2,10 +2,19 @@
 
 namespace UBOS\Puck\ViewHelpers;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * ViewHelper for variable operations in Fluid templates
+ *
+ * Provides utility functions for setting and retrieving variables,
+ * as well as basic conditional logic for variable assignment.
+ *
+ * Example usage:
+ * <u:var value="{someValue}" set="myVar" /> <!-- Stores value in myVar -->
+ * <u:var if="{condition}" then="Yes" else="No" set="result" /> <!-- Conditional assignment -->
+ * <u:var get="{myVar}" /> <!-- Outputs myVar value -->
+ */
 class VarViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
@@ -19,6 +28,18 @@ class VarViewHelper extends AbstractViewHelper
 		$this->registerArgument('set', 'string', '', false, '');
 	}
 
+	/**
+	 * Performs variable operations based on the provided arguments
+	 *
+	 * The ViewHelper can:
+	 * 1. Store a value in a variable using 'set'
+	 * 2. Apply conditional logic with 'if', 'then', 'else'
+	 * 3. Output a specified value with 'get'
+	 *
+	 * If no operation is specified, it returns null.
+	 *
+	 * @return mixed The value from 'get', the child content, or null
+	 */
 	public function render(): mixed
 	{
 		$value = $this->arguments['value'] ?: $this->renderChildren() ?? null;

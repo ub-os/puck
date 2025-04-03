@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 
-trait FindByMenuDemand
+trait FindByMenuDemandRepositoryTrait
 {
 	abstract public function createQuery();
 

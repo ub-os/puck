@@ -5,7 +5,8 @@ namespace UBOS\Puck\Utility;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
 /**
- *
+ * TCA Utility
+ * mainly convenience methods to set up crop variants
  */
 class TcaUtility
 {

@@ -7,6 +7,11 @@ namespace UBOS\Puck\PageTitle;
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
+/**
+ * Default Page Title Provider.
+ * If 'seo_title' is set in the page record use it as the title.
+ * If not, use the page 'title' and append the website title from site settings.
+ */
 final class PuckTitleProvider extends AbstractPageTitleProvider
 {
 	public const TITLE_DIVIDER = ' | ';

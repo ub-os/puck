@@ -7,6 +7,17 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
 
+/**
+ * Provides a centralized way to define and configure TYPO3 page types (doktypes).
+ *
+ * This class defines configuration for pages TCA
+ *
+ * How to use:
+ * Create a new instance for every doktype and call its method
+ * 'addTCA' in @see puck/Configuration/TCA/Overrides/pages.php
+ *
+ * @see puck/Configuration/PageTypes/ for examples
+ */
 class PageTypeConfiguration
 {
 	public function __construct(

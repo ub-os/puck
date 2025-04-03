@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
 /**
- *
+ * Adds a button to the page record list to edit the content elements of the page.
  */
 final class PageRecordListActionEnhancer
 {

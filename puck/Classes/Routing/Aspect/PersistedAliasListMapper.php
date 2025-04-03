@@ -6,7 +6,12 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
 
-class PersistedAliasMapperOfCommaList extends PersistedAliasMapper
+/**
+ * Routing aspect mapper that maps a (default: comma-separated) list of UIDs to a (default: dot-separated) list of slugs.
+ *
+ * This is an extension of the PersistedAliasMapper that allows for lists of UIDs instead of a single UID.
+ */
+class PersistedAliasListMapper extends PersistedAliasMapper
 {
 
 	public function __construct(array $settings)

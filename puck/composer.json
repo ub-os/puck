@@ -10,7 +10,7 @@
 		"t3/scroll": "^2"
 	},
 	"require": {
-		"php": "^8",
+		"php": "^8.3",
 		"phpoffice/phpspreadsheet": "^1.27",
 		"typo3/cms-core": "^13",
 		"typo3/cms-lowlevel": "^13",

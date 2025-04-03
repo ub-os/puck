@@ -15,6 +15,18 @@ use B13\Menus\DataProcessing\LanguageMenu;
 use B13\Menus\DataProcessing\ListMenu;
 use B13\Menus\DataProcessing\TreeMenu;
 
+/**
+ * ViewHelper for generating different types of menus
+ *
+ * Uses B13's menu processors to create menus like page trees, language selectors,
+ * breadcrumbs, and page lists. Provides a simplified interface to the processors.
+ *
+ * Example usage:
+ * <u:menu processor="tree" pages="1,2,3" depth="2" set="treeMenu" />
+ * <u:menu processor="language" excludeLanguages="1" set="langMenu"/>
+ * {u:menu(processor:"breadcrumbs")}
+ * {u:menu(pages:"12", processMedia:1)} />
+ */
 class MenuViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
@@ -31,6 +43,14 @@ class MenuViewHelper extends AbstractViewHelper
 		$this->registerArgument('set', 'string', '', false, '');
 	}
 
+	/**
+	 * Generates menu data for different types of menus
+	 *
+	 * Uses one of B13's menu processors (tree, language, breadcrumbs, list)
+	 * based on the 'processor' argument. Each processor has its own configuration options.
+	 *
+	 * @return array|null Menu data array or null if stored in variable
+	 */
 	public function render(): ?array
 	{
 		$processor = $this->arguments['processor'];

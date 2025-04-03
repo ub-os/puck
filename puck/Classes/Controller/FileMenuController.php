@@ -9,6 +9,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puck\Attribute\AsPlugin;
 
+/**
+ * Controller for the FileMenu plugin.
+ * Creates a menu of files based on selected files and file collections in content record.
+ */
 #[AsPlugin("FileMenu")]
 class FileMenuController extends ActionController
 {

@@ -29,7 +29,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 					],
 				],
 				'appearance' => [
-					'prefix' => \UBOS\Puck\UserFunctions\FormEngine\SlugPrefix::class . '->getHash',
+					'prefix' => \UBOS\Puck\UserFunctions\FormEngine\Tca::class . '->getHash',
 				],
 				'fallbackCharacter' => '-',
 				'eval' => 'uniqueInPid',

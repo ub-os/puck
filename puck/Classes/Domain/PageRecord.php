@@ -8,6 +8,9 @@ use TYPO3\CMS\Core\Domain\Record\SystemProperties;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use UBOS\Puck\Domain\Model\PageTeaser;
 
+/**
+ * Record for 'pages'
+ */
 class PageRecord extends Record
 {
 	public function __construct(
@@ -19,6 +22,9 @@ class PageRecord extends Record
 		$this->setComputedProperties();
 	}
 
+	/**
+	 * initialize computed properties based on the current properties
+	 */
 	protected function setComputedProperties(): void
 	{
 		$p = $this->properties;
@@ -45,6 +51,10 @@ class PageRecord extends Record
 		$this->properties = $p;
 	}
 
+	/**
+	 * override teaser properties with values from the given teaser model
+	 * used in @see \UBOS\Puck\Controller\PageMenuController
+	 */
 	public function overrideWithTeaser(PageTeaser $teaser): void
 	{
 		$this->properties['teaser_title'] = $teaser->title;
