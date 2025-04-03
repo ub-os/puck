@@ -2,14 +2,17 @@
 
 namespace UBOS\Puck\Attribute;
 
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 class AttributeReflection
 {
-	public static function configurePlugins(string $extensionKey, string $controllerDirectory, string $controllerNamespace): void
+	public static function configurePlugins(
+		string $extensionKey,
+		string $controllerDirectory,
+		string $controllerNamespace
+	): void
 	{
 		self::reflectDirectory(
 			$extensionKey,

@@ -42,10 +42,7 @@ class FileMenuController extends ActionController
 		);
 		$this->viewVariables['menu'] = $menu;
 		return $this->htmlResponse(
-			$this->renderFluidComponent(
-				'UBOS\Puck\Modules\\' . $this->settings['templateName'],
-				$this->viewVariables
-			)
+			$this->renderFluidComponent()
 		);
 	}
 

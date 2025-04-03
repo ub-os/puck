@@ -162,12 +162,6 @@ class ContentElementConfiguration
 		foreach ($overrides as $fieldName => $value) {
 			$this->columnsOverrides[$fieldName] = [
 				'displayCond' => 'FIELD:CType:!=:' . $this->getCType(),
-				/*                'config' => [
-									'type' => 'select',
-									'renderType' => 'selectSingle',
-									'items' => [['label' => '', 'value' => $value]],
-									'default' => $value,
-								]*/
 			];
 		}
 	}

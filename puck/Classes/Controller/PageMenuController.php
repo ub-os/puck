@@ -144,10 +144,7 @@ class PageMenuController extends ActionController
 
 		$this->viewVariables['menu'] = $menu;
 		return $this->htmlResponse(
-			$this->renderFluidComponent(
-				'UBOS\Puck\Modules\PageMenu',
-				$this->viewVariables
-			)
+			$this->renderFluidComponent()
 		);
 	}
 }

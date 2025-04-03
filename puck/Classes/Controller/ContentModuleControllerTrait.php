@@ -18,6 +18,7 @@ trait ContentModuleControllerTrait
 	protected $view;
 	protected array $viewVariables = [];
 	protected array $settings;
+	protected string $defaultFluidComponentNamespace = 'UBOS\Puck\Modules\\';
 
 	protected function prepareContentView($flexFormConvertZeroStringsToInteger = true): void
 	{
@@ -65,9 +66,9 @@ trait ContentModuleControllerTrait
 			$this->viewVariables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
 		}
 
-		$this->setContentTemplatePath();
+		$this->viewVariables['settings'] = $this->settings;
 		$this->view->assignMultiple($this->viewVariables);
-		$this->view->assign('settings', $this->settings);
+		$this->setContentTemplatePath();
 	}
 
 	protected function setContentTemplatePath(): void
@@ -76,9 +77,11 @@ trait ContentModuleControllerTrait
 	}
 
 	protected function renderFluidComponent(
-		string $namespace,
-		array $arguments = [],
+		?string $namespace = null,
+		?array $arguments = null,
 	): string {
+		$namespace = $namespace ?? $this->defaultFluidComponentNamespace . ($this->settings['templateName'] ?? ucfirst($this->view->getRenderingContext()->getControllerAction()));
+		$arguments = $arguments ?? $this->viewVariables;
 		$componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
 		$componentRenderer->setComponentNamespace($namespace);
 		$renderingContext = $this->view->getRenderingContext();

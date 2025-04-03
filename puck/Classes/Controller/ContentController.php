@@ -18,14 +18,8 @@ class ContentController extends ActionController
 	public function indexAction(): ResponseInterface
 	{
 		$this->prepareContentView();
-		$context = $this->view->getRenderingContext();
-		$context->setControllerAction($this->settings['templateName']);
-		$this->view->setRenderingContext($context);
 		return $this->htmlResponse(
-			$this->renderFluidComponent(
-				'UBOS\Puck\Modules\\'.$this->settings['templateName'],
-				$this->viewVariables
-			)
+			$this->renderFluidComponent()
 		);
 	}
 }
