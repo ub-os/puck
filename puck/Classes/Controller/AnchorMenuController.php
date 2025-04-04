@@ -8,17 +8,17 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puck\Attribute\AsPlugin;
+use UBOS\Puck\Attribute\AsAction;
 
 /**
  * Controller for the AnchorMenu plugin.
  * Finds all 'tt_content' records of type 'puck_anchor' on the plugin's page to create a menu.
  */
-#[AsPlugin("AnchorMenu")]
 class AnchorMenuController extends ActionController
 {
 	use ContentModuleControllerTrait;
 
+	#[AsAction("AnchorMenu")]
 	public function anchorMenuAction(): ResponseInterface
 	{
 		$this->prepareContentView();

@@ -21,7 +21,7 @@ $columns['frame_class'] = [
 ];
 
 $columns['layout'] = [
-	'label' => 'Appearance type',
+	'label' => 'Variant',
 	'onChange' => 'reload',
 	'disableNoMatchingValueElement' => true,
 	'config' => [

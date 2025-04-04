@@ -26,29 +26,6 @@ use UBOS\Puck\Controller;
 class ContentElementConfiguration
 {
 	/**
-	 * Loads and sorts content element configurations from a specified folder
-	 *
-	 * @param string $folder Path to folder containing content element configurations
-	 * @param string $extensionName Extension name (default: 'puck')
-	 * @return array Sorted array of ContentElementConfiguration objects
-	 */
-	public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
-	{
-		$configurations = [];
-		$files = glob(ExtensionManagementUtility::extPath($extensionName, $folder));
-		foreach ($files as $file) {
-			$return = (include $file);
-			if ($return instanceof ContentElementConfiguration) {
-				$configurations[] = $return;
-			}
-		}
-		usort($configurations, function ($a, $b) {
-			return $a->sorting - $b->sorting;
-		});
-		return $configurations;
-	}
-
-	/**
 	 * @param string $type Content element CType (will be converted to lower_case_underscore and prefixed with the extension name)
 	 * @param string $label Human-readable name of the content element
 	 * @param string $description Description for the content element
@@ -61,7 +38,7 @@ class ContentElementConfiguration
 	 * @param string $extensionName Plugin extension name (default: 'Puck')
 	 * @param string $templateName Template name (defaults to CamelCase of $type)
 	 * @param string $model Model class name, if content data should be mapped to a model instead of a generic record
-	 * @param array $flexForms Array of field names => flexform file string, e.g. ['pi_flexform' => 'EXT:puck/Resources/Private/FlexForms/ContentElement.xml']
+	 * @param array $flexForms Array of field names => flexform file string, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration
 	 * @param array $dataProcessing Data processor configurations
 	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer::class)
@@ -90,6 +67,29 @@ class ContentElementConfiguration
 	}
 
 	protected array $valueOverrides = [];
+
+	/**
+	 * Loads and sorts content element configurations from a specified folder
+	 *
+	 * @param string $folder Path to folder containing content element configurations
+	 * @param string $extensionName Extension name (default: 'puck')
+	 * @return array Sorted array of ContentElementConfiguration objects
+	 */
+	public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
+	{
+		$configurations = [];
+		$files = glob(ExtensionManagementUtility::extPath($extensionName, $folder));
+		foreach ($files as $file) {
+			$return = (include $file);
+			if ($return instanceof ContentElementConfiguration) {
+				$configurations[] = $return;
+			}
+		}
+		usort($configurations, function ($a, $b) {
+			return $a->sorting - $b->sorting;
+		});
+		return $configurations;
+	}
 
 	protected function getCType(): string
 	{
@@ -161,18 +161,18 @@ class ContentElementConfiguration
 			$this->extensionName,
 			'setup',
 			'
-            tt_content.' . $this->getCType() . ' = USER' . ($this->noCache ? '_INT' : '') . '
+            tt_content.' . $this->getCType() . ' = EXTBASEPLUGIN
             tt_content.' . $this->getCType() . '  {
-                userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
                 settings {
-                    templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
-                    model = ' . $this->model . '
-                    flexFormFields = ' . implode(',', array_keys($this->flexForms)) . '
-                    dataProcessing {
-                        ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
-                    }
+                	contentElementConfiguration {
+						model = ' . $this->model . '
+						templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
+						dataProcessing {
+							' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
+						}
+                	}
                 }
             }',
 			'defaultContentRendering'

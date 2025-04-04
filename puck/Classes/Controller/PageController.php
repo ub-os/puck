@@ -18,13 +18,12 @@ use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use SMS\FluidComponents\Utility\ComponentSettings;
 
-use UBOS\Puck\Attribute\AsPlugin;
+use UBOS\Puck\Attribute\AsAction;
 
 
 /**
  * Default Page Controller.
  */
-#[AsPlugin("Page")]
 class PageController extends ActionController
 {
 	public function __construct(
@@ -37,6 +36,7 @@ class PageController extends ActionController
 	{
 	}
 
+	#[AsAction("Page")]
 	public function indexAction(): ResponseInterface
 	{
 		$cObj = $this->request->getAttribute('currentContentObject');
@@ -95,7 +95,6 @@ class PageController extends ActionController
 		];
 
 		$this->pageRenderer->addHeaderData($this->renderFaviconHeadTags($siteSettings));
-		$this->view->setTemplateRootPaths([$this->settings['view']['templateRootPath']]);
 		$this->view->assignMultiple($variables);
 		return $this->htmlResponse();
 	}

@@ -33,10 +33,11 @@ trait ContentModuleControllerTrait
 		$cObj = $this->request->getAttribute('currentContentObject');
 		$data = $cObj->data;
 
-		if ($this->settings['dataProcessing'] ?? false) {
+		$contentElementConfiguration = $this->settings['contentElementConfiguration'] ?? [];
+		if ($contentElementConfiguration['dataProcessing'] ?? false) {
 			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
 			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
-				->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
+				->convertPlainArrayToTypoScriptArray($contentElementConfiguration['dataProcessing']);
 			$this->viewVariables = $processor->process(
 				$cObj,
 				['dataProcessing.' => $processingTypoScript ?? null],
@@ -53,9 +54,9 @@ trait ContentModuleControllerTrait
 			}
 		}
 
-		if ($this->settings['model'] ?? false) {
+		if ($contentElementConfiguration['model'] ?? false) {
 			$dataMapper = GeneralUtility::makeInstance(DataMapper::class);
-			$this->viewVariables['record'] = $dataMapper->map($this->settings['model'], [$data])[0];
+			$this->viewVariables['record'] = $dataMapper->map($contentElementConfiguration['model'], [$data])[0];
 		} else {
 			$recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
 			$this->viewVariables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
@@ -81,7 +82,7 @@ trait ContentModuleControllerTrait
 		?string $namespace = null,
 		?array $arguments = null,
 	): string {
-		$namespace = $namespace ?? $this->defaultFluidComponentNamespace . ($this->settings['templateName'] ?? ucfirst($this->view->getRenderingContext()->getControllerAction()));
+		$namespace = $namespace ?? $this->defaultFluidComponentNamespace . ($this->settings['contentElementConfiguration']['templateName'] ?? ucfirst($this->view->getRenderingContext()->getControllerAction()));
 		$arguments = $arguments ?? $this->viewVariables;
 		$componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
 		$componentRenderer->setComponentNamespace($namespace);

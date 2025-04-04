@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use UBOS\Puck\Attribute\AsPlugin;
+use UBOS\Puck\Attribute\AsAction;
 use UBOS\Puck\Menu\Dto\MenuDemand;
 use UBOS\Puck\Menu\CategoryFilterBuilder;
 use UBOS\Puck\Menu\PaginationBuilder;
@@ -28,7 +28,6 @@ use UBOS\Puck\Domain\Repository\PageTeaserRepository;
  * and override teaser properties of menu items with values from teaser records if configured in settings.
  * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
  */
-#[AsPlugin("PageMenu", fragmentTypeNum: 16500000)]
 class PageMenuController extends ActionController
 {
 	use ContentModuleControllerTrait;
@@ -62,6 +61,7 @@ class PageMenuController extends ActionController
 
 	protected int $pageMenuFragmentTypeNum = 16500000;
 
+	#[AsAction("PageMenu", pluginFragmentPageType: 16500000)]
 	public function pageMenuAction(
 		?array $demand = null,
 		?int   $recordUid = null,

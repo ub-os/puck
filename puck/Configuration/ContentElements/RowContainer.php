@@ -3,7 +3,7 @@
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	'row_container',
 	label: 'Row container',
-	description: 'Container for text and media columns and cards. Flexible alignment and individual column widths.',
+	description: 'Container for columns and cards. Flexible alignment, individual column widths and carousel variant.',
 	icon: 'row_container',
 	sorting: 80,
 	showItem: '
@@ -26,8 +26,8 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'layout' => [
 			'config' => [
 				'items' => [
-					['Rows', 'default', 'row_layout_row'],
-					['Carousel', 'carousel', 'row_layout_carousel'],
+					['label' => 'Rows', 'value' => 'default', 'icon' => 'row_layout_row'],
+					['label' => 'Carousel', 'value' => 'carousel', 'icon' => 'row_layout_carousel'],
 				],
 			]
 		],

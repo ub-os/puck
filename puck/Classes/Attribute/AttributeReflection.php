@@ -9,17 +9,15 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 /**
  * Utility class that scans directories for PHP classes with specific attributes
  * and performs configuration tasks based on those attributes.
- * @see AsPlugin Attribute on controller classes that should be configured as plugins
- * @see DefaultAction Attribute on controller action method to be used as default action
- * @see UncachedAction Attribute on controller actions that should not be cached
+ * @see AsAction Attribute on controller methods to configure plugins
  * @see Persistence Attribute on model classes and properties to configure Extbase persistence mapping
  */
 class AttributeReflection
 {
 	/**
-	 * Configures Plugins by scanning controller classes for the AsPlugin attribute
+	 * Configures Plugins by scanning controller class methods for the AsAction attribute
 	 * Registers plugins with ExtensionUtility::configurePlugin()
-	 * Sets up TypoScript for plugin html fragment rendering if AsPlugin::fragmentTypeNum is set.
+	 * Sets up TypoScript for plugin html fragment rendering if AsAction::pluginFragmentPageType is set.
 	 *
 	 * @param string $extensionKey The extension key
 	 * @param string $controllerDirectory Relative path to the controllers directory
@@ -31,56 +29,64 @@ class AttributeReflection
 		string $controllerNamespace
 	): void
 	{
+		$plugins = [];
 		self::reflectDirectory(
 			$extensionKey,
 			$controllerDirectory,
 			$controllerNamespace,
-			function(\ReflectionClass $reflection, string $className) use ($extensionKey) {
-				$pluginAttribute = $reflection->getAttributes(AsPlugin::class)[0] ?? null;
-				if (!$pluginAttribute) {
-					return;
-				}
-
-				$pluginConfig = $pluginAttribute->newInstance();
-				$actions = [$className => ''];
-				$noCacheActions = [$className => ''];
-
+			function(\ReflectionClass $reflection, string $className) use ($extensionKey, &$plugins) {
 				foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
 					if (!str_contains($method->getName(), 'Action')) {
 						continue;
 					}
-					$actionName = str_replace('Action', '', $method->getName());
-					if ($method->getAttributes(DefaultAction::class)[0] ?? null) {
-						$actions[$className] = $actionName . ',' . $actions[$className];
-					} else {
-						$actions[$className] .= $actionName . ',';
-					}
-					if ($method->getAttributes(UncachedAction::class)[0] ?? null) {
-						$noCacheActions[$className] .= $actionName . ',';
+					$actionAttributes = $method->getAttributes(AsAction::class);
+					foreach ($actionAttributes as $actionAttribute) {
+						$action = $actionAttribute->newInstance();
+						$actionName = str_replace('Action', '', $method->getName());
+						$pluginName = $action->pluginName;
+
+						if (!($plugins[$pluginName] ?? false)) {
+							$plugins[$pluginName] = [
+								'actions' => [$className => ''],
+								'noCacheActions' => [$className => ''],
+								'pluginFragmentPageType' => 0
+							];
+						}
+						$plugins[$pluginName]['pluginFragmentPageType'] = $action->pluginFragmentPageType ?: $plugins[$pluginName]['pluginFragmentPageType'];
+
+						if ($action->default) {
+							$plugins[$pluginName]['actions'][$className] = $actionName . ',' . $plugins[$pluginName]['actions'][$className];
+						} else {
+							$plugins[$pluginName]['actions'][$className] .= $actionName . ',';
+						}
+						if ($action->uncached) {
+							$plugins[$pluginName]['noCacheActions'][$className] .= $actionName . ',';
+						}
 					}
 				}
+			}
+		);
+		foreach ($plugins as $name => $plugin) {
+			ExtensionUtility::configurePlugin(
+				$extensionKey,
+				$name,
+				$plugin['actions'],
+				$plugin['noCacheActions'],
+				'CType'
+			);
 
-				ExtensionUtility::configurePlugin(
+			if ($plugin['pluginFragmentPageType']) {
+				ExtensionManagementUtility::addTypoScript(
 					$extensionKey,
-					$pluginConfig->name,
-					$actions,
-					$noCacheActions,
-					'CType'
-				);
-
-				if ($pluginConfig->fragmentTypeNum) {
-					ExtensionManagementUtility::addTypoScript(
-						$extensionKey,
-						'setup',
-						'
-					' . $pluginConfig->name . 'PluginFragmentPage = PAGE
-					' . $pluginConfig->name . 'PluginFragmentPage {
-						typeNum = ' . $pluginConfig->fragmentTypeNum . '
-						20 = USER
+					'setup',
+					'
+					' . $name . 'PluginFragmentPage = PAGE
+					' . $name . 'PluginFragmentPage {
+						typeNum = ' . $plugin['pluginFragmentPageType'] . '
+						20 = EXTBASEPLUGIN
 						20 {
-							userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
 							extensionName = ' . ucFirst($extensionKey) . '
-							pluginName = ' . $pluginConfig->name . '
+							pluginName = ' . $name . '
 						}
 						meta {
 							robots = noindex, nofollow
@@ -91,15 +97,13 @@ class AttributeReflection
 							debug = 0
 							admPanel = 0
 							index_enable = 0
-							no_cache = ' . ($pluginConfig->fragmentNoCache ? '1' : '0') . '
 						}
 					}
 				',
-						'defaultContentRendering'
-					);
-				}
-			},
-		);
+					'defaultContentRendering'
+				);
+			}
+		}
 	}
 
 	/**
