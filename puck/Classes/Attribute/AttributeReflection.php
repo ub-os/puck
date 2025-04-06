@@ -45,23 +45,33 @@ class AttributeReflection
 						$actionName = str_replace('Action', '', $method->getName());
 						$pluginName = $action->pluginName;
 
+						// create new configuration array for plugin if it does not exist
 						if (!($plugins[$pluginName] ?? false)) {
 							$plugins[$pluginName] = [
-								'actions' => [$className => ''],
-								'noCacheActions' => [$className => ''],
+								'actions' => [],
+								'nonCacheableActions' => [],
 								'pluginFragmentPageType' => 0
 							];
 						}
-						$plugins[$pluginName]['pluginFragmentPageType'] = $action->pluginFragmentPageType ?: $plugins[$pluginName]['pluginFragmentPageType'];
 
-						if ($action->default) {
-							$plugins[$pluginName]['actions'][$className] = $actionName . ',' . $plugins[$pluginName]['actions'][$className];
+						// add action to plugin configuration
+						if (!($plugins[$pluginName]['actions'][$className] ?? false)) {
+							if ($action->defaultAction) {
+								$plugins[$pluginName]['actions'] = [$className => $actionName] + $plugins[$pluginName]['actions'];
+							} else {
+								$plugins[$pluginName]['actions'][$className] = $actionName;
+							}
+						} else if ($action->defaultAction) {
+							$plugins[$pluginName]['actions'] = [$className => $actionName . ',' . $plugins[$pluginName]['actions'][$className]] + $plugins[$pluginName]['actions'];
 						} else {
-							$plugins[$pluginName]['actions'][$className] .= $actionName . ',';
+							$plugins[$pluginName]['actions'][$className] .= ',' . $actionName;
 						}
-						if ($action->uncached) {
-							$plugins[$pluginName]['noCacheActions'][$className] .= $actionName . ',';
+						if (!$action->cacheable && !($plugins[$pluginName]['nonCacheableActions'][$className] ?? false)) {
+							$plugins[$pluginName]['nonCacheableActions'][$className] = $actionName;
+						} else if (!$action->cacheable) {
+							$plugins[$pluginName]['nonCacheableActions'][$className] .= ',' . $actionName;
 						}
+						$plugins[$pluginName]['pluginFragmentPageType'] = $action->pluginFragmentPageType ?: $plugins[$pluginName]['pluginFragmentPageType'];
 					}
 				}
 			}
@@ -71,8 +81,8 @@ class AttributeReflection
 				$extensionKey,
 				$name,
 				$plugin['actions'],
-				$plugin['noCacheActions'],
-				'CType'
+				$plugin['nonCacheableActions'],
+				ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 			);
 
 			if ($plugin['pluginFragmentPageType']) {
