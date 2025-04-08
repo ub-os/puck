@@ -64,13 +64,8 @@ trait ContentModuleControllerTrait
 
 		$this->viewVariables['settings'] = $this->settings;
 		$this->view->assignMultiple($this->viewVariables);
-		$this->setContentTemplatePath();
 	}
 
-	protected function setContentTemplatePath(): void
-	{
-		$this->view->setTemplateRootPaths(['EXT:puck/Resources/Private/Fluid/Content/']);
-	}
 
 	/**
 	 * Directly render a Fluid component

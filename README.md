@@ -1,6 +1,6 @@
 # Installation
 
-## 1. Build repository assets:
+## 1. Asset Build
 
 ### Environment
 `npm >= 10`
@@ -41,10 +41,6 @@ npm run build
     {
         "url": "https://github.com/oliveoilexpert/ckeditor_icons.git",
         "type": "git"
-    },
-    {
-        "url": "https://github.com/oliveoilexpert/puckloader.git",
-        "type": "git"
     }
 ],
 "prefer-stable": true,
@@ -66,4 +62,4 @@ In TYPO3 project root run:
 <pre> vendor/bin/typo3 extension:setup</pre>
 
 #### Override .htaccess
-Replace the contents of the .htaccess file in the root of the TYPO3 project with the contents of root.htaccess.txt in the repository root directory.
+Replace the contents of the .htaccess file in the root of the TYPO3 project with the contents of ./puck/Initialisation/root.htaccess.txt.

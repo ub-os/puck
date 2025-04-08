@@ -13,8 +13,8 @@ use UBOS\Puck\Controller;
  * Provides a centralized way to define and configure TYPO3 content elements types (CTypes).
  *
  * Defines configuration for TCA, TypoScript setup, ext:container, Data Processors, FlexForms, etc.
- * Content elements defined here always render an Extbase plugin, default is @see Controller\ContentController
- * Flexform and data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ContentModuleControllerTrait::prepareContentView()
+ * Content elements defined here always render an Extbase plugin, default is "Content" @see Controller\ContentController
+ * Flexform/data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ContentModuleControllerTrait::prepareContentView()
  *
  * How to use:
  * Create a new instance for every CType and call its methods
@@ -36,9 +36,9 @@ class ContentElementConfiguration
 	 * @param array $columnsOverrides TCA column overrides
 	 * @param string $pluginName Name of the plugin this element renders (default: 'Content')
 	 * @param string $extensionName Plugin extension name (default: 'Puck')
-	 * @param string $templateName Template name (defaults to CamelCase of $type)
+	 * @param string $templateName Template name (defaults to CamelCase of $type). The default plugin 'Content' will look for a fluid component with this name in namespace UBOS\Puck\Modules\ which corresponds to folder puck/Resources/Private/FluidComponents/Modules/
 	 * @param string $model Model class name, if content data should be mapped to a model instead of a generic record
-	 * @param array $flexForms Array of field names => flexform file string, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
+	 * @param array $flexForms Array of field_name => EXT:ext/path/to/flexform.xml, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration
 	 * @param array $dataProcessing Data processor configurations
 	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer::class)
