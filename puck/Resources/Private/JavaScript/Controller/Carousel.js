@@ -21,6 +21,11 @@ export default class Carousel extends Controller {
 	}
 	connected() {
 		this.biggestSlideHeight = 0
+
+		// splideOptions may be passed from a php array where a "0" is used as a falsy value
+		for (const key in this.splideOptions) {
+			if (this.splideOptions[key] === '0') this.splideOptions[key] = 0
+		}
 		const autoplay = this.splideOptions.autoplay ?? false
 		this.splide = new Splide(this.element, {
 			arrows: true,

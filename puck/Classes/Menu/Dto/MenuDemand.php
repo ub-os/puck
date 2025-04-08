@@ -27,7 +27,6 @@ class MenuDemand
 	public static function createFromSettingsArray(array $settings, array $additionalSettings = []): MenuDemand
 	{
 		$demand = new MenuDemand();
-		$settings = PuckUtility::convertZeroStringsToInteger($settings, true);
 		$demand->parents = $settings['demand']['parents'] ?? $demand->parents;
 		$demand->records = $settings['demand']['records'] ?? $demand->records;
 		$demand->limit = (int)$settings['demand']['limit'] ?? $demand->limit;

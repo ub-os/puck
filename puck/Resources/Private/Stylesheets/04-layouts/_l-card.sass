@@ -7,6 +7,12 @@
 	--padding-bottom: var(--padding-block)
 	--background-media-opacity: 0.5
 	--background-media-overlay-color: var(--background)
+	--card-media-width: var(--card-width)
+	@for $i from 2 through 10
+		&:where(.-width-#{$i})
+			--card-width: #{$i}
+		&:where(.-media-width-#{$i})
+			--card-media-width: #{$i}
 
 	&
 		+flex(column, flex-start, flex-start)
@@ -58,26 +64,10 @@
 				width: 0
 				flex-grow: 1
 
+	// do it like row but change flex-direction to column when media-width == card-width
 	&__figure
 		width: 100%
-		@for $i from 2 through 10
-			&:where(.-media-width-#{$i})
-				--card-media-width: #{$i}
-				@if ($i < 4)
-					@media(max-width(m))
-						--card-media-width: calc(var(--card-width) / 3)
-						max-width: calc(var(--card-width) / 3)
-					@media(max-width(xs))
-						--card-media-width: calc(var(--card-width) / 2)
-				@if ($i == 4)
-					@media(max-width(m))
-						--card-media-width: calc(var(--card-width) / 2)
-					@media(max-width(xs))
-						--card-media-width: var(--card-width)
-				@if ($i > 4)
-					@media(max-width(xs))
-						--card-media-width: var(--card-width)
-
+		max-width: 100%
 
 		&.-media-size-background
 			+cover-media
@@ -91,7 +81,8 @@
 
 		&.-media-size-cover:where(.-layout-right, .-layout-left)
 			+cover-media
-			width: calc(100% * var(--card-media-width) / var(--card-width))
+			@media (min-width(xs))
+				width: calc(100% * var(--card-media-width) / var(--card-width))
 
 		&.-media-size-contain:where(.-layout-above)
 			padding-bottom: var(--padding-bottom)
@@ -100,7 +91,8 @@
 			padding-top: var(--padding-block)
 
 		&.-media-size-contain:where(.-layout-right, .-layout-left)
-			width: calc((100% + #{var(--padding-inline)}) * var(--card-media-width) / var(--card-width))
+			@media (min-width(xs))
+				width: calc((100% + #{var(--padding-inline)}) * var(--card-media-width) / var(--card-width))
 
 		&.-media-size-contain:where(.-layout-right)
 			@media (min-width(xs))
