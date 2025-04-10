@@ -39,7 +39,6 @@ trait FindByMenuDemandRepositoryTrait
 			}
 		}
 		if ($pidUidConstraints) {
-			// to do update, logicalOr needs multiple arguments of type ConstraintInterface
 			$constraints[] = $query->logicalOr(...$pidUidConstraints);
 		}
 
@@ -70,7 +69,6 @@ trait FindByMenuDemandRepositoryTrait
 			$constraints[] = $query->greaterThan('uid', 0);
 		}
 
-		// to do update, logicalAnd needs multiple arguments of type ConstraintInterface
 		$records = $query->matching($query->logicalAnd(...$constraints))->execute($returnRawQueryResult);
 		if (!$returnRawQueryResult) {
 			$records = $records->toArray();
@@ -101,7 +99,7 @@ trait FindByMenuDemandRepositoryTrait
 	 * a given list of categories and a junction string
 	 *
 	 * @param QueryInterface $query
-	 * @param array $categories
+	 * @param string|array $categories
 	 * @param string $conjunction
 	 * @return ConstraintInterface|null
 	 */
@@ -124,7 +122,6 @@ trait FindByMenuDemandRepositoryTrait
 			$categoryConstraints[] = $query->contains('categories', $category);
 		}
 		if ($categoryConstraints) {
-			// to do update, logicalAnd needs multiple arguments of type ConstraintInterface
 			$constraint = match (strtolower($conjunction)) {
 				'or' => $query->logicalOr(...$categoryConstraints),
 				'and' => $query->logicalAnd(...$categoryConstraints),

@@ -57,9 +57,6 @@ class PageRepository extends Repository implements MenuDemandRepository
 		return $this->allowedTypes;
 	}
 
-	/**
-	 * @param array $allowedTypes
-	 */
 	public function setAllowedTypes(array $allowedTypes): self
 	{
 		$this->allowedTypes = $allowedTypes;
@@ -71,9 +68,6 @@ class PageRepository extends Repository implements MenuDemandRepository
 		$this->objectType = $className;
 	}
 
-	/**
-	 * @return void
-	 */
 	public function initializeObject(): void
 	{
 		$querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);

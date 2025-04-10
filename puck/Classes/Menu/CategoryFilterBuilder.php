@@ -202,7 +202,7 @@ class CategoryFilterBuilder
 			$potentialDemand = $this->menuDemand;
 			$potentialDemand->categories[$this->settings['demandCategoriesKey']]['uids'] = $newList;
 			$potentialDemand->limit = 1;
-			$hasNoPotential = !$this->menuRepository->findByMenuDemand($potentialDemand);
+			$hasNoPotential = !$this->menuRepository->findByMenuDemand($potentialDemand, returnRawQueryResult: true);
 		}
 
 		$url = $this->buildUri($arguments);

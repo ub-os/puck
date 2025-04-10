@@ -10,7 +10,7 @@
 		"t3/scroll": "^2"
 	},
 	"require": {
-		"php": "^8.3",
+		"php": "^8.2",
 		"phpoffice/phpspreadsheet": "^1.27",
 		"typo3/cms-core": "^13",
 		"typo3/cms-lowlevel": "^13",
@@ -23,6 +23,7 @@
 		"oliveoilexpert/content-presets": "^1.0",
 		"oliveoilexpert/ckeditor-icons": "^0.2",
 		"oliveoilexpert/typo3-shape": "*",
+		"oliveoilexpert/typo3-menu-controls": "^0.1",
 		"b13/menus": "^1",
 		"ichhabrecht/content-defender": "^3.5",
 		"wapplersystems/avif": "*",
