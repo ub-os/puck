@@ -41,7 +41,11 @@ npm run build
     {
         "url": "https://github.com/oliveoilexpert/ckeditor_icons.git",
         "type": "git"
-    }
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/typo3-menu-controls.git",
+        "type": "git"
+    },   
 ],
 "prefer-stable": true,
 "minimum-stability": "dev",
