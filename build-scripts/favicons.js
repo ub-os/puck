@@ -11,15 +11,15 @@ log.info(`Source directory: ${sourcePath}`)
 log.info(`Output directory: ${distPath}`)
 
 fs.readdirSync(sourcePath).forEach(file => {
-	if (!file.includes('.svg')) {
+	if (!file.includes('.svg') && !file.includes('.png')) {
 		return
 	}
 
-	const fileName = file.replace('.svg', '')
+	const fileName = file.replace('.svg', '').replace('.png', '')
 	const path = ensureDirectoryExistence(`${distPath}${fileName}/`)
 	log.info(`Building package from file: ${fileName}.svg`)
 
-	favicons(`${sourcePath}${fileName}.svg`, {
+	favicons(`${sourcePath}${file}`, {
 		path,
 		lang: 'de-DE',
 		start_url: '/',
