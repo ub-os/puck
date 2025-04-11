@@ -1,14 +1,14 @@
 <fc:component>
 	<fc:param name="name" type="string" optional="1" default="m-menu__pagination"/>
-	<fc:param name="pagination" type="UBOS\Puck\Menu\Dto\Pagination"/>
+	<fc:param name="pagination" type="UBOS\MenuControls\Dto\Pagination"/>
 	<fc:param name="sectionId" type="string" optional="1"/>
 	<fc:renderer>
 
 		<f:if condition="{pagination.loadMore}">
 			<f:then>
-				<module:pageMenu.loadMoreButton loadMoreItem="{pagination.loadMore}" sectionId="{sectionId}"/>
+				<module:pageMenu.loadMoreButton pagination="{pagination}" sectionId="{sectionId}"/>
 			</f:then>
-			<f:else if="{pagination.items}">
+			<f:else if="{pagination.window}">
 				<ul class="{name}"
 					id="{sectionId}-pagination"
 					data-hx-swap="outerHTML"
@@ -24,7 +24,7 @@
 					<f:if condition="{pagination.separatorLeft}">
 						 {pagination.separatorString} 
 					</f:if>
-					<f:for each="{pagination.items}" as="item" iteration="i">
+					<f:for each="{pagination.window}" as="item" iteration="i">
 						<module:pageMenu.pagination.item item="{item}" sectionId="{sectionId}"/>
 					</f:for>
 					<f:if condition="{pagination.separatorRight}">

@@ -1,6 +1,6 @@
 <fc:component>
 	<fc:param name="name" type="string" optional="1" default="m-menu__pagination"/>
-	<fc:param name="item" type="UBOS\Puck\Menu\Dto\PaginationItem"/>
+	<fc:param name="item" type="UBOS\MenuControls\Dto\PaginationItem"/>
 	<fc:param name="sectionId" type="string" optional="1"/>
 	<fc:renderer>
 
@@ -32,7 +32,7 @@
 					<a href="{item.url}"
 					   aria-label="{ariaLabel}"
 					   class="{name}__link"
-					   data-hx-get="{item.fetchLinkOptions.url}"
+					   data-hx-get="{item.fragmentUrl}"
 					   data-hx-push-url="{item.url}">
 						{label -> f:format.raw()}
 					</a>

@@ -3,19 +3,20 @@
 namespace UBOS\Puck\Domain\Repository;
 
 use TYPO3\CMS\Core\Domain\Repository\PageRepository as CorePageRepository;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use UBOS\Puck\Menu\MenuDemandRepository;
-use UBOS\Puck\Menu\FindByMenuDemandRepositoryTrait;
+
+use UBOS\MenuControls\Domain\Repository\MenuDemandRepositoryInterface;
+use UBOS\MenuControls\Domain\Repository\FindByMenuDemandRepositoryTrait;
+use UBOS\MenuControls\Dto\MenuDemand;
 
 
 /**
  * Repository for 'pages'
  */
-class PageRepository extends Repository implements MenuDemandRepository
+class PageRepository extends Repository implements MenuDemandRepositoryInterface
 {
 	use FindByMenuDemandRepositoryTrait;
 
@@ -75,8 +76,9 @@ class PageRepository extends Repository implements MenuDemandRepository
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
-	public function additionalMenuDemandConstraints(QueryInterface $query, array $settings): array
+	protected function getAdditionalMenuDemandConstraints(QueryInterface $query, MenuDemand $demand): array
 	{
+		$settings = $demand->additionalSettings;
 		$constraints = [
 			$query->in('doktype', explode(',', $settings['types']) ?? $this->allowedTypes),
 			$query->logicalNot($query->equals('uid', $settings['currentPageId'] ?? 0)),

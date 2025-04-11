@@ -99,7 +99,7 @@ editor:
 
     alignment:
       options:
-        - { name: 'left', className: 'u-text-left' },
+        - { name: 'left', className: 'u-text-left' }
         - { name: 'center', className: 'u-text-center' }
         - { name: 'right', className: 'u-text-right' }
         - { name: 'justify', className: 'u-text-justify' }

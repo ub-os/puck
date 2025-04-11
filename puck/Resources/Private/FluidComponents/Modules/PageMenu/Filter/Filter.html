@@ -1,6 +1,6 @@
 <fc:component>
 	<fc:param name="name" type="string" optional="1" default="m-menu__filter"/>
-	<fc:param name="categoryFilter" type="UBOS\Puck\Menu\Dto\CategoryFilter"/>
+	<fc:param name="categoryFilter" type="UBOS\MenuControls\Dto\CategoryFilter"/>
 	<fc:param name="sectionId" type="string" optional="1"/>
 	<fc:renderer>
 
@@ -14,12 +14,12 @@
 				<ul class="{name}__list">
 					<f:for each="{categoryFilter.items}" as="item" iteration="i">
 						<li class="{name}__item">
-							<f:if condition="{item.items}">
+							<f:if condition="{item.children}">
 								<f:then>
 									<element:dropdown
 										id="{sectionId}-filter-{i.index}-dropdown"
 										label="{item.label}">
-										<f:for each="{item.items}" as="childItem">
+										<f:for each="{item.children}" as="childItem">
 											<a href="{childItem.url}"
 											   class="{u:bem(
                                                 block:'e-dropdown',
@@ -27,7 +27,7 @@
                                                 mod:{active:childItem.active, disabled:childItem.hasNoPotential}
                                              )}"
 											   data-autofocus
-											   data-hx-get="{childItem.fetchLinkOptions.url}"
+											   data-hx-get="{childItem.fragmentUrl}"
 											   data-hx-push-url="{childItem.url}">
 												{childItem.label}
 												<f:if condition="{childItem.active}">
@@ -48,7 +48,7 @@
                                     mod:{active:item.active, disabled:item.hasNoPotential, icon: item.active}
                                  )}"
 									   data-autofocus
-									   data-hx-get="{item.fetchLinkOptions.url}"
+									   data-hx-get="{item.fragmentUrl}"
 									   data-hx-push-url="{item.url}">
 										{item.label}
 										<f:if condition="{item.active}">
@@ -66,7 +66,7 @@
 							<a href="{categoryFilter.closeItem.url}"
 							   class="{name}__link e-button -outline -icon -icon-right"
 							   data-autofocus
-							   data-hx-get="{categoryFilter.closeItem.fetchLinkOptions.url}"
+							   data-hx-get="{categoryFilter.closeItem.fragmentUrl}"
 							   data-hx-push-url="{categoryFilter.closeItem.url}">
 								{categoryFilter.closeItem.label}
 								<icon:char icon="xmark-regular"/>

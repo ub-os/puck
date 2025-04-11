@@ -1,20 +1,20 @@
 <fc:component>
 	<fc:param name="name" type="string" optional="1" default="m-menu__load-more-button"/>
-	<fc:param name="loadMoreItem" type="UBOS\Puck\Menu\Dto\PaginationItem"/>
+	<fc:param name="pagination" type="UBOS\MenuControls\Dto\Pagination"/>
 	<fc:param name="sectionId" type="string" optional="1"/>
 	<fc:renderer>
 
 		<div class="{name}__wrap"
 			 id="{sectionId}-pagination">
-			<f:if condition="!{loadMoreItem.disabled}">
+			<f:if condition="!{pagination.loadMore.disabled}">
 				<button class="{name}__button e-button -ghost"
-						data-hx-get="{loadMoreItem.fetchLinkOptions.url}"
-						data-hx-trigger="{loadMoreItem.fetchLinkOptions.trigger}"
+						data-hx-get="{pagination.loadMore.fragmentUrl}"
+						data-hx-trigger="{pagination.loadMoreTrigger}"
 						data-hx-swap="beforeend"
 						data-hx-target="#{sectionId}-list"
 						data-hx-select="#{sectionId}-list>*"
 						data-hx-select-oob="#{sectionId}-pagination,#{sectionId}-filter">
-					<f:switch expression="{loadMoreItem.fetchLinkOptions.trigger}">
+					<f:switch expression="{pagination.loadMoreTrigger}">
 						<f:case value="intersect">
 							<icon:svg icon="spinner-circle"/>
 						</f:case>

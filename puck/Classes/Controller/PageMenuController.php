@@ -11,20 +11,20 @@ use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
+use UBOS\MenuControls\Builder\CategoryFilterBuilder;
+use UBOS\MenuControls\Builder\PaginationBuilder;
+use UBOS\MenuControls\Dto\MenuDemand;
+
 use UBOS\Puck\Attribute\AsAction;
-use UBOS\Puck\Menu\Dto\MenuDemand;
-use UBOS\Puck\Menu\CategoryFilterBuilder;
-use UBOS\Puck\Menu\PaginationBuilder;
 use UBOS\Puck\Domain\Repository\PageRepository;
-use UBOS\Puck\Domain\Repository\CategoryRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
+use UBOS\Puck\PageTitle\PuckTitleProvider;
 
 /**
  * Controller for the PageMenu plugin.
- * Creates a menu of pages records based on the @see MenuDemand created from the plugin settings.
- * Will also build CategoryFilter and Pagination objects with
- * @see CategoryFilterBuilder
- * @see PaginationBuilder
+ * Creates a menu of pages records based on MenuDemand created from the plugin settings.
+ * Will also build CategoryFilter and Pagination objects
  * and override teaser properties of menu items with values from teaser records if configured in settings.
  * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
  */
@@ -37,21 +37,19 @@ class PageMenuController extends ActionController
 	protected function getMenuDemand(): MenuDemand
 	{
 		if (!$this->menuDemand) {
-			$this->menuDemand = MenuDemand::createFromSettingsArray(
-				$this->settings,
-				[
-					'types' => $this->settings['demand']['types'],
-					'navHide' => $this->settings['demand']['navHide'],
-					'authors' => $this->settings['demand']['authors'],
-					'currentPageId' => $this->request->getAttribute('routing')->getPageId(),
-				]
-			);
+			$demand = $this->settings['demand'];
+			$demand['additionalSettings'] = [
+				'types' => $this->settings['demand']['types'],
+				'navHide' => $this->settings['demand']['navHide'],
+				'authors' => $this->settings['demand']['authors'],
+				'currentPageId' => $this->request->getAttribute('routing')->getPageId(),
+			];
+			$this->menuDemand = MenuDemand::createFromArray($demand);
 		}
 		return $this->menuDemand;
 	}
 
 	public function __construct(
-		protected CategoryRepository   $categoryRepository,
 		protected PageRepository       $pageRepository,
 		protected PageTeaserRepository $pageTeaserRepository,
 		protected RecordFactory        $recordFactory
@@ -111,11 +109,14 @@ class PageMenuController extends ActionController
 				request: $this->request,
 				uriBuilder: $this->uriBuilder,
 				menuActionName: 'pageMenu',
-				contentRecordUid: $record->getUid(),
-				fetchLinkPageType: $this->pageMenuFragmentTypeNum,
+				pluginContentRecordUid: $record->getUid(),
+				pluginFragmentPageType: $this->pageMenuFragmentTypeNum,
 			);
 			$pagination = $paginationBuilder
-				->configure($this->settings['pagination'])
+				->configure(array_merge(
+					$this->settings['pagination'],
+					['pluginContentRecordUidArgumentKey' => 'recordUid']
+				))
 				->addPaginationLinksToHead()
 				->build();
 			$this->viewVariables['pagination'] = $pagination;
@@ -142,16 +143,21 @@ class PageMenuController extends ActionController
 			$categoryFilterBuilder = new CategoryFilterBuilder(
 				request: $this->request,
 				uriBuilder: $this->uriBuilder,
-				categoryRepository: $this->categoryRepository,
 				menuActionName: 'pageMenu',
 				menuRepository: $this->pageRepository,
 				menuDemand: $this->getMenuDemand(),
-				contentRecordUid: $record->getUid(),
-				fetchLinkPageType: 16500000,
+				pluginContentRecordUid: $record->getUid(),
+				pluginFragmentPageType: 16500000,
 			);
 			$categoryFilter = $categoryFilterBuilder
-				->configure($this->settings['categoryFilter'])
-				->addCategorySuffixToPageTitle()
+				->configure(array_merge(
+					$this->settings['categoryFilter'],
+					['pluginContentRecordUidArgumentKey' => 'recordUid']
+				))
+				->addCategorySuffixToPageTitle(
+					GeneralUtility::makeInstance(PuckTitleProvider::class),
+					PuckTitleProvider::TITLE_DIVIDER
+				)
 				->build();
 			$this->viewVariables['categoryFilter'] = $categoryFilter;
 		}

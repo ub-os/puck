@@ -28,11 +28,11 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'layout' => [
 			'config' => [
 				'items' => [
-					['Default cards', 'default-cards'],
-					['Blog cards', 'blog-cards'],
-					['Team cards', 'team-cards'],
-					['Cards (custom settings)', 'cards'],
-					['Columns (custom settings)', 'columns'],
+					['label' => 'Default cards', 'value' => 'default-cards'],
+					['label' => 'Blog cards', 'value' => 'blog-cards'],
+					['label' => 'Team cards', 'value' => 'team-cards'],
+					['label' => 'Cards (custom settings)', 'value' => 'cards'],
+					['label' => 'Columns (custom settings)', 'value' => 'columns'],
 				],
 				'default' => 'default-cards'
 			]
