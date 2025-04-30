@@ -22,7 +22,6 @@
 		"b13/container": "3.1.2",
 		"oliveoilexpert/content-presets": "^1.0",
 		"oliveoilexpert/ckeditor-icons": "^0.2",
-		"oliveoilexpert/typo3-shape": "*",
 		"oliveoilexpert/typo3-menu-controls": "^0.1",
 		"b13/menus": "^1",
 		"ichhabrecht/content-defender": "^3.5",
