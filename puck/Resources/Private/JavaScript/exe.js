@@ -70,10 +70,11 @@ on('htmx:load', event => {
 	focusAfterSwapSelector = null
 })
 
-on('htmx:beforeHistorySave', event => {
-	stim.clearMutationQueue()
-	stim.disconnectElement(event.target)
-	event.target.querySelectorAll('[data-history-excluded]').forEach(el => el.remove())
+on("htmx:historyRestore", (event) => {
+	document.querySelectorAll('[data-history-excluded]').forEach(el => el.remove())
+	document.querySelectorAll('.--active, .--deactivating').forEach(el => {
+		el.classList.remove('--active', '--deactivating')
+	})
 })
 
 const isBodySwapEvent = event => {
