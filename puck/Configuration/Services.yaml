@@ -12,3 +12,7 @@ services:
     public: true
     arguments:
       $runtimeCache: '@cache.runtime'
+  UBOS\Puck\Preview\PageMenuPreviewRenderer:
+    public: true
+    arguments:
+      $runtimeCache: '@cache.runtime'
