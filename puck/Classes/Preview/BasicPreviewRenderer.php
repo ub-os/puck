@@ -3,6 +3,7 @@
 namespace UBOS\Puck\Preview;
 
 
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
@@ -26,9 +27,11 @@ use B13\Container\Tca\Registry;
 class BasicPreviewRenderer implements PreviewRendererInterface
 {
 	protected ViewInterface $view;
-	protected RecordFactory $recordFactory;
 
-	public function __construct()
+	public function __construct(
+		protected RecordFactory $recordFactory,
+		protected FrontendInterface $runtimeCache,
+	)
 	{
 		$this->view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(
 			new ViewFactoryData(
@@ -36,7 +39,6 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 				partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials/ContentPreview/'],
 			)
 		);
-		$this->recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
 	}
 
 	public function renderPageModulePreviewHeader(GridColumnItem $item): string
@@ -55,6 +57,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 		// check if the record is a container element, if so, render the container preview
 		$containerPreview = '';
 		$containerRegistry = GeneralUtility::makeInstance(Registry::class);
+		$this->runtimeCache->set('tx_container_current_gridColumItem', $item);
 		if ($containerRegistry->isContainerElement($record['CType'])) {
 			$containerPreviewRenderer = GeneralUtility::makeInstance(ContainerPreviewRenderer::class);
 			$containerPreview = $containerPreviewRenderer->renderPageModulePreviewContent($item);
