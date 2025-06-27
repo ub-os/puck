@@ -20,19 +20,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBO
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
 
-// Define fluid_components Namespaces
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces'] = [
-    'UBOS\\Puck\\Layouts' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Layouts'),
-    'UBOS\\Puck\\Elements' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Elements'),
-    'UBOS\\Puck\\Modules' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Modules'),
-    'UBOS\\Puck\\Icons' => ExtUtil::extPath('puck', 'Resources/Private/FluidComponents/Icons')
-];
-
 // Add Global Fluid Namespaces
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['layout'] = ['UBOS\Puck\Layouts'];
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['element'] = ['UBOS\Puck\Elements'];
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['module'] = ['UBOS\Puck\Modules'];
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Puck\Icons'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['layout'] = ['UBOS\Puck\Components\LayoutComponentCollection'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['element'] = ['UBOS\Puck\Components\ElementComponentCollection'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['module'] = ['UBOS\Puck\Components\ModuleComponentCollection'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Puck\Components\IconComponentCollection'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['puck'] = ['UBOS\Puck\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['u'] = ['UBOS\Puck\ViewHelpers'];
 

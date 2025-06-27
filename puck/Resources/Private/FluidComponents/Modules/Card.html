@@ -1,0 +1,30 @@
+
+	<f:argument name="name" type="string" optional="1" default="m-card"/>
+	<f:argument name="record" type="mixed"/>
+
+
+		<layout:card
+			class="{name} l-row__item -bp-auto"
+			media="{record.assets}"
+			cropVariant="default"
+			width="{record.container_width}"
+			mediaSize="{record.card_media_size}"
+			mediaWidth="{record.media_column_width}"
+			mediaLayout="{record.media_layout}"
+			attributes="{id:'c{record.uid}'}">
+			<f:if condition="{record.icon}">
+				<icon:svg icon="{record.icon}" class="{name}__icon"/>
+			</f:if>
+			<div class="{name}__card__text">
+				<element:moduleHeader record="{record}" class="{name}__headline"/>
+				<f:if condition="{record.bodytext}">
+					<element:richText text="{record.bodytext}"/>
+				</f:if>
+			</div>
+		</layout:card>
+
+
+
+
+
+

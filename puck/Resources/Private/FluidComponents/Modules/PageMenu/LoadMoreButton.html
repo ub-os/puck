@@ -1,0 +1,32 @@
+
+	<f:argument name="name" type="string" optional="1" default="m-menu__load-more-button"/>
+	<f:argument name="pagination" type="UBOS\MenuControls\Dto\Pagination"/>
+	<f:argument name="sectionId" type="string" optional="1"/>
+
+
+		<div class="{name}__wrap"
+			 id="{sectionId}-pagination">
+			<f:if condition="!{pagination.loadMore.disabled}">
+				<button class="{name}__button e-button -ghost"
+						data-hx-get="{pagination.loadMore.fragmentUrl}"
+						data-hx-trigger="{pagination.loadMoreTrigger}"
+						data-hx-swap="beforeend"
+						data-hx-target="#{sectionId}-list"
+						data-hx-select="#{sectionId}-list>*"
+						data-hx-select-oob="#{sectionId}-pagination,#{sectionId}-filter">
+					<f:switch expression="{pagination.loadMoreTrigger}">
+						<f:case value="intersect">
+							<icon:svg icon="spinner-circle"/>
+						</f:case>
+						<f:defaultCase>
+							<icon:svg icon="plus-regular"/>
+						</f:defaultCase>
+					</f:switch>
+				</button>
+			</f:if>
+		</div>
+
+
+
+
+

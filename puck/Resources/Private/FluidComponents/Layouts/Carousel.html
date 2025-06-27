@@ -1,0 +1,47 @@
+
+	<f:argument name="name" type="string" optional="1" default="l-carousel"/>
+	<f:argument name="id" type="string"/>
+	<f:argument name="arrows" type="boolean" optional="1" default="1"/>
+	<f:argument name="pagination" type="boolean" optional="1" default="0"/>
+	<f:argument name="trackOverflow" type="string" optional="1" default="hidden"/>
+	<f:argument name="align" type="string" optional="1" default="start"/>
+	<f:argument name="carouselAttributes" type="array" optional="1" default="{0:0}"/>
+
+
+		<u:var set="splideOptions"
+			   value="{
+            pagination: pagination,
+            arrows: arrows
+          }"/>
+
+		<div
+			class="{name} {class} splide"
+			id="{id}"
+			data-controller="carousel"
+			data-carousel="{carouselAttributes -> f:format.json()}"
+			data-carousel.base-splide-class="{name}"
+			data-carousel.splide-options="{splideOptions -> u:array(merge:carouselAttributes.splideOptions) -> f:format.json()}">
+			<div class="{name}__track splide__track -overflow-{trackOverflow}">
+				<div class="{name}__list splide__list -align-{align}">
+					<f:slot/>
+				</div>
+			</div>
+
+			<f:if condition="{arrows}">
+				<div class="{name}__controls {class}__arrows splide__arrows">
+					<button class="{name}__controls__prev splide__arrow--prev" aria-controls="{id}">
+						<icon:svg icon="arrow-left-regular"/>
+					</button>
+					<button class="{name}__controls__next splide__arrow--next" aria-controls="{id}">
+						<icon:svg icon="arrow-right-regular"/>
+					</button>
+				</div>
+			</f:if>
+
+		</div>
+
+
+
+
+
+

@@ -16,7 +16,6 @@ use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use SMS\FluidComponents\Utility\ComponentSettings;
 
 use UBOS\Puck\Attribute\AsAction;
 
@@ -29,7 +28,6 @@ class PageController extends ActionController
 	public function __construct(
 		protected ContentContentObject $contentContentObject,
 		protected RecordFactory        $recordFactory,
-		protected ComponentSettings    $componentSettings,
 		protected PageRenderer         $pageRenderer,
 		protected ViewFactoryInterface $viewFactory
 	)
@@ -60,12 +58,6 @@ class PageController extends ActionController
 			);
 			unset($variables['processed']['data']);
 		}
-
-		// set settings for all fluid components
-		$this->componentSettings
-			->set('template', $siteSettings->get('template'))
-			->set('navigation', $siteSettings->get('navigation'))
-			->set('doktypes', $siteSettings->get('doktypes'));
 
 		// render content elements
 		$backendRows = [

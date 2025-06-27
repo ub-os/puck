@@ -1,0 +1,99 @@
+
+	<f:argument name="name" type="string" optional="1" default="e-navigation"/>
+	<f:argument name="pages" type="string" optional="1" default="1"/>
+	<f:argument name="processor" type="string" optional="1" default="tree"/>
+	<f:argument name="depth" type="integer" optional="1" default="1"/>
+	<f:argument name="menu" type="array" optional="1"/>
+	<f:argument name="prependIcon" type="boolean" optional="1" default="0"/>
+	<f:argument name="hideTitle" type="boolean" optional="1" default="0"/>
+
+
+		{u:var(set:'menu', if:'{menu}', then:menu, else:'{u:menu(pages:pages, processor:processor, depth:depth)}')}
+
+		<f:for each="{menu}" as="item" iteration="i">
+			{u:var(set:'title', if:'{item.breadcrumb_title} && {processor} == "breadcrumbs"',
+			then:item.breadcrumb_title, else:item.nav_title)}
+			<li class="{name}__item {item.class}">
+				<f:if condition="{i.index} > 0 && {processor} == 'breadcrumbs'"> / </f:if>
+				<f:if condition="{i.isLast} && {processor} == 'breadcrumbs'">
+					<f:then>
+                  <span class="{name}__link">
+                    {title -> f:format.raw()}
+                  </span>
+					</f:then>
+					<f:else if="{processor} == 'language'">
+						<f:link.typolink parameter="{item.uid}"
+										 language="{item.language.languageId}"
+										 class="{u:bem(el:'link', mod:{active-lang: item.isActiveLanguage})}"
+										 absolute="1">
+							{item.language.title}
+						</f:link.typolink>
+					</f:else>
+					<f:else if="{item.url -> u:string(contains:'mailto:')}">
+						<f:link.email email="{item.url -> u:string(search:'mailto:', replace:'')}"
+									  class="{u:bem(
+                                el:'link',
+                                mod:{
+                                  rootline: item.isInRootLine,
+                                  current: item.isCurrentPage,
+                                  has-subpages: item.hasSubpages}
+                             )}"
+									  target="_blank"
+									  additionalAttributes="{aria-label: item.nav_title}">
+							<f:if condition="{prependIcon} && {item.icon}">
+								<icon:char icon="{item.icon}" class="{name}__icon"/>
+								 
+							</f:if>
+							<f:if condition="!{hideTitle}">
+								{title -> f:format.raw()}
+							</f:if>
+						</f:link.email>
+					</f:else>
+					<f:else>
+						<f:link.typolink parameter="{item.uid}"
+										 class="{u:bem(
+                                el:'link',
+                                mod:{
+                                  rootline: item.isInRootLine,
+                                  current: item.isCurrentPage,
+                                  has-subpages: item.hasSubpages}
+                             )}"
+										 absolute="1"
+										 additionalAttributes="{aria-label: item.nav_title}">
+							<f:if condition="{prependIcon} && {item.icon}">
+								<icon:char icon="{item.icon}" class="{name}__icon"/>
+								 
+							</f:if>
+							<f:if condition="!{hideTitle}">
+								{title -> f:format.raw()}
+							</f:if>
+						</f:link.typolink>
+					</f:else>
+				</f:if>
+				<f:if condition="{item.hasSubpages}">
+					<f:variable name="subName">{name}__sub</f:variable>
+					<ul class="{subName}__list">
+						<f:for each="{item.subpages}" as="item">
+							<li class="{subName}__item">
+								<f:link.typolink
+									parameter="{item.link}"
+									absolute="1"
+									class="{u:bem(
+                                block:subName,
+                                el:'link',
+                                mod:{
+                                  rootline: item.isInRootLine,
+                                  current: item.isCurrentPage,
+                                  has-subpages: item.hasSubpages}
+                             )}">
+									{item.nav_title -> f:format.raw()}
+								</f:link.typolink>
+						</f:for>
+					</ul>
+				</f:if>
+			</li>
+		</f:for>
+
+
+
+

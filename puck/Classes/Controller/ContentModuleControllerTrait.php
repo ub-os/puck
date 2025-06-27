@@ -8,7 +8,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
+use TYPO3Fluid\Fluid\Core\Component\ComponentRenderer;
+use TYPO3Fluid\Fluid\Core\Component\AbstractComponentCollection;
+use UBOS\Puck\Components\ModuleComponentCollection;
 
 /**
  * Controller trait for content element plugins
@@ -23,7 +25,7 @@ trait ContentModuleControllerTrait
 	protected $view;
 	protected array $viewVariables = [];
 	protected array $settings;
-	protected string $defaultFluidComponentNamespace = 'UBOS\Puck\Modules\\';
+	protected string $defaultComponentCollectionClassname = ModuleComponentCollection::class;
 
 	/**
 	 * Run data processing and populate viewVariables
@@ -62,33 +64,31 @@ trait ContentModuleControllerTrait
 			$this->viewVariables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
 		}
 
-		$this->viewVariables['settings'] = $this->settings;
 		$this->view->assignMultiple($this->viewVariables);
 	}
 
 
 	/**
 	 * Directly render a Fluid component
-	 * @param string|null $namespace Namespace of the component, defaults to 'UBOS\Puck\Modules\{settings[templateName] ?? controllerAction}'
+	 * @param string|null $viewHelperName name of the component, defaults to '{settings[templateName] ?? controllerAction}'
 	 * @param array|null $arguments Arguments to pass to the component, defaults to viewVariables
+	 * @param AbstractComponentCollection|null $componentCollection Component collection to use for rendering, defaults to ModuleComponentCollection
 	 * @return string Rendered component
 	 */
 	protected function renderFluidComponent(
-		?string $namespace = null,
+		?string $viewHelperName = null,
 		?array $arguments = null,
+		?AbstractComponentCollection $componentCollection = null
 	): string {
-		$namespace = $namespace ?? $this->defaultFluidComponentNamespace . ($this->settings['contentElementConfiguration']['templateName'] ?? ucfirst($this->view->getRenderingContext()->getControllerAction()));
+		$viewHelperName = $viewHelperName ?? ($this->settings['contentElementConfiguration']['templateName'] ?? ucfirst($this->view->getRenderingContext()->getControllerAction()));
 		$arguments = $arguments ?? $this->viewVariables;
-		$componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
-		$componentRenderer->setComponentNamespace($namespace);
-		$renderingContext = $this->view->getRenderingContext();
-
-		// argument 'content' is required by the component renderer
-		$arguments['content'] = $arguments['content'] ?? '';
-		return $renderingContext->getViewHelperInvoker()->invoke(
-			$componentRenderer,
+		$componentCollection = $componentCollection ?? GeneralUtility::makeInstance($this->defaultComponentCollectionClassname);
+		$componentRenderer = $componentCollection->getComponentRenderer();
+		return $componentRenderer->renderComponent(
+			$viewHelperName,
 			$arguments,
-			$renderingContext,
+			[],
+			$this->view->getRenderingContext()
 		);
 	}
 }

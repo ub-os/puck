@@ -1,0 +1,45 @@
+
+	<f:argument name="name" type="string" optional="1" default="m-menu__pagination"/>
+	<f:argument name="item" type="UBOS\MenuControls\Dto\PaginationItem"/>
+	<f:argument name="sectionId" type="string" optional="1"/>
+
+
+		<li class="{name}__item">
+			<f:if condition="{item.active}">
+				<f:then>
+					<div class="{name}__link -disabled">{item.label}</div>
+				</f:then>
+				<f:else>
+					<f:switch expression="{item.label}">
+						<f:case value="<">
+							<f:variable name="label">
+								<icon:svg icon="arrow-left-regular" class="{name}__prev"/>
+							</f:variable>
+							<f:variable name="ariaLabel"
+										value="{f:translate(key:'previous')} {f:translate(key:'page')}"/>
+						</f:case>
+						<f:case value=">">
+							<f:variable name="label">
+								<icon:svg icon="arrow-right-regular" class="{name}__next"/>
+							</f:variable>
+							<f:variable name="ariaLabel" value="{f:translate(key:'next')} {f:translate(key:'page')}"/>
+						</f:case>
+						<f:defaultCase>
+							<f:variable name="label" value="{item.label}"/>
+							<f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}"/>
+						</f:defaultCase>
+					</f:switch>
+					<a href="{item.url}"
+					   aria-label="{ariaLabel}"
+					   class="{name}__link"
+					   data-hx-get="{item.fragmentUrl}"
+					   data-hx-push-url="{item.url}">
+						{label -> f:format.raw()}
+					</a>
+				</f:else>
+			</f:if>
+		</li>
+
+
+
+

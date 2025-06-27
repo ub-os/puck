@@ -1,0 +1,28 @@
+
+	<f:argument name="name" type="string" optional="1" default="m-error-text"/>
+	<f:argument name="record" type="mixed"/>
+
+
+		<layout:section
+			class="{name}__wrap {class}"
+			record="{record}"
+			id="c{record.uid}">
+			<div class="{name}">
+				<h1 class="{name}__header">
+					{record.header}
+				</h1>
+				<p class="{name}__subheader">
+					{record.subheader}
+				</p>
+				<f:slot/>
+				<a href="/">
+					<f:image class="{name}__logo" src="EXT:puck/Resources/Public/Icons/Logos/default.svg"/>
+				</a>
+				<element:richText text="{record.bodytext}"/>
+			</div>
+		</layout:section>
+
+
+
+
+

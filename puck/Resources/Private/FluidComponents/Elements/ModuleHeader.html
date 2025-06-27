@@ -1,0 +1,51 @@
+
+	<f:argument name="name" type="string" optional="1" default="e-module-header"/>
+	<f:argument name="record" type="mixed"/>
+
+
+		<f:if condition="{record.header} || {record.subheader}">
+			<div class="{name}">
+				<f:if condition="{record.header}">
+					<f:switch expression="{record.header_layout}">
+						<f:case value="25">
+							<h2 class="{name}__headline topline {f:if(condition:'{record.subheader}',then:'-accent')} u-text-{record.header_position} {class}">
+								{record.header -> f:format.raw()}
+							</h2>
+						</f:case>
+						<f:case value="31">
+							<h2 class="{name}__headline h3 u-text-{record.header_position} {class}">{record.header ->
+								f:format.raw()}</h2>
+						</f:case>
+						<f:case value="30">
+							<h3 class="{name}__headline h3 u-text-{record.header_position} {class}">{record.header ->
+								f:format.raw()}</h3>
+						</f:case>
+						<f:case value="50">
+							<p class="{name}__headline u-text-{record.header_position} {class}">{record.header ->
+								f:format.raw()}</p>
+						</f:case>
+						<f:case value="90">
+							<h2 class="sr-only">{record.header -> f:format.raw()}</h2>
+						</f:case>
+						<f:case value="91">
+							<h3 class="sr-only">{record.header -> f:format.raw()}</h3>
+						</f:case>
+						<f:case value="100">
+						</f:case>
+						<f:defaultCase>
+							<h2 class="{name}__headline h2 u-text-{record.header_position} {class}">{record.header ->
+								f:format.raw()}</h2>
+						</f:defaultCase>
+					</f:switch>
+				</f:if>
+				<f:if condition="{record.subheader} && {record.header_layout} > 24 && {record.header_layout} < 30">
+					<p class="{name}__subheader h2 u-text-{record.header_position}">{record.subheader ->
+						f:format.raw()}</p>
+				</f:if>
+			</div>
+		</f:if>
+
+
+
+
+

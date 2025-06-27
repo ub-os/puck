@@ -1,0 +1,73 @@
+
+	<f:argument default="e-media-player" name="name" optional="1" type="string"/>
+	<f:argument name="file" type="TYPO3\CMS\Core\Resource\FileReference"/>
+	<f:argument name="width" optional="1" type="integer"/>
+	<f:argument name="posterSources" optional="1" type="array"/>
+	<f:argument default="1" name="posterWebp" optional="1" type="boolean"/>
+	<f:argument default="1" name="posterRetina" optional="1" type="boolean"/>
+	<f:argument default="1" name="loadOnClick" optional="1" type="boolean"/>
+	<f:argument default="1" name="openInModal" optional="1" type="boolean"/>
+	<f:argument default="{0:0}" name="playerAttributes" optional="1" type="array"/>
+
+
+		{u:id(set:'id', suffix:'{file.name}')}
+		{u:file(get:'{file.properties.storage}:{file.identifier}.jpg', set:'localPoster')}
+		{u:var(if:'{file.extension} === "youtube" || {file.extension} === "vimeo"', then:file.contents, else:'',
+		set:'embedId')}
+		{playerAttributes -> u:array(merge:{src:file.publicUrl, provider:file.extension, embedId:embedId},
+		set:'playerAttributes')}
+
+		<u:var set="playerContent">
+			<div
+				id="{id}"
+				class="{name}__modal__frame"
+				data-controller="media-player"
+				data-media-player='{playerAttributes -> f:format.json()}'>
+			</div>
+		</u:var>
+
+		<div class="{name}">
+			<button class="{name}__button"
+					data-action="modal.toggle#{id}-modal media-player.load#{id}"
+					aria-controls="{id}-modal"
+					aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">
+			</button>
+
+			<div class="{name}__poster">
+				<f:if condition="{localPoster}">
+					<f:then>
+						<f:format.raw>
+							<u:picture
+								loading="lazy"
+								class="{name}"
+								retina="{posterRetina}"
+								sources="{posterSources}"
+								image="{localPoster}"
+								webp="{posterWebp}"
+								width="{width}"
+								sourceMaxWidth="{width}"
+							/>
+						</f:format.raw>
+					</f:then>
+					<f:else>
+						<picture>
+							<img alt="{file.alternative}"
+								 class="{name}__image"
+								 loading="lazy"
+								 src="{u:file(getOnlineMediaImageSrc:file,useUcSource:1)}">
+						</picture>
+					</f:else>
+				</f:if>
+			</div>
+			<icon:svg class="{name}__icon" icon="circle-play-duotone"/>
+			<f:if condition="{openInModal}">
+				<f:then>
+					<layout:modal id="{id}-modal" width="12">
+						{playerContent -> f:format.raw()}
+					</layout:modal>
+				</f:then>
+				<f:else>{playerContent -> f:format.raw()}</f:else>
+			</f:if>
+		</div>
+
+

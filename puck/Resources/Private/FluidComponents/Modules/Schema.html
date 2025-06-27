@@ -1,0 +1,69 @@
+
+	<f:argument name="record" type="mixed"/>
+	<f:argument name="context" type="array"/>
+	<f:argument name="name" type="string" optional="1" default="m-schema"/>
+
+
+		<u:var set="searchTermString">{
+			<f:format.raw>search_term_string</f:format.raw>
+			}
+		</u:var>
+		<schema:multipleType
+			-id="{f:uri.page(absolute: 'true')}#webpage"
+			types="{f:if(condition:'{record.tx_schema_webpagetype}',then:record.tx_schema_webpagetype,else:'WebPage')}"
+			properties="{
+                url:'{f:uri.page(absolute: \'true\')}',
+                inLanguage:context.language.hreflang,
+                name:object.seo_title,
+                datePublished:object.starttime
+            }">
+			<schema:type.webSite
+				-as="isPartOf"
+				-id="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}#website"
+				url="{f:uri.page(pageUid: context.site.rootPageId, absolute: 'true')}"
+				name="{context.language.websiteTitle}">
+				<f:comment>
+					<schema:type.searchAction
+						-as="potentialAction"
+						query-input="required name=search_term_string"
+						target="{f:uri.page(pageUid: settings.search.pid, absolute: 'true')}s/{searchTermString}">
+					</schema:type.searchAction>
+				</f:comment>
+			</schema:type.webSite>
+			<f:if condition="{object.media}">
+				<f:then>
+					<schema:type.imageObject
+						-as="primaryImageOfPage"
+						-id="{f:uri.page(absolute: 'true')}#primaryimage"
+						url="{f:uri.image(image: object.media.0, crop: object.media.0.crop, width: '1920', cropVariant: '16:9', absolute: '1')}"
+						width="1920"
+						height="1080"/>
+				</f:then>
+				<f:else>
+					<schema:type.imageObject
+						-as="primaryImageOfPage"
+						-id="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}#primaryimage"
+						url="{f:uri.resource(path:'Icons/Logos/default.svg', extensionName: 'puck', absolute: 1)}"
+					/>
+
+				</f:else>
+			</f:if>
+		</schema:multipleType>
+
+		<f:comment>
+			<f:variable name="breadcrumbsMenu" value="{u:menu(pages:object.uid, processor:'breadcrumbs')}"/>
+		</f:comment>
+		<schema:type.breadcrumbList>
+			<f:for each="{breadcrumbsMenu}" as="item" iteration="i">
+				<schema:type.listItem
+					-as="itemListElement"
+					position="{i.cycle}"
+					name="{item.nav_title}"
+					item="{f:uri.page(pageUid: '{item.uid}', absolute: '1')}"
+				/>
+			</f:for>
+		</schema:type.breadcrumbList>
+
+
+
+

@@ -16,7 +16,6 @@
 		"typo3/cms-lowlevel": "^13",
 		"typo3/cms-redirects": "^13",
 		"typo3/cms-recycler": "^13",
-		"sitegeist/fluid-components": "^3.8",
 		"eliashaeussler/typo3-warming": "^3",
 		"brotkrueml/schema": "^3",
 		"b13/container": "^3",
