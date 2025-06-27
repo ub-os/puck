@@ -63,7 +63,10 @@ on('htmx:responseError', event => {
 })
 on('htmx:load', event => {
 	if (isBodySwapEvent(event)) {
-		//window.UC_UI?.restartCMP() // restart Usercentrics CMP UI if available
+		// if (window.__ucCmp) {
+		// 	window.__ucCmp.loadCmpView()
+		// 	window.__ucCmp.cmpController.ui.initialView = 'none'
+		// }
 	} else {
 		resolveFocusAfterSwap()
 	}
