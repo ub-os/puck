@@ -43,6 +43,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 
 	public function renderPageModulePreviewHeader(GridColumnItem $item): string
 	{
+		$this->runtimeCache->set('tx_container_current_gridColumItem', $item);
 		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
 		$this->view->assign('item', $item);
 		$this->view->assign('record', $record);
@@ -52,19 +53,14 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 
 	public function renderPageModulePreviewContent(GridColumnItem $item): string
 	{
-		$record = $item->getRecord();
-
 		// check if the record is a container element, if so, render the container preview
 		$containerPreview = '';
 		$containerRegistry = GeneralUtility::makeInstance(Registry::class);
-		$this->runtimeCache->set('tx_container_current_gridColumItem', $item);
+		$record = $item->getRecord();
+		$txContainerGrid = '';
 		if ($containerRegistry->isContainerElement($record['CType'])) {
-			$containerPreviewRenderer = GeneralUtility::makeInstance(ContainerPreviewRenderer::class);
-			$containerPreview = $containerPreviewRenderer->renderPageModulePreviewContent($item);
+			$txContainerGrid = $this->gridRenderer->renderGrid($record, $item->getContext());
 		}
-
-		$item->setRecord($record);
-
 		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $item->getRecord());
 		$thumbnailHtml = '';
 		foreach (['media', 'image', 'assets'] as $fieldName) {
@@ -75,6 +71,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 
 		$this->view->assign('item', $item);
 		$this->view->assign('record', $record);
+		$this->view->assign('txContainerGrid', $txContainerGrid);
 		$this->view->assign('editLink', $this->getEditLink($record));
 		$this->view->assign('thumbnailHtml', $thumbnailHtml);
 		return $this->view->render('Content') . $containerPreview;
