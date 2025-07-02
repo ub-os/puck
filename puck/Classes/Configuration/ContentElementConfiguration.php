@@ -109,6 +109,7 @@ class ContentElementConfiguration
 					$this->description,
 					$this->containerConfiguration))
 					->setIcon($this->icon)->SetGroup($this->group)
+					->setBackendTemplate('')
 					->setRegisterInNewContentElementWizard(false)
 			);
 		}

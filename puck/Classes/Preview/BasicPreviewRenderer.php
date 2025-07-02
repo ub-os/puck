@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
@@ -18,7 +19,7 @@ use TYPO3\CMS\Backend\Preview\PreviewRendererInterface;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
-use B13\Container\Backend\Preview\ContainerPreviewRenderer;
+use B13\Container\Backend\Preview\GridRenderer;
 use B13\Container\Tca\Registry;
 
 /**
@@ -31,6 +32,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 	public function __construct(
 		protected RecordFactory $recordFactory,
 		protected FrontendInterface $runtimeCache,
+		protected GridRenderer $gridRenderer,
 	)
 	{
 		$this->view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(
