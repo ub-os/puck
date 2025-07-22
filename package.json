@@ -22,7 +22,7 @@
 		"build:css": "run-s sass autoprefixer minifycss",
 		"build:frontend-icons": "node build-scripts/fantasticon.js && node build-scripts/svgstore.js",
 		"build:favicons": "node build-scripts/favicons.js",
-		"watch:js": "onchange 'puck/Resources/Private/JavaScript/**/*.js' -- run-s build:js",
+		"watch:js": "onchange 'puck/Resources/Private/JavaScript/**/*.js*' -- run-s build:js",
 		"watch:css": "onchange 'puck/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
 		"watch:frontend-icons": "onchange 'puck/Resources/Public/Icons/Frontend/*.svg' -- run-s build:fantasticon build:sprite-sheet && node build-scripts/icons.js",
 		"watch:favicons": "onchange 'puck/Resources/Public/Icons/Favicons/*.svg' -- run-s build:favicons",
@@ -49,7 +49,7 @@
 		"svgstore": "^3.0.1"
 	},
 	"dependencies": {
-		"@oliveoilexpert/stim": "^2.0",
+		"@oliveoilexpert/stim": "^2",
 		"@splidejs/splide": "^4.1.4",
 		"@splidejs/splide-extension-intersection": "^0.2.0",
 		"cssnano": "^7.0.6",

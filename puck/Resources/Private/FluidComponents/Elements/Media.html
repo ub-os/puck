@@ -9,6 +9,7 @@
 	<f:argument name="webp" type="boolean" optional="1" default="0"/>
 	<f:argument name="avif" type="boolean" optional="1" default="0"/>
 	<f:argument name="retina" type="boolean" optional="1" default="1"/>
+	<f:argument name="retinaOnly" type="boolean" optional="1" default="1"/>
 	<f:argument name="loading" type="string" optional="1" default="lazy"/>
 	<f:argument name="additionalConfig" type="array" optional="1" default="{controls:1,autoplay:0,loop:0}"/>
 	<f:argument name="backgroundImg" type="boolean" optional="1" default="0"/>
@@ -39,6 +40,7 @@
 								cropVariant="{cropVariant}"
 								width="{width}"
 								retina="{retina}"
+								retinaOnly="{retinaOnly}"
 								webp="{webp}"
 								avif="{avif}"
 								backgroundImage="{backgroundImg}"
@@ -66,6 +68,12 @@
 													 posterSources="{sources}"
 													 posterRetina="{retina}"/>
 							</div>
+						</f:else>
+						<f:else if="!{file.extension}">
+							<f:image src="{file}"
+									 width="{width}"
+									 class="{name}__file"
+									 alt="{file.alternative}"/>
 						</f:else>
 						<f:else>
 							<f:media file="{file}"

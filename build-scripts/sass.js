@@ -5,7 +5,7 @@ import * as sass from 'sass'
 import { ensureDirectoryExistence, log } from './utils.js'
 
 const sourcePath = 'puck/Resources/Private/Stylesheets/'
-const fileNames = ['puck', 'puck-backend']
+const fileNames = ['global-layer-order', 'puck', 'puck-backend']
 const distPath = ensureDirectoryExistence('puck/Resources/Public/Css/dist/')
 
 log.header('Building CSS from SASS')

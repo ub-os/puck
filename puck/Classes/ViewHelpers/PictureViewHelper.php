@@ -35,6 +35,7 @@ class PictureViewHelper extends AbstractViewHelper
 		$this->registerArgument('webp', 'boolean', '', false, false);
 		$this->registerArgument('avif', 'boolean', '', false, false);
 		$this->registerArgument('retina', 'boolean', '', false, false);
+		$this->registerArgument('retinaOnly', 'boolean', '', false, false);
 		$this->registerArgument('loading', 'string', '', false, 'lazy');
 		$this->registerArgument('breakpoints', 'array', '', false, ['xs' => 540, 's' => 660, 'sm' => 780, 'm' => 900, 'ml' => 1040, 'l' => 1180, 'xl' => 1340]);
 		$this->registerArgument('backgroundImage', 'boolean', '', false, false);
@@ -182,18 +183,24 @@ class PictureViewHelper extends AbstractViewHelper
 				$width = $this->arguments['sourceMaxWidth'];
 			}
 
-			$srcset = $this->createViewHelper(UriImageViewHelper::class, [
-				'image' => $this->arguments['image'],
-				'cropVariant' => $source['cropVariant'] ?? '',
-				'width' => $width,
-				'absolute' => true,
-				'treatIdAsReference' => false,
-			])->render();
+			if ($this->arguments['retinaOnly'] && $this->arguments['retina']) {
+				$srcset = '';
+			} else {
+				$srcset = $this->createViewHelper(UriImageViewHelper::class, [
+					'image' => $this->arguments['image'],
+					'cropVariant' => $source['cropVariant'] ?? '',
+					'width' => $width,
+					'absolute' => true,
+					'treatIdAsReference' => false,
+				])->render();
+			}
 
 			$srcsetx2 = '';
 			$x2 = '';
 			if ($this->arguments['retina']) {
-				$srcsetx2 .= ', ';
+				if ($srcset) {
+					$srcsetx2 .= ', ';
+				}
 				$srcsetx2 .= $this->createViewHelper(UriImageViewHelper::class, [
 					'image' => $this->arguments['image'],
 					'cropVariant' => $source['cropVariant'] ?? '',
@@ -201,7 +208,9 @@ class PictureViewHelper extends AbstractViewHelper
 					'absolute' => true,
 					'treatIdAsReference' => false,
 				])->render();
-				$x2 = ' 2x';
+				if (!$this->arguments['retinaOnly']) {
+					$x2 = ' 2x';
+				}
 			}
 			$maxWidth = $breakpoint;
 			if (isset($this->arguments['breakpoints'][$breakpoint])) {
@@ -217,7 +226,7 @@ class PictureViewHelper extends AbstractViewHelper
 			if ($this->arguments['webp']) {
 				$sourcesHtml .= "<source srcset=\"{$srcset}.webp {$srcsetx2}.webp{$x2}\" {$media} type=\"image/webp\">";
 			}
-			$sourcesHtml .= "<source srcset=\"{$srcset} {$srcsetx2}{$x2}\" {$media}>";
+			$sourcesHtml .= "<source srcset=\"{$srcset}{$srcsetx2}{$x2}\" {$media}>";
 		}
 		return "{$pictureHtml}{$sourcesHtml}{$imageHtml}</picture>";
 	}

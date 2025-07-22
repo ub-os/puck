@@ -6,6 +6,11 @@ page.1 = TEXT
 page.includeCSS {
     puck = EXT:puck/Resources/Public/Css/dist/puck.min.css
     puck.data-hx-preserve = true
+    layerOrder = EXT:puck/Resources/Public/Css/dist/global-layer-order.css
+    layerOrder {
+        inline = 1
+        forceOnTop = 1
+    }
 }
 page.includeJS {
     puck = EXT:puck/Resources/Public/JavaScript/dist/puck.min.js

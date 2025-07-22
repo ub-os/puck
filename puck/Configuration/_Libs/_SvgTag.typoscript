@@ -1,0 +1,5 @@
+lib.svgTag = SVG
+lib.svgTag {
+    renderMode = inline
+    src.field = src
+}

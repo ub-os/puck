@@ -59,6 +59,20 @@ export default class Carousel extends Controller {
 					control.classList.add(this.activeClass)
 				}
 			})
+			// force eager loading of the current slide and the previous and next slides
+			// default lazy loading will often only start after the transition is done
+			const slides = [newIndex - 1, newIndex, newIndex + 1]
+			slides.forEach(index => {
+				if (index >= 0 && index < this.splide.length) {
+					const slide = this.splide.Components.Slides.getAt(index)
+					if (slide) {
+						const img = slide.slide.querySelector('img[loading="lazy"]')
+						if (img && !img.complete) {
+							img.loading = 'eager'
+						}
+					}
+				}
+			})
 		})
 		this.splide.on('pagination:mounted', data => {
 			data.list.setAttribute('data-history-excluded', '')

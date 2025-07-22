@@ -10,7 +10,6 @@
 =font-size($value)
 	+rfs.rfs($value)
 
-
 =grid-container($max-width: grid-container-width())
 	width: 100%
 	max-width: $max-width
@@ -20,25 +19,31 @@
 	display: flex
 	flex-wrap: wrap
 	gap: var(--gutter-y) var(--gutter-x)
+	--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
 
-=grid-col($width: var(--row-width), $row-width: var(--row-width))
+=grid-col($width: var(--row-colspan), $row-width: var(--row-colspan))
 	flex-shrink: 0
 	max-width: 100%
 	flex-basis: auto
-	width: round(down, (100% - (var(--row-width) - 1) * var(--gutter-x)) * var(--col-width) / var(--row-width) + var(--gutter-x) * (var(--col-width) - 1), 1px)
-	+grid-col-width($width, $row-width)
+	width: round(down, (var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1)), 1px)
+	/* Safari 17 and older fallback */
+	/* Safari 17 and older does not support round() with CSS variables(?), so we use a fallback */
+	::-webkit-full-page-media, :future, :root &
+		width: calc(var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1))
 
-=grid-col-width($width, $row-width: var(--row-width))
-	@if $row-width != var(--row-width)
-		--row-width: #{$row-width}
-	--col-width: #{$width}
-	& > *
-		@if $width != var(--row-width)
-			--row-width: #{$width}
+=grid-col-width($width, $row-width: var(--row-colspan))
+	@if $row-width != var(--row-colspan)
+		--row-colspan: #{$row-width}
+	--col-colspan: #{$width}
+	@if $width != var(--row-colspan)
+		& > *
+			--row-colspan: #{$width}
+			--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
 
-=grid-col-breakpoint($bp, $width, $row-width: var(--row-width))
+=grid-col-breakpoint($bp, $width, $row-width: var(--row-colspan))
 	@media (max-width($bp))
 		+grid-col-width($width, $row-width)
+
 
 
 =flex( $direction: row, $justify: false, $align: false, $wrap: false)

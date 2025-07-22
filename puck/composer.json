@@ -16,7 +16,7 @@
 		"typo3/cms-lowlevel": "^13",
 		"typo3/cms-redirects": "^13",
 		"typo3/cms-recycler": "^13",
-		"eliashaeussler/typo3-warming": "^3",
+		"eliashaeussler/typo3-warming": "^4",
 		"brotkrueml/schema": "^3",
 		"b13/container": "^3",
 		"oliveoilexpert/content-presets": "^1.0",

@@ -1,49 +1,47 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:is="http://typo3.org/ns/TYPO3/CMS/IndexedSearch/ViewHelpers" data-namespace-typo3-fluid="true">
-
+	  xmlns:is="http://typo3.org/ns/TYPO3/CMS/IndexedSearch/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:variable name="name" value="indexedsearch"/>
 
 <f:if condition="{searchParams.sword}">
-    <u:var set="urlWithSearchParam">{f:uri.action(action:'search', arguments:'{search: {sword:searchParams.sword}}' )}
-    </u:var>
-    <script>
-		 history.replaceState(history.state, '', '{urlWithSearchParam}');
-    </script>
+	<u:var set="urlWithSearchParam">{f:uri.action(action:'search', arguments:'{search: {sword:searchParams.sword}}' )}</u:var>
+	<script>
+		history.replaceState(history.state, '', '{urlWithSearchParam}');
+	</script>
 </f:if>
 <f:alias map="{sword: searchParams.sword}">
-    <f:render partial="Form" arguments="{_all}"/>
+	<f:render partial="Form" arguments="{_all}"/>
 </f:alias>
 <layout:section
-        top="none"
-        class="{name}__list__wrap">
-    <f:for each="{resultsets}" as="result">
-        <f:if condition="{result.categoryTitle}">
-            <h1 class="{name}__category">{result.categoryTitle}</h1>
-        </f:if>
-        <f:if condition="{result.count} > 0">
-        </f:if>
-        {result.searchedInSectionInfo}
-        <f:if condition="{result.count} > 0">
-            <f:then>
-                <div class="{name}__list" role="list">
-                    <f:for each="{result.rows}" as="row">
-                        <f:render partial="Searchresult" arguments="{row: row}"/>
-                    </f:for>
-                </div>
-                <div class="{name}__pagination">
-                    <is:pageBrowsing lang="de" numberOfResults="{result.count}"
-                                     maximumNumberOfResultPages="{settings.page_links}"
-                                     currentPage="{searchParams.pointer}"
-                                     resultsPerPage="{searchParams.numberOfResults}"/>
-                </div>
-            </f:then>
-            <f:else>
-                <div class="{name}__no-result">
-                    <f:translate extensionName="puck" key="no-results"/>
-                </div>
-            </f:else>
-        </f:if>
-    </f:for>
+	top="none"
+	class="{name}__list__wrap">
+	<f:for each="{resultsets}" as="result">
+		<f:if condition="{result.categoryTitle}">
+			<h1 class="{name}__category">{result.categoryTitle}</h1>
+		</f:if>
+		<f:if condition="{result.count} > 0">
+		</f:if>
+		{result.searchedInSectionInfo}
+		<f:if condition="{result.count} > 0">
+			<f:then>
+				<div class="{name}__list" role="list">
+					<f:for each="{result.rows}" as="row">
+						<f:render partial="Searchresult" arguments="{row: row}"/>
+					</f:for>
+				</div>
+				<f:if condition="{result.pagination.lastPageNumber} > 1">
+					<div class="{name}__pagination">
+						<f:render partial="Pagination"
+								  arguments="{pagination: result.pagination, searchParams: searchParams, freeIndexUid: freeIndexUid}" />
+					</div>
+				</f:if>
+			</f:then>
+			<f:else>
+				<div class="{name}__no-result">
+					<f:translate extensionName="puck" key="no-results"/>
+				</div>
+			</f:else>
+		</f:if>
+	</f:for>
 </layout:section>
 
 </html>

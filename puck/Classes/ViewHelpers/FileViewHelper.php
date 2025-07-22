@@ -83,7 +83,7 @@ class FileViewHelper extends AbstractViewHelper
 			try {
 				return $resourceFactory->getFileObjectFromCombinedIdentifier($file);
 			} catch (\Exception $e) {
-				return $e->getMessage();
+				return $file;
 			}
 		}
 		if (is_object($file)) {

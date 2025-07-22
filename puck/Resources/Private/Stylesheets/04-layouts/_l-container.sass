@@ -20,15 +20,15 @@
 
 	@for $i from 4 through 12
 		&:where(.-width-#{$i}) &__inner
-			--row-width: #{$i}
+			--row-colspan: #{$i}
 			max-width: width-by-cols($i, true)
 			@media (max-width(m))
 				@if ($i == 4)
-					--row-width: 6
+					--row-colspan: 6
 				@if ($i > 4)
-					--row-width: 12
+					--row-colspan: 12
 			@media (max-width(xs))
-				--row-width: 12
+				--row-colspan: 12
 
 	&:where(.-align-left) &__inner
 		margin-left: 0
