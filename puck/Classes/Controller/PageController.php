@@ -6,19 +6,19 @@ namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
-use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use UBOS\Puck\Attribute\AsAction;
-
 
 /**
  * Default Page Controller.
@@ -29,6 +29,8 @@ class PageController extends ActionController
 		protected ContentContentObject $contentContentObject,
 		protected RecordFactory        $recordFactory,
 		protected PageRenderer         $pageRenderer,
+		protected AssetCollector       $assetCollector,
+		protected Context 			   $context,
 		protected ViewFactoryInterface $viewFactory
 	)
 	{
@@ -37,65 +39,97 @@ class PageController extends ActionController
 	#[AsAction("Page")]
 	public function indexAction(): ResponseInterface
 	{
-		$cObj = $this->request->getAttribute('currentContentObject');
-		$data = $cObj->data;
+		$contentObjectRenderer = $this->request->getAttribute('currentContentObject');
 		$site = $this->request->getAttribute('site');
 		$siteSettings = $site->getSettings();
-		$context = GeneralUtility::makeInstance(Context::class);
 		$variables = [];
 		$variables['settings'] = $this->settings;
-		$variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $data);
-
-		// run data processing
-		if ($this->settings['dataProcessing'] ?? false) {
-			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
-				->convertPlainArrayToTypoScriptArray($this->settings['dataProcessing']);
-			$variables['processed'] = $processor->process(
-				$cObj,
-				['dataProcessing.' => $processingTypoScript ?? null],
-				['data' => $data]
-			);
-			unset($variables['processed']['data']);
-		}
-
-		// render content elements
-		$backendRows = [
-			['colPos' => 1, 'slide' => 0],
-			['colPos' => 3, 'slide' => -1],
-			['colPos' => 9, 'slide' => 0]
-		];
-		$this->contentContentObject->setRequest($this->request);
-		$this->contentContentObject->setContentObjectRenderer($cObj);
-		foreach ($backendRows as $row) {
-			$variables['contentElements']['colPos' . $row['colPos']] = $this->contentContentObject->render([
-				'table' => 'tt_content',
-				'select.' => [
-					'pidInList' => $data['uid'],
-					'where' => '{#colPos}=' . $row['colPos'],
-					'orderBy' => 'sorting',
-				],
-				'slide' => $row['slide']
-			]);
-		}
-
-		// add context variable
+		$variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow(
+			'pages',
+			$contentObjectRenderer->data
+		);
 		$variables['context'] = [
-			'backendUser' => $context->getPropertyFromAspect('backend.user', 'username'),
+			'backendUser' => $this->context->getPropertyFromAspect('backend.user', 'username'),
 			'site' => $site,
-			'language' => $site->getLanguageById($context->getPropertyFromAspect('language', 'id')),
+			'language' => $site->getLanguageById($this->context->getPropertyFromAspect('language', 'id')),
 		];
-
-		$this->pageRenderer->addHeaderData($this->renderFaviconHeadTags($siteSettings));
+		$variables['contentElements'] = $this->renderContentElementsByColPos(
+			$contentObjectRenderer,
+			[
+				['colPos' => 1, 'slide' => 0],
+				['colPos' => 3, 'slide' => -1],
+				['colPos' => 9, 'slide' => 0]
+			]
+		);
+		$this->addAssetTags();
+		$this->addFaviconTags($siteSettings);
 		$this->view->assignMultiple($variables);
 		return $this->htmlResponse();
 	}
 
+	/**
+	 * Render content elements by colPos.
+	 */
+	protected function renderContentElementsByColPos(ContentObjectRenderer $contentObjectRenderer, array $contentAreas): array
+	{
+		$this->contentContentObject->setRequest($this->request);
+		$this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
+		$result = [];
+		foreach ($contentAreas as $area) {
+			$result['colPos' . $area['colPos']] = $this->contentContentObject->render([
+				'table' => 'tt_content',
+				'select.' => [
+					'pidInList' => $contentObjectRenderer->data['uid'],
+					'where' => '{#colPos}=' . $area['colPos'],
+					'orderBy' => 'sorting',
+				],
+				'slide' => $area['slide']
+			]);
+		}
+		return $result;
+	}
 
 	/**
-	 * Render the favicon head tags based on favicon name configured in site settings.
+	 * Add the extension stylesheets and javascript files to the page.
 	 */
-	protected function renderFaviconHeadTags($siteSettings): string
+	protected function addAssetTags(): void
+	{
+		if (isset($this->request->getHeaders()['hx-request'])) {
+			// If this is an HTMX request, we do not add the assets.
+			// the hash appended to asset file names can lead to them being included multiple times when htmx merges the head because the file names are not identical => we remove the assets from the head on htmx requests
+			return;
+		}
+		$puckCSS = 'EXT:puck/Resources/Public/Css/dist/puck.min.css';
+		$puckJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck.min.js';
+		$puckBodyJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js';
+		if (Environment::getContext()->isDevelopment()) {
+			$puckCSS = 'EXT:puck/Resources/Public/Css/dist/puck.css';
+			$puckJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck.js';
+			$puckBodyJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck-body.js';
+		}
+		$this->assetCollector->addStyleSheet(
+			'puck-css',
+			$puckCSS,
+			['data-hx-preserve' => '1'],
+		);
+		$this->assetCollector->addJavaScript(
+			'puck-js',
+			$puckJS,
+			['defer' => 'defer', 'data-hx-preserve' => '1'],
+			['priority' => true]
+		);
+		$this->assetCollector->addJavaScript(
+			'puck-body-js',
+			$puckBodyJS,
+			['defer' => 'defer'],
+			['priority' => false]
+		);
+	}
+
+	/**
+	 * Add the favicon head tags based on favicon name configured in site settings.
+	 */
+	protected function addFaviconTags($siteSettings): void
 	{
 		$faviconPath = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
 			'EXT:puck/Resources/Public/Icons/Favicons/packages/'
@@ -108,6 +142,6 @@ class PageController extends ActionController
 			)
 		);
 		$view->assign('faviconPath', $faviconPath);
-		return $view->render('FaviconTags');
+		$this->pageRenderer->addHeaderData($view->render('FaviconTags'));
 	}
 }
