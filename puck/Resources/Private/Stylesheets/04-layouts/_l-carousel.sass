@@ -35,6 +35,8 @@
 		overflow-y: visible
 
 	&__list
+		--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
+
 		&.-align-start
 			align-items: flex-start
 

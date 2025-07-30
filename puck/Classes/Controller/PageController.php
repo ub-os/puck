@@ -111,6 +111,7 @@ class PageController extends ActionController
 			'puck-css',
 			$puckCSS,
 			['data-hx-preserve' => '1'],
+			['priority' => true]
 		);
 		$this->assetCollector->addJavaScript(
 			'puck-js',
