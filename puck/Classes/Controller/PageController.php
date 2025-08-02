@@ -94,29 +94,25 @@ class PageController extends ActionController
 	 */
 	protected function addAssetTags(): void
 	{
-		if (isset($this->request->getHeaders()['hx-request'])) {
-			// If this is an HTMX request, we do not add the assets.
-			// the hash appended to asset file names can lead to them being included multiple times when htmx merges the head because the file names are not identical => we remove the assets from the head on htmx requests
-			return;
-		}
-		$puckCSS = 'EXT:puck/Resources/Public/Css/dist/puck.min.css';
-		$puckJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck.min.js';
-		$puckBodyJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck-body.min.js';
+		$assetPath = 'EXT:puck/Resources/Public';
+		$puckCSS = $assetPath . '/Css/dist/puck.min.css';
+		$puckJS = $assetPath . '/JavaScript/dist/puck.min.js';
+		$puckBodyJS = $assetPath . '/JavaScript/dist/puck-body.min.js';
 		if (Environment::getContext()->isDevelopment()) {
-			$puckCSS = 'EXT:puck/Resources/Public/Css/dist/puck.css';
-			$puckJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck.js';
-			$puckBodyJS = 'EXT:puck/Resources/Public/JavaScript/dist/puck-body.js';
+			$puckCSS = $assetPath . '/Css/dist/puck.css';
+			$puckJS = $assetPath . '/JavaScript/dist/puck.js';
+			$puckBodyJS = $assetPath . '/JavaScript/dist/puck-body.js';
 		}
 		$this->assetCollector->addStyleSheet(
 			'puck-css',
 			$puckCSS,
-			['data-hx-preserve' => '1'],
+			['data-hx-preserve' => '1', 'id' => 'head-puck-css'],
 			['priority' => true]
 		);
 		$this->assetCollector->addJavaScript(
 			'puck-js',
 			$puckJS,
-			['defer' => 'defer', 'data-hx-preserve' => '1'],
+			['data-hx-preserve' => '1', 'id' => 'head-puck-js', 'defer' => 'defer'],
 			['priority' => true]
 		);
 		$this->assetCollector->addJavaScript(

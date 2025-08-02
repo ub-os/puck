@@ -80,6 +80,20 @@ on("htmx:historyRestore", (event) => {
 	})
 })
 
+on('htmx:removingHeadElement', event => {
+	// prevent removing head elements with data-hx-preserve attribute
+	if (event.detail.headElement.hasAttribute('data-hx-preserve')) {
+		event.preventDefault();
+	}
+})
+on('htmx:addingHeadElement', event => {
+	const el = event.detail.headElement.querySelector('*')
+	// if the element has an id and a data-hx-preserve attribute, and an element with that id already exists, prevent adding the element (prevents duplicate head elements that only differ in cache-busting query params)
+	if (el.id && el.getAttribute('data-hx-preserve') && document.getElementById(el.id)) {
+		event.preventDefault();
+	}
+})
+
 const isBodySwapEvent = event => {
 	return event.target?.tagName === 'BODY' || event.target?.id === 'root' || event.elt?.id === 'root'
 }
