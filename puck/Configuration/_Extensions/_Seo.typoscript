@@ -9,15 +9,15 @@ plugin.tx_seo {
                     }
                 }
 
-                news {
-                    provider = TYPO3\CMS\Seo\XmlSitemap\PagesXmlSitemapDataProvider
-                    config {
-                        // exclude all but news
-                        excludedDoktypes = 1, 3, 4, 6, 7, 199, 254, 255, 16504
-                        additionalWhere = {#no_index} = 0 AND {#canonical_link} = '' AND {#url} = ''
-                        excludePagesRecursive =
-                    }
-                }
+#                news {
+#                    provider = TYPO3\CMS\Seo\XmlSitemap\PagesXmlSitemapDataProvider
+#                    config {
+#                        // exclude all but news
+#                        excludedDoktypes = 1, 3, 4, 6, 7, 199, 254, 255, 16504
+#                        additionalWhere = {#no_index} = 0 AND {#canonical_link} = '' AND {#url} = ''
+#                        excludePagesRecursive =
+#                    }
+#                }
             }
         }
     }
