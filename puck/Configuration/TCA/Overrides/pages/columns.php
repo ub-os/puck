@@ -31,7 +31,10 @@ $GLOBALS['TCA']['pages']['columns']['url'] = [
 	'label' => 'URL',
 	'config' => [
 		'type' => 'link',
-		'allowedTypes' => ['page', 'url', 'file']
+		'allowedTypes' => ['page', 'url', 'file'],
+		'behaviour' => [
+			'allowLanguageSynchronization' => true,
+		],
 	]
 ];
 

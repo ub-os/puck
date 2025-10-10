@@ -13,7 +13,7 @@ use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\Expression\MathExpressionNode;
  *
  * Example usage:
  * <u:math eval="10 * 5" /> <!-- Outputs: 50 -->
- * <u:math>2 + 2</p:math> <!-- Outputs: 4 -->
+ * <u:math>2 + 2</u:math> <!-- Outputs: 4 -->
  * <u:math eval="{item.price} * {item.quantity}" /> <!-- Calculates dynamic values -->
  */
 class MathViewHelper extends AbstractViewHelper

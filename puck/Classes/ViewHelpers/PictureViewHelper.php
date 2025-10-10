@@ -20,6 +20,8 @@ use TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper as UriImageViewHelper;
  */
 class PictureViewHelper extends AbstractViewHelper
 {
+	protected $escapeOutput = false;
+
 	public function initializeArguments(): void
 	{
 		// name, type, description, required, default, escape

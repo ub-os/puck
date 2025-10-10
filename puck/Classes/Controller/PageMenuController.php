@@ -38,6 +38,7 @@ class PageMenuController extends ActionController
 	{
 		if (!$this->menuDemand) {
 			$demand = $this->settings['demand'];
+			$demand['orderByRecordsProperty'] = $this->settings['order']['recordSelection'] ?? false;
 			$demand['additionalSettings'] = [
 				'types' => $this->settings['demand']['types'],
 				'navHide' => $this->settings['demand']['navHide'],

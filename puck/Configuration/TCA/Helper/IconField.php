@@ -22,5 +22,8 @@ return [
 		'renderType' => 'selectSingle',
 		'items' => $iconSelectItems,
 		'default' => '',
+		'behaviour' => [
+			'allowLanguageSynchronization' => true,
+		],
 	]
 ];
