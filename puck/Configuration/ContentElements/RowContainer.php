@@ -3,7 +3,7 @@
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	'row_container',
 	label: 'Row container',
-	description: 'Container for columns and cards. Flexible alignment, individual column widths and carousel variant.',
+	description: 'Container for text, media and cards. Flexible alignment, individual column widths and carousel variant.',
 	icon: 'row_container',
 	sorting: 80,
 	showItem: '
@@ -41,7 +41,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	],
 	containerConfiguration: [
 		[
-			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_media_column, puck_card']]
+			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_text, puck_media, puck_card']]
 		]
 	],
 );

@@ -19,6 +19,19 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 			'config' => [
 				'enableRichtext' => true,
 			]
-		]
+		],
+		// colPos < 600 is for section-level elements, >= 600 for container child elements
+		'frame_class' => [
+			'displayCond' => 'FIELD:colPos:<:600',
+		],
+		'header_spacing_override' => [
+			'displayCond' => 'FIELD:colPos:<:600',
+		],
+		'container_position' => [
+			'displayCond' => 'FIELD:colPos:<:600',
+		],
+		'container_offset' => [
+			'displayCond' => 'FIELD:colPos:<:600',
+		],
 	],
 );

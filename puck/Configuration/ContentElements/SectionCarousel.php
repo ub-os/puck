@@ -26,7 +26,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	],
 	containerConfiguration: [
 		[
-			['name' => 'Content', 'colPos' => 600, 'allowed' => [
+			['name' => 'Content', 'colPos' => 300, 'allowed' => [
 				'CType' => 'puck_text,puck_media,puck_cover_media,puck_hero,puck_row,puck_container'
 			]]
 		]

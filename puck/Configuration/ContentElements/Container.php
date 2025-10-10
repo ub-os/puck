@@ -3,7 +3,7 @@
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	'container',
 	label: 'Simple container',
-	description: 'Container for accordions and other block items.',
+	description: 'Container for grouped child elements, e.g. accordions.',
 	icon: 'container',
 	sorting: 70,
 	showItem: '
