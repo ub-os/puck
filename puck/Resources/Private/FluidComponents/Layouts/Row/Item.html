@@ -5,12 +5,10 @@
 	<f:argument name="attributes" type="array" optional="1"/>
 
 
-		<u:var set="bpClasses">
-			<f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val}</f:for>
-		</u:var>
-		<div class="{name} {class} -width-{width} {bpClasses}" {attributes -> u:renderAttributes()}>
-			<f:slot/>
-		</div>
+	<u:var set="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></u:var>
+	<div class="{name} {class} -width-{width} {bpClasses}" {attributes -> u:renderAttributes()}>
+		<f:slot/>
+	</div>
 
 
 

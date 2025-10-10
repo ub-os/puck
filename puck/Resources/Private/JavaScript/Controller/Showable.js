@@ -90,7 +90,7 @@ export default class Showable extends Controller {
 		this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
 	}
 	toggle({ transition = true, changeUrlHash = true, trigger = '' }, event = {}) {
-		if (this.active && (!this.switchToggles || event.currentTarget === this.lastUsedToggle)) {
+		if (this.active && (!this.switchToggles || event.currentTarget !== this.lastUsedToggle)) {
 			this.hide({ transition, changeUrlHash, trigger })
 			this.lastUsedToggle = event.currentTarget
 		} else if (!this.active) {

@@ -227,7 +227,7 @@ $columns['container_width'] = [
 	],
 ];
 $columns['item_column_width'] = [
-	'label' => 'Default item width',
+	'label' => 'Row item width',
 	'onChange' => 'reload',
 	'config' => [
 		'type' => 'select',
@@ -247,7 +247,7 @@ $columns['item_column_width'] = [
 $columns['text_column_width'] = $columns['item_column_width'];
 $columns['media_column_width'] = $columns['item_column_width'];
 $columns['text_column_width']['label'] = 'Text width';
-$columns['media_column_width']['label'] = 'Media gallery width';
+$columns['media_column_width']['label'] = 'Media width';
 $columns['text_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class . '->textColumnWidth';
 $columns['media_column_width']['config']['itemsProcFunc'] = ContentItemsProcFunc::class . '->mediaColumnWidth';
 
@@ -292,7 +292,7 @@ $columns['row_align'] = [
 	],
 ];
 $columns['container_position'] = [
-	'label' => 'Align',
+	'label' => 'Position',
 	'onChange' => 'reload',
 	'config' => [
 		'type' => 'select',

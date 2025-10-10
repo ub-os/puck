@@ -35,7 +35,7 @@ editor:
 
         # link styles
         - { name: "Button", element: "a", classes: [ "e-button" ] }
-        - { name: "Symbol button", element: "a", classes: [ "e-cta-button" ] }
+        - { name: "CTA button", element: "a", classes: [ "e-cta-button" ] }
         - { name: "Button: full-width", element: "a", classes: [ '-block' ] }
         - { name: "Button: light", element: "a", classes: [ '-light' ] }
         - { name: "Button: outline", element: "a",classes: [ '-outline' ] }

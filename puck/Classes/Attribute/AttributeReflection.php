@@ -90,8 +90,8 @@ class AttributeReflection
 					$extensionKey,
 					'setup',
 					'
-					' . $name . 'PluginFragmentPage = PAGE
-					' . $name . 'PluginFragmentPage {
+					pluginFragmentPage_' . $name . ' = PAGE
+					pluginFragmentPage_' . $name . ' {
 						typeNum = ' . $plugin['pluginFragmentPageType'] . '
 						20 = EXTBASEPLUGIN
 						20 {
