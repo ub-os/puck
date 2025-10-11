@@ -13,7 +13,7 @@ use UBOS\Puck\Attribute\AsAction;
  */
 class FileMenuController extends ActionController
 {
-	use ContentModuleControllerTrait;
+	use ComponentContentElementTrait;
 
 	public function __construct(
 		protected ResourceFactory $resourceFactory

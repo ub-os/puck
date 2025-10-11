@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
+use UBOS\Puck\Components\ModuleComponentCollection;
 use UBOS\Puck\Preview\BasicPreviewRenderer;
 use UBOS\Puck\Controller;
 
@@ -14,7 +15,7 @@ use UBOS\Puck\Controller;
  *
  * Defines configuration for TCA, TypoScript setup, ext:container, Data Processors, FlexForms, etc.
  * Content elements defined here always render an Extbase plugin, default is "Content" @see Controller\ContentController
- * Flexform/data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ContentModuleControllerTrait::prepareContentView()
+ * Flexform/data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ComponentContentElementTrait::prepareContentView()
  *
  * How to use:
  * Create a new instance for every CType and call its methods
@@ -34,15 +35,15 @@ class ContentElementConfiguration
 	 * @param float $sorting Sorting value for content element wizard (default: 1000)
 	 * @param string $showItem TCA showitem configuration
 	 * @param array $columnsOverrides TCA column overrides
+	 *
+	 *
 	 * @param string $pluginName Name of the plugin this element renders (default: 'Content')
 	 * @param string $extensionName Plugin extension name (default: 'Puck')
-	 * @param string $templateName Template name (defaults to CamelCase of $type). The default plugin 'Content' will look for a fluid component with this name in namespace UBOS\Puck\Modules\ which corresponds to folder puck/Resources/Private/FluidComponents/Modules/
-	 * @param string $model Model class name, if content data should be mapped to a model instead of a generic record
+	 *
 	 * @param array $flexForms Array of field_name => EXT:ext/path/to/flexform.xml, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration
 	 * @param array $dataProcessing Data processor configurations
 	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer::class)
-	 * @param bool $noCache Whether to disable caching (default: false)
 	 */
 	public function __construct(
 		public string $type,
@@ -53,15 +54,14 @@ class ContentElementConfiguration
 		public float  $sorting = 1000,
 		public string $showItem = '',
 		public array  $columnsOverrides = [],
-		public string $pluginName = 'Content',
+		public string $pluginName = '',
 		public string $extensionName = 'Puck',
-		public string $templateName = '',
-		public string $model = '',
+		public string $componentCollection = ModuleComponentCollection::class,
+		public string $component = '',
 		public array  $flexForms = [],
 		public array  $containerConfiguration = [],
 		public array  $dataProcessing = [],
 		public string $previewRenderer = BasicPreviewRenderer::class,
-		public bool   $noCache = false,
 	)
 	{
 	}
@@ -148,34 +148,40 @@ class ContentElementConfiguration
 		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
 			$this->dataProcessing['container'] = ['processor' => 'B13\Container\DataProcessing\ContainerProcessor', 'auto' => true];
 		}
-		if ($this->flexForms) {
-			foreach ($this->flexForms as $fieldName => $flexForm) {
-				if ($fieldName === 'pi_flexform') {
-					continue;
-				}
-				if (!isset($this->dataProcessing[$fieldName . '-flex-form'])) {
-					$this->dataProcessing[$fieldName . '-flex-form'] = ['processor' => 'flex-form', 'fieldName' => $fieldName, 'as' => $fieldName];
-				}
-			}
-		}
-		ExtensionManagementUtility::addTypoScript(
-			$this->extensionName,
-			'setup',
-			'
+
+		$component = $this->component ?: GeneralUtility::underscoredToLowerCamelCase($this->type);
+
+		if (!empty($this->pluginName)) {
+			$content = '
             tt_content.' . $this->getCType() . ' = EXTBASEPLUGIN
             tt_content.' . $this->getCType() . '  {
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
                 settings {
-                	contentElementConfiguration {
-						model = ' . $this->model . '
-						templateName = ' . ($this->templateName ?: GeneralUtility::underscoredToUpperCamelCase($this->type)) . '
-						dataProcessing {
-							' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
-						}
-                	}
+                    contentElementConfiguration {
+						componentCollection = ' . $this->componentCollection . '
+                        component = ' . $component . '
+                        dataProcessing {
+                            ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
+                        }
+                    }
                 }
-            }',
+            }';
+		} else {
+			$content = '
+            tt_content.' . $this->getCType() . ' = FLUIDCOMPONENT
+            tt_content.' . $this->getCType() . ' {
+                componentCollection = ' . $this->componentCollection . '
+                component = ' . $component . '
+                dataProcessing {
+                    ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
+                }
+            }';
+		}
+		ExtensionManagementUtility::addTypoScript(
+			$this->extensionName,
+			'setup',
+			$content,
 			'defaultContentRendering'
 		);
 	}
@@ -203,8 +209,8 @@ class ContentElementConfiguration
 		array  $valueOverrides = []
 	): ContentElementConfiguration
 	{
-		if (!$this->templateName) {
-			$this->templateName = GeneralUtility::underscoredToUpperCamelCase($this->type);
+		if (!$this->component) {
+			$this->component = GeneralUtility::underscoredToLowerCamelCase($this->type);
 		}
 		$this->type = $type;
 		$this->label = $label;

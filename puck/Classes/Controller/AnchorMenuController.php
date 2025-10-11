@@ -16,7 +16,7 @@ use UBOS\Puck\Attribute\AsAction;
  */
 class AnchorMenuController extends ActionController
 {
-	use ContentModuleControllerTrait;
+	use ComponentContentElementTrait;
 
 	#[AsAction("AnchorMenu")]
 	public function anchorMenuAction(): ResponseInterface

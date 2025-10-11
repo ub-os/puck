@@ -14,7 +14,7 @@ use UBOS\Puck\Attribute\AsAction;
  */
 class ContentController extends ActionController
 {
-	use ContentModuleControllerTrait;
+	use ComponentContentElementTrait;
 
 	#[AsAction("Content")]
 	public function indexAction(): ResponseInterface

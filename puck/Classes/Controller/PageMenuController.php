@@ -30,7 +30,7 @@ use UBOS\Puck\PageTitle\PuckTitleProvider;
  */
 class PageMenuController extends ActionController
 {
-	use ContentModuleControllerTrait;
+	use ComponentContentElementTrait;
 
 	protected ?MenuDemand $menuDemand = null;
 
@@ -130,6 +130,7 @@ class PageMenuController extends ActionController
 		}
 
 		// apply teaser overrides to page records
+		// todo: replace models here with records, update the pageTeaserRepository accordingly
 		if ($this->settings['demand']['teasers']) {
 			$teasers = $this->pageTeaserRepository->findByUidList($this->settings['demand']['teasers']);
 			foreach ($teasers as $teaser) {
