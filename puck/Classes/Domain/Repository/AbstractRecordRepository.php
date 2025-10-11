@@ -20,6 +20,21 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  *
  * Provides a clean API similar to Extbase repositories but optimized for the Record system.
  * Uses TYPO3's Restriction system and respects TCA configuration automatically.
+ *
+ * IMPORTANT - Table Name Immutability:
+ * Each repository instance MUST maintain a single, unchanging table name throughout its lifetime.
+ * - Specialized repositories: Return a constant string in getTableName()
+ * - GenericRepository: Set once via forTable() (enforced by readonly property)
+ *
+ * Runtime cache keys use only UIDs, assuming the table never changes per instance.
+ * If you create a custom repository that violates this assumption, you MUST manually
+ * clear the cache when changing tables using clearRuntimeCache().
+ *
+ * Performance Note:
+ * This repository uses a two-level caching strategy:
+ * 1. Record cache: Avoids expensive RecordFactory calls for already-instantiated Records
+ * 2. Allowed UIDs cache: Avoids database queries for repeated findByUid() calls
+ * Both caches are per-request only and cleared on update/remove operations.
  */
 #[Autoconfigure(public: true)]
 abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
@@ -30,9 +45,15 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 	protected ?Core\Domain\RecordFactory $recordFactory = null;
 	protected ?Context $context = null;
 
-	// Runtime cache (per request) - similar to Extbase's Identity Map
-	// Stores Record objects by their actual UID
-	protected array $runtimeCache = [];
+	// Runtime cache (per request) - Identity Map pattern
+	// Stores Record objects by their UID only (table doesn't change per instance)
+	protected array $recordCache = [];
+
+	// Optional: Cache which UIDs are "allowed" for specific query settings
+	// This avoids DB queries in findByUid when we already know if a UID passes restrictions
+	// Stores the ACTUAL UID returned (important for language-aware lookups)
+	protected array $allowedUidsCache = [];
+
 	protected bool $enableRuntimeCache = true;
 
 	// Query settings (similar to Extbase QuerySettings)
@@ -72,7 +93,7 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 	public function setStoragePid(int $storagePid): self
 	{
 		$this->storagePid = $storagePid;
-		$this->respectStoragePage = true; // Automatically enable when setting a storage page
+		$this->respectStoragePage = true;
 		return $this;
 	}
 
@@ -89,22 +110,16 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 		return $this;
 	}
 
-	/**
-	 * Get the current language UID.
-	 * Falls back to context if not explicitly set.
-	 */
 	protected function getLanguageUid(): int
 	{
 		if ($this->languageUid !== null) {
 			return $this->languageUid;
 		}
 
-		// Get from context (current page language in frontend)
 		if ($this->context) {
 			try {
 				return $this->context->getPropertyFromAspect('language', 'id', 0);
 			} catch (\Exception $e) {
-				// Fallback if language aspect not available
 				return 0;
 			}
 		}
@@ -133,15 +148,18 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 	public function setEnableRuntimeCache(bool $enableRuntimeCache): self
 	{
 		$this->enableRuntimeCache = $enableRuntimeCache;
-		if (!$enableRuntimeCache) {
-			$this->clearRuntimeCache();
-		}
 		return $this;
 	}
 
 	public function clearRuntimeCache(): void
 	{
-		$this->runtimeCache = [];
+		$this->recordCache = [];
+		$this->allowedUidsCache = [];
+	}
+
+	public function clearAllowedUidsCache(): void
+	{
+		$this->allowedUidsCache = [];
 	}
 
 	// ========== CRUD Methods ==========
@@ -213,16 +231,32 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 
 	public function findByUid(int $uid): Core\Domain\Record|array|null
 	{
-		if ($this->shouldUseCache()) {
-			$cacheKey = $this->getCacheKeyForUid($uid);
-			if (isset($this->runtimeCache[$cacheKey])) {
-				return $this->runtimeCache[$cacheKey];
+		if ($this->enableRuntimeCache) {
+			$allowedKey = $this->getAllowedUidsCacheKey($uid);
+			if (isset($this->allowedUidsCache[$allowedKey])) {
+				$actualUid = $this->allowedUidsCache[$allowedKey];
+
+				if ($actualUid === null) {
+					return null;
+				}
+
+				$recordKey = $this->getRecordCacheKey($actualUid);
+				if (isset($this->recordCache[$recordKey])) {
+					return $this->recordCache[$recordKey];
+				}
 			}
 		}
 
+		$result = $this->executeFindByUid($uid);
+		$this->cacheUidLookupResult($uid, $result);
+
+		return $result;
+	}
+
+	protected function executeFindByUid(int $uid): Core\Domain\Record|array|null
+	{
 		$builder = $this->createQuery();
 
-		// Language-aware UID lookup if applicable
 		if ($this->respectSysLanguage && $this->hasLanguageSupport()) {
 			$l10nParentField = $this->getTcaValue('transOrigPointerField');
 			if ($l10nParentField) {
@@ -233,28 +267,41 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 					)
 				);
 				$results = $this->execute($builder);
-				$result = $results[0] ?? null;
-
-				// Cache result if appropriate
-				if ($this->shouldUseCache() && $result !== null) {
-					$this->runtimeCache[$this->getCacheKeyForUid($uid)] = $result;
-				}
-
-				return $result;
+				return $results[0] ?? null;
 			}
 		}
 
-		// Standard UID lookup
 		$builder->andWhere($builder->expr()->eq('uid', $builder->createNamedParameter($uid)));
 		$results = $this->execute($builder);
-		$result = $results[0] ?? null;
+		return $results[0] ?? null;
+	}
 
-		// Cache result if appropriate
-		if ($this->shouldUseCache() && $result !== null) {
-			$this->runtimeCache[$this->getCacheKeyForUid($uid)] = $result;
+	protected function cacheUidLookupResult(int $lookupUid, mixed $result): void
+	{
+		if (!$this->enableRuntimeCache) {
+			return;
 		}
 
-		return $result;
+		$shouldCache = !$this->returnRawQueryResult || $result === null;
+
+		if ($shouldCache) {
+			$allowedKey = $this->getAllowedUidsCacheKey($lookupUid);
+			$actualUid = $this->getUidFromResult($result);
+			$this->allowedUidsCache[$allowedKey] = $actualUid;
+		}
+	}
+
+	protected function getUidFromResult(mixed $result): ?int
+	{
+		if ($result === null) {
+			return null;
+		}
+
+		if (is_array($result)) {
+			return (int)$result['uid'];
+		}
+
+		return $result->getUid();
 	}
 
 	public function countAll(): int
@@ -294,8 +341,6 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 		}
 
 		$builder->executeStatement();
-
-		// Clear cache since data changed
 		$this->clearRuntimeCache();
 	}
 
@@ -315,8 +360,6 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 		}
 
 		$builder->executeStatement();
-
-		// Clear cache since data changed
 		$this->clearRuntimeCache();
 	}
 
@@ -330,10 +373,7 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 			}
 		}
 
-		// Hard delete if soft delete not possible or not requested
 		$this->hardDelete($uid);
-
-		// Cache already cleared by update() or hardDelete()
 	}
 
 	public function removeBy(array $criteria, bool $softDelete = true): void
@@ -346,7 +386,6 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 			}
 		}
 
-		// Hard delete if soft delete not possible or not requested
 		$builder = $this->getQueryBuilder();
 		$builder->delete($this->getTableName());
 
@@ -357,8 +396,6 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 		}
 
 		$builder->executeStatement();
-
-		// Clear cache since data changed
 		$this->clearRuntimeCache();
 	}
 
@@ -370,31 +407,24 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 			->where($builder->expr()->eq('uid', $builder->createNamedParameter($uid)))
 			->executeStatement();
 
-		// Clear cache since data changed
 		$this->clearRuntimeCache();
 	}
 
 	// ========== Query Building ==========
 
-	/**
-	 * Creates a query builder with restrictions applied based on repository settings.
-	 */
 	protected function createQuery(): QueryBuilder
 	{
 		$builder = $this->getQueryBuilder();
 		$builder->select('*')->from($this->getTableName());
 
-		// Apply restrictions
 		$this->applyRestrictions($builder);
 
-		// Apply storage page restriction
 		if ($this->respectStoragePage) {
 			$builder->andWhere(
 				$builder->expr()->eq('pid', $builder->createNamedParameter($this->storagePid))
 			);
 		}
 
-		// Apply language restriction
 		if ($this->respectSysLanguage && $this->hasLanguageSupport()) {
 			$languageField = $this->getTcaValue('languageField');
 			$builder->andWhere(
@@ -405,14 +435,10 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 		return $builder;
 	}
 
-	/**
-	 * Apply TYPO3 restriction system based on repository settings.
-	 */
 	protected function applyRestrictions(QueryBuilder $builder): void
 	{
 		$restrictions = $builder->getRestrictions()->removeAll();
 
-		// Always apply workspace restriction
 		if ($this->context) {
 			$workspaceId = $this->context->getPropertyFromAspect('workspace', 'id', 0);
 			if ($workspaceId > 0) {
@@ -420,14 +446,11 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 			}
 		}
 
-		// Apply enable fields restrictions unless explicitly disabled
 		if (!$this->ignoreEnableFields) {
-			// Deleted
 			if (!$this->includeDeleted && $this->hasDeletedField()) {
 				$restrictions->add(new DeletedRestriction());
 			}
 
-			// Hidden (respect backend context)
 			if ($this->hasHiddenField()) {
 				$includeHidden = $this->context
 					? $this->context->getPropertyFromAspect('visibility', 'includeHiddenContent', false)
@@ -438,21 +461,16 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 				}
 			}
 
-			// Starttime
 			if ($this->hasStarttimeField()) {
 				$restrictions->add(new StartTimeRestriction());
 			}
 
-			// Endtime
 			if ($this->hasEndtimeField()) {
 				$restrictions->add(new EndTimeRestriction());
 			}
 		}
 	}
 
-	/**
-	 * Execute query and return results (either as Records or raw arrays).
-	 */
 	protected function execute(QueryBuilder $builder): array
 	{
 		$rows = $builder->executeQuery()->fetchAllAssociative();
@@ -472,12 +490,31 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 
 		$records = [];
 		foreach ($rows as $row) {
-			if ($row) {
-				$records[] = $this->recordFactory->createResolvedRecordFromDatabaseRow(
-					$this->getTableName(),
-					$row
-				);
+			if (!$row) {
+				continue;
 			}
+
+			$uid = $row['uid'];
+
+			if ($this->enableRuntimeCache) {
+				$recordKey = $this->getRecordCacheKey($uid);
+				if (isset($this->recordCache[$recordKey])) {
+					$records[] = $this->recordCache[$recordKey];
+					continue;
+				}
+			}
+
+			$record = $this->recordFactory->createResolvedRecordFromDatabaseRow(
+				$this->getTableName(),
+				$row
+			);
+
+			if ($this->enableRuntimeCache) {
+				$recordKey = $this->getRecordCacheKey($uid);
+				$this->recordCache[$recordKey] = $record;
+			}
+
+			$records[] = $record;
 		}
 
 		return $records;
@@ -490,32 +527,21 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 
 	// ========== Runtime Cache Helpers ==========
 
-	/**
-	 * Generate cache key for a UID lookup.
-	 * Includes all settings that affect query results.
-	 */
-	protected function getCacheKeyForUid(int $uid): string
+	protected function getRecordCacheKey(int $uid): string
+	{
+		return (string)$uid;
+	}
+
+	protected function getAllowedUidsCacheKey(int $uid): string
 	{
 		return sprintf(
-			'%s|%d|%d|%d|%d|%d|%d|%d',
-			$this->getTableName(),
+			'%d|%d|%d|%d|%d',
 			$uid,
-			$this->getLanguageUid(),
 			$this->storagePid,
 			(int)$this->respectStoragePage,
 			(int)$this->ignoreEnableFields,
-			(int)$this->includeDeleted,
-			(int)$this->returnRawQueryResult
+			(int)$this->includeDeleted
 		);
-	}
-
-	/**
-	 * Check if runtime cache should be used.
-	 * Cache is always enabled unless explicitly disabled.
-	 */
-	protected function shouldUseCache(): bool
-	{
-		return $this->enableRuntimeCache;
 	}
 
 	// ========== TCA Helpers ==========
@@ -532,7 +558,6 @@ abstract class AbstractRecordRepository implements Log\LoggerAwareInterface
 			return null;
 		}
 
-		// Support paths like 'ctrl.delete' or just 'delete'
 		if (str_contains($path, '.')) {
 			$parts = explode('.', $path);
 			$value = $tca;

@@ -10,6 +10,7 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3Fluid\Fluid\Core\Component\AbstractComponentCollection;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Contains FLUIDCOMPONENT class object for rendering Fluid components.
@@ -20,7 +21,7 @@ use TYPO3Fluid\Fluid\Core\Component\AbstractComponentCollection;
  * 10 = FLUIDCOMPONENT
  * 10 {
  *   componentCollection = MyVendor\MyExt\Components\MyComponentCollection
- *   component = header.navigation
+ *   component = my.component
  *   dataProcessing {
  *     10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
  *     10.references.fieldName = media
@@ -234,9 +235,9 @@ class FluidComponentContentObject extends AbstractContentObject
 	/**
 	 * Creates a Fluid rendering context
 	 *
-	 * @return \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface
+	 * @return RenderingContextInterface
 	 */
-	protected function createRenderingContext(): \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface
+	protected function createRenderingContext(): RenderingContextInterface
 	{
 		return $this->renderingContextFactory->create(
 			[],
