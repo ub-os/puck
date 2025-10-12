@@ -89,6 +89,19 @@ class PageController extends ActionController
 		return $result;
 	}
 
+	protected function renderContentElementByUid(ContentObjectRenderer $contentObjectRenderer, int $uid): string
+	{
+		$this->contentContentObject->setRequest($this->request);
+		$this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
+		return $this->contentContentObject->render([
+			'table' => 'tt_content',
+			'select.' => [
+				'uidInList' => $uid,
+				'orderBy' => 'sorting',
+			],
+		]);
+	}
+
 	/**
 	 * Add the extension stylesheets and javascript files to the page.
 	 */
@@ -97,11 +110,9 @@ class PageController extends ActionController
 		$assetPath = 'EXT:puck/Resources/Public';
 		$puckCSS = $assetPath . '/Css/dist/puck.min.css';
 		$puckJS = $assetPath . '/JavaScript/dist/puck.min.js';
-		$puckBodyJS = $assetPath . '/JavaScript/dist/puck-body.min.js';
 		if (Environment::getContext()->isDevelopment()) {
 			$puckCSS = $assetPath . '/Css/dist/puck.css';
 			$puckJS = $assetPath . '/JavaScript/dist/puck.js';
-			$puckBodyJS = $assetPath . '/JavaScript/dist/puck-body.js';
 		}
 		$this->assetCollector->addStyleSheet(
 			'puck-css',
@@ -114,12 +125,6 @@ class PageController extends ActionController
 			$puckJS,
 			['data-hx-preserve' => '1', 'id' => 'head-puck-js', 'defer' => 'defer'],
 			['priority' => true]
-		);
-		$this->assetCollector->addJavaScript(
-			'puck-body-js',
-			$puckBodyJS,
-			['defer' => 'defer'],
-			['priority' => false]
 		);
 	}
 

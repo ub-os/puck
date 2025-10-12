@@ -1,7 +1,7 @@
 <page-root
         id="root"
         class="-layout-{record.backend_layout} "
-        hx-boost="true"
+        hx-boost="false"
         hx-swap="innerHTML"
         hx-indicator="#root-loading-bar"
         preload="mousedown"
@@ -28,4 +28,5 @@
         {contentElements.colPos9 -> f:format.raw()}
     </div>
     <div id="root-loading-bar"></div>
+
 </page-root>

@@ -32,8 +32,9 @@
 					<a href="{item.url}"
 					   aria-label="{ariaLabel}"
 					   class="{name}__link"
-					   data-hx-get="{item.fragmentUrl}"
-					   data-hx-push-url="{item.url}">
+					   data-fetch="{item.fragmentUrl}"
+					   data-target="{sectionId}-body"
+					   data-replace-url>
 						{label -> f:format.raw()}
 					</a>
 				</f:else>

@@ -1,5 +1,4 @@
 import { stim } from '@oliveoilexpert/stim'
-import htmx from 'htmx.org/dist/htmx.cjs.js'
 import Accordion from '~/Controller/Accordion'
 import AnchorHandler from '~/Controller/AnchorHandler'
 import Carousel from '~/Controller/Carousel'
@@ -10,19 +9,6 @@ import PageHeader from '~/Controller/PageHeader'
 import ScrollSensitive from '~/Controller/ScrollSensitive'
 import ScrollbarWidth from '~/Controller/ScrollbarWidth.jsx'
 import Showable from '~/Controller/Showable'
-import { noDragClick } from '~/Utility/DomUtility'
-
-window.htmx = htmx
-Object.assign(htmx.config, {
-	scrollBehavior: 'auto',
-	defaultSwapStyle: 'outerHTML',
-	defaultSwapDelay: 0,
-	defaultSettleDelay: 0,
-	globalViewTransitions: true,
-	allowScriptTags: true,
-	allowEval: false,
-	//refreshOnHistoryMiss: true,
-})
 
 window.stim = stim
 
@@ -51,22 +37,9 @@ stim.registerSelectorCallback({
 	'template[data-append-on-load]': el => {
 		window.requestAnimationFrame(() => {
 			el.parentNode.insertBefore(el.content.cloneNode(true), el)
-			htmx.process(el.parentNode)
 			el.removeAttribute('data-append-on-load')
-		})
-	},
-	'[data-link-area]': el => {
-		el.style.cursor = 'pointer'
-		noDragClick(el, e => {
-			if (e.button > 1 || e.target.tagName === 'A') return
-			const link = el.querySelector('a')
-			if (e.metaKey || e.button == 1) {
-				window.open(link.href, '_blank')
-				return
-			}
-			link.click()
 		})
 	},
 })
 
-export { stim, htmx }
+export { stim }

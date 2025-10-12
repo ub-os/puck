@@ -15,10 +15,10 @@
 			<element:moduleHeader record="{record}"/>
 			<element:richText text="{record.bodytext}" class="{name}__bodytext"/>
 
-			<div class="{name}__body" id="c{record.uid}-body">
+			<div class="{name}__body" id="c{record.uid}-body" data-focus-after-swap="#c{record.uid}-list a">
 
 				<f:if condition="{categoryFilter}">
-					<module:pageMenu.filter categoryFilter="{categoryFilter}" sectionId="c{record.uid}"/>
+					<module:pageMenu.filter categoryFilter="{categoryFilter}" contentUid="{record.uid}"/>
 				</f:if>
 
 				<f:if condition="{menu}">

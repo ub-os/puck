@@ -2,7 +2,7 @@ import esbuild from 'esbuild'
 import { ensureDirectoryExistence, log } from './utils.js'
 
 const distPath = ensureDirectoryExistence('./puck/Resources/Public/JavaScript/dist/')
-const filePaths = ['./puck/Resources/Private/JavaScript/puck.js', './puck/Resources/Private/JavaScript/puck-body.js']
+const filePaths = ['./puck/Resources/Private/JavaScript/puck.js']
 
 log.header('Building JavaScript')
 log.info(`Source files: ${filePaths.join(', ')}`)

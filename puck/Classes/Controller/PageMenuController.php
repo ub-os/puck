@@ -17,6 +17,7 @@ use UBOS\MenuControls\Builder\PaginationBuilder;
 use UBOS\MenuControls\Dto\MenuDemand;
 
 use UBOS\Puck\Attribute\AsAction;
+use UBOS\Puck\Components\ModuleComponentCollection;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 use UBOS\Puck\PageTitle\PuckTitleProvider;
@@ -166,7 +167,9 @@ class PageMenuController extends ActionController
 
 		$this->viewVariables['menu'] = $menu;
 		return $this->htmlResponse(
-			$this->renderFluidComponent()
+			$this->renderFluidComponent(
+				componentCollection: GeneralUtility::makeInstance(ModuleComponentCollection::class)
+			)
 		);
 	}
 }
