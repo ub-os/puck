@@ -100,7 +100,7 @@ export default class Carousel extends Controller {
 					direction: 'ttb',
 					height: this.biggestSlideHeight,
 				}
-			})
+			}, {once: true})
 		}
 	}
 	disconnected() {

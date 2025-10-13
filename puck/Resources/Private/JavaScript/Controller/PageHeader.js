@@ -1,5 +1,5 @@
 import { Controller } from '@oliveoilexpert/stim'
-import { EventListenerRegistry } from '~/Helper/EventListener'
+import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class PageHeader extends Controller {
 	static props = {
@@ -12,7 +12,7 @@ export default class PageHeader extends Controller {
 
 	//static aspects = ['scroll-sensitive']
 
-	listeners = new EventListenerRegistry()
+	listeners = new ListenerRegistry()
 	lastScrollTop = 0
 	scrollDirection = ''
 	ticking = false
@@ -79,7 +79,7 @@ export default class PageHeader extends Controller {
 	}
 
 	disconnected() {
-		this.listeners.clear()
+		this.listeners.abort()
 		this.element.classList.remove(this.downClass, this.upClass, this.scrollClass)
 	}
 }

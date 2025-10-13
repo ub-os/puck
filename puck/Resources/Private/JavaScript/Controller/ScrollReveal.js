@@ -37,8 +37,8 @@ export default class ScrollReveal extends Controller {
 	animate() {
 		const animation = this.element.animate(this.animation, this.timing)
 		animation.addEventListener('finish', () => {
-			this.element.style.opacity = 1
-		})
+			this.element.style.opacity = '1'
+		}, { once: true })
 	}
 	connected() {
 		this.observer = {

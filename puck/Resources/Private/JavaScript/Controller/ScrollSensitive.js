@@ -1,5 +1,5 @@
 import { Controller } from '@oliveoilexpert/stim'
-import { EventListenerRegistry } from '~/Helper/EventListener'
+import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class ScrollSensitive extends Controller {
 	static props = {
@@ -19,7 +19,7 @@ export default class ScrollSensitive extends Controller {
 		scrollTop: '',
 	}
 
-	listeners = new EventListenerRegistry()
+	listeners = new ListenerRegistry()
 
 	observerCallback(entry, observer) {
 		if (entry.rootBounds === null) return
@@ -99,7 +99,7 @@ export default class ScrollSensitive extends Controller {
 	}
 
 	disconnected() {
-		this.listeners.clear()
+		this.listeners.abort()
 		this.element.classList.remove(this.scrollClass)
 		this.resizeObserver?.disconnect()
 		this.intersectionObserver?.disconnect()

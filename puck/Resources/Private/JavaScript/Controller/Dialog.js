@@ -35,6 +35,6 @@ export default class Dialog extends Showable {
 
 	disconnected() {
 		super.disconnected()
-		this.listeners.clear()
+		this.listeners.abort()
 	}
 }

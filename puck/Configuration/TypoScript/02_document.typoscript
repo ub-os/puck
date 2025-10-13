@@ -18,7 +18,7 @@ page.meta {
     og:description.field = description
 }
 
-page.bodyTagAdd = id="body" data-hx-ext="" class="u-no-transition"
+page.bodyTagAdd = id="body" class="u-no-transition"
 
 [traverse(page, "og_title")]
     page.meta.og:title.field = og_title

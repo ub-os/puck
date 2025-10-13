@@ -1,7 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:variable name="name" value="m-indexedsearch"/>
 
-<div class="{name}__result" onclick="this.querySelector('a').click()" role="listitem" hx-boost="false">
+<div class="{name}__result" onclick="this.querySelector('a').click()" role="listitem">
     <h3 class="{name}__result__header">
         <span class="{row.CSSsuffix}">{row.title -> f:format.raw()}</span>
     </h3>

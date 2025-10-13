@@ -1,12 +1,12 @@
 import { Controller } from '@oliveoilexpert/stim'
-import { EventListenerSet } from '~/Helper/EventListener'
+import { ListenerRegistry } from '~/Helper/ListenerRegistry'
 import { tryViewTransition } from "~/Utility/DomUtility";
 
 export default class AnchorHandler extends Controller {
 	static props = {
 		scrollTopOnCurrentLink: true,
 	}
-	listeners = new EventListenerSet()
+	listeners = new ListenerRegistry()
 	isDragging = false
 	dragDelta = 6
 	isCurrentLink(el) {
@@ -44,8 +44,8 @@ export default class AnchorHandler extends Controller {
 			const diffY = Math.abs(event.pageY - startY)
 			this.isDragging = diffX >= this.dragDelta || diffY >= this.dragDelta
 		}
-		document.body.addEventListener('mousedown', mouseDown)
-		document.body.addEventListener('mouseup', mouseUp)
+		this.listeners.add(document.body, 'mousedown', mouseDown)
+		this.listeners.add(document.body, 'mouseup', mouseUp)
 	}
 
 	handleOnPageAnchors() {
@@ -54,7 +54,7 @@ export default class AnchorHandler extends Controller {
 		// ignore links that are not current page links
 		// ignore dragging clicks
 		// scroll to top for non-hash current page links
-		this.listeners.addDelegate(document.body, 'a:not([data-fetch])', 'click', e => {
+		this.listeners.delegate(document.body, 'a:not([data-fetch])', 'click', e => {
 			if (this.isDragging) return
 			if (!this.isCurrentLink(e.delegateTarget)) return
 			if (!this.isHashLink(e.delegateTarget)) {
@@ -85,7 +85,7 @@ export default class AnchorHandler extends Controller {
 		// ignore clicks on actual links inside link areas
 		// ignore right clicks and dragging
 		// open in new tab if meta or middle click
-		this.listeners.addDelegate(document.body, '[data-link-area]', 'click', e => {
+		this.listeners.delegate(document.body, '[data-link-area]', 'click', e => {
 			if (e.target.tagName === 'A' || this.isDragging) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
@@ -95,7 +95,7 @@ export default class AnchorHandler extends Controller {
 			}
 			link.click()
 		})
-		this.listeners.addDelegate(document.body, '[data-link-area]', 'auxclick', e => {
+		this.listeners.delegate(document.body, '[data-link-area]', 'auxclick', e => {
 			if (e.target.tagName === 'A' || this.isDragging) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
@@ -111,7 +111,7 @@ export default class AnchorHandler extends Controller {
 		// replace (or append/prepend) content of data-target element with fetched content sub-element selected by data-select or data-target id
 		// update browser url with data-push-url or data-replace-url if set
 		// use view transitions if available
-		this.listeners.addDelegate(document.body, '[data-fetch]', 'click', async (e) => {
+		this.listeners.delegate(document.body, '[data-fetch]', 'click', async (e) => {
 			const el = e.delegateTarget
 
 			if (this.isDragging || e.shiftKey || e.metaKey || e.ctrlKey) return
@@ -191,6 +191,6 @@ export default class AnchorHandler extends Controller {
 	}
 
 	disconnected() {
-		this.listeners.clear()
+		this.listeners.abort()
 	}
 }

@@ -44,6 +44,6 @@ export default class Modal extends Showable {
 
 	disconnected() {
 		super.disconnected()
-		this.listeners.clear()
+		this.listeners.abort()
 	}
 }

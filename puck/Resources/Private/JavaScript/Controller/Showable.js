@@ -1,5 +1,5 @@
 import { Controller } from '@oliveoilexpert/stim'
-import { EventListenerRegistry } from '~/Helper/EventListener'
+import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class Showable extends Controller {
 	static targets = ['control']
@@ -46,7 +46,7 @@ export default class Showable extends Controller {
 		switchToggles: false,
 		alwaysActive: false,
 	}
-	listeners = new EventListenerRegistry()
+	listeners = new ListenerRegistry()
 	lastUsedToggle = null
 	durationTimer = null
 	/*** @property {Set<HTMLElement>} controlTargets */
@@ -146,7 +146,7 @@ export default class Showable extends Controller {
 	}
 
 	controlTargetDisconnected(el) {
-		this.listeners.clearTarget(el)
+		this.listeners.abortTarget(el)
 	}
 
 	connected() {
@@ -213,7 +213,7 @@ export default class Showable extends Controller {
 			)
 		}
 		if (this.clickHideSelector) {
-			this.listeners.addDelegate(this.element, this.clickHideSelector, 'click', event => {
+			this.listeners.delegate(this.element, this.clickHideSelector, 'click', event => {
 				if (this.active) this.hide({ trigger: `clickOnSelector:${this.clickHideSelector}` })
 			})
 		}
@@ -228,6 +228,6 @@ export default class Showable extends Controller {
 	disconnected() {
 		this.setClass('remove', this.deactivatingClass)
 		this.onHide({ detail: { transition: false, changeUrlHash: false } })
-		this.listeners.clear()
+		this.listeners.abort()
 	}
 }
