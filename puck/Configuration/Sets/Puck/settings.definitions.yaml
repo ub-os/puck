@@ -61,5 +61,3 @@ settings:
     category: Puck.navigation
     type: string
     default: ''
-
-

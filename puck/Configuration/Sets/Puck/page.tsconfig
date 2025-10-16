@@ -33,7 +33,6 @@ RTE.default {
             type = mail
         }
     }
-
     buttons.link {
         page.properties.class.default = local
         url.properties.class.default = external

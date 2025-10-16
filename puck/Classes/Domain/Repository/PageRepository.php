@@ -27,12 +27,12 @@ class PageRepository extends Repository implements MenuDemandRepositoryInterface
 		'sysfolder' => CorePageRepository::DOKTYPE_SYSFOLDER,
 		'mountpoint' => CorePageRepository::DOKTYPE_MOUNTPOINT,
 		'spacer' => CorePageRepository::DOKTYPE_SPACER,
-
 		'start' => 16501,
 		'news' => 16503,
 		'person' => 16504,
 		'plugin' => 16511,
 	];
+
 	public const DEFAULT_ALLOWED_TYPES = [
 		self::DOKTYPES['default'],
 		self::DOKTYPES['shortcut'],
@@ -41,18 +41,13 @@ class PageRepository extends Repository implements MenuDemandRepositoryInterface
 		self::DOKTYPES['person'],
 		self::DOKTYPES['plugin'],
 	];
-	/**
-	 * @var array
-	 */
+
 	protected $defaultOrderings = array(
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
 	);
 
 	protected array $allowedTypes = self::DEFAULT_ALLOWED_TYPES;
 
-	/**
-	 * @return array
-	 */
 	public function getAllowedTypes(): array
 	{
 		return $this->allowedTypes;

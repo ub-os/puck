@@ -65,30 +65,6 @@ class PageController extends ActionController
 		$this->addAssetTags();
 		$this->addFaviconTags($siteSettings);
 		$this->view->assignMultiple($variables);
-
-		$this->uriBuilder
-			->reset()
-			->setTargetPageType(1619409324)
-			->setArguments(['uid' => 42])
-			->setCreateAbsoluteUri(true)
-			->setTargetPageUid(187);
-
-		$test = $this->uriBuilder->build();
-
-		$test = $this->uriBuilder->uriFor(
-			'pageMenu',
-			['demand' => ['limit' => '2']],
-			'PageMenu',
-			'Puck',
-			'PageMenu'
-		);
-
-//		DebugUtility::debug($test);
-//		DebugUtility::debug($test);
-//		DebugUtility::debug($test);
-//		DebugUtility::debug($test);
-
-
 		return $this->htmlResponse();
 	}
 
@@ -112,19 +88,6 @@ class PageController extends ActionController
 			]);
 		}
 		return $result;
-	}
-
-	protected function renderContentElementByUid(ContentObjectRenderer $contentObjectRenderer, int $uid): string
-	{
-		$this->contentContentObject->setRequest($this->request);
-		$this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
-		return $this->contentContentObject->render([
-			'table' => 'tt_content',
-			'select.' => [
-				'uidInList' => $uid,
-				'orderBy' => 'sorting',
-			],
-		]);
 	}
 
 	/**

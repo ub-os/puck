@@ -40,7 +40,7 @@ final readonly class AddRoutesToSiteConfiguration
 				if (($enhancer['limitToPages'] ?? false) !== self::class) {
 					continue;
 				}
-				$routeConfiguration['routeEnhancers'][$key]['limitToPages'] = $this->generateEnhancerPageLimit($key, $enhancer, $configuration);
+				$routeConfiguration['routeEnhancers'][$key]['limitToPages'] = $this->getPageLimitForEnhancer($key, $enhancer, $configuration);
 			}
 
 			ArrayUtility::mergeRecursiveWithOverrule($configuration, $routeConfiguration);
@@ -49,7 +49,7 @@ final readonly class AddRoutesToSiteConfiguration
 		$event->setConfiguration($configuration);
 	}
 
-	protected function generateEnhancerPageLimit(string $enhancerName, array $enhancerConfiguration, array $siteConfiguration): ?array
+	protected function getPageLimitForEnhancer(string $enhancerName, array $enhancerConfiguration, array $siteConfiguration): ?array
 	{
 		switch ($enhancerName) {
 			case 'Sitemap':

@@ -139,8 +139,6 @@ export default class Carousel extends Controller {
 			}
 		}
 
-
-
 		this.splide.mount({ Intersection })
 
 		if (this.vertical) {
