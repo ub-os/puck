@@ -103,7 +103,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 		]);
 	}
 
-	protected function getThumbCodeUnlinked(iterable|FileReference $fileReferences, $size = 128): string
+	protected function getThumbCodeUnlinked(iterable|FileReference $fileReferences, $size = 96): string
 	{
 		$thumbData = '';
 		$fileReferences = $fileReferences instanceof FileReference ? [$fileReferences] : $fileReferences;

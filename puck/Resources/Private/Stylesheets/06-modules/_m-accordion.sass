@@ -2,10 +2,9 @@
 
 .m-accordion
 	&
-		border-radius: var(--border-radius-s)
 
 	& + &
-		margin-top: spacing(xs)
+		margin-top: 0.5em
 
 	// to do for container
 	.e-rich-text + &
@@ -16,14 +15,17 @@
 		display: flex
 		justify-content: space-between
 		width: 100%
-		line-height: 1.5
-		color: var(--color-link)
+		padding: .5em 1em
 		cursor: pointer
-		transition: color .15s, background-color .15s, transform .15s, border-color .15s
+		color: var(--color-button)
+		background: var(--background-button)
+		border: 2px solid var(--color-button-border)
+		border-radius: var(--border-radius-s)
+		transition: color .15s, background-color .15s
 
 		&:hover,
 		&:focus-visible
-			color: var(--color-link--hover)
+			background: var(--background-button--hover)
 
 	&__title
 		padding:
@@ -52,27 +54,8 @@
 		opacity: 1
 
 	&__icon
-		position: relative
-		height: 1em
-		width: 1em
-		transform: translateY(.2em)
-
-	&__icon:before,
-	&__icon:after
-		+center(both)
-		content: ''
-		display: block
-		height: .85em
-		width: 2px
-		background: currentColor
-		transform-origin: center
+		transform: translateY(.1em)
 		transition: transform .2s
 
-	&__icon:after
-		transform: translate(-50%, -50%) rotate(90deg)
-
-	&.--active &__icon:before
-		transform: translate(-50%, -50%) scaleY(0)
-
-	&.--active &__icon:after
-		transform: translate(-50%, -50%) rotate(90deg)
+	&.--active &__icon
+		transform: translateY(.1em) rotateX(180deg)

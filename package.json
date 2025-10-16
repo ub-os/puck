@@ -24,7 +24,7 @@
 		"build:favicons": "node build-scripts/favicons.js",
 		"watch:js": "onchange 'puck/Resources/Private/JavaScript/**/*.js*' -- run-s build:js",
 		"watch:css": "onchange 'puck/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
-		"watch:frontend-icons": "onchange 'puck/Resources/Public/Icons/Frontend/*.svg' -- run-s build:fantasticon build:sprite-sheet && node build-scripts/icons.js",
+		"watch:frontend-icons": "onchange 'puck/Resources/Public/Icons/Frontend/*.svg' -- run-s build:frontend-icons",
 		"watch:favicons": "onchange 'puck/Resources/Public/Icons/Favicons/*.svg' -- run-s build:favicons",
 		"sass": "node build-scripts/sass.js",
 		"autoprefixer": "postcss ${npm_package_config_path_dist}Css/dist/puck.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/dist/puck.css",

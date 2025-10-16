@@ -1,53 +1,73 @@
 {namespace core = TYPO3\CMS\Core\ViewHelpers}
 {namespace be = TYPO3\CMS\Backend\ViewHelpers}
 
-
 <f:render section="preview" arguments="{_all}"/>
-
 <f:section name="preview">
-    <a href="{editLink}">
-		<f:render section="main" arguments="{item: item, record:record}"/>
-        {thumbnailHtml -> f:format.raw()}
-        <f:if condition="{record.records}">
-            <em>Shortcut to:</em>
-            <f:for each="{record.records}" as="shortcut">
-                <f:render section="type" arguments="{CType: shortcut.CType, uid: shortcut.uid}"/>
-            </f:for>
-        </f:if>
-        <f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
-        <!--
-        -->
-    </a>
-	{txContainerGrid -> f:format.raw()}
+	<f:if condition="{record.header}">
+		<a href="{editLink}">
+			<div class="t3-page-ce-body-headline">
+				<f:render section="Header" arguments="{_all}"/>
+			</div>
+		</a>
+	</f:if>
+	<div class="t3-page-ce-body-content">
+		<a href="{editLink}">
+			<f:render section="Text" arguments="{_all}"/>
+			{thumbnailHtml -> f:format.raw()}
+		</a>
+		<f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
+	</div>
+	<f:render section="ContainerGrid" arguments="{_all}"/>
 </f:section>
 
-<f:section name="main">
+<f:section name="Header">
+	<f:if condition="{record.CType} !== 'puck_anchor'">
+		<f:then>
+			<f:if condition="{record.header_layout} >= 100">
+				<f:then>
+					<i>{record.header -> f:format.raw()}</i>
+				</f:then>
+				<f:else if="{record.header_layout} > 30">
+					<h4>{record.header -> f:format.raw()}</h4>
+				</f:else>
+				<f:else>
+					<h2>{record.header -> f:format.raw()}</h2>
+				</f:else>
+			</f:if>
+		</f:then>
+		<f:else>
+			<span>{record.header}</span>
+			(<u>#{record.subheader}</u>)
+		</f:else>
+	</f:if>
+</f:section>
+
+<f:section name="Text">
     <f:if condition="{record.CType} !== 'puck_anchor'">
-        <f:then>
-            <f:variable name="headerType"
-                        value="{f:if(condition: '{record.header_layout} > 30', then: 'h4', else: 'h2')}"/>
-            <f:if condition="{record.header_layout} >= 100">
-                <f:variable name="headerType" value="i"/>
-            </f:if>
-            <f:render partial="Text"
-                      arguments="{header: record.header, headerType: headerType, subheader: record.subheader, bodytext: record.bodytext}"/>
-        </f:then>
-        <f:else>
-            <span>{record.header}</span><br>
-            <u>#{record.subheader}</u>
-        </f:else>
+		<f:if condition="{record.subheader}">
+			<h5>{record.subheader -> f:format.raw()}</h5>
+		</f:if>
+		<f:if condition="{record.bodytext}">
+			<div style="padding-bottom: 1em">{record.bodytext -> f:format.stripTags() -> f:format.nl2br()}</div>
+		</f:if>
     </f:if>
 </f:section>
 
-<f:section name="group">
-    <f:if condition="{group}">
-        <em>{headline}:</em>
-        <ul>
-            <f:for each="{u:utility.backend.getRecords(table: table, uids: group)}" as="item">
-                <li>
-                    {item.title}
-                </li>
-            </f:for>
-        </ul>
-    </f:if>
+<f:section name="ContainerGrid">
+	<f:if condition="{txContainerGrid}">
+		<div class="container-preview-toggle">
+			<button class="btn btn-sm btn-default container-preview-toggle-btn"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#container-{record.uid}"
+					data-container-uid="{record.uid}"
+					aria-expanded="true">
+				<core:icon identifier="actions-chevron-right" size="small"/>
+				<span class="container-toggle-text">Toggle container content</span>
+			</button>
+			<div class="collapse show" id="container-{record.uid}">
+				{txContainerGrid -> f:format.raw()}
+			</div>
+		</div>
+	</f:if>
 </f:section>

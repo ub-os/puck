@@ -25,6 +25,7 @@
 		"b13/menus": "^1",
 		"ichhabrecht/content-defender": "^3.5",
 		"wapplersystems/avif": "*",
+		"t3/scroll": "*",
 		"wapplersystems/save_and_close": "^13"
 	},
 	"replace": {

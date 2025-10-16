@@ -1,45 +1,20 @@
 routeEnhancers:
   PageMenu:
-    limitToPages: '%route_pageMenu_limitToPages%'
+    # class will add the value of 'route_pageMenu_limitToPages' as limit
+    limitToPages: UBOS\Puck\Routing\AddRoutesToSiteConfiguration
     type: Extbase
     extension: Puck
     plugin: PageMenu
     routes:
-      #      -
-      #        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-      #        _controller: 'PageMenu::pageMenu'
-      #      -
-      #        routePath: '/{categoryLabel}:{demand/categories/0/uids}/{authorLabel}:{demand/authors}'
-      #        _controller: 'PageMenu::pageMenu'
-      #      -
-      #        routePath: '/{authorLabel}:{demand/authors}'
-      #        _controller: 'PageMenu::pageMenu'
-      #      -
-      #        routePath: '/{authorLabel}:{demand/authors}/{pageLabel}-{page}'
-      #        _controller: 'PageMenu::pageMenu'
-      - routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}/c{recordUid}'
-        _controller: 'PageMenu::pageMenu'
-      - routePath: '/{categoryLabel}:{demand/categories/0/uids}/c{recordUid}'
-        _controller: 'PageMenu::pageMenu'
       - routePath: '/{categoryLabel}:{demand/categories/0/uids}/{pageLabel}-{page}'
-        _controller: 'PageMenu::pageMenu'
-      - routePath: '/{pageLabel}-{page}/c{recordUid}'
         _controller: 'PageMenu::pageMenu'
       - routePath: '/{categoryLabel}:{demand/categories/0/uids}'
         _controller: 'PageMenu::pageMenu'
       - routePath: '/{pageLabel}-{page}'
         _controller: 'PageMenu::pageMenu'
-      - routePath: '/c{recordUid}'
-        _controller: 'PageMenu::pageMenu'
       - routePath: '/'
         _controller: 'PageMenu::pageMenu'
     aspects:
-      pluginPrefix:
-        type: LocaleModifier
-        default: 'menu'
-        localeMap:
-          - locale: 'de_DE.*'
-            value: 'menu'
       pageLabel:
         type: LocaleModifier
         default: 'page'
@@ -52,12 +27,6 @@ routeEnhancers:
         localeMap:
           - locale: 'de_DE.*'
             value: 'kategorie'
-      authorLabel:
-        type: LocaleModifier
-        default: 'author'
-        localeMap:
-          - locale: 'de_DE.*'
-            value: 'autor'
       page:
         type: StaticRangeMapper
         start: '1'
@@ -65,10 +34,5 @@ routeEnhancers:
       demand/categories/0/uids:
         type: PersistedAliasListMapper
         tableName: sys_category
-        routeFieldName: slug
-        slugSeparator: '.'
-      demand/authors:
-        type: PersistedAliasListMapper
-        tableName: tx_puck_domain_model_person
         routeFieldName: slug
         slugSeparator: '.'

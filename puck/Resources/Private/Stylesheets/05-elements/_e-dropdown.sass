@@ -6,50 +6,31 @@
 		position: relative
 
 	&__button
-		@extend .e-button
 		min-width: 12em
 		text-align: left
 		padding-right: calc(var(--padding-inline) + 2em) !important
-
-		&:hover
-
-		&.--active
-
-		&__icon
-			+center(vertical)
-			right: .45em
-			font-size: 1.5em
-			color: color-mix(in srgb, var(--color-button) 32%, transparent)
-			transition: rotate .15s, color .15s
-
-		&:hover &__icon
-			color: var(--color-button)
-
-		&.--active &__icon
-			rotate: 180deg
-			transform-origin: top
-
-		&.--active:hover &__icon
+		&__icon:before
+			transition: transform .15s
+		&.--active &__icon:before
+			transform: rotateX(180deg)
 
 	&__dialog
 		position: absolute
-		top: 100%
+		top: calc(100% + .25em)
 		left: 0
 		z-index: 99
 		padding: .75em 0
 		min-width: 12em
 		visibility: hidden
-		background: var(--background)
-		border: color-mix(in srgb, var(--background), black 30%) 2px solid
+		background: var(--background-dropdown)
+		border: 2px solid var(--color-button-border)
 		border-radius: var(--border-radius-s)
 		box-shadow: var(--box-shadow-m)
 		opacity: 0
 		transition: opacity .17s
-
 		&.--active
 			visibility: visible
 			opacity: 1
-
 		&.--deactivating
 			visibility: visible
 
@@ -58,14 +39,10 @@
 		padding: .5em 1em
 		color: var(--color)
 		font-weight: 600
-
 		&.-active
-			color: var(--color-link)
-			padding-left: 1.5em
-
+			color: var(--color-emphasis)
 		&:hover, &:focus-visible
 			color: var(--color-link--hover)
-
 		&.-disabled
 			pointer-events: none
 			opacity: .5

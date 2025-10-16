@@ -10,12 +10,8 @@
 		max-width: var(--width-page)
 		height: var(--height-page-header)
 		margin-bottom: var(--margin-block-page-header)
-		background: var(--background-modal)
-		border-bottom: 2px solid var(--background)
+		background: var(--background)
 		transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
-
-	&.--stuck
-	//background: var(--background-modal)
 
 	&:where(.--scroll)
 		&.--scroll-up, &.--scroll-down
@@ -33,30 +29,10 @@
 		position: relative
 		z-index: $z-index-header-burger
 		display: flex
-		align-items: center
-
-		&__text
-			+center(vertical)
-			left: 100%
-			visibility: hidden
-			opacity: 0
-			padding: .25em
-			color: var(--color-link--hover)
-			transition: opacity .3s
-
 		&__logo
-			max-width: 90%
 			height: 4rem
 			width: 4rem
-			outline: none
-			transition: color .4s, transform .4s, fill .4s
-
-		&:hover &__logo,
-		&:focus &__logo
-			transform: rotate(90deg)
-
-		&:hover &__text,
-		&:focus &__text
-			visibility: visible
-			display: block
-			opacity: 1
+			border-radius: 100%
+			transition: background .15s
+			&:hover
+				background: radial-gradient(circle at center, var(--color-link--hover) 20%, transparent 20%)

@@ -1,33 +1,36 @@
 
-	<f:argument name="name" type="string" optional="1" default="m-file-menu"/>
-	<f:argument name="record" type="mixed"/>
-	<f:argument name="menu" type="array" optional="1"/>
+<f:argument name="name" type="string" optional="1" default="m-file-menu"/>
+<f:argument name="record" type="mixed"/>
+<f:argument name="menu" type="array" optional="1"/>
 
 
-		<layout:section
-			class="{name}__wrap"
-			record="{record}"
-			id="c{record.uid}">
-			<element:moduleHeader record="{record}"/>
-			<f:if condition="{menu}">
-				<layout:row class="{name}__list" itemWidth="{record.item_column_width}" justify="left">
-					<f:for each="{menu}" as="file" iteration="i">
-						<layout:row.item class="{name}__item">
-							<f:link.file file="{file}"
-										 target="{record.target}"
-										 class="e-button {name}__link -icon -icon-right -icon-pill"
-										 additionalAttributes="{download:file.name}">
-								<f:if condition="{file.properties.title}">
-									<f:then>{file.properties.title}</f:then>
-									<f:else>{file.name}</f:else>
-								</f:if>
-								<icon:char icon="arrow-down-regular"/>
-							</f:link.file>
-						</layout:row.item>
-					</f:for>
-				</layout:row>
-			</f:if>
-		</layout:section>
+<layout:section
+	class="{name}__wrap"
+	record="{record}"
+	id="c{record.uid}">
+	<element:moduleHeader record="{record}"/>
+	<f:if condition="{menu}">
+		<layout:row class="{name}__list" itemWidth="{record.item_column_width}" justify="left">
+			<f:for each="{menu}" as="file" iteration="i">
+				<layout:row.item class="{name}__item">
+					<f:image image="{file}" height="65c" width="54c" class="{name}__thumbnail"/>
+					<f:link.file file="{file}"
+								 target="{record.target}"
+								 class="e-button {name}__link -icon"
+								 additionalAttributes="{download:file.name}">
+						<span>
+							<f:if condition="{file.properties.title}">
+								<f:then>{file.properties.title}</f:then>
+								<f:else>{file.name}</f:else>
+							</f:if>
+						</span>
+						<icon:char icon="arrow-down-to-line-regular"/>
+					</f:link.file>
+				</layout:row.item>
+			</f:for>
+		</layout:row>
+	</f:if>
+</layout:section>
 
 
 

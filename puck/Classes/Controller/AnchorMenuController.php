@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
 use UBOS\Puck\Attribute\AsAction;
 
 /**
@@ -22,23 +25,30 @@ class AnchorMenuController extends ActionController
 	public function anchorMenuAction(): ResponseInterface
 	{
 		$this->prepareContentView();
-		$langId = (int)$this->request->getAttribute('language')->getLanguageId();
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getQueryBuilderForTable('tt_content');
-		$menu = $queryBuilder
-			->select('*')->from('tt_content')
-			->where(
-				$queryBuilder->expr()->eq('pid', $this->viewVariables['record']->getPid()),
-				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
-				$queryBuilder->expr()->eq('hidden', 0),
-				$queryBuilder->expr()->eq('deleted', 0),
-				$queryBuilder->expr()->eq('sys_language_uid', $langId)
-			)
-			->executeQuery()->fetchAllAssociative();
-		$this->viewVariables['menu'] = $menu;
+		$this->viewVariables['menu'] = $this->findOnPageAnchorElements();
 		return $this->htmlResponse(
 			$this->renderFluidComponent()
 		);
 	}
 
+	protected function findOnPageAnchorElements(): array
+	{
+		$langId = (int)$this->request->getAttribute('language')->getLanguageId();
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable('tt_content');
+		$queryBuilder->resetRestrictions();
+//		$restrictions = $queryBuilder->getRestrictions();
+//		$context = GeneralUtility::makeInstance(Context::class);
+//		if ($context->getPropertyFromAspect('workspace')->getWorkspaceId() > 0) {
+//			$restrictions->add(new Restriction\WorkspaceRestriction());
+//		}
+		return $queryBuilder
+			->select('*')->from('tt_content')
+			->where(
+				$queryBuilder->expr()->eq('pid', $this->viewVariables['record']->getPid()),
+				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
+				$queryBuilder->expr()->eq('sys_language_uid', $langId)
+			)
+			->executeQuery()->fetchAllAssociative();
+	}
 }

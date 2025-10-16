@@ -102,4 +102,12 @@ class PuckUtility
 		return $value;
 	}
 
+	public static function pageTypeToInt(string $name): int {
+		// Use CRC32 hash - deterministic and built-in
+		$hash = crc32($name);
+
+		// Convert to positive integer starting at 1 billion
+		// Range: 1,000,000,000 to 2,147,483,647 (max 32-bit signed int)
+		return 1000000000 + (abs($hash) % 1147483647);
+	}
 }

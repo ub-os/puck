@@ -6,7 +6,7 @@
 	<f:comment>
 		Not functional since the removal of htmx, current implementation does not support different triggers or oob swaps.
 		AnchorHandler would need to be extended to support this.
-		Most flexible solution would probably to introduce multiple operations in one fetch, e.g.
+		Most flexible solution would probably be to introduce multiple operations in one fetch, e.g.
 		data-mode="append replace replace"
 		data-target="listId paginationId filterId"
 		plus support of load and intersect triggers.
@@ -21,7 +21,7 @@
 						data-target="{sectionId}-list {sectionId}-pagination {sectionId}-filter">
 					<f:switch expression="{pagination.loadMoreTrigger}">
 						<f:case value="intersect">
-							<icon:svg icon="spinner-circle"/>
+							<icon:svg icon="spinner-third-duotone-solid"/>
 						</f:case>
 						<f:defaultCase>
 							<icon:svg icon="plus-regular"/>

@@ -1,7 +1,7 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
+use UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc;
 use UBOS\Puck\Utility\TcaUtility;
 
 $columns = [];
@@ -383,7 +383,7 @@ $columns['menu_item_config'] = [
 			['Icon', 'icon'],
 			['Call to action', 'cta']
 		],
-		'default' => 'teaserText,media',
+		'default' => '',
 	]
 ];
 $columns['flex_grow'] = [

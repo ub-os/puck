@@ -23,13 +23,14 @@
 		height: 100%
 		width: 100%
 		overflow: hidden
+		background: black
 
 	&__image
-		filter: brightness(0.75)
+		filter: brightness(0.8)
 		transition: filter .2s
 
 	&:hover &__image
-		filter: brightness(0.9)
+		filter: brightness(1)
 
 	&__frame,
 	&__iframe
@@ -61,11 +62,19 @@
 
 	&__icon
 		+center
+		+flex(row, center, center)
 		z-index: 2
-		height: 4.2em
-		width: 4.2em
-		padding: .6em
-		border-radius: var(--border-radius-s)
-		transition: --color-icon2 .2s
+		height: 2.2em
+		width: 2.2em
+		font-size: 1.5em
 		color: var(--color-link)
-		fill: var(--background)
+		background: var(--background)
+		border-radius: 100%
+		transition: color .15s
+		svg
+			position: relative
+			left: 2%
+
+	&:hover &__icon
+		color: var(--color-link--hover)
+

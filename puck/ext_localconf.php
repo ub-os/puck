@@ -13,9 +13,14 @@ AttributeReflection::configurePlugins(
 foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) as $file) {
     (include $file)?->addTypoScript();
 }
+ExtUtil::addTypoScript(
+	'puck',
+	'setup',
+	'contentFragmentPage.tt_content < tt_content',
+	'defaultContentRendering'
+);
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasListMapper'] = \UBOS\Puck\Routing\Aspect\PersistedAliasListMapper::class;
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['NothingMapper'] = \UBOS\Puck\Routing\Aspect\NothingMapper::class;
 
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
@@ -36,5 +41,5 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['puck'] = 'EXT:puck/Resources/Public/Css/dist/puck-backend.min.css';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/android-chrome-72x72.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#3a3d3a';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#ff8700';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';

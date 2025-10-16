@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -64,6 +65,30 @@ class PageController extends ActionController
 		$this->addAssetTags();
 		$this->addFaviconTags($siteSettings);
 		$this->view->assignMultiple($variables);
+
+		$this->uriBuilder
+			->reset()
+			->setTargetPageType(1619409324)
+			->setArguments(['uid' => 42])
+			->setCreateAbsoluteUri(true)
+			->setTargetPageUid(187);
+
+		$test = $this->uriBuilder->build();
+
+		$test = $this->uriBuilder->uriFor(
+			'pageMenu',
+			['demand' => ['limit' => '2']],
+			'PageMenu',
+			'Puck',
+			'PageMenu'
+		);
+
+//		DebugUtility::debug($test);
+//		DebugUtility::debug($test);
+//		DebugUtility::debug($test);
+//		DebugUtility::debug($test);
+
+
 		return $this->htmlResponse();
 	}
 

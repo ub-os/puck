@@ -2,25 +2,9 @@
     <sheets>
         <selection>
             <ROOT>
-                <sheetTitle>Selection</sheetTitle>
+                <sheetTitle>Page selection</sheetTitle>
                 <type>array</type>
                 <el>
-                    <settings.demand.types>
-                        <label>Allowed types</label>
-                        <config>
-                            <type>select</type>
-                            <renderType>selectCheckBox</renderType>
-                            <itemsProcFunc>UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc->doktypes
-                            </itemsProcFunc>
-                            <items>
-                                <numIndex index="0">
-                                    <label>0</label>
-                                    <value>0</value>
-                                </numIndex>
-                            </items>
-                            <default>1,4,3</default>
-                        </config>
-                    </settings.demand.types>
                     <settings.demand.parents>
                         <label>Parents</label>
                         <config>
@@ -45,6 +29,7 @@
                     </settings.demand.records>
                     <settings.demand.teasers>
                         <label>Teasers</label>
+                        <description>Teasers merely override displayed title, image etc. of the page they belong to. They will have no effect if their page is not in the selection for display.</description>
                         <config>
                             <type>group</type>
                             <internal_type>db</internal_type>
@@ -59,17 +44,25 @@
         </selection>
         <demand>
             <ROOT>
-                <sheetTitle>Demand settings</sheetTitle>
+                <sheetTitle>Selection settings</sheetTitle>
                 <type>array</type>
                 <el>
-                    <settings.demand.overrideDemand>
-                        <label>Respect URL parameters</label>
+                    <settings.demand.types>
+                        <label>Allowed types</label>
                         <config>
-                            <type>check</type>
-                            <renderType>checkboxToggle</renderType>
-                            <default>0</default>
+                            <type>select</type>
+                            <renderType>selectCheckBox</renderType>
+                            <itemsProcFunc>UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc->doktypes
+                            </itemsProcFunc>
+                            <items>
+                                <numIndex index="0">
+                                    <label>0</label>
+                                    <value>0</value>
+                                </numIndex>
+                            </items>
+                            <default>1,4,3</default>
                         </config>
-                    </settings.demand.overrideDemand>
+                    </settings.demand.types>
                     <settings.demand.navHide>
                         <label>Respect hidden in menus</label>
                         <config>
@@ -94,15 +87,15 @@
                             <size>2</size>
                         </config>
                     </settings.demand.offset>
-                    <settings.demand.authors>
-                        <label>Author</label>
+                    <settings.demand.categories.0.uids>
+                        <label>Categories</label>
                         <config>
-                            <type>group</type>
-                            <allowed>tx_puck_domain_model_person</allowed>
-                            <size>1</size>
-                            <maxitems>1</maxitems>
+                            <type>category</type>
+                            <size>12</size>
+                            <minitems>0</minitems>
+                            <maxitems>99</maxitems>
                         </config>
-                    </settings.demand.authors>
+                    </settings.demand.categories.0.uids>
                     <settings.demand.categories.0.conjunction>
                         <label>Category conjunction</label>
                         <config>
@@ -128,15 +121,23 @@
                             </items>
                         </config>
                     </settings.demand.categories.0.conjunction>
-                    <settings.demand.categories.0.uids>
-                        <label>Categories</label>
+                    <settings.demand.overrideDemand>
+                        <label>Respect URL parameters</label>
                         <config>
-                            <type>category</type>
-                            <size>12</size>
-                            <minitems>0</minitems>
-                            <maxitems>99</maxitems>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
                         </config>
-                    </settings.demand.categories.0.uids>
+                    </settings.demand.overrideDemand>
+<!--                    <settings.demand.authors>-->
+<!--                        <label>Author</label>-->
+<!--                        <config>-->
+<!--                            <type>group</type>-->
+<!--                            <allowed>tx_puck_domain_model_person</allowed>-->
+<!--                            <size>1</size>-->
+<!--                            <maxitems>1</maxitems>-->
+<!--                        </config>-->
+<!--                    </settings.demand.authors>-->
                 </el>
             </ROOT>
         </demand>
@@ -145,7 +146,7 @@
                 <sheetTitle>Order</sheetTitle>
                 <type>array</type>
                 <el>
-                    <settings.order.field>
+                    <settings.demand.orderField>
                         <label>Order by</label>
                         <config>
                             <type>select</type>
@@ -169,9 +170,9 @@
                                 </numIndex>
                             </items>
                         </config>
-                    </settings.order.field>
-                    <settings.order.direction>
-                        <label>Order Direction</label>
+                    </settings.demand.orderField>
+                    <settings.demand.orderDirection>
+                        <label>Order direction</label>
                         <config>
                             <type>select</type>
                             <renderType>selectSingle</renderType>
@@ -186,14 +187,14 @@
                                 </numIndex>
                             </items>
                         </config>
-                    </settings.order.direction>
-                    <settings.order.recordSelection>
+                    </settings.demand.orderDirection>
+                    <settings.demand.orderByRecordsProperty>
                         <label>Order by record selection</label>
                         <config>
                             <type>check</type>
                             <renderType>checkboxToggle</renderType>
                         </config>
-                    </settings.order.recordSelection>
+                    </settings.demand.orderByRecordsProperty>
                 </el>
             </ROOT>
         </order>
@@ -220,27 +221,27 @@
                             <default>12</default>
                         </config>
                     </settings.pagination.itemsPerPage>
-                    <settings.pagination.variant>
-                        <label>Pagination variant</label>
-                        <config>
-                            <type>select</type>
-                            <renderType>selectSingle</renderType>
-                            <items>
-                                <numIndex index="0">
-                                    <numIndex index="0"></numIndex>
-                                    <numIndex index="1"></numIndex>
-                                </numIndex>
-                                <numIndex index="1">
-                                    <numIndex index="0">Load more</numIndex>
-                                    <numIndex index="1">load-more</numIndex>
-                                </numIndex>
-                                <numIndex index="2">
-                                    <numIndex index="0">Infinite scroll</numIndex>
-                                    <numIndex index="1">infinite-scroll</numIndex>
-                                </numIndex>
-                            </items>
-                        </config>
-                    </settings.pagination.variant>
+<!--                    <settings.pagination.variant>-->
+<!--                        <label>Pagination variant</label>-->
+<!--                        <config>-->
+<!--                            <type>select</type>-->
+<!--                            <renderType>selectSingle</renderType>-->
+<!--                            <items>-->
+<!--                                <numIndex index="0">-->
+<!--                                    <numIndex index="0"></numIndex>-->
+<!--                                    <numIndex index="1"></numIndex>-->
+<!--                                </numIndex>-->
+<!--                                <numIndex index="1">-->
+<!--                                    <numIndex index="0">Load more</numIndex>-->
+<!--                                    <numIndex index="1">load-more</numIndex>-->
+<!--                                </numIndex>-->
+<!--                                <numIndex index="2">-->
+<!--                                    <numIndex index="0">Infinite scroll</numIndex>-->
+<!--                                    <numIndex index="1">infinite-scroll</numIndex>-->
+<!--                                </numIndex>-->
+<!--                            </items>-->
+<!--                        </config>-->
+<!--                    </settings.pagination.variant>-->
                 </el>
             </ROOT>
         </pagination>

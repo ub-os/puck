@@ -10,15 +10,14 @@
 	&
 		+typo-nav
 		+flex(column, flex-end, flex-end)
-		margin: -.2em -1em
 		flex-grow: 1
 
 	& + &
 		@media (min-width($bp-mobile-nav))
 			padding-left: 2em
 
-	&.-social
-		margin: -.2em -.5em
+	&.-small
+		+font-size($font-size-extra-small)
 
 	&__meta__wrap
 		@media (min-width($bp-mobile-nav))
@@ -28,25 +27,17 @@
 		position: relative
 		display: flex
 		justify-content: flex-end
-
-	&__item
-	//margin-left: 2em
+		gap: 2em
 
 	&__link
 		display: block
-		padding: .2em 1em
-		color: var(--color-link)
 		transition: opacity .15s, color .15s
-
+		color: var(--color)
+		&.-rootline
+			color: var(--color-emphasis)
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
-
-		&.-rootline
-			color: var(--color-accent)
-
-	&.-small
-		+font-size($fs-extra-small)
 
 	&__close
 		display: none

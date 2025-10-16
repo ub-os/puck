@@ -2,7 +2,7 @@
 
 return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	'media',
-	label: 'Text and media',
+	label: 'Text & media',
 	description: 'Flexible text and media layouts.',
 	icon: 'media',
 	sorting: 10,

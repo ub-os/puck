@@ -13,7 +13,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             --palette--;;appearanceLayout,
             --palette--;;headers,
             --palette--;;bodytext,
-        --div--;Advanced,
+        --div--;Menu settings,
             pi_flexform,
         --div--;Layout,
             --palette--;;gridContainer,
@@ -36,6 +36,9 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 				],
 				'default' => 'default-cards'
 			]
+		],
+		'pi_flexform' => [
+			'label' => 'Menu settings'
 		],
 		'flex_grow' => [
 			'displayCond' => 'FIELD:layout:IN:cards,columns',

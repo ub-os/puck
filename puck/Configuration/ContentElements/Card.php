@@ -38,7 +38,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		],
 		'media_layout' => [
 			'config' => [
-				'itemsProcFunc' => \UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc::class . '->keepItems',
+				'itemsProcFunc' => \UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc::class . '->keepItems',
 			]
 		],
 		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()

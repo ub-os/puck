@@ -1,0 +1,8 @@
+routeEnhancers:
+  PageTypeSuffix:
+    type: PageType
+    default: /
+    index: ''
+    map:
+      /: 0
+      cefragment.html: 1619409324

@@ -40,8 +40,6 @@ languages:
     languageId: 1
     xml_sitemap_path: /en/sitemap-index.xml
 rootPageId: 2
-route_pageMenu_limitToPages: ''
-route_indexedSearch_limitToPages: ''
 routes:
   -
     route: robots.txt
@@ -55,4 +53,4 @@ imports:
   -
     resource: 'EXT:puck/Configuration/Routes/Sitemap.yaml'
   -
-    resource: 'EXT:puck/Configuration/Routes/PageTypeSuffix.yaml'
+    resource: 'EXT:puck/Configuration/Routes/PageTypes.yaml'

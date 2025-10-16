@@ -6,15 +6,13 @@
 	&__controls
 		+flex(row, center, center)
 		padding-top: spacing(xs)
-
+		gap: 0 1em
 		&__prev,
 		&__next
-			margin: 0 .5em
 			color: var(--color-link)
-
 			&:hover,
 			&:focus-visible
-				color: var(--color-link)
+				color: var(--color-link--hover)
 
 	&__pagination
 		+flex(row, center, center)
@@ -52,14 +50,18 @@
 	:where(.splide__slide.l-row__item):not(:last-child)
 		margin-right: var(--gutter-x)
 
+	$pagination-gap: .75em
+
+	&__pagination
+		gap: $pagination-gap
+		&>li
+			display: flex
 	&__pagination__page
 		$width: .75em
-		$margin: .75em
 		$autoplayBarWidthMultiplier: 3.5
 		position: relative
 		height: $width
 		width: $width
-		margin: $margin * 0.5
 		background: color-mix(in srgb, var(--color-link), transparent 50%)
 		border-radius: $width * 0.5
 		transition: width var(--splide-speed)
@@ -67,10 +69,11 @@
 		&:before
 			content: ''
 			position: absolute
-			top: $margin * (-0.5)
-			left: $margin * (-0.5)
-			width: $width + $margin
-			height: $width + $margin
+			width: $width
+			height: $width
+
+		&:hover
+			background: color-mix(in srgb, var(--color-link), transparent 25%)
 
 		&.is-active
 			background: var(--color-link)
@@ -90,21 +93,25 @@
 			background: var(--color-link)
 			border-radius: $width * 0.5
 
-	&__arrows
-		&__button
-			position: relative
-			height: 2.25em
-			width: 2.25em
-			margin: 0 .25em
-			border-radius: var(--border-radius-s)
-			transition: color .15s, background .15s, opacity .15s
-
-		&__button:hover
-			background: white
-
-		&__button.-left
-
+	&__autoplay
+		&__toggle
+			+flex(row,center,center)
+			width: 2.2em
+			height: 2.2em
+			margin-inline: auto
+			background: var(--color-link)
+			border-radius: 100%
+			transition: background-color .15s
+			&:hover
+				background: var(--color-link--hover)
 		&__icon
-			+center(both)
-			height: 1em
-			width: 1em
+			font-size: 1.5em
+			color: var(--background)
+		&__toggle.--paused &__icon
+			&:before
+				content: var(--icon-code-play-solid)
+				position: relative
+				left: 2%
+
+
+

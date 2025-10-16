@@ -8,7 +8,7 @@ use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
-use UBOS\Puck\UserFunctions\FormEngine\ContentItemsProcFunc;
+use UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc;
 
 /**
  * Preview renderer for the PageMenu plugin.

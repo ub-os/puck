@@ -1,12 +1,11 @@
 @use '01-tools/all' as *
 
 .l-card
-	+color-space-card
 	--padding-block: 1.6em
 	--padding-inline: 1.6em
 	--padding-bottom: var(--padding-block)
 	--background-media-opacity: 0.5
-	--background-media-overlay-color: var(--background)
+	--background-media-overlay-color: var(--background-card)
 	--card-media-width: var(--card-width)
 	@for $i from 2 through 10
 		&:where(.-width-#{$i})
@@ -18,8 +17,9 @@
 		+flex(column, flex-start, flex-start)
 		position: relative
 		color: var(--color)
-		background: var(--background)
-		border-radius: var(--border-radius-s)
+		background: var(--background-card)
+		border: 2px solid var(--border-color-card)
+		border-radius: var(--border-radius-m)
 		overflow: hidden
 
 		&.-media
@@ -27,7 +27,6 @@
 			justify-content: space-between
 
 		&.-media-size-background
-			+color-space-card-image-background
 
 		&.-media-size-contain,
 		&.-media-size-background

@@ -1,8 +1,0 @@
-routeEnhancers:
-  PageTypeSuffix:
-    type: PageType
-    default: /
-    index: ''
-    map:
-      /: 0
-      -page-menu.html: 16500000

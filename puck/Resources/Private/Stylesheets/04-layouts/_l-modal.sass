@@ -1,8 +1,6 @@
 @use '01-tools/all' as *
 
 .l-modal
-	+color-space-modal
-
 	@keyframes modal-open-overlay
 		0%
 			opacity: 0
@@ -36,9 +34,9 @@
 		margin: auto
 		padding: 0
 		color: var(--color)
-		background: var(--background)
+		background: var(--background-modal)
 		border: none
-		border-radius: var(--border-radius-s)
+		border-radius: var(--border-radius-m)
 		box-shadow: var(--box-shadow-m)
 		opacity: 0
 		overflow: hidden
@@ -80,12 +78,11 @@
 		height: 2.25em
 		font-size: 1.6rem
 		cursor: pointer
-		color: var(--color-link)
-		background: var(--background-modal)
+		color: var(--color-emphasis)
+		background: var(--background-button)
 		border-radius: 0 var(--border-radius-s) 0 var(--border-radius-s)
 
 		&:hover,
 		&:focus-visible
-			color: var(--background)
-			background: var(--color-link)
+			background: var(--background-button--hover)
 			border-radius: 0 var(--border-radius-s) 0 var(--border-radius-s)

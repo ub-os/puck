@@ -1,6 +1,7 @@
 routeEnhancers:
-  IndexedSearchPlugin:
-    limitToPages: '%route_indexedSearch_limitToPages%'
+  IndexedSearch:
+    # class will add the value of 'route_indexedSearch_limitToPages' as limit
+    limitToPages: UBOS\Puck\Routing\AddRoutesToSiteConfiguration
     type: Extbase
     namespace: tx_indexedsearch_pi2
     routes:
@@ -17,5 +18,3 @@ routeEnhancers:
         localeMap:
           - locale: 'de_DE.*'
             value: 's'
-      search/sword:
-        type: NothingMapper

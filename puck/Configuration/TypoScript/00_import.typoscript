@@ -1,2 +1,2 @@
-@import 'EXT:puck/Configuration/_Libs/*.typoscript'
-@import 'EXT:puck/Configuration/_Extensions/*.typoscript'
+@import 'EXT:puck/Configuration/TypoScript/Extensions/*.typoscript'
+@import 'EXT:puck/Configuration/TypoScript/Libs/*.typoscript'

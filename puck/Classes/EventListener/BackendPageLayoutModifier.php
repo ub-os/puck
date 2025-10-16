@@ -6,6 +6,8 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Domain\RecordFactory;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use UBOS\Puck\Domain\Repository\PageRepository;
@@ -27,6 +29,16 @@ final class BackendPageLayoutModifier
 	public function __invoke(ModifyPageLayoutContentEvent $event): void
 	{
 		$request = $event->getRequest();
+		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+		$pageRenderer->loadJavaScriptModule(
+			'@ubos/puck/Backend/web-layout-scroll.js'
+		);
+		$pageRenderer->loadJavaScriptModule(
+			'@ubos/puck/Backend/web-layout-preview-container-toggle.js'
+		);
+		$pageRenderer->loadJavaScriptModule(
+			'@ubos/puck/Backend/web-layout-content-minimize.js'
+		);
 		$row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);
 		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
 		$view = $this->viewFactory->create(

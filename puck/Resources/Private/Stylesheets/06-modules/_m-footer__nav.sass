@@ -3,47 +3,25 @@
 .m-footer__nav
 	&
 		+typo-nav
-		padding-block: spacing(xxs)
 
-	&__wrap
+	& + &
+		margin-top: spacing(s)
 
 	&__list
 		display: flex
 		justify-content: center
+		gap: 1em
 		@media (max-width(xs))
 			flex-direction: column
 			align-items: center
 
-	//font-size: 1.1rem
-
-	&__list.-icons
+	&.-icons &__list
 		flex-direction: row
-
-	&.-small
-		font-weight: 400
-		@media (min-width(s))
-			+font-size($fs-extra-small)
-
-	&__item
-		@media (min-width(xs))
-			margin: 0 .66em
-		@media (max-width(xs))
-			margin: .2em 0
-
-	&.-small &__item
-		@media (min-width(xs))
-			margin: 0 1.5em
-
-	&__list.-icons &__item
-		margin: 0 .66em
+		font-size: 1.5em
+		gap: .5em
 
 	&__link
-		color: var(--color-link)
-
+		color: var(--color)
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
-
-		@media (max-width(xs))
-			padding: .25em 0
-			display: block

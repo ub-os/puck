@@ -56,6 +56,7 @@ export default class AnchorHandler extends Controller {
 		// scroll to top for non-hash current page links
 		this.listeners.delegate(document.body, 'a:not([data-fetch])', 'click', e => {
 			if (this.isDragging) return
+			if (e.delegateTarget.getAttribute('href') === '#') return
 			if (!this.isCurrentLink(e.delegateTarget)) return
 			if (!this.isHashLink(e.delegateTarget)) {
 				if (!this.scrollTopOnCurrentLink) return
@@ -86,7 +87,8 @@ export default class AnchorHandler extends Controller {
 		// ignore right clicks and dragging
 		// open in new tab if meta or middle click
 		this.listeners.delegate(document.body, '[data-link-area]', 'click', e => {
-			if (e.target.tagName === 'A' || this.isDragging) return
+			console.log({ [e.type]: e} )
+			if (e.target.tagName === 'A' || this.isDragging || e.altKey) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
 			if (e.metaKey || e.ctrlKey || e.shiftKey) {
@@ -96,7 +98,8 @@ export default class AnchorHandler extends Controller {
 			link.click()
 		})
 		this.listeners.delegate(document.body, '[data-link-area]', 'auxclick', e => {
-			if (e.target.tagName === 'A' || this.isDragging) return
+			console.log({ [e.type]: e} )
+			if (e.target.tagName === 'A' || this.isDragging || e.button > 1) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
 			window.open(link.href, '_blank')

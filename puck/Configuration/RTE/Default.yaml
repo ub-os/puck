@@ -35,14 +35,9 @@ editor:
 
         # link styles
         - { name: "Button", element: "a", classes: [ "e-button" ] }
-        - { name: "CTA button", element: "a", classes: [ "e-cta-button" ] }
         - { name: "Button: full-width", element: "a", classes: [ '-block' ] }
-        - { name: "Button: light", element: "a", classes: [ '-light' ] }
-        - { name: "Button: outline", element: "a",classes: [ '-outline' ] }
-        - { name: "Button: ghost", element: "a", classes: [ '-ghost' ] }
         - { name: "Button: icon left", element: "a", classes: [ '-icon', '-icon-left' ] }
         - { name: "Button: icon right", element: "a", classes: [ '-icon', '-icon-right' ] }
-        - { name: "Button: icon framed", element: "a", classes: [ '-icon', '-icon-pill' ] }
 
         #Lists
 

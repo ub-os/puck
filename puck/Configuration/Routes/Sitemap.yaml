@@ -1,12 +1,14 @@
 routeEnhancers:
   SitemapPage:
-    limitToPages: '%rootPageId%'
+    # class will add the root page as limit
+    limitToPages: UBOS\Puck\Routing\AddRoutesToSiteConfiguration
     type: PageType
     index: 'sitemap-index'
     map:
       .xml: 1533906435
   Sitemap:
-    limitToPages: '%rootPageId%'
+    # class will add the root page as limit
+    limitToPages: UBOS\Puck\Routing\AddRoutesToSiteConfiguration
     type: Simple
     routePath: '{sitemap}'
     aspects:

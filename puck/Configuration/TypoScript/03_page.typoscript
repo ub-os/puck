@@ -5,3 +5,25 @@ page.20 {
     settings {
     }
 }
+
+# Content Fragment Page - renders a single tt_content record
+contentFragmentPage = PAGE
+contentFragmentPage {
+    typeNum = 1619409324
+    10 = RECORDS
+    10 {
+        tables = tt_content
+        source.data = GP:ceUid
+        dontCheckPid = 1
+    }
+    config {
+        disableAllHeaderCode = 1
+        debug = 0
+        admPanel = 0
+        index_enable = 0
+    }
+    meta {
+        robots = noindex, nofollow
+        robots.replace = 1
+    }
+}

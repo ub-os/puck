@@ -6,18 +6,13 @@
 
 	&__card
 		transition: transform .25s
-
 		&:hover
 			transform: translateY(-5px)
 
 	&__column
-		cursor: pointer
-
-	&__column :where(.l-media__image)
 		transition: transform .25s
-
-	&__column:hover :where(.l-media__image)
-		transform: scale(.97)
+		&:hover
+			transform: translateY(5px)
 
 	&__teaser
 		+flex(row, flex-start, flex-start, wrap)
@@ -27,36 +22,38 @@
 		+typo-h3
 		width: 100%
 		color: var(--color-link)
-
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
+
 
 	&__card:hover &__headline,
 	&__card:hover &__cta,
 	&__column:hover &__headline,
 	&__column:hover &__cta
 		color: var(--color-link--hover)
-		--background-button: var(--background-button--hover)
 
 	&__subtitle
 		width: 100%
-		color: var(--color-accent)
+		color: var(--color-emphasis)
 
 	&__categories
 		width: 100%
-		color: var(--color-accent)
+		color: var(--color-emphasis)
 
 	&__date
-		+font-size($fs-small)
+		+font-size($font-size-small)
+		color: var(--color-emphasis)
 
 	&__teaser-text
 		width: 100%
 		padding-top: spacing(xxs)
 
 	&__cta
+		+flex(row, flex-start, center)
+		gap: .5em
 		margin-top: spacing(xs)
 		margin-left: auto
-
+		transition: color .25s
 		&__wrap
 			margin-top: auto

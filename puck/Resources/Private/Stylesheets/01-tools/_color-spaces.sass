@@ -1,83 +1,65 @@
 @use '00-settings/variables' as *
+@use '00-settings/overrides' as *
 @use '01-tools/functions' as *
 @use '01-tools/mixins' as *
 
+$background: #0E1117
+$background-alt: #101a1f
+$text: #9198a1
+$text-emphasis: white
+$headline: white
+$link: #4493f8
+$link--hover: #2a7aef
+$link2: #2e9a40
+$link2--hover: #29903b
+$control: #212830
+$control--hover: #292f39
+$control-border: #2f3641
+$control-dark: #141b23
+$typo3-brand: #ff8700
+
+// todo: remove button styles, remove unnecessary sass variables
 =color-space-base
 	// basic
-	color-scheme: only dark
-	--color: #{ $white-soapstone }
-	--color-alt: #{ $white-soapstone }
-	--color-headline: #{ $green-dusty-jade }
-	--color-accent: #{ $white-soapstone }
-	--color-accent-alt: #{ $yellow-grandis }
-	--background: #{ $black-thamar }
-	--color-link: #{ $green-zomp }
-	--color-link--hover: #{ $green-hyperpop }
-	--color-link--disabled: #{ $grey-4 }
+	--color: #{ $text }
+	--color-emphasis: #{ $headline }
+	--color-headline: #{ $headline }
+	--color-accent: #{ $link }
+	--background: #{ $background }
+	--color-link: #{ $link }
+	--color-link--hover: #{ $link--hover }
+	--color-link--disabled: #{ rgba($text, 0.8) }
 
 	// button
-	--border-width-button: 2px
-	--color-button: var(--background)
-	--color-button--hover: var(--background)
-	--color-button-border: transparent
-	--color-button-border--hover: transparent
-	--outline-color-button--focus: color-mix(in srgb, transparent, var(--background-button--hover) 30%)
-	--background-button: var(--color-link)
-	--background-button--hover: var(--color-link--hover)
-
-	// button alt
-	--color-button-alt: var(--color-button)
-	--color-button-alt--hover: var(--color-button--hover)
-	--color-button-alt-border: var(--color-button-border)
-	--color-button-alt-border--hover: var(--color-button-border--hover)
-	--outline-color-button-alt-focus: var(--outline-color-button--focus)
-	--background-button-alt: var(--background-button)
-	--background-button-alt--hover: var(--background-button--hover)
-
-	// button light
-	--color-button-light: var(--color-headline)
-	--color-button-light--hover: var(--color)
-	--color-button-light-border: transparent
-	--color-button-light-border--hover: transparent
-	--background-button-light: #{ $grey-3 }
-	--background-button-light--hover: #{ $grey-4 }
+	--color-button: #{ $headline }
+	--color-button--hover: #{ $headline }
+	--color-button-border: #{ $control-border}
+	--color-button-border--hover: #{ $control-border}
+	--outline-color-button--focus: color-mix(in srgb, transparent, #{ $link--hover } 30%)
+	--background-button: #{ $control }
+	--background-button--hover: #{ $control--hover }
+	--background-dropdown: #{ $control-dark }
 
 	// input
-	--color-input: var(--color)
-	--color-input--active: var(--color)
-	--color-input-border: transparent
-	--color-input-border--active: transparent
-	--background-input: #{ $black-cursed }
-	--background-input--active: #{ $black-cursed }
+	--color-input: #{ $text-emphasis }
+	--color-input--active: #{ $text-emphasis }
+	--color-input-border: #{ $control-border }
+	--color-input-border--active: #{ $link--hover }
+	--background-input: transparent
+	--background-input--active: transparent
+
+	// card
+	--background-card: #{ $background-alt }
+	--border-color-card: #{ $control-border }
 
 	// modal
-	--background-modal: #{ $black-cursed }
-	--background-modal-backdrop: rgba(55, 60, 60, 0.2)
-	--background-footer: #{ $black-cursed }
+	--background-modal: #{ $background }
+	--background-modal-backdrop: rgba(0, 0, 0, 0.5)
+	--background-footer: #{ $background-alt }
 
 	// plyr
-	--plyr-color-main: var(--color-link)
+	--plyr-color-main: #{ $link }
 
 =color-space-dark-1
-	--background: #{ $black-cursed }
-	--color-headline: #{ $blue-stillwater}
-	--color-link: #{ $blue-fischer }
-	--color-link--hover: #{ $blue-ice-climber }
-	--color-button: var(--background)
-	--color-button--hover: #{ $black-cursed }
-	--background-button: var(--color-link)
-	--background-button--hover: var(--color-link--hover)
-	--outline-color-button--focus: color-mix(in srgb, transparent, var(--background-button--hover) 30%)
-
-=color-space-card
-	+color-space-base
-	--background: var(--background-modal)
-
-=color-space-modal
-	+color-space-base
-	--background: var(--background-modal)
-
-=color-space-footer
-	--background: var(--background-footer)
-
-=color-space-card-image-background
+	--background: #{ $background-alt }
+	--color-accent: #{ $link2 }

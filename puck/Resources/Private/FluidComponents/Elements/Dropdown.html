@@ -10,11 +10,11 @@
 
 
 		<div id="{id}" class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
-			<button class="{name}__button"
+			<button class="{name}__button e-button -icon"
 					data-target="dialog.control#{id}__dialog">
 				{label}
 				{buttonContent -> f:format.raw()}
-				<icon:svg icon="angle-down-regular" class="{name}__button__icon"/>
+				<icon:char icon="angle-down-regular" class="{name}__button__icon"/>
 			</button>
 			{outerContent -> f:format.raw()}
 			<dialog class="{name}__dialog"

@@ -1,12 +1,11 @@
 <T3DataStructure>
     <sheets>
-        <splide>
+        <general>
             <ROOT>
-                <sheetTitle>Behaviour</sheetTitle>
+                <sheetTitle>General</sheetTitle>
                 <type>array</type>
                 <el>
-                    <splide.type>
-
+                    <carousel.splideOptions.type>
                         <label>Type</label>
                         <onChange>reload</onChange>
                         <config>
@@ -25,41 +24,59 @@
                             <default>slide</default>
                         </config>
 
-                    </splide.type>
-                    <splide.rewind>
+                    </carousel.splideOptions.type>
+                    <carousel.splideOptions.rewind>
 
                         <label>Rewind</label>
-                        <displayCond>FIELD:splide.type:IN:slide,fade</displayCond>
+                        <displayCond>FIELD:carousel.splideOptions.type:IN:slide,fade</displayCond>
                         <config>
                             <type>check</type>
                             <renderType>checkboxToggle</renderType>
                             <default>0</default>
                         </config>
 
-                    </splide.rewind>
-                    <splide.autoplay>
+                    </carousel.splideOptions.rewind>
+                    <carousel.splideOptions.arrows>
 
-                        <label>Autoplay</label>
-                        <onChange>reload</onChange>
+                        <label>Arrows</label>
                         <config>
                             <type>check</type>
                             <renderType>checkboxToggle</renderType>
-                            <default>0</default>
+                            <default>1</default>
                         </config>
 
-                    </splide.autoplay>
-                    <splide.interval>
+                    </carousel.splideOptions.arrows>
+                    <carousel.splideOptions.pagination>
 
-                        <label>Autoplay interval (in milliseconds)</label>
-                        <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
+                        <label>Pagination</label>
                         <config>
-                            <type>input</type>
-                            <eval>int</eval>
-                            <default>1500</default>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
                         </config>
 
-                    </splide.interval>
-                    <splide.speed>
+                    </carousel.splideOptions.pagination>
+                    <carousel.trackOverflow>
+
+                        <label>Overflow slider track</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <numIndex index="0">hidden</numIndex>
+                                    <numIndex index="1">hidden</numIndex>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <numIndex index="0">visible</numIndex>
+                                    <numIndex index="1">visible</numIndex>
+                                </numIndex>
+                            </items>
+                            <default>hidden</default>
+                        </config>
+
+                    </carousel.trackOverflow>
+                    <carousel.splideOptions.speed>
 
                         <label>Slide transition speed (in milliseconds)</label>
                         <config>
@@ -68,8 +85,8 @@
                             <default>400</default>
                         </config>
 
-                    </splide.speed>
-                    <splide.easing>
+                    </carousel.splideOptions.speed>
+                    <carousel.splideOptions.easing>
 
                         <label>Transition easing</label>
                         <config>
@@ -93,82 +110,66 @@
                             </valuePicker>
                         </config>
 
-                    </splide.easing>
-                    <splide.pauseOnHover>
-
-                        <label>Pause on hover</label>
-                        <displayCond>FIELD:splide.autoplay:REQ:true</displayCond>
+                    </carousel.splideOptions.easing>
+                    <carousel.splideOptions.start>
+                        <label>Starting slide index</label>
                         <config>
-                            <type>check</type>
-                            <renderType>checkboxToggle</renderType>
-                            <default>1</default>
+                            <type>number</type>
+                            <default>0</default>
+                            <range>
+                                <lower>0</lower>
+                            </range>
                         </config>
-
-                    </splide.pauseOnHover>
-                    <splide.start>
-                        <TCEforms>
-                            <label>Starting slide index</label>
-                            <config>
-                                <type>number</type>
-                                <default>0</default>
-                                <range>
-                                    <lower>0</lower>
-                                </range>
-                            </config>
-                        </TCEforms>
-                    </splide.start>
+                    </carousel.splideOptions.start>
                 </el>
             </ROOT>
-        </splide>
-        <carousel>
+        </general>
+        <autoplay>
             <ROOT>
 
-                <sheetTitle>Template</sheetTitle>
+                <sheetTitle>Autoplay</sheetTitle>
 
                 <type>array</type>
                 <el>
-                    <carousel.arrows>
+                    <carousel.splideOptions.autoplay>
 
-                        <label>Arrows</label>
-                        <config>
-                            <type>check</type>
-                            <renderType>checkboxToggle</renderType>
-                            <default>1</default>
-                        </config>
-
-                    </carousel.arrows>
-                    <carousel.pagination>
-
-                        <label>Pagination</label>
+                        <label>Autoplay</label>
                         <config>
                             <type>check</type>
                             <renderType>checkboxToggle</renderType>
                             <default>0</default>
                         </config>
 
-                    </carousel.pagination>
-                    <carousel.trackOverflow>
+                    </carousel.splideOptions.autoplay>
+                    <carousel.autoplayToggle>
 
-                        <label>Overflow slider track</label>
+                        <label>Autoplay toggle button</label>
                         <config>
-                            <type>select</type>
-                            <renderType>selectSingle</renderType>
-                            <items>
-                                <numIndex index="0">
-                                    <numIndex index="0">hidden</numIndex>
-                                    <numIndex index="1">hidden</numIndex>
-                                </numIndex>
-                                <numIndex index="1">
-                                    <numIndex index="0">visible</numIndex>
-                                    <numIndex index="1">visible</numIndex>
-                                </numIndex>
-                            </items>
-                            <default>hidden</default>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
                         </config>
 
-                    </carousel.trackOverflow>
+                    </carousel.autoplayToggle>
+                    <carousel.splideOptions.pauseOnHover>
+                        <label>Pause on hover</label>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                            <default>1</default>
+                        </config>
+                    </carousel.splideOptions.pauseOnHover>
+                    <carousel.splideOptions.interval>
+                        <label>Autoplay interval (in milliseconds)</label>
+                        <config>
+                            <type>input</type>
+                            <eval>int</eval>
+                            <default>1500</default>
+                        </config>
+
+                    </carousel.splideOptions.interval>
                 </el>
             </ROOT>
-        </carousel>
+        </autoplay>
     </sheets>
 </T3DataStructure>

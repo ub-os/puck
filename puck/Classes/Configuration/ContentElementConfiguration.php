@@ -14,13 +14,18 @@ use UBOS\Puck\Controller;
  * Provides a centralized way to define and configure TYPO3 content elements types (CTypes).
  *
  * Defines configuration for TCA, TypoScript setup, ext:container, Data Processors, FlexForms, etc.
- * Content elements defined here always render an Extbase plugin, default is "Content" @see Controller\ContentController
- * Flexform/data processing is only configured here, but must be executed in the controller, for example by using @see Controller\ComponentContentElementTrait::prepareContentView()
+ * Content elements can be rendered in two ways:
+ * - Via FLUIDCOMPONENT (default) - directly renders a Fluid component
+ * - Via EXTBASEPLUGIN (when $pluginName is set) - uses an Extbase controller for complex logic
+ *
+ * Data processing configuration is defined here and executed either by:
+ * - FLUIDCOMPONENT content object (automatic)
+ * - Extbase controller using @see Controller\ContentModuleControllerTrait::prepareContentView()
  *
  * How to use:
- * Create a new instance for every CType and call its methods
- * 'addTCA' in @see puck/Configuration/TCA/Overrides/tt_content.php
- * 'addTypoScript' in @see puck/ext_localconf.php respectively.
+ * Create a new instance for every CType and call its methods:
+ * - 'addTCA' in @see puck/Configuration/TCA/Overrides/tt_content.php
+ * - 'addTypoScript' in @see puck/ext_localconf.php
  *
  * @see puck/Configuration/ContentElements/ for examples
  */
@@ -35,15 +40,14 @@ class ContentElementConfiguration
 	 * @param float $sorting Sorting value for content element wizard (default: 1000)
 	 * @param string $showItem TCA showitem configuration
 	 * @param array $columnsOverrides TCA column overrides
-	 *
-	 *
-	 * @param string $pluginName Name of the plugin this element renders (default: 'Content')
-	 * @param string $extensionName Plugin extension name (default: 'Puck')
-	 *
+	 * @param string $pluginName Name of the Extbase plugin this element renders. If empty, FLUIDCOMPONENT is used instead of EXTBASEPLUGIN
+	 * @param string $extensionName Extension name (default: 'Puck')
+	 * @param string $componentCollection Fully qualified class name of the ComponentCollection (default: ModuleComponentCollection::class)
+	 * @param string $component Component name in dot notation (e.g., 'text' or 'modules.hero'). If empty, defaults to camelCase version of $type
 	 * @param array $flexForms Array of field_name => EXT:ext/path/to/flexform.xml, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
-	 * @param array $containerConfiguration Container column configuration
-	 * @param array $dataProcessing Data processor configurations
-	 * @param string $previewRenderer Class name for preview renderer (default: BasicPreviewRenderer::class)
+	 * @param array $containerConfiguration Container column configuration for ext:container
+	 * @param array $dataProcessing Data processor configurations (processor class, options, etc.)
+	 * @param string $previewRenderer Class name for backend preview renderer (default: BasicPreviewRenderer::class)
 	 */
 	public function __construct(
 		public string $type,
@@ -141,7 +145,15 @@ class ContentElementConfiguration
 
 
 	/**
-	 * Adds the necessary TypoScript configuration for content element type
+	 * Adds the necessary TypoScript configuration for content element type.
+	 *
+	 * Generates either:
+	 * - FLUIDCOMPONENT rendering (default) - lightweight, direct component rendering
+	 * - EXTBASEPLUGIN rendering (when $pluginName is set) - full Extbase controller
+	 *
+	 * For EXTBASEPLUGIN, contentElementConfiguration is stored in plugin settings
+	 * to ensure it's available even when the plugin is rendered outside of tt_content context
+	 * (e.g., via USER object or custom page type).
 	 */
 	public function addTypoScript(): void
 	{
@@ -152,22 +164,23 @@ class ContentElementConfiguration
 		$component = $this->component ?: GeneralUtility::underscoredToLowerCamelCase($this->type);
 
 		if (!empty($this->pluginName)) {
+			// Use EXTBASEPLUGIN for elements that need controller logic
 			$content = '
             tt_content.' . $this->getCType() . ' = EXTBASEPLUGIN
             tt_content.' . $this->getCType() . '  {
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
-                settings {
-                    contentElementConfiguration {
-						componentCollection = ' . $this->componentCollection . '
-                        component = ' . $component . '
-                        dataProcessing {
-                            ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
-                        }
-                    }
-                }
-            }';
+            }
+            plugin.tx_'. strtolower($this->extensionName) .'_' . strtolower($this->pluginName) . '.settings.contentElementConfiguration {
+				componentCollection = ' . $this->componentCollection . '
+				component = ' . $component . '
+				dataProcessing {
+					' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
+				}
+			}
+            ';
 		} else {
+			// Use FLUIDCOMPONENT for simple content elements (default)
 			$content = '
             tt_content.' . $this->getCType() . ' = FLUIDCOMPONENT
             tt_content.' . $this->getCType() . ' {
@@ -187,7 +200,11 @@ class ContentElementConfiguration
 	}
 
 	/**
-	 * Creates a new element configuration with restricted fields based on this configuration
+	 * Creates a new element configuration with restricted fields based on this configuration.
+	 *
+	 * This is useful for creating preset variants of a content element that offer
+	 * fewer configuration options to editors, making them simpler to use while
+	 * sharing the same component template.
 	 *
 	 * @param string $type Content element CType
 	 * @param string $label Human-readable name for the content element
@@ -195,7 +212,7 @@ class ContentElementConfiguration
 	 * @param string $group Group in content element wizard (optional)
 	 * @param string $icon Icon identifier (optional)
 	 * @param float $sorting Sorting value for content element wizard (optional)
-	 * @param array $valueOverrides These fields will be hidden in the backend and overridden with the given values when using ContentRecord
+	 * @param array $valueOverrides Fields that will be hidden in the backend and overridden with the given values
 	 * @return ContentElementConfiguration The modified configuration instance
 	 * @see \UBOS\Puck\Domain\ContentRecord::setOverriddenProperties
 	 */
@@ -222,6 +239,9 @@ class ContentElementConfiguration
 		return $this;
 	}
 
+	/**
+	 * Sets fields that should be overridden with fixed values and hidden from editors
+	 */
 	protected function setOverriddenFields(array $overrides): void
 	{
 		$this->valueOverrides = $overrides;
@@ -232,6 +252,9 @@ class ContentElementConfiguration
 		}
 	}
 
+	/**
+	 * Converts data processing configuration array to TypoScript string
+	 */
 	protected function getDataProcessingTypoScript(array $dataProcessing): string
 	{
 		$str = '';

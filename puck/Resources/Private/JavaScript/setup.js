@@ -1,7 +1,7 @@
 import { stim } from '@oliveoilexpert/stim'
 import Accordion from '~/Controller/Accordion'
 import AnchorHandler from '~/Controller/AnchorHandler'
-import Carousel from '~/Controller/Carousel'
+import Carousel from '~/Controller/Carousel.jsx'
 import Dialog from '~/Controller/Dialog'
 import MediaPlayer from '~/Controller/MediaPlayer.jsx'
 import Modal from '~/Controller/Modal'

@@ -33,30 +33,33 @@
 	<div class="{name}__poster">
 		<f:if condition="{localPoster}">
 			<f:then>
-				<f:format.raw>
-					<u:picture
-						loading="lazy"
-						class="{name}"
-						retina="{posterRetina}"
-						sources="{posterSources}"
-						image="{localPoster}"
-						webp="{posterWebp}"
-						width="{width}"
-						sourceMaxWidth="{width}"
-					/>
-				</f:format.raw>
+				<u:picture
+					class="{name}__image"
+					loading="lazy"
+					retina="{posterRetina}"
+					sources="{posterSources}"
+					image="{localPoster}"
+					webp="{posterWebp}"
+					width="{width}"
+					sourceMaxWidth="{width}"
+				/>
 			</f:then>
-			<f:else>
+			<f:else if="{file.extension} === 'youtube' || {file.extension} === 'vimeo'">
 				<picture>
-					<img alt="{file.alternative}"
-						 class="{name}__image"
-						 loading="lazy"
-						 src="{u:file(getOnlineMediaImageSrc:file,useUcSource:1)}">
+					<f:image
+						alt="{file.alternative}"
+						class="{name}__image"
+						loading="lazy"
+						width="{width}"
+						image="{file}"
+					/>
 				</picture>
 			</f:else>
 		</f:if>
 	</div>
-	<icon:svg class="{name}__icon" icon="circle-play-duotone"/>
+	<div class="{name}__icon">
+		<icon:svg icon="play-solid"/>
+	</div>
 	<f:if condition="{openInModal}">
 		<f:then>
 			<layout:modal id="{id}-modal" width="12">

@@ -3,12 +3,11 @@
 	<f:argument name="record" type="mixed"/>
 	<f:argument name="children_300" type="array" optional="1"/>
 
+	<f:variable name="optionsArray" value="{record.options -> u:mergedFlexFormSheets()}"/>
 	<layout:carousel id="c{record.uid}"
 					 class="{name}"
-					 arrows="{record.options.carousel.arrows}"
-					 pagination="{record.options.carousel.pagination}"
-					 trackOverflow="{record.options.carousel.trackOverflow}"
-					 carouselAttributes="{splideOptions: record.options.splide}">
+					 align="stretch"
+					 carouselAttributes="{optionsArray.carousel}">
 		<f:for each="{children_300}" as="child">
 			<div class="{name}__slide splide__slide">
 				{child.renderedContent -> f:format.raw()}

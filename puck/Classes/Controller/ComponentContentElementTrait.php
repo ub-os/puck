@@ -62,6 +62,9 @@ trait ComponentContentElementTrait
 		?array $arguments = null,
 		?AbstractComponentCollection $componentCollection = null
 	): string {
+		if (!$componentCollection && !($this->settings['contentElementConfiguration']['componentCollection'] ?? false)) {
+			throw new \RuntimeException('No component collection configured in settings[contentElementConfiguration][componentCollection]', 1676412345);
+		}
 		$component = $component ?? ($this->settings['contentElementConfiguration']['component'] ?? lcfirst($this->view->getRenderingContext()->getControllerAction()));
 		$arguments = $arguments ?? $this->viewVariables;
 		$componentCollection = $componentCollection ?? GeneralUtility::makeInstance($this->settings['contentElementConfiguration']['componentCollection']);

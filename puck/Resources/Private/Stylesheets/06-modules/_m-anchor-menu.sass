@@ -4,15 +4,12 @@
 	&__wrap
 		position: sticky
 		top: 0
-		z-index: 2
+		z-index: 100
 		background: var(--background)
-		transition: background .5s, top .4s
+		transition: top .4s
 
 		:where(.m-header.--scroll:not(.--scroll-down)) ~ .m-main &
 			top: var(--height-page-header)
-
-		&.--stuck
-			background: var(--background-modal)
 
 	&__list
 		+flex(row, center, flex-start, wrap)
@@ -23,7 +20,6 @@
 
 	&__link
 		color: var(--color-link)
-
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)

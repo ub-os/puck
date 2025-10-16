@@ -1,9 +1,9 @@
 @use '01-tools/all' as *
 
 =e-text-list
-	--width-list-offset: 1.6em
-	--width-list-symbol: .66em
-	--height-list-symbol: .66em
+	--width-list-offset: 1.4em
+	--width-list-symbol: .5em
+	--height-list-symbol: .5em
 	--color-list-symbol: var(--color-accent)
 
 	&
@@ -33,20 +33,8 @@
 		color: var(--color-list-symbol)
 		background: var(--color-list-symbol)
 
-	& > li > ol
-		margin-top: .5em
-
-		& > li
-			counter-increment: ol-sub-counter
-
-		& > li:before
-			content: counter(ol-sub-counter)
-
-	& > li > ul
-		margin-top: .5em
-
-		& > li:before
-			transform: scale(.6)
+	&:is(ul) > li:before
+		border-radius: 50%
 
 	&:is(ol) > li
 		counter-increment: ol-counter
@@ -54,12 +42,23 @@
 	&:is(ol) > li:before
 		content: counter(ol-counter) '.'
 		height: 100%
-		bottom: .05em
-		padding-left: 1px
+		bottom: .075em
 		background: var(--color-list-symbol)
 		text-align: center
 		font-weight: bold
 		background: none
+
+	& > li > ol
+		margin-top: .5em
+		& > li
+			counter-increment: ol-sub-counter
+		& > li:before
+			content: counter(ol-sub-counter)
+
+	& > li > ul
+		margin-top: .5em
+		& > li:before
+			transform: scale(.6)
 
 	@for $i from 1 through 20
 		&:is(ol)[start="#{$i}"]

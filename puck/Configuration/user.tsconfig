@@ -5,8 +5,6 @@ options {
     pageTree {
         showPageIdWithTitle = 0
         showDomainNameWithTitle = 1
-        // exclude news from tree
-        excludeDoktypes = 16503
         // add doktypes to the new page drag area
         doktypesToShowInNewPageDragArea := addToList()
     }
