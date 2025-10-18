@@ -8,10 +8,10 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Puck',
+	'title' => 'Puck Site Package',
 	'description' => '',
 	'category' => 'distribution',
-	'author' => 'Amadeus Kiener / Unibrand',
+	'author' => 'Amadeus Kiener',
 	'author_email' => 'a.kiener@unibrand.de',
 	'state' => 'stable',
 	'internal' => '',
@@ -19,16 +19,10 @@ $EM_CONF[$_EXTKEY] = array(
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
 	'version' => '1.0.0',
-	'constraints' => array(
-		'depends' => array(
+	'constraints' => [
+		'depends' => [
             'typo3' => '',
-            'content_defender' => '',
-            'fluid_components' => '',
-            'autoloader' => '',
-    ),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
+            'content_defender' => ''
+		]
+	],
 );

@@ -44,9 +44,7 @@ $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility
 $GLOBALS['TCA']['pages']['columns']['post_date'] = [
 	'label' => 'Date',
 	'config' => [
-		'type' => 'input',
-		'renderType' => 'datetime',
-		'size' => 16,
+		'type' => 'datetime',
 		'behaviour' => [
 			'allowLanguageSynchronization' => true
 		]

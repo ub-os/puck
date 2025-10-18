@@ -7,4 +7,3 @@ Logger.console.log(stim)
 window.requestAnimationFrame(() => {
 	document.body.classList.remove('u-no-transition')
 })
-

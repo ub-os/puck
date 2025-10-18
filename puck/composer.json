@@ -1,7 +1,7 @@
 {
 	"name": "ubos/puck",
 	"type": "typo3-cms-extension",
-	"description": "Puck",
+	"description": "Puck Site Package",
 	"license": "GPL-2.0-or-later",
 	"version": "1.0.0",
 	"requiresNotReadyForV13": {

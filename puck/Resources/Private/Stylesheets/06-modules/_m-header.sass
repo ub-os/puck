@@ -10,18 +10,19 @@
 		max-width: var(--width-page)
 		height: var(--height-page-header)
 		margin-bottom: var(--margin-block-page-header)
-		background: var(--background)
 		transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
 
 	&:where(.--scroll)
+		background: var(--background-frosted)
+		backdrop-filter: blur(5px)
 		&.--scroll-up, &.--scroll-down
 		transition: background .5s, transform .4s
-
 		&.--scroll-down
 			transform: translateY(-100%)
 
 	&__container
 		+flex(row, space-between, center, nowrap)
+		+grid-container
 		padding-inline: var(--gutter-outer)
 		height: 100%
 
@@ -32,7 +33,6 @@
 		&__logo
 			height: 4rem
 			width: 4rem
-			border-radius: 100%
 			transition: background .15s
 			&:hover
 				background: radial-gradient(circle at center, var(--color-link--hover) 20%, transparent 20%)

@@ -1,11 +1,8 @@
 @use '01-tools/all' as *
 
 .m-hero
-	.m-cover-media__wrap + &__wrap:where(.-top-auto)
-		margin-top: 0
-
 	&
-		+flex(column-reverse, flex-start, center)
+		text-align: center
 
 	&__headline
 		color: var(--color-headline)

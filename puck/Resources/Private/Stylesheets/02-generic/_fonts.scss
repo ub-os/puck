@@ -3,7 +3,7 @@ $font-display: auto;
 
 /* ibm-plex-sans-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 200;
@@ -11,7 +11,7 @@ $font-display: auto;
 }
 /* ibm-plex-sans-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 300;
@@ -19,7 +19,7 @@ $font-display: auto;
 }
 /* ibm-plex-sans-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 400;
@@ -27,7 +27,7 @@ $font-display: auto;
 }
 /* ibm-plex-sans-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
@@ -35,7 +35,7 @@ $font-display: auto;
 }
 /* ibm-plex-sans-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 600;
@@ -43,7 +43,7 @@ $font-display: auto;
 }
 /* ibm-plex-sans-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 700;
@@ -52,7 +52,7 @@ $font-display: auto;
 
 /* outfit-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 200;
@@ -60,7 +60,7 @@ $font-display: auto;
 }
 /* outfit-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 300;
@@ -68,7 +68,7 @@ $font-display: auto;
 }
 /* outfit-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 400;
@@ -76,7 +76,7 @@ $font-display: auto;
 }
 /* outfit-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 500;
@@ -84,7 +84,7 @@ $font-display: auto;
 }
 /* outfit-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 600;
@@ -92,7 +92,7 @@ $font-display: auto;
 }
 /* outfit-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 700;
@@ -100,7 +100,7 @@ $font-display: auto;
 }
 /* outfit-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Outfit';
 	font-style: normal;
 	font-weight: 800;
@@ -109,7 +109,7 @@ $font-display: auto;
 
 /* michroma-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Michroma';
 	font-style: normal;
 	font-weight: 400;
@@ -118,7 +118,7 @@ $font-display: auto;
 
 /* oxanium-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 200;
@@ -126,7 +126,7 @@ $font-display: auto;
 }
 /* oxanium-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 300;
@@ -134,7 +134,7 @@ $font-display: auto;
 }
 /* oxanium-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 400;
@@ -142,7 +142,7 @@ $font-display: auto;
 }
 /* oxanium-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 500;
@@ -150,7 +150,7 @@ $font-display: auto;
 }
 /* oxanium-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 600;
@@ -158,7 +158,7 @@ $font-display: auto;
 }
 /* oxanium-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 700;
@@ -166,7 +166,7 @@ $font-display: auto;
 }
 /* oxanium-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Oxanium';
 	font-style: normal;
 	font-weight: 800;
@@ -175,7 +175,7 @@ $font-display: auto;
 
 /* noto-sans-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 200;
@@ -183,7 +183,7 @@ $font-display: auto;
 }
 /* noto-sans-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 300;
@@ -191,7 +191,7 @@ $font-display: auto;
 }
 /* noto-sans-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 400;
@@ -199,7 +199,7 @@ $font-display: auto;
 }
 /* noto-sans-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 500;
@@ -207,7 +207,7 @@ $font-display: auto;
 }
 /* noto-sans-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 600;
@@ -215,7 +215,7 @@ $font-display: auto;
 }
 /* noto-sans-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 700;
@@ -223,7 +223,7 @@ $font-display: auto;
 }
 /* noto-sans-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Noto Sans';
 	font-style: normal;
 	font-weight: 800;
@@ -232,7 +232,7 @@ $font-display: auto;
 
 /* saira-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 200;
@@ -240,7 +240,7 @@ $font-display: auto;
 }
 /* saira-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 300;
@@ -248,7 +248,7 @@ $font-display: auto;
 }
 /* saira-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 400;
@@ -256,7 +256,7 @@ $font-display: auto;
 }
 /* saira-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 500;
@@ -264,7 +264,7 @@ $font-display: auto;
 }
 /* saira-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 600;
@@ -272,7 +272,7 @@ $font-display: auto;
 }
 /* saira-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 700;
@@ -280,7 +280,7 @@ $font-display: auto;
 }
 /* saira-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Saira';
 	font-style: normal;
 	font-weight: 800;
@@ -289,7 +289,7 @@ $font-display: auto;
 
 /* rajdhani-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Rajdhani';
 	font-style: normal;
 	font-weight: 300;
@@ -297,7 +297,7 @@ $font-display: auto;
 }
 /* rajdhani-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Rajdhani';
 	font-style: normal;
 	font-weight: 400;
@@ -305,7 +305,7 @@ $font-display: auto;
 }
 /* rajdhani-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Rajdhani';
 	font-style: normal;
 	font-weight: 500;
@@ -313,7 +313,7 @@ $font-display: auto;
 }
 /* rajdhani-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Rajdhani';
 	font-style: normal;
 	font-weight: 600;
@@ -321,7 +321,7 @@ $font-display: auto;
 }
 /* rajdhani-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Rajdhani';
 	font-style: normal;
 	font-weight: 700;
@@ -330,7 +330,7 @@ $font-display: auto;
 
 /* work-sans-200 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 200;
@@ -338,7 +338,7 @@ $font-display: auto;
 }
 /* work-sans-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 300;
@@ -346,7 +346,7 @@ $font-display: auto;
 }
 /* work-sans-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 400;
@@ -354,7 +354,7 @@ $font-display: auto;
 }
 /* work-sans-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 500;
@@ -362,7 +362,7 @@ $font-display: auto;
 }
 /* work-sans-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 600;
@@ -370,7 +370,7 @@ $font-display: auto;
 }
 /* work-sans-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 700;
@@ -378,7 +378,7 @@ $font-display: auto;
 }
 /* work-sans-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Work Sans';
 	font-style: normal;
 	font-weight: 800;
@@ -387,7 +387,7 @@ $font-display: auto;
 
 /* nunito-sans-300 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 300;
@@ -395,7 +395,7 @@ $font-display: auto;
 }
 /* nunito-sans-regular - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 400;
@@ -403,7 +403,7 @@ $font-display: auto;
 }
 /* nunito-sans-500 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 500;
@@ -411,7 +411,7 @@ $font-display: auto;
 }
 /* nunito-sans-600 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 600;
@@ -419,7 +419,7 @@ $font-display: auto;
 }
 /* nunito-sans-700 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 700;
@@ -427,7 +427,7 @@ $font-display: auto;
 }
 /* nunito-sans-800 - latin */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-display: $font-display; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: 'Nunito Sans';
 	font-style: normal;
 	font-weight: 800;

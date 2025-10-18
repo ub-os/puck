@@ -85,12 +85,12 @@ $palettes['headers'] = [
         --linebreak--,
         subheader'
 ];
-$palettes['childHeader'] = [
+$palettes['header_header_position'] = [
 	'label' => 'Headlines',
 	'showitem' => '
         header,
         --linebreak--,
-        header_layout, header_position'
+        header_position'
 ];
 $palettes['bodytext'] = [
 	'showitem' => 'bodytext;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext_formlabel',

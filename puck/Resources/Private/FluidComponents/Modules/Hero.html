@@ -7,7 +7,7 @@
 			class="{name}__wrap {f:if(condition: '!{record.bodytext} && !{record.assets}', then: '-headline-only')} -layout-{record.layout}"
 			id="c{record.uid}">
 			<div class="{name}">
-				<div class="{name}__text">
+				<div class="{name}__text u-text-{record.header_position}">
 					<f:if condition="{record.subheader}">
 						<p class="{name}__topline">
 							{record.subheader -> f:format.raw()}

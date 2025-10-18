@@ -3,7 +3,7 @@ import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class PageHeader extends Controller {
 	static props = {
-		scrollTop: 100,
+		scrollTop: 60,
 		scrollClass: '--scroll',
 		downClass: '--scroll-down',
 		upClass: '--scroll-up',

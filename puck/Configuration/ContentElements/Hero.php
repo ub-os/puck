@@ -10,7 +10,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
             --palette--;;general,
             --palette--;;layout,
-            --palette--;;headers,
+            --palette--;;header_header_position,
             --palette--;;bodytext,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
