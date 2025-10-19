@@ -19,7 +19,7 @@ export default class ScrollbarWidth extends Controller {
 			this.element.appendChild(
 				<div
 					id={this.sensorId}
-					data-history-excluded
+					data-hx-history-excluded="true"
 					style="width:50px; visibility:hidden; overflow:scroll; height:0px; position: absolute; pointer-events: none;"
 				>
 					<div />

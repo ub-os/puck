@@ -105,13 +105,13 @@ class PageController extends ActionController
 		$this->assetCollector->addStyleSheet(
 			'puck-css',
 			$puckCSS,
-			['id' => 'head-puck-css'],
+			['data-hx-preserve' => '1', 'id' => 'head-puck-css'],
 			['priority' => true]
 		);
 		$this->assetCollector->addJavaScript(
 			'puck-js',
 			$puckJS,
-			['id' => 'head-puck-js', 'defer' => 'defer'],
+			['data-hx-preserve' => '1', 'id' => 'head-puck-js', 'defer' => 'defer'],
 			['priority' => true]
 		);
 	}

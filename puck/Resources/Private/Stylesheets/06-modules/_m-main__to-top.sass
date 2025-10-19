@@ -5,7 +5,7 @@
 		position: fixed
 		right: var(--gutter-outer)
 		bottom: 4rem
-		z-index: $z-index-header
+		z-index: var(--z-index-header)
 		height: 2.25em
 		width: 2.25em
 		color: var(--color)
@@ -19,7 +19,6 @@
 		[class*="-modal--active"] &,
 		[class*="-modal--deactivating"] &
 			opacity: 0
-			right: calc(var(--gutter-outer) + var(--scrollbar-width))
 
 		@media (max-width(s))
 			display: none

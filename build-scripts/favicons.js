@@ -3,7 +3,6 @@ import favicons from 'favicons'
 import { ensureDirectoryExistence, log } from './utils.js'
 
 const sourcePath = 'puck/Resources/Public/Icons/Favicons/'
-const sourceFileNames = []
 const distPath = ensureDirectoryExistence('puck/Resources/Public/Icons/Favicons/packages/')
 
 log.header('Building Favicons')

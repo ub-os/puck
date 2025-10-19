@@ -46,8 +46,9 @@
 	&.--active &__content
 		opacity: 1
 
-	&__icon
+	&__icon:before
+		display: block
 		transform: translateY(.1em)
 		transition: transform .2s
-	&.--active &__icon
+	&.--active &__icon:before
 		transform: translateY(.1em) rotateX(180deg)

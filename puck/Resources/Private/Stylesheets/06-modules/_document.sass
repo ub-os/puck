@@ -1,25 +1,16 @@
 @use '01-tools/all' as *
 
-@view-transition
-	navigation: auto
-
-//::view-transition-old(root)
-//	animation-duration: 0.3s
-//::view-transition-new(root)
-//	animation-duration: 0.3s
-
-
 #document
 	+color-space-base
 	height: 100dvh
 	overflow-x: clip
 	overflow-y: scroll
+	scrollbar-gutter: stable
 	overscroll-behavior-x: none
 
 	&[class*="-modal--active"],
 	&[class*="-modal--deactivating"]
 		overflow: hidden
-		padding-right: var(--scrollbar-width)
 
 	--scroll-margin-top-base: 0px
 	//--scroll-margin-top-base: var(--height-page-header)

@@ -25,8 +25,12 @@ export default class Carousel extends Controller {
 
 	createAutoplayToggleElement() {
 		return (
-			<button class={`${this.baseSplideClass}__autoplay__toggle`} type="button" aria-pressed="false" title="Play/Pause Autoplay">
-				<i class={`${this.baseSplideClass}__autoplay__icon icon--pause-solid`}/>
+			<button class={`${this.baseSplideClass}__autoplay-toggle`}
+					  type="button"
+					  data-hx-history-excluded="true"
+					  aria-pressed="false"
+					  title="Play/Pause Autoplay">
+				<i class={`icon--pause-solid`}/>
 			</button>
 		)
 	}
@@ -109,34 +113,26 @@ export default class Carousel extends Controller {
 			})
 		})
 
+		this.controlContainer = this.element.querySelector(`.${this.baseSplideClass}__controls`) ?? this.element
+
 		this.splide.on('pagination:mounted', data => {
 			if (autoplay) {
 				data.items.forEach(page => {
 					page.button.classList.add('-autoplay')
 				})
 			}
+			data.list.setAttribute('data-hx-history-excluded', 'true')
+			this.controlContainer.appendChild(data.list)
 		})
-
 		this.splide.on('autoplay:playing', rate => {
-			this.element.style.setProperty('--splide-autoplay-progress', rate)
+			this.element.style.setProperty('--splide-autoplay-progress', rate.toString())
 		})
 		this.element.style.setProperty('--splide-speed', `${this.splide.options.speed}ms`)
 
 		if (this.autoplayToggle && autoplay) {
 			this.autoplayToggleElement = this.createAutoplayToggleElement()
 			this.listeners.add(this.autoplayToggleElement, 'click', () => { this.toggleAutoplay() })
-			// add autoplay toggle button to pagination if available
-			if (this.splideOptions.pagination) {
-				this.splide.on('pagination:mounted', data => {
-					data.list.prepend(
-						(<li role="presentation">
-							{this.autoplayToggleElement}
-						</li>)
-					)
-				})
-			} else {
-				this.element.appendChild(this.autoplayToggleElement)
-			}
+			this.controlContainer.appendChild(this.autoplayToggleElement)
 		}
 
 		this.splide.mount({ Intersection })

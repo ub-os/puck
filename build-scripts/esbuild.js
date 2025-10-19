@@ -1,5 +1,6 @@
 import esbuild from 'esbuild'
 import { ensureDirectoryExistence, log } from './utils.js'
+import fs from 'fs'
 
 const distPath = ensureDirectoryExistence('./puck/Resources/Public/JavaScript/dist/')
 const filePaths = ['./puck/Resources/Private/JavaScript/puck.js']
@@ -18,12 +19,13 @@ Promise.all([
 })
 
 async function buildFiles(entryPoints, outdir, minify = false) {
-	await esbuild.build({
+	const result = await esbuild.build({
 		entryPoints,
 		outdir,
 		minify,
 		bundle: true,
 		target: ['es2020'],
+		metafile: true,
 		jsx: 'transform',
 		jsxFactory: 'jsx',
 		sourcemap: !minify,
@@ -34,4 +36,5 @@ async function buildFiles(entryPoints, outdir, minify = false) {
 			'~': './puck/Resources/Private/JavaScript/',
 		},
 	})
+	fs.writeFileSync(`${outdir}/meta${minify ? '.min' : ''}.json`, JSON.stringify(result.metafile, null, 2))
 }

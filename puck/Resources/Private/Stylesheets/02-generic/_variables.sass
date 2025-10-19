@@ -1,0 +1,41 @@
+@use '01-tools/all' as *
+@use 'sass:math'
+
+
+\:root
+	--scrollbar-width: 15px
+	--main-scroll-target: html
+	--height-page-header: 9rem
+	--margin-block-page-header: 0
+
+	--width-page: 3840px
+	--width-grid: #{ $grid-width }
+	--grid-columns: #{ $grid-columns }
+	--row-colspan: #{ $grid-columns }
+	--gutter-outer: #{ $gutter-outer }
+	+responsive-size($gutter-x, --gutter-x)
+	+responsive-size($gutter-y, --gutter-y)
+
+	--clip-slant-height: 6vw
+	--max-height-media-mobile: unset
+
+	--border-width-button: 2px
+	--border-radius-s: .8rem
+	--border-radius-m: 1.6rem
+	--box-shadow-s: 0 3px 4px rgb(0 0 0 / 12%)
+	--box-shadow-m: 0 5px 7px rgb(0 0 0 / 18%)
+
+	--z-index-base: 1
+	--z-index-dialog: 9
+	--z-index-header: 99
+	--z-index-sidebar: 199
+	--z-index-modal: 999
+
+	@each $size, $value in sizes()
+		+responsive-size($value, --size-#{$size})
+
+	@media(max-width(m))
+		--height-page-header: 8rem
+		--margin-block-page-header: 1rem
+		--gutter-outer: #{ $gutter-outer-responsive }
+

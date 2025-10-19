@@ -6,7 +6,10 @@
 
 		<f:if condition="{categoryFilter.items}">
 			<div class="{name}"
-				 id="c{contentUid}-filter">
+				 id="{sectionId}-filter"
+				 data-hx-focus-after-swap="#{sectionId}-list a"
+				 data-hx-select="#c{contentUid}-body"
+				 data-hx-target="#c{contentUid}-body">
 				<ul class="{name}__list">
 					<f:for each="{categoryFilter.items}" as="item" iteration="i">
 						<li class="{name}__item">
@@ -17,15 +20,14 @@
 										label="{item.label}">
 										<f:for each="{item.children}" as="childItem">
 											<a href="{childItem.url}"
-											   data-fetch="{childItem.fragmentUrl}"
-											   data-target="c{contentUid}-body"
-											   data-replace-url
+											   data-autofocus
+											   data-hx-get="{childItem.fragmentUrl}"
+											   data-hx-replace-url="{childItem.url}"
 											   class="{u:bem(
                                                 block:'e-dropdown',
                                                 el:'option',
                                                 mod:{active:childItem.active, disabled:childItem.hasNoPotential}
-                                             )}"
-											   data-autofocus>
+                                             )}">
 												{childItem.label}
 												<f:if condition="{childItem.active}">
 													 
@@ -40,14 +42,13 @@
 								<f:else>
 									<a href="{item.url}"
 									   class="{u:bem(
-                                    el:'link',
-                                    raw:'e-button',
-                                    mod:{active:item.active, disabled:item.hasNoPotential, icon: item.active}
-                                 )}"
+											el:'link',
+											raw:'e-button',
+											mod:{active:item.active, disabled:item.hasNoPotential, icon: item.active}
+										 )}"
 									   data-autofocus
-									   data-fetch="{item.fragmentUrl}"
-									   data-target="c{contentUid}-body"
-									   data-replace-url>
+									   data-hx-get="{item.fragmentUrl}"
+									   data-hx-replace-url="{item.url}">
 										{item.label}
 										<f:if condition="{item.active}">
 											 
@@ -64,9 +65,8 @@
 							<a href="{categoryFilter.resetItem.url}"
 							   class="{name}__link e-button -outline -icon -icon-right"
 							   data-autofocus
-							   data-fetch="{categoryFilter.resetItem.fragmentUrl}"
-							   data-target="c{contentUid}-body"
-							   data-replace-url>
+							   data-hx-get="{categoryFilter.resetItem.fragmentUrl}"
+							   data-hx-replace-url="{categoryFilter.resetItem.url}">
 								{categoryFilter.resetItem.label}
 								<icon:char icon="xmark-regular"/>
 							</a>

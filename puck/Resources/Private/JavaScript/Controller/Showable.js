@@ -101,7 +101,11 @@ export default class Showable extends Controller {
 	onShow(event) {
 		this.active = true
 		this.setClass('add', this.activeClass)
-		if (event.detail.transition) this.transitionClass(this.activatingClass)
+		if (event.detail.transition) {
+			this.transitionClass(this.activatingClass)
+		} else {
+			this.setClass('remove', this.activatingClass)
+		}
 		if (this.focusOnShow) {
 			const focusTarget = this.element.querySelector('[data-autofocus]') || this.element
 			focusTarget.focus()
@@ -113,6 +117,8 @@ export default class Showable extends Controller {
 		this.setClass('remove', this.activeClass)
 		if (event.detail.transition) {
 			this.transitionClass(this.deactivatingClass)
+		} else {
+			this.setClass('remove', this.deactivatingClass)
 		}
 		if (this.pauseMediaOnHide) {
 			this.element.querySelectorAll('video, audio').forEach(item => {

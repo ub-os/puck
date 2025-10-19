@@ -16,16 +16,18 @@
 		</div>
 	</div>
 
-	<f:if condition="{carouselAttributes.splideOptions.arrows}">
-		<div class="{name}__controls {class}__arrows splide__arrows">
-			<button class="{name}__controls__prev splide__arrow--prev" aria-controls="{id}">
-				<icon:svg icon="arrow-left-regular"/>
-			</button>
-			<button class="{name}__controls__next splide__arrow--next" aria-controls="{id}">
-				<icon:svg icon="arrow-right-regular"/>
-			</button>
-		</div>
-	</f:if>
+	<div class="{name}__controls">
+		<f:if condition="{carouselAttributes.splideOptions.arrows}">
+			<div class="{name}__arrows splide__arrows">
+				<button class="{name}__arrow-prev splide__arrow--prev" aria-controls="{id}">
+					<icon:svg icon="arrow-left-regular"/>
+				</button>
+				<button class="{name}__arrow-next splide__arrow--next" aria-controls="{id}">
+					<icon:svg icon="arrow-right-regular"/>
+				</button>
+			</div>
+		</f:if>
+	</div>
 
 </div>
 

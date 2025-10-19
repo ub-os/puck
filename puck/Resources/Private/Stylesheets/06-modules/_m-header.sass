@@ -5,8 +5,8 @@
 		//position: sticky
 		position: fixed
 		top: 0
-		z-index: $z-index-modal - 1
-		width: calc(100vw - var(--scrollbar-width))
+		z-index: var(--z-index-header)
+		width: 100%
 		max-width: var(--width-page)
 		height: var(--height-page-header)
 		margin-bottom: var(--margin-block-page-header)
@@ -28,7 +28,6 @@
 
 	&__anchor
 		position: relative
-		z-index: $z-index-header-burger
 		display: flex
 		&__logo
 			height: 4rem

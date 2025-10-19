@@ -39,20 +39,15 @@
 		&:not(.--active, .--deactivating)
 			display: none
 			visibility: hidden
-
 		&.--active
 			transform: translateX(0)
 			animation: sidebar-open .27s ease-out
-
 		&.--deactivating
 			animation: sidebar-close .27s ease-out
-
 		&::backdrop
 			background: var(--background-modal-backdrop)
-
 		&.--active::backdrop
 			animation: modal-open-overlay .27s ease-out
-
 		&.--deactivating::backdrop
 			opacity: 0
 			animation: modal-close-overlay .27s ease-out
@@ -64,45 +59,36 @@
 
 	&__header
 		+flex(row, flex-start, center, nowrap)
-		width: calc(100% - var(--scrollbar-width))
+		width: 100%
 		height: var(--height-page-header)
-		border-bottom: 2px solid color-mix(in srgb, var(--color-link), transparent)
 
 	&
 		+flex(column, flex-end, flex-start)
 		padding-top: 2em
 
 	&__list
+		+flex(column, flex-start, flex-start)
 		width: 100%
-		justify-content: flex-start
-		flex-direction: column
-
-	&__item
-		margin-left: 0
-		margin-bottom: 1em
+		gap: 1em
 
 	&__link
-		color: var(--color-link)
+		color: var(--color-emphasis)
 		transition: color .15s
-
+		&.-rootline
+			color: var(--color-link--hover)
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
 
-		&.-rootline
-			color: var(--color-accent)
 
 	&__close
 		+flex(row, center, center)
 		height: 3rem
 		width: 3rem
 		margin-left: auto
-		margin-right: -.5rem
-		padding: .5rem
-		font-size: 1.9rem
+		font-size: 3rem
 		color: var(--color-link)
-		transition: color .15s, box-shadow .15s
-
+		transition: color .15s
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)

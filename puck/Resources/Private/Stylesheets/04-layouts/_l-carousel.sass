@@ -1,22 +1,6 @@
 @use '01-tools/all' as *
 
 .l-carousel
-	&
-
-	&__controls
-		+flex(row, center, center)
-		padding-top: spacing(xs)
-		gap: 0 1em
-		&__prev,
-		&__next
-			color: var(--color-link)
-			&:hover,
-			&:focus-visible
-				color: var(--color-link--hover)
-
-	&__pagination
-		+flex(row, center, center)
-		padding-top: spacing(xs)
 
 	&__track
 		//margin-block: calc(var(--gutter-y) * -.5)
@@ -50,12 +34,31 @@
 	:where(.splide__slide.l-row__item):not(:last-child)
 		margin-right: var(--gutter-x)
 
-	$pagination-gap: .75em
+	&__controls
+		+flex(row, center, center)
+		gap: 1em
+		&:has(*)
+			margin-top: spacing(xs)
 
+	&__arrows
+		+flex(row, center, center)
+		gap: 1em
+		width: 100%
+
+	&__arrow-prev,
+	&__arrow-next
+		color: var(--color-link)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
+
+	$pagination-gap: .75em
 	&__pagination
+		+flex(row, center, center)
 		gap: $pagination-gap
 		&>li
 			display: flex
+
 	&__pagination__page
 		$width: .75em
 		$autoplayBarWidthMultiplier: 3.5
@@ -65,24 +68,19 @@
 		background: color-mix(in srgb, var(--color-link), transparent 50%)
 		border-radius: $width * 0.5
 		transition: width var(--splide-speed)
-
 		&:before
 			content: ''
 			position: absolute
 			width: $width
 			height: $width
-
 		&:hover
 			background: color-mix(in srgb, var(--color-link), transparent 25%)
-
 		&.is-active
 			background: var(--color-link)
-
 		&.is-active.-autoplay
 			width: $width * $autoplayBarWidthMultiplier
 			background: color-mix(in srgb, var(--color-link), transparent 50%)
 			overflow: hidden
-
 		&.is-active.-autoplay:after
 			content: ''
 			position: absolute
@@ -93,25 +91,22 @@
 			background: var(--color-link)
 			border-radius: $width * 0.5
 
-	&__autoplay
-		&__toggle
-			+flex(row,center,center)
-			width: 2.2em
-			height: 2.2em
-			margin-inline: auto
-			background: var(--color-link)
-			border-radius: 100%
-			transition: background-color .15s
-			&:hover
-				background: var(--color-link--hover)
-		&__icon
+	&__autoplay-toggle
+		+flex(row,center,center)
+		width: 2.2em
+		height: 2.2em
+		background: var(--color-link)
+		border-radius: 100%
+		transition: background-color .15s
+		&:hover
+			background: var(--color-link--hover)
+		i
 			font-size: 1.5em
 			color: var(--background)
-		&__toggle.--paused &__icon
-			&:before
-				content: var(--icon-code-play-solid)
-				position: relative
-				left: 2%
+		&.--paused i:before
+			content: var(--icon-code-play-solid)
+			position: relative
+			left: 2%
 
 
 

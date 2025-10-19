@@ -25,10 +25,8 @@
 	padding-bottom: spacing(m)
 	color: var(--color-accent)
 
-=headlines
-	@each $headline in ('h1', 'h2', 'h3', 'h4', 'topline')
-		//noinspection CssInvalidFunction
-		#{$headline}, .#{$headline}
-			@include meta.apply(meta.get-mixin($headline))
+@each $headline in ('h1', 'h2', 'h3', 'h4', 'topline')
+	//noinspection CssInvalidFunction
+	#{$headline}, .#{$headline}
+		@include meta.apply(meta.get-mixin($headline))
 
-+headlines

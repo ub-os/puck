@@ -35,10 +35,6 @@ generateFonts({
 	codepoints: {},
 	getIconId: ({
 		basename, // `string` - Example: 'foo';
-		relativeDirPath, // `string` - Example: 'sub/dir/foo.svg'
-		absoluteFilePath, // `string` - Example: '/var/icons/sub/dir/foo.svg'
-		relativeFilePath, // `string` - Example: 'foo.svg'
-		index, // `number` - Example: `0`
 	}) => basename.toLowerCase(),
 }).then(results => {
 	// create js file with codepoints

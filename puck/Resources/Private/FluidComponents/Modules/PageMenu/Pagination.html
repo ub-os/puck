@@ -10,7 +10,10 @@
 			</f:then>
 			<f:else if="{pagination.window}">
 				<ul class="{name}"
-					id="{sectionId}-pagination">
+					id="{sectionId}-pagination"
+					data-hx-focus-after-swap="#{sectionId}-list a"
+					data-hx-select="#{sectionId}-body"
+					data-hx-target="#{sectionId}-body">
 					<f:if condition="{pagination.prev}">
 						<module:pageMenu.pagination.item item="{pagination.prev}" sectionId="{sectionId}"/>
 					</f:if>

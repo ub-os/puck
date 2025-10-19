@@ -1,12 +1,15 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:variable name="name" value="m-indexedsearch"/>
 
-<div class="{name}__result" onclick="this.querySelector('a').click()" role="listitem">
+<div class="{name}__result"
+	 data-link-area
+	 hx-boost="false"
+	 role="listitem">
     <h3 class="{name}__result__header">
         <span class="{row.CSSsuffix}">{row.title -> f:format.raw()}</span>
     </h3>
     <p class="{name}__result__description">{row.description -> f:format.raw()}</p>
-    <a href="{row.pathUri}" class="{name}__result__link" data-link-to-stop>
+    <a href="{row.pathUri}" class="{name}__result__link">
         <f:if condition="{row.pathUri} == '/'">
             <f:then>
                 <f:uri.typolink parameter="{f:cObject(typoscriptObjectPath: 'lib.rootpid')}" absolute="1"/>

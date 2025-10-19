@@ -3,22 +3,16 @@
 	<f:argument name="pagination" type="UBOS\MenuControls\Dto\Pagination"/>
 	<f:argument name="sectionId" type="string" optional="1"/>
 
-	<f:comment>
-		Not functional since the removal of htmx, current implementation does not support different triggers or oob swaps.
-		AnchorHandler would need to be extended to support this.
-		Most flexible solution would probably be to introduce multiple operations in one fetch, e.g.
-		data-mode="append replace replace"
-		data-target="listId paginationId filterId"
-		plus support of load and intersect triggers.
-	</f:comment>
 		<div class="{name}__wrap"
 			 id="{sectionId}-pagination">
 			<f:if condition="!{pagination.loadMore.disabled}">
 				<button class="{name}__button e-button -ghost"
-						data-fetch="{pagination.loadMore.fragmentUrl}"
-						data-trigger="{pagination.loadMoreTrigger}"
-						data-mode="append replace replace"
-						data-target="{sectionId}-list {sectionId}-pagination {sectionId}-filter">
+						data-hx-get="{pagination.loadMore.fragmentUrl}"
+						data-hx-trigger="{pagination.loadMoreTrigger}"
+						data-hx-swap="beforeend transition:true"
+						data-hx-target="#{sectionId}-list"
+						data-hx-select="#{sectionId}-list>*"
+						data-hx-select-oob="#{sectionId}-pagination,#{sectionId}-filter">
 					<f:switch expression="{pagination.loadMoreTrigger}">
 						<f:case value="intersect">
 							<icon:svg icon="spinner-third-duotone-solid"/>
