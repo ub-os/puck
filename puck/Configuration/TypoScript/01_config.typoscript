@@ -33,7 +33,7 @@ config {
     showWebsiteTitle = 0
     pageTitleProviders {
         puck {
-            provider = UBOS\Puck\PageTitle\PuckTitleProvider
+            provider = UBOS\Puck\PageTitle\PageTitleProvider
             before = seo
         }
     }

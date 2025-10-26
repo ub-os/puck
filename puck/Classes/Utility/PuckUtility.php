@@ -2,7 +2,6 @@
 
 namespace UBOS\Puck\Utility;
 
-use GeorgRinger\NumberedPagination\NumberedPagination;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 

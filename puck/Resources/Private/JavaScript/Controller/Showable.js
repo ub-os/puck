@@ -55,7 +55,9 @@ export default class Showable extends Controller {
 		if (this.documentClassing) {
 			document.documentElement.classList[operation](`--${this.element.id}-${this.identifier}${className}`)
 		}
-		this.controlTargets.forEach(t => t.classList[operation](className))
+		this.controlTargets.forEach(t => {
+			t.classList[operation](className)
+		})
 	}
 	transitionClass(className) {
 		if (this.duration > 0) {

@@ -17,7 +17,7 @@ use UBOS\MenuControls\Dto\MenuDemand;
 use UBOS\Puck\Attribute\AsAction;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
-use UBOS\Puck\PageTitle\PuckTitleProvider;
+use UBOS\Puck\PageTitle\PageTitleProvider;
 
 /**
  * Controller for the PageMenu plugin.
@@ -55,9 +55,7 @@ class PageMenuController extends ActionController
 	{
 	}
 
-	protected int $pageMenuFragmentTypeNum = 16500000;
-
-	#[AsAction("PageMenu", pluginFragmentPageType: 16500000)]
+	#[AsAction("PageMenu")]
 	public function pageMenuAction(
 		?array $demand = null,
 	): ResponseInterface
@@ -130,8 +128,8 @@ class PageMenuController extends ActionController
 			$categoryFilter = $categoryFilterBuilder
 				->configure($this->settings['categoryFilter'])
 				->addCategorySuffixToPageTitle(
-					GeneralUtility::makeInstance(PuckTitleProvider::class),
-					PuckTitleProvider::TITLE_DIVIDER
+					GeneralUtility::makeInstance(PageTitleProvider::class),
+					PageTitleProvider::TITLE_DIVIDER
 				)
 				->build();
 			$this->viewVariables['categoryFilter'] = $categoryFilter;

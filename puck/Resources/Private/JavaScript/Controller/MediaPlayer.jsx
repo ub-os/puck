@@ -72,8 +72,7 @@ export default class MediaPlayer extends Controller {
 					id={`${this.element.id}-video`}
 					tabindex={'0'}
 					data-poster={this.poster}
-					{...attributes}
-				>
+					{...attributes}>
 					<source src={this.src} type={`video/${this.provider}`} width={this.width} />
 				</video>
 			</div>

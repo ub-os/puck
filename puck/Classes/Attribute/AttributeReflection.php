@@ -17,7 +17,6 @@ class AttributeReflection
 	/**
 	 * Configures Plugins by scanning controller class methods for the AsAction attribute
 	 * Registers plugins with ExtensionUtility::configurePlugin()
-	 * Sets up TypoScript for plugin html fragment rendering if AsAction::pluginFragmentPageType is set.
 	 *
 	 * @param string $extensionKey The extension key
 	 * @param string $controllerDirectory Relative path to the controllers directory
@@ -50,7 +49,6 @@ class AttributeReflection
 							$plugins[$pluginName] = [
 								'actions' => [],
 								'nonCacheableActions' => [],
-								'pluginFragmentPageType' => 0
 							];
 						}
 
@@ -71,7 +69,6 @@ class AttributeReflection
 						} else if (!$action->cacheable) {
 							$plugins[$pluginName]['nonCacheableActions'][$className] .= ',' . $actionName;
 						}
-						$plugins[$pluginName]['pluginFragmentPageType'] = $action->pluginFragmentPageType ?: $plugins[$pluginName]['pluginFragmentPageType'];
 					}
 				}
 			}
@@ -84,35 +81,6 @@ class AttributeReflection
 				$plugin['nonCacheableActions'],
 				ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 			);
-
-			if ($plugin['pluginFragmentPageType']) {
-				ExtensionManagementUtility::addTypoScript(
-					$extensionKey,
-					'setup',
-					'
-					pluginFragmentPage_' . $name . ' = PAGE
-					pluginFragmentPage_' . $name . ' {
-						typeNum = ' . $plugin['pluginFragmentPageType'] . '
-						20 = EXTBASEPLUGIN
-						20 {
-							extensionName = ' . ucFirst($extensionKey) . '
-							pluginName = ' . $name . '
-						}
-						meta {
-							robots = noindex, nofollow
-							robots.replace = 1
-						}
-						config {
-							disableAllHeaderCode = 1
-							debug = 0
-							admPanel = 0
-							index_enable = 0
-						}
-					}
-				',
-					'defaultContentRendering'
-				);
-			}
 		}
 	}
 

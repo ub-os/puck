@@ -1,12 +1,6 @@
 @use 'sass:map'
 @use '01-tools/all' as *
 
-$checkboxRelativeSize: 1.5
-$lineHeight: 1.25
-$checkboxSize: $checkboxRelativeSize * 1em
-$paddingTop: ($checkboxRelativeSize - 1) * 0.5em
-$checkboxOffset: calc(($lineHeight - 1) * $checkboxSize * 0.66 / $checkboxRelativeSize)
-
 fieldset
 	padding: 0
 	border: none
@@ -59,53 +53,39 @@ select[multiple]
 	overflow: auto
 
 [type="checkbox"], [type="radio"]
-	position: absolute
-	width: $checkboxSize
-	height: $checkboxSize
-	opacity: 0
-
-	& + label
-		cursor: pointer
-		position: relative
-		padding: $paddingTop 0 0 $checkboxSize * 1.5
-		line-height: 1.5
-
-	& + label:after, & + label:before
-		position: absolute
+	+flex(row, center, center)
+	appearance: none
+	position: relative
+	bottom: 5% // align with label text
+	height: .8em
+	width: .8em
+	background: color-mix(in srgb, currentColor, transparent 75%)
+	border: 1px solid var(--color-input-border)
+	border-radius: 2px
+	&:hover
+		border-color: var(--color-input-border--active)
+	&:active, &:focus
+		background: color-mix(in srgb, currentColor, transparent 75%)
+	&:after
 		content: ''
-		display: inline-block
-
-	& + label:before
-		top: $checkboxOffset
-		left: 0
-		width: $checkboxSize
-		height: $checkboxSize
-		background: var(--background-input)
-		transition: border-color .15s
-
-	& + label:after
-		box-sizing: border-box
-		background: var(--color-input--active)
-		top: $checkboxSize * 0.25 + $checkboxOffset
-		left: $checkboxSize * 0.25
-		width: $checkboxSize * 0.5
-		height: $checkboxSize * 0.5
+		width: .4em
+		height: .4em
 		opacity: 0
-		scale: 0.5
-		transition: border-color .15s, background .15s, opacity .15s, scale .15s
-
-	&:not(:checked) + label:hover:after
-		opacity: .5
-
-	&:not(:checked) + label:hover:after
-
-	&:checked + label:after
+		background: currentColor
+		border-radius: 1px
+	&:checked
+		border-color: currentColor
+	&:checked:after
 		opacity: 1
-		scale: 1
+
+	label:has(>&)
+		+flex(row, flex-start, center)
+		gap: .5em
 
 [type="radio"]
-	& + label:after, & + label:before
-		border-radius: 100%
+	border-radius: 50%
+	&:after
+		border-radius: 50%
 
 [type="checkbox"], [type="radio"]
 	& + label

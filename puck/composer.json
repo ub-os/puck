@@ -17,7 +17,7 @@
 		"typo3/cms-redirects": "^13",
 		"typo3/cms-recycler": "^13",
 		"eliashaeussler/typo3-warming": "^4",
-		"brotkrueml/schema": "^3",
+		"brotkrueml/schema": "^4",
 		"b13/container": "^3",
 		"oliveoilexpert/content-presets": "^1.0",
 		"oliveoilexpert/ckeditor-icons": "^0.2",
@@ -25,7 +25,6 @@
 		"b13/menus": "^1",
 		"ichhabrecht/content-defender": "^3.5",
 		"wapplersystems/avif": "*",
-		"t3/scroll": "*",
 		"wapplersystems/save_and_close": "^13"
 	},
 	"replace": {
