@@ -2,12 +2,17 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-$iconJson = file_get_contents(ExtensionManagementUtility::extPath('puck') . "Resources/Public/Fonts/Icons/icons.json");
+try {
+	$iconJson = file_get_contents(ExtensionManagementUtility::extPath('puck') . "Resources/Public/Fonts/Icons/icons.json");
+	$iconArray = json_decode($iconJson, TRUE);
+} catch (Exception $e) {
+	$iconArray = [];
+}
 
 $iconJsonIterator = new RecursiveIteratorIterator(
-	new RecursiveArrayIterator(json_decode($iconJson, TRUE)),
+	new RecursiveArrayIterator($iconArray),
 	RecursiveIteratorIterator::SELF_FIRST);
-$iconSelectItems = array(['label' => 'none', 'value' => '']);
+$iconSelectItems = [['label' => 'none', 'value' => '']];
 foreach ($iconJsonIterator as $key => $val) {
 	$iconSelectItems[] = [
 		'label' => $key,
