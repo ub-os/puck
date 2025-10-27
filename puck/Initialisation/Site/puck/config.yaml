@@ -5,11 +5,11 @@ errorHandling:
   -
     errorCode: 404
     errorHandler: Page
-    errorContentSource: 't3://page?uid=202'
+    errorContentSource: 't3://page?uid=404'
   -
     errorCode: 0
     errorHandler: Page
-    errorContentSource: 't3://page?uid=201'
+    errorContentSource: 't3://page?uid=503'
 languages:
   -
     title: de
@@ -45,5 +45,5 @@ routes:
     route: robots.txt
     type: staticText
     content: "# We do not distinguish between the browsers.\r\nUser-agent: *\r\n\r\n# Only allow URLs generated with frontend routing\r\nDisallow: /*?id=*\r\nDisallow: /*&id=*\r\n\r\n# L=0 is the default language\r\nDisallow: /*?L=0*\r\nDisallow: /*&L=0*\r\n\r\n# Should always be protected, but you know...\r\nDisallow: /*/Private/*\r\nDisallow: /*/Configuration/*\r\n\r\n# Disallow all files in /typo3temp/var/\r\nDisallow: /typo3temp/var/*\r\n\r\n# Disallow all files in /typo3/\r\nDisallow: /typo3/\r\n\r\n# Disallow all kind of sql files\r\nDisallow: *.sql\r\nDisallow: *.sql.gz\r\n\r\n# Sitemap files\r\nSitemap: /sitemap-index.xml\r\nSitemap: /sitemap.xml\r\nSitemap: /sitemap-news.xml"
-websiteTitle: Puck
+websiteTitle: My Website
 xml_sitemap_path: sitemap-index.xml

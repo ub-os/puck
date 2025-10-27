@@ -4,7 +4,7 @@
 
 <layout:section id="c{plugin.uid}"
 				record="{plugin}"
-				class="{blockClass}__section">
+				class="{blockClass}__section -layout-{form.layout} {form.css_class}">
 	<element:moduleHeader record="{plugin}"/>
 	<div data-hx-boost="false">
 		<f:render partial="Form" arguments="{_all}"/>
