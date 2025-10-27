@@ -21,7 +21,7 @@ npm run build
 "repositories": [
     {
         "type": "path",
-        "url": "extensions/*",
+        "url": "packages/*",
         "options": {
             "symlink": true
         }
@@ -31,15 +31,19 @@ npm run build
         "type": "git"
     },
     {
-        "url": "https://github.com/oliveoilexpert/puck-powermail.git",
-        "type": "git"
-    },
-    {
-        "url": "https://github.com/oliveoilexpert/content-presets.git",
-        "type": "git"
-    },
-    {
         "url": "https://github.com/oliveoilexpert/ckeditor_icons.git",
+        "type": "git"
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/typo3-copy-presets.git",
+        "type": "git"
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/typo3-label-editor.git",
+        "type": "git"
+    },
+    {
+        "url": "https://github.com/oliveoilexpert/typo3-shape.git",
         "type": "git"
     },
     {
@@ -53,8 +57,8 @@ npm run build
 
 ### 2.3 Install puck extension
 
-Create folder "extensions" in TYPO3 project root.
-Upload the extension directory "puck" to the "extensions" folder.<br>
+Create folder "packages" in TYPO3 project root.
+Upload the extension directory "puck" to the "packages" folder.<br>
 In TYPO3 project root run:
 <pre>composer req ubos/puck:@dev</pre>
 
