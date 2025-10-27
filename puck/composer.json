@@ -4,11 +4,6 @@
 	"description": "Puck Site Package",
 	"license": "GPL-2.0-or-later",
 	"version": "1.0.0",
-	"requiresNotReadyForV13": {
-		"christophlehmann/pagetreefilter": "^2",
-		"oliveoilexpert/puck-powermail": "*",
-		"t3/scroll": "^2"
-	},
 	"require": {
 		"php": "^8.2",
 		"phpoffice/phpspreadsheet": "^1.27",
@@ -19,11 +14,13 @@
 		"eliashaeussler/typo3-warming": "^4",
 		"brotkrueml/schema": "^4",
 		"b13/container": "^3",
-		"oliveoilexpert/content-presets": "^1.0",
+		"oliveoilexpert/typo3-copy-presets": "^0.1",
+		"oliveoilexpert/typo3-label-editor": "^0.1",
 		"oliveoilexpert/ckeditor-icons": "^0.2",
 		"oliveoilexpert/typo3-menu-controls": "^0.1",
 		"b13/menus": "^1",
 		"ichhabrecht/content-defender": "^3.5",
+		"christophlehmann/pagetreefilter": "^3",
 		"wapplersystems/avif": "*",
 		"wapplersystems/save_and_close": "^13"
 	},
