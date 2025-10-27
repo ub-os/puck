@@ -1,11 +1,10 @@
 
-	<f:argument name="is" type="string" optional="1" default="div"/>
-	<f:argument name="attributes" type="array" optional="1"/>
+<f:argument name="is" type="string" optional="1" default="div"/>
+<f:argument name="attributes" type="array" optional="1"/>
 
 
-		<{is} class="{class}" {attributes -> u:renderAttributes()}>
-		<f:slot/>
-	</
-	{is}>
+<{is} class="{class}" {attributes -> u:renderAttributes()}>
+	<f:slot/>
+</{is}>
 
 

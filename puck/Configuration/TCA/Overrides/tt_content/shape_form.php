@@ -6,8 +6,7 @@ $GLOBALS['TCA']['tt_content']['types']['shape_form'] = [
             --palette--;;general,
             --palette--;;appearance,
             --palette--;;headers,
-        --div--;Plugin,
-            pi_flexform,
+			pi_flexform,
         --div--;Layout,
             --palette--;;gridContainer,',
 	'columnsOverrides' => [

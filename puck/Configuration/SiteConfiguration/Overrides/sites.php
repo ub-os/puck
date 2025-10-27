@@ -1,7 +1,7 @@
 <?php
 $GLOBALS['SiteConfiguration']['site']['columns']['route_pageMenu_limitToPages'] = [
 	'label' => 'Page Menu pages',
-	'description' => 'Comma separated list of page uids where the route enhancer should be active (only necessary if the menu has pagination or category filter enabled)',
+	'description' => 'Pages where the route enhancer should be active (only necessary if the menu has pagination or category filter enabled)',
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectMultipleSideBySide',
@@ -12,7 +12,7 @@ $GLOBALS['SiteConfiguration']['site']['columns']['route_pageMenu_limitToPages'] 
 ];
 $GLOBALS['SiteConfiguration']['site']['columns']['route_indexedSearch_limitToPages'] = [
 	'label' => 'Indexed Search pages',
-	'description' => 'Comma separated list of page uids where the route enhancer should be active',
+	'description' => 'Pages where the route enhancer should be active',
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectMultipleSideBySide',

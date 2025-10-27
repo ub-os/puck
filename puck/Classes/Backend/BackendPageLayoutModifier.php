@@ -1,10 +1,10 @@
 <?php
 
-namespace UBOS\Puck\EventListener;
+namespace UBOS\Puck\Backend;
 
-use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

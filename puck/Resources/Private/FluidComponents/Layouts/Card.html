@@ -11,12 +11,15 @@
 <f:argument name="attributes" type="array" optional="1"/>
 
 
-{u:var(set:'bemMod', value: {
-layout: mediaLayout,
-width: width,
-media-size: mediaSize,
-media-width: mediaWidth}
-)}
+<f:variable
+	name=""
+	value="{
+	layout: mediaLayout,
+	width: width,
+	media-size: mediaSize,
+	media-width: mediaWidth
+	}"
+/>
 
 <div class="{u:bem(mod:bemMod)} {class} {f:if(condition:media.0,then:'-media')}"
 	 {attributes -> u:renderAttributes()}>

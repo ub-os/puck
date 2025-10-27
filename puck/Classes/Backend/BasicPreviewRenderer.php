@@ -1,8 +1,13 @@
 <?php
 
-namespace UBOS\Puck\Preview;
+namespace UBOS\Puck\Backend;
 
 
+use B13\Container\Backend\Preview\GridRenderer;
+use B13\Container\Tca\Registry;
+use TYPO3\CMS\Backend\Preview\PreviewRendererInterface;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -10,17 +15,10 @@ use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Core\View\ViewInterface;
-use TYPO3\CMS\Backend\Preview\PreviewRendererInterface;
-use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
-
-use B13\Container\Backend\Preview\GridRenderer;
-use B13\Container\Tca\Registry;
 
 /**
  * Default preview renderer for content elements.

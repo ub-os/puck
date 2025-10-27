@@ -1,11 +1,9 @@
 <?php
 
-namespace UBOS\Puck\EventListener;
+namespace UBOS\Puck\Record;
 
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Domain\Event\RecordCreationEvent;
-use UBOS\Puck\Domain\ContentRecord;
-use UBOS\Puck\Domain\PageRecord;
 
 /**
  * Creates different record objects based on the main type of the record.

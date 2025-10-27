@@ -1,9 +1,9 @@
 <?php
 
-namespace UBOS\Puck\Domain;
+namespace UBOS\Puck\Record;
 
-use TYPO3\CMS\Core\Domain\Record;
 use TYPO3\CMS\Core\Domain\RawRecord;
+use TYPO3\CMS\Core\Domain\Record;
 use TYPO3\CMS\Core\Domain\Record\SystemProperties;
 use UBOS\Puck\Domain\Model\PageTeaser;
 

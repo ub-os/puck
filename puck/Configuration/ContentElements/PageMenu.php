@@ -79,5 +79,5 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 	],
 	pluginName: 'PageMenu',
 	flexForms: ['pi_flexform' => 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml'],
-	previewRenderer: \UBOS\Puck\Preview\PageMenuPreviewRenderer::class,
+	previewRenderer: \UBOS\Puck\Backend\PageMenuPreviewRenderer::class,
 );

@@ -1,23 +1,23 @@
 
-	<f:argument name="name" type="string" optional="1" default="m-footer"/>
-	<f:argument name="record" type="mixed"/>
+<f:argument name="name" type="string" optional="1" default="m-footer"/>
+<f:argument name="record" type="mixed"/>
 
 
-		<footer id="footer" class="{name}">
-			<layout:section class="{name}__nav__wrap" id="footer-1">
-				<element:navigation name="{name}__nav" pages="{settings.navigation.footer}" class="">
-					<f:if condition="{settings.navigation.enableCookieSettings}">
-						<li class="{name}__nav__item">
-							<button class="{name}__nav__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen
-							</button>
-						</li>
-					</f:if>
-				</element:navigation>
-				<element:navigation name="{name}__nav" pages="{settings.navigation.social}" class="-icons"
-									prependIcon="1" hideTitle="1"/>
-			</layout:section>
-			<f:slot/>
-		</footer>
+<footer id="footer" class="{name}">
+	<layout:section class="{name}__nav__wrap" id="footer-1">
+		<element:navigation name="{name}__nav" pages="{settings.navigation.footer}" class="">
+			<f:if condition="{settings.navigation.enableCookieSettings}">
+				<li class="{name}__nav__item">
+					<button class="{name}__nav__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen
+					</button>
+				</li>
+			</f:if>
+		</element:navigation>
+		<element:navigation name="{name}__nav" pages="{settings.navigation.social}" class="-icons"
+							prependIcon="1" hideTitle="1"/>
+	</layout:section>
+	<f:slot/>
+</footer>
 
 
 

@@ -2,12 +2,12 @@
 
 namespace UBOS\Puck\Configuration;
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use B13\Container\Tca\ContainerConfiguration;
 use B13\Container\Tca\Registry;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use UBOS\Puck\Backend\BasicPreviewRenderer;
 use UBOS\Puck\Components\ModuleComponentCollection;
-use UBOS\Puck\Preview\BasicPreviewRenderer;
 use UBOS\Puck\Controller;
 
 /**
@@ -214,7 +214,7 @@ class ContentElementConfiguration
 	 * @param float $sorting Sorting value for content element wizard (optional)
 	 * @param array $valueOverrides Fields that will be hidden in the backend and overridden with the given values
 	 * @return ContentElementConfiguration The modified configuration instance
-	 * @see \UBOS\Puck\Domain\ContentRecord::setOverriddenProperties
+	 * @see \UBOS\Puck\Record\ContentRecord::setOverriddenProperties
 	 */
 	public function makeRestrictedChildElement(
 		string $type,

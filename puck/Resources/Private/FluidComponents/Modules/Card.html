@@ -1,44 +1,44 @@
 
-	<f:argument name="name" type="string" optional="1" default="m-card"/>
-	<f:argument name="record" type="mixed"/>
+<f:argument name="name" type="string" optional="1" default="m-card"/>
+<f:argument name="record" type="mixed"/>
 
-	<f:if condition="{record.colPos} < 600">
-		<f:then>
-			<layout:section
-				class="{name}__wrap"
-				record="{record}"
-				id="c{record.uid}">
-				<f:render section="InnerContent" arguments="{_all}"/>
-			</layout:section>
-		</f:then>
-		<f:else>
-			<layout:row.item
-				class="{name}__row__item"
-				width="{record.container_width}"
-				attributes="{id:'c{record.uid}'}">
-				<f:render section="InnerContent" arguments="{_all}"/>
-			</layout:row.item>
-		</f:else>
-	</f:if>
-
-	<f:section name="InnerContent">
-		<layout:card
-			class="{name}"
-			media="{record.assets}"
-			cropVariant="default"
+<f:if condition="{record.colPos} < 600">
+	<f:then>
+		<layout:section
+			class="{name}__wrap"
+			record="{record}"
+			id="c{record.uid}">
+			<f:render section="InnerContent" arguments="{_all}"/>
+		</layout:section>
+	</f:then>
+	<f:else>
+		<layout:row.item
+			class="{name}__row__item"
 			width="{record.container_width}"
-			mediaSize="{record.card_media_size}"
-			mediaWidth="{record.media_column_width}"
-			mediaLayout="{record.media_layout}">
-			<f:if condition="{record.icon}">
-				<icon:svg icon="{record.icon}" class="{name}__icon"/>
+			attributes="{id:'c{record.uid}'}">
+			<f:render section="InnerContent" arguments="{_all}"/>
+		</layout:row.item>
+	</f:else>
+</f:if>
+
+<f:section name="InnerContent">
+	<layout:card
+		class="{name}"
+		media="{record.assets}"
+		cropVariant="default"
+		width="{record.container_width}"
+		mediaSize="{record.card_media_size}"
+		mediaWidth="{record.media_column_width}"
+		mediaLayout="{record.media_layout}">
+		<f:if condition="{record.icon}">
+			<icon:svg icon="{record.icon}" class="{name}__icon"/>
+		</f:if>
+		<div class="{name}__card__text">
+			<element:moduleHeader record="{record}" class="{name}__headline"/>
+			<f:if condition="{record.bodytext}">
+				<element:richText text="{record.bodytext}"/>
 			</f:if>
-			<div class="{name}__card__text">
-				<element:moduleHeader record="{record}" class="{name}__headline"/>
-				<f:if condition="{record.bodytext}">
-					<element:richText text="{record.bodytext}"/>
-				</f:if>
-			</div>
-			<f:slot/>
-		</layout:card>
-	</f:section>
+		</div>
+		<f:slot/>
+	</layout:card>
+</f:section>

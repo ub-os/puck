@@ -8,11 +8,11 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
-  UBOS\Puck\Preview\BasicPreviewRenderer:
+  UBOS\Puck\Backend\BasicPreviewRenderer:
     public: true
     arguments:
       $runtimeCache: '@cache.runtime'
-  UBOS\Puck\Preview\PageMenuPreviewRenderer:
+  UBOS\Puck\Backend\PageMenuPreviewRenderer:
     public: true
     arguments:
       $runtimeCache: '@cache.runtime'

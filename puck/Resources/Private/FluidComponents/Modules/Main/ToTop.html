@@ -1,16 +1,15 @@
 
-	<f:argument name="name" type="string" optional="1" default="m-main__to-top"/>
-	<f:argument name="scrollTop" type="array" optional="1" default="500"/>
+<f:argument name="name" type="string" optional="1" default="m-main__to-top"/>
+<f:argument name="scrollTop" type="array" optional="1" default="500"/>
 
 
-
-		<button class="{name}"
-				tabindex="-1"
-				onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-				data-controller="scroll-sensitive"
-				aria-label="Start"
-				data-scroll-sensitive.scroll-top="{scrollTop}">
-			<icon:svg icon="angle-up-regular" class="{name}__icon"/>
-		</button>
+<button class="{name}"
+		tabindex="-1"
+		onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+		data-controller="scroll-sensitive"
+		aria-label="Start"
+		data-scroll-sensitive.scroll-top="{scrollTop}">
+	<icon:svg icon="angle-up-regular" class="{name}__icon"/>
+</button>
 
 

@@ -1,21 +1,21 @@
 
-	<f:argument name="name" type="string" optional="1" default="m-modal"/>
-	<f:argument name="record" type="UBOS\Puck\Domain\ContentRecord"/>
-	<f:argument name="cropVariant" type="string" optional="1" default="default"/>
+<f:argument name="name" type="string" optional="1" default="m-modal"/>
+<f:argument name="record" type="UBOS\Puck\Record\ContentRecord"/>
+<f:argument name="cropVariant" type="string" optional="1" default="default"/>
 
 
-		<layout:modal id="c{record.uid}" width="{record.container_width}">
-			<layout:card
-				media="{record.assets}"
-				cropVariant="{cropVariant}"
-				mediaSize="{record.card_media_size}"
-				mediaWidth="{record.media_column_width}"
-				mediaLayout="{record.media_layout}">
-				<element:moduleHeader record="{record}"/>
-				<element:richText text="{record.bodytext}"/>
-				<f:format.html>{content}</f:format.html>
-			</layout:card>
-		</layout:modal>
+<layout:modal id="c{record.uid}" width="{record.container_width}">
+	<layout:card
+		media="{record.assets}"
+		cropVariant="{cropVariant}"
+		mediaSize="{record.card_media_size}"
+		mediaWidth="{record.media_column_width}"
+		mediaLayout="{record.media_layout}">
+		<element:moduleHeader record="{record}"/>
+		<element:richText text="{record.bodytext}"/>
+		<f:format.html>{content}</f:format.html>
+	</layout:card>
+</layout:modal>
 
 
 

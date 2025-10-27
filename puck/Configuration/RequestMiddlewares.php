@@ -1,9 +1,11 @@
 <?php
 
+use \UBOS\Puck\Middleware;
+
 return [
 	'frontend' => [
 		'ubos/puck/redirect-doktypes' => [
-			'target' => \UBOS\Puck\Middleware\RedirectDoktypes::class,
+			'target' => Middleware\RedirectDoktypes::class,
 			'after' => [
 				'typo3/cms-frontend/tsfe',
 			],
@@ -12,7 +14,7 @@ return [
 			],
 		],
 		'ubos/puck/slash-forcer' => [
-			'target' => \UBOS\Puck\Middleware\SlashForcer::class,
+			'target' => Middleware\SlashForcer::class,
 			'before' => [
 				'typo3/cms-workspaces/preview-permissions',
 				'typo3/cms-frontend/tsfe',
@@ -23,7 +25,7 @@ return [
 			],
 		],
 		'ubos/puck/favicon' => [
-			'target' => \UBOS\Puck\Middleware\Favicon::class,
+			'target' => Middleware\Favicon::class,
 			'after' => [
 				'typo3/cms-frontend/static-route-resolver',
 			],

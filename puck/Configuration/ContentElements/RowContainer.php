@@ -15,7 +15,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;Layout,
             --palette--;;gridContainer,
             --palette--;;gridColumnsAlignment,
-        --div--;Advanced,
+        --div--;Carousel,
             options,',
 	columnsOverrides: [
 		'bodytext' => [

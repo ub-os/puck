@@ -57,29 +57,25 @@ select[multiple]
 	appearance: none
 	position: relative
 	bottom: 5% // align with label text
-	height: .8em
-	width: .8em
+	height: round(.8em, 2px)
+	width: round(.8em, 2px)
 	background: color-mix(in srgb, currentColor, transparent 75%)
 	border: 1px solid var(--color-input-border)
-	border-radius: 2px
 	&:hover
 		border-color: var(--color-input-border--active)
 	&:active, &:focus
 		background: color-mix(in srgb, currentColor, transparent 75%)
 	&:after
 		content: ''
-		width: .4em
-		height: .4em
-		opacity: 0
-		background: currentColor
-		border-radius: 1px
+		width: round(50%, 1px)
+		height: round(50%, 1px)
 	&:checked
 		border-color: currentColor
 	&:checked:after
-		opacity: 1
+		background: currentColor
 
 	label:has(>&)
-		+flex(row, flex-start, center)
+		+flex(row, flex-start, center, nowrap)
 		gap: .5em
 
 [type="radio"]

@@ -1,14 +1,14 @@
 <?php
 
-namespace UBOS\Puck\EventListener;
+namespace UBOS\Puck\Backend;
 
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListHeaderActionsEvent;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Core\Imaging\IconSize;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 
 
 /**

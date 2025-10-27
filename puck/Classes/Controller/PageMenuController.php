@@ -9,11 +9,9 @@ use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-
 use UBOS\MenuControls\Builder\CategoryFilterBuilder;
 use UBOS\MenuControls\Builder\PaginationBuilder;
 use UBOS\MenuControls\Dto\MenuDemand;
-
 use UBOS\Puck\Attribute\AsAction;
 use UBOS\Puck\Domain\Repository\PageRepository;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
@@ -24,7 +22,7 @@ use UBOS\Puck\PageTitle\PageTitleProvider;
  * Creates a menu of pages records based on MenuDemand created from the plugin settings.
  * Will also build CategoryFilter and Pagination objects
  * and override teaser properties of menu items with values from teaser records if configured in settings.
- * @see \UBOS\Puck\Domain\PageRecord::overrideWithTeaser()
+ * @see \UBOS\Puck\Record\PageRecord::overrideWithTeaser()
  */
 class PageMenuController extends ActionController
 {
