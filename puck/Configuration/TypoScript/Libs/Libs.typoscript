@@ -18,3 +18,20 @@ lib.pagetitle.data = page : title
 
 lib.language = TEXT
 lib.language.data = sitelanguage:twoLetterIsoCode
+
+lib.contentElement {
+    partialRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Partials/
+    templateRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Templates/
+    layoutRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Layouts/
+    settings {
+        media {
+            additionalConfig {
+                no-cookie = 1
+                modestbranding = 1
+                relatedVideos = 0
+                showinfo = 0
+                loop = 1
+            }
+        }
+    }
+}
