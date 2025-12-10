@@ -94,6 +94,7 @@ class Page extends AbstractEntity
 	/**
 	 * @var string
 	 */
+	#[Persistence("lastUpdated")]
 	public string $lastUpdated = '';
 	/**
 	 * @var string

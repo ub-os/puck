@@ -3,6 +3,7 @@ defined('TYPO3') or die();
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 use UBOS\Puck\Attribute\AttributeReflection;
+use UBOS\Puck\Configuration\ContentElementConfiguration;
 
 AttributeReflection::configurePlugins(
 	'puck',
@@ -10,9 +11,10 @@ AttributeReflection::configurePlugins(
 	'UBOS\Puck\Controller'
 );
 
-foreach (glob(ExtUtil::extPath('puck', 'Configuration/ContentElements/*.php')) as $file) {
-    (include $file)?->addTypoScript();
+foreach (ContentElementConfiguration::getOrderedConfigurationsFromFolder('Configuration/ContentElements/*.php') as $conf) {
+	$conf->addTypoScript();
 }
+
 ExtUtil::addTypoScript(
 	'puck',
 	'setup',

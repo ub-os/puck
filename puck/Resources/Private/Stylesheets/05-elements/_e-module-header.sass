@@ -1,8 +1,8 @@
 @use '01-tools/all' as *
 
-=e-module-header
+.e-module-header
 	&__headline
 		padding-top: 0
 
-	&__headline + &__subheader
-		margin-top: spacing(xxs, -1)
+	&__headline:has(+ &__subheader)
+		padding-bottom: 1em

@@ -49,10 +49,35 @@
 		&.-media-size-cover:where(.-layout-right, .-layout-left)
 			align-items: stretch
 
+		&.-align-start
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: flex-start
+			&:where(.-layout-right, .-layout-left)
+				align-items: flex-start
+
+		&.-align-center
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: center
+			&:where(.-layout-right, .-layout-left)
+				align-items: center
+
+		&.-align-end
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: flex-end
+			&:where(.-layout-right, .-layout-left)
+				align-items: flex-end
+
+		&.-align-stretch
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: stretch
+			&:where(.-layout-right, .-layout-left)
+				align-items: stretch
+
+
 	&__content
 		position: relative
-		width: 100%
 		z-index: 1
+		width: 100%
 
 		&.-media-size-cover
 			padding: var(--padding-block) var(--padding-inline)

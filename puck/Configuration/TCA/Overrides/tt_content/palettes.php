@@ -39,7 +39,9 @@ $palettes['gridMedia'] = [
 $palettes['gridCard'] = [
 	'label' => 'Layout',
 	'showitem' => '
-        media_layout, card_media_size, media_column_width'
+        media_layout, media_column_width,
+        --linebreak--,
+        card_media_size, row_align,'
 ];
 $palettes['gridMenuPages'] = [
 	'label' => 'Layout',

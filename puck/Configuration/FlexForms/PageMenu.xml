@@ -215,6 +215,7 @@
                     <settings.pagination.itemsPerPage>
                         <label>Items per page</label>
                         <config>
+                            <required>1</required>
                             <type>input</type>
                             <eval>num</eval>
                             <size>2</size>

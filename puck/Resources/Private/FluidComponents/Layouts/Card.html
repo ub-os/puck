@@ -6,6 +6,7 @@
 <f:argument name="mediaSize" type="string" optional="1" default="cover"/>
 <f:argument name="mediaWidth" type="integer" optional="1" default=""/>
 <f:argument name="mediaLayout" type="string" optional="1" default="above"/>
+<f:argument name="align" type="string" optional="1" default="start"/>
 <f:argument name="cropVariant" type="string" optional="1" default="default"/>
 <f:argument name="outerContent" type="string" optional="1"/>
 <f:argument name="attributes" type="array" optional="1"/>
@@ -17,7 +18,8 @@
 	layout: mediaLayout,
 	width: width,
 	media-size: mediaSize,
-	media-width: mediaWidth
+	media-width: mediaWidth,
+	align: align
 	}"
 />
 
