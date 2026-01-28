@@ -1,4 +1,4 @@
-import { Controller } from '@oliveoilexpert/stim'
+import { Controller } from '@amdeu/stim'
 import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class PageHeader extends Controller {
@@ -27,6 +27,7 @@ export default class PageHeader extends Controller {
 		return scrollDirection
 	}
 
+
 	scrollHandler(event) {
 		if (!this.ticking && this.pausedTimeOut == null) {
 			window.requestAnimationFrame(() => {
@@ -35,20 +36,32 @@ export default class PageHeader extends Controller {
 				}, 40)
 				const scrollDirection = this.checkScrollDirection(event)
 				if (this.scrollDirection == scrollDirection) return
-				this.scrollDirection = scrollDirection
-				const classes =
-					this.scrollDirection === 'down'
-						? { add: this.downClass, remove: this.upClass }
-						: { add: this.upClass, remove: this.downClass }
-				this.element.classList.add(classes.add)
-				this.element.classList.remove(classes.remove)
-				if (this.documentClassing) {
-					document.documentElement.classList.add(`--${this.element.id}${classes.add}`)
-					document.documentElement.classList.remove(`--${this.element.id}${classes.remove}`)
-				}
+				this.setDirectionState(scrollDirection)
 			})
 			this.ticking = true
 		}
+	}
+
+	setDirectionState(direction) {
+		this.scrollDirection = direction
+		const classes =
+			this.scrollDirection === 'down'
+				? { add: this.downClass, remove: this.upClass }
+				: { add: this.upClass, remove: this.downClass }
+		this.element.classList.add(classes.add)
+		this.element.classList.remove(classes.remove)
+		if (this.documentClassing) {
+			document.documentElement.classList.add(`--${this.element.id}${classes.add}`)
+			document.documentElement.classList.remove(`--${this.element.id}${classes.remove}`)
+		}
+	}
+
+	pause() {
+		this.pausedTimeOut = true
+	}
+
+	resume() {
+		this.pausedTimeOut = null
 	}
 
 	connected() {
@@ -76,10 +89,12 @@ export default class PageHeader extends Controller {
 		this.listeners.add(window, 'scroll', this.scrollHandler.bind(this), {
 			passive: true,
 		})
+		this.stim.store.pageHeader = this
 	}
 
 	disconnected() {
 		this.listeners.abort()
 		this.element.classList.remove(this.downClass, this.upClass, this.scrollClass)
+		this.stim.store.pageHeader = null
 	}
 }

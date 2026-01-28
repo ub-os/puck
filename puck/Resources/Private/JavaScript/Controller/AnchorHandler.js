@@ -1,4 +1,4 @@
-import { Controller } from '@oliveoilexpert/stim'
+import { Controller } from '@amdeu/stim'
 import { ListenerRegistry } from '~/Helper/ListenerRegistry'
 import { tryViewTransition } from "~/Utility/DomUtility";
 
@@ -23,7 +23,14 @@ export default class AnchorHandler extends Controller {
 	}
 
 	scrollToTarget(target, { behavior = 'smooth', block = 'start' } = {}) {
-		if (target.hasAttribute('data-menu-anchor')) {
+
+		this.stim.store.pageHeader?.setDirectionState('down')
+		this.stim.store.pageHeader?.pause()
+		this.listeners.add(window, 'scrollend', () => {
+			this.stim.store.pageHeader?.resume()
+		}, { once: true })
+
+		if (target.classList.contains('e-anchor')) {
 			target.nextElementSibling.scrollIntoView({ behavior, block })
 		} else {
 			target.scrollIntoView({ behavior, block })

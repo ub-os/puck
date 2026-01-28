@@ -1,4 +1,4 @@
-import { stim } from '@oliveoilexpert/stim'
+import { stim } from '@amdeu/stim'
 import htmx from 'htmx.org'
 import Accordion from '~/Controller/Accordion'
 import AnchorHandler from '~/Controller/AnchorHandler'

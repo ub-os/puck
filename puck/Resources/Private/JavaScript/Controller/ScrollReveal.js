@@ -1,4 +1,4 @@
-import { Controller } from '@oliveoilexpert/stim'
+import { Controller } from '@amdeu/stim'
 
 export default class ScrollReveal extends Controller {
 	static props = {

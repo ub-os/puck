@@ -105,30 +105,3 @@
 			@content
 	@media (hover: none)
 		@content
-
-
-//=grid-row($custom-gutter: $gutter)
-//  display: flex
-//  flex-wrap: wrap
-//  margin-block: calc(var(--gutter-y) * -.5)
-//  margin-inline: calc(var(--gutter-x) * -.5)
-//  //gap: var(--gutter-x) var(--gutter-y)
-//
-//=grid-col($columns: var(--grid-columns), $custom-grid-columns: var(--grid-columns))
-//  flex-shrink: 0
-//  max-width: 100%
-//  padding-inline: calc(var(--gutter-x) * .5)
-//  margin-block: calc(var(--gutter-y) * .5)
-//  flex-basis: auto
-//  +grid-col-width($columns, $custom-grid-columns)
-//
-//=grid-col-width($columns, $custom-grid-columns: var(--grid-columns), $columns-mb: ())
-//  width: calc(100% / #{$custom-grid-columns} * #{$columns})
-//  &>*
-//    --card-width: #{$columns}
-//    @if $columns != #{var(--grid-columns)}
-//      --grid-columns: #{$columns}
-//
-//=grid-col-mb($mb, $columns, $custom-grid-columns: var(--grid-columns))
-//  @media (max-width($mb))
-//    +grid-col-width($columns, $custom-grid-columns)
