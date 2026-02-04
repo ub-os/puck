@@ -44,4 +44,4 @@ $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['puck'] = 'EXT:puck/Resources/P
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/android-chrome-72x72.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Icons/Favicons/packages/default/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#ff8700';
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Icons/Logos/default.svg';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Images/Logos/default.svg';
