@@ -49,7 +49,7 @@
 		"svgstore": "^3.0.1"
 	},
 	"dependencies": {
-		"@amdeu/stim": "^2.0.2",
+		"@amdeu/stim": "^2.0.4",
 		"@splidejs/splide": "^4.1.4",
 		"@splidejs/splide-extension-intersection": "^0.2.0",
 		"htmx-ext-head-support": "^2.0.5",

@@ -20,7 +20,9 @@
 		"ichhabrecht/content-defender": "^3.5",
 		"christophlehmann/pagetreefilter": "^3",
 		"wapplersystems/avif": "*",
-		"wapplersystems/save_and_close": "^13"
+		"wapplersystems/save_and_close": "^13",
+		"amdeu/typo3-copy-presets": "^1.0",
+		"amdeu/typo3-shape": "^0.4.0"
 	},
 	"replace": {
 		"typo3-ter/puck": "self.version"
