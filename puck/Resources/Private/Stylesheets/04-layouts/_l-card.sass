@@ -23,7 +23,6 @@
 		overflow: hidden
 
 		&.-media
-			flex-direction: column-reverse
 			justify-content: space-between
 
 		&.-media-size-background
@@ -32,17 +31,12 @@
 		&.-media-size-background
 			padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
 
-		&.-layout-right
+		&.-layout-right,
+		&.-layout-left
 			@media (min-width(xs))
 				flex-direction: row
 
-		&.-layout-left
-			@media (min-width(xs))
-				flex-direction: row-reverse
-
-		&.-layout-above:where(.-media)
-			flex-direction: column-reverse
-
+		&.-layout-above,
 		&.-layout-below
 			flex-direction: column
 
@@ -93,6 +87,9 @@
 		width: 100%
 		max-width: 100%
 
+		&.-layout-above, &.-layout-left
+			order: -1
+
 		&.-media-size-background
 			+cover-media
 			position: absolute
@@ -107,6 +104,7 @@
 			+cover-media
 			@media (min-width(xs))
 				width: calc(100% * var(--card-media-width) / var(--card-width))
+				align-self: stretch
 
 		&.-media-size-contain:where(.-layout-above)
 			padding-bottom: var(--padding-bottom)
