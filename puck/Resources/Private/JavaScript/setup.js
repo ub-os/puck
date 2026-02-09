@@ -22,7 +22,8 @@ Object.assign(htmx.config, {
 	globalViewTransitions: false,
 	allowScriptTags: true,
 	allowEval: false,
-	historyCacheSize: 0
+	// historyCacheSize: 0,
+	refreshOnHistoryMiss: true,
 })
 
 window.stim = stim
