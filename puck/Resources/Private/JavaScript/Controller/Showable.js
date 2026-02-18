@@ -88,8 +88,6 @@ export default class Showable extends Controller {
 				detail: { transition, changeUrlHash, trigger },
 			}),
 		)
-
-		this.dispatch('hide', { detail: { transition, changeUrlHash, trigger } })
 	}
 	toggle({ transition = true, changeUrlHash = true, trigger = '' }, event = {}) {
 		if (this.active && (!this.switchToggles || event.currentTarget !== this.lastUsedToggle)) {
@@ -196,13 +194,11 @@ export default class Showable extends Controller {
 			})
 		}
 		if (this.focusOutHide) {
-			let focusOut = false
-			this.listeners.add(this.outEl, 'focusin', event => (focusOut = false))
 			this.listeners.add(this.outEl, 'focusout', event => {
-				focusOut = true
-				window.requestAnimationFrame(() => {
-					if (focusOut && this.active) this.hide({ trigger: 'focusOut' })
-				})
+				if (!this.active || this.outEl.contains(event.relatedTarget)) {
+					return
+				}
+				this.hide({ trigger: 'focusOut' })
 			})
 		}
 		if (this.escHide) {

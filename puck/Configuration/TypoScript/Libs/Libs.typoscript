@@ -35,3 +35,16 @@ lib.contentElement {
         }
     }
 }
+
+lib.contentElementRenderer = RECORDS
+lib.contentElementRenderer {
+    tables = tt_content
+    source.current = 1
+    dontCheckPid = 1
+}
+
+lib.inlineSvg = SVG
+lib.inlineSvg {
+    renderMode = inline
+    src.field = src
+}

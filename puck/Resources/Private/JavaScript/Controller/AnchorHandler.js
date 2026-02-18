@@ -6,9 +6,18 @@ export default class AnchorHandler extends Controller {
 	static props = {
 		scrollTopOnCurrentLink: true,
 	}
+	static targets = ['menuAnchor']
+
 	listeners = new ListenerRegistry()
 	isDragging = false
 	dragDelta = 6
+
+	menuAnchorTargetConnected(el) {
+		console.log(el)
+		this.scrollTargetIntersectionObserver.observe(el.nextElementSibling)
+		el.nextElementSibling.setAttribute('data-menu-anchor-id', el.id)
+	}
+
 	isCurrentLink(el) {
 		return el.origin === window.location.origin && el.pathname === window.location.pathname
 	}
@@ -61,6 +70,26 @@ export default class AnchorHandler extends Controller {
 		// ignore links that are not current page links
 		// ignore dragging clicks
 		// scroll to top for non-hash current page links
+
+		// observe intersection of menu anchors (or their next sibling) so we can give classes to the links targeting the menu anchors
+		this.scrollTargetIntersectionObserver = new IntersectionObserver(entries => {
+			entries.forEach(entry => {
+				const id = entry.target.getAttribute('data-menu-anchor-id') || entry.target.id
+				const anchorLinks = document.querySelectorAll(`a[href="#${id}"]`)
+				if (entry.isIntersecting) {
+					anchorLinks.forEach(anchor => {
+						anchor.classList.add('--target-visible')
+					})
+				} else {
+					anchorLinks.forEach(anchor => {
+						anchor.classList.remove('--target-visible')
+					})
+				}
+			})
+		}, {
+			rootMargin: '-200px 0px -200px 0px',
+		})
+
 		this.listeners.delegate(document.body, 'a:not([data-fetch])', 'click', e => {
 			if (this.isDragging) return
 			if (e.delegateTarget.getAttribute('href') === '#') return

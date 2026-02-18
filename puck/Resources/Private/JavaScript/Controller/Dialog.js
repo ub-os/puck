@@ -19,9 +19,9 @@ export default class Dialog extends Showable {
 	onHide(event) {
 		super.onHide(event)
 		if (event.detail.transition) {
-			setTimeout(() => this.element.close(), this.duration)
+			setTimeout(() => this.element.removeAttribute('open'), this.duration)
 		} else {
-			this.element.close()
+			this.element.removeAttribute('open')
 		}
 	}
 
@@ -31,10 +31,5 @@ export default class Dialog extends Showable {
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close
 		this.listeners.add(this.element, 'cancel', event => event.preventDefault())
-	}
-
-	disconnected() {
-		super.disconnected()
-		this.listeners.abort()
 	}
 }

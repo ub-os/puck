@@ -14,8 +14,11 @@ export default class Modal extends Showable {
 		pauseMediaOnHide: true,
 		reloadIframeOnHide: true,
 	}
-
+	get element() { return /** @type {HTMLDialogElement} */ (super.element) }
 	onShow(event) {
+		if (this.element.open) {
+			this.element.close()
+		}
 		this.element.showModal()
 		super.onShow(event)
 		this.element.ariaModal = 'true'
@@ -31,11 +34,11 @@ export default class Modal extends Showable {
 	}
 
 	initialized() {
+		if (this.element.tagName !== 'DIALOG') throw new Error('Modal Aspect should only be used on dialog elements')
 		if (this.appendTo) document.querySelector(this.appendTo)?.appendChild(this.element)
 	}
 
 	connected() {
-		if (this.element.tagName !== 'DIALOG') throw new Error('Modal Aspect should only be used on dialog elements')
 		super.connected()
 		// hacky way to make dialog exit animation work
 		// firefox doesn't support display animation yet, so we have to disable the native dialog close

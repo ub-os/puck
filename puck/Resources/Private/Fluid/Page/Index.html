@@ -6,7 +6,7 @@
 		hx-indicator="#root-loading-bar"
 		preload="mousedown"
 		logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
-	<div data-controller="anchor-handler scrollbar-width"></div>
+	<div data-controller="anchor-handler scrollbar-width" id="root-controllers"></div>
 	<!--TYPO3SEARCH_end-->
     <f:if condition="{record.backend_layout} !== 'pagets__error'">
         <module:schema record="{record}" context="{context}"/>

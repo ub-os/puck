@@ -15,25 +15,25 @@
 			data-hx-select="#{sectionId}-body"
 			data-hx-target="#{sectionId}-body">
 			<f:if condition="{pagination.prev}">
-				<module:pageMenu.pagination.item item="{pagination.prev}" sectionId="{sectionId}"/>
+				<f:render section="Item" arguments="{item:pagination.prev, sectionId:sectionId, name:name}" />
 			</f:if>
 			<f:if condition="{pagination.first}">
-				<module:pageMenu.pagination.item item="{pagination.first}" sectionId="{sectionId}"/>
+				<f:render section="Item" arguments="{item:pagination.first, sectionId:sectionId, name:name}" />
 			</f:if>
 			<f:if condition="{pagination.separatorLeft}">
 				 {pagination.separatorString} 
 			</f:if>
 			<f:for each="{pagination.window}" as="item" iteration="i">
-				<module:pageMenu.pagination.item item="{item}" sectionId="{sectionId}"/>
+				<f:render section="Item" arguments="{item:item, sectionId:sectionId, name:name}" />
 			</f:for>
 			<f:if condition="{pagination.separatorRight}">
 				 {pagination.separatorString} 
 			</f:if>
 			<f:if condition="{pagination.last}">
-				<module:pageMenu.pagination.item item="{pagination.last}" sectionId="{sectionId}"/>
+				<f:render section="Item" arguments="{item:pagination.last, sectionId:sectionId, name:name}" />
 			</f:if>
 			<f:if condition="{pagination.next}">
-				<module:pageMenu.pagination.item item="{pagination.next}" sectionId="{sectionId}"/>
+				<f:render section="Item" arguments="{item:pagination.next, sectionId:sectionId, name:name}" />
 			</f:if>
 		</ul>
 	</f:else>
@@ -42,6 +42,43 @@
 	</f:else>
 </f:if>
 
+<f:section name="Item">
+	<li class="{name}__item">
+		<f:if condition="{item.active}">
+			<f:then>
+				<div class="{name}__link -disabled">{item.label}</div>
+			</f:then>
+			<f:else>
+				<f:switch expression="{item.label}">
+					<f:case value="<">
+						<f:variable name="label">
+							<icon:svg icon="arrow-left-regular" class="{name}__prev"/>
+						</f:variable>
+						<f:variable name="ariaLabel"
+									value="{f:translate(key:'previous')} {f:translate(key:'page')}"/>
+					</f:case>
+					<f:case value=">">
+						<f:variable name="label">
+							<icon:svg icon="arrow-right-regular" class="{name}__next"/>
+						</f:variable>
+						<f:variable name="ariaLabel" value="{f:translate(key:'next')} {f:translate(key:'page')}"/>
+					</f:case>
+					<f:defaultCase>
+						<f:variable name="label" value="{item.label}"/>
+						<f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}"/>
+					</f:defaultCase>
+				</f:switch>
+				<a href="{item.url}"
+				   aria-label="{ariaLabel}"
+				   class="{name}__link"
+				   data-hx-get="{item.fragmentUrl}"
+				   data-hx-replace-url="{item.url}">
+					{label -> f:format.raw()}
+				</a>
+			</f:else>
+		</f:if>
+	</li>
 
+</f:section>
 
 
