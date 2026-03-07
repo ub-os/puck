@@ -52,7 +52,7 @@
 </f:if>
 
 <f:section name="MediaContent">
-	<f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp'">
+	<f:if condition="{file.extension} == 'jpeg' || {file.extension} == 'jpg' || {file.extension} == 'png' || {file.extension} == 'gif' || {file.extension} == 'webp' || ({file.extension} == 'svg' && !{inlineSvg})}">
 		<f:then>
 			<u:picture
 				image="{file}"

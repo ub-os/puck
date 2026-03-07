@@ -25,6 +25,7 @@ class VarViewHelper extends AbstractViewHelper
 		$this->registerArgument('then', 'mixed', '', false, null);
 		$this->registerArgument('else', 'mixed', '', false, null);
 		$this->registerArgument('get', 'mixed', '', false, null);
+		$this->registerArgument('fallback', 'mixed', '', false, null);
 		$this->registerArgument('set', 'string', '', false, '');
 	}
 
@@ -47,6 +48,9 @@ class VarViewHelper extends AbstractViewHelper
 			$value = $this->arguments['then'];
 		} elseif ($this->arguments['else'] !== null) {
 			$value = $this->arguments['else'];
+		}
+		if ($value === null) {
+			$value = $this->arguments['fallback'];
 		}
 		if ($value !== null && $this->arguments['set']) {
 			$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $value);

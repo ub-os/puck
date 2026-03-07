@@ -2,12 +2,47 @@
 <f:argument name="name" type="string" optional="1" default="m-menu"/>
 <f:argument name="page" type="mixed" optional="1"/>
 <f:argument name="config" type="array" optional="1" default="{}"/>
+<f:argument name="headingTag" type="string" optional="1" default="h3"/>
 <f:argument name="attributes" type="array" optional="1"/>
 
 
 <div class="{name}__teaser">
+
+	<f:if condition="{config.subtitle} || {config.teaserText} || {config.author}">
+		<f:then>
+			<element:tag is="{headingTag}" class="{name}__title__heading">
+				<f:render section="TeaserLink" arguments="{_all}"/>
+			</element:tag>
+		</f:then>
+		<f:else>
+			<f:render section="TeaserLink" arguments="{_all}"/>
+		</f:else>
+	</f:if>
+
+	<f:if condition="{page.subtitle} && {config.subtitle}">
+		<div class="{name}__subtitle">
+			{page.subtitle}
+		</div>
+	</f:if>
+
+	<f:if condition="{page.icon} && {config.icon}">
+		<icon:svg icon="{page.icon}" class="{name}__icon"/>
+	</f:if>
+
+	<f:if condition="{page.post_date} && {config.postDate}">
+		<time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}" aria-hidden>
+			{page.post_date -> f:format.date(format: 'd.m.Y')}
+		</time>
+	</f:if>
+
+	<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
+		<time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}" aria-hidden>
+			{page.lastUpdated -> f:format.date(format: 'd.m.Y')}
+		</time>
+	</f:if>
+
 	<f:if condition="{config.categories} && {page.categories}">
-		<div class="{name}__categories">
+		<div class="{name}__categories" aria-hidden>
 			<f:for each="{page.categories}" as="cat" iteration="i">
 				<span class="{name}__category">{cat.title}</span>
 				<f:if condition="!{i.isLast}">
@@ -16,49 +51,46 @@
 			</f:for>
 		</div>
 	</f:if>
-	<f:if condition="{page.post_date} && {config.postDate}">
-		<time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}">
-			{page.post_date -> f:format.date(format: 'd.m.Y')}
-		</time>
-	</f:if>
-	<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
-		<time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">
-			{page.lastUpdated -> f:format.date(format: 'd.m.Y')}
-		</time>
-	</f:if>
-	<f:if condition="{page.icon} && {config.icon}">
-		<icon:svg icon="{page.icon}" class="{name}__icon"/>
-	</f:if>
-	<a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
-	   class="{name}__headline"
-	   target="{page.target}">
-		{page.teaser_title -> f:format.raw()}
-	</a>
-	<f:if condition="{page.subtitle} && {config.subtitle}">
-		<div class="{name}__subtitle">
-			{page.subtitle}
-		</div>
-	</f:if>
+
 	<f:if condition="{config.teaserText} && {page.teaser_text}">
 		<div class="{name}__teaser-text">{page.teaser_text -> f:format.crop(maxCharacters:300) ->
 			f:format.raw()}
 		</div>
 	</f:if>
+
 	<f:if condition="{page.author} && {config.author}">
 		<div class="{name}__author">
 			{page.author}
 		</div>
 	</f:if>
+
 	<f:if condition="{config.cta}">
-		<div class="{name}__cta__wrap">
+		<div class="{name}__cta__wrap" aria-hidden>
 			<div class="{name}__cta">
 				<f:translate extensionName="puck" key="learn-more"/>
 				<icon:svg icon="arrow-right-regular"/>
 			</div>
 		</div>
 	</f:if>
+
 </div>
 
+<f:section name="TeaserLink">
+	<a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
+	   class="{name}__title"
+	   target="{page.target}">
+		<f:if condition="{config.categories} && {page.categories}">
+			<span class="sr-only">{page.categories.0.title}:</span>
+		</f:if>
+		<f:if condition="{page.post_date} && {config.postDate}">
+			<span class="sr-only">{page.post_date -> f:format.date(format: 'd.m.Y')}:</span>
+		</f:if>
+		<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
+			<span class="sr-only">{page.lastUpdated -> f:format.date(format: 'd.m.Y')}:</span>
+		</f:if>
+		{page.teaser_title -> f:format.raw()}
+	</a>
+</f:section>
 
 
 

@@ -81,7 +81,7 @@ class PageController extends ActionController
 				'table' => 'tt_content',
 				'select.' => [
 					'pidInList' => $contentObjectRenderer->data['uid'],
-					'where' => '{#colPos}=' . $area['colPos'],
+					'where' => '{#colPos}=' . $area['colPos'] . ' AND {#hidden}=0',
 					'orderBy' => 'sorting',
 				],
 				'slide' => $area['slide']

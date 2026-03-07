@@ -114,7 +114,6 @@ class ContentElementConfiguration
 					$this->containerConfiguration))
 					->setIcon($this->icon)->SetGroup($this->group)
 					->setBackendTemplate('')
-					->setRegisterInNewContentElementWizard(false)
 			);
 		}
 		$GLOBALS['TCA']['tt_content']['types'][$this->getCType()] = [

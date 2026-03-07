@@ -20,6 +20,10 @@
 			<module:pageMenu.filter categoryFilter="{categoryFilter}" contentUid="{record.uid}"/>
 		</f:if>
 
+		<f:comment>adjust teaser heading tags based on section heading tag to preserve hierarchy</f:comment>
+		<f:variable name="subheadingMap" value="{0:'h2', p:'h2', h2:'h3', h3:'h4', h4:'h5'}"/>
+		<u:var set="teaserHeadingTag" if="{record.header}" then="{subheadingMap.{record.header_layout.tag}}" else="h2"/>
+
 		<f:if condition="{menu}">
 			<f:switch expression="{record.layout}">
 
@@ -36,6 +40,7 @@
 								<module:pageMenu.teaser
 									config="{teaserText:1}"
 									page="{item}"
+									headingTag="{teaserHeadingTag}"
 									name="{name}"/>
 							</layout:card>
 						</f:for>
@@ -55,42 +60,8 @@
 								<module:pageMenu.teaser
 									config="{postDate:1, categories: 1}"
 									page="{item}"
+									headingTag="{teaserHeadingTag}"
 									name="{name}"/>
-							</layout:card>
-						</f:for>
-					</layout:row>
-				</f:case>
-
-				<f:case value="team-cards">
-					<layout:row class="{name}__row"
-								id="c{record.uid}-list"
-								align="top" flexGrow="0" justify="left">
-						<f:for as="item" each="{menu}" iteration="i">
-							<layout:card
-								attributes="{data-link-area:''}"
-								class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
-								width="6">
-								<f:alias map="{person: item.page_persons.0}">
-									<div class="{name}__content">
-										<h3 class="{name}__headline">{person.name}</h3>
-										<ul>
-											<f:if condition="{person.position}">
-												<li class="{name}__position">{person.position}</li>
-											</f:if>
-											<f:if condition="{person.phone}">
-												<li><a class="{name}__phone"
-													   href="tel:{person.phone}">{person.phone}</a></li>
-											</f:if>
-											<f:if condition="{person.email}">
-												<li>
-													<f:link.email class="{name}__email" email="{person.email}">
-														{person.email}
-													</f:link.email>
-												</li>
-											</f:if>
-										</ul>
-									</div>
-								</f:alias>
 							</layout:card>
 						</f:for>
 					</layout:row>
@@ -119,6 +90,7 @@
 									<module:pageMenu.teaser
 										config="{record.menu_item_config}"
 										page="{item}"
+										headingTag="{teaserHeadingTag}"
 										name="{name}"/>
 								</layout:media>
 							</div>
@@ -147,6 +119,7 @@
 								<module:pageMenu.teaser
 									config="{record.menu_item_config}"
 									page="{item}"
+									headingTag="{teaserHeadingTag}"
 									name="{name}"/>
 							</layout:card>
 						</f:for>

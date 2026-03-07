@@ -3,12 +3,15 @@
 .m-section-carousel
 	&
 		max-width: var(--width-page)
-		margin-bottom: spacing(m)
+		margin-block: spacing(m)
 
 	&__slide
 		display: flex
 		width: 100%
 		max-width: var(--width-page)
+
+	:where(.l-section)
+		margin-block: 0
 
 	:where(.l-carousel__track)
 		margin: 0

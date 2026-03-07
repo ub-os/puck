@@ -37,8 +37,9 @@ class ArrayViewHelper extends AbstractViewHelper
 		$this->registerArgument('inverseFilter', 'array', 'Inverse filter (items must not match any condition)', false);
 		$this->registerArgument('implode', 'string', 'Join array values with specified string', false);
 		$this->registerArgument('if', 'boolean', 'Condition to determine if operations should be applied', false);
+		$this->registerArgument('getValue', 'string', 'Get a value from the array by key', false);
 		$this->registerArgument('set', 'string', 'Variable name to store result in (no output)', false, '');
-		$this->registerArgument('operations', 'string', 'Space-separated list of operations to apply in order', false, 'unset changeKeys merge mergeRecursive range indexKey keys push slice filter inverseFilter search implode');
+		$this->registerArgument('operations', 'string', 'Space-separated list of operations to apply in order', false, 'unset changeKeys merge mergeRecursive range indexKey keys push slice filter inverseFilter search getValue implode');
 	}
 
 	/**
@@ -261,6 +262,11 @@ class ArrayViewHelper extends AbstractViewHelper
 	protected static function search(array $array, string $search): array
 	{
 		return array_search($search, $array);
+	}
+
+	protected static function getValue(array $array, string $key): mixed
+	{
+		return $array[$key] ?? null;
 	}
 
 	/**

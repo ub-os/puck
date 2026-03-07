@@ -18,7 +18,7 @@
 		+flex(row, flex-start, flex-start, wrap)
 		width: 100%
 
-	&__headline
+	&__title
 		+typo-h3
 		width: 100%
 		color: var(--color-link)
@@ -47,12 +47,12 @@
 
 	&__teaser-text
 		width: 100%
-		padding-top: spacing(xxs)
+		padding-top: var(--paragraph-spacing)
 
 	&__cta
 		+flex(row, flex-start, center)
 		gap: .5em
-		margin-top: spacing(xs)
+		margin-top: var(--paragraph-spacing)
 		margin-left: auto
 		transition: color .25s
 		&__wrap

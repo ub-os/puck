@@ -37,51 +37,68 @@ $columns['layout'] = [
 
 $columns['header_layout'] = [
 	'label' => 'Headline Type',
-	'onChange' => 'reload',
 	'config' => [
 		'type' => 'select',
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
 		'items' => [
-			// 0 = default
-			['label' => 'H2', 'value' => 0, 'group' => 'h2'],
-			// 20-29 reserved for h2 styles, these styles increase spacing to preceding element
-			// for example: ['H2 alternative color', 21],
+//			// 0 = default
+//			['label' => 'H2', 'value' => 0, 'group' => 'h2'],
+//			// 20-29 reserved for h2 styles, these styles increase spacing to preceding element
+//			// for example: ['H2 alternative color', 21],
+//
+//			// 25-29 reserved for h2 styles that enable subheader
+//			['label' => 'H2 in topline style (with subheader)', 'value' => 25, 'group' => 'h2'],
+//
+//			// 30-39 reserved for headlines in h3 style, these styles do NOT increase spacing to preceding element
+//			['label' => 'H3', 'value' => 30, 'group' => 'h3'],
+//			['label' => 'H2 in H3-style', 'value' => 31, 'group' => 'h2'],
+//
+//			['label' => 'Paragraph', 'value' => 50, 'group' => 'other'],
+//
+//			// 90-99 reserved for screen reader only
+//			['label' => 'H2 screen reader only', 'value' => 90, 'group' => 'h2'],
+//			['label' => 'H3 screen reader only', 'value' => 91, 'group' => 'h3'],
+//
+//			// 100 is hidden and for backend only
+//			['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'other'],
 
-			// 25-29 reserved for h2 styles that enable subheader
-			['label' => 'H2 in topline style (with subheader)', 'value' => 25, 'group' => 'h2'],
 
-			// 30-39 reserved for headlines in h3 style, these styles do NOT increase spacing to preceding element
-			['label' => 'H3', 'value' => 30, 'group' => 'h3'],
-			['label' => 'H2 in H3-style', 'value' => 31, 'group' => 'h2'],
+			['label' => 'H2', 'value' => 'h2.h2', 'group' => '<h2>'],
+			['label' => 'H2 (subheader as topline)', 'value' => 'h2.h2.topline', 'group' => '<h2>'],
+			['label' => 'Topline-H2 (subheader as headline)', 'value' => 'h2.topline.h2', 'group' => '<h2>'],
+			['label' => 'H3 (<h2>)', 'value' => 'h2.h3', 'group' => '<h2>'],
+			['label' => 'H2 (screen reader only)', 'value' => 'h2.sr-only', 'group' => '<h2>'],
 
-			['label' => 'Paragraph', 'value' => 50, 'group' => 'other'],
+			['label' => 'H3', 'value' => 'h3.h3', 'group' => '<h3>'],
+			['label' => 'H2 (<h3>)', 'value' => 'h3.h2', 'group' => '<h3>'],
+			['label' => 'H3 (screen reader only)', 'value' => 'h3.sr-only', 'group' => '<h3>'],
 
-			// 90-99 reserved for screen reader only
-			['label' => 'H2 screen reader only', 'value' => 90, 'group' => 'h2'],
-			['label' => 'H3 screen reader only', 'value' => 91, 'group' => 'h3'],
+			['label' => 'H2 (<p>)', 'value' => 'p.h2', 'group' => '<p>'],
+			['label' => 'H3 (<p>)', 'value' => 'p.h2', 'group' => '<p>'],
 
-			// 100 is hidden and for backend only
-			['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'other'],
+			['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'hidden'],
+
 		],
 		'itemGroups' => [
-			'h2' => 'H2',
-			'h3' => 'H3',
-			'other' => 'Other'
+			'<h2>' => '<h2>',
+			'<h3>' => '<h3>',
+			'<p>' => '<p>',
+			'hidden' => 'hidden'
 		],
-		'default' => 0
+		'default' => 'h2.h2'
 	],
 ];
 $columns['subheader'] = [
 	'label' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['label'],
 	'config' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['config'],
-	'displayCond' => [
-		'AND' => [
-			'FIELD:header_layout:!=:100',
-			'FIELD:header_layout:>:24',
-			'FIELD:header_layout:<:30',
-		],
-	],
+//	'displayCond' => [
+//		'AND' => [
+//			'FIELD:header_layout:!=:100',
+//			'FIELD:header_layout:>:24',
+//			'FIELD:header_layout:<:30',
+//		],
+//	],
 ];
 
 $columns['bodytext'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
@@ -379,7 +396,8 @@ $columns['menu_item_config'] = [
 			['Media', 'media'],
 			['Category', 'category'],
 			['Author', 'author'],
-			['Date (lastUpdated)', 'lastUpdated'],
+			['Last Update (lastUpdated)', 'lastUpdated'],
+			['Post Date (post_date)', 'postDate'],
 			['Icon', 'icon'],
 			['Call to action', 'cta']
 		],

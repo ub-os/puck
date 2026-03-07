@@ -37,29 +37,44 @@ class ContentRecord extends Record
 	 */
 	protected function setComputedProperties(): void
 	{
-		$p = $this->properties;
-		if ($this->has('header') && $this->has('header_spacing_override')) {
-			$p['remove_header_spacing'] = (!$p['header'] || $p['header_layout'] > 29) && !$p['header_spacing_override'];
+		$prop = $this->properties;
+
+		if ($this->has('header_layout')) {
+			$headerConfig = explode('.', $prop['header_layout']);
+			$prop['header_layout'] = [
+				'tag' => $headerConfig[0] ?? 'h2',
+				'class' => $headerConfig[1] ?? '',
+				'subheaderClass' => $headerConfig[2] ?? '',
+				'value' => $prop['header_layout'] ?? '',
+			];
+			// if the tag is numeric (e.g. from older versions of the content element), default to 'h2'
+			if (is_numeric($prop['header_layout']['tag'])) {
+				$prop['header_layout']['tag'] = 'h2';
+			}
+		}
+
+		if ($this->has('header') && $this->has('header_layout') && $this->has('header_spacing_override')) {
+			$prop['_remove_header_spacing'] = (!$prop['header'] || $prop['header_layout']['tag'] !== 'h2') && !$prop['header_spacing_override'];
 		}
 
 		if ($this->has('media_layout')) {
-			$p['media_layout_direction'] = in_array($p['media_layout'], ['above', 'below']) ? 'column' : 'row';
+			$prop['_media_layout_direction'] = in_array($prop['media_layout'], ['above', 'below']) ? 'column' : 'row';
 		}
 
-		if ($p['CType'] === 'puck_cover_media') {
-			if (in_array($p['media_layout'], ['left', 'right'])) {
-				$p['container_width'] = 12;
-				$p['container_offset'] = 0;
+		if ($prop['CType'] === 'puck_cover_media') {
+			if (in_array($prop['media_layout'], ['left', 'right'])) {
+				$prop['container_width'] = 12;
+				$prop['container_offset'] = 0;
 			}
 		}
 
 		if ($this->has('menu_item_config')) {
-			$settings = $p['menu_item_config'];
-			$p['menu_item_config'] = [];
+			$settings = $prop['menu_item_config'];
+			$prop['menu_item_config'] = [];
 			foreach ($settings as $key) {
-				$p['menu_item_config'][$key] = true;
+				$prop['menu_item_config'][$key] = true;
 			}
 		}
-		$this->properties = $p;
+		$this->properties = $prop;
 	}
 }

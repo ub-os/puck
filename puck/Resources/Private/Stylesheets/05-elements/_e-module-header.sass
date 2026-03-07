@@ -1,8 +1,18 @@
 @use '01-tools/all' as *
 
 .e-module-header
-	&__headline
-		padding-top: 0
 
-	&__headline:has(+ &__subheader)
-		padding-bottom: 1em
+	&
+		+flex(column,flex-start,flex-start,nowrap)
+		gap: baseEm()
+		margin-bottom: spacing(s)
+		color: var(--color-emphasis)
+		&.-class-h3, &.-class-h4
+			margin-bottom: baseEm()
+
+	&__header, &__subheader
+		padding-bottom: 0
+
+	&__subheader
+		&.topline
+			order: -1

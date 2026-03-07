@@ -21,14 +21,19 @@
 	@return ('xs': ($bp-xs + 1), 's': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1), 'grid-width': rem-to-px(grid-container-width()))
 
 @function sizes()
-	@return ('xxs': $size-xxs, 'xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl, 'xxl': $size-xxl)
+	@return ('xxs': $spacing-unit, 'xs': $spacing-unit * 2, 's': $spacing-unit * 3, 'm': $spacing-unit * 5, 'l': $spacing-unit * 8, 'xl': $spacing-unit * 13, 'xxl': $spacing-unit * 21)
 
 @function spacing($size, $multiplier: 1)
 	@if $multiplier == 1
-		@return var(--size-#{$size})
+		@return var(--spacing-#{$size})
 	@else
-		@return calc(var(--size-#{$size}) * #{$multiplier})
+		@return calc(var(--spacing-#{$size}) * #{$multiplier})
 
+@function baseEm($multiplier: 1)
+	@if $multiplier == 1
+		@return var(--font-size-base)
+	@else
+		@return calc(var(--font-size-base) * #{$multiplier})
 
 @function min-width($bpOrPx)
 	@if map.has-key(bps-up(), $bpOrPx)
