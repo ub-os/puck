@@ -1,47 +1,35 @@
-@use '01-tools/all' as *
+@use '../01-tools/all' as *
 
-.m-menu
-	&__bodytext
-		padding-bottom: spacing(m)
-
-	&__card
+.m-teaser
+	&
 		transition: transform .25s
 		&:hover
 			transform: translateY(-5px)
 
-	&__column
-		transition: transform .25s
-		&:hover
-			transform: translateY(5px)
+	&:hover &__title,
+	&:hover &__cta
+		color: var(--color-link--hover)
 
-	&__teaser
+	&__content
 		+flex(row, flex-start, flex-start, wrap)
 		width: 100%
 
+	&__heading
+		width: 100%
+		padding: 0
+
 	&__link
-		display: contents
+		+flex(row, flex-start, flex-start, wrap)
+		width: 100%
 
 	&__title
 		+typo-h3
 		width: 100%
+		padding: 0
 		color: var(--color-link)
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
-
-	&__title__heading
-		width: 100%
-		padding: 0
-
-	&__card:hover &__headline,
-	&__card:hover &__cta,
-	&__column:hover &__headline,
-	&__column:hover &__cta
-		color: var(--color-link--hover)
-
-	&__subtitle
-		width: 100%
-		color: var(--color-emphasis)
 
 	&__categories
 		width: 100%
@@ -56,7 +44,11 @@
 	&__icon
 		order: -2
 
-	&__teaser-text
+	&__subtitle
+		width: 100%
+		color: var(--color-emphasis)
+
+	&__text
 		width: 100%
 		padding-top: 1em
 

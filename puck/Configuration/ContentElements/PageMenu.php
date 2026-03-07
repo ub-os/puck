@@ -37,6 +37,9 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 				'default' => 'default-cards'
 			]
 		],
+		'header_layout' => [
+			'description' => 'To guarantee proper heading hierarchy, this setting also defines the heading level of menu item headers',
+		],
 		'pi_flexform' => [
 			'label' => 'Menu settings'
 		],

@@ -1,0 +1,141 @@
+<f:argument name="name" type="string" optional="1" default="m-teaser"/>
+<f:argument name="page" type="mixed" optional="1"/>
+<f:argument name="config" type="array" optional="1" default="{}"/>
+<f:argument name="layoutCard" type="array" optional="1"/>
+<f:argument name="layoutMedia" type="array" optional="1"/>
+<f:argument name="headingTag" type="string" optional="1" default="h3"/>
+<f:argument name="attributes" type="array" optional="1" default="{data-link-area:''}"/>
+
+<f:variable name="media"
+			value="{f:if(condition:'{config.media} && {page.media}',then:'{0:page.media.0}')}"/>
+
+<f:if condition="{layoutMedia}">
+	<f:then>
+		<div class="{name} {name}__column {class}" {attributes -> u:renderAttributes()}>
+			<layout:media
+				media="{media}"
+				cropVariant="{layoutMedia.cropVariant}"
+				itemWidth="{layoutMedia.itemWidth}"
+				layout="{layoutMedia.layout}"
+				mediaWidth="{layoutMedia.mediaWidth}"
+				textWidth="{layoutMedia.textWidth}"
+				showTitle="0"
+				showDesc="0">
+				<f:render section="Content" arguments="{_all}"/>
+			</layout:media>
+		</div>
+	</f:then>
+	<f:else>
+		<layout:card
+			attributes="{attributes}"
+			class="{name} {name}__card {class}"
+			media="{media}"
+			cropVariant="{layoutCard.cropVariant}"
+			mediaLayout="{layoutCard.mediaLayout}"
+			mediaSize="{layoutCard.mediaSize}"
+			mediaWidth="{layoutCard.mediaWidth}">
+			<f:render section="Content" arguments="{_all}"/>
+		</layout:card>
+	</f:else>
+</f:if>
+
+<f:section name="Content">
+
+	<f:variable name="headingTitle" value="{config.subtitle}{config.categoryList}{config.teaserText}{config.author}"/>
+
+	<div class="{name}__content">
+
+		<f:if condition="{headingTitle}">
+			<f:then>
+				<element:tag is="{headingTag}" class="{name}__heading">
+					<f:render section="TeaserLink" arguments="{_all}"/>
+				</element:tag>
+				<f:render section="Metadata" arguments="{_all}"/>
+			</f:then>
+			<f:else>
+				<f:render section="TeaserLink" arguments="{_all}"/>
+			</f:else>
+		</f:if>
+
+		<f:if condition="{page.subtitle} && {config.subtitle}">
+			<div class="{name}__subtitle">
+				{page.subtitle}
+			</div>
+		</f:if>
+
+		<f:if condition="{config.categoryList} && {page.categories}">
+			<div class="{name}__categories">
+				<f:for each="{page.categories}" as="cat" iteration="i">
+					<span class="{name}__category">{cat.title}</span>
+					<f:if condition="!{i.isLast}">
+						<span class="{name}__categories__divider"> | </span>
+					</f:if>
+				</f:for>
+			</div>
+		</f:if>
+
+		<f:if condition="{config.teaserText} && {page.teaser_text}">
+			<div class="{name}__text">{page.teaser_text -> f:format.crop(maxCharacters:300) ->
+				f:format.raw()}
+			</div>
+		</f:if>
+
+		<f:if condition="{page.author} && {config.author}">
+			<div class="{name}__author">
+				{page.author}
+			</div>
+		</f:if>
+
+
+		<f:if condition="{page.icon} && {config.icon}">
+			<icon:svg icon="{page.icon}" class="{name}__icon"/>
+		</f:if>
+
+		<f:if condition="{config.cta}">
+			<div class="{name}__cta__wrap" aria-hidden>
+				<div class="{name}__cta">
+					<f:translate extensionName="puck" key="learn-more"/>
+					<icon:svg icon="arrow-right-regular"/>
+				</div>
+			</div>
+		</f:if>
+	</div>
+</f:section>
+
+<f:section name="Metadata">
+	<f:if condition="{page.post_date} && {config.postDate}">
+		<span class="sr-only">, </span>
+		<time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}">
+			{page.post_date -> f:format.date(format: 'd.m.Y')}
+		</time>
+	</f:if>
+
+	<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
+		<span class="sr-only">, </span>
+		<time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">
+			{page.lastUpdated -> f:format.date(format: 'd.m.Y')}
+		</time>
+	</f:if>
+
+	<f:if condition="{config.category} && {page.categories}">
+		<span class="sr-only">, </span>
+		<span class="{name}__category">
+			{page.categories.0.title}
+		</span>
+	</f:if>
+</f:section>
+
+<f:section name="TeaserLink">
+	<a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
+	   class="{name}__link"
+	   target="{page.target}">
+
+		<span class="{name}__title">
+			{page.teaser_title -> f:format.raw()}
+		</span>
+
+		<f:if condition="!{headingTitle}">
+			<f:render section="Metadata" arguments="{_all}"/>
+		</f:if>
+	</a>
+</f:section>

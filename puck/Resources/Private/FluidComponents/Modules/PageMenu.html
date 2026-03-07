@@ -21,8 +21,8 @@
 		</f:if>
 
 		<f:comment>adjust teaser heading tags based on section heading tag to preserve hierarchy</f:comment>
-		<f:variable name="subheadingMap" value="{0:'h2', p:'h2', h2:'h3', h3:'h4', h4:'h5'}"/>
-		<u:var set="teaserHeadingTag" if="{record.header}" then="{subheadingMap.{record.header_layout.tag}}" else="h2"/>
+		<f:variable name="subheadingMap" value="{0:'h3', p:'h3', h2:'h3', h3:'h4', h4:'h5'}"/>
+		<u:var set="teaserHeadingTag" value="{subheadingMap.{record.header_layout.tag}}" fallback="h3"/>
 
 		<f:if condition="{menu}">
 			<f:switch expression="{record.layout}">
@@ -32,17 +32,12 @@
 								id="c{record.uid}-list"
 								flexGrow="0" justify="left" align="top">
 						<f:for as="item" each="{menu}" iteration="i">
-							<layout:card
-								attributes="{data-link-area:''}"
-								class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
-								cropVariant="16:9"
-								width="4">
-								<module:pageMenu.teaser
-									config="{teaserText:1}"
-									page="{item}"
-									headingTag="{teaserHeadingTag}"
-									name="{name}"/>
-							</layout:card>
+							<module:teaser
+								class="{name}__item l-row__item -bp-auto -width-4 -variant-{record.layout}"
+								page="{item}"
+								config="{teaserText:1}"
+								headingTag="{teaserHeadingTag}"
+								layoutCard="{cropVariant:'16:9', mediaSize:'cover'}" />
 						</f:for>
 					</layout:row>
 				</f:case>
@@ -52,17 +47,12 @@
 								id="c{record.uid}-list"
 								flexGrow="0" justify="left" align="top">
 						<f:for as="item" each="{menu}" iteration="i">
-							<layout:card
-								attributes="{data-link-area:''}"
-								class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
-								cropVariant="16:9"
-								width="4">
-								<module:pageMenu.teaser
-									config="{postDate:1, categories: 1}"
-									page="{item}"
-									headingTag="{teaserHeadingTag}"
-									name="{name}"/>
-							</layout:card>
+							<module:teaser
+								class="{name}__item l-row__item -bp-auto -width-4 -variant-{record.layout}"
+								page="{item}"
+								config="{postDate:1, categories: 1}"
+								headingTag="{teaserHeadingTag}"
+								layoutCard="{cropVariant:'16:9', mediaSize:'cover', align:'start'}" />
 						</f:for>
 					</layout:row>
 				</f:case>
@@ -73,27 +63,18 @@
 								flexGrow="{record.flex_grow}" align="{record.row_align}"
 								justify="{record.row_justify}">
 						<f:for as="item" each="{menu}" iteration="i">
-							<f:variable name="media"
-										value="{f:if(condition:record.menu_item_config.media,then:'{0:item.media.0}')}"/>
-							<div
-								class="{name}__column l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"
-								data-link-area>
-								<layout:media
-									cropVariant="16:9"
-									itemWidth="{record.media_column_width}"
-									layout="{record.media_layout}"
-									media="{media}"
-									showTitle="0"
-									showDesc="0"
-									mediaWidth="{record.media_column_width}"
-									textWidth="{record.text_column_width}">
-									<module:pageMenu.teaser
-										config="{record.menu_item_config}"
-										page="{item}"
-										headingTag="{teaserHeadingTag}"
-										name="{name}"/>
-								</layout:media>
-							</div>
+							<module:teaser
+								class="{name}__item l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"
+								page="{item}"
+								config="{record.menu_item_config}"
+								headingTag="{teaserHeadingTag}"
+								layoutMedia="{
+								cropVariant:'16:9',
+								itemWidth:record.media_column_width,
+								layout:record.media_layout,
+								mediaWidth:record.media_column_width,
+								textWidth:record.text_column_width
+								}" />
 						</f:for>
 					</layout:row>
 				</f:case>
@@ -103,25 +84,18 @@
 								id="c{record.uid}-list"
 								flexGrow="{record.flex_grow}" align="{record.row_align}"
 								justify="{record.row_justify}">
-
 						<f:for as="item" each="{menu}" iteration="i">
-							<f:variable name="media"
-										value="{f:if(condition:record.menu_item_config.media,then:item.media)}"/>
-							<layout:card
-								attributes="{data-link-area:''}"
-								class="{name}__card l-row__item -bp-auto -variant-{record.layout}"
-								cropVariant="16:9"
-								media="{media}"
-								mediaLayout="{record.media_layout}"
-								mediaSize="{record.card_media_size}"
-								mediaWidth="{record.media_column_width}"
-								width="{record.item_column_width}">
-								<module:pageMenu.teaser
-									config="{record.menu_item_config}"
-									page="{item}"
-									headingTag="{teaserHeadingTag}"
-									name="{name}"/>
-							</layout:card>
+							<module:teaser
+								class="{name}__item l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"
+								page="{item}"
+								config="{record.menu_item_config}"
+								headingTag="{teaserHeadingTag}"
+								layoutCard="{
+								cropVariant:'16:9',
+								mediaLayout:record.media_layout,
+								mediaSize:record.card_media_size,
+								mediaWidth:record.media_column_width
+								}" />
 						</f:for>
 					</layout:row>
 				</f:defaultCase>
