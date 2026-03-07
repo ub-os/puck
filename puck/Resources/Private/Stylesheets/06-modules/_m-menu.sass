@@ -26,6 +26,9 @@
 		&:focus-visible
 			color: var(--color-link--hover)
 
+	&__title__heading
+		width: 100%
+		padding: 0
 
 	&__card:hover &__headline,
 	&__card:hover &__cta,
@@ -40,14 +43,16 @@
 	&__categories
 		width: 100%
 		color: var(--color-emphasis)
+		order: -1
 
 	&__date
 		+font-size($font-size-small)
 		color: var(--color-emphasis)
+		order: -1
 
 	&__teaser-text
 		width: 100%
-		padding-top: var(--paragraph-spacing)
+		padding-top: 1em
 
 	&__cta
 		+flex(row, flex-start, center)
