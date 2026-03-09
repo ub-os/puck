@@ -6,8 +6,7 @@
 <layout:section
 	class="{name}__wrap -layout-{record.media_layout}"
 	record="{record}"
-	container="{f:if(condition: '{record._media_layout_direction} == \'row\'', then:1, else:0)}"
-	id="c{record.uid}">
+	container="{f:if(condition: '{record._media_layout_direction} == \'row\'', then:1, else:0)}">
 	<f:if condition="{record._media_layout_direction} == 'column'">
 		<f:then>
 			<f:if condition="{record.bodytext} || {record.header} || {record.subheader}">

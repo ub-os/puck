@@ -16,10 +16,10 @@
 	+responsive-size($gutter-x, --gutter-x)
 	+responsive-size($gutter-y, --gutter-y)
 
-	+responsive-size($font-size-base, --font-size-base)
-	--paragraph-spacing: calc(var(--font-size-base) * 1.4)
-	@each $size, $value in sizes()
-		+responsive-size($value, --spacing-#{$size})
+	+responsive-size($font-size-body, --font-size-body)
+	--paragraph-spacing: calc(var(--font-size-body) * 1.4)
+	@each $size, $factor in fibonacci-sizes()
+		+responsive-size($spacing-unit * $factor, --spacing-#{$size})
 
 	--clip-slant-height: 6vw
 	--max-height-media-mobile: unset

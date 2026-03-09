@@ -1,5 +1,5 @@
 
-<f:argument name="name" optional="1" type="string" default="m-menu"/>
+<f:argument name="name" optional="1" type="string" default="m-page-menu"/>
 <f:argument name="record" type="mixed"/>
 <f:argument name="menu" type="array" optional="1"/>
 <f:argument name="pagination" type="UBOS\MenuControls\Dto\Pagination" optional="1"/>
@@ -17,7 +17,7 @@
 	<div class="{name}__body" id="c{record.uid}-body" data-focus-after-swap="#c{record.uid}-list a">
 
 		<f:if condition="{categoryFilter}">
-			<module:pageMenu.filter categoryFilter="{categoryFilter}" contentUid="{record.uid}"/>
+			<module:menu.filter categoryFilter="{categoryFilter}" contentUid="{record.uid}"/>
 		</f:if>
 
 		<f:comment>adjust teaser heading tags based on section heading tag to preserve hierarchy</f:comment>
@@ -27,7 +27,7 @@
 		<f:if condition="{menu}">
 			<f:switch expression="{record.layout}">
 
-				<f:case value="default-cards">
+				<f:defaultCase>
 					<layout:row class="{name}__row"
 								id="c{record.uid}-list"
 								flexGrow="0" justify="left" align="top">
@@ -37,12 +37,15 @@
 								page="{item}"
 								config="{teaserText:1}"
 								headingTag="{teaserHeadingTag}"
-								layoutCard="{cropVariant:'16:9', mediaSize:'cover'}" />
+								layoutCard="{
+								cropVariant:'16:9',
+								mediaSize:'cover'
+								}" />
 						</f:for>
 					</layout:row>
-				</f:case>
+				</f:defaultCase>
 
-				<f:case value="blog-cards">
+				<f:case value="news-cards">
 					<layout:row class="{name}__row"
 								id="c{record.uid}-list"
 								flexGrow="0" justify="left" align="top">
@@ -50,9 +53,13 @@
 							<module:teaser
 								class="{name}__item l-row__item -bp-auto -width-4 -variant-{record.layout}"
 								page="{item}"
-								config="{postDate:1, categories: 1}"
+								config="{postDate:1,categoryList:1}"
 								headingTag="{teaserHeadingTag}"
-								layoutCard="{cropVariant:'16:9', mediaSize:'cover', align:'start'}" />
+								layoutCard="{
+								cropVariant:'16:9',
+								mediaSize:'cover',
+								align:'start'
+								}" />
 						</f:for>
 					</layout:row>
 				</f:case>
@@ -79,7 +86,7 @@
 					</layout:row>
 				</f:case>
 
-				<f:defaultCase>
+				<f:case value="cards">
 					<layout:row class="{name}__row"
 								id="c{record.uid}-list"
 								flexGrow="{record.flex_grow}" align="{record.row_align}"
@@ -98,14 +105,14 @@
 								}" />
 						</f:for>
 					</layout:row>
-				</f:defaultCase>
+				</f:case>
+
 			</f:switch>
 		</f:if>
 
 		<f:if condition="{pagination}">
-			<module:pageMenu.pagination pagination="{pagination}" sectionId="c{record.uid}"/>
+			<module:menu.pagination pagination="{pagination}" sectionId="c{record.uid}"/>
 		</f:if>
-
 	</div>
 
 </layout:section>

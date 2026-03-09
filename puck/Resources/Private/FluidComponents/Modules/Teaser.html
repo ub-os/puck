@@ -39,6 +39,7 @@
 	</f:else>
 </f:if>
 
+
 <f:section name="Content">
 
 	<f:variable name="headingTitle" value="{config.subtitle}{config.categoryList}{config.teaserText}{config.author}"/>
@@ -64,19 +65,18 @@
 		</f:if>
 
 		<f:if condition="{config.categoryList} && {page.categories}">
-			<div class="{name}__categories">
+			<div class="{name}__category">
 				<f:for each="{page.categories}" as="cat" iteration="i">
-					<span class="{name}__category">{cat.title}</span>
+					<span class="{name}__category__item">{cat.title}</span>
 					<f:if condition="!{i.isLast}">
-						<span class="{name}__categories__divider"> | </span>
+						<span class="{name}__category__divider"> - </span>
 					</f:if>
 				</f:for>
 			</div>
 		</f:if>
 
 		<f:if condition="{config.teaserText} && {page.teaser_text}">
-			<div class="{name}__text">{page.teaser_text -> f:format.crop(maxCharacters:300) ->
-				f:format.raw()}
+			<div class="{name}__text">{page.teaser_text -> f:format.crop(maxCharacters:300) -> f:format.raw()}
 			</div>
 		</f:if>
 
@@ -85,7 +85,6 @@
 				{page.author}
 			</div>
 		</f:if>
-
 
 		<f:if condition="{page.icon} && {config.icon}">
 			<icon:svg icon="{page.icon}" class="{name}__icon"/>
@@ -99,8 +98,29 @@
 				</div>
 			</div>
 		</f:if>
+
+		<f:if condition="{config.arrow}">
+			<icon:svg icon="circle-arrow-right-solid" class="{name}__arrow"/>
+		</f:if>
 	</div>
 </f:section>
+
+
+<f:section name="TeaserLink">
+	<a href="{f:uri.typolink(parameter:page.link_parameter, absolute:1)}"
+	   class="{name}__link"
+	   target="{page.target}">
+
+		<span class="{name}__title">
+			{page.teaser_title -> f:format.raw()}
+		</span>
+
+		<f:if condition="!{headingTitle}">
+			<f:render section="Metadata" arguments="{_all}"/>
+		</f:if>
+	</a>
+</f:section>
+
 
 <f:section name="Metadata">
 	<f:if condition="{page.post_date} && {config.postDate}">
@@ -123,19 +143,4 @@
 			{page.categories.0.title}
 		</span>
 	</f:if>
-</f:section>
-
-<f:section name="TeaserLink">
-	<a href="{f:uri.typolink(parameter: page.link_parameter, absolute:1)}"
-	   class="{name}__link"
-	   target="{page.target}">
-
-		<span class="{name}__title">
-			{page.teaser_title -> f:format.raw()}
-		</span>
-
-		<f:if condition="!{headingTitle}">
-			<f:render section="Metadata" arguments="{_all}"/>
-		</f:if>
-	</a>
 </f:section>

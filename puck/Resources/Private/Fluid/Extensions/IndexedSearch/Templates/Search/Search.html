@@ -1,6 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
 	  xmlns:is="http://typo3.org/ns/TYPO3/CMS/IndexedSearch/ViewHelpers" data-namespace-typo3-fluid="true">
-<f:variable name="name" value="indexedsearch"/>
+<f:variable name="name" value="m-indexedsearch"/>
 
 <f:if condition="{searchParams.sword}">
 	<u:var set="urlWithSearchParam">{f:uri.action(action:'search', arguments:'{search: {sword:searchParams.sword}}' )}</u:var>
@@ -11,9 +11,7 @@
 <f:alias map="{sword: searchParams.sword}">
 	<f:render partial="Form" arguments="{_all}"/>
 </f:alias>
-<layout:section
-	top="none"
-	class="{name}__list__wrap">
+<layout:section class="{name}__list__wrap" id="tx-indexedsearch-results-section">
 	<f:for each="{resultsets}" as="result">
 		<f:if condition="{result.categoryTitle}">
 			<h1 class="{name}__category">{result.categoryTitle}</h1>

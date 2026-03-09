@@ -63,7 +63,6 @@ $columns['header_layout'] = [
 //			// 100 is hidden and for backend only
 //			['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'other'],
 
-
 			['label' => 'H2', 'value' => 'h2.h2', 'group' => '<h2>'],
 			['label' => 'H2 (subheader as topline)', 'value' => 'h2.h2.topline', 'group' => '<h2>'],
 			['label' => 'Topline-H2 (subheader as headline)', 'value' => 'h2.topline.h2', 'group' => '<h2>'],
@@ -78,7 +77,6 @@ $columns['header_layout'] = [
 			['label' => 'H3 (<p>)', 'value' => 'p.h2', 'group' => '<p>'],
 
 			['label' => 'Hidden (backend only)', 'value' => 100, 'group' => 'hidden'],
-
 		],
 		'itemGroups' => [
 			'<h2>' => '<h2>',
@@ -395,11 +393,13 @@ $columns['menu_item_config'] = [
 			['Subtitle', 'subtitle'],
 			['Media', 'media'],
 			['Category', 'category'],
+			['Category List', 'categoryList'],
 			['Author', 'author'],
 			['Last Update (lastUpdated)', 'lastUpdated'],
 			['Post Date (post_date)', 'postDate'],
-			['Icon', 'icon'],
-			['Call to action', 'cta']
+			['Page Icon', 'icon'],
+			['Call to action', 'cta'],
+			['Arrow / Link Symbol', 'arrow']
 		],
 		'default' => '',
 	]

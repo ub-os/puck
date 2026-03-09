@@ -1,17 +1,19 @@
 @use '../01-tools/all' as *
 
 .m-teaser
-	&
-		transition: transform .25s
-		&:hover
-			transform: translateY(-5px)
-
 	&:hover &__title,
-	&:hover &__cta
+	&:hover &__cta,
+	&:hover &__arrow
 		color: var(--color-link--hover)
 
+	&__card
+		transition: border-color .15s
+		&:hover
+			border-color: var(--color-link--hover)
+
 	&__content
-		+flex(row, flex-start, flex-start, wrap)
+		+flex(row, flex-start, center, wrap)
+		position: relative
 		width: 100%
 
 	&__heading
@@ -27,19 +29,22 @@
 		width: 100%
 		padding: 0
 		color: var(--color-link)
+		transition: color .15s
 		&:hover,
 		&:focus-visible
 			color: var(--color-link--hover)
-
-	&__categories
-		width: 100%
-		color: var(--color-emphasis)
-		order: -1
 
 	&__date
 		+font-size($font-size-small)
 		color: var(--color-emphasis)
 		order: -1
+		font-variant-numeric: tabular-nums
+
+	&__category
+		+font-size($font-size-small)
+		color: var(--color-emphasis)
+		order: -1
+		margin-left: auto
 
 	&__icon
 		order: -2
@@ -56,7 +61,18 @@
 		+flex(row, flex-start, center)
 		gap: .5em
 		margin-top: var(--paragraph-spacing)
-		margin-left: auto
-		transition: color .25s
+		transition: color .15s
 		&__wrap
 			margin-top: auto
+			margin-left: auto
+
+	&__arrow
+		position: absolute
+		right: 0
+		bottom: 0
+		font-size: 2.5em
+		color: rgba(255, 255, 255, 0.15)
+		transition: color .15s
+
+	&__content:where(:has(&__arrow))
+		padding-right: 4.5em

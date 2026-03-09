@@ -1,7 +1,6 @@
 <f:variable name="blockClass" value="shape"/>
 
-<layout:section id="c{plugin.uid}"
-				record="{plugin}"
-				class="{blockClass}__section {blockClass}__show-text-finisher -layout-{form.layout} {form.css_class}">
+<layout:section class="{blockClass}__section {blockClass}__show-text-finisher -layout-{form.layout} {form.css_class}"
+				record="{plugin}">
 	{parsedText -> f:format.html()}
 </layout:section>

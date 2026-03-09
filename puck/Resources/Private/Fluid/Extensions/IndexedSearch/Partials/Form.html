@@ -2,7 +2,7 @@
 
 <f:variable name="name" value="m-indexedsearch"/>
 <f:variable name="h1" value="{f:if(condition: searchParams.sword, then: '“{searchParams.sword}”', else: '')}"/>
-<layout:section class="{name}__wrap" top="none">
+<layout:section class="{name}__wrap" id="tx-indexedsearch-form-section">
     <f:form action="search" method="post" id="tx_indexedsearch" pageUid="{settings.targetPid}">
         <div class="tx-indexedsearch-hidden-fields">
             <f:form.hidden name="search[_sections]" value="0"/>

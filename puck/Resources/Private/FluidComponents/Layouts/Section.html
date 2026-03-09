@@ -2,31 +2,28 @@
 <f:argument name="name" type="string" optional="1" default="l-section"/>
 <f:argument name="id" type="string" optional="1"/>
 <f:argument name="record" type="mixed" optional="1"/>
-<f:argument name="top" type="string" optional="1" default="auto"/>
-<f:argument name="bottom" type="string" optional="1" default="auto"/>
 <f:argument name="container" type="boolean" optional="1" default="1"/>
-<f:argument name="customContainer" type="string" optional="1" default=""/>
+<f:argument name="containerName" type="string" optional="1" default=""/>
 <f:argument name="attributes" type="array" optional="1"/>
 
+<u:var set="sectionId" if="!{id} && {record.uid}" then="c{record.uid}" else="{id}"/>
 
 <section class="{u:bem(
 	   raw:class,
 	   mod:{
 		  background: record.frame_class,
 		  layout: record.layout,
-		  top: top,
-		  bottom: bottom,
 		  no-h2-spacing: record._remove_header_spacing
 		  }
 	 )}"
-		 id="{id}"
+		 id="{sectionId}"
 		 {attributes -> u:renderAttributes()}>
 	<f:if condition="!{container}">
 		<f:then>
 			<f:slot/>
 		</f:then>
-		<f:else if="{customContainer}">
-			<layout:container class="{customContainer}__container">
+		<f:else if="{containerName}">
+			<layout:container class="{containerName}__container">
 				<f:slot/>
 			</layout:container>
 		</f:else>

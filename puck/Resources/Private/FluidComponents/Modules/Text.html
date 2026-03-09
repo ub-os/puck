@@ -6,8 +6,7 @@
 	<f:then>
 		<layout:section
 			class="{name}__wrap {f:if(condition: '!{record.bodytext}', then: '-headline-only')} {class}"
-			record="{record}"
-			id="c{record.uid}">
+			record="{record}">
 			<f:render section="InnerContent" arguments="{_all}"/>
 		</layout:section>
 	</f:then>
