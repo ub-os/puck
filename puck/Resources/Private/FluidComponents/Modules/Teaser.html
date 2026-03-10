@@ -42,11 +42,11 @@
 
 <f:section name="Content">
 
-	<f:variable name="headingTitle" value="{config.subtitle}{config.categoryList}{config.teaserText}{config.author}"/>
+	<f:variable name="titleIsHeading" value="{config.subtitle}{config.categoryList}{config.teaserText}{config.author}"/>
+	<f:comment>Title anchor is wrapped in a heading tag if the teaser contains non-decorative content. Date and Categories ("Metadata") do NOT count, if they are the only content instead of adding a heading for them they are absorbed into the anchor tag itself.</f:comment>
 
 	<div class="{name}__content">
-
-		<f:if condition="{headingTitle}">
+		<f:if condition="{titleIsHeading}">
 			<f:then>
 				<element:tag is="{headingTag}" class="{name}__heading">
 					<f:render section="TeaserLink" arguments="{_all}"/>
@@ -65,12 +65,9 @@
 		</f:if>
 
 		<f:if condition="{config.categoryList} && {page.categories}">
-			<div class="{name}__category">
+			<div class="{name}__category {name}__category__list">
 				<f:for each="{page.categories}" as="cat" iteration="i">
 					<span class="{name}__category__item">{cat.title}</span>
-					<f:if condition="!{i.isLast}">
-						<span class="{name}__category__divider"> - </span>
-					</f:if>
 				</f:for>
 			</div>
 		</f:if>
@@ -94,7 +91,6 @@
 			<div class="{name}__cta__wrap" aria-hidden>
 				<div class="{name}__cta">
 					<f:translate extensionName="puck" key="learn-more"/>
-					<icon:svg icon="arrow-right-regular"/>
 				</div>
 			</div>
 		</f:if>
@@ -115,7 +111,7 @@
 			{page.teaser_title -> f:format.raw()}
 		</span>
 
-		<f:if condition="!{headingTitle}">
+		<f:if condition="!{titleIsHeading}">
 			<f:render section="Metadata" arguments="{_all}"/>
 		</f:if>
 	</a>
@@ -124,21 +120,24 @@
 
 <f:section name="Metadata">
 	<f:if condition="{page.post_date} && {config.postDate}">
-		<span class="sr-only">, </span>
 		<time class="{name}__date" datetime="{page.post_date -> f:format.date(format: 'Y-m-d H:i:s')}">
 			{page.post_date -> f:format.date(format: 'd.m.Y')}
 		</time>
 	</f:if>
 
 	<f:if condition="{page.lastUpdated} && {config.lastUpdated}">
-		<span class="sr-only">, </span>
+		<f:if condition="!{titleIsHeading}">
+			<span class="sr-only">, </span>
+		</f:if>
 		<time class="{name}__date" datetime="{page.lastUpdated -> f:format.date(format: 'Y-m-d H:i:s')}">
 			{page.lastUpdated -> f:format.date(format: 'd.m.Y')}
 		</time>
 	</f:if>
 
 	<f:if condition="{config.category} && {page.categories}">
-		<span class="sr-only">, </span>
+		<f:if condition="!{titleIsHeading}">
+			<span class="sr-only">, </span>
+		</f:if>
 		<span class="{name}__category">
 			{page.categories.0.title}
 		</span>

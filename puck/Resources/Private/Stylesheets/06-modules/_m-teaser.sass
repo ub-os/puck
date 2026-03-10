@@ -36,15 +36,20 @@
 
 	&__date
 		+font-size($font-size-small)
-		color: var(--color-emphasis)
 		order: -1
 		font-variant-numeric: tabular-nums
+		color: var(--color-emphasis)
 
 	&__category
 		+font-size($font-size-small)
-		color: var(--color-emphasis)
 		order: -1
 		margin-left: auto
+		color: var(--color-emphasis)
+		&__list
+			display: flex
+		&__item:not(:first-child)::before
+			content: '-'
+			margin-inline: .25em
 
 	&__icon
 		order: -2
@@ -58,7 +63,8 @@
 		padding-top: 1em
 
 	&__cta
-		+flex(row, flex-start, center)
+		+flex(row, flex-start, center, nowrap)
+		+typo-button
 		gap: .5em
 		margin-top: var(--paragraph-spacing)
 		transition: color .15s
@@ -70,8 +76,8 @@
 		position: absolute
 		right: 0
 		bottom: 0
-		font-size: 2.5em
-		color: rgba(255, 255, 255, 0.15)
+		font-size: 2.4em
+		color: transparentize(white, 0.85)
 		transition: color .15s
 
 	&__content:where(:has(&__arrow))

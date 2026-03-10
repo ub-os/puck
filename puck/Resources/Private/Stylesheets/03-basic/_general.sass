@@ -85,7 +85,7 @@ b
 	font-weight: bold
 
 button, a[href], input, select, textarea, [draggable], [contenteditable], [tabindex]:not([tabindex="-1"])
-	&:focus-visible
+	&:where(:not(:active)):focus-visible
 		outline: none
 		box-shadow: 0 0 0 4px var(--outline-color-button--focus)
 
