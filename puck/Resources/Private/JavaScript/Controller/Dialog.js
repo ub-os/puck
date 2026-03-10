@@ -24,7 +24,6 @@ export default class Dialog extends Showable {
 			this.element.removeAttribute('open')
 		}
 	}
-
 	connected() {
 		if (this.element.tagName !== 'DIALOG') throw new Error('Dialog Aspect should only be used on dialog elements')
 		super.connected()

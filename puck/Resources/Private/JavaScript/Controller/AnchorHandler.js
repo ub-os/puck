@@ -13,7 +13,6 @@ export default class AnchorHandler extends Controller {
 	dragDelta = 6
 
 	menuAnchorTargetConnected(el) {
-		console.log(el)
 		this.scrollTargetIntersectionObserver.observe(el.nextElementSibling)
 		el.nextElementSibling.setAttribute('data-menu-anchor-id', el.id)
 	}
@@ -123,7 +122,6 @@ export default class AnchorHandler extends Controller {
 		// ignore right clicks and dragging
 		// open in new tab if meta or middle click
 		this.listeners.delegate(document.body, '[data-link-area]', 'click', e => {
-			console.log({ [e.type]: e} )
 			if (e.target.tagName === 'A' || this.isDragging || e.altKey) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
@@ -134,7 +132,6 @@ export default class AnchorHandler extends Controller {
 			link.click()
 		})
 		this.listeners.delegate(document.body, '[data-link-area]', 'auxclick', e => {
-			console.log({ [e.type]: e} )
 			if (e.target.tagName === 'A' || this.isDragging || e.button > 1) return
 			const link = e.delegateTarget.querySelector('a')
 			if (!link) return
