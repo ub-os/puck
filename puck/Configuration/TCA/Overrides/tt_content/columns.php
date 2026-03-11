@@ -90,13 +90,6 @@ $columns['header_layout'] = [
 $columns['subheader'] = [
 	'label' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['label'],
 	'config' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['config'],
-//	'displayCond' => [
-//		'AND' => [
-//			'FIELD:header_layout:!=:100',
-//			'FIELD:header_layout:>:24',
-//			'FIELD:header_layout:<:30',
-//		],
-//	],
 ];
 
 $columns['bodytext'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];

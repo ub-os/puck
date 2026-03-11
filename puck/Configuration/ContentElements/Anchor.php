@@ -18,7 +18,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		],
 		'subheader' => [
 			'label' => 'URL Segment',
-			'displayCond' => 'FIELD:CType:=:puck_anchor',
 			'config' => [
 				'type' => 'slug',
 				'generatorOptions' => [

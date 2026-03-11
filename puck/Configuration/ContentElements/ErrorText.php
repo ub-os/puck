@@ -17,8 +17,5 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 				'enableRichtext' => true,
 			]
 		],
-		'subheader' => [
-			'displayCond' => 'FIELD:CType:=:puck_error_text'
-		]
 	]
 );
