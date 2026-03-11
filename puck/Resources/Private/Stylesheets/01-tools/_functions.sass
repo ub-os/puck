@@ -29,6 +29,9 @@
 	@else
 		@return calc(var(--spacing-#{$size}) * #{$factor})
 
+@function section-spacing($factor: 1)
+	@return spacing(m, $factor)
+
 @function bodyEm($factor: 1)
 	@if $factor == 1
 		@return var(--font-size-body)
