@@ -4,6 +4,7 @@ dependencies:
   - typo3/fluid-styled-content
   - typo3/redirects
   - typo3/seo-sitemap
+  - amdeu/shape
 settings:
   doktypes:
     news: 16503

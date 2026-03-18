@@ -18,13 +18,11 @@
 
 		<div class="{name}__nav__wrap" id="main-nav">
 
-			<element:navigation name="{name}__nav"
-								pages="{settings.navigation.main}"
-								label="{f:translate(key:'navigation.main')}"/>
+			<element:navigation name="{name}__nav" identifier="main"/>
 			<f:comment>
 				// small navigation with search link that opens modal
-				<element:navigation name="{name}__nav" class="-small" pages="{settings.navigation.meta}">
-					<f:if condition="{record.uid} != {settings.search.pid}">
+				<element:navigation name="{name}__nav" class="-small" identifier="meta">
+					<f:if condition="{record.uid} != {settings.system.searchPageUid}">
 						<li class="{name}__nav__item">
 							<button class="{name}__nav__link"
 									data-action="modal.toggle#header-search-modal">

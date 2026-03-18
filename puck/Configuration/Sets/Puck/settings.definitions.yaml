@@ -1,8 +1,8 @@
 categories:
   Puck:
     label: Puck site package
-  Puck.navigation:
-    label: Navigation
+  Puck.system:
+    label: System
     parent: Puck
   Puck.template:
     label: Template
@@ -31,33 +31,15 @@ settings:
     default: default
     enum:
       default: 'Default'
-  navigation.main:
-    label: Main navigation
-    description: Parent uids of main navigation
-    category: Puck.navigation
-    type: string
-    default: ''
-  navigation.footer:
-    label: Footer navigation
-    description: Parent uids of footer navigation
-    category: Puck.navigation
-    type: string
-    default: ''
-  navigation.social:
-    label: Social navigation
-    description: Parent uids of social navigation
-    category: Puck.navigation
-    type: string
-    default: ''
-  navigation.meta:
-    label: Meta navigation
-    description: Parent uids of meta navigation
-    category: Puck.navigation
-    type: string
-    default: ''
-  navigation.searchPage:
+  system.enableCookieSettings:
+    label: Enable cookie settings
+    description: Show cookie settings link in footer
+    category: Puck.system
+    type: bool
+    default: false
+  system.searchPageUid:
     label: Search page
     description: Uid of search plugin page
-    category: Puck.navigation
+    category: Puck.system
     type: string
     default: ''

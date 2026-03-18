@@ -5,16 +5,16 @@
 
 <footer id="footer" class="{name}">
 	<layout:section class="{name}__nav__wrap" id="footer-section">
-		<element:navigation name="{name}__nav" pages="{settings.navigation.footer}" class="">
-			<f:if condition="{settings.navigation.enableCookieSettings}">
+		<element:navigation name="{name}__nav" identifier="footer">
+			<f:if condition="{settings.system.enableCookieSettings}">
 				<li class="{name}__nav__item">
 					<button class="{name}__nav__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen
 					</button>
 				</li>
 			</f:if>
 		</element:navigation>
-		<element:navigation name="{name}__nav" pages="{settings.navigation.social}" class="-icons"
-							prependIcon="1" hideTitle="1"/>
+		<element:navigation name="{name}__nav" identifier="social"
+							class="-icons" prependIcon="1" hideTitle="1"/>
 	</layout:section>
 	<f:slot/>
 </footer>

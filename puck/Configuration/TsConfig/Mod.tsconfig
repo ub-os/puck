@@ -96,6 +96,44 @@ mod.web_layout.BackendLayouts {
         }
     }
 
+    sysfolder {
+        title = System Folder
+        config.backend_layout {
+            rows {
+                1 {
+                    columns {
+                        1 {
+                            name = Navigations
+                            colPos = 10000
+                            colSpan = 8
+                            allowed.CType = puck_sys_navigation
+                        }
+                    }
+                }
+                2 {
+                    columns {
+                        1 {
+                            name = System Elements
+                            colPos = 1
+                            colSpan = 8
+                            allowed.CType < defaultAllowedContent
+                        }
+                    }
+                }
+                3 {
+                    columns {
+                        1 {
+                            name = System Elements (inner child content)
+                            colPos = 699
+                            colSpan = 8
+                            allowed.CType < defaultAllowedContent
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     detail-plugin {
         title = Plugin detail page
         config.backend_layout {
@@ -120,7 +158,7 @@ mod.web_layout.BackendLayouts {
 TCEFORM.pages.backend_layout.itemsProcFunc.doktypes {
     // only allow backendLayout "default" on pages with doktype 1
     1 = default, error
-    254 = folder
+    254 = folder, sysfolder
     16503 = default
     16511 = detail-plugin
 }

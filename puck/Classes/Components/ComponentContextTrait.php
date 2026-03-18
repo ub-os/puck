@@ -12,9 +12,9 @@ trait ComponentContextTrait
 			$site = $request->getAttribute('site');
 			$siteSettings = $site->getSettings();
 			$this->settingsVariable = [
-				'template' => $siteSettings->get('template'),
-				'navigation' => $siteSettings->get('navigation'),
+				'system' => $siteSettings->get('system'),
 				'doktypes' => $siteSettings->get('doktypes'),
+				'template' => $siteSettings->get('template'),
 			];
 		}
 		return $this->settingsVariable;
