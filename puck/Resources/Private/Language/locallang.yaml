@@ -1,0 +1,27 @@
+page: Page
+previous: Previous
+next: Next
+close: Close
+play-video: Play video
+back-to: Back to
+back-to-news: Back to news overview
+learn-more: Learn more
+to-top: Back to top
+read-article: read article
+show-on-map: show on map
+date: Date
+searchresults-for: Search results for
+no-searchresults-found: No results found.
+stay-in-touch: Stay in touch
+mail-address: E-mail address
+read-more: read more
+show-less: show less
+no-results: No results found.
+last-updated: Last updated on
+cookie-settings: Cookie settings
+
+navigation:
+  main: Main navigation
+  meta: Secondary navigation
+  footer: Legal pages
+  social: Social links

@@ -17,6 +17,9 @@
 		{contentElements.colPos2 -> f:format.raw()}
         {contentElements.colPos1 -> f:format.raw()}
     </module:main>
+	<div id="modal-container">
+		{contentElements.colPos9 -> f:format.raw()}
+	</div>
     <!--TYPO3SEARCH_end-->
     <f:if condition="{record.backend_layout} !== 'pagets__error'">
         <module:footer record="{record}">
@@ -24,8 +27,5 @@
         </module:footer>
     </f:if>
     <module:main.toTop/>
-    <div id="modal-container">
-        {contentElements.colPos9 -> f:format.raw()}
-    </div>
 	<div id="root-loading-bar"></div>
 </page-root>
