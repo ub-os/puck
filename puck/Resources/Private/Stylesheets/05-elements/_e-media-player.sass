@@ -55,6 +55,11 @@
 		& > *
 			animation: fade-in-media .3s ease-in
 
+	:is(&__modal__frame, &__frame) .uc-embedding-container
+		aspect-ratio: 16 / 9
+		max-height: 100% !important
+		color: black
+
 	&__loading-indicator
 		+center(both)
 		font-size: 2em
@@ -77,4 +82,3 @@
 
 	&:hover &__icon
 		color: var(--color-link--hover)
-

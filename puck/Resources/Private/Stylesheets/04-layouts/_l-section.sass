@@ -1,8 +1,6 @@
 @use 'sass:map'
 @use '01-tools/all' as *
 
-$backgrounds: 'dark-1'
-
 .l-section
 	&
 		position: relative
@@ -27,13 +25,15 @@ $backgrounds: 'dark-1'
 		:where(&, & + .e-anchor) + :where(&)
 			margin-top: section-spacing(-1)
 
-	@each $bg in $backgrounds
+	=background-spacing-rules($bg)
 		&:where(.-background-#{$bg})
 			:where(&, & + .e-anchor) + &
 				margin-top: section-spacing(-1)
 				padding-top: 0
 				&:where(.-no-h2-spacing)
 					margin-top: section-spacing(-2)
+
+	+background-spacing-rules('dark-1')
 
 	// Backgrounds
 	&.-background-dark-1

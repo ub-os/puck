@@ -81,7 +81,7 @@ export default class MediaPlayer extends Controller {
 
 	getYoutubePlayerEl() {
 		return (
-			<div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
+			<div>
 				<iframe
 					title={'YouTube video player'}
 					style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}
@@ -96,7 +96,7 @@ export default class MediaPlayer extends Controller {
 
 	getVimeoPlayerEl() {
 		return (
-			<div style={!this.usePlyr ? `padding-top: ${100 / this.aspectRatio}%;` : ''}>
+			<div>
 				<iframe
 					title={'Vimeo video player'}
 					style={'position: absolute; top: 0; left: 0; width: 100%; height: 100%;'}

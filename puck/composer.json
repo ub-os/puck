@@ -23,7 +23,6 @@
 		"wapplersystems/save_and_close": "^13",
 		"amdeu/typo3-copy-presets": "^1.0",
 		"amdeu/typo3-locallang-formats": "^1",
-		"amdeu/typo3-label-editor": "^1.1",
 		"amdeu/typo3-shape": "^0.4.0"
 	},
 	"replace": {

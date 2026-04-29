@@ -5,12 +5,6 @@
 
 <div class="{name}__padding"></div>
 <main class="{name}" id="main">
-	<f:if condition="{record.doktype} == {settings.doktypes.person}">
-		<module:hero record="{
-	header:record.page_persons.0.name,
-	bodytext:record.page_persons.0.bodytext,
-	assets:record.page_persons.0.assets}"/>
-	</f:if>
 	<f:if condition="{record.doktype} == {settings.doktypes.news}">
 		<module:hero record="{
 	header:record.nav_title,
@@ -19,27 +13,6 @@
 	</f:if>
 
 	<f:slot/>
-
-	<f:if condition="{record.doktype} == {settings.doktypes.news} && {record.post_author}">
-		<module:text
-			record="{
-		container_width: 8,
-		header: record.post_author.name,
-		header_layout: 31,
-		frame_class: 'dark-1',
-		bodytext: object.post_author.description,
-		uid:'news-page-author-teaser'
-		}">
-			<f:if condition="{record.post_author.pages.0}">
-				<p>
-					<br>
-					<f:link.page pageUid="{record.post_author.pages.0.uid}" class="e-button">
-						{record.post_author.name}
-					</f:link.page>
-				</p>
-			</f:if>
-		</module:text>
-	</f:if>
 </main>
 
 

@@ -7,6 +7,9 @@
 	overflow-y: scroll
 	scrollbar-gutter: stable
 	overscroll-behavior-x: none
+	overscroll-behavior-y: none
+	@media(pointer: coarse)
+		overscroll-behavior-y: auto
 
 	&[class*="-modal--active"],
 	&[class*="-modal--deactivating"]

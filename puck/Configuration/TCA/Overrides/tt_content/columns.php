@@ -49,6 +49,8 @@ $columns['header_layout'] = [
 			['label' => 'H2 (screen reader only)', 'value' => 'h2.sr-only', 'group' => '<h2>'],
 
 			['label' => 'H3', 'value' => 'h3.h3', 'group' => '<h3>'],
+			['label' => 'H3 (subheader as topline)', 'value' => 'h3.h3.topline', 'group' => '<h3>'],
+			['label' => 'Topline-H3 (subheader as headline)', 'value' => 'h3.topline.h3', 'group' => '<h3>'],
 			['label' => 'H2 (<h3>)', 'value' => 'h3.h2', 'group' => '<h3>'],
 			['label' => 'H3 (screen reader only)', 'value' => 'h3.sr-only', 'group' => '<h3>'],
 

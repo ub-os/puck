@@ -57,12 +57,12 @@
 		const viewMenu = document.getElementById('pageLayoutToggleShowHidden').closest('ul');
 
 		if (!viewMenu) {
-			return;
+			return false;
 		}
 
 		// Check if option already exists
 		if (document.getElementById('minimize-content-previews')) {
-			return;
+			return false;
 		}
 
 		// Create the minimize option
@@ -87,6 +87,7 @@
 		if (button) {
 			button.addEventListener('click', toggleMinimize);
 		}
+		return true;
 	}
 
 	// Initialize
@@ -94,17 +95,16 @@
 		// Apply saved state
 		applyMinimizeState(getMinimizeState());
 
-		// Add option to View menu
-		addMinimizeOption();
-
-		// Watch for dynamic updates to the page header
-		const observer = new MutationObserver(() => {
-			addMinimizeOption();
-		});
-
-		const targetNode = document.querySelector('.module-docheader');
-		if (targetNode) {
-			observer.observe(targetNode, { childList: true, subtree: true });
+		if (!addMinimizeOption()) {
+			const observer = new MutationObserver(() => {
+				if (addMinimizeOption()) {
+					observer.disconnect();
+				}
+			});
+			const targetNode = document.querySelector('.module-docheader');
+			if (targetNode) {
+				observer.observe(targetNode, { childList: true, subtree: true });
+			}
 		}
 	}
 

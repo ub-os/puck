@@ -9,6 +9,7 @@
 <f:argument default="1" name="openInModal" optional="1" type="boolean"/>
 <f:argument default="{0:0}" name="playerAttributes" optional="1" type="array"/>
 
+
 <u:id set="id" suffix="{file.name}"/>
 <u:file get="{file.properties.storage}:{file.identifier}.jpg" set="localPoster"/>
 <u:var if="{file.extension} === 'youtube' || {file.extension} === 'vimeo'" then="{file.contents}" else="" set="embedId"/>
@@ -33,33 +34,30 @@
 	<div class="{name}__poster">
 		<f:if condition="{localPoster}">
 			<f:then>
-				<u:picture
-					class="{name}__image"
-					loading="lazy"
-					retina="{posterRetina}"
-					sources="{posterSources}"
-					image="{localPoster}"
-					webp="{posterWebp}"
-					width="{width}"
-					sourceMaxWidth="{width}"
-				/>
-			</f:then>
-			<f:else if="{file.extension} === 'youtube' || {file.extension} === 'vimeo'">
-				<picture>
-					<f:image
-						alt="{file.alternative}"
-						class="{name}__image"
+				<f:format.raw>
+					<u:picture
 						loading="lazy"
+						class="{name}"
+						retina="{posterRetina}"
+						sources="{posterSources}"
+						image="{localPoster}"
+						webp="{posterWebp}"
 						width="{width}"
-						image="{file}"
+						sourceMaxWidth="{width}"
 					/>
+				</f:format.raw>
+			</f:then>
+			<f:else>
+				<picture>
+					<img alt="{file.alternative}"
+						 class="{name}__image"
+						 loading="lazy"
+						 src="{u:file(getOnlineMediaImageSrc:file,useUcSource:1)}">
 				</picture>
 			</f:else>
 		</f:if>
 	</div>
-	<div class="{name}__icon">
-		<icon:svg icon="play-solid"/>
-	</div>
+	<icon:svg class="{name}__icon" icon="circle-play-duotone"/>
 	<f:if condition="{openInModal}">
 		<f:then>
 			<layout:modal id="{id}-modal" width="12">

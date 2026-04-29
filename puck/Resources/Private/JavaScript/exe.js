@@ -82,11 +82,15 @@ on("htmx:historyRestore", (event) => {
 	// if view transitions are enabled for history restores, we need to wait for the swap to finish before removing elements
 	if (htmx.config.globalViewTransitions) {
 		on('htmx:afterSwap', () => {
-			document.querySelectorAll('[data-hx-history-excluded]').forEach(el => el.remove())
+			document.querySelectorAll('[data-hx-history-excluded]').forEach(el => {
+				el.remove()
+			})
 			console.log('removed hx history excluded elements after history restore')
 		}, { once: true })
 	} else {
-		document.querySelectorAll('[data-hx-history-excluded]').forEach(el => el.remove())
+		document.querySelectorAll('[data-hx-history-excluded]').forEach(el => {
+			el.remove()
+		})
 		console.log('removed hx history excluded elements after history restore')
 	}
 })
@@ -94,6 +98,9 @@ on("htmx:historyRestore", (event) => {
 on('htmx:removingHeadElement', event => {
 	// prevent removing head elements with data-hx-preserve attribute
 	if (event.detail.headElement.hasAttribute('data-hx-preserve')) {
+		event.preventDefault();
+	}
+	if (event.detail.headElement.id === 'uc-block-styles') {
 		event.preventDefault();
 	}
 })
