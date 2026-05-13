@@ -3,20 +3,39 @@
 $rem-base: 16 !default
 $spacing-unit: 1rem !default
 
+// convert rem to px based on $rem-base
+// usage: rem-to-px(1.5rem) => 24px
 @function rem-to-px($rem)
 	@return math.div($rem,1rem) * $rem-base * 1px
 
+// convert px to rem based on $rem-base
+// usage: px-to-rem(24px) => 1.5rem
 @function px-to-rem($px)
 	@return math.div($px,1px * $rem-base) * 1rem
 
+// convert px to rem based on the default root font size (16px)
+// usage: px-to-native-rem(24px) => 1.5rem
 @function px-to-native-rem($px)
 	@return math.div($px,1px * 16) * 1rem
 
+// px in rem unit
+// usage: px-rem(24) => 1.5rem
 @function px-rem($pxVal)
 	@return math.div($pxVal,$rem-base) * 1rem
 
+// rem in px unit
+// usage: rem-px(1.5) => 24px
 @function rem-px($remVal)
 	@return $remVal * $rem-base * 1px
+
+// unit of body font size
+// usage: body-em(2) => calc(var(--font-size-body) * 2)
+@function body-em($factor: 1)
+	@if $factor == 1
+		@return var(--font-size-body)
+	@else
+		@return calc(var(--font-size-body) * #{$factor})
+
 
 @function fibonacci-sizes()
 	@return ('xxs': 1, 'xs': 2, 's': 3, 'm': 5, 'l': 8, 'xl': 13, 'xxl': 21)
@@ -29,9 +48,3 @@ $spacing-unit: 1rem !default
 
 @function section-spacing($factor: 1)
 	@return spacing(m, $factor)
-
-@function body-em($factor: 1)
-	@if $factor == 1
-		@return var(--font-size-body)
-	@else
-		@return calc(var(--font-size-body) * #{$factor})

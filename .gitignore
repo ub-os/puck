@@ -5,9 +5,6 @@ node_modules
 /.vscode
 /.nova
 /.idea
-puck/Resources/Public/json/Language/
-puck/Resources/Public/json/Language/de.locallang.xlf.json
-puck/Resources/Public/json/Language/locallang.xlf.json
 puck/Resources/Public/Fonts/Icons/
 puck/Resources/Private/Stylesheets/02-generic/_icon-font.scss
 puck/Resources/Public/Css/dist/
