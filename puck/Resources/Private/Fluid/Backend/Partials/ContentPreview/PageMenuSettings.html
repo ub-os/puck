@@ -1,5 +1,5 @@
 <f:if condition="{settings}">
-    <table class="table table-hover table-condensed" style="--typo3-table-padding-y: 0.5em">
+    <table class="table table-hover table-condensed" style="margin-top: 1em">
         <style>
 					.table tbody,
 					.table thead {
@@ -7,53 +7,50 @@
 					}
         </style>
         <thead>
-        <tr>
-            <th colspan="2" style="position: relative;">
-                <div style="position: absolute; left: -3px">
-                    <core:icon identifier="menu_settings" size="small"/>
-                </div>
-				Options
-            </th>
-        </tr>
         </thead>
         <tbody>
-        <f:render section="icons" arguments="{icons:processed.doktypeIcons,label:'Allowed page types'}"/>
-        <f:render section="recordList" arguments="{records:processed.parents,title:'Subpages of'}"/>
-        <f:render section="recordList" arguments="{records:processed.records,title:'Pages'}"/>
-        <f:render section="boolean" arguments="{value:settings.demand.overrideDemand,label:'Respect URL parameters'}"/>
-        <f:render section="boolean" arguments="{value:settings.demand.navHide,label:'Respect hidden in menus'}"/>
-        <f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>
+		<f:render section="recordList" arguments="{records:processed.records,title:'Records'}"/>
+		<f:render section="recordList" arguments="{records:processed.parents,title:'Parents'}"/>
+		<f:render section="icons" arguments="{icons:processed.doktypeIcons,label:'Allowed types'}"/>
+		<f:render section="boolean" arguments="{value:settings.demand.additionalSettings.navHide,label:'Respect hidden in menus'}"/>
+		<f:render section="boolean" arguments="{value:settings.demand.additionalSettings.excludeCurrentPage,label:'Exclude current page'}"/>
+		<f:render section="value" arguments="{value:settings.demand.limit,label:'Maximum displayed'}"/>
         <f:render section="value" arguments="{value:settings.demand.offset,label:'Number to skip'}"/>
-        <f:render section="recordList" arguments="{records:processed.author,title:'Author'}"/>
-        <f:if condition="{settings.demand.category.conjunction}">
+        <f:if condition="{settings.demand.categoryGroups.main.conjunction} && {settings.demand.categoryGroups.main.uids}">
             <f:render section="value"
-                      arguments="{value:settings.demand.category.conjunction,label:'Category conjunction'}"/>
-            <f:render section="recordList" arguments="{records:processed.categories,title:'Categories'}"/>
+                      arguments="{value:settings.demand.categoryGroups.main.conjunction,label:'Category conjunction'}"/>
+            <f:render section="recordList" arguments="{records:settings.demand.categoryGroups.main.uids,title:'Categories'}"/>
         </f:if>
         </tbody>
         <tbody>
-        <f:render section="value" arguments="{value:settings.order.field,label:'Order by'}"/>
-        <f:render section="value" arguments="{value:settings.order.direction,label:'Order direction'}"/>
+		<f:if condition="{settings.demand.orderByRecordsProperty}">
+			<f:then>
+				<f:render section="boolean" arguments="{value:settings.demand.orderByRecordsProperty,label:'Order by records property'}"/>
+			</f:then>
+			<f:else>
+				<f:if condition="{settings.demand.orderField} !== 'sorting'">
+					<f:render section="value" arguments="{value:settings.demand.orderField,label:'Order by'}"/>
+				</f:if>
+				<f:if condition="{settings.demand.orderDirection} !== 'asc'">
+					<f:render section="value" arguments="{value:settings.demand.orderDirection,label:'Order direction'}"/>
+				</f:if>
+			</f:else>
+		</f:if>
         </tbody>
         <tbody>
-        <f:render section="boolean" arguments="{value:settings.pagination.active,label:'Pagination'}"/>
-        <f:if condition="{settings.pagination.active}">
+        <f:if condition="{settings.pagination.enabled}">
             <f:render section="value" arguments="{value:settings.pagination.itemsPerPage,label:'Items per page'}"/>
-            <f:render section="value" arguments="{value:settings.pagination.variant,label:'Pagination variant'}"/>
         </f:if>
         </tbody>
         <tbody>
-        <f:render section="boolean" arguments="{value:settings.categoryFilter.active,label:'Show category filter'}"/>
-        <f:if condition="{settings.categoryFilter.active}">
-            <f:render section="boolean"
-                      arguments="{value:settings.categoryFilter.multiSelect,label:'Enable multi-select in filter'}"/>
-            <f:render section="boolean"
-                      arguments="{value:settings.categoryFilter.multiSelectWithinGroup,label:'Enable multi-select within a filter group'}"/>
-            <f:render section="boolean"
-                      arguments="{value:settings.categoryFilter.checkPotential,label:'Disable buttons without potential results'}"/>
+        <f:if condition="{settings.categoryFilter.enabled}">
             <f:render section="recordList" arguments="{records:processed.filter_categories,title:'Filter categories'}"/>
             <f:render section="recordList"
-                      arguments="{records:processed.filter_category_groups,title:'Filter tree root categories'}"/>
+                      arguments="{records:processed.filter_category_groups,title:'Filter category parents'}"/>
+			<f:render section="boolean"
+					  arguments="{value:settings.categoryFilter.multiSelect,label:'Enable multi-select in filter'}"/>
+			<f:render section="boolean"
+					  arguments="{value:settings.categoryFilter.checkPotential,label:'Disable buttons without potential results'}"/>
         </f:if>
         </tbody>
     </table>

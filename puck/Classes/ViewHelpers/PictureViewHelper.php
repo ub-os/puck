@@ -104,7 +104,7 @@ class PictureViewHelper extends AbstractViewHelper
 		$pictureClass = "{$this->arguments['className']}__picture";
 		$pictureStyle = "";
 		if ($this->arguments['reserveHeight']) {
-			$pictureClass .= " -reserve-height";
+			$pictureClass .= " -reserveHeight";
 			$pictureStyle = "padding-top: {$this->arguments['reserveHeight']};";
 		}
 		$pictureHtml = "<picture class=\"{$pictureClass}\" style=\"{$pictureStyle}\">";

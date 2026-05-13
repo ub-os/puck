@@ -2,29 +2,19 @@
 
 namespace UBOS\Puck\Record;
 
-use TYPO3\CMS\Core\Domain\RawRecord;
-use TYPO3\CMS\Core\Domain\Record;
-use TYPO3\CMS\Core\Domain\Record\SystemProperties;
+use TYPO3\CMS\Core\Domain\Page as CorePageRecord;
 use UBOS\Puck\Domain\Model\PageTeaser;
 
 /**
  * Record for 'pages'
  */
-class PageRecord extends Record
+class PageRecord extends CorePageRecord
 {
-	public function __construct(
-		protected readonly RawRecord         $rawRecord,
-		protected array                      $properties,
-		protected readonly ?SystemProperties $systemProperties = null,
-	)
-	{
-		$this->setComputedProperties();
-	}
 
 	/**
 	 * initialize computed properties based on the current properties
 	 */
-	protected function setComputedProperties(): void
+	public function setComputedProperties(): void
 	{
 		$p = $this->properties;
 		if ($this->has('nav_title')) {

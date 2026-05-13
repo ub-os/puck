@@ -3,12 +3,13 @@
 namespace UBOS\Puck\Backend;
 
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListHeaderActionsEvent;
-use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
+use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\Template\Components\ActionGroup;
+use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 
 
 /**
@@ -28,22 +29,28 @@ final class PageRecordListActionEnhancer
 	#[AsEventListener]
 	public function __invoke(ModifyRecordListRecordActionsEvent $event): void
 	{
-		$currentTable = $event->getTable();
-		if ($currentTable === 'pages') {
-			$currentRecord = $event->getRecord();
-			$uid = $currentRecord['l10n_parent'] ?: $currentRecord['uid'];
-			$uri = $this->uriBuilder->buildUriFromRoute(
-				'web_layout',
-				['id' => $uid, 'language' => $currentRecord['sys_language_uid']]
-			);
-			$icon = $this->iconFactory->getIcon('actions-document', IconSize::SMALL);
-			$event->setAction(
-				'<a aria-label="Edit content" title="Edit content" data-bs-toggle="tooltip" href="' . $uri . '" class="btn btn-default">' . $icon . '</a>',
-				'showPageInLayoutModule',
-				'primary',
-				'',
-				'edit'
-			);
+		if ($event->getRecord()->getMainType() !== 'pages') {
+			return;
 		}
+		$record = $event->getRecord();
+		$uid = $record['l10n_parent'] ?: $record['uid'];
+		$uri = $this->uriBuilder->buildUriFromRoute(
+			'web_layout',
+			['id' => $uid, 'language' => $record['sys_language_uid']]
+		);
+		$button = (new LinkButton())
+			->setHref($uri)
+			->setTitle('Edit content')
+			->setIcon(
+				$this->iconFactory->getIcon('actions-document', IconSize::SMALL)
+			);
+		$event->setAction(
+			$button,
+			'showPageInLayoutModule',
+			ActionGroup::primary,
+			'',
+			'edit'
+		);
+
 	}
 }

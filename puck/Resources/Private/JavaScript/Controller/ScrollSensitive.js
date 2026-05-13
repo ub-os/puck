@@ -3,19 +3,19 @@ import { ListenerRegistry } from '~/Helper/ListenerRegistry.js'
 
 export default class ScrollSensitive extends Controller {
 	static props = {
-		topInsideClass: '--top-inside-view',
-		topAboveClass: '--top-above-view',
-		topBelowClass: '--top-below-view',
-		bottomInsideClass: '--bottom-inside-view',
-		bottomAboveClass: '--bottom-above-view',
-		bottomBelowClass: '--bottom-below-view',
+		topInsideClass: '--viewBox-topInside',
+		topAboveClass: '--viewBox-topAbove',
+		topBelowClass: '--viewBox-topBelow',
+		bottomInsideClass: '--viewBox-bottomInside',
+		bottomAboveClass: '--viewBox-bottomAbove',
+		bottomBelowClass: '--viewBox-bottomBelow',
 		scrollClass: '--scroll',
 		root: null,
 		rootMargin: '0px 0px 0px 0px',
 		threshold: [0, 1],
 		target: null,
 		cloneElementToRetainFlow: false,
-		cloneClass: '-scroll-sense-clone',
+		cloneClass: '-scrollSenseClone',
 		scrollTop: '',
 	}
 

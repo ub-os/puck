@@ -4,11 +4,7 @@ dependencies:
   - typo3/fluid-styled-content
   - typo3/redirects
   - typo3/seo-sitemap
-  - amdeu/shape
+  - amdeu/menu-controls
 settings:
-  doktypes:
-    news: 16503
-    person: 16504
-    detailPlugin: 16511
-  template:
+  puck:
     gridWidth: 1280

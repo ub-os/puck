@@ -5,33 +5,31 @@ namespace UBOS\Puck\Backend;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
-use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc;
 
 /**
  * Preview renderer for the PageMenu plugin.
  */
 class PageMenuPreviewRenderer extends BasicPreviewRenderer
 {
-
 	public function renderPageModulePreviewContent(GridColumnItem $item): string
 	{
 		$record = $item->getRecord();
-		$flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-		$settings = $flexformService->convertFlexFormContentToArray($record['pi_flexform'])['settings'];
+		$flexFormValues = $record->get('pi_flexform');
+		$sheets = $flexFormValues->getSheets();
+		$settings = array_merge_recursive(...array_values($sheets))['settings'] ?? [];
 		$this->view->assign('pageMenuSettings', $settings);
 		$this->view->assign('pageMenuProcessed', $this->getDataForPageMenuFlexFormPreview($settings));
 		$item->setRecord($record);
 		return parent::renderPageModulePreviewContent($item);
 	}
 
-	protected function getDataForPageMenuFlexFormPreview($settings): array
+	protected function getDataForPageMenuFlexFormPreview(array $settings): array
 	{
 		$processedMenuData = [];
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		foreach (['records', 'parents'] as $key) {
-			if (isset($settings['demand'][$key]) && !empty($settings['demand'][$key])) {
+			if (!empty($settings['demand'][$key])) {
 				$uids = explode(',', $settings['demand'][$key]);
 				foreach ($uids as $uid) {
 					$page = BackendUtility::getRecord('pages', $uid, '*', '', true);
@@ -48,26 +46,19 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 				}
 			}
 		}
-		$doktypes = ['row' => ['uid' => 1], 'items' => []];
-		(new ContentItemsProcFunc())->doktypes($doktypes);
+		$doktypes = ['row' => ['uid' => 1], 'items' => $GLOBALS['TCA']['pages']['columns']['doktype']['config']['items']];
 		$processedMenuData['doktypeIcons'] = [];
 		foreach ($doktypes['items'] as $item) {
-			if (GeneralUtility::inList($settings['demand']['types'] ?? '', $item['value'])) {
+			if (in_array($item['value'], $settings['demand']['additionalSettings']['types'] ?? [])) {
 				$processedMenuData['doktypeIcons'][$item['label']] = $item['icon'];
 			}
 		}
 		$recordGroups = [
-			'author' => [
-				'table' => 'tx_puck_domain_model_person',
-				'title' => 'Author',
-				'titleField' => 'name',
-				'uids' => $settings['demand']['authors'] ?? ''
-			],
 			'categories' => [
 				'table' => 'sys_category',
 				'title' => 'Categories',
 				'titleField' => 'title',
-				'uids' => $settings['demand']['categories']['0']['uids'] ?? ''
+				'uids' => $settings['demand']['categoryGroups']['main']['uids'] ?? ''
 			],
 			'filter_categories' => [
 				'table' => 'sys_category',
@@ -86,6 +77,9 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 			if (isset($recordGroup['uids']) && !empty($recordGroup['uids'])) {
 				$uids = explode(',', $recordGroup['uids']);
 				foreach ($uids as $uid) {
+					if (!$uid) {
+						continue;
+					}
 					$record = BackendUtility::getRecord($recordGroup['table'], $uid, '*', '', true);
 					$record['backend_link'] = $uriBuilder->buildUriFromRoute(
 						'record_edit',

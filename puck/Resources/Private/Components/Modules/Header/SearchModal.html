@@ -1,0 +1,35 @@
+
+<f:argument name="name" type="string" optional="1" default="m-indexedsearch"/>
+
+
+<layout:modal id="header-search-modal"
+			  width="10"
+			  class="{name}__modal"
+			  modalAttributes="{focus-on-open:'first'}">
+	<search>
+		<f:form pluginName="Pi2"
+				extensionName="indexedsearch"
+				pageUid="{site.settings.puck.searchPageUid}"
+				method="post"
+				controller="Search"
+				action="search">
+			<div class="{name}__bar">
+				<f:form.textfield
+					id="main-nav-search-input"
+					class="{name}__input"
+					placeholder="Suchbegriff"
+					name="search[sword]"/>
+				 
+				<button type="submit" name="search[submitButton]"
+						class="{name}__submit e-button">
+					{f:translate(extensionName:'puck',key:'search')}
+				</button>
+			</div>
+		</f:form>
+	</search>
+</layout:modal>
+
+
+
+
+

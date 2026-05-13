@@ -14,7 +14,7 @@ $columns['frame_class'] = [
 		'disableNoMatchingValueElement' => true,
 		'items' => [
 			['Default', 'default'],
-			['Alternative 1', 'dark-1'],
+			['Alternative 1', 'dark1'],
 		],
 		'default' => 'default'
 	],
@@ -112,10 +112,10 @@ $columns['media_layout'] = [
 			['Left beside text', 'left',
 				'media_layout_left',
 			],
-			['Right in text', 'right-float',
+			['Right in text', 'rightFloat',
 				'media_layout_right_float',
 			],
-			['Left in text', 'left-float',
+			['Left in text', 'leftFloat',
 				'media_layout_left_float'
 			],
 		],
@@ -250,7 +250,7 @@ $columns['row_justify'] = [
 			['Left', 'left', 'align_left'],
 			['Center', 'center', 'align_center'],
 			['Right', 'right', 'align_right'],
-			['Space between', 'space-between', 'align_space_between'],
+			['Space between', 'spaceBetween', 'align_space_between'],
 		],
 		'default' => 'left',
 		'fieldWizard' => [
@@ -391,10 +391,7 @@ $columns['options'] = [
 	'label' => 'Options',
 	'config' => [
 		'type' => 'flex',
-		'ds' => [
-			'default' => $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds']['default'],
-		],
-		'ds_pointerField' => 'layout,CType',
+		'ds' => $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'],
 	]
 ];
 foreach ($columns as $name => $column) {

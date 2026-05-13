@@ -1,0 +1,20 @@
+routeEnhancers:
+  IndexedSearch:
+    limitToPages:
+      - 'page["route_enhancers"] contains "puck/IndexedSearch"'
+    type: Extbase
+    namespace: tx_indexedsearch_pi2
+    routes:
+      - routePath: '/{results-label}'
+        _controller: 'Search::search'
+      - routePath: '/{results-label}::{search/sword}'
+        _controller: 'Search::search'
+        requirements:
+          - search/sword: '[^/=?]*'
+    aspects:
+      results-label:
+        type: LocaleModifier
+        default: 's'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 's'

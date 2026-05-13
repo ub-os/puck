@@ -1,7 +1,7 @@
 <?php
 
 return new \UBOS\Puck\Configuration\PageTypeConfiguration(
-	4,
+	\UBOS\Puck\Constants::DOKTYPES['shortcut'],
 	showItemAdditions: [
 		[
 			'--palette--;;standard',

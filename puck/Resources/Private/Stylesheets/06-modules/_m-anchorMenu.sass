@@ -1,0 +1,28 @@
+@use '01-tools/all' as *
+
+.m-anchorMenu
+	&__wrap
+		position: sticky
+		top: 0
+		z-index: 100
+		margin-top: 0
+		background: var(--background-frosted)
+		backdrop-filter: blur(5px)
+		transition: top .4s
+
+		:where(.m-header.--scroll:not(.--scrollDown)) ~ .m-main &
+			top: var(--height-page-header)
+
+	&__list
+		+flex(row, center, flex-start, wrap)
+		padding-block: 1em
+		gap: .5em 1.5em
+
+	&__header
+
+	&__link
+		color: var(--color-link)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
+

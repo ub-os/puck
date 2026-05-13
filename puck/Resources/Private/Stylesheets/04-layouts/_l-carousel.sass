@@ -11,7 +11,7 @@
 		overflow-x: clip
 		overflow-y: clip
 
-	&__track.-overflow-visible
+	&__track.-overflowVisible
 		overflow: visible
 		overflow-x: visible
 		overflow-y: visible
@@ -45,8 +45,8 @@
 		gap: 1em
 		width: 100%
 
-	&__arrow-prev,
-	&__arrow-next
+	&__arrowPrev,
+	&__arrowNext
 		color: var(--color-link)
 		&:hover,
 		&:focus-visible
@@ -96,7 +96,7 @@
 			translate: calc(#{1 - $bar-width-ratio} * var(--splide-autoplay-progress) * $autoplay-bar-width) 0
 			border-radius: 0 $bullet-border-radius $bullet-border-radius 0
 
-	&__autoplay-toggle
+	&__autoplayToggle
 		+flex(row,center,center)
 		width: 2.2em
 		height: 2.2em

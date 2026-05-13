@@ -1,0 +1,26 @@
+
+<f:argument name="name" type="string" optional="1" default="l-modal"/>
+<f:argument name="id" type="string" optional="1"/>
+<f:argument name="width" type="integer" optional="1" default="6"/>
+<f:argument name="modalAttributes" type="array" optional="1" default="{}"/>
+<f:argument name="attributes" type="array" optional="1"/>
+
+
+{u:var(set:'defaultModalAttributes',value:'{duration:170}')}
+<dialog data-controller="modal"
+		class="{u:prependClass()}{name} -width-{width}"
+		id="{id}"
+		data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
+		{attributes -> u:renderAttributes()}>
+	<button class="{name}__close"
+			data-autofocus
+			data-action="modal.hide"
+			aria-label="{f:translate(key:'close')}">
+		<icon:char icon="xmark-regular"/>
+	</button>
+
+	<f:slot/>
+</dialog>
+
+
+

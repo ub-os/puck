@@ -129,15 +129,6 @@
                             <default>1</default>
                         </config>
                     </settings.demand.overrideDemand>
-<!--                    <settings.demand.authors>-->
-<!--                        <label>Author</label>-->
-<!--                        <config>-->
-<!--                            <type>group</type>-->
-<!--                            <allowed>tx_puck_domain_model_person</allowed>-->
-<!--                            <size>1</size>-->
-<!--                            <maxitems>1</maxitems>-->
-<!--                        </config>-->
-<!--                    </settings.demand.authors>-->
                 </el>
             </ROOT>
         </demand>

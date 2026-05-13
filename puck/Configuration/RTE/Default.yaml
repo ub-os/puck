@@ -25,11 +25,11 @@ editor:
         - { name: "Large paragraph", element: "p", classes: [ "-large" ] }
         - { name: "Footnote paragraph", element: "p", classes: [ "-footnote" ] }
         - { name: "Quote paragraph", element: "p", classes: [ "-quote" ] }
-        - { name: "Quote attribution paragraph", element: "p", classes: [ "-quote-attribution" ] }
+        - { name: "Quote attribution paragraph", element: "p", classes: [ "-quoteAttribution" ] }
         - { name: "Like h2 paragraph", element: "p", classes: [ "h2" ] }
         - { name: "Like h3 paragraph", element: "p", classes: [ "h3" ] }
-        - { name: "Button group", element: "p", classes: [ "e-button-group" ] }
-        - { name: "Button group without gutter", element: "p", classes: [ "-gutter-0 e-button-group" ] }
+        - { name: "Button group", element: "p", classes: [ "e-buttonGroup" ] }
+        - { name: "Button group without gutter", element: "p", classes: [ "-gutter-0 e-buttonGroup" ] }
 
         # Headlines
 

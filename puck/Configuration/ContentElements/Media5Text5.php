@@ -1,7 +1,7 @@
 <?php
 
 return (include __DIR__ . '/Media.php')->makeRestrictedChildElement(
-	'media_55',
+	'media5_text5',
 	label: '5/5 Text/Media element',
 	description: 'Layout: centered, text left 5 columns, media right 5 columns.',
 	valueOverrides: [

@@ -5,8 +5,8 @@ export default class PageHeader extends Controller {
 	static props = {
 		scrollTop: 60,
 		scrollClass: '--scroll',
-		downClass: '--scroll-down',
-		upClass: '--scroll-up',
+		downClass: '--scrollDown',
+		upClass: '--scrollUp',
 		documentClassing: true,
 	}
 

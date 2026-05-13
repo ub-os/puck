@@ -2,78 +2,118 @@
 
 namespace UBOS\Puck\Controller;
 
-use TYPO3\CMS\Core\Domain\RecordFactory;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverDelegateRegistry;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
-use TYPO3Fluid\Fluid\Core\Component\AbstractComponentCollection;
+use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
 
 /**
  * Controller trait for content element plugins rendering Fluid components,
  * specifically for CTypes configured with @see \UBOS\Puck\Configuration\ContentElementConfiguration
  *
- * Provides methods to prepare the view (map data to record, run data processing) based on settings
- * and directly render Fluid components.
+ * Provides methods to process content element variables and directly render Fluid components.
  */
 trait ComponentContentElementTrait
 {
-	protected RequestInterface $request;
-	protected $view;
-	protected array $viewVariables = [];
-	protected array $settings;
+    protected RequestInterface $request;
+    protected ViewInterface $view;
+    protected array $settings;
 
-	/**
-	 * Run data processing and populate viewVariables
-	 */
-	protected function prepareContentView(): void
-	{
-		$cObj = $this->request->getAttribute('currentContentObject');
-		$data = $cObj->data;
+    private ContentDataProcessor $contentDataProcessor;
+    private ViewHelperResolverDelegateRegistry $delegateRegistry;
 
-		$contentElementConfiguration = $this->settings['contentElementConfiguration'] ?? [];
-		if ($contentElementConfiguration['dataProcessing'] ?? false) {
-			$processor = GeneralUtility::makeInstance(ContentDataProcessor::class);
-			$processingTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)
-				->convertPlainArrayToTypoScriptArray($contentElementConfiguration['dataProcessing']);
-			$this->viewVariables = $processor->process(
-				$cObj,
-				['dataProcessing.' => $processingTypoScript ?? null],
-				['data' => $data]
-			);
-		}
+    public function injectContentDataProcessor(ContentDataProcessor $contentDataProcessor): void
+    {
+        $this->contentDataProcessor = $contentDataProcessor;
+    }
 
-		$recordFactory = GeneralUtility::makeInstance(RecordFactory::class);
-		$this->viewVariables['record'] = $recordFactory->createResolvedRecordFromDatabaseRow('tt_content', $data);
+    public function injectViewHelperResolverDelegateRegistry(ViewHelperResolverDelegateRegistry $delegateRegistry): void
+    {
+        $this->delegateRegistry = $delegateRegistry;
+    }
 
-		$this->view->assignMultiple($this->viewVariables);
-	}
+    /**
+     * Runs data processing as configured in settings[contentElementConfiguration][dataProcessing]
+     * and returns the resulting variables.
+     *
+     * Usage in controller:
+     *   $variables = $this->getProcessedData();
+     *   return $this->htmlResponse($this->renderComponent($variables));
+     */
+    protected function getProcessedData(): array
+    {
+        $cObj = $this->request->getAttribute('currentContentObject');
+        $variables = ['data' => $cObj->data];
 
+        $contentElementConfiguration = $this->settings['contentElementConfiguration'] ?? [];
+        if ($contentElementConfiguration['dataProcessing'] ?? false) {
+            $processingTypoScript = $this->convertToTypoScriptArray($contentElementConfiguration['dataProcessing']);
+            $variables = $this->contentDataProcessor->process(
+                $cObj,
+                ['dataProcessing.' => $processingTypoScript],
+                $variables,
+            );
+        }
 
-	/**
-	 * Directly render a Fluid component
-	 * @param string|null $component name of the component, defaults to '{settings[contentElementConfiguration][component] ?? controllerAction}'
-	 * @param array|null $arguments Arguments to pass to the component, defaults to viewVariables
-	 * @param AbstractComponentCollection|null $componentCollection Component collection to use for rendering, defaults to settings[contentElementConfiguration][componentCollection]
-	 * @return string Rendered component
-	 */
-	protected function renderFluidComponent(
+        return $variables;
+    }
+
+    /**
+     * Directly renders a Fluid component.
+	 * @param array 	  $arguments 			Variables to pass
+	 * @param string|null $component            Component name, defaults to settings[contentElementConfiguration][component]
+     *                                          or the current controller action name
+     * @param string|null $componentCollection  PHP namespace of the component collection, defaults to
+     *                                          settings[contentElementConfiguration][componentCollection]
+     */
+    protected function renderComponent(
+		array 	$arguments,
 		?string $component = null,
-		?array $arguments = null,
-		?AbstractComponentCollection $componentCollection = null
-	): string {
-		if (!$componentCollection && !($this->settings['contentElementConfiguration']['componentCollection'] ?? false)) {
-			throw new \RuntimeException('No component collection configured in settings[contentElementConfiguration][componentCollection]', 1676412345);
-		}
-		$component = $component ?? ($this->settings['contentElementConfiguration']['component'] ?? lcfirst($this->view->getRenderingContext()->getControllerAction()));
-		$arguments = $arguments ?? $this->viewVariables;
-		$componentCollection = $componentCollection ?? GeneralUtility::makeInstance($this->settings['contentElementConfiguration']['componentCollection']);
-		$componentRenderer = $componentCollection->getComponentRenderer();
-		return $componentRenderer->renderComponent(
-			$component,
+        ?string $componentCollection = null,
+    ): string {
+        $componentCollection = $componentCollection
+            ?? $this->settings['contentElementConfiguration']['componentCollection']
+            ?? throw new \RuntimeException(
+                'No component collection configured in settings[contentElementConfiguration][componentCollection]',
+                1676412345,
+            );
+
+        $component = $component
+            ?? $this->settings['contentElementConfiguration']['component']
+            ?? lcfirst($this->view->getRenderingContext()->getControllerAction());
+
+
+        $delegate = $this->delegateRegistry->getAll()[$componentCollection] ?? null;
+        if (!$delegate instanceof ComponentDefinitionProviderInterface) {
+            throw new \RuntimeException(
+                sprintf('No component collection found for namespace "%s"', $componentCollection),
+                1676412346,
+            );
+        }
+
+        return $delegate->getComponentRenderer()->renderComponent(
+            $component,
 			$arguments,
-			[],
-			$this->view->getRenderingContext()
-		);
-	}
+            [],
+            $this->view->getRenderingContext(),
+        );
+    }
+
+    /**
+     * Converts a plain nested array (as stored in Extbase settings) to a TypoScript array
+     * with dot-suffixed keys for sub-arrays.
+     */
+    private function convertToTypoScriptArray(array $plainArray): array
+    {
+        $typoScriptArray = [];
+        foreach ($plainArray as $key => $value) {
+            if (is_array($value)) {
+                $typoScriptArray[$key . '.'] = $this->convertToTypoScriptArray($value);
+            } else {
+                $typoScriptArray[$key] = $value;
+            }
+        }
+        return $typoScriptArray;
+    }
 }

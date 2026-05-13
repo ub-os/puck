@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -24,28 +22,23 @@ class AnchorMenuController extends ActionController
 	#[AsAction("AnchorMenu")]
 	public function anchorMenuAction(): ResponseInterface
 	{
-		$this->prepareContentView();
-		$this->viewVariables['menu'] = $this->findOnPageAnchorElements();
+		$variables = $this->getProcessedData();
+		$variables['menu'] = $this->findOnPageAnchorElements($variables['record']->getPid());
 		return $this->htmlResponse(
-			$this->renderFluidComponent()
+			$this->renderComponent($variables)
 		);
 	}
 
-	protected function findOnPageAnchorElements(): array
+	protected function findOnPageAnchorElements(int $pageId): array
 	{
 		$langId = (int)$this->request->getAttribute('language')->getLanguageId();
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
 			->getQueryBuilderForTable('tt_content');
 		$queryBuilder->resetRestrictions();
-//		$restrictions = $queryBuilder->getRestrictions();
-//		$context = GeneralUtility::makeInstance(Context::class);
-//		if ($context->getPropertyFromAspect('workspace')->getWorkspaceId() > 0) {
-//			$restrictions->add(new Restriction\WorkspaceRestriction());
-//		}
 		return $queryBuilder
 			->select('*')->from('tt_content')
 			->where(
-				$queryBuilder->expr()->eq('pid', $this->viewVariables['record']->getPid()),
+				$queryBuilder->expr()->eq('pid', $pageId),
 				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),
 				$queryBuilder->expr()->eq('sys_language_uid', $langId)
 			)

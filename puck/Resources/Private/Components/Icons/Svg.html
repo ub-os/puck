@@ -1,0 +1,16 @@
+
+<f:argument name="icon" type="string"/>
+<f:argument name="img" type="boolean" optional="1" default="0"/>
+<f:argument name="attributes" type="array" optional="1"/>
+<f:argument name="titlePrefix" type="string" optional="1" default=""/>
+
+
+<svg class="{u:prependClass()}svg-icon svg--{icon}" {f:if(condition: img, then:
+'role="img"' else: 'aria-hidden="true"')} {attributes -> u:renderAttributes()}>
+<f:if condition="{img}">
+	<title>{titlePrefix}{icon}</title>
+</f:if>
+<use tabindex="-1" href="{f:uri.resource(path:'Icons/sprite-sheet.svg', extensionName: 'puck')}#{icon}"></use>
+</svg>
+
+

@@ -8,20 +8,20 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use UBOS\Puck\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use UBOS\Puck\Constants;
 
 /**
  * Middleware to enable redirection for specific doktypes, similar to the core doktype 'shortcut'.
  *
- * If the doktype of the requested page is in the list of REDIRECT_DOKTYPES
+ * If the doktype of the requested page is in the list of $redirectDoktypes
  * and the 'url' field is set, redirect to the URL.
  */
 class RedirectDoktypes implements MiddlewareInterface
 {
-	const REDIRECT_DOKTYPES = [
-		PageRepository::DOKTYPES['news'],
-		PageRepository::DOKTYPES['link'],
+	protected array $redirectDoktypes = [
+		Constants::DOKTYPES['news'],
+		Constants::DOKTYPES['link'],
 	];
 
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -29,10 +29,10 @@ class RedirectDoktypes implements MiddlewareInterface
 		$pageRow = $request->getAttribute('frontend.page.information')->getPageRecord();
 		$doktype = $pageRow['doktype'];
 		$url = $pageRow['url'];
-		if (!$url || !in_array($doktype, self::REDIRECT_DOKTYPES)) {
+		if (!$url || !in_array($doktype, $this->redirectDoktypes)) {
 			return $handler->handle($request);
 		}
-		// if url is set and doktype is in REDIRECT_DOKTYPES, redirect to url
+		// if url is set and doktype is in $redirectDoktypes, redirect to url
 		$urlParts = parse_url($url);
 		$controller = $request->getAttribute('frontend.controller');
 		$cObj = GeneralUtility::makeInstance(

@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
-use UBOS\Puck\Domain\Repository\PageRepository;
+use UBOS\Puck\Constants;
 
 /**
  * Adds doktype specific header and footer content to the backend page layout.
@@ -50,11 +50,8 @@ final class BackendPageLayoutModifier
 		);
 		$view->assign('record', $record);
 		$headerContent = '';
-		if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['news']) {
+		if ((int)($row['doktype'] ?? 0) === Constants::DOKTYPES['news']) {
 			$headerContent = $view->render('PageLayoutContent/Header/NewsPage');
-		}
-		if ((int)($row['doktype'] ?? 0) === PageRepository::DOKTYPES['person']) {
-			$headerContent = $view->render('PageLayoutContent/Header/PersonPage');
 		}
 		$footerContent = $view->render('PageLayoutContent/Footer/Default');
 		$event->addHeaderContent($headerContent);

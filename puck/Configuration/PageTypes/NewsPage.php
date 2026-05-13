@@ -1,7 +1,7 @@
 <?php
 
 return new \UBOS\Puck\Configuration\PageTypeConfiguration(
-	16503,
+	\UBOS\Puck\Constants::DOKTYPES['news'],
 	label: 'News Page',
 	icon: 'news_page',
 	showItemAdditions: [
@@ -10,8 +10,12 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 			'after:--palette--;;title'
 		],
 		[
-			'url;Redirect to URL, --palette--;;author',
+			'link',
 			'after:--palette--;;title'
+		],
+		[
+			'--palette--;;routing',
+			'after:--palette--;;module'
 		]
 	],
 	columnsOverrides: [
@@ -20,7 +24,7 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 				'required' => 1,
 			]
 		],
-		'url' => [
+		'link' => [
 			'config' => [
 				'required' => 0
 			]

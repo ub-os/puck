@@ -1,11 +1,15 @@
 <?php
 
 return new \UBOS\Puck\Configuration\PageTypeConfiguration(
-	doktype: 1,
+	\UBOS\Puck\Constants::DOKTYPES['default'],
 	showItemAdditions: [
 		[
 			'--div--;Teaser, --palette--;;teaser',
 			'after:--palette--;;title'
+		],
+		[
+			'--palette--;;routing',
+			'after:--palette--;;module'
 		]
 	],
 );

@@ -216,36 +216,4 @@ class ContentItemsProcFunc
 		});
 		$params['items'] = $items;
 	}
-
-	public function doktypes(&$params): void
-	{
-		if (!isset($params['row']) || !$params['row'] || !$params['row']['uid']) return;
-		$params['items'] = [
-			[
-				'label' => 'Default',
-				'value' => PageRepository::DOKTYPES['default'],
-				'icon' => 'apps-pagetree-page-default',
-			],
-			[
-				'label' => 'News',
-				'value' => PageRepository::DOKTYPES['news'],
-				'icon' => 'news_page',
-			],
-			[
-				'label' => 'Person',
-				'value' => PageRepository::DOKTYPES['person'],
-				'icon' => 'person_page',
-			],
-			[
-				'label' => 'Shortcut',
-				'value' => PageRepository::DOKTYPES['shortcut'],
-				'icon' => 'apps-pagetree-page-shortcut',
-			],
-			[
-				'label' => 'External link',
-				'value' => PageRepository::DOKTYPES['link'],
-				'icon' => 'apps-pagetree-page-shortcut-external',
-			],
-		];
-	}
 }

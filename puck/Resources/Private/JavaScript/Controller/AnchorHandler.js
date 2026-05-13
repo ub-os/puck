@@ -77,11 +77,11 @@ export default class AnchorHandler extends Controller {
 				const anchorLinks = document.querySelectorAll(`a[href="#${id}"]`)
 				if (entry.isIntersecting) {
 					anchorLinks.forEach(anchor => {
-						anchor.classList.add('--target-visible')
+						anchor.classList.add('--visibleTarget')
 					})
 				} else {
 					anchorLinks.forEach(anchor => {
-						anchor.classList.remove('--target-visible')
+						anchor.classList.remove('--visibleTarget')
 					})
 				}
 			})
@@ -169,8 +169,8 @@ export default class AnchorHandler extends Controller {
 	//
 	// 		if (!target || !fetchUrl) return
 	//
-	// 		el.classList.add('--fetch-loading')
-	// 		target.classList.add('--fetch-loading')
+	// 		el.classList.add('--fetchLoading')
+	// 		target.classList.add('--fetchLoading')
 	// 		try {
 	// 			const response = await fetch(fetchUrl)
 	// 			if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -206,8 +206,8 @@ export default class AnchorHandler extends Controller {
 	// 			console.error('Fetch error:', error)
 	// 			if (el.href) window.location.href = el.href
 	// 		} finally {
-	// 			el.classList.remove('--fetch-loading')
-	// 			target.classList.remove('--fetch-loading')
+	// 			el.classList.remove('--fetchLoading')
+	// 			target.classList.remove('--fetchLoading')
 	// 		}
 	// 	})
 	// }

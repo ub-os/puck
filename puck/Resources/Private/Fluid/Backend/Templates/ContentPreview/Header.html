@@ -1,1 +1,31 @@
-{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+<f:if condition="{record.header} || {record.subheader}">
+	<div class="t3-page-ce-body-headline">
+		<f:if condition="{record.CType} !== 'puck_anchor'">
+			<f:then>
+				<f:if condition="{record.header_layout.value} == 100">
+					<f:then>
+						<i>{record.header -> f:format.raw()}</i>
+					</f:then>
+					<f:else if="{record.header_layout.tag}">
+						<{record.header_layout.tag}>
+							{record.header -> f:format.raw()}
+						</{record.header_layout.tag}>
+					</f:else>
+					<f:else if="{record.CType} == 'puck_hero'">
+						<h1>{record.header -> f:format.raw()}</h1>
+					</f:else>
+					<f:else>
+						<h3>{record.header -> f:format.raw()}</h3>
+					</f:else>
+				</f:if>
+				<f:if condition="{record.subheader}">
+					<h4>{record.subheader -> f:format.raw()}</h4>
+				</f:if>
+			</f:then>
+			<f:else>
+				<span>{record.header}</span>
+				[<u>#{record.subheader}</u>]
+			</f:else>
+		</f:if>
+	</div>
+</f:if>

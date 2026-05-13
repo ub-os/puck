@@ -29,7 +29,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 			'config' => [
 				'items' => [
 					['label' => 'Simple cards', 'value' => 'default'],
-					['label' => 'News cards', 'value' => 'news-cards'],
+					['label' => 'News cards', 'value' => 'newsCards'],
 					['label' => 'Cards (custom settings)', 'value' => 'cards'],
 					['label' => 'Columns (custom settings)', 'value' => 'columns'],
 				],
@@ -80,6 +80,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		],
 	],
 	pluginName: 'PageMenu',
-	flexForms: ['pi_flexform' => 'FILE:EXT:puck/Configuration/FlexForms/PageMenu.xml'],
+	flexForms: ['pi_flexform' => 'FILE:EXT:menu_controls/Configuration/FlexForms/PageMenu.xml'],
 	previewRenderer: \UBOS\Puck\Backend\PageMenuPreviewRenderer::class,
 );

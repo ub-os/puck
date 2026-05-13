@@ -1,0 +1,19 @@
+
+<f:argument name="name" type="string" optional="1" default="e-moduleHeader"/>
+<f:argument name="record" type="mixed"/>
+
+<f:if condition="({record.header} || {record.subheader}) && {record.header_layout.value} != 100">
+	<div class="{u:prependClass()}{name} -class-{record.header_layout.class}">
+		<f:if condition="{record.header}">
+			<element:tag is="{record.header_layout.tag}"
+						 class="{name}__header {record.header_layout.class} u-text-{record.header_position}">
+				{record.header -> f:format.raw()}
+			</element:tag>
+		</f:if>
+		<f:if condition="{record.subheader}">
+			<p class="{name}__subheader {record.header_layout.subheaderClass} u-text-{record.header_position}">
+				{record.subheader -> f:format.raw()}
+			</p>
+		</f:if>
+	</div>
+</f:if>

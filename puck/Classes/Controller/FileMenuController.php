@@ -24,8 +24,8 @@ class FileMenuController extends ActionController
 	#[AsAction("FileMenu")]
 	public function fileMenuAction(): ResponseInterface
 	{
-		$this->prepareContentView();
-		$record = $this->viewVariables['record'];
+		$variables = $this->getProcessedData();
+		$record = $variables['record'];
 		$menu = [];
 		foreach ($record->get('media') as $file) {
 			$menu[$file->getIdentifier()] = $file;
@@ -37,14 +37,13 @@ class FileMenuController extends ActionController
 				$menu[$file->getIdentifier()] = $file;
 			}
 		}
-		$menu = $this->sortMenu(
+		$variables['menu'] = $this->sortMenu(
 			$menu,
 			$record->get('filelink_sorting'),
 			$record->get('filelink_sorting_direction')
 		);
-		$this->viewVariables['menu'] = $menu;
 		return $this->htmlResponse(
-			$this->renderFluidComponent()
+			$this->renderComponent($variables)
 		);
 	}
 

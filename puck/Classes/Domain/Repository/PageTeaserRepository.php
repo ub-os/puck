@@ -43,9 +43,4 @@ class PageTeaserRepository extends Repository
 			)
 			->execute();
 	}
-
-	public function getTableName()
-	{
-		return $this->persistenceManager;
-	}
 }

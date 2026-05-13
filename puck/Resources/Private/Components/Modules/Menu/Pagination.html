@@ -1,0 +1,72 @@
+
+<f:argument name="name" type="string" optional="1" default="m-menu__pagination"/>
+<f:argument name="pagination" type="Amdeu\MenuControls\Dto\Pagination"/>
+<f:argument name="sectionId" type="string" optional="1"/>
+
+
+<f:if condition="{pagination.windowItems}">
+	<ul class="{name}"
+		id="{sectionId}-pagination"
+		data-hx-focus-after-swap="#{sectionId}-list a"
+		data-hx-select="#{sectionId}-body"
+		data-hx-target="#{sectionId}-body">
+		<f:render section="Item" arguments="{item:pagination.previousItem, sectionId:sectionId, name:name}" />
+		<f:render section="Item" arguments="{item:pagination.firstItem, sectionId:sectionId, name:name}" />
+		<f:if condition="{pagination.hasSeparatorBefore}">
+			 {pagination.separatorLabel} 
+		</f:if>
+		<f:for each="{pagination.windowItems}" as="item" iteration="i">
+			<f:render section="Item" arguments="{item:item, sectionId:sectionId, name:name}" />
+		</f:for>
+		<f:if condition="{pagination.hasSeparatorAfter}">
+			 {pagination.separatorLabel} 
+		</f:if>
+		<f:render section="Item" arguments="{item:pagination.lastItem, sectionId:sectionId, name:name}" />
+		<f:render section="Item" arguments="{item:pagination.nextItem, sectionId:sectionId, name:name}" />
+	</ul>
+</f:if>
+<f:else>
+	<div id="{sectionId}-pagination"></div>
+</f:else>
+
+<f:section name="Item">
+	<f:if condition="{item}">
+	<li class="{name}__item">
+		<f:if condition="{item.active}">
+			<f:then>
+				<div class="{name}__link -disabled">{item.label}</div>
+			</f:then>
+			<f:else>
+				<f:switch expression="{item.label}">
+					<f:case value="<">
+						<f:variable name="label">
+							<icon:svg icon="arrow-left-regular" class="{name}__prev"/>
+						</f:variable>
+						<f:variable name="ariaLabel"
+									value="{f:translate(key:'previous')} {f:translate(key:'page')}"/>
+					</f:case>
+					<f:case value=">">
+						<f:variable name="label">
+							<icon:svg icon="arrow-right-regular" class="{name}__next"/>
+						</f:variable>
+						<f:variable name="ariaLabel" value="{f:translate(key:'next')} {f:translate(key:'page')}"/>
+					</f:case>
+					<f:defaultCase>
+						<f:variable name="label" value="{item.label}"/>
+						<f:variable name="ariaLabel" value="{f:translate(key:'page')} {item.label}"/>
+					</f:defaultCase>
+				</f:switch>
+				<a href="{item.url}"
+				   aria-label="{ariaLabel}"
+				   class="{name}__link"
+				   data-hx-get="{item.url}"
+				   data-hx-replace-url="{item.url}">
+					{label -> f:format.raw()}
+				</a>
+			</f:else>
+		</f:if>
+	</li>
+	</f:if>
+</f:section>
+
+

@@ -1,7 +1,7 @@
 <?php
 
 return new \UBOS\Puck\Configuration\PageTypeConfiguration(
-	3,
+	\UBOS\Puck\Constants::DOKTYPES['link'],
 	showItemAdditions: [
 		[
 			'--palette--;;standard',

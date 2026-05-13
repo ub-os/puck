@@ -1,0 +1,19 @@
+
+<f:argument name="record" type="mixed"/>
+<f:argument name="name" type="string" optional="1" default="m-main"/>
+
+
+<div class="{name}__padding"></div>
+<main class="{name}" id="main">
+	<f:if condition="{record.doktype} == {constants.doktypes.news}">
+		<module:hero record="{
+	header:record.nav_title,
+	subheader: '{record.post_date -> f:format.date(format: \'%d. %B %Y\')}'
+	}"/>
+	</f:if>
+
+	<f:slot/>
+</main>
+
+
+

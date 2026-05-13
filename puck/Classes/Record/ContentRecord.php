@@ -40,7 +40,7 @@ class ContentRecord extends Record
 		$prop = $this->properties;
 
 		if ($this->has('header_layout')) {
-			$headerConfig = explode('.', $prop['header_layout']);
+			$headerConfig = array_map('trim', explode('.', $prop['header_layout']));
 			$prop['header_layout'] = [
 				'tag' => $headerConfig[0] ?? 'h2',
 				'class' => $headerConfig[1] ?? '',

@@ -30,21 +30,32 @@ $interface = [
 $columns = [
 	'title' => [
 		'label' => 'Title',
-		'config' => $GLOBALS['TCA']['pages']['columns']['title']['config']
+		'config' => [
+			'type' => 'input',
+			'size' => 255,
+			'eval' => 'trim,required',
+		]
 	],
 	'text' => [
 		'label' => 'Text',
-		'config' => $GLOBALS['TCA']['pages']['columns']['abstract']['config']
+		'config' => [
+			'type' => 'text',
+			'cols' => 40,
+			'rows' => 15,
+			'eval' => 'trim',
+		]
 	],
 	'media' => [
 		'label' => 'Media',
 		'config' => [
 			'type' => 'file',
 			'allowed' => 'common-image-types',
-			'overrideChildTca' => [
-				'columns' => ['crop' => ['config' => ['cropVariants' => \UBOS\Puck\Utility\TcaUtility::getCropVariants('3:2,16:9,191:100')]]],
-				'types' => $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['types']
-			]
+		],
+	],
+	'icon' => [
+		'label' => 'Icon',
+		'config' => [
+			'type' => 'text',
 		],
 	],
 	'page' => [
@@ -59,44 +70,6 @@ $columns = [
 			'foreign_table_where' => 'AND (pages.uid = ###REC_FIELD_pid### OR pages.l10n_parent = ###REC_FIELD_pid###) AND pages.sys_language_uid IN (-1, ###REC_FIELD_sys_language_uid###)',
 		],
 	],
-	'pid' => [
-		'config' => [
-			'type' => 'passthrough',
-		],
-	],
-	'parent_table' => [
-		'config' => [
-			'type' => 'passthrough',
-		],
-	],
-	'sys_language_uid' => [
-		'exclude' => true,
-		'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-		'config' => [
-			'type' => 'language',
-		],
-	],
-	'l10n_parent' => [
-		'displayCond' => 'FIELD:sys_language_uid:>:0',
-		'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-		'config' => [
-			'type' => 'select',
-			'renderType' => 'selectSingle',
-			'items' => [
-				['', 0],
-			],
-			'foreign_table' => 'tx_puck_domain_model_page_teaser',
-			'foreign_table_where' => 'AND {#tx_puck_domain_model_page_teaser}.{#pid}=###CURRENT_PID### AND {#tx_puck_domain_model_page_teaser}.{#sys_language_uid} IN (-1,0)',
-			'default' => 0,
-		],
-	],
-	'l10n_diffsource' => [
-		'config' => [
-			'type' => 'passthrough',
-		],
-	],
-	//todo: is this added automatically?
-	//'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
 ];
 
 $palettes = [
@@ -110,12 +83,7 @@ $types = [
 		'showitem' => '
                 --div--;General, 
                 page, title, text, media,
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, 
-                    sys_language_uid, 
-                    l10n_parent, 
-                    l10n_diffsource, 
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, 
-                    hidden',
+             	',
 	],
 ];
 

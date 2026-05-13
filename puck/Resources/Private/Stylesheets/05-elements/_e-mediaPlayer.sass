@@ -1,0 +1,82 @@
+@use '01-tools/all' as *
+
+.e-mediaPlayer
+	&
+		position: relative
+		padding-top: 56.25%
+		margin: auto
+		cursor: pointer
+
+	&__button
+		position: absolute
+		z-index: 3
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+
+	&__poster
+		+cover-media()
+		position: absolute
+		right: 0
+		top: 0
+		height: 100%
+		width: 100%
+		overflow: hidden
+		background: black
+
+	&__image
+		filter: brightness(0.8)
+		transition: filter .2s
+
+	&:hover &__image
+		filter: brightness(1)
+
+	&__frame,
+	&__iframe
+		position: absolute
+		z-index: 3
+		top: 0
+		width: 100%
+		height: 100%
+
+	@keyframes fade-in-media
+		0%
+			opacity: 0
+		100%
+			opacity: 1
+
+	&__modal__frame
+		display: block
+		position: relative
+		aspect-ratio: 16/9
+		background: black
+
+		& > *
+			animation: fade-in-media .3s ease-in
+
+	:is(&__modal__frame, &__frame) .uc-embedding-container
+		aspect-ratio: 16 / 9
+		max-height: 100% !important
+		color: black
+
+	&__loadingIndicator
+		+center(both)
+		font-size: 2em
+		color: white
+
+	&__icon
+		+center
+		+flex(row, center, center)
+		z-index: 2
+		height: 2.2em
+		width: 2.2em
+		padding: .5em
+		font-size: 1.5em
+		color: var(--color-link)
+		background: var(--background)
+		border-radius: 100%
+		transition: color .15s
+
+	&:hover &__icon
+		color: var(--color-link--hover)

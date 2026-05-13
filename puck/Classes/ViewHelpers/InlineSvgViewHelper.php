@@ -8,7 +8,7 @@ class InlineSvgViewHelper extends AbstractViewHelper
 {
 	protected $escapeOutput = false;
 
-	public function initializeArguments()
+	public function initializeArguments(): void
 	{
 		$this->registerArgument('file', FileInterface::class, 'File reference', true);
 		$this->registerArgument('class', 'string', 'class', false, '');

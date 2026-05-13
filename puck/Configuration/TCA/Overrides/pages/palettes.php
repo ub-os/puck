@@ -46,3 +46,10 @@ $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
     ',
 ];
 
+$GLOBALS['TCA']['pages']['palettes']['routing'] = [
+	'label' => 'Routing',
+	'showitem' => '
+        route_enhancers,
+    ',
+];
+

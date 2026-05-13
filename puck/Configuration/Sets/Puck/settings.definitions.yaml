@@ -1,45 +1,39 @@
 categories:
   Puck:
     label: Puck site package
-  Puck.system:
-    label: System
-    parent: Puck
-  Puck.template:
-    label: Template
-    parent: Puck
 
 settings:
-  template.rootLayout:
-    label: Root layout
-    description: 'Base layout type for site'
-    category: Puck.template
-    type: string
-    default: default
-    enum:
-      default: 'Default'
-  template.logo:
-    label: Logo
-    category: Puck.template
-    type: string
-    default: default
-    enum:
-      default: 'Default'
-  template.favicon:
-    label: Favicon
-    category: Puck.template
-    type: string
-    default: default
-    enum:
-      default: 'Default'
-  system.enableCookieSettings:
+  puck.enableCookieSettings:
     label: Enable cookie settings
     description: Show cookie settings link in footer
-    category: Puck.system
+    category: Puck
     type: bool
     default: false
-  system.searchPageUid:
+  puck.searchPageUid:
     label: Search page
     description: Uid of search plugin page
-    category: Puck.system
+    category: Puck
     type: string
     default: ''
+  puck.rootLayout:
+    label: Root layout
+    description: 'Base layout type for site'
+    category: Puck
+    type: string
+    default: default
+    enum:
+      default: 'Default'
+  puck.logo:
+    label: Logo
+    category: Puck
+    type: string
+    default: default
+    enum:
+      default: 'Default'
+  puck.favicon:
+    label: Favicon
+    category: Puck
+    type: string
+    default: default
+    enum:
+      default: 'Default'

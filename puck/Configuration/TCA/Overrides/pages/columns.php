@@ -20,11 +20,6 @@ array_push(
 		'value' => 'categories',
 		'icon' => 'mimetypes-x-sys_category',
 	],
-	[
-		'label' => 'Person folder',
-		'value' => 'persons',
-		'icon' => 'person',
-	]
 );
 
 $GLOBALS['TCA']['pages']['columns']['url'] = [
@@ -50,29 +45,7 @@ $GLOBALS['TCA']['pages']['columns']['post_date'] = [
 		]
 	],
 ];
-$GLOBALS['TCA']['pages']['columns']['post_author'] = [
-	'label' => 'Author',
-	'config' => [
-		'type' => 'group',
-		'allowed' => 'tx_puck_domain_model_person',
-		'foreign_table' => 'tx_puck_domain_model_person',
-		'size' => 1,
-		'relationship' => 'oneToOne'
-	],
-];
-$GLOBALS['TCA']['pages']['columns']['page_persons'] = [
-	'label' => 'Person',
-	'config' => [
-		'required' => '1',
-		'type' => 'group',
-		'allowed' => 'tx_puck_domain_model_person',
-		'foreign_table' => 'tx_puck_domain_model_person',
-		'MM' => 'tx_puck_person_page_mm',
-		'MM_opposite_field' => 'pages',
-		'size' => 1,
-		'maxitems' => 1
-	],
-];
+
 
 $GLOBALS['TCA']['pages']['columns']['doktype']['config']['itemsProcFunc'] = PageItemsProcFunc::class . '->doktype';
 $GLOBALS['TCA']['pages']['columns']['doktype']['config']['disableNoMatchingValueElement'] = true;
@@ -159,4 +132,16 @@ $GLOBALS['TCA']['pages']['columns']['teasers'] = [
 // fixes issue where categories are not translated https://forge.typo3.org/issues/97526
 $GLOBALS['TCA']['pages']['columns']['categories']['config']['behaviour'] = [
 	'allowLanguageSynchronization' => true
+];
+
+$GLOBALS['TCA']['pages']['columns']['route_enhancers'] = [
+	'label' => 'Route Enhancers',
+	'config' => [
+		'type' => 'select',
+		'renderType' => 'selectCheckBox',
+		'items' => [
+			['label' => 'Indexed search', 'value' => 'puck/IndexedSearch'],
+			['label' => 'Page menu pagination and filter', 'value' => 'puck/PageMenu'],
+		]
+	]
 ];

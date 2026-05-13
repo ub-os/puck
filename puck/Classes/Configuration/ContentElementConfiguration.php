@@ -7,7 +7,6 @@ use B13\Container\Tca\Registry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Backend\BasicPreviewRenderer;
-use UBOS\Puck\Components\ModuleComponentCollection;
 use UBOS\Puck\Controller;
 
 /**
@@ -42,8 +41,8 @@ class ContentElementConfiguration
 	 * @param array $columnsOverrides TCA column overrides
 	 * @param string $pluginName Name of the Extbase plugin this element renders. If empty, FLUIDCOMPONENT is used instead of EXTBASEPLUGIN
 	 * @param string $extensionName Extension name (default: 'Puck')
-	 * @param string $componentCollection Fully qualified class name of the ComponentCollection (default: ModuleComponentCollection::class)
-	 * @param string $component Component name in dot notation (e.g., 'text' or 'modules.hero'). If empty, defaults to camelCase version of $type
+	 * @param string $componentCollection Component collection namespace (default: UBOS\Puck\Components\Modules)
+	 * @param string $component Component name in dot notation (e.g., 'text' or 'stage.product'). If empty, defaults to camelCase version of $type
 	 * @param array $flexForms Array of field_name => EXT:ext/path/to/flexform.xml, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration for ext:container
 	 * @param array $dataProcessing Data processor configurations (processor class, options, etc.)
@@ -60,14 +59,24 @@ class ContentElementConfiguration
 		public array  $columnsOverrides = [],
 		public string $pluginName = '',
 		public string $extensionName = 'Puck',
-		public string $componentCollection = ModuleComponentCollection::class,
+		public string $componentCollection = 'UBOS\\Puck\\Components\\Modules',
 		public string $component = '',
 		public array  $flexForms = [],
 		public array  $containerConfiguration = [],
-		public array  $dataProcessing = [],
+		public array  $dataProcessing = [
+			[
+				'processor' => 'record-transformation'
+			]
+		],
 		public string $previewRenderer = BasicPreviewRenderer::class,
 	)
 	{
+		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
+			$this->dataProcessing['container'] = [
+				'processor' => 'B13\Container\DataProcessing\ContainerProcessor',
+				'auto' => true,
+			];
+		}
 	}
 
 	protected array $valueOverrides = [];
@@ -122,8 +131,8 @@ class ContentElementConfiguration
 			'valueOverrides' => $this->valueOverrides,
 		];
 		foreach ($this->flexForms as $field => $flexForm) {
-			if (is_array($GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds'])) {
-				$GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds']['*' . ',' . $this->getCType()] = $flexForm;
+			if (isset($GLOBALS['TCA']['tt_content']['columns'][$field]['config']['ds'])) {
+				$GLOBALS['TCA']['tt_content']['types'][$this->getCType()]['columnsOverrides'][$field]['config']['ds'] = $flexForm;
 			}
 		}
 		if ($this->previewRenderer) {
@@ -137,8 +146,6 @@ class ContentElementConfiguration
 				'value' => $this->getCType(),
 				'icon' => $this->icon,
 			],
-			'CType',
-			'puck',
 		);
 	}
 

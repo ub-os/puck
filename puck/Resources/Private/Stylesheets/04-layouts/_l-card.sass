@@ -25,10 +25,10 @@
 		&.-media
 			justify-content: space-between
 
-		&.-media-size-background
+		&.-mediaSize-background
 
-		&.-media-size-contain,
-		&.-media-size-background
+		&.-mediaSize-contain,
+		&.-mediaSize-background
 			padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
 
 		&.-layout-right,
@@ -40,7 +40,7 @@
 		&.-layout-below
 			flex-direction: column
 
-		&.-media-size-cover:where(.-layout-right, .-layout-left)
+		&.-mediaSize-cover:where(.-layout-right, .-layout-left)
 			align-items: stretch
 
 		&.-align-start
@@ -73,7 +73,7 @@
 		z-index: 1
 		width: 100%
 
-		&.-media-size-cover
+		&.-mediaSize-cover
 			padding: var(--padding-block) var(--padding-inline)
 
 		&.-layout-right,
@@ -90,7 +90,7 @@
 		&.-layout-above, &.-layout-left
 			order: -1
 
-		&.-media-size-background
+		&.-mediaSize-background
 			+cover-media
 			position: absolute
 			z-index: 0
@@ -100,36 +100,36 @@
 			height: 100%
 			background: var(--background-media-overlay-color)
 
-		&.-media-size-cover:where(.-layout-right, .-layout-left)
+		&.-mediaSize-cover:where(.-layout-right, .-layout-left)
 			+cover-media
 			@media (min-width(xs))
 				width: calc(100% * var(--card-media-width) / var(--card-width))
 				align-self: stretch
 
-		&.-media-size-contain:where(.-layout-above)
+		&.-mediaSize-contain:where(.-layout-above)
 			padding-bottom: var(--padding-bottom)
 
-		&.-media-size-contain:where(.-layout-below)
+		&.-mediaSize-contain:where(.-layout-below)
 			padding-top: var(--padding-block)
 
-		&.-media-size-contain:where(.-layout-right, .-layout-left)
+		&.-mediaSize-contain:where(.-layout-right, .-layout-left)
 			@media (min-width(xs))
 				width: calc((100% + #{var(--padding-inline)}) * var(--card-media-width) / var(--card-width))
 
-		&.-media-size-contain:where(.-layout-right)
+		&.-mediaSize-contain:where(.-layout-right)
 			@media (min-width(xs))
 				padding-left: var(--padding-inline)
 			@media (max-width(xs))
 				padding-bottom: var(--padding-bottom)
 
-		&.-media-size-contain:where(.-layout-left)
+		&.-mediaSize-contain:where(.-layout-left)
 			@media (min-width(xs))
 				padding-right: var(--padding-inline)
 			@media (max-width(xs))
 				padding-bottom: var(--padding-bottom)
 
 
-	&__figure.-media-size-background &__image
+	&__figure.-mediaSize-background &__image
 		opacity: var(--background-media-opacity)
 
 	&__image

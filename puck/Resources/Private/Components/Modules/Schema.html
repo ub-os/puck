@@ -1,0 +1,106 @@
+
+<f:argument name="record" type="mixed"/>
+<f:argument name="context" type="array"/>
+<f:argument name="name" type="string" optional="1" default="m-schema"/>
+
+
+<f:variable name="searchTermString">{
+	<f:format.raw>search_term_string</f:format.raw>
+	}
+</f:variable>
+
+<f:variable name="pageUrl">{f:uri.page(absolute:1)}</f:variable>
+
+<f:variable name="imageUrl"><f:format.trim>
+	<f:if condition="{record.media}">
+		<f:then>{f:uri.image(image: record.media.0, crop: record.media.0.crop, width: '1920', cropVariant: '16:9', absolute: '1')}</f:then>
+		<f:else>{f:uri.resource(path:'Images/Logos/default.svg', extensionName: 'puck', absolute: 1)}</f:else>
+	</f:if>
+</f:format.trim></f:variable>
+
+<f:variable name="type"><f:format.trim>
+	<f:if condition="{record.tx_schema_webpagetype}">
+		<f:then>{record.tx_schema_webpagetype}</f:then>
+		<f:else if="{record.doktype} == {constants.doktypes.news}">NewsArticle</f:else>
+		<f:else>WebPage</f:else>
+	</f:if>
+</f:format.trim></f:variable>
+
+<f:switch expression="{type}">
+	<f:case value="NewsArticle">
+		<f:render section="NewsArticle" arguments="{_all}"/>
+	</f:case>
+	<f:defaultCase>
+		<f:render section="WebPage" arguments="{_all}"/>
+	</f:defaultCase>
+</f:switch>
+
+<f:section name="WebPage">
+	<schema:multipleType
+		-id="{pageUrl}#webpage"
+		types="{type}"
+		properties="{
+			url:pageUrl,
+			name:record.seo_title,
+			description:record.description,
+			image:imageUrl,
+			inLanguage:context.language.hreflang
+		}">
+		<f:render section="WebSite" arguments="{_all}"/>
+	</schema:multipleType>
+
+	<f:variable name="breadcrumbsMenu"
+				value="{u:menu(pages:record.uid, processor:'breadcrumbs')}"/>
+	<schema:type.breadcrumbList>
+		<f:for each="{breadcrumbsMenu}" as="item" iteration="i">
+			<schema:type.listItem
+				-as="itemListElement"
+				position="{i.cycle}"
+				name="{item.nav_title}"
+				item="{f:uri.page(pageUid:item.uid, absolute:'1')}"
+			/>
+		</f:for>
+	</schema:type.breadcrumbList>
+</f:section>
+
+<f:section name="NewsArticle">
+	<schema:type.newsArticle
+		-id="{pageUrl}#article"
+		url="{pageUrl}"
+		headline="{record.seo_title}"
+		description="{record.description}"
+		image="{imageUrl}"
+		inLanguage="{context.language.hreflang}"
+		datePublished="{record.post_date -> f:format.date()}">
+		<f:render section="WebSite" arguments="{_all}"/>
+	</schema:type.newsArticle>
+</f:section>
+
+<f:section name="WebSite">
+	<schema:type.webSite
+		-as="isPartOf"
+		-id="{f:uri.page(pageUid: context.site.rootPageId, absolute:1)}#website"
+		url="{f:uri.page(pageUid: context.site.rootPageId, absolute:1)}"
+		name="{context.language.websiteTitle}">
+	</schema:type.webSite>
+</f:section>
+
+<f:section name="PrimaryImage">
+	<f:if condition="{record.media}">
+		<f:then>
+			<schema:type.imageObject
+				-as="primaryImageOfPage"
+				-id="{pageUrl}#primaryimage"
+				url="{f:uri.image(image: record.media.0, crop: record.media.0.crop, width: '1920', cropVariant: '16:9', absolute: '1')}"
+				width="1920"
+				height="1080"/>
+		</f:then>
+		<f:else>
+			<schema:type.imageObject
+				-as="primaryImageOfPage"
+				-id="{pageUrl}#primaryimage"
+				url="{f:uri.resource(path:'Images/Logos/default.svg', extensionName: 'puck', absolute: 1)}"
+			/>
+		</f:else>
+	</f:if>
+</f:section>

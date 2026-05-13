@@ -32,7 +32,7 @@ htmx.logger = (el, eventType, event) => {
 	Logger.console.log(`%c${eventType}${additional}`, htmxLifecycleEvents[eventType], event)
 }
 window.requestAnimationFrame(() => {
-	document.body.classList.remove('u-no-transition')
+	document.body.classList.remove('u-transition-off')
 })
 
 // resolve focus after content swap

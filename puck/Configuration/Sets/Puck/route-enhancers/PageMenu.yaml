@@ -1,0 +1,38 @@
+routeEnhancers:
+  PageMenu:
+    limitToPages:
+      - 'page["route_enhancers"] contains "puck/PageMenu"'
+    type: Extbase
+    extension: Puck
+    plugin: PageMenu
+    routes:
+      - routePath: '/{categoryLabel}:{demand/categoryGroups/main/uids}/{pageLabel}-{page}'
+        _controller: 'PageMenu::pageMenu'
+      - routePath: '/{categoryLabel}:{demand/categoryGroups/main/uids}'
+        _controller: 'PageMenu::pageMenu'
+      - routePath: '/{pageLabel}-{page}'
+        _controller: 'PageMenu::pageMenu'
+      - routePath: '/'
+        _controller: 'PageMenu::pageMenu'
+    aspects:
+      pageLabel:
+        type: LocaleModifier
+        default: 'page'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'seite'
+      categoryLabel:
+        type: LocaleModifier
+        default: 'category'
+        localeMap:
+          - locale: 'de_DE.*'
+            value: 'kategorie'
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'
+      demand/categoryGroups/main/uids:
+        type: PersistedAliasListMapper
+        tableName: sys_category
+        routeFieldName: slug
+        slugSeparator: '.'

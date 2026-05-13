@@ -22,11 +22,13 @@ final class RecordCreator
 			));
 		}
 		if ($event->getRawRecord()->getMainType() === 'pages') {
-			$event->setRecord(new PageRecord(
+			$record = new PageRecord(
 				$event->getRawRecord(),
 				$event->getProperties(),
 				$event->getSystemProperties()
-			));
+			);
+			$record->setComputedProperties();
+			$event->setRecord($record);
 		}
 	}
 }

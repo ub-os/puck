@@ -8,21 +8,19 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Puck Site Package',
-	'description' => '',
+	'title' => 'Puck',
+	'description' => 'Puck - Site package starter for TYPO3 websites',
 	'category' => 'distribution',
 	'author' => 'Amadeus Kiener',
-	'author_email' => 'a.kiener@unibrand.de',
+	'author_email' => 'amd.kiener@gmail.com',
 	'state' => 'stable',
 	'internal' => '',
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '1.0.0',
+	'version' => '14',
 	'constraints' => [
 		'depends' => [
-            'typo3' => '',
-            'content_defender' => ''
 		]
 	],
 );

@@ -17,7 +17,7 @@
 		margin-bottom: 0
 
 	&:where(:not([class*="-background-"]))
-		:where(&, & + .e-anchor) + &:where(.-no-h2-spacing)
+		:where(&, & + .e-anchor) + &:where(.-noHeaderSpacing)
 			margin-top: 0
 
 	&:where([class*="-background-"])
@@ -30,11 +30,11 @@
 			:where(&, & + .e-anchor) + &
 				margin-top: section-spacing(-1)
 				padding-top: 0
-				&:where(.-no-h2-spacing)
+				&:where(.-noHeaderSpacing)
 					margin-top: section-spacing(-2)
 
-	+background-spacing-rules('dark-1')
+	+background-spacing-rules('dark1')
 
 	// Backgrounds
-	&.-background-dark-1
+	&.-background-dark1
 		+color-space-dark-1

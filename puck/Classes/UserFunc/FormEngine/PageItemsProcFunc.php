@@ -4,7 +4,7 @@ namespace UBOS\Puck\UserFunc\FormEngine;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use UBOS\Puck\Domain\Repository\PageRepository;
+use UBOS\Puck\Constants;
 
 /**
  * ItemsProcFunc methods for 'pages' fields
@@ -23,7 +23,7 @@ class PageItemsProcFunc
 			return;
 		}
 		if ($pidRow['module'] == 'news') {
-			$params['items'] = $this->filterItemsByValues($params['items'], (string)PageRepository::DOKTYPES['news']);
+			$params['items'] = $this->filterItemsByValues($params['items'], (string)Constants::DOKTYPES['news']);
 		}
 	}
 

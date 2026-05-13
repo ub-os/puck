@@ -67,10 +67,10 @@
 					float: left
 
 .l-media
-	&.-layout-right-float
+	&.-layout-rightFloat
 		+media-layout(float, right)
 
-	&.-layout-left-float
+	&.-layout-leftFloat
 		+media-layout(float, left)
 
 	&.-layout-right
@@ -85,7 +85,7 @@
 	&.-layout-below
 		+media-layout(block, below)
 
-	&:where(.-mobile-max-height) &__file
+	&:where(.-mobileMaxHeight) &__file
 		@media (max-width(s))
 			max-height: var(--max-height-media-mobile)
 			width: auto
