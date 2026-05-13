@@ -1,0 +1,37 @@
+@use "sass:math"
+
+$rem-base: 16 !default
+$spacing-unit: 1rem !default
+
+@function rem-to-px($rem)
+	@return math.div($rem,1rem) * $rem-base * 1px
+
+@function px-to-rem($px)
+	@return math.div($px,1px * $rem-base) * 1rem
+
+@function px-to-native-rem($px)
+	@return math.div($px,1px * 16) * 1rem
+
+@function px-rem($pxVal)
+	@return math.div($pxVal,$rem-base) * 1rem
+
+@function rem-px($remVal)
+	@return $remVal * $rem-base * 1px
+
+@function fibonacci-sizes()
+	@return ('xxs': 1, 'xs': 2, 's': 3, 'm': 5, 'l': 8, 'xl': 13, 'xxl': 21)
+
+@function spacing($size, $factor: 1)
+	@if $factor == 1
+		@return var(--spacing-#{$size})
+	@else
+		@return calc(var(--spacing-#{$size}) * #{$factor})
+
+@function section-spacing($factor: 1)
+	@return spacing(m, $factor)
+
+@function body-em($factor: 1)
+	@if $factor == 1
+		@return var(--font-size-body)
+	@else
+		@return calc(var(--font-size-body) * #{$factor})

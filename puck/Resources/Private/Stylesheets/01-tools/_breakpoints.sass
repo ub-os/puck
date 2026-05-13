@@ -1,0 +1,34 @@
+@use 'sass:map'
+@use 'units' as *
+
+$bp-xs: 540px !default
+$bp-s: 660px !default
+$bp-sm: 780px !default
+$bp-m: 900px !default
+$bp-ml: 1040px !default
+$bp-l: 1180px !default
+$bp-xl: 1340px !default
+$bp-xxl: 1500px !default
+$bp-1920px: 1920px !default
+$bp-2560px: 2560px !default
+$bp-mobile-nav: ml
+
+@function bps-down()
+	@return ('xs': $bp-xs, 's': $bp-s, 'sm': $bp-sm, 'm': $bp-m, 'ml': $bp-ml, 'l': $bp-l, 'xl': $bp-xl, 'xxl': $bp-xxl)
+
+@function bps-up()
+	@return ('xs': ($bp-xs + 1), 's': ($bp-s + 1), 'sm': ($bp-sm + 1), 'm': ($bp-m + 1), 'ml': ($bp-ml + 1), 'l': ($bp-l + 1), 'xl': ($bp-xl + 1), 'xxl': ($bp-xxl + 1))
+
+
+@function min-width($bpOrPx)
+	@if map.has-key(bps-up(), $bpOrPx)
+		@return 'min-width: #{px-to-native-rem(map.get(bps-up(), $bpOrPx))}'
+	@else
+		@return 'min-width: #{px-to-native-rem($bpOrPx)}'
+
+@function max-width($bpOrPx)
+	@if map.has-key(bps-down(), $bpOrPx)
+		@return 'max-width: #{px-to-native-rem(map.get(bps-down(), $bpOrPx))}'
+	@else
+		@return 'max-width: #{px-to-native-rem($bpOrPx)}'
+

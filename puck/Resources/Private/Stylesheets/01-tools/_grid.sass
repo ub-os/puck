@@ -1,0 +1,61 @@
+@use 'sass:math'
+@use 'breakpoints' as *
+@use 'units' as *
+
+$grid-columns: 12 !default
+$grid-width: px-rem(1280) !default
+$gutter-x: px-rem(30) !default
+$gutter-y: px-rem(30) !default
+$gutter-outer: px-rem(40) !default
+$gutter-outer-responsive: 5vw !default
+
+@function grid-gutters()
+	@return $grid-columns - 1
+
+@function grid-container-width()
+	@return $grid-width + 2 * $gutter-outer
+
+@function column-width()
+	@return math.div(($grid-width - $gutter-x * grid-gutters()), $grid-columns)
+
+// helpers
+@function width-by-cols($columns: 12, $grid-padding: false)
+	$result: (column-width() * $columns) + ($gutter-x * ($columns - 1))
+	@if ($grid-padding == true)
+		@return $result + (2 * $gutter-outer)
+	@else
+		@return $result
+
+=grid-container($max-width: grid-container-width())
+	width: 100%
+	max-width: $max-width
+	margin-inline: auto
+
+=grid-row()
+	display: flex
+	flex-wrap: wrap
+	gap: var(--gutter-y) var(--gutter-x)
+	--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
+
+=grid-col($width: var(--row-colspan), $row-width: var(--row-colspan))
+	flex-shrink: 0
+	max-width: 100%
+	flex-basis: auto
+	width: round(down, (var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1)), 1px)
+	/* Safari 17 and older fallback */
+	/* Safari 17 and older does not support round() with CSS variables(?), so we use a fallback */
+	::-webkit-full-page-media, :future, :where(:root) &
+		width: calc(var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1))
+
+=grid-col-width($width, $row-width: var(--row-colspan))
+	@if $row-width != var(--row-colspan)
+		--row-colspan: #{$row-width}
+	--col-colspan: #{$width}
+	@if $width != var(--row-colspan)
+		& > *
+			--row-colspan: #{$width}
+			--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
+
+=grid-col-breakpoint($bp, $width, $row-width: var(--row-colspan))
+	@media (max-width($bp))
+		+grid-col-width($width, $row-width)
