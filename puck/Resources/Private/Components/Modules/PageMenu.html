@@ -10,7 +10,7 @@
 	record="{record}"
 	containerName="{f:if(condition:'{record.layout} == \'cards\' || {record.layout} == \'columns\'',then:'',else:name)}">
 	<element:moduleHeader record="{record}"/>
-	<element:richText text="{record.bodytext}" class="{name}__bodytext"/>
+	<element:richText record="{record}" class="{name}__bodytext"/>
 
 	<div class="{name}__body" id="c{record.uid}-body" data-focus-after-swap="#c{record.uid}-list a">
 

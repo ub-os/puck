@@ -29,15 +29,15 @@ editor:
         - { name: "Like h2 paragraph", element: "p", classes: [ "h2" ] }
         - { name: "Like h3 paragraph", element: "p", classes: [ "h3" ] }
         - { name: "Button group", element: "p", classes: [ "e-buttonGroup" ] }
-        - { name: "Button group without gutter", element: "p", classes: [ "-gutter-0 e-buttonGroup" ] }
+        - { name: "Button group without gutter", element: "p", classes: [ "e-buttonGroup", "-gutter-0" ] }
 
         # Headlines
 
         # link styles
-        - { name: "Button", element: "a", classes: [ "e-button" ] }
-        - { name: "Button: full-width", element: "a", classes: [ '-block' ] }
-        - { name: "Button: icon left", element: "a", classes: [ '-icon', '-icon-left' ] }
-        - { name: "Button: icon right", element: "a", classes: [ '-icon', '-icon-right' ] }
+        - { name: "Button", element: "span", classes: [ "e-button" ] }
+        - { name: "Button + full-width", element: "span", classes: [ 'e-button', '-block' ] }
+        - { name: "Button + icon left", element: "span", classes: [ 'e-button', '-icon-left' ] }
+        - { name: "Button + icon right", element: "span", classes: [ 'e-button', '-icon-right' ] }
 
         #Lists
 
@@ -97,13 +97,16 @@ editor:
         - { name: 'left', className: 'u-text-left' }
         - { name: 'center', className: 'u-text-center' }
         - { name: 'right', className: 'u-text-right' }
-        - { name: 'justify', className: 'u-text-justify' }
+        - { name: 'justify', className: 'u-text-just§ify' }
 
 
-    extraAllowedContent: "span(*); *(*)[data-*]; p[data-*]; a[data-*]; a span;"
+    extraAllowedContent: "span(*); *(*)[data-*]; p[data-*]; a[data-*]; a span; span i; span a;"
 
     qtRows: 20
     qtColumns: 6
+
+    htmlSupport:
+      allow:
 
 processing:
   allowTags:

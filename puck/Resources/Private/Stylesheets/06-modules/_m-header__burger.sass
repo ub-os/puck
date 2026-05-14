@@ -4,10 +4,10 @@
 	&
 		+flex(column, space-between, center)
 		position: relative
-		width: 4rem
-		height: 3rem
-		padding: .5rem
-		margin-right: -.5rem
+		width: px-rem(40)
+		height: px-rem(30)
+		padding: px-rem(5)
+		margin-right: px-rem(-5)
 		color: var(--color-link)
 		cursor: pointer
 		border-radius: var(--border-radius-s)
@@ -16,10 +16,10 @@
 			display: none
 
 	&.--active &__slice:nth-child(1)
-		transform: translateY(1rem)
+		transform: translateY(px-rem(10))
 
 	&.--active &__slice:nth-child(3)
-		transform: translateY(-1rem)
+		transform: translateY(px-rem(-10))
 
 	&:hover,
 	&:focus-visible

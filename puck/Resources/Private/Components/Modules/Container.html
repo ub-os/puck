@@ -8,7 +8,7 @@
 	class="{name}__wrap"
 	record="{record}">
 	<element:moduleHeader record="{record}"/>
-	<element:richText text="{record.bodytext}" class="{name}__bodytext"/>
+	<element:richText record="{record}" class="{name}__bodytext"/>
 
 	<f:for each="{children_600}" as="child">
 		{child.renderedContent -> f:format.raw()}

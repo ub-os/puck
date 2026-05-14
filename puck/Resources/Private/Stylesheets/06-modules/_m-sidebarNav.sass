@@ -5,7 +5,7 @@
 	@keyframes sidebar-open
 		0%
 			opacity: 0
-			transform: translate(11rem, 0)
+			transform: translate(px-rem(110), 0)
 		100%
 			opacity: 1
 			transform: translateX(0)
@@ -16,7 +16,7 @@
 			transform: translateX(0)
 		100%
 			opacity: 0
-			transform: translate(11rem, 0)
+			transform: translate(px-rem(110), 0)
 
 	&__modal
 		margin: 0 0 0 auto
@@ -83,10 +83,10 @@
 
 	&__close
 		+flex(row, center, center)
-		height: 3rem
-		width: 3rem
+		height: px-rem(30)
+		width: px-rem(30)
 		margin-left: auto
-		font-size: 3rem
+		font-size: px-rem(30)
 		color: var(--color-link)
 		transition: color .15s
 		&:hover,

@@ -35,9 +35,7 @@
 		</f:if>
 		<div class="{name}__card__text">
 			<element:moduleHeader record="{record}" class="{name}__headline"/>
-			<f:if condition="{record.bodytext}">
-				<element:richText text="{record.bodytext}"/>
-			</f:if>
+			<element:richText record="{record}"/>
 		</div>
 		<f:slot/>
 	</layout:card>

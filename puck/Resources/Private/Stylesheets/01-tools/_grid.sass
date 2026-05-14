@@ -18,7 +18,6 @@ $gutter-outer-responsive: 5vw !default
 @function column-width()
 	@return math.div(($grid-width - $gutter-x * grid-gutters()), $grid-columns)
 
-// helpers
 @function width-by-cols($columns: 12, $grid-padding: false)
 	$result: (column-width() * $columns) + ($gutter-x * ($columns - 1))
 	@if ($grid-padding == true)
@@ -35,27 +34,34 @@ $gutter-outer-responsive: 5vw !default
 	display: flex
 	flex-wrap: wrap
 	gap: var(--gutter-y) var(--gutter-x)
-	--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
+	+calc-col-width()
 
-=grid-col($width: var(--row-colspan), $row-width: var(--row-colspan))
+=grid-col($width: null)
 	flex-shrink: 0
 	max-width: 100%
 	flex-basis: auto
+	// round(down) prevents subpixel accumulation across columns with gap
 	width: round(down, (var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1)), 1px)
-	/* Safari 17 and older fallback */
-	/* Safari 17 and older does not support round() with CSS variables(?), so we use a fallback */
+	// Safari 17 and older does not support round() with CSS variables.
+	// ::-webkit-full-page-media is a dead pseudo-element — modern engines skip
+	// this rule, old Safari still parses it, making it an effective version fence.
 	::-webkit-full-page-media, :future, :where(:root) &
 		width: calc(var(--calc-col-width) * var(--col-colspan) + var(--gutter-x) * (var(--col-colspan) - 1))
+	@if $width != null
+		+grid-col-width($width)
 
 =grid-col-width($width, $row-width: var(--row-colspan))
 	@if $row-width != var(--row-colspan)
 		--row-colspan: #{$row-width}
 	--col-colspan: #{$width}
-	@if $width != var(--row-colspan)
-		& > *
-			--row-colspan: #{$width}
-			--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))
+	// Propagate column width as row context for any child rows or carousels
+	& > *
+		--row-colspan: #{$width}
+		+calc-col-width()
 
 =grid-col-breakpoint($bp, $width, $row-width: var(--row-colspan))
 	@media (max-width($bp))
 		+grid-col-width($width, $row-width)
+
+=calc-col-width()
+	--calc-col-width: calc((100% - (var(--row-colspan) - 1) * var(--gutter-x)) / var(--row-colspan))

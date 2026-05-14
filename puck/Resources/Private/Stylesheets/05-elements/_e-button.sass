@@ -41,26 +41,24 @@
 		width: 100%
 
 	// Button version that absolutely positions contained icon tag
-	&:where(.-icon)
+	&:where(.-icon-left, .-icon-right)
 		position: relative
-		padding-right: var(--padding-icon-side)
-
 		& :where(.char-icon)
 			+flex(row, center, center)
 			position: absolute
-			right: 0
 			top: 0
 			color: var(--color-button)
 			width: var(--width-icon)
 			height: 100%
+
+	&:where(.-icon-right)
+		padding-right: var(--padding-icon-side)
+		& :where(.char-icon)
+			right: 0
 			border-left: var(--border-width-button) solid var(--color-button-border)
 
 	&:where(.-icon-left)
-		padding-right: var(--padding-inline)
 		padding-left: var(--padding-icon-side)
-
 		& :where(.char-icon)
 			left: 0
-			right: unset
 			border-right: var(--border-width-button) solid var(--color-button-border)
-			border-left: none

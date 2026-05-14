@@ -15,9 +15,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Frontend\ContentObject\ContentContentObject;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
+use TYPO3\CMS\Frontend\DataProcessing\PageContentFetchingProcessor;
 use UBOS\Puck\Attribute\AsAction;
 
 /**
@@ -26,12 +24,12 @@ use UBOS\Puck\Attribute\AsAction;
 class PageController extends ActionController
 {
 	public function __construct(
-		protected ContentContentObject $contentContentObject,
 		protected RecordFactory        $recordFactory,
 		protected PageRenderer         $pageRenderer,
 		protected AssetCollector       $assetCollector,
 		protected Context 			   $context,
-		protected ViewFactoryInterface $viewFactory
+		protected ViewFactoryInterface $viewFactory,
+		protected PageContentFetchingProcessor $pageContentFetchingProcessor,
 	)
 	{
 	}
@@ -42,24 +40,24 @@ class PageController extends ActionController
 		$contentObjectRenderer = $this->request->getAttribute('currentContentObject');
 		$site = $this->request->getAttribute('site');
 		$siteSettings = $site->getSettings();
-		$variables = [];
-		$variables['settings'] = $this->settings;
-		$variables['record'] = $this->recordFactory->createResolvedRecordFromDatabaseRow(
-			'pages',
-			$contentObjectRenderer->data
-		);
-		$variables['context'] = [
-			'backendUser' => $this->context->getPropertyFromAspect('backend.user', 'username'),
-			'site' => $site,
-			'language' => $site->getLanguageById($this->context->getPropertyFromAspect('language', 'id')),
-		];
-		$variables['contentElements'] = $this->renderContentElementsByColPos(
-			$contentObjectRenderer,
-			[
-				['colPos' => 1, 'slide' => 0],
-				['colPos' => 3, 'slide' => -1],
-				['colPos' => 9, 'slide' => 0]
+		$variables = [
+			'data' => $contentObjectRenderer->data,
+			'settings' => $this->settings,
+			'record' => $this->recordFactory->createResolvedRecordFromDatabaseRow(
+				'pages',
+				$contentObjectRenderer->data
+			),
+			'context' => [
+				'backendUser' => $this->context->getPropertyFromAspect('backend.user', 'username'),
+				'site' => $site,
+				'language' => $site->getLanguageById($this->context->getPropertyFromAspect('language', 'id')),
 			]
+		];
+		$variables = $this->pageContentFetchingProcessor->process(
+			$contentObjectRenderer,
+			[],
+			['as' => 'content'],
+			$variables
 		);
 		$this->addAssetTags();
 		$this->addFaviconTags($siteSettings);
@@ -67,27 +65,6 @@ class PageController extends ActionController
 		return $this->htmlResponse();
 	}
 
-	/**
-	 * Render content elements by colPos.
-	 */
-	protected function renderContentElementsByColPos(ContentObjectRenderer $contentObjectRenderer, array $contentAreas): array
-	{
-		$this->contentContentObject->setRequest($this->request);
-		$this->contentContentObject->setContentObjectRenderer($contentObjectRenderer);
-		$result = [];
-		foreach ($contentAreas as $area) {
-			$result['colPos' . $area['colPos']] = $this->contentContentObject->render([
-				'table' => 'tt_content',
-				'select.' => [
-					'pidInList' => $contentObjectRenderer->data['uid'],
-					'where' => '{#colPos}=' . $area['colPos'] . ' AND {#hidden}=0',
-					'orderBy' => 'sorting',
-				],
-				'slide' => $area['slide']
-			]);
-		}
-		return $result;
-	}
 
 	/**
 	 * Add the extension stylesheets and javascript files to the page.

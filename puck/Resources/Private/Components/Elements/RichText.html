@@ -1,10 +1,17 @@
 
 <f:argument name="name" type="string" optional="1" default="e-richText"/>
 <f:argument name="text" type="string" optional="1"/>
+<f:argument name="record" type="mixed" optional="1"/>
+<f:argument name="field" type="string" optional="1" default="bodytext"/>
 
-<f:if condition="{text}">
+<f:if condition="{text} || {record.{field}}">
 	<div class="{u:prependClass()}{name}">
-		{text -> f:format.html()}
+		<f:if condition="{record}">
+			{record -> f:render.text(field: field)}
+		</f:if>
+		<f:if condition="{text}">
+			{text -> f:format.html()}
+		</f:if>
 	</div>
 </f:if>
 

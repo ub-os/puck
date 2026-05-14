@@ -7,12 +7,13 @@
 	class="{name}__wrap"
 	record="{record}">
 	<element:moduleHeader record="{record}"/>
-	<element:richText text="{record.bodytext}" class="{name}__bodytext"/>
+	<element:richText record="{record}" class="{name}__bodytext"/>
 	<f:switch expression="{record.layout}">
 
 		<f:case value="carousel">
 			<f:variable name="optionsArray" value="{record.options -> u:mergedFlexFormSheets()}"/>
-			<layout:carousel id="c{record.uid}-splide" class="{name}__carousel"
+			<layout:carousel id="c{record.uid}-splide"
+							 class="{name}__carousel"
 							 align="{record.row_align}"
 							 carouselAttributes="{optionsArray.carousel}">
 				<f:for each="{children_600}" as="child">
@@ -26,7 +27,9 @@
 		</f:case>
 
 		<f:defaultCase>
-			<layout:row justify="{record.row_justify}" align="{record.row_align}" class="{name}__row"
+			<layout:row class="{name}__row"
+						justify="{record.row_justify}"
+						align="{record.row_align}"
 						flexGrow="{record.flex_grow}">
 				<f:for each="{children_600}" as="child">
 					{child.renderedContent -> f:format.raw()}

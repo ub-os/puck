@@ -1,15 +1,16 @@
 @use 'rfs' as *
+@use 'units' as *
 
 $font-family-text: Nunito Sans, sans-serif
 $font-family-headline: Rajdhani, sans-serif
 
-$font-size-h1: 9rem
-$font-size-h2: 4rem
-$font-size-h3: 2.7rem
-$font-size-h4: 2rem
-$font-size-body: 1.7rem
-$font-size-small: 1.5rem
-$font-size-extra-small: 1.4rem
+$font-size-h1: px-rem(90)
+$font-size-h2: px-rem(40)
+$font-size-h3: px-rem(27)
+$font-size-h4: px-rem(20)
+$font-size-body: px-rem(17)
+$font-size-small: px-rem(15)
+$font-size-extra-small: px-rem(14)
 
 =typo-h1()
 	+font-size($font-size-h1)

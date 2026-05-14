@@ -13,14 +13,16 @@
 			 data-action="accordion.toggle"
 			 aria-controls="c{record.uid}"
 			 id="c{record.uid}-button">
-		<span class="{name}__title">{record.header -> f:format.raw()}</span>
+		<span class="{name}__title">
+			{record -> f:render.text(field:'header') -> f:format.raw()}
+		</span>
 		<icon:char class="{name}__icon" icon="angle-down-regular" />
 	</summary>
 
 	<div class="{name}__content">
 		<layout:media
+			record="{record}"
 			media="{record.assets}"
-			text="{record.bodytext}"
 			layout="{record.media_layout}"
 			justify="{record.row_justify}"
 			align="{record.row_align}"

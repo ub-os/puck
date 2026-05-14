@@ -11,7 +11,7 @@
 		<ul class="{name}__list">
 			<f:if condition="{record.header}">
 				<li class="{name}__item">
-					<header class="{name}__header">{record.header}</header>
+					<header class="{name}__header">{record -> f:render.text(field:'header')}</header>
 				</li>
 			</f:if>
 			<f:for each="{menu}" as="anchor" iteration="i">

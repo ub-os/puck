@@ -14,8 +14,8 @@
 								  offset="{record.container_offset}">
 					<div class="{name}__content -layout-{record.media_layout}">
 						<element:moduleHeader record="{record}"/>
-						<element:richText text="{record.bodytext}"/>
-						{content -> f:format.raw()}
+						<element:richText record="{record}"/>
+						<f:slot/>
 					</div>
 				</layout:container>
 			</f:if>
@@ -36,7 +36,7 @@
 				<layout:row.item width="5" breakpoints="{sm:12}">
 					<div class="{name}__content -layout-{record.media_layout}">
 						<element:moduleHeader record="{record}"/>
-						<element:richText text="{record.bodytext}"/>
+						<element:richText record="{record}"/>
 					</div>
 				</layout:row.item>
 				<layout:row.item width="6" breakpoints="{sm:12}">

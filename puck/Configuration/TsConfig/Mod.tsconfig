@@ -36,8 +36,9 @@ mod.web_layout.BackendLayouts {
                     1 {
                         columns {
                             1 {
-                                name = Main content
                                 colPos = 1
+                                identifier = main
+                                name = Main content
                                 colspan = 8
                                 allowed.CType < defaultAllowedContent
                             }
@@ -47,8 +48,9 @@ mod.web_layout.BackendLayouts {
                     3 {
                         columns {
                             1 {
-                                name = Modals
                                 colPos = 9
+                                identifier = modals
+                                name = Modals
                                 colspan = 8
                                 allowed.CType = puck_modal
                             }
@@ -67,8 +69,9 @@ mod.web_layout.BackendLayouts {
                     1 {
                         columns {
                             1 {
-                                name = Error content
                                 colPos = 1
+                                identifier = main
+                                name = Error content
                                 colspan = 8
                                 allowed.CType = puck_error_text
                             }
@@ -86,8 +89,8 @@ mod.web_layout.BackendLayouts {
                 1 {
                     columns {
                         1 {
-                            name = Folder
                             colPos = 1
+                            name = Folder
                             colSpan = 8
                         }
                     }
@@ -103,8 +106,8 @@ mod.web_layout.BackendLayouts {
                 1 {
                     columns {
                         1 {
-                            name = Navigations
                             colPos = 10000
+                            name = Navigations
                             colSpan = 8
                             allowed.CType = puck_sys_navigation
                         }
@@ -113,8 +116,8 @@ mod.web_layout.BackendLayouts {
                 2 {
                     columns {
                         1 {
-                            name = System Elements
                             colPos = 1
+                            name = System Elements
                             colSpan = 8
                             allowed.CType < defaultAllowedContent
                         }
@@ -123,8 +126,8 @@ mod.web_layout.BackendLayouts {
                 3 {
                     columns {
                         1 {
-                            name = System Elements (inner child content)
                             colPos = 699
+                            name = System Elements (inner child content)
                             colSpan = 8
                             allowed.CType < defaultAllowedContent
                         }
@@ -142,8 +145,9 @@ mod.web_layout.BackendLayouts {
                 1 {
                     columns {
                         1 {
-                            name = Main content
                             colPos = 1
+                            identifier = main
+                            name = Main content
                             colSpan = 8
                             allowed.CType = list
                         }

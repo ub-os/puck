@@ -8,16 +8,16 @@
 	record="{record}">
 	<div class="{name}">
 		<h1 class="{name}__header">
-			{record.header}
+			{record -> f:render.text(field:'header')}
 		</h1>
 		<p class="{name}__subheader">
-			{record.subheader}
+			{record -> f:render.text(field:'subheader')}
 		</p>
 		<f:slot/>
 		<a href="/">
 			<f:image class="{name}__logo" src="EXT:puck/Resources/Public/Images/Logos/default.svg"/>
 		</a>
-		<element:richText text="{record.bodytext}"/>
+		<element:richText record="{record}"/>
 	</div>
 </layout:section>
 

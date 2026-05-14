@@ -10,11 +10,13 @@
 		<div class="{name}__text u-text-{record.header_position}">
 			<f:if condition="{record.subheader}">
 				<p class="{name}__topline">
-					{record.subheader -> f:format.raw()}
+					{record -> f:render.text(field:'subheader') -> f:format.raw()}
 				</p>
 			</f:if>
-			<h1 class="{name}__headline">{record.header -> f:format.raw()}</h1>
-			<element:richText class="{name}__bodytext" text="{record.bodytext}"/>
+			<h1 class="{name}__headline">
+				{record -> f:render.text(field:'header') -> f:format.raw()}
+			</h1>
+			<element:richText record="{record}" class="{name}__bodytext" />
 		</div>
 		<f:if condition="{record.assets}">
 			<element:media

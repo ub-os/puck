@@ -14,7 +14,7 @@ $columns['frame_class'] = [
 		'disableNoMatchingValueElement' => true,
 		'items' => [
 			['Default', 'default'],
-			['Alternative 1', 'dark1'],
+			['Alternative', 'alt'],
 		],
 		'default' => 'default'
 	],
@@ -67,10 +67,6 @@ $columns['header_layout'] = [
 		],
 		'default' => 'h2.h2'
 	],
-];
-$columns['subheader'] = [
-	'label' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['label'],
-	'config' => $GLOBALS['TCA']['tt_content']['columns']['subheader']['config'],
 ];
 
 $columns['bodytext'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
@@ -397,3 +393,8 @@ $columns['options'] = [
 foreach ($columns as $name => $column) {
 	$GLOBALS['TCA']['tt_content']['columns'][$name] = $column;
 }
+
+$GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'text';
+$GLOBALS['TCA']['tt_content']['columns']['header']['config']['rows'] = 1;
+$GLOBALS['TCA']['tt_content']['columns']['subheader']['config']['type'] = 'text';
+$GLOBALS['TCA']['tt_content']['columns']['subheader']['config']['rows'] = 1;

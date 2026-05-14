@@ -1,6 +1,8 @@
 
 <f:argument name="name" type="string" optional="1" default="l-media"/>
 <f:argument name="media" type="array" optional="1"/>
+<f:argument name="record" type="mixed" optional="1"/>
+<f:argument name="textField" type="string" optional="1" default="bodytext"/>
 <f:argument name="text" type="string" optional="1"/>
 <f:argument name="layout" type="string" optional="1" default="above"/>
 <f:argument name="justify" type="string" optional="1" default="center"/>
@@ -16,11 +18,12 @@
 
 <f:comment>todo: image always AFTER headline in html structure</f:comment>
 
-<f:variable name="content"><f:slot/></f:variable>
+<f:variable name="renderedSlot"><f:slot/></f:variable>
+<f:variable name="hasContent" value="{f:if(condition:'{text} || {record.{textField}} || {renderedSlot}')}"/>
 <f:section name="TextColumn">
 	<layout:row.item class="{name}__text" width="{textWidth}">
-		<element:richText text="{text}"/>
-		{content -> f:format.raw()}
+		<element:richText record="{record}" field="{textField}" text="{text}"/>
+		{renderedSlot -> f:format.raw()}
 	</layout:row.item>
 </f:section>
 
@@ -29,7 +32,7 @@
 	justify="{justify}"
 	align="{align}"
 	attributes="{style:'--max-height-media-mobile: {mediaMobileMaxVh}vh'}">
-	<f:if condition="({text} || {content}) && {layout} != 'rightFloat' && {layout} != 'leftFloat'">
+	<f:if condition="{hasContent} && {layout} != 'rightFloat' && {layout} != 'leftFloat'">
 		<f:render section="TextColumn" arguments="{_all}"/>
 	</f:if>
 	<f:if condition="{media}">
@@ -90,7 +93,7 @@
 			</f:else>
 		</f:if>
 	</f:if>
-	<f:if condition="({text} || {content}) && ({layout} == 'rightFloat' || {layout} == 'leftFloat')">
+	<f:if condition="{hasContent} && ({layout} == 'rightFloat' || {layout} == 'leftFloat')">
 		<f:render section="TextColumn" arguments="{_all}"/>
 	</f:if>
 </layout:row>

@@ -12,8 +12,8 @@
 		mediaWidth="{record.media_column_width}"
 		mediaLayout="{record.media_layout}">
 		<element:moduleHeader record="{record}"/>
-		<element:richText text="{record.bodytext}"/>
-		<f:format.html>{content}</f:format.html>
+		<element:richText record="{record}"/>
+		<f:slot/>
 	</layout:card>
 </layout:modal>
 

@@ -83,9 +83,11 @@ $palettes['headers'] = [
 	'showitem' => '
         header,
         --linebreak--,
-        header_layout, header_position, header_spacing_override, 
+        header_layout, header_position,
         --linebreak--,
-        subheader'
+	 	subheader, 
+        --linebreak--,
+        header_spacing_override'
 ];
 $palettes['header_header_position'] = [
 	'label' => 'Headlines',

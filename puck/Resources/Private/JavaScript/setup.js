@@ -26,6 +26,7 @@ Object.assign(htmx.config, {
 	refreshOnHistoryMiss: true,
 })
 
+
 window.stim = stim
 stim.registerController({
 	AnchorHandler,
@@ -56,6 +57,10 @@ stim.registerSelectorCallback({
 			el.removeAttribute('data-append-on-load')
 		})
 	},
+	'a.download, a[download]': el => {
+		el.setAttribute('data-hx-boost', 'false')
+		htmx.process(el)
+	}
 })
 
 export { stim, htmx }

@@ -1,7 +1,6 @@
 @use "sass:math"
 
 $rem-base: 16 !default
-$spacing-unit: 1rem !default
 
 // convert rem to px based on $rem-base
 // usage: rem-to-px(1.5rem) => 24px
@@ -16,7 +15,7 @@ $spacing-unit: 1rem !default
 // convert px to rem based on the default root font size (16px)
 // usage: px-to-native-rem(24px) => 1.5rem
 @function px-to-native-rem($px)
-	@return math.div($px,1px * 16) * 1rem
+	@return math.div($px,16px) * 1rem
 
 // px in rem unit
 // usage: px-rem(24) => 1.5rem
@@ -37,6 +36,9 @@ $spacing-unit: 1rem !default
 		@return calc(var(--font-size-body) * #{$factor})
 
 
+
+$spacing-unit: px-rem(10) !default
+
 @function fibonacci-sizes()
 	@return ('xxs': 1, 'xs': 2, 's': 3, 'm': 5, 'l': 8, 'xl': 13, 'xxl': 21)
 
@@ -48,3 +50,4 @@ $spacing-unit: 1rem !default
 
 @function section-spacing($factor: 1)
 	@return spacing(m, $factor)
+
