@@ -1,0 +1,24 @@
+@use '../01-tools/all' as *
+
+.m-sectionCarousel
+	&
+		max-width: var(--width-page)
+		margin-block: spacing(m)
+
+	&__slide
+		display: flex
+		width: 100%
+		max-width: var(--width-page)
+
+	:where(.l-section)
+		margin-block: 0
+
+	:where(.l-carousel__track)
+		margin: 0
+		padding: 0
+
+	:where(.l-carousel__pagination),
+	:where(.l-carousel__controls)
+		padding: 0
+
+

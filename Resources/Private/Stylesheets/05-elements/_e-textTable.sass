@@ -1,0 +1,43 @@
+@use '../01-tools/all' as *
+
+=e-textTable
+	&__wrap
+		overflow-x: auto
+		@media (max-width(m))
+			margin: 0 0-$gutter-outer-responsive
+			padding: 0 $gutter-outer-responsive
+
+	&
+		width: 100%
+		border: none
+		@media (min-width(m))
+			table-layout: fixed
+
+	.-small
+		+font-size($font-size-small)
+
+	&:not(:last-child),
+	&__wrap:not(:last-child)
+		margin-bottom: spacing(m)
+
+	tr
+		border-bottom: 2px solid color-mix(in srgb, var(--color), transparent 50%)
+
+		&:last-of-type
+			border-bottom: none
+
+	tr > :first-child
+		padding-left: 0
+
+	th[scope='row']
+		font-weight: bold
+
+	td
+		padding: px-rem(12)
+		text-align: inherit
+		vertical-align: baseline
+
+	th
+		+typo-h4
+		padding-inline: px-rem(12)
+		text-align: inherit

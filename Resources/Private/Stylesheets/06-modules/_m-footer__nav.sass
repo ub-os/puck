@@ -1,0 +1,27 @@
+@use '../01-tools/all' as *
+
+.m-footer__nav
+	&
+		+typo-nav
+
+	& + &
+		margin-top: spacing(s)
+
+	&__list
+		display: flex
+		justify-content: center
+		gap: 1em
+		@media (max-width(xs))
+			flex-direction: column
+			align-items: center
+
+	&.-icons &__list
+		flex-direction: row
+		font-size: 1.5em
+		gap: .5em
+
+	&__link
+		color: var(--color)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)

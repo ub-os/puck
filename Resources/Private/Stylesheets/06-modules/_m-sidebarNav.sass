@@ -1,0 +1,94 @@
+@use '../01-tools/all' as *
+
+.m-sidebarNav
+
+	@keyframes sidebar-open
+		0%
+			opacity: 0
+			transform: translate(px-rem(110), 0)
+		100%
+			opacity: 1
+			transform: translateX(0)
+
+	@keyframes sidebar-close
+		0%
+			opacity: 1
+			transform: translateX(0)
+		100%
+			opacity: 0
+			transform: translate(px-rem(110), 0)
+
+	&__modal
+		margin: 0 0 0 auto
+		padding: 0
+		overflow: hidden
+		overflow-y: auto
+		background: var(--background-modal)
+		border: none
+		border-bottom-left-radius: var(--border-radius-s)
+		box-shadow: var(--box-shadow-s)
+		transform: translateX(100%)
+		transition: height .15s, opacity .2s
+		width: 100vw
+		max-width: width-by-cols(3, true)
+		@media (max-width(s))
+			max-width: 85%
+		@media (min-width($bp-mobile-nav))
+			display: none
+			visibility: hidden
+		&:not(.--active, .--deactivating)
+			display: none
+			visibility: hidden
+		&.--active
+			transform: translateX(0)
+			animation: sidebar-open .27s ease-out
+		&.--deactivating
+			animation: sidebar-close .27s ease-out
+		&::backdrop
+			background: var(--background-modal-backdrop)
+		&.--active::backdrop
+			animation: modal-open-overlay .27s ease-out
+		&.--deactivating::backdrop
+			opacity: 0
+			animation: modal-close-overlay .27s ease-out
+
+	&__wrap
+		max-height: 100dvh
+		padding-bottom: spacing(m)
+		padding-inline: var(--gutter-outer)
+
+	&__header
+		+flex(row, flex-start, center, nowrap)
+		width: 100%
+		height: var(--height-page-header)
+
+	&
+		+flex(column, flex-end, flex-start)
+		padding-top: 2em
+
+	&__list
+		+flex(column, flex-start, flex-start)
+		width: 100%
+		gap: 1em
+
+	&__link
+		color: var(--color-emphasis)
+		transition: color .15s
+		&.-rootline
+			color: var(--color-link--hover)
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)
+
+
+	&__close
+		+flex(row, center, center)
+		height: px-rem(30)
+		width: px-rem(30)
+		margin-left: auto
+		font-size: px-rem(30)
+		color: var(--color-link)
+		transition: color .15s
+		&:hover,
+		&:focus-visible
+			color: var(--color-link--hover)

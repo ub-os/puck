@@ -5,8 +5,8 @@
 	"type": "module",
 	"config": {
 		"path": {
-			"src": "puck/Resources/Private/",
-			"dist": "puck/Resources/Public/"
+			"src": "Resources/Private/",
+			"dist": "Resources/Public/"
 		}
 	},
 	"engines": {
@@ -18,15 +18,15 @@
 		"build": "run-s build:frontend-icons build:favicons build:js build:css",
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write",
-		"build:js": "node build-scripts/esbuild.js",
+		"build:js": "node .build/esbuild.js",
 		"build:css": "run-s sass autoprefixer minifycss",
-		"build:frontend-icons": "node build-scripts/fantasticon.js && node build-scripts/svgstore.js",
-		"build:favicons": "node build-scripts/favicons.js",
-		"watch:js": "onchange 'puck/Resources/Private/JavaScript/**/*.js*' -- run-s build:js",
-		"watch:css": "onchange 'puck/Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
-		"watch:frontend-icons": "onchange 'puck/Resources/Public/Icons/Frontend/*.svg' -- run-s build:frontend-icons",
-		"watch:favicons": "onchange 'puck/Resources/Public/Icons/Favicons/*.svg' -- run-s build:favicons",
-		"sass": "node build-scripts/sass.js",
+		"build:frontend-icons": "node .build/fantasticon.js && node .build/svgstore.js",
+		"build:favicons": "node .build/favicons.js",
+		"watch:js": "onchange 'Resources/Private/JavaScript/**/*.js*' -- run-s build:js",
+		"watch:css": "onchange 'Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
+		"watch:frontend-icons": "onchange 'Resources/Public/Icons/Frontend/*.svg' -- run-s build:frontend-icons",
+		"watch:favicons": "onchange 'Resources/Public/Icons/Favicons/*.svg' -- run-s build:favicons",
+		"sass": "node .build/sass.js",
 		"autoprefixer": "postcss ${npm_package_config_path_dist}Css/dist/puck.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/dist/puck.css",
 		"minifycss": "css-minify -d ${npm_package_config_path_dist}Css/dist -o ${npm_package_config_path_dist}Css/dist"
 	},

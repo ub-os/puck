@@ -1,0 +1,113 @@
+@use '../01-tools/all' as *
+
+=media-layout($layout: block, $media-pos: above, $class: l-media)
+
+	// image gallery above/below text
+	@if $layout == block
+		&
+		//--gutter-y: calc( var(--gutter-x) * 1.5 )
+
+		.#{$class}__media,
+		.#{$class}__text
+			//width: 100%
+			& > *
+
+		@if $media-pos == above
+			.#{$class}__text
+				order: 2
+			.#{$class}__media + .#{$class}__text
+		//padding-top: spacing(m)
+
+		@if $media-pos == below
+			.#{$class}__media + .#{$class}__text.-bodytext
+	//padding-bottom: spacing(m)
+
+	// image column beside text
+	@if $layout == inline
+		&
+		//--gutter-y: calc( var(--gutter-x) * 1.5 )
+
+		.#{$class}__text,
+		.#{$class}__media
+			@media (max-width(s))
+				width: 100%
+
+		@if $media-pos == left
+			.#{$class}__text
+				@media (min-width(s))
+					order: 2
+
+	// image next to floating text
+	@if $layout == float
+		&
+			display: block
+			margin-block: 0 calc(-1 * var(--gutter-y))
+			gap: 0
+			@media (max-width(s))
+				display: flex
+				flex-direction: column-reverse
+
+		.#{$class}__row
+			gap: 0
+
+		.#{$class}__text
+			margin-block: 0 var(--gutter-y)
+
+		.#{$class}__media
+			margin-block: 0 var(--gutter-y)
+			@media (max-width(s))
+				width: 100%
+			@if $media-pos == right
+				@media (min-width(s))
+					margin-left: var(--gutter-x)
+					float: right
+			@if $media-pos == left
+				@media (min-width(s))
+					margin-right: var(--gutter-x)
+					float: left
+
+.l-media
+	&.-layout-rightFloat
+		+media-layout(float, right)
+
+	&.-layout-leftFloat
+		+media-layout(float, left)
+
+	&.-layout-right
+		+media-layout(inline, right)
+
+	&.-layout-left
+		+media-layout(inline, left)
+
+	&.-layout-above
+		+media-layout(block, above)
+
+	&.-layout-below
+		+media-layout(block, below)
+
+	&:where(.-mobileMaxHeight) &__file
+		@media (max-width(s))
+			max-height: var(--max-height-media-mobile)
+			width: auto
+
+	&__text
+		@media(max-width(m))
+			flex-grow: 1
+
+	&__media__row
+		--gutter-y: var(--gutter-x)
+
+
+	&__file
+		&__title
+			margin-top: 1em
+
+		&__desc
+			margin-top: 1em
+
+	&__mp3
+		width: 100%
+
+
+
+

@@ -1,0 +1,40 @@
+@use 'sass:map'
+@use '../01-tools/all' as *
+
+.l-section
+	&
+		position: relative
+		//overflow-x: hidden
+		width: 100%
+		margin-block: section-spacing()
+		color: var(--color)
+		background: var(--background)
+		scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ section-spacing() })
+
+	// Auto spacing rules
+	.m-main > &:where(:last-of-type)
+		padding-bottom: section-spacing(3)
+		margin-bottom: 0
+
+	&:where(:not([class*="-background-"]))
+		:where(&, & + .e-anchor) + &:where(.-noHeaderSpacing)
+			margin-top: 0
+
+	&:where([class*="-background-"])
+		padding-block: section-spacing(2)
+		:where(&, & + .e-anchor) + :where(&)
+			margin-top: section-spacing(-1)
+
+	=background-spacing-rules($bg)
+		&:where(.-background-#{$bg})
+			:where(&, & + .e-anchor) + &
+				margin-top: section-spacing(-1)
+				padding-top: 0
+				&:where(.-noHeaderSpacing)
+					margin-top: section-spacing(-2)
+
+	+background-spacing-rules('alt')
+
+	// Backgrounds
+	&.-background-alt
+		+color-space-alt

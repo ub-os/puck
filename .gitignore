@@ -5,9 +5,9 @@ node_modules
 /.vscode
 /.nova
 /.idea
-puck/Resources/Public/Fonts/Icons/
-puck/Resources/Private/Stylesheets/02-generic/_icon-font.scss
-puck/Resources/Public/Css/dist/
-puck/Resources/Public/JavaScript/dist/
-puck/Resources/Public/Icons/sprite-sheet.svg
-puck/Resources/Public/Icons/Favicons/packages/
+Resources/Public/Fonts/Icons/
+Resources/Private/Stylesheets/02-generic/_icon-font.scss
+Resources/Public/Css/dist/
+Resources/Public/JavaScript/dist/
+Resources/Public/Icons/sprite-sheet.svg
+Resources/Public/Icons/Favicons/packages/

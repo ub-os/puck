@@ -1,0 +1,27 @@
+@use '../01-tools/all' as *
+
+.m-form
+
+	&__row
+		+grid-row
+
+	&__column
+		+grid-col(6)
+		+grid-col-breakpoint(m, 12, 12)
+
+	&__input
+		position: relative
+		margin-top: 1.5em
+
+	label
+		position: absolute
+		left: 0
+		top: .5em
+		transition: top .1s, font-size .1s
+
+	textarea, [type="text"], [type="email"], [type="password"]
+
+		&:focus + label,
+		&:not(:placeholder-shown) + label
+			font-size: 75%
+			top: -1em

@@ -1,0 +1,64 @@
+@use '../01-tools/all' as *
+
+.e-button
+	--padding-inline: 1.2em
+	--padding-block: 0.7em
+	--width-icon: 2.4em
+	--padding-icon-side: calc(var(--width-icon) + var(--padding-inline))
+
+	&
+		+typo-button
+		position: relative
+		display: inline-block
+		max-width: 100%
+		padding: var(--padding-block) var(--padding-inline)
+		text-align: center
+		text-decoration: none
+		color: var(--color-button)
+		background: var(--background-button)
+		border: var(--border-width-button) solid var(--color-button-border)
+		border-radius: var(--border-radius-s)
+		cursor: pointer
+		transition: color .15s, background-color .15s
+
+	&:hover,
+	&:focus-visible
+		--color-button: var(--color-button--hover)
+		--background-button: var(--background-button--hover)
+		--color-button-border: var(--color-button-border--hover)
+		color: var(--color-button)
+
+	&:active
+		--background-button: inherit
+
+	&[disabled],
+	&.-disabled
+		opacity: 0.5
+		pointer-events: none
+
+	&.-block
+		display: block
+		width: 100%
+
+	// Button version that absolutely positions contained icon tag
+	&:where(.-icon-left, .-icon-right)
+		position: relative
+		& :where(.char-icon)
+			+flex(row, center, center)
+			position: absolute
+			top: 0
+			color: var(--color-button)
+			width: var(--width-icon)
+			height: 100%
+
+	&:where(.-icon-right)
+		padding-right: var(--padding-icon-side)
+		& :where(.char-icon)
+			right: 0
+			border-left: var(--border-width-button) solid var(--color-button-border)
+
+	&:where(.-icon-left)
+		padding-left: var(--padding-icon-side)
+		& :where(.char-icon)
+			left: 0
+			border-right: var(--border-width-button) solid var(--color-button-border)

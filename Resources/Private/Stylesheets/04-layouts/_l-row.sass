@@ -1,0 +1,85 @@
+@use '../01-tools/all' as *
+
+.l-row
+	&
+		+grid-row
+	//container: l-row / inline-size
+
+	&:where(.u-justify-left)
+		img, video
+			margin-left: 0
+
+	&:where(.u-justify-right)
+		img, video
+			margin-right: 0
+
+	&.-align-start
+		align-items: flex-start
+
+	&.-align-center
+		align-items: center
+
+	&.-align-end
+		align-items: flex-end
+
+	&.-align-stretch
+		align-items: stretch
+
+	&.-justify-start, &.-justify-left
+		justify-content: flex-start
+
+	&.-justify-center
+		justify-content: center
+
+	&.-justify-end, &.-justify-right
+		justify-content: flex-end
+
+	&.-justify-spaceBetween
+		justify-content: space-between
+
+	&__item
+		+grid-col()
+
+		&.-stretchContent
+			display: flex
+			flex-direction: column
+
+	:where(.-align-stretch &__item) > &__item
+		height: 100%
+
+	@for $i from 1 through 12
+		&:where(.-itemWidth-#{$i}) > &__item,
+		&__item.-width-#{$i}
+			+grid-col-width($i)
+
+			&:where(.-bp-auto)
+				@if ($i < 4)
+					+grid-col-breakpoint(m, 4)
+					+grid-col-breakpoint(xs, 6)
+				@if ($i == 4)
+					+grid-col-breakpoint(m, 6)
+					+grid-col-breakpoint(xs, 12)
+				@if ($i > 4)
+					+grid-col-breakpoint(m, 12)
+
+			@media (max-width(m))
+			// text elements should take available width, too complicated with media though
+			// flex-grow: 1
+			img, video
+
+	&:where(.-flexGrow-0) > &__item
+		flex-grow: 0
+
+	&:where(.-flexGrow-1, .-flexGrow) > &__item
+		flex-grow: 1
+
+	@each $mb, $value in reverse-map(bps-down())
+		@for $i from 1 through 12
+			&:where(.-#{$mb}-#{$i}) > &__item
+			&__item.-#{$mb}-#{$i}
+				+grid-col-breakpoint($mb, $i)
+
+	@for $i from -10 through 10
+		&__item.-responsiveOrder-#{$i}
+			@media (max-width(m))
+				order: $i

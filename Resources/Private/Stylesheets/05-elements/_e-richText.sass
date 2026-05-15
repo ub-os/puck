@@ -1,0 +1,77 @@
+@use '../01-tools/all' as *
+@use 'e-textList'
+@use 'e-textTable'
+
+:where(.e-richText)
+	&
+		width: 100%
+
+	p, ul, ol, table
+		margin-bottom: var(--paragraph-spacing)
+		&:last-child, &:has(+ h2, + h3)
+			margin-bottom: 0
+	* + h2
+		padding-top: spacing(m)
+	* + h3
+		padding-top: spacing(s)
+
+	a
+		color: var(--color-link)
+
+	a:hover,
+	a:focus-visible
+		color: var(--color-link--hover)
+
+	ul, ol
+		+e-textList.e-textList
+
+	.-small
+		+font-size($font-size-small)
+
+	.-large
+		+font-size($font-size-h3)
+		line-height: 1.2
+
+	.-footnote
+		+font-size($font-size-extra-small)
+
+	.-quote
+		+font-size($font-size-h4)
+		+responsive-size($font-size-h4 * 2, padding-left)
+		position: relative
+		padding-top: 1em
+		line-height: 1.25
+
+		&:before
+			content: ""
+			position: absolute
+			top: 0
+			left: 0
+			color: var(--color-accent)
+			font-size: 3em
+			font-weight: 700
+
+	.-quoteAttribution
+		+font-size($font-size-small)
+		+responsive-size($font-size-h4 * 2, padding-left)
+		font-weight: 500
+
+	.row-layout-table
+		tr
+			+flex(row, flex-start, flex-start, nowrap)
+			margin: -.6em
+			@media (max-width(m))
+				flex-wrap: wrap
+
+			& + tr
+				margin-top: .6em
+
+		td
+			padding: .6em
+
+	.data-table
+		+e-textTable.e-textTable
+
+	.char-icon
+		position: relative
+		top: 0.1em

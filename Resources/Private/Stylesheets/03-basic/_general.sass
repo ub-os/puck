@@ -1,0 +1,93 @@
+@use '../01-tools/all' as *
+
+html
+	//font-size: 62.5%
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+	//height: -webkit-fill-available  /* Mozilla-based browsers will ignore this. */
+	text-rendering: optimizeLegibility
+
+img, video, iframe
+	max-width: 100%
+	height: auto
+	display: block
+
+audio
+	max-width: 100%
+
+	&::-webkit-media-controls-panel
+		background: white
+
+	&::-webkit-media-controls-enclosure
+		border-radius: var(--border-radius-s)
+
+svg
+	max-width: 100%
+	height: auto
+
+figure
+	margin: 0
+	padding: 0
+
+
+figcaption
+	+font-size($font-size-small)
+	padding-top: 1em
+
+
+hr
+	margin-block: spacing(s)
+	border: none
+	border-top: 2px solid
+
+p
+	line-height: 1.36
+
+small
+	+font-size($font-size-small)
+
+strong
+	font-weight: 700
+
+ul, ol
+	line-height: 1.38
+	list-style: none
+
+a
+	transition: color .15s, opacity .15s, transform 0.15s, background .15s, filter .15s
+	text-decoration: none
+	color: inherit
+
+	&:active
+//opacity: .8
+
+[data-link-to]
+	cursor: pointer
+
+	&:active
+		cursor: default
+
+button[disabled], button.-disabled
+	cursor: default
+	pointer-events: none
+	opacity: .5
+
+sup, sub
+	font-size: 50%
+
+sup
+	top: -.75em
+
+em
+	font-style: italic
+
+b
+	font-weight: bold
+
+button, a[href], input, select, textarea, [draggable], [contenteditable], [tabindex]:not([tabindex="-1"])
+	&:where(:not(:active)):focus-visible
+		outline: none
+		box-shadow: 0 0 0 4px var(--outline-color-button--focus)
+
+[data-link-area]
+	cursor: pointer
