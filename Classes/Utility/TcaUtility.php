@@ -8,7 +8,7 @@ namespace UBOS\Puck\Utility;
  */
 class TcaUtility
 {
-	public const STANDARD_CROP_RATIOS = [
+	public const array STANDARD_CROP_RATIOS = [
 		'free' => [
 			'title' => 'free',
 			'value' => 'NaN'
@@ -59,7 +59,7 @@ class TcaUtility
 		]
 	];
 
-	public const CROP_VARIANT_PRESETS = [
+	public const array CROP_VARIANT_PRESETS = [
 		'free' => [
 			'title' => 'Free',
 			'allowedAspectRatios' => self::STANDARD_CROP_RATIOS,

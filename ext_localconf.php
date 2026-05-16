@@ -22,10 +22,10 @@ ExtUtil::addTypoScript(
 	'defaultContentRendering'
 );
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasListMapper'] = \UBOS\Puck\Routing\Aspect\PersistedAliasListMapper::class;
-
 // Register RTE configuration file
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['puck_default'] = 'EXT:puck/Configuration/RTE/Default.yaml';
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['PersistedAliasListMapper'] = \UBOS\Puck\Routing\Aspect\PersistedAliasListMapper::class;
 
 // Add Global Fluid Namespaces
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['layout'] = ['UBOS\Puck\Components\Layouts'];

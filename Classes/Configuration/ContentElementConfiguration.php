@@ -45,7 +45,7 @@ class ContentElementConfiguration
 	 * @param string $component Component name in dot notation (e.g., 'text' or 'stage.product'). If empty, defaults to camelCase version of $type
 	 * @param array $flexForms Array of field_name => EXT:ext/path/to/flexform.xml, e.g. ['pi_flexform' => 'EXT:puck/Configuration/FlexForms/ContentElement.xml']
 	 * @param array $containerConfiguration Container column configuration for ext:container
-	 * @param array $dataProcessing Data processor configurations (processor class, options, etc.)
+	 * @param array $dataProcessing Data processor configurations (processor class, options, etc.). 'record' processor is added by default. Container processor is added automatically if containerConfiguration is set.
 	 * @param string $previewRenderer Class name for backend preview renderer (default: BasicPreviewRenderer::class)
 	 */
 	public function __construct(
@@ -63,14 +63,15 @@ class ContentElementConfiguration
 		public string $component = '',
 		public array  $flexForms = [],
 		public array  $containerConfiguration = [],
-		public array  $dataProcessing = [
-			[
-				'processor' => 'record-transformation'
-			]
-		],
+		public array  $dataProcessing = [],
 		public string $previewRenderer = BasicPreviewRenderer::class,
 	)
 	{
+		if (!isset($this->dataProcessing['record'])) {
+			$this->dataProcessing['record'] = [
+				'processor' => 'record-transformation'
+			];
+		}
 		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
 			$this->dataProcessing['container'] = [
 				'processor' => 'B13\Container\DataProcessing\ContainerProcessor',
@@ -121,7 +122,8 @@ class ContentElementConfiguration
 					$this->label,
 					$this->description,
 					$this->containerConfiguration))
-					->setIcon($this->icon)->SetGroup($this->group)
+					->setIcon($this->icon)
+					->SetGroup($this->group)
 					->setBackendTemplate('')
 			);
 		}

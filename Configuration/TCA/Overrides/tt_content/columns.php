@@ -35,6 +35,20 @@ $columns['layout'] = [
 	],
 ];
 
+$columns['header'] = [
+	'config' => [
+		'type' => 'text',
+		'rows' => 1,
+	],
+];
+
+$columns['subheader'] = [
+	'config' => [
+		'type' => 'text',
+		'rows' => 1,
+	],
+];
+
 $columns['header_layout'] = [
 	'label' => 'Headline Type',
 	'config' => [
@@ -69,8 +83,13 @@ $columns['header_layout'] = [
 	],
 ];
 
-$columns['bodytext'] = $GLOBALS['TCA']['tt_content']['columns']['bodytext'];
-$columns['bodytext']['config']['search']['andWhere'] = '';
+$columns['bodytext'] = [
+	'config' => [
+		'search' => [
+			'andWhere' => '',
+		],
+	]
+];
 
 $columns['imagecols'] = [
 	'label' => 'Media per Row',
@@ -181,14 +200,11 @@ $columns['space_before_class'] = [
 		'default' => '',
 	]
 ];
-$columns['space_after_class'] = [
-	'label' => 'Space After',
-	'config' => $columns['space_before_class']['config']
-];
-$columns['assets'] = $GLOBALS['TCA']['tt_content']['columns']['assets'];
-$columns['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
+
+$GLOBALS['TCA']['tt_content']['columns']['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
 	'default' => TcaUtility::getCropVariant('Default', 'standard'),
 ];
+
 
 $columns['icon'] = require ExtensionManagementUtility::extPath('puck') . '/Configuration/TCA/Helper/IconField.php';
 
@@ -402,11 +418,8 @@ $columns['options'] = [
 		'ds' => $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'],
 	]
 ];
-foreach ($columns as $name => $column) {
-	$GLOBALS['TCA']['tt_content']['columns'][$name] = $column;
-}
 
-$GLOBALS['TCA']['tt_content']['columns']['header']['config']['type'] = 'text';
-$GLOBALS['TCA']['tt_content']['columns']['header']['config']['rows'] = 1;
-$GLOBALS['TCA']['tt_content']['columns']['subheader']['config']['type'] = 'text';
-$GLOBALS['TCA']['tt_content']['columns']['subheader']['config']['rows'] = 1;
+$GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
+	$GLOBALS['TCA']['tt_content']['columns'],
+	$columns
+);
