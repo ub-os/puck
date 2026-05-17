@@ -1,6 +1,6 @@
 import { Controller } from '@amdeu/stim'
-import { ListenerRegistry } from '../Helper/ListenerRegistry.js'
-import { tryViewTransition } from "../Utility/DomUtility.js";
+import { ListenerRegistry } from 'Helper/ListenerRegistry'
+// import { tryViewTransition } from 'Utility/DomUtility'
 
 export default class AnchorHandler extends Controller {
 	static props = {

@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 $iconDirectory = 'Resources/Public/Icons/Backend/';
 $iconPaths = GeneralUtility::getAllFilesAndFoldersInPath(
 	[],
-	path: Icons . phpExtensionManagementUtility::extPath('puck') . $iconDirectory,
+	path: ExtensionManagementUtility::extPath('puck') . $iconDirectory,
 	extList: 'svg',
 	recursivityLevels: 0
 );

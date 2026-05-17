@@ -16,7 +16,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"UBOS\\Puck\\": "../Classes/"
+			"UBOS\\Puck\\": "./Classes/"
 		}
 	},
 	"extra": {

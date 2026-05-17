@@ -1,8 +1,8 @@
 import { Controller } from '@amdeu/stim'
 import Splide from '@splidejs/splide'
 import { Intersection } from '@splidejs/splide-extension-intersection'
-import {ListenerRegistry} from "../Helper/ListenerRegistry.js"
-import { jsx } from '../Utility/DomUtility.js'
+import {ListenerRegistry} from 'Helper/ListenerRegistry'
+import { jsx } from 'Utility/DomUtility'
 
 export default class Carousel extends Controller {
 	static props = {

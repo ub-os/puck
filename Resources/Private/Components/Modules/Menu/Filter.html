@@ -6,10 +6,10 @@
 
 <f:if condition="{categoryFilter.items}">
 	<div class="{name}"
-		 id="{sectionId}-filter"
-		 data-hx-focus-after-swap="#{sectionId}-list a"
-		 data-hx-select="#c{contentUid}-body"
-		 data-hx-target="#c{contentUid}-body">
+		 id="c{contentUid}-filter"
+		 data-hx-focus-after-swap="#c{contentUid}-list a"
+		 data-hx-select.inherited="#c{contentUid}-body"
+		 data-hx-target.inherited="#c{contentUid}-body">
 		<ul class="{name}__list">
 			<f:for each="{categoryFilter.items}" as="item" iteration="i">
 				<li class="{name}__item">

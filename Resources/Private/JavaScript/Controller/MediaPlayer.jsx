@@ -1,6 +1,6 @@
 const Plyr = class {}
 import { Controller } from '@amdeu/stim'
-import { jsx } from '../Utility/DomUtility.js'
+import { jsx } from 'Utility/DomUtility'
 //import Plyr from 'plyr'
 
 const plyrDefaultControls = [

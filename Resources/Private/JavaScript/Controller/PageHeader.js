@@ -1,5 +1,5 @@
 import { Controller } from '@amdeu/stim'
-import { ListenerRegistry } from '../Helper/ListenerRegistry.js'
+import { ListenerRegistry } from 'Helper/ListenerRegistry'
 
 export default class PageHeader extends Controller {
 	static props = {

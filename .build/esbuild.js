@@ -24,16 +24,13 @@ async function buildFiles(entryPoints, outdir, minify = false) {
 		outdir,
 		minify,
 		bundle: true,
-		target: ['es2020'],
+		target: ['es2022'],
 		metafile: true,
 		jsx: 'transform',
 		jsxFactory: 'jsx',
 		sourcemap: !minify,
 		outExtension: {
 			'.js': minify ? '.min.js' : '.js',
-		},
-		alias: {
-			'~': './Resources/Private/JavaScript/',
 		},
 	})
 	fs.writeFileSync(`${outdir}/meta${minify ? '.min' : ''}.json`, JSON.stringify(result.metafile, null, 2))

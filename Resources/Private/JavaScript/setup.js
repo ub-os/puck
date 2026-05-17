@@ -1,29 +1,26 @@
 import { stim } from '@amdeu/stim'
 import htmx from 'htmx.org'
-import Accordion from './Controller/Accordion.js'
-import AnchorHandler from './Controller/AnchorHandler.js'
-import Carousel from './Controller/Carousel.jsx'
-import Dialog from './Controller/Dialog.js'
-import MediaPlayer from './Controller/MediaPlayer.jsx'
-import Modal from './Controller/Modal.js'
-import PageHeader from './Controller/PageHeader.js'
-import ScrollSensitive from './Controller/ScrollSensitive.js'
-import ScrollbarWidth from './Controller/ScrollbarWidth.jsx'
-import Showable from './Controller/Showable.js'
+import 'htmx.org/dist/ext/hx-head.js'
+import 'htmx.org/dist/ext/hx-preload.js'
+import 'htmx.org/dist/ext/hx-history-cache.js'
+import Accordion from 'Controller/Accordion'
+import AnchorHandler from 'Controller/AnchorHandler'
+import Carousel from 'Controller/Carousel'
+import Dialog from 'Controller/Dialog'
+import MediaPlayer from 'Controller/MediaPlayer'
+import Modal from 'Controller/Modal'
+import PageHeader from 'Controller/PageHeader'
+import ScrollSensitive from 'Controller/ScrollSensitive'
+import ScrollbarWidth from 'Controller/ScrollbarWidth'
+import Showable from 'Controller/Showable'
 
 window.htmx = htmx
 Object.assign(htmx.config, {
-	scrollBehavior: 'instant',
-	defaultSwapStyle: 'outerHTML',
-	defaultSwapDelay: 0,
-	defaultSettleDelay: 0,
-	// since htmx 2.0.5, htmx history restores also transition with "globalViewTransitions", which we don't want because it will look glitchy if the restoration involves scrolling
+	defaultSwap: 'outerHTML',
+	// since htmx 2.0.5, htmx history restores also transition, which we don't want because it will look glitchy if the restoration involves scrolling
 	// instead we add the transition:true modifier to the page-root swap attribute
-	globalViewTransitions: false,
-	allowScriptTags: true,
-	allowEval: false,
-	// historyCacheSize: 0,
-	refreshOnHistoryMiss: true,
+	// extensions: 'preload',
+	metaCharacter: '.',
 })
 
 

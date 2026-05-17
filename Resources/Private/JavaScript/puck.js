@@ -1,4 +1,4 @@
-import Logger from './Helper/Logger.js'
-import('./exe.js').then(data => {
+import Logger from 'Helper/Logger'
+import('./exe').then(data => {
 	Logger.console.log('%chead script executed', 'color:orange')
 })

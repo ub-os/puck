@@ -1,4 +1,4 @@
-import Showable from './Showable.js'
+import Showable from 'Controller/Showable'
 
 /**
  * Modal Aspect
