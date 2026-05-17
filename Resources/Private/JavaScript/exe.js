@@ -12,7 +12,6 @@ const htmxLifecycleEvents = {
 	'htmx.after.request': `color:${colors.after}`,
 	'htmx.before.swap': `color:${colors.before}`,
 	'htmx.after.swap': `color:${colors.after}`,
-	// 'htmx.after.init': `color:${colors.load}`,
 	'htmx.before.history.update': `color:${colors.before}`,
 	'htmx.before.history.restore': `color:${colors.after}`,
 	'htmx.response.error': `color:${colors.error}`,
@@ -21,14 +20,8 @@ const htmxLifecycleEvents = {
 stim.connect()
 Logger.console.log(stim)
 Logger.console.log(htmx)
+window.puckExeLoaded = true
 
-// htmx event logging
-// htmx.logger = (el, eventType, event) => {
-// 	console.log({ el, eventType, event })
-// 	if (!htmxLifecycleEvents[eventType]) return
-// 	const additional = isBodySwapEvent(event) ? '@root' : ''
-// 	Logger.console.log(`%c${eventType}${additional}`, htmxLifecycleEvents[eventType], event)
-// }
 Object.entries(htmxLifecycleEvents).forEach(([eventType, style]) => {
 	htmx.on(eventType, event => {
 		const additional = isBodySwapEvent(event) ? '@root' : ''
@@ -74,23 +67,11 @@ htmx.on('htmx.after.init', event => {
 	focusAfterSwapSelector = null
 })
 
-htmx.on("htmx.before.history.restore", (event) => {
-	// after swapping from htmx history cache, clean up elements that should be excluded
-	// could be done on htmx:before:history:update, but removing elements at that point would be visible, as history save happens before the page content is swapped out
-	// if view transitions are enabled for history restores, we need to wait for the swap to finish before removing elements
-	if (htmx.config.transitions) {
-		on('htmx:after:swap', () => {
-			document.querySelectorAll('[data-hx-history-excluded]').forEach(el => {
-				el.remove()
-			})
-			console.log('removed hx history excluded elements after history restore')
-		}, { once: true })
-	} else {
-		document.querySelectorAll('[data-hx-history-excluded]').forEach(el => {
-			el.remove()
-		})
-		console.log('removed hx history excluded elements after history restore')
-	}
+htmx.on('htmx.history.cache.before.save', event => {
+	Logger.console.log('cleanup document for history cache', event)
+	event.detail.target.querySelectorAll('[data-hx-history-excluded]').forEach(el => {
+		el.remove()
+	})
 })
 
 htmx.on('htmx:before:head:remove', event => {
@@ -103,10 +84,8 @@ htmx.on('htmx:before:head:remove', event => {
 	}
 })
 htmx.on('htmx:before:head:add', event => {
-	console.log('adding head element', event.detail.headElement)
 	const el = event.detail.headElement
 	// if the element has an id and a data-hx-preserve attribute, and an element with that id already exists, prevent adding the element (prevents duplicate head elements that only differ in cache-busting query params)
-
 	// @todo: doesn't work anymore, hx-head always merges defer scripts :((
 	if (el.id && el.getAttribute('data-hx-preserve')) {
 		console.log('prevented adding head element with id', el.id)
