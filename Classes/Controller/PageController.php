@@ -98,7 +98,7 @@ class PageController extends ActionController
 	protected function addFaviconTags($siteSettings): void
 	{
 		$faviconPath = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
-			'EXT:puck/Resources/Public/Icons/Favicons/packages/'
+			'EXT:puck/Resources/Public/Favicons/packages/'
 			. ($siteSettings->get('template.favicon') ?? 'default')
 		));
 		$view = $this->viewFactory->create(

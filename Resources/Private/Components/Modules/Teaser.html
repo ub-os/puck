@@ -103,10 +103,11 @@
 
 
 <f:section name="TeaserLink">
-	<a href="{f:uri.typolink(parameter:page.link_parameter, absolute:1)}"
-	   class="{name}__link"
-	   target="{page.target}">
-
+	<f:link.typolink
+		class="{name}__link"
+		parameter="{page.link_parameter}"
+		absolute="1"
+		target="{page.target}">
 		<span class="{name}__title">
 			{page.teaser_title -> f:format.raw()}
 		</span>
@@ -114,7 +115,7 @@
 		<f:if condition="!{titleIsHeading}">
 			<f:render section="Metadata" arguments="{_all}"/>
 		</f:if>
-	</a>
+	</f:link.typolink>
 </f:section>
 
 

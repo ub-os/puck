@@ -8,18 +8,22 @@
 	<ul class="{name}"
 		id="{sectionId}-pagination"
 		data-hx-focus-after-swap="#{sectionId}-list a"
-		data-hx-select.inherited="#{sectionId}-body"
-		data-hx-target.inherited="#{sectionId}-body">
+		data-hx-select:inherited="#{sectionId}-body"
+		data-hx-target:inherited="#{sectionId}-body">
 		<f:render section="Item" arguments="{item:pagination.previousItem, sectionId:sectionId, name:name}" />
 		<f:render section="Item" arguments="{item:pagination.firstItem, sectionId:sectionId, name:name}" />
 		<f:if condition="{pagination.hasSeparatorBefore}">
-			 {pagination.separatorLabel} 
+			<li class="{name}__separator" aria-hidden="true">
+				{pagination.separatorLabel}
+			</li>
 		</f:if>
 		<f:for each="{pagination.windowItems}" as="item" iteration="i">
 			<f:render section="Item" arguments="{item:item, sectionId:sectionId, name:name}" />
 		</f:for>
 		<f:if condition="{pagination.hasSeparatorAfter}">
-			 {pagination.separatorLabel} 
+			<li class="{name}__separator" aria-hidden="true">
+				{pagination.separatorLabel}
+			</li>
 		</f:if>
 		<f:render section="Item" arguments="{item:pagination.lastItem, sectionId:sectionId, name:name}" />
 		<f:render section="Item" arguments="{item:pagination.nextItem, sectionId:sectionId, name:name}" />

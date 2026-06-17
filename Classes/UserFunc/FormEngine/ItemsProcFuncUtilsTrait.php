@@ -18,7 +18,7 @@ trait ItemsProcFuncUtilsTrait
 	protected function filterItemsByValues(array $items, string $allowedValues): array
 	{
 		return array_filter($items, function ($item) use ($allowedValues) {
-			return GeneralUtility::inList($allowedValues, $item[1]);
+			return GeneralUtility::inList($allowedValues, $item['value'] ?? $item[1] ?? '');
 		});
 	}
 

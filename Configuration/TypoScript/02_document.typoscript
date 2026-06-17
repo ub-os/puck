@@ -32,7 +32,7 @@ page.bodyTagAdd = id="body" class="u-transition-off"
     page.headerData.40 < lib.ogImageFallback
 [end]
 
-page.shortcutIcon = EXT:puck/Resources/Public/Icons/Favicons/favicon.ico
+page.shortcutIcon = EXT:puck/Resources/Public/Faviconsfavicon.ico
 
 page.headerData.110 = TEXT
 page.headerData.110.value (

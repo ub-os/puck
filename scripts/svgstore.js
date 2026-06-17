@@ -1,0 +1,18 @@
+import fs from 'node:fs'
+import svgstore from 'svgstore'
+
+const srcPath = 'src/icons'
+const distPath = 'Resources/Public/Icons'
+const storeName = 'sprite-sheet.svg'
+
+function getIcons(path) {
+	return fs.readdirSync(path).filter(file => {
+		return file != storeName
+	})
+}
+const icons = getIcons(srcPath)
+const sprites = svgstore()
+for (const ic of icons) {
+	sprites.add(ic.replace('.svg', '').toLowerCase(), fs.readFileSync(`${srcPath}/${ic}`, 'utf8'))
+}
+fs.writeFileSync(`${distPath}/${storeName}`, sprites.toString())

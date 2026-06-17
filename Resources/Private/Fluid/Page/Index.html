@@ -1,10 +1,10 @@
 <page-root
         id="root"
         class="-layout-{record.backend_layout}"
-		hx-boost.inherited="true"
-		hx-swap.inherited="outerHTML transition:true"
-		hx-indicator.inherited="#root-loading-bar"
-		hx-preload.inherited="mousedown"
+		hx-boost:inherited="true"
+		hx-swap:inherited="outerHTML transition:true"
+		hx-indicator:inherited="#root-loading-bar"
+		hx-preload:inherited="mousedown"
 		logger="{f:if(condition:'{context.backendUser}',then:'enabled')}">
 	<div data-controller="anchor-handler" id="root-controllers"></div>
 	<!--TYPO3SEARCH_end-->

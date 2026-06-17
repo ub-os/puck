@@ -1,0 +1,18 @@
+@use '01-tools/all' as *
+
+.e-moduleHeader
+
+	&
+		+flex(column,flex-start,stretch,nowrap)
+		gap: body-em()
+		margin-bottom: spacing(s)
+		color: var(--color-emphasis)
+		&.-class-h3, &.-class-h4
+			margin-bottom: body-em()
+
+	&__header, &__subheader
+		padding-bottom: 0
+
+	&__subheader
+		&.topline
+			order: -1

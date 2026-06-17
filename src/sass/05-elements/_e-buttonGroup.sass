@@ -1,0 +1,43 @@
+@use '01-tools/all' as *
+
+.e-buttonGroup
+	&
+		+flex(row, flex-start, center)
+		gap: 1em
+
+	&.u-text-center
+		justify-content: center
+
+	&.u-text-right
+		justify-content: flex-end
+
+	& + &
+	//margin-top: calc(var(--gutter-x) * -1)
+
+	.e-button
+		&:hover,
+		&:focus,
+		&:active,
+		&.--active
+			z-index: 1
+
+	&.-gutter-0
+		&
+			gap: 5px
+
+		:where(&) .e-button
+			margin-inline: 0
+
+		:where(&) > .e-button:last-child,
+		:where(&) > :last-child > .e-button
+			border-top-left-radius: 0
+			border-bottom-left-radius: 0
+
+		:where(&) > .e-button:first-child,
+		:where(&) > :first-child > .e-button
+			border-top-right-radius: 0
+			border-bottom-right-radius: 0
+
+		:where(&) > .e-button:not(:first-child):not(:last-child),
+		:where(&) > :not(:first-child):not(:last-child) > .e-button
+			border-radius: 0

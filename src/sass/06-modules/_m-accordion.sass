@@ -1,0 +1,54 @@
+@use '01-tools/all' as *
+
+.m-accordion
+	&
+
+	& + &
+		margin-top: 0.5em
+
+	.e-richText + &
+		margin-top: spacing(m)
+
+	&__button
+		+typo-h4
+		display: flex
+		justify-content: space-between
+		width: 100%
+		padding: .5em 1em
+		cursor: pointer
+		color: var(--color-button)
+		background: var(--background-button)
+		border: 2px solid var(--color-button-border)
+		border-radius: var(--border-radius-s)
+		transition: color .15s, background-color .15s
+		&:hover,
+		&:focus-visible
+			background: var(--background-button--hover)
+
+	&__title
+		padding:
+			right: 1em
+		text-align: left
+		transition: transform .2s
+
+	&
+		display: block
+		overflow: hidden
+		transition: height .15s ease-out, min-height .15s ease-out
+	&.--active:not(.--activating)
+		height: auto
+
+	&__content
+		padding-top: 1em
+		padding-bottom: spacing(s)
+		opacity: 0
+		transition: opacity .22s ease-out
+	&.--active &__content
+		opacity: 1
+
+	&__icon:before
+		display: block
+		transform: translateY(.1em)
+		transition: transform .2s
+	&.--active &__icon:before
+		transform: translateY(.1em) rotateX(180deg)

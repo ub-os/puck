@@ -1,0 +1,37 @@
+@use '01-tools/all' as *
+
+.m-header
+	&
+		//position: sticky
+		position: fixed
+		top: 0
+		z-index: var(--z-index-header)
+		width: 100%
+		max-width: var(--width-page)
+		height: var(--height-page-header)
+		margin-bottom: var(--margin-block-page-header)
+		transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
+
+	&:where(.--scroll)
+		background: var(--background-frosted)
+		backdrop-filter: blur(5px)
+		&.--scrollUp, &.--scrollDown
+		transition: background .5s, transform .4s
+		&.--scrollDown
+			transform: translateY(-100%)
+
+	&__container
+		+flex(row, space-between, center, nowrap)
+		+grid-container
+		padding-inline: var(--gutter-outer)
+		height: 100%
+
+	&__anchor
+		position: relative
+		display: flex
+		&__logo
+			height: px-rem(40)
+			width: px-rem(40)
+			transition: background .15s
+			&:hover
+				background: radial-gradient(circle at center, var(--color-link--hover) 20%, transparent 20%)

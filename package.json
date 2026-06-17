@@ -5,7 +5,6 @@
 	"type": "module",
 	"config": {
 		"path": {
-			"src": "Resources/Private/",
 			"dist": "Resources/Public/"
 		}
 	},
@@ -18,15 +17,15 @@
 		"build": "run-s build:frontend-icons build:favicons build:js build:css",
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write",
-		"build:js": "node .build/esbuild.js",
+		"build:js": "node scripts/esbuild.js",
 		"build:css": "run-s sass autoprefixer minifycss",
-		"build:frontend-icons": "node .build/fantasticon.js && node .build/svgstore.js",
-		"build:favicons": "node .build/favicons.js",
-		"watch:js": "onchange 'Resources/Private/JavaScript/**/*.js*' -- run-s build:js",
-		"watch:css": "onchange 'Resources/Private/Stylesheets/**/*.s*ss' -- run-s build:css",
-		"watch:frontend-icons": "onchange 'Resources/Public/Icons/Frontend/*.svg' -- run-s build:frontend-icons",
-		"watch:favicons": "onchange 'Resources/Public/Icons/Favicons/*.svg' -- run-s build:favicons",
-		"sass": "node .build/sass.js",
+		"build:frontend-icons": "node scripts/fantasticon.js && node scripts/svgstore.js",
+		"build:favicons": "node scripts/favicons.js",
+		"watch:js": "onchange 'src/js/**/*.js*' -- run-s build:js",
+		"watch:css": "onchange 'src/sass/**/*.s*ss' -- run-s build:css",
+		"watch:frontend-icons": "onchange 'src/icons/*.svg' -- run-s build:frontend-icons",
+		"watch:favicons": "onchange 'src/favicons/*.svg' -- run-s build:favicons",
+		"sass": "node scripts/sass.js",
 		"autoprefixer": "postcss ${npm_package_config_path_dist}Css/dist/puck.css --use autoprefixer --map -o ${npm_package_config_path_dist}Css/dist/puck.css",
 		"minifycss": "css-minify -d ${npm_package_config_path_dist}Css/dist -o ${npm_package_config_path_dist}Css/dist"
 	},
@@ -52,10 +51,13 @@
 		"@amdeu/stim": "^2.0.5",
 		"@splidejs/splide": "^4.1.4",
 		"@splidejs/splide-extension-intersection": "^0.2.0",
-		"htmx.org": "^4.0.0-beta3",
+		"htmx.org": "^4.0.0-beta4",
 		"normalize.css": "^8.0.1",
 		"plyr": "^3.8.4",
 		"rfs": "^10.0.0"
+	},
+	"imports": {
+		"#/*": "./src/js/*"
 	},
 	"browserslist": [
 		"defaults and fully supports es6-module"

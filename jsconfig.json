@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "baseUrl": "./Resources/Private/JavaScript",
-    "paths": {
-    }
-  }
-}

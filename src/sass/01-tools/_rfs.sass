@@ -1,0 +1,14 @@
+@use 'units' as *
+
+$rfs-base-value: px-rem(14)
+$rfs-factor: 10
+$rfs-breakpoint: px-to-native-rem(1000px)
+$rfs-rem-value: $rem-base
+
+@use '../../../node_modules/rfs/sass' as rfs with ($rfs-base-value: $rfs-base-value, $rfs-factor: $rfs-factor, $rfs-breakpoint: $rfs-breakpoint, $rfs-rem-value: $rfs-rem-value)
+
+=responsive-size($values, $property)
+	+rfs.rfs($values, $property)
+
+=font-size($value)
+	+rfs.rfs($value)

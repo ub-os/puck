@@ -8,8 +8,8 @@
 	<div class="{name}"
 		 id="c{contentUid}-filter"
 		 data-hx-focus-after-swap="#c{contentUid}-list a"
-		 data-hx-select.inherited="#c{contentUid}-body"
-		 data-hx-target.inherited="#c{contentUid}-body">
+		 data-hx-select:inherited="#c{contentUid}-body"
+		 data-hx-target:inherited="#c{contentUid}-body">
 		<ul class="{name}__list">
 			<f:for each="{categoryFilter.items}" as="item" iteration="i">
 				<li class="{name}__item">

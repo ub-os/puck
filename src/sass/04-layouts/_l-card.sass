@@ -1,0 +1,136 @@
+@use '01-tools/all' as *
+
+.l-card
+	--padding-block: 1.6em
+	--padding-inline: 1.6em
+	--padding-bottom: var(--padding-block)
+	--background-media-opacity: 0.5
+	--background-media-overlay-color: var(--background-card)
+	--card-media-width: var(--card-width)
+	@for $i from 2 through 10
+		&:where(.-width-#{$i})
+			--card-width: #{$i}
+		&:where(.-mediaWidth-#{$i})
+			--card-media-width: #{$i}
+
+	&
+		+flex(column, flex-start, flex-start)
+		position: relative
+		color: var(--color)
+		background: var(--background-card)
+		border: 2px solid var(--border-color-card)
+		border-radius: var(--border-radius-m)
+		overflow: hidden
+
+		&.-media
+			justify-content: space-between
+
+		&.-mediaSize-background
+
+		&.-mediaSize-contain,
+		&.-mediaSize-background
+			padding: var(--padding-block) var(--padding-inline) var(--padding-bottom)
+
+		&.-layout-right,
+		&.-layout-left
+			@media (min-width(xs))
+				flex-direction: row
+
+		&.-layout-above,
+		&.-layout-below
+			flex-direction: column
+
+		&.-mediaSize-cover:where(.-layout-right, .-layout-left)
+			align-items: stretch
+
+		&.-align-start
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: flex-start
+			&:where(.-layout-right, .-layout-left)
+				align-items: flex-start
+
+		&.-align-center
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: center
+			&:where(.-layout-right, .-layout-left)
+				align-items: center
+
+		&.-align-end
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: flex-end
+			&:where(.-layout-right, .-layout-left)
+				align-items: flex-end
+
+		&.-align-stretch
+			&:where(:not(.-layout-right):not(.-layout-left))
+				justify-content: stretch
+			&:where(.-layout-right, .-layout-left)
+				align-items: stretch
+
+
+	&__content
+		position: relative
+		z-index: 1
+		width: 100%
+
+		&.-mediaSize-cover
+			padding: var(--padding-block) var(--padding-inline)
+
+		&.-layout-right,
+		&.-layout-left
+			@media (min-width(xs))
+				width: 0
+				flex-grow: 1
+
+	// do it like row but change flex-direction to column when media-width == card-width
+	&__figure
+		width: 100%
+		max-width: 100%
+
+		&.-layout-above, &.-layout-left
+			order: -1
+
+		&.-mediaSize-background
+			+cover-media
+			position: absolute
+			z-index: 0
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background: var(--background-media-overlay-color)
+
+		&.-mediaSize-cover:where(.-layout-right, .-layout-left)
+			+cover-media
+			@media (min-width(xs))
+				width: calc(100% * var(--card-media-width) / var(--card-width))
+				align-self: stretch
+
+		&.-mediaSize-contain:where(.-layout-above)
+			padding-bottom: var(--padding-bottom)
+
+		&.-mediaSize-contain:where(.-layout-below)
+			padding-top: var(--padding-block)
+
+		&.-mediaSize-contain:where(.-layout-right, .-layout-left)
+			@media (min-width(xs))
+				width: calc((100% + #{var(--padding-inline)}) * var(--card-media-width) / var(--card-width))
+
+		&.-mediaSize-contain:where(.-layout-right)
+			@media (min-width(xs))
+				padding-left: var(--padding-inline)
+			@media (max-width(xs))
+				padding-bottom: var(--padding-bottom)
+
+		&.-mediaSize-contain:where(.-layout-left)
+			@media (min-width(xs))
+				padding-right: var(--padding-inline)
+			@media (max-width(xs))
+				padding-bottom: var(--padding-bottom)
+
+
+	&__figure.-mediaSize-background &__image
+		opacity: var(--background-media-opacity)
+
+	&__image
+		width: 100%

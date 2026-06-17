@@ -28,7 +28,7 @@ class Favicon implements MiddlewareInterface
 			->get('template.favicon')
 			?? 'default';
 		$faviconFilePath = GeneralUtility::getFileAbsFileName(
-			'EXT:puck/Resources/Public/Icons/Favicons/packages/'
+			'EXT:puck/Resources/Public/Faviconspackages/'
 			. $faviconPackageName
 			. '/favicon.ico'
 		);
