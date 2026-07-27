@@ -15,6 +15,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;Layout,
             --palette--;;gridContainer,
             --palette--;;gridColumnsAlignment,
+			--palette--;;appearanceOptions,
         --div--;Carousel,
             options,',
 	columnsOverrides: [

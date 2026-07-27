@@ -10,6 +10,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use B13\Menus\DataProcessing\ListMenu;
 use B13\Menus\DataProcessing\TreeMenu;
 
+/**
+ *
+ */
 class SysNavigationDataViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void

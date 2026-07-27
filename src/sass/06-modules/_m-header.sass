@@ -29,9 +29,10 @@
 	&__anchor
 		position: relative
 		display: flex
+		border-radius: 100%
 		&__logo
 			height: px-rem(40)
 			width: px-rem(40)
 			transition: background .15s
-			&:hover
-				background: radial-gradient(circle at center, var(--color-link--hover) 20%, transparent 20%)
+		&:where(:hover, :focus-visible) &__logo
+			background: radial-gradient(circle at center, var(--color-link--hover) 20%, transparent 20%)

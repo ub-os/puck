@@ -1,15 +1,14 @@
 @use '01-tools/all' as *
 
 .m-teaser
-	&:hover &__title,
-	&:hover &__cta,
-	&:hover &__arrow
+	&:where(:hover, :has(a:focus-visible)) :is(&__title, &__cta, &__arrow)
 		color: var(--color-link--hover)
+
+	&__card:is(:hover, :has(a:focus-visible))
+		border-color: var(--color-link--hover)
 
 	&__card
 		transition: border-color .15s
-		&:hover
-			border-color: var(--color-link--hover)
 
 	&__content
 		+flex(row, flex-start, center, wrap)

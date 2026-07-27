@@ -5,7 +5,9 @@ $palettes = [];
 $palettes['gridContainer'] = [
 	'label' => 'Grid container',
 	'showitem' => '
-        container_width, container_position, container_offset'
+        container_width, 
+        --linebreak--,
+        container_position, container_offset'
 ];
 $palettes['gridContainerWidth'] = [
 	'label' => 'Grid container',
@@ -30,53 +32,63 @@ $palettes['gridMedia'] = [
 	'label' => 'Layout',
 	'showitem' => '
         media_layout,
-        text_column_width, media_column_width,
+		--linebreak--,
+        text_column_width, 
+		--linebreak--,
+        media_column_width,
+        item_column_width, 
         --linebreak--,
         row_justify, row_align,
-        --linebreak--,
-        item_column_width, media_max_height'
+        media_max_height'
 ];
 $palettes['gridCard'] = [
 	'label' => 'Layout',
 	'showitem' => '
-        media_layout, media_column_width,
+        media_layout, card_media_size,
+		--linebreak--,
+        media_column_width,
         --linebreak--,
-        card_media_size, row_align,'
+        row_align,'
 ];
 $palettes['gridMenuPages'] = [
 	'label' => 'Layout',
 	'showitem' => '
-        item_column_width, row_justify, row_align, 
+        item_column_width, 
         --linebreak--,
-        media_layout, card_media_size, text_column_width, media_column_width,
+        row_justify, row_align, 
+        --linebreak--,
+        media_layout, card_media_size, 
+		--linebreak--,
+        text_column_width, media_column_width,
         --linebreak--,
         flex_grow'
 ];
-$palettes['appearance'] = [
+$palettes['appearanceOptions'] = [
 	'label' => 'Appearance',
+	'showitem' => '
+	header_spacing_override,
+	--linebreak--,
+	classes',
+];
+$palettes['appearanceClasses'] = [
+	'label' => 'Appearance',
+	'showitem' => '
+	classes',
+];
+
+$palettes['appearance'] = [
+//	'label' => 'Appearance',
 	'showitem' => '
         frame_class'
 ];
 $palettes['appearanceLayout'] = [
-	'label' => 'Appearance',
+//	'label' => 'Appearance',
 	'showitem' => '
         frame_class, layout'
 ];
 $palettes['layout'] = [
-	'label' => 'Configuration',
 	'showitem' => '
         layout'
-];
-$palettes['layout_frame_class'] = [
-	'label' => 'Configuration',
-	'showitem' => '
-        frame_class, layout'
-];
-$palettes['layout_full'] = [
-	'label' => 'Configuration',
-	'showitem' => '
-        frame_class, layout, --linebreak--,
-        space_before_class, space_after_class'
 ];
 $palettes['headers'] = [
 	'label' => 'Headlines',
@@ -85,14 +97,21 @@ $palettes['headers'] = [
         --linebreak--,
         header_layout, header_position,
         --linebreak--,
-	 	subheader, 
-        --linebreak--,
-        header_spacing_override'
+	 	subheader,'
 ];
 $palettes['header_header_position'] = [
 	'label' => 'Headlines',
 	'showitem' => '
         header,
+        --linebreak--,
+        header_position'
+];
+$palettes['header_subheader_header_position'] = [
+	'label' => 'Headlines',
+	'showitem' => '
+        header,
+        --linebreak--,
+        subheader,
         --linebreak--,
         header_position'
 ];

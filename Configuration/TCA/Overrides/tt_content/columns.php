@@ -5,6 +5,7 @@ use UBOS\Puck\UserFunc\FormEngine\ContentItemsProcFunc;
 use UBOS\Puck\Utility\TcaUtility;
 
 $columns = [];
+$overrideColumns = [];
 
 $columns['frame_class'] = [
 	'label' => 'Background',
@@ -35,14 +36,14 @@ $columns['layout'] = [
 	],
 ];
 
-$columns['header'] = [
+$overrideColumns['header'] = [
 	'config' => [
 		'type' => 'text',
 		'rows' => 1,
 	],
 ];
 
-$columns['subheader'] = [
+$overrideColumns['subheader'] = [
 	'config' => [
 		'type' => 'text',
 		'rows' => 1,
@@ -83,7 +84,7 @@ $columns['header_layout'] = [
 	],
 ];
 
-$columns['bodytext'] = [
+$overrideColumns['bodytext'] = [
 	'config' => [
 		'search' => [
 			'andWhere' => '',
@@ -419,7 +420,21 @@ $columns['options'] = [
 	]
 ];
 
+$columns['classes'] = [
+	'label' => 'Additional classes',
+	'config' => [
+		'type' => 'select',
+		'renderType' => 'selectCheckBox',
+		'items' => [
+		]
+	]
+];
+
 $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
 	$GLOBALS['TCA']['tt_content']['columns'],
-	$columns
+	$overrideColumns
 );
+
+foreach ($columns as $key => $column) {
+	$GLOBALS['TCA']['tt_content']['columns'][$key] = $column;
+}

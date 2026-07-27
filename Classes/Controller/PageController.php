@@ -103,7 +103,7 @@ class PageController extends ActionController
 		));
 		$view = $this->viewFactory->create(
 			new ViewFactoryData(
-				templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Page/Head'],
+				templateRootPaths: ['EXT:puck/Resources/Private/Templates/Page/Head'],
 				request: $this->request,
 			)
 		);

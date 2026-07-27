@@ -84,10 +84,15 @@ em
 b
 	font-weight: bold
 
-button, a[href], input, select, textarea, [draggable], [contenteditable], [tabindex]:not([tabindex="-1"])
+button, a[href], input, select, textarea, summary, [draggable], [contenteditable], [tabindex]:not([tabindex="-1"])
 	&:where(:not(:active)):focus-visible
-		outline: none
-		box-shadow: 0 0 0 4px var(--outline-color-button--focus)
+		outline: var(--outline-color-button--focus) solid 2px
+		outline-offset: 2px
 
 [data-link-area]
 	cursor: pointer
+	&:where(:has(a:where(:not(:active)):focus-visible))
+		outline: var(--outline-color-button--focus) solid 2px
+		outline-offset: 2px
+	a:where(:not(:active)):focus-visible
+		outline: none

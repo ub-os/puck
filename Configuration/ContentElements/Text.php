@@ -13,7 +13,8 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             --palette--;;headers,
             --palette--;;bodytext,
         --div--;Layout,
-            --palette--;;gridContainer,',
+            --palette--;;gridContainer,
+			--palette--;;appearanceOptions,',
 	columnsOverrides: [
 		'bodytext' => [
 			'config' => [

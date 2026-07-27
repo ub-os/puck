@@ -15,11 +15,14 @@ final class RecordCreator
 	public function __invoke(RecordCreationEvent $event): void
 	{
 		if ($event->getRawRecord()->getMainType() === 'tt_content') {
-			$event->setRecord(new ContentRecord(
+			$record = new ContentRecord(
 				$event->getRawRecord(),
 				$event->getProperties(),
 				$event->getSystemProperties()
-			));
+			);
+			$record->setOverriddenProperties();
+			$record->setComputedProperties();
+			$event->setRecord($record);
 		}
 		if ($event->getRawRecord()->getMainType() === 'pages') {
 			$record = new PageRecord(

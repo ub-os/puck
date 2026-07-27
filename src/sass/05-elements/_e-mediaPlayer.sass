@@ -29,9 +29,6 @@
 		filter: brightness(0.8)
 		transition: filter .2s
 
-	&:hover &__image
-		filter: brightness(1)
-
 	&__frame,
 	&__iframe
 		position: absolute
@@ -78,5 +75,10 @@
 		border-radius: 100%
 		transition: color .15s
 
-	&:hover &__icon
+
+	&:where(:has(&__button:hover, &__button:focus-visible)) &__image
+		filter: brightness(1)
+
+	&:where(:has(&__button:hover, &__button:focus-visible)) &__icon
+		filter: brightness(1)
 		color: var(--color-link--hover)

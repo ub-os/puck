@@ -68,16 +68,16 @@
 		position: relative
 		height: $bullet-width
 		width: $bullet-width
-		background: color-mix(in srgb, var(--color-link), transparent 50%)
+		background: color-mix(in srgb, var(--color), transparent 70%)
 		border-radius: $bullet-border-radius
-		transition: width var(--splide-speed)
+		transition: width var(--splide-speed), background .15s
 		&:hover
-			background: color-mix(in srgb, var(--color-link), transparent 25%)
+			background: color-mix(in srgb, var(--color), transparent 1%)
 		&.is-active
 			background: var(--color-link)
 		&.is-active.-autoplay
 			width: $autoplay-bar-width
-			background: color-mix(in srgb, var(--color-link), transparent 50%)
+			background: color-mix(in srgb, var(--color), transparent 70%)
 			overflow: hidden
 		&.is-active.-autoplay:before,
 		&.is-active.-autoplay:after
@@ -86,7 +86,7 @@
 			top: 0
 			left: 0
 			height: $bullet-width
-			background: var(--color-link)
+			background: var(--color)
 			transform-origin: left
 		&.is-active.-autoplay:before
 			width: $autoplay-bar-width
@@ -100,14 +100,18 @@
 		+flex(row,center,center)
 		width: 2.2em
 		height: 2.2em
-		background: var(--color-link)
+		color: var(--color-button)
+		background: var(--background-button)
+		border: 2px solid var(--color-button-border)
 		border-radius: 100%
 		transition: background-color .15s
-		&:hover
-			background: var(--color-link--hover)
+		&:hover, &:focus-visible
+			--color-button: var(--color-button--hover)
+			--background-button: var(--background-button--hover)
+			--color-button-border: var(--color-button-border--hover)
+			color: var(--color-button)
 		i
-			font-size: 1.5em
-			color: var(--background)
+			font-size: 1.25em
 		&.--paused i:before
 			content: var(--icon-code-play-solid)
 			position: relative

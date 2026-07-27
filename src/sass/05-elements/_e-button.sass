@@ -6,6 +6,12 @@
 	--width-icon: 2.4em
 	--padding-icon-side: calc(var(--width-icon) + var(--padding-inline))
 
+	:where(a:focus-visible:has(>&))
+		outline: none
+	:where(a:focus-visible)>&
+		outline: var(--outline-color-button--focus) solid 2px
+		outline-offset: 2px
+
 	&
 		+typo-button
 		position: relative
@@ -19,10 +25,11 @@
 		border: var(--border-width-button) solid var(--color-button-border)
 		border-radius: var(--border-radius-s)
 		cursor: pointer
-		transition: color .15s, background-color .15s
+		transition: color .15s, background-color .15s, border-color .15s, box-shadow .15s
 
 	&:hover,
-	&:focus-visible
+	&:focus-visible,
+	:where(a):focus-visible>&
 		--color-button: var(--color-button--hover)
 		--background-button: var(--background-button--hover)
 		--color-button-border: var(--color-button-border--hover)

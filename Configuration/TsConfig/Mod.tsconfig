@@ -165,3 +165,5 @@ TCEFORM.pages.backend_layout.itemsProcFunc.doktypes {
     254 = folder, sysfolder
     16503 = default
 }
+
+TCEFORM.tt_content.tx_container_parent.disabled = 1

@@ -14,6 +14,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;Layout,
             --palette--;;gridContainerWidth,
             --palette--;;gridCard,
+            --palette--;;appearanceOptions,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
 	columnsOverrides: [

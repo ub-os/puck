@@ -18,7 +18,7 @@ export default class AnchorHandler extends Controller {
 	}
 
 	isCurrentLink(el) {
-		return el.href === window.location.href
+		return el.origin === window.location.origin && el.pathname === window.location.pathname && el.search === window.location.search
 	}
 
 	isHashLink(el) {

@@ -6,11 +6,11 @@ plugin.tx_indexedsearch {
     }
     view {
         templateRootPaths {
-            1000 = EXT:puck/Resources/Private/Fluid/Extensions/IndexedSearch/Templates/
+            1000 = EXT:puck/Resources/Private/Templates/Extensions/IndexedSearch/
         }
 
         partialRootPaths {
-            1000 = EXT:puck/Resources/Private/Fluid/Extensions/IndexedSearch/Partials/
+            1000 = EXT:puck/Resources/Private/Templates/Extensions/IndexedSearch/Partials/
         }
     }
     _LOCAL_LANG.default.pi_list_browseresults_page >

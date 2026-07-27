@@ -18,7 +18,8 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;Layout,
             --palette--;;gridContainer,
             --palette--;;gridMenuPages,
-            menu_item_config,',
+            menu_item_config,
+			--palette--;;appearanceOptions,',
 	columnsOverrides: [
 		'bodytext' => [
 			'config' => [

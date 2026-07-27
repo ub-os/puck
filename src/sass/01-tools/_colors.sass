@@ -1,19 +1,18 @@
 
-$background: #0E1117
-$background-frosted: rgba(14, 17, 23, 0.31)
-$background-alt: #101a1f
-$text: #9198a1
-$text-emphasis: white
-$headline: white
-$link: #4493f8
-$link--hover: #2a7aef
-$link2: #2e9a40
-$link2--hover: #29903b
-$control: #212830
-$control--hover: #292f39
-$control-border: #2f3641
-$control-dark: #141b23
+$background: rgb(253, 252, 252)
+$background-frosted: rgba(253, 252, 252, 0.31)
+$background-alt: rgb(245, 243, 241)
+$text: black
+$text-emphasis: black
+$headline: black
+$link: rgb(119, 107, 95)
+$link--hover: black
+$control: white
+$control--hover: rgb(240, 240, 240)
+$control-border: rgb(229, 229, 229)
+$control-dark: white
 $typo3-brand: #ff8700
+$control-outline--focus: #2B7FFF
 
 =color-space-base
 	// basic
@@ -30,9 +29,9 @@ $typo3-brand: #ff8700
 	// button
 	--color-button: #{ $headline }
 	--color-button--hover: #{ $headline }
-	--color-button-border: #{ $control-border}
-	--color-button-border--hover: #{ $control-border}
-	--outline-color-button--focus: color-mix(in srgb, transparent, #{ $link--hover } 30%)
+	--color-button-border: #{ $control-border }
+	--color-button-border--hover: #{ $control-border }
+	--outline-color-button--focus: #{ $control-outline--focus }
 	--background-button: #{ $control }
 	--background-button--hover: #{ $control--hover }
 	--background-dropdown: #{ $control-dark }
@@ -59,4 +58,3 @@ $typo3-brand: #ff8700
 
 =color-space-alt
 	--background: #{ $background-alt }
-	--color-accent: #{ $link2 }

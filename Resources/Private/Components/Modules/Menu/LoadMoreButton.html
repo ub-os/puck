@@ -7,6 +7,7 @@
 	 id="{sectionId}-pagination">
 	<f:if condition="!{pagination.loadMore.disabled}">
 		<button class="{name}__button e-button -ghost"
+				type="button"
 				data-hx-get="{pagination.loadMore.fragmentUrl}"
 				data-hx-trigger="{pagination.loadMoreTrigger}"
 				data-hx-swap="beforeend transition:true"

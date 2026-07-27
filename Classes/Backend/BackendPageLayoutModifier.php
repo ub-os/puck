@@ -43,8 +43,8 @@ final class BackendPageLayoutModifier
 		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
 		$view = $this->viewFactory->create(
 			new ViewFactoryData(
-				templateRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Templates'],
-				partialRootPaths: ['EXT:puck/Resources/Private/Fluid/Backend/Partials'],
+				templateRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/'],
+				partialRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/Partials'],
 				request: $request,
 			)
 		);

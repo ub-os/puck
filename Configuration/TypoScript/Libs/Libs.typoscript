@@ -20,9 +20,9 @@ lib.language = TEXT
 lib.language.data = sitelanguage:twoLetterIsoCode
 
 lib.contentElement {
-    partialRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Partials/
-    templateRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Templates/
-    layoutRootPaths.200 = EXT:puck/Resources/Private/Fluid/Content/Layouts/
+    templateRootPaths.200 = EXT:puck/Resources/Private/Templates/Content/
+    partialRootPaths.200 = EXT:puck/Resources/Private/Templates/Content/Partials/
+    layoutRootPaths.200 = EXT:puck/Resources/Private/Templates/Content/Layouts/
     settings {
         media {
             additionalConfig {

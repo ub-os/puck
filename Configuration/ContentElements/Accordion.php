@@ -13,6 +13,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             --palette--;;bodytext,
         --div--;Layout,
             --palette--;;gridMedia,
+            --palette--;;appearanceClasses,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
             assets,',
 	columnsOverrides: [

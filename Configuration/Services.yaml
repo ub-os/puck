@@ -10,12 +10,8 @@ services:
 
   UBOS\Puck\Backend\BasicPreviewRenderer:
     public: true
-    arguments:
-      $runtimeCache: '@cache.runtime'
   UBOS\Puck\Backend\PageMenuPreviewRenderer:
     public: true
-    arguments:
-      $runtimeCache: '@cache.runtime'
   UBOS\Puck\ContentObject\FluidComponentContentObject:
     tags:
       - name: frontend.contentobject

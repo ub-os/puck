@@ -35,6 +35,9 @@ class RedirectDoktypes implements MiddlewareInterface
 		// if url is set and doktype is in $redirectDoktypes, redirect to url
 		$urlParts = parse_url($url);
 		$controller = $request->getAttribute('frontend.controller');
+		if (!$controller) {
+			return $handler->handle($request);
+		}
 		$cObj = GeneralUtility::makeInstance(
 			ContentObjectRenderer::class,
 			$controller

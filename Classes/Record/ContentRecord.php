@@ -11,21 +11,12 @@ use TYPO3\CMS\Core\Domain\Record\SystemProperties;
  */
 class ContentRecord extends Record
 {
-	public function __construct(
-		protected readonly RawRecord         $rawRecord,
-		protected array                      $properties,
-		protected readonly ?SystemProperties $systemProperties = null,
-	)
-	{
-		$this->setOverriddenProperties();
-		$this->setComputedProperties();
-	}
 
 	/**
 	 * override property values based on TCA 'valueOverrides'
 	 * @see \UBOS\Puck\Configuration\ContentElementConfiguration
 	 */
-	protected function setOverriddenProperties(): void
+	public function setOverriddenProperties(): void
 	{
 		foreach ($GLOBALS['TCA']['tt_content']['types'][$this->properties['CType']]['valueOverrides'] ?? [] as $fieldName => $value) {
 			$this->properties[$fieldName] = $value;
@@ -35,17 +26,17 @@ class ContentRecord extends Record
 	/**
 	 * initialize computed properties based on the current properties
 	 */
-	protected function setComputedProperties(): void
+	public function setComputedProperties(): void
 	{
 		$prop = $this->properties;
 
-		if ($this->has('header_layout')) {
+		if ($this->has('header_layout') && is_string($prop['header_layout'])) {
 			$headerConfig = array_map('trim', explode('.', $prop['header_layout']));
 			$prop['header_layout'] = [
 				'tag' => $headerConfig[0] ?? 'h2',
 				'class' => $headerConfig[1] ?? '',
 				'subheaderClass' => $headerConfig[2] ?? '',
-				'value' => $prop['header_layout'] ?? '',
+				'value' => $prop['header_layout'],
 			];
 			// if the tag is numeric (e.g. from older versions of the content element), default to 'h2'
 			if (is_numeric($prop['header_layout']['tag'])) {

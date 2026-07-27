@@ -3,11 +3,10 @@
 
 <f:render section="preview" arguments="{_all}"/>
 <f:section name="preview">
-	<div class="t3-page-ce-body-content">
-			<f:if condition="{linkedBody}">
-				{linkedBody -> f:format.raw()}
-			</f:if>
-		<f:render partial="PageMenuSettings" arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
+	<div class="t3-page-ce-body-content" style="display: flex">
+		{linkedBody -> f:format.raw()}
+		<f:render partial="PageMenuSettings"
+				  arguments="{settings:pageMenuSettings,processed:pageMenuProcessed}"/>
 	</div>
 	<f:render section="ContainerGrid" arguments="{_all}"/>
 </f:section>

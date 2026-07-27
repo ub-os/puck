@@ -68,15 +68,29 @@ htmx.on('htmx:response:error', event => {
 
 htmx.on('htmx:after:init', event => {
 	if (isBodySwapEvent(event)) {
-		// if (window.__ucCmp) {
-		// 	window.__ucCmp.loadCmpView()
-		// 	window.__ucCmp.cmpController.ui.initialView = 'none'
-		// }
 	} else {
 		resolveFocusAfterSwap()
 	}
 	focusAfterSwapSelector = null
 })
+
+// current solution for usercentrics not re-initializing UI after js navigation
+// htmx.on('htmx:after:init', event => {
+// 	if (isBodySwapEvent(event)) {
+// 		if (window.__ucCmp) {
+// 			if (window.__ucCmp.loadCmpView) {
+// 				window.__ucCmp.loadCmpView()
+// 			}
+// 		}
+// 	}
+// })
+// window.addEventListener('UC_UI_INITIALIZED', event => {
+// 	window.addEventListener('ucEvent', e => {
+// 		if (e.detail.event == 'consent_status' && e.detail.type == 'EXPLICIT') {
+// 			window.__ucCmp.cmpController.ui.initialView = 'none'
+// 		}
+// 	})
+// })
 
 htmx.on('htmx:history:cache:before:save', event => {
 	Logger.console.log('cleanup document for history cache', event)

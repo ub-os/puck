@@ -9,8 +9,8 @@ imports:
 editor:
   config:
     importModules:
-      - '@ubos/ckeditor-icons'
-      - '@ubos/ckeditor-puck-icons'
+      - { module: '@ubos/ckeditor-icons', exports: ['default'] }
+      - { module: '@ubos/ckeditor-puck-icons', exports: ['default'] }
 
     contentsCss:
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'

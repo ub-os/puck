@@ -6,12 +6,18 @@
 <div class="{name}__padding"></div>
 <main class="{name}" id="main">
 	<f:if condition="{record.doktype} == {constants.doktypes.news}">
-		<module:hero record="{
-	header:record.nav_title,
-	subheader: '{record.post_date -> f:format.date(format: \'%d. %B %Y\')}'
-	}"/>
+		<u:transientRecord
+			set="heroRecord"
+			type="tt_content"
+			data="{
+			CType:'puck_hero',
+			pid:record.uid,
+			uid:'-1',
+			header:record.nav_title,
+			subheader: '{record.post_date -> f:format.date(format: \'%d. %B %Y\')}'
+			}"/>
+		<module:hero record="{heroRecord}"/>
 	</f:if>
-
 	<f:slot/>
 </main>
 

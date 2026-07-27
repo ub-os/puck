@@ -15,6 +15,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
         --div--;Layout,
             --palette--;;gridContainer,
             item_column_width,
+            --palette--;;appearanceOptions,
         --div--;Files,
             --palette--;;fileMenu,',
 	columnsOverrides: [
