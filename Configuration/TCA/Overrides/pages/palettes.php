@@ -2,7 +2,7 @@
 
 
 $GLOBALS['TCA']['pages']['palettes']['standard']['showitem'] = '
-        doktype, post_date, icon,';
+        doktype, post_date,';
 
 $GLOBALS['TCA']['pages']['palettes']['author'] = [
 	'label' => 'Author',
@@ -31,6 +31,8 @@ $GLOBALS['TCA']['pages']['palettes']['title'] = [
         breadcrumb_title,
         --linebreak--,
         subtitle,
+        --linebreak--,
+        icon
     ',
 ];
 $GLOBALS['TCA']['pages']['palettes']['teaser'] = [

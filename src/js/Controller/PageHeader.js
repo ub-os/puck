@@ -10,85 +10,104 @@ export default class PageHeader extends Controller {
 		documentClassing: true,
 	}
 
-	//static aspects = ['scroll-sensitive']
-
 	listeners = new ListenerRegistry()
 	lastScrollTop = 0
 	scrollDirection = ''
 	ticking = false
-	pausedTimeOut = null
+	paused = null
+	directionUpdatesPaused = null
+	focusWithin = false
 
-	checkScrollDirection() {
-		const currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop
+	getScrollTop() {
+		return document.documentElement.scrollTop || document.body.scrollTop
+	}
+
+	toggleClasses(add, remove) {
+		this.element.classList.add(add)
+		this.element.classList.remove(remove)
+		if (this.documentClassing && this.element.id) {
+			document.documentElement.classList.add(`--${this.element.id}${add}`)
+			document.documentElement.classList.remove(`--${this.element.id}${remove}`)
+		}
+	}
+
+	checkScrollDirection(currentScrollTop) {
 		const difference = Math.abs(currentScrollTop - this.lastScrollTop)
-		if (difference < 2) return this.scrollDirection
+		if (difference < 15) return this.scrollDirection
 		const scrollDirection = currentScrollTop > this.lastScrollTop ? 'down' : 'up'
-		this.lastScrollTop = document.documentElement.scrollTop || document.body.scrollTop
+		this.lastScrollTop = currentScrollTop
 		return scrollDirection
 	}
 
+	scrollHandler() {
+		if (this.ticking || this.paused != null) return
+		this.ticking = true
 
-	scrollHandler(event) {
-		if (!this.ticking && this.pausedTimeOut == null) {
-			window.requestAnimationFrame(() => {
-				setTimeout(() => {
-					this.ticking = false
-				}, 40)
-				const scrollDirection = this.checkScrollDirection(event)
-				if (this.scrollDirection == scrollDirection) return
-				this.setDirectionState(scrollDirection)
-			})
-			this.ticking = true
-		}
+		window.requestAnimationFrame(() => {
+			const currentScrollTop = this.getScrollTop()
+
+			// scrollClass toggle (height-based, not direction-based)
+			this.element.classList.toggle(this.scrollClass, currentScrollTop >= this.scrollTop)
+			if (this.documentClassing && this.element.id) {
+				document.documentElement.classList.toggle(
+					`--${this.element.id}${this.scrollClass}`,
+					currentScrollTop >= this.scrollTop,
+				)
+			}
+			if (!this.directionUpdatesPaused) {
+				const scrollDirection = this.checkScrollDirection(currentScrollTop)
+				const shouldUpdate =
+					scrollDirection !== this.scrollDirection &&
+					!(this.focusWithin && scrollDirection === 'down')
+
+				if (shouldUpdate) this.setDirectionState(scrollDirection)
+			}
+			this.ticking = false
+		})
 	}
 
 	setDirectionState(direction) {
 		this.scrollDirection = direction
 		const classes =
-			this.scrollDirection === 'down'
+			direction === 'down'
 				? { add: this.downClass, remove: this.upClass }
 				: { add: this.upClass, remove: this.downClass }
-		this.element.classList.add(classes.add)
-		this.element.classList.remove(classes.remove)
-		if (this.documentClassing) {
-			document.documentElement.classList.add(`--${this.element.id}${classes.add}`)
-			document.documentElement.classList.remove(`--${this.element.id}${classes.remove}`)
-		}
+		this.toggleClasses(classes.add, classes.remove)
+	}
+
+	handleFocusIn() {
+		this.focusWithin = true
+		if (this.scrollDirection !== 'up') this.setDirectionState('up')
+	}
+
+	handleFocusOut() {
+		window.requestAnimationFrame(() => {
+			if (!this.element.contains(document.activeElement)) {
+				this.focusWithin = false
+			}
+		})
 	}
 
 	pause() {
-		this.pausedTimeOut = true
+		this.paused = true
 	}
 
 	resume() {
-		this.pausedTimeOut = null
+		this.paused = null
+	}
+
+	pauseDirectionUpdate() {
+		this.directionUpdatesPaused = true
+	}
+
+	resumeDirectionUpdate() {
+		this.directionUpdatesPaused = null
 	}
 
 	connected() {
-		this.listeners.add(
-			window,
-			'scroll',
-			e => {
-				if (document.documentElement.scrollTop < this.scrollTop) {
-					this.element.classList.remove(this.scrollClass)
-					if (this.documentClassing) {
-						document.documentElement.classList.remove(`--${this.element.id}${this.scrollClass}`)
-					}
-				} else {
-					this.element.classList.add(this.scrollClass)
-					if (this.documentClassing) {
-						document.documentElement.classList.add(`--${this.element.id}${this.scrollClass}`)
-					}
-				}
-			},
-			{ passive: true },
-		)
-
-		//this.listeners.add(window, 'keyup', this.scrollHandler.bind(this), {passive: true})
-		//this.listeners.add(window, 'wheel', this.scrollHandler.bind(this), {passive: true})
-		this.listeners.add(window, 'scroll', this.scrollHandler.bind(this), {
-			passive: true,
-		})
+		this.listeners.add(window, 'scroll', this.scrollHandler.bind(this), { passive: true })
+		this.listeners.add(this.element, 'focusin', this.handleFocusIn.bind(this))
+		this.listeners.add(this.element, 'focusout', this.handleFocusOut.bind(this))
 		this.stim.store.pageHeader = this
 	}
 

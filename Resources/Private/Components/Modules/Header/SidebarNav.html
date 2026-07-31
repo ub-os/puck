@@ -5,13 +5,15 @@
 
 <dialog data-controller="modal"
 		class="{name}__modal"
-		data-modal.duration="300"
+		data-modal.duration="169"
 		data-modal.append-to=""
 		data-modal.click-hide-selector="a"
 		id="sidebar-nav-modal">
 	<div class="{name}__wrap">
 		<div class="{name}__header">
+			<module:header.anchor/>
 			<button class="{name}__close"
+					type="button"
 					data-autofocus
 					data-action="modal.hide"
 					aria-controls="sidebar-nav-modal"

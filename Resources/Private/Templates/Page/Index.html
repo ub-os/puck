@@ -17,14 +17,14 @@
 		<f:render.contentArea contentArea="{content.main}" />
 	</module:main>
 	<div id="modal-container">
-		<f:render.contentArea contentArea="{content.modals}" />
+		<f:if condition="{content.modals}">
+			<f:render.contentArea contentArea="{content.modals}" />
+		</f:if>
 	</div>
     <!--TYPO3SEARCH_end-->
     <f:if condition="{record.backend_layout} !== 'pagets__error'">
-        <module:footer record="{record}">
-
-		</module:footer>
-    </f:if>
+        <module:footer record="{record}"/>
+	</f:if>
     <module:main.toTop/>
 	<div id="root-loading-bar"></div>
 </page-root>

@@ -50,14 +50,15 @@ class ContentRecord extends Record
 
 		if ($this->has('media_layout')) {
 			$prop['_media_layout_direction'] = in_array($prop['media_layout'], ['above', 'below']) ? 'column' : 'row';
-		}
-
-		if ($prop['CType'] === 'puck_cover_media') {
-			if (in_array($prop['media_layout'], ['left', 'right'])) {
-				$prop['container_width'] = 12;
-				$prop['container_offset'] = 0;
+			if ($prop['CType'] === 'puck_cover_media') {
+				if (in_array($prop['media_layout'], ['left', 'right'])) {
+					$prop['container_width'] = 12;
+					$prop['container_offset'] = 0;
+				}
 			}
 		}
+
+
 
 		if ($this->has('menu_item_config')) {
 			$settings = $prop['menu_item_config'];

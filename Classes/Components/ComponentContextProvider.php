@@ -38,14 +38,11 @@ final class ComponentContextProvider
 			return;
 		}
 
-		$settings = $site->getSettings();
-
 		$event->setArguments([
 			...$event->getArguments(),
 			'site' => [
-				'settings' => [
-					'puck' => $settings->get('puck') ?? []
-				]
+				'rootPageId' => $site->getRootPageId(),
+				'settings' => $site->getSettings()
 			],
 		]);
 	}

@@ -10,13 +10,14 @@
 		max-width: var(--width-page)
 		height: var(--height-page-header)
 		margin-bottom: var(--margin-block-page-header)
-		transition: background .5s, box-shadow .2s, border-color .15s, transform .15s
+		background: var(--background)
+		border-bottom: 2px solid transparent
+		transition: background .5s, box-shadow .2s, border-color .2s, transform .5s
 
 	&:where(.--scroll)
-		background: var(--background-frosted)
-		backdrop-filter: blur(5px)
+		border-color: var(--color-button-border)
 		&.--scrollUp, &.--scrollDown
-		transition: background .5s, transform .4s
+		//transition: background .5s, transform .4s
 		&.--scrollDown
 			transform: translateY(-100%)
 

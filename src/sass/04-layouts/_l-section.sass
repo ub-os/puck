@@ -3,13 +3,14 @@
 
 .l-section
 	&
+		--scroll-margin-padding-offset: 0px
 		position: relative
 		//overflow-x: hidden
 		width: 100%
 		margin-block: section-spacing()
 		color: var(--color)
 		background: var(--background)
-		scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ section-spacing() })
+		scroll-margin-top: calc(var(--scroll-margin-top-base) + #{ section-spacing() } - var(--scroll-margin-padding-offset))
 
 	// Auto spacing rules
 	.m-main > &:where(:last-of-type)
@@ -21,6 +22,7 @@
 			margin-top: 0
 
 	&:where([class*="-background-"])
+		--scroll-margin-padding-offset: #{ section-spacing(2) }
 		padding-block: section-spacing(2)
 		:where(&, & + .e-anchor) + :where(&)
 			margin-top: section-spacing(-1)
@@ -28,8 +30,9 @@
 	=background-spacing-rules($bg)
 		&:where(.-background-#{$bg})
 			:where(&, & + .e-anchor) + &
-				margin-top: section-spacing(-1)
+				--scroll-margin-padding-offset: 0px
 				padding-top: 0
+				margin-top: section-spacing(-1)
 				&:where(.-noHeaderSpacing)
 					margin-top: section-spacing(-2)
 

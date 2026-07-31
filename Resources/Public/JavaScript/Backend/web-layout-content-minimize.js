@@ -54,7 +54,7 @@
 	// Add minimize option to View dropdown
 	function addMinimizeOption() {
 		// Find the View dropdown menu
-		const viewMenu = document.getElementById('pageLayoutToggleShowHidden').closest('ul');
+		const viewMenu = document.querySelector('typo3-backend-page-layout-toggle-hidden').closest('ul');
 
 		if (!viewMenu) {
 			return false;

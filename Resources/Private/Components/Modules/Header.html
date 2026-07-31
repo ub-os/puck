@@ -8,13 +8,7 @@
 	<div class="{name}__background"></div>
 	<div class="{name}__container">
 
-		<f:link.typolink
-			class="{name}__anchor"
-			absolute="1"
-			parameter="{context.site.rootPageId}"
-			additionalAttributes="{aria-label:'Home'}">
-			<f:image class="{name}__anchor__logo" src="EXT:puck/Resources/Public/Images/Logos/default.svg"/>
-		</f:link.typolink>
+		<module:header.anchor/>
 
 		<div class="{name}__nav__wrap" id="main-nav">
 
@@ -25,6 +19,7 @@
 					<f:if condition="{record.uid} != {site.settings.puck.searchPageUid}">
 						<li class="{name}__nav__item">
 							<button class="{name}__nav__link"
+									type="button"
 									data-action="modal.toggle#header-search-modal">
 								{f:translate(extensionName:'puck',key:'search')}
 							</button>

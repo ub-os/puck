@@ -16,9 +16,6 @@
 		@media (min-width($bp-mobile-nav))
 			padding-left: 2em
 
-	&.-small
-		+font-size($font-size-extra-small)
-
 	&__meta__wrap
 		@media (min-width($bp-mobile-nav))
 			display: flex
@@ -27,17 +24,18 @@
 		position: relative
 		display: flex
 		justify-content: flex-end
-		gap: 2em
 
 	&__link
 		display: block
-		transition: opacity .15s, color .15s
-		color: var(--color-emphasis)
+		padding: .5em 1em
+		color: var(--color)
+		border-radius: var(--border-radius-s)
+		transition: background .15s
 		&.-rootline
-			color: var(--color-link--hover)
+			text-decoration: underline
 		&:hover,
 		&:focus-visible
-			color: var(--color-link--hover)
+			background: var(--background-card)
 
 	&__close
 		display: none

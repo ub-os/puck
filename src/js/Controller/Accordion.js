@@ -41,8 +41,10 @@ export default class Accordion extends Showable {
 		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] = `${(this.element.scrollHeight).toString()}px`
 	}
 	setHideHeight() {
+		const style = window.getComputedStyle(this.element)
+		const blockPadding = parseInt(style.getPropertyValue('padding-top')) + parseInt(style.getPropertyValue('padding-bottom'))
 		this.element.style[this.useMinHeight ? 'minHeight' : 'height'] =
-			`${this.element.querySelector('summary')?.offsetHeight ?? '0'}px`
+			`${(this.element.querySelector('summary')?.offsetHeight ?? '0') + blockPadding}px`
 	}
 	connected() {
 		super.connected()

@@ -33,9 +33,11 @@ export default class AnchorHandler extends Controller {
 	scrollToTarget(target, { behavior = 'smooth', block = 'start' } = {}) {
 
 		this.stim.store.pageHeader?.setDirectionState('down')
-		this.stim.store.pageHeader?.pause()
+		this.stim.store.pageHeader?.pauseDirectionUpdate()
 		this.listeners.add(window, 'scrollend', () => {
-			this.stim.store.pageHeader?.resume()
+			window.requestAnimationFrame(() => {
+				this.stim.store.pageHeader?.resumeDirectionUpdate()
+			})
 		}, { once: true })
 
 		if (target.classList.contains('e-anchor')) {

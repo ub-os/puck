@@ -10,18 +10,25 @@
 	&__list
 		display: flex
 		justify-content: center
-		gap: 1em
 		@media (max-width(xs))
 			flex-direction: column
 			align-items: center
 
-	&.-icons &__list
-		flex-direction: row
-		font-size: 1.5em
-		gap: .5em
-
 	&__link
+		display: block
+		padding: .5em 1em
 		color: var(--color)
+		border-radius: var(--border-radius-s)
+		transition: background .15s
 		&:hover,
 		&:focus-visible
-			color: var(--color-link--hover)
+			background: var(--background-card)
+
+	&.-icons &__list
+		flex-direction: row
+
+	&.-icons &__link
+		line-height: 1
+		padding: .5em
+		i
+			font-size: 1.5em

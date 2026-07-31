@@ -5,34 +5,30 @@
 	@keyframes sidebar-open
 		0%
 			opacity: 0
-			transform: translate(px-rem(110), 0)
+			//transform: translate(px-rem(110), 0)
 		100%
 			opacity: 1
-			transform: translateX(0)
+			//transform: translateX(0)
 
 	@keyframes sidebar-close
 		0%
 			opacity: 1
-			transform: translateX(0)
+			//transform: translateX(0)
 		100%
 			opacity: 0
-			transform: translate(px-rem(110), 0)
+			//transform: translate(px-rem(110), 0)
 
 	&__modal
-		margin: 0 0 0 auto
+		margin: var(--height-page-header) var(--gutter-outer) 0 var(--gutter-outer)
 		padding: 0
-		overflow: hidden
-		overflow-y: auto
+		overflow: visible
 		background: var(--background-modal)
 		border: none
-		border-bottom-left-radius: var(--border-radius-s)
-		box-shadow: var(--box-shadow-s)
-		transform: translateX(100%)
+		border-radius: var(--border-radius-s)
+		box-shadow: 0 0 8px rgba(0,0,0,0.25)
+		//transform: translateX(100%)
 		transition: height .15s, opacity .2s
-		width: 100vw
-		max-width: width-by-cols(3, true)
-		@media (max-width(s))
-			max-width: 85%
+		width: calc(100% - 2 * var(--gutter-outer))
 		@media (min-width($bp-mobile-nav))
 			display: none
 			visibility: hidden
@@ -41,24 +37,28 @@
 			visibility: hidden
 		&.--active
 			transform: translateX(0)
-			animation: sidebar-open .27s ease-out
+			animation: sidebar-open .17s ease-out
 		&.--deactivating
-			animation: sidebar-close .27s ease-out
+			animation: sidebar-close .17s ease-out
 		&::backdrop
 			background: var(--background-modal-backdrop)
 		&.--active::backdrop
-			animation: modal-open-overlay .27s ease-out
+			animation: modal-open-overlay .17s ease-out
 		&.--deactivating::backdrop
 			opacity: 0
-			animation: modal-close-overlay .27s ease-out
+			animation: modal-close-overlay .17s ease-out
 
 	&__wrap
-		max-height: 100dvh
+		max-height: calc(100dvh - var(--height-page-header) - var(--gutter-outer))
+		overflow-y: auto
 		padding-bottom: spacing(m)
 		padding-inline: var(--gutter-outer)
 
 	&__header
 		+flex(row, flex-start, center, nowrap)
+		position: absolute
+		bottom: 100%
+		left: 0
 		width: 100%
 		height: var(--height-page-header)
 
@@ -86,9 +86,10 @@
 		height: px-rem(30)
 		width: px-rem(30)
 		margin-left: auto
-		font-size: px-rem(30)
-		color: var(--color-link)
+		font-size: px-rem(25)
+		color: var(--color)
+		background: var(--background-modal)
+		border-radius: 5px
 		transition: color .15s
 		&:hover,
 		&:focus-visible
-			color: var(--color-link--hover)

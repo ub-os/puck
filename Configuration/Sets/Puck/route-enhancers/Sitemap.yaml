@@ -1,0 +1,12 @@
+routeEnhancers:
+  Sitemap:
+    type: Simple
+    routePath: 'sitemap-{sitemap}'
+    aspects:
+      sitemap:
+        type: StaticValueMapper
+        map:
+          pages: pages
+          news: news
+    _arguments:
+      sitemap: 'tx_seo/sitemap'

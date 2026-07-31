@@ -14,7 +14,9 @@
 					justify="left">
 			<f:for each="{menu}" as="file" iteration="i">
 				<layout:row.item class="{name}__item">
-					<f:image image="{file}" height="65c" width="54c" class="{name}__thumbnail"/>
+					<f:if condition="{file.extension} != mp4">
+						<f:image image="{file}" height="65c" width="54c" class="{name}__thumbnail"/>
+					</f:if>
 					<f:link.file file="{file}"
 								 target="{record.target}"
 								 class="{name}__link e-button -icon-right"

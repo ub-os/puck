@@ -9,10 +9,10 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 			'--div--;Teaser, --palette--;;teaser',
 			'after:--palette--;;title'
 		],
-		[
-			'link',
-			'after:--palette--;;title'
-		],
+//		[
+//			'link',
+//			'after:--palette--;;title'
+//		],
 		[
 			'--palette--;;routing',
 			'after:--palette--;;module'
@@ -24,10 +24,10 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 				'required' => 1,
 			]
 		],
-		'link' => [
-			'config' => [
-				'required' => 0
-			]
-		],
+//		'link' => [
+//			'config' => [
+//				'required' => 0
+//			]
+//		],
 	]
 );

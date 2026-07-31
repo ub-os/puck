@@ -37,7 +37,7 @@ class SlashForcer implements MiddlewareInterface
 			return $handler->handle($request);
 		}
 
-		return new RedirectResponse($uri->withPath($uri->getPath() . 'SlashForcer.php/'), 301);
+		return new RedirectResponse($uri->withPath($uri->getPath() . '/'), 301);
 	}
 
 	private function siteHasSlashConfiguredForCurrentPageType(Site $site, ServerRequestInterface $request): bool

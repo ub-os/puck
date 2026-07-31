@@ -47,8 +47,7 @@
 	</f:if>
 
 	<nav class="{u:prependClass()}{name}" aria-label="{label}">
-		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes ->
-			u:renderAttributes()}>
+		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
 			<element:navigation.items
 				name="{name}"
 				menu="{menu}"

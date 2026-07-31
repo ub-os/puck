@@ -6,6 +6,9 @@
 	--width-icon: 2.4em
 	--padding-icon-side: calc(var(--width-icon) + var(--padding-inline))
 
+	a:where(:has(&:only-child))
+		display: flex
+
 	:where(a:focus-visible:has(>&))
 		outline: none
 	:where(a:focus-visible)>&

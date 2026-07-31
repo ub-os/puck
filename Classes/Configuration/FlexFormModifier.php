@@ -26,6 +26,10 @@ final readonly class FlexFormModifier
 					'minitems' => 0,
 				]
 			];
+			$structure['sheets']['order']['ROOT']['el']['settings.demand.orderField']['config']['items'][] = [
+				'label' => 'Post date',
+				'value' => 'post_date'
+			];
 			 $event->setDataStructure($structure);
 		}
 	}

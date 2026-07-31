@@ -1,10 +1,6 @@
 @use '01-tools/all' as *
 
 .m-accordion
-	&
-
-	& + &
-		margin-top: 0.5em
 
 	.e-richText + &
 		margin-top: spacing(m)
@@ -33,7 +29,9 @@
 
 	&
 		display: block
-		overflow: hidden
+		overflow-y: clip
+		overflow-x: visible
+		padding-block: .25em
 		transition: height .15s ease-out, min-height .15s ease-out
 	&.--active:not(.--activating)
 		height: auto

@@ -43,7 +43,7 @@
 							  additionalAttributes="{aria-label: item.nav_title}">
 					<f:if condition="{prependIcon} && {item.icon}">
 						<icon:char icon="{item.icon}" class="{name}__icon"/>
-						 
+						<f:if condition="!{hideTitle}"> </f:if>
 					</f:if>
 					<f:if condition="!{hideTitle}">
 						{title -> f:format.raw()}
@@ -63,7 +63,7 @@
 								 additionalAttributes="{aria-label: item.nav_title}">
 					<f:if condition="{prependIcon} && {item.icon}">
 						<icon:char icon="{item.icon}" class="{name}__icon"/>
-						 
+						<f:if condition="!{hideTitle}"> </f:if>
 					</f:if>
 					<f:if condition="!{hideTitle}">
 						{title -> f:format.raw()}

@@ -23,21 +23,17 @@
 
 	&.-gutter-0
 		&
-			gap: 4px
+			width: fit-content
+			gap: 2px
+			overflow: clip
+			background: var(--color-button-border)
+			border: 2px solid transparent
+			border-radius: var(--border-radius-s)
 
-		:where(&) .e-button
+		:where(&) .e-button,
+		:where(&) a:where(:has(.e-button:only-child))
 			margin-inline: 0
-
-		:where(&) > .e-button:last-child,
-		:where(&) > :last-child > .e-button
-			border-top-left-radius: 0
-			border-bottom-left-radius: 0
-
-		:where(&) > .e-button:first-child,
-		:where(&) > :first-child > .e-button
-			border-top-right-radius: 0
-			border-bottom-right-radius: 0
-
-		:where(&) > .e-button:not(:first-child):not(:last-child),
-		:where(&) > :not(:first-child):not(:last-child) > .e-button
+			flex-grow: 1
+			border: none
 			border-radius: 0
+			outline-offset: -4px

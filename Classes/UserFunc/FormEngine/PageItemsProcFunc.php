@@ -23,7 +23,10 @@ class PageItemsProcFunc
 			return;
 		}
 		if ($pidRow['module'] == 'news') {
-			$params['items'] = $this->filterItemsByValues($params['items'], (string)Constants::DOKTYPES['news']);
+			$params['items'] = $this->filterItemsByValues(
+				$params['items'],
+				Constants::DOKTYPES['news'].','.Constants::DOKTYPES['link']
+			);
 		}
 	}
 
