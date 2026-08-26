@@ -3,6 +3,7 @@
 namespace UBOS\Puck\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Cache\CacheTag;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use UBOS\Puck\Attribute\AsAction;
@@ -27,16 +28,23 @@ class FileMenuController extends ActionController
 		$variables = $this->getProcessedData();
 		$record = $variables['record'];
 		$menu = [];
+		$cacheTags = [];
 		foreach ($record->get('media') as $file) {
 			$menu[$file->getIdentifier()] = $file;
+			$cacheTags['sys_file_' . $file->getUid()] = true;
 		}
 		foreach ($record->get('file_collections') as $collectionRecord) {
+			$cacheTags['sys_file_collection_' . $collectionRecord->getUid()] = true;
 			$collectionDomainObject = $this->resourceFactory->createCollectionObject($collectionRecord->getRawRecord()->toArray());
 			$collectionDomainObject->loadContents();
 			foreach ($collectionDomainObject->getItems() as $file) {
 				$menu[$file->getIdentifier()] = $file;
+				$cacheTags['sys_file_' . $file->getUid()] = true;
 			}
 		}
+		$this->request->getAttribute('frontend.cache.collector')?->addCacheTags(
+			...array_map(static fn(string $tag) => new CacheTag($tag), array_keys($cacheTags))
+		);
 		$variables['menu'] = $this->sortMenu(
 			$menu,
 			$record->get('filelink_sorting'),
