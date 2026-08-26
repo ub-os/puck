@@ -20,6 +20,11 @@ array_push(
 		'value' => 'categories',
 		'icon' => 'mimetypes-x-sys_category',
 	],
+	[
+		'label' => 'Content folder',
+		'value' => 'content',
+		'icon' => 'content-textpic',
+	],
 );
 
 $GLOBALS['TCA']['pages']['columns']['url'] = [

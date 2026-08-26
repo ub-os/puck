@@ -18,6 +18,8 @@ npm run build
 ### 2.2 Add to composer.json in TYPO3 project root
 
 ```json
+"prefer-stable": true,
+"minimum-stability": "dev",
 "repositories": [
     {
         "type": "path",
@@ -25,23 +27,29 @@ npm run build
         "options": {
             "symlink": true
         }
-    },
-    {
-        "url": "https://github.com/oliveoilexpert/t3-avif.git",
-        "type": "git"
-    },
-    {
-        "url": "https://github.com/oliveoilexpert/typo3-menu-controls.git",
-        "type": "git"
-    },   
-],
-"prefer-stable": true,
-"minimum-stability": "dev",
+    }
+]
 ```
 
 ### 2.3 Install puck extension
 
 Create folder "packages" in TYPO3 project root.
+Exclude the following paths from your upload (For PhpStorm in /.idea/deployment.xml)
+```xml
+<excludedPaths>
+    <excludedPath local="true" path="$PROJECT_DIR$/.claude" />
+    <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+    <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+    <excludedPath local="true" path="$PROJECT_DIR$/scripts" />
+    <excludedPath local="true" path="$PROJECT_DIR$/src" />
+    <excludedPath local="true" path="$PROJECT_DIR$/.editorconfig" />
+    <excludedPath local="true" path="$PROJECT_DIR$/.gitignore" />
+    <excludedPath local="true" path="$PROJECT_DIR$/biome.json" />
+    <excludedPath local="true" path="$PROJECT_DIR$/package.json" />
+    <excludedPath local="true" path="$PROJECT_DIR$/package-lock.json" />
+    <excludedPath local="true" path="$PROJECT_DIR$/README.md" />
+</excludedPaths>
+```
 Upload the extension directory "puck" to the "packages" folder.<br>
 In TYPO3 project root run:
 <pre>composer req ubos/puck:@dev</pre>

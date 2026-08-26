@@ -1,27 +1,42 @@
 {
-	"name": "ubos/puck",
-	"type": "typo3-cms-extension",
-	"description": "Puck - Site package starter for TYPO3 websites",
-	"license": "GPL-2.0-or-later",
-	"version": "14",
-	"require": {
-		"php": "^8.3",
-		"typo3/cms-core": "^14",
-		"typo3/cms-lowlevel": "^14",
-		"typo3/cms-redirects": "^14",
-		"typo3/cms-recycler": "^14"
-	},
-	"replace": {
-		"typo3-ter/puck": "self.version"
-	},
-	"autoload": {
-		"psr-4": {
-			"UBOS\\Puck\\": "./Classes/"
-		}
-	},
-	"extra": {
-		"typo3/cms": {
-			"extension-key": "puck"
-		}
-	}
+  "name": "ubos/puck",
+  "type": "typo3-cms-extension",
+  "description": "Puck - Site package starter for TYPO3 websites",
+  "license": "GPL-2.0-or-later",
+  "version": "14",
+  "require": {
+    "php": "^8.3",
+    "typo3/cms-core": "^14",
+    "typo3/cms-lowlevel": "^14",
+    "typo3/cms-redirects": "^14",
+    "typo3/cms-recycler": "^14",
+    "typo3/cms-backend": "^14.3",
+    "oliveoilexpert/ckeditor-icons": "^0.2.6",
+    "amdeu/typo3-copy-presets": "^1.1",
+    "amdeu/typo3-label-editor": "^2",
+    "amdeu/typo3-locallang-formats": "^2",
+    "amdeu/typo3-menu-controls": "^1",
+    "amdeu/typo3-shape": "^0.5",
+    "b13/container": "^3.2",
+    "b13/menus": "^2.0",
+    "brotkrueml/schema": "^4.2",
+    "eliashaeussler/typo3-warming": "^5.3",
+    "friendsoftypo3/visual-editor": "^1.6",
+    "helhum/typo3-console": "^8.3",
+    "plan2net/webp": "^14.5",
+    "wapplersystems/save_and_close": "^14.0"
+  },
+  "replace": {
+    "typo3-ter/puck": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "UBOS\\Puck\\": "./Classes/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "puck"
+    }
+  }
 }

@@ -5,6 +5,7 @@ dependencies:
   - typo3/redirects
   - typo3/seo-sitemap
   - amdeu/menu-controls
+  - amdeu/shape
 settings:
   puck:
     gridWidth: 1280

@@ -14,5 +14,6 @@ foreach (glob(ExtUtil::extPath('puck', 'Configuration/PageTypes/*.php')) as $fil
 }
 
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news'] = 'news_folder';
-$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-categories'] = 'category_folder';
-$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-persons'] = 'person_folder';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-content'] = 'apps-pagetree-folder-contains-news';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-categories'] = 'mimetypes-x-sys_category';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-shape'] = 'mimetypes-x-content-form';
