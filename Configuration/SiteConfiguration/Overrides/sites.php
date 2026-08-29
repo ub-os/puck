@@ -14,7 +14,7 @@ defined('TYPO3') or die();
  *  - author additional Content-Security-Policy rules (add / override / remove directives)
  *
  * The values are stored in the site's config.yaml and consumed by:
- *  - \UBOS\Puck\Controller\PageController (markup injection)
+ *  - \UBOS\Puck\Frontend\PageAssetDecorator (asset + markup injection)
  *  - \UBOS\Puck\Security\Csp\SiteConfigContentSecurityPolicy (mode, inline scripts,
  *    rules, and rule validation on save)
  *
@@ -24,7 +24,8 @@ defined('TYPO3') or die();
 
 $GLOBALS['SiteConfiguration']['site']['columns']['puck_tracking_head_html'] = [
 	'label' => 'Head markup',
-	'description' => 'Raw HTML injected into <head> on every page (e.g. consent manager / GTM loader). ',
+	'description' => 'HTML injected into <head> on every page (e.g. consent manager / GTM loader). '
+		. 'Inline <script>/<style> are CSP-hashed automatically.',
 	'config' => [
 		'type' => 'text',
 		'rows' => 8,
@@ -36,7 +37,8 @@ $GLOBALS['SiteConfiguration']['site']['columns']['puck_tracking_head_html'] = [
 
 $GLOBALS['SiteConfiguration']['site']['columns']['puck_tracking_body_html'] = [
 	'label' => 'Body end markup',
-	'description' => 'Raw HTML injected immediately before </body> on every page (e.g. <noscript> pixels).',
+	'description' => 'Non-script HTML injected before </body> on every page (<noscript>, tracking pixels). '
+		. 'An inline <script> pasted here is CSP-hashed and moved to the head.',
 	'config' => [
 		'type' => 'text',
 		'rows' => 8,

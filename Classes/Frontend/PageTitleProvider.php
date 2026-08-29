@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UBOS\Puck\PageTitle;
+namespace UBOS\Puck\Frontend;
 
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
 
