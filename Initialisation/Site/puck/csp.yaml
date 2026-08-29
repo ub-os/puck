@@ -1,0 +1,27 @@
+# Content-Security-Policy for this site.
+#
+# Do not edit by hand - this file is driven by the site configuration
+# "Tracking & Security" tab:
+#   - puck_csp_mode (off / report / enforce) selects which of the headers below
+#     is actually sent (\UBOS\Puck\Security\Csp\ApplySiteConfigCspBehavior).
+#   - puck_csp_allow_inline_scripts flips useHash and adds 'unsafe-inline'.
+#   - puck_csp_rules adds directive mutations at runtime.
+#
+# Both "enforce:" and "report:" are declared so the mode toggle can switch
+# between them without regenerating this file.
+#
+# behavior.useNonce: false + useHash: true -> hash based CSP: responses are
+# deterministic and stay fully cacheable by TYPO3, reverse proxies and CDNs
+# (a per-request nonce would force "Cache-Control: private, no-store").
+#
+# The policy inherits the TYPO3 core frontend baseline ('self', data: images,
+# YouTube/Vimeo embeds, ...).
+behavior:
+  useNonce: false
+  useHash: true
+enforce:
+  inheritDefault: true
+  includeResolutions: true
+report:
+  inheritDefault: true
+  includeResolutions: false
