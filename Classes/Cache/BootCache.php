@@ -13,9 +13,6 @@ use TYPO3\CMS\Core\Core\Bootstrap;
  * Isolates the single @internal core call (Bootstrap::createCache) so puck's
  * declarative configuration classes can cache their reflection / file-scan
  * results without spreading bootstrap plumbing across ext_localconf.php.
- *
- * The 'puck' cache is a PhpFrontend (opcache-backed) and is registered in
- * $GLOBALS so `cache:flush` clears it like any other system cache.
  */
 final class BootCache
 {
