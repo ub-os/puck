@@ -31,6 +31,11 @@ use UBOS\Puck\Controller;
 class ContentElementConfiguration
 {
 	protected array $valueOverrides = [];
+
+	/**
+	 * @var array<string, ContentElementConfiguration[]>
+	 */
+	private static array $folderConfigurationCache = [];
 	/**
 	 * @param string $type Content element CType (will be converted to lower_case_underscore and prefixed with the extension name)
 	 * @param string $label Human-readable name of the content element
@@ -81,14 +86,22 @@ class ContentElementConfiguration
 	}
 
 	/**
-	 * Loads and sorts content element configurations from a specified folder
+	 * Loads and sorts content element configurations from a specified folder.
+	 *
+	 * Memoized per (extension, folder) for the duration of the request: the same
+	 * config objects are reused by the ext_localconf (addTypoScript) and TCA
+	 * override (addTCA) passes instead of being globbed and re-included twice.
 	 *
 	 * @param string $folder Path to folder containing content element configurations
 	 * @param string $extensionName Extension name (default: 'puck')
-	 * @return array Sorted array of ContentElementConfiguration objects
+	 * @return ContentElementConfiguration[] Sorted array of ContentElementConfiguration objects
 	 */
 	public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
 	{
+		$cacheKey = $extensionName . ':' . $folder;
+		if (isset(self::$folderConfigurationCache[$cacheKey])) {
+			return self::$folderConfigurationCache[$cacheKey];
+		}
 		$configurations = [];
 		$files = glob(ExtensionManagementUtility::extPath($extensionName, $folder)) ?: [];
 		foreach ($files as $file) {
@@ -98,7 +111,7 @@ class ContentElementConfiguration
 			}
 		}
 		usort($configurations, static fn($a, $b): int => $a->sorting <=> $b->sorting);
-		return $configurations;
+		return self::$folderConfigurationCache[$cacheKey] = $configurations;
 	}
 
 	protected function getCType(): string
