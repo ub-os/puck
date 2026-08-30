@@ -2,14 +2,16 @@
 
 namespace UBOS\Puck\ViewHelpers;
 
-use B13\Menus\DataProcessing\ListMenu;
-use B13\Menus\DataProcessing\TreeMenu;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use UBOS\Puck\Menu\MenuProcessor;
 
+/**
+ * Resolves a "puck_sys_navigation" content element by its identifier and returns
+ * its configured menu (tree or list) plus the element's label and mode.
+ */
 class SysNavigationDataViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void
@@ -23,60 +25,34 @@ class SysNavigationDataViewHelper extends AbstractViewHelper
 		$this->registerArgument('set', 'string', '', false, '');
 	}
 
+	/**
+	 * @return array<string, mixed>|null Navigation data, or null when stored via "set" or when the element is missing
+	 */
 	public function render(): ?array
 	{
-		$identifier = $this->arguments['identifier'];
-
-		$navElement = $this->getNavigationElementByIdentifier($identifier);
+		$navElement = $this->getNavigationElementByIdentifier($this->arguments['identifier']);
 		if (!$navElement) {
 			return null;
 		}
 
 		$data = [
-			'identifier' => $identifier,
+			'identifier' => $this->arguments['identifier'],
 			'label' => $navElement['header'],
 			'mode' => $navElement['layout'],
 			'pages' => $navElement['pages'],
 		];
+		$data['menu'] = GeneralUtility::makeInstance(MenuProcessor::class)->process(
+			$data['mode'],
+			[
+				'pages' => $data['pages'],
+				'depth' => $this->arguments['depth'],
+				'excludePages' => $this->arguments['excludePages'],
+				'includeNotInMenu' => $this->arguments['includeNotInMenu'],
+				'excludeDoktypes' => $this->arguments['excludeDoktypes'],
+				'processMedia' => $this->arguments['processMedia'],
+			]
+		);
 
-		$contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-		$as = 'menu';
-		switch ($data['mode']) {
-			case 'tree':
-				$dataProcessor = GeneralUtility::makeInstance(TreeMenu::class);
-				$processorConfiguration = [
-					'as' => $as,
-					'entryPoints' => $data['pages'],
-					'depth' => $this->arguments['depth'],
-					'excludePages' => $this->arguments['excludePages'],
-					'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? false,
-					'excludeDoktypes' => $this->arguments['excludeDoktypes'],
-				];
-				break;
-			default:
-				$dataProcessor = GeneralUtility::makeInstance(ListMenu::class);
-				$processorConfiguration = [
-					'as' => $as,
-					'pages' => $data['pages'],
-					'includeNotInMenu' => $this->arguments['includeNotInMenu'] ?? false,
-					'excludeDoktypes' => $this->arguments['excludeDoktypes'],
-				];
-		}
-		$processorConfiguration = GeneralUtility::makeInstance(TypoScriptService::class)->convertPlainArrayToTypoScriptArray($processorConfiguration);
-		if ($this->arguments['processMedia']) {
-			$processorConfiguration['dataProcessing.'] = [
-				'10' => 'TYPO3\CMS\Frontend\DataProcessing\FilesProcessor',
-				'10.' => [
-					'references.' => [
-						'table' => 'pages',
-						'fieldName' => 'media',
-					],
-					'as' => 'processedMedia',
-				],
-			];
-		}
-		$menu = $dataProcessor->process($contentObjectRenderer, [], $processorConfiguration, [])[$as];
-		$data['menu'] = $menu;
 		if ($this->arguments['set']) {
 			$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $data);
 			return null;
@@ -88,6 +64,7 @@ class SysNavigationDataViewHelper extends AbstractViewHelper
 	{
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
 			->getQueryBuilderForTable('tt_content');
+		$queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 		$result = $queryBuilder
 			->select('*')
 			->from('tt_content')
