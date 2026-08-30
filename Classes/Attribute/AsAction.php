@@ -15,7 +15,7 @@ class AsAction
 {
 	/**
 	 * @param string $pluginName Name of the plugin to configure / add this action to
-	 * @param bool $cacheable If false, this action will be added to nonCacheableActions (default: false)
+	 * @param bool $cacheable If false, this action will be added to nonCacheableActions (default: true)
 	 * @param bool $defaultAction If true, this action will be the default action (default: false)
 	 */
 	public function __construct(

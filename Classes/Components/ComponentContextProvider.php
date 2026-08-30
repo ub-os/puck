@@ -9,6 +9,9 @@ use UBOS\Puck\Constants;
 
 final class ComponentContextProvider
 {
+	/** @var array<string, mixed>|null Built once per request; identical for every component render. */
+	private ?array $constants = null;
+
 	private function isOwnCollection(string $namespace): bool
 	{
 		return str_starts_with($namespace, 'UBOS\\Puck\\Components');
@@ -22,7 +25,7 @@ final class ComponentContextProvider
 		}
 		$event->setStaticVariables([
 			...$event->getStaticVariables(),
-			'constants' => Constants::toArray(),
+			'constants' => $this->constants ??= Constants::toArray(),
 		]);
 	}
 

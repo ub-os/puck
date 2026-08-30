@@ -22,6 +22,17 @@ class PictureViewHelper extends AbstractViewHelper
 {
 	protected $escapeOutput = false;
 
+	/**
+	 * Default argument values per delegated ViewHelper class, keyed by class name.
+	 * A <picture> with breakpoint sources + retina calls the Uri\ImageViewHelper
+	 * many times; without this every call would rebuild the same defaults map.
+	 *
+	 * @var array<class-string, array<string, mixed>>
+	 */
+	private static array $defaultArgumentsCache = [];
+
+	private ?UriImageViewHelper $uriImageViewHelper = null;
+
 	public function initializeArguments(): void
 	{
 		// name, type, description, required, default, escape
@@ -46,6 +57,17 @@ class PictureViewHelper extends AbstractViewHelper
 	}
 
 	/**
+	 * @return array<string, mixed>
+	 */
+	protected function defaultArgumentsFor(string $className): array
+	{
+		return self::$defaultArgumentsCache[$className] ??= array_map(
+			static fn($definition) => $definition->getDefaultValue(),
+			GeneralUtility::makeInstance($className)->prepareArguments()
+		);
+	}
+
+	/**
 	 * Creates a ViewHelper instance with default and custom arguments
 	 *
 	 * @param string $className Name of the ViewHelper class to instantiate
@@ -55,16 +77,22 @@ class PictureViewHelper extends AbstractViewHelper
 	protected function createViewHelper(string $className, array $arguments = []): mixed
 	{
 		$helper = GeneralUtility::makeInstance($className);
-		$argumentDefinition = $helper->prepareArguments();
-		$defaultArguments = array_map(
-			function ($definition) {
-				return $definition->getDefaultValue();
-			},
-			$argumentDefinition
-		);
-		$helper->setArguments(array_merge($defaultArguments, $arguments));
+		$helper->setArguments(array_merge($this->defaultArgumentsFor($className), $arguments));
 		$helper->initialize();
 		return $helper;
+	}
+
+	/**
+	 * Resolves the URL of a processed image variant via the core Uri\ImageViewHelper,
+	 * reusing a single helper instance across all <source> variants of this <picture>.
+	 * The helper's render() happy path is stateless between calls (it only reads
+	 * $this->arguments), so pooling it just avoids repeated instantiation.
+	 */
+	protected function imageUri(array $arguments): string
+	{
+		$helper = $this->uriImageViewHelper ??= GeneralUtility::makeInstance(UriImageViewHelper::class);
+		$helper->setArguments(array_merge($this->defaultArgumentsFor(UriImageViewHelper::class), $arguments));
+		return (string)$helper->render();
 	}
 
 	/**
@@ -85,14 +113,14 @@ class PictureViewHelper extends AbstractViewHelper
 			return '';
 		}
 		if ($this->arguments['backgroundImage']) {
-			$src = $this->createViewHelper(UriImageViewHelper::class, [
+			$src = $this->imageUri([
 				'src' => $this->arguments['src'],
 				'treatIdAsReference' => false,
 				'image' => $this->arguments['image'],
 				'cropVariant' => $this->arguments['cropVariant'],
 				'width' => $this->arguments['width'],
 				'absolute' => true,
-			])->render();
+			]);
 			if ($this->arguments['webp']) {
 				$src = $src . '.webp';
 			}
@@ -188,13 +216,13 @@ class PictureViewHelper extends AbstractViewHelper
 			if ($this->arguments['retinaOnly'] && $this->arguments['retina']) {
 				$srcset = '';
 			} else {
-				$srcset = $this->createViewHelper(UriImageViewHelper::class, [
+				$srcset = $this->imageUri([
 					'image' => $this->arguments['image'],
 					'cropVariant' => $source['cropVariant'] ?? '',
 					'width' => $width,
 					'absolute' => true,
 					'treatIdAsReference' => false,
-				])->render();
+				]);
 			}
 
 			$srcsetx2 = '';
@@ -203,13 +231,13 @@ class PictureViewHelper extends AbstractViewHelper
 				if ($srcset) {
 					$srcsetx2 .= ', ';
 				}
-				$srcsetx2 .= $this->createViewHelper(UriImageViewHelper::class, [
+				$srcsetx2 .= $this->imageUri([
 					'image' => $this->arguments['image'],
 					'cropVariant' => $source['cropVariant'] ?? '',
 					'width' => $width * 2,
 					'absolute' => true,
 					'treatIdAsReference' => false,
-				])->render();
+				]);
 				if (!$this->arguments['retinaOnly']) {
 					$x2 = ' 2x';
 				}

@@ -39,7 +39,7 @@ class AnchorMenuController extends ActionController
 			GeneralUtility::makeInstance(FrontendRestrictionContainer::class)
 		);
 		return $queryBuilder
-			->select('*')->from('tt_content')
+			->select('uid', 'header', 'subheader')->from('tt_content')
 			->where(
 				$queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pageId, Connection::PARAM_INT)),
 				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_anchor')),

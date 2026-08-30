@@ -21,6 +21,9 @@ use TYPO3\CMS\Core\View\ViewInterface;
  */
 class BasicPreviewRenderer implements PreviewRendererInterface
 {
+	private ?ViewInterface $view = null;
+	private ?ServerRequestInterface $viewRequest = null;
+
 	public function __construct(
 		protected readonly ViewFactoryInterface $viewFactory,
 		protected readonly RecordFactory $recordFactory,
@@ -29,17 +32,21 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 	) {}
 
 	/**
-	 * Creates a fresh, request-aware view for a single preview render.
+	 * Returns a request-aware view for a preview render.
 	 */
 	protected function createView(?ServerRequestInterface $request): ViewInterface
 	{
-		return $this->viewFactory->create(
-			new ViewFactoryData(
-				templateRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/ContentPreview/'],
-				partialRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/Partials/ContentPreview/'],
-				request: $request,
-			)
-		);
+		if ($this->view === null || $this->viewRequest !== $request) {
+			$this->view = $this->viewFactory->create(
+				new ViewFactoryData(
+					templateRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/ContentPreview/'],
+					partialRootPaths: ['EXT:puck/Resources/Private/Templates/Backend/Partials/ContentPreview/'],
+					request: $request,
+				)
+			);
+			$this->viewRequest = $request;
+		}
+		return $this->view;
 	}
 
 	public function renderPageModulePreviewHeader(GridColumnItem $item): string

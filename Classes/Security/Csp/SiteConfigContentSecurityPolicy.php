@@ -41,6 +41,15 @@ use TYPO3\CMS\Core\Site\Entity\Site;
  */
 final class SiteConfigContentSecurityPolicy
 {
+	/**
+	 * Parsed puck_csp_rules per site identifier, for the lifetime of the request.
+	 * PolicyMutatedEvent fires once per disposition (enforce + report), so without
+	 * this the rule DSL would be re-parsed on every frontend response, twice.
+	 *
+	 * @var array<string, list<Mutation>>
+	 */
+	private array $parsedRules = [];
+
 	public function __construct(
 		private readonly CspRuleParser $parser,
 		private readonly LoggerInterface $logger,
@@ -58,25 +67,37 @@ final class SiteConfigContentSecurityPolicy
 			return;
 		}
 
+		$mutations = $this->parsedRulesFor($site);
+		if ($mutations !== []) {
+			$event->setCurrentPolicy($event->getCurrentPolicy()->mutate(...$mutations));
+		}
+	}
+
+	/**
+	 * @return list<Mutation>
+	 */
+	private function parsedRulesFor(Site $site): array
+	{
+		$identifier = $site->getIdentifier();
+		if (isset($this->parsedRules[$identifier])) {
+			return $this->parsedRules[$identifier];
+		}
+
 		$rules = trim((string)($site->getConfiguration()['puck_csp_rules'] ?? ''));
 		if ($rules === '') {
-			return;
+			return $this->parsedRules[$identifier] = [];
 		}
 
 		try {
-			$mutations = $this->parser->parse($rules);
+			return $this->parsedRules[$identifier] = $this->parser->parse($rules);
 		} catch (CspRuleException $exception) {
 			// Invalid rules are rejected on save; if one slips through (e.g. an
 			// imported config.yaml) we must not break the frontend response.
 			$this->logger->warning('Ignoring invalid puck_csp_rules for site "{site}": {message}', [
-				'site' => $site->getIdentifier(),
+				'site' => $identifier,
 				'message' => $exception->getMessage(),
 			]);
-			return;
-		}
-
-		if ($mutations !== []) {
-			$event->setCurrentPolicy($event->getCurrentPolicy()->mutate(...$mutations));
+			return $this->parsedRules[$identifier] = [];
 		}
 	}
 

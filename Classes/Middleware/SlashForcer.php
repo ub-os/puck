@@ -66,6 +66,8 @@ class SlashForcer implements MiddlewareInterface
 			return false;
 		}
 
-		return (array_flip($map)[(int)$pageType] ?? null) === '/' || (array_flip($map)[$pageType] ?? null) === '/';
+		$suffixByPageType = array_flip($map);
+		return ($suffixByPageType[(int)$pageType] ?? null) === '/'
+			|| ($suffixByPageType[$pageType] ?? null) === '/';
 	}
 }

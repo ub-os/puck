@@ -66,7 +66,7 @@ class SysNavigationDataViewHelper extends AbstractViewHelper
 			->getQueryBuilderForTable('tt_content');
 		$queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
 		$result = $queryBuilder
-			->select('*')
+			->select('uid', 'header', 'layout', 'pages')
 			->from('tt_content')
 			->where(
 				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('puck_sys_navigation')),
