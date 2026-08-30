@@ -7,6 +7,7 @@ use B13\Container\Tca\Registry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use UBOS\Puck\Backend\BasicPreviewRenderer;
+use UBOS\Puck\Cache\BootCache;
 use UBOS\Puck\Controller;
 
 /**
@@ -86,11 +87,33 @@ class ContentElementConfiguration
 	}
 
 	/**
+	 * Registers the rendering TypoScript for every content element in $folder.
+	 *
+	 * The combined setup is built once (globbing + including all element config
+	 * files) and cached via BootCache; a warm cache skips straight to a single
+	 * ExtensionManagementUtility::addTypoScript() call. Call from ext_localconf.php.
+	 */
+	public static function registerAll(string $folder, string $extensionName = 'puck'): void
+	{
+		$setup = BootCache::get(
+			'content_element_setup_' . $extensionName . '_' . md5($folder),
+			static function () use ($folder, $extensionName): string {
+				$setup = '';
+				foreach (self::getOrderedConfigurationsFromFolder($folder, $extensionName) as $conf) {
+					$setup .= $conf->buildTypoScript() . "\n";
+				}
+				return $setup;
+			}
+		);
+		ExtensionManagementUtility::addTypoScript($extensionName, 'setup', $setup, 'defaultContentRendering');
+	}
+
+	/**
 	 * Loads and sorts content element configurations from a specified folder.
 	 *
 	 * Memoized per (extension, folder) for the duration of the request: the same
-	 * config objects are reused by the ext_localconf (addTypoScript) and TCA
-	 * override (addTCA) passes instead of being globbed and re-included twice.
+	 * config objects are reused by the registerAll (TypoScript) and TCA override
+	 * (addTCA) passes instead of being globbed and re-included twice.
 	 *
 	 * @param string $folder Path to folder containing content element configurations
 	 * @param string $extensionName Extension name (default: 'puck')
@@ -174,15 +197,26 @@ class ContentElementConfiguration
 	 */
 	public function addTypoScript(): void
 	{
-		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
-			$this->dataProcessing['container'] = ['processor' => 'B13\Container\DataProcessing\ContainerProcessor', 'auto' => true];
-		}
+		ExtensionManagementUtility::addTypoScript(
+			$this->extensionName,
+			'setup',
+			$this->buildTypoScript(),
+			'defaultContentRendering'
+		);
+	}
 
+	/**
+	 * Builds the rendering TypoScript for this content element as a string, without
+	 * registering it. Used by ext_localconf.php to assemble and cache the combined
+	 * setup for all content elements once per cache lifetime instead of per request.
+	 */
+	public function buildTypoScript(): string
+	{
 		$component = $this->component ?: GeneralUtility::underscoredToLowerCamelCase($this->type);
 
 		if (!empty($this->pluginName)) {
 			// Use EXTBASEPLUGIN for elements that need controller logic
-			$content = '
+			return '
             tt_content.' . $this->getCType() . ' = EXTBASEPLUGIN
             tt_content.' . $this->getCType() . '  {
                 extensionName = ' . $this->extensionName . '
@@ -196,9 +230,9 @@ class ContentElementConfiguration
 				}
 			}
             ';
-		} else {
-			// Use FLUIDCOMPONENT for simple content elements (default)
-			$content = '
+		}
+		// Use FLUIDCOMPONENT for simple content elements (default)
+		return '
             tt_content.' . $this->getCType() . ' = FLUIDCOMPONENT
             tt_content.' . $this->getCType() . ' {
                 componentCollection = ' . $this->componentCollection . '
@@ -207,13 +241,6 @@ class ContentElementConfiguration
                     ' . $this->getDataProcessingTypoScript($this->dataProcessing) . '
                 }
             }';
-		}
-		ExtensionManagementUtility::addTypoScript(
-			$this->extensionName,
-			'setup',
-			$content,
-			'defaultContentRendering'
-		);
 	}
 
 	/**

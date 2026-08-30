@@ -6,15 +6,12 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 use UBOS\Puck\Attribute\AttributeReflection;
 use UBOS\Puck\Configuration\ContentElementConfiguration;
 
-AttributeReflection::configurePlugins(
-	'puck',
-	'Classes/Controller',
-	'UBOS\Puck\Controller'
-);
-
-foreach (ContentElementConfiguration::getOrderedConfigurationsFromFolder('Configuration/ContentElements/*.php') as $conf) {
-	$conf->addTypoScript();
-}
+// Extbase plugins (from #[AsAction] attributes) and content element rendering
+// TypoScript (one config file per element). Both resolve declarative definitions
+// via reflection / file scans and cache the result themselves (see BootCache),
+// so this stays cheap even though ext_localconf.php runs on every request.
+AttributeReflection::configurePlugins('puck', 'Classes/Controller', 'UBOS\Puck\Controller');
+ContentElementConfiguration::registerAll('Configuration/ContentElements/*.php');
 
 ExtUtil::addTypoScript(
 	'puck',

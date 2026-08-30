@@ -5,6 +5,7 @@ namespace UBOS\Puck\Attribute;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use UBOS\Puck\Cache\BootCache;
 
 /**
  * Utility class that scans directories for PHP classes with specific attributes
@@ -27,6 +28,36 @@ class AttributeReflection
 		string $controllerDirectory,
 		string $controllerNamespace
 	): void {
+		$pluginConfigs = BootCache::get(
+			'plugin_configs_' . $extensionKey,
+			static fn(): array => self::buildPluginConfigs($extensionKey, $controllerDirectory, $controllerNamespace)
+		);
+		foreach ($pluginConfigs as $name => $plugin) {
+			ExtensionUtility::configurePlugin(
+				$extensionKey,
+				$name,
+				$plugin['actions'],
+				$plugin['nonCacheableActions'],
+				ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+			);
+		}
+	}
+
+	/**
+	 * Scans controller classes for the AsAction attribute and returns the plugin
+	 * configuration as a plain, serialisable array (pluginName => ['actions' => ...,
+	 * 'nonCacheableActions' => ...]).
+	 *
+	 * Split from configurePlugins() so the reflection-heavy result can be cached
+	 * (see BootCache) and only the cheap configurePlugin() replay runs per request.
+	 *
+	 * @return array<string, array{actions: array<string, string>, nonCacheableActions: array<string, string>}>
+	 */
+	public static function buildPluginConfigs(
+		string $extensionKey,
+		string $controllerDirectory,
+		string $controllerNamespace
+	): array {
 		$plugins = [];
 		self::reflectDirectory(
 			$extensionKey,
@@ -72,15 +103,7 @@ class AttributeReflection
 				}
 			}
 		);
-		foreach ($plugins as $name => $plugin) {
-			ExtensionUtility::configurePlugin(
-				$extensionKey,
-				$name,
-				$plugin['actions'],
-				$plugin['nonCacheableActions'],
-				ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
-			);
-		}
+		return $plugins;
 	}
 
 	/**
@@ -151,6 +174,9 @@ class AttributeReflection
 			$path = str_replace('.php', '', $file);
 			$className = $namespace . str_replace('/', '\\', explode($directory, $path)[1]);
 			$reflection = new \ReflectionClass($className);
+			if ($reflection->isTrait() || $reflection->isInterface() || $reflection->isAbstract()) {
+				continue;
+			}
 			$callback($reflection, $className);
 		}
 	}
