@@ -10,7 +10,6 @@ use UBOS\Puck\Domain\Model\PageTeaser;
  */
 class PageRecord extends CorePageRecord
 {
-
 	/**
 	 * initialize computed properties based on the current properties
 	 */

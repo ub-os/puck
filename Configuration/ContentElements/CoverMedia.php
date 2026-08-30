@@ -22,7 +22,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		'container_width' => [
 			'displayCond' => 'FIELD:media_layout:IN:above,below',
@@ -33,6 +33,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'container_position' => [
 			'displayCond' => 'FIELD:media_layout:IN:above,below',
 		],
-		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
+		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants(),
 	]
 );

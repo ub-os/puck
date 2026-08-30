@@ -2,11 +2,11 @@
 
 namespace UBOS\Puck\ViewHelpers;
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 class TranslationUidViewHelper extends AbstractViewHelper
 {
-
 	public function initializeArguments(): void
 	{
 		// name, type, description, required, default, escape
@@ -28,7 +28,7 @@ class TranslationUidViewHelper extends AbstractViewHelper
 					tableName: $this->arguments['table'],
 					identifiers: [
 						$this->arguments['languageParentField'] => $this->arguments['uid'],
-						'sys_language_uid' => $lang
+						'sys_language_uid' => $lang,
 					]
 				)
 				->fetchAssociative();

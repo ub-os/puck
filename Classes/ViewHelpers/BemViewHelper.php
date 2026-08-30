@@ -42,10 +42,10 @@ class BemViewHelper extends AbstractViewHelper
 	 */
 	public function render(): string
 	{
-		$block = $this->arguments['block'] ?:
-			$this->renderingContext->getVariableProvider()->get('block') ?:
-				$this->renderingContext->getVariableProvider()->get('name') ?:
-					'';
+		$block = $this->arguments['block']
+			?: $this->renderingContext->getVariableProvider()->get('block')
+				?: $this->renderingContext->getVariableProvider()->get('name')
+					?: '';
 		return trim($block
 			. ($this->arguments['el'] ? '__' . $this->arguments['el'] : '')
 			. self::renderModifiers($this->arguments['mod'])

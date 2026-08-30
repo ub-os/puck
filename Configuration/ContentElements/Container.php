@@ -19,12 +19,12 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 	],
 	containerConfiguration: [
 		[
-			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_accordion']]
-		]
+			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_accordion']],
+		],
 	],
 );

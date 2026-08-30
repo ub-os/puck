@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Domain\Event\RecordCreationEvent;
  */
 final class RecordCreator
 {
-
 	#[AsEventListener]
 	public function __invoke(RecordCreationEvent $event): void
 	{

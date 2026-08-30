@@ -1,12 +1,11 @@
 <?php
 
-
 $GLOBALS['TCA']['pages']['palettes']['standard']['showitem'] = '
         doktype, post_date,';
 
 $GLOBALS['TCA']['pages']['palettes']['author'] = [
 	'label' => 'Author',
-	'showitem' => 'post_author'
+	'showitem' => 'post_author',
 ];
 $GLOBALS['TCA']['pages']['palettes']['teaser'] = [
 	'label' => 'Teaser',
@@ -54,4 +53,3 @@ $GLOBALS['TCA']['pages']['palettes']['routing'] = [
         route_enhancers,
     ',
 ];
-

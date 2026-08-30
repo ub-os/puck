@@ -1,8 +1,8 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use UBOS\Puck\Utility\TcaUtility;
 use UBOS\Puck\UserFunc\FormEngine\PageItemsProcFunc;
+use UBOS\Puck\Utility\TcaUtility;
 
 $GLOBALS['TCA']['pages']['columns']['media']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('3:2,16:9,191:100');
 $GLOBALS['TCA']['pages']['columns']['og_image']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = TcaUtility::getCropVariants('191:100');
@@ -35,9 +35,8 @@ $GLOBALS['TCA']['pages']['columns']['url'] = [
 		'behaviour' => [
 			'allowLanguageSynchronization' => true,
 		],
-	]
+	],
 ];
-
 
 $GLOBALS['TCA']['pages']['columns']['icon'] = require ExtensionManagementUtility::extPath('puck') . '/Configuration/TCA/Helper/IconField.php';
 
@@ -46,11 +45,10 @@ $GLOBALS['TCA']['pages']['columns']['post_date'] = [
 	'config' => [
 		'type' => 'datetime',
 		'behaviour' => [
-			'allowLanguageSynchronization' => true
-		]
+			'allowLanguageSynchronization' => true,
+		],
 	],
 ];
-
 
 $GLOBALS['TCA']['pages']['columns']['doktype']['config']['itemsProcFunc'] = PageItemsProcFunc::class . '->doktype';
 $GLOBALS['TCA']['pages']['columns']['doktype']['config']['disableNoMatchingValueElement'] = true;
@@ -71,7 +69,7 @@ $GLOBALS['TCA']['pages']['columns']['backend_layout_next_level']['config'] = arr
 	[
 		'itemsProcFunc' => '',
 		'items' => [
-			['label' => 'default', 'value' => 'pagets__default']
+			['label' => 'default', 'value' => 'pagets__default'],
 		],
 		'default' => 'pagets__default',
 		'dbFieldLength' => 255,
@@ -136,7 +134,7 @@ $GLOBALS['TCA']['pages']['columns']['teasers'] = [
 
 // fixes issue where categories are not translated https://forge.typo3.org/issues/97526
 $GLOBALS['TCA']['pages']['columns']['categories']['config']['behaviour'] = [
-	'allowLanguageSynchronization' => true
+	'allowLanguageSynchronization' => true,
 ];
 
 $GLOBALS['TCA']['pages']['columns']['route_enhancers'] = [
@@ -147,6 +145,6 @@ $GLOBALS['TCA']['pages']['columns']['route_enhancers'] = [
 		'items' => [
 			['label' => 'Indexed search', 'value' => 'puck/IndexedSearch'],
 			['label' => 'Page menu pagination and filter', 'value' => 'puck/PageMenu'],
-		]
-	]
+		],
+	],
 ];

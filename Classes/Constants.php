@@ -4,7 +4,6 @@ namespace UBOS\Puck;
 
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 
-
 /**
  * Constants for the extension
  */

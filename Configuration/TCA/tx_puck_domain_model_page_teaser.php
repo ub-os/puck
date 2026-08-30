@@ -1,7 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 $ctrl = [
 	'label' => 'title',
 	'title' => 'Page teaser',
@@ -21,7 +19,7 @@ $ctrl = [
 	'security' => [
 		'ignorePageTypeRestriction' => true,
 	],
-	'hideTable' => false
+	'hideTable' => false,
 ];
 $interface = [
 ];
@@ -33,7 +31,7 @@ $columns = [
 			'type' => 'input',
 			'size' => 255,
 			'eval' => 'trim,required',
-		]
+		],
 	],
 	'text' => [
 		'label' => 'Text',
@@ -42,7 +40,7 @@ $columns = [
 			'cols' => 40,
 			'rows' => 15,
 			'eval' => 'trim',
-		]
+		],
 	],
 	'media' => [
 		'label' => 'Media',

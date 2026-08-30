@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 $mirrorPagesColumn = static function (string $column, string $pagesColumn): void {

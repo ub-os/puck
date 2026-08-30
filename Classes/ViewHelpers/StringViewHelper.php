@@ -17,6 +17,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class StringViewHelper extends AbstractViewHelper
 {
+	private const ALLOWED_OPERATIONS = ['contains', 'search', 'dataReplace', 'length', 'explode'];
 	public function initializeArguments(): void
 	{
 		// name, type, description, required, default, escape
@@ -36,7 +37,7 @@ class StringViewHelper extends AbstractViewHelper
 	/**
 	 * Performs string operations based on the provided arguments
 	 *
-	 * @return array|string|null|int The processed result, which varies based on operations performed
+	 * @return array|string|int|null The processed result, which varies based on operations performed
 	 */
 	public function render(): mixed
 	{
@@ -75,8 +76,6 @@ class StringViewHelper extends AbstractViewHelper
 		}
 		return self::doOperations(is_array($input) ? '' : $input, $arguments);
 	}
-
-	private const ALLOWED_OPERATIONS = ['contains', 'search', 'dataReplace', 'length', 'explode'];
 
 	/**
 	 * Applies the configured operations to the string in order. Stops as soon as

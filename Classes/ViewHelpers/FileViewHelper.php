@@ -65,9 +65,9 @@ class FileViewHelper extends AbstractViewHelper
 	 * - FalFile objects (from FluidComponents)
 	 *
 	 * @param mixed $file The file reference to retrieve
-	 * @return null|string|Resource\FileReference|Resource\File File object or error message
+	 * @return string|Resource\FileReference|Resource\File|null File object or error message
 	 */
-	public static function getFile(mixed $file): null|string|Resource\FileReference|Resource\File
+	public static function getFile(mixed $file): string|Resource\FileReference|Resource\File|null
 	{
 		if (!$file) {
 			return null;

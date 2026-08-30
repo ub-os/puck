@@ -2,16 +2,13 @@
 
 namespace UBOS\Puck\Record;
 
-use TYPO3\CMS\Core\Domain\RawRecord;
 use TYPO3\CMS\Core\Domain\Record;
-use TYPO3\CMS\Core\Domain\Record\SystemProperties;
 
 /**
  * Record for 'tt_content'
  */
 class ContentRecord extends Record
 {
-
 	/**
 	 * override property values based on TCA 'valueOverrides'
 	 * @see \UBOS\Puck\Configuration\ContentElementConfiguration
@@ -57,8 +54,6 @@ class ContentRecord extends Record
 				}
 			}
 		}
-
-
 
 		if ($this->has('menu_item_config')) {
 			$settings = $prop['menu_item_config'];

@@ -17,14 +17,12 @@ use UBOS\Puck\Attribute\AsAction;
 class PageController extends ActionController
 {
 	public function __construct(
-		protected RecordFactory                $recordFactory,
-		protected Context                      $context,
+		protected RecordFactory $recordFactory,
+		protected Context $context,
 		protected PageContentFetchingProcessor $pageContentFetchingProcessor,
-	)
-	{
-	}
+	) {}
 
-	#[AsAction("Page")]
+	#[AsAction('Page')]
 	public function indexAction(): ResponseInterface
 	{
 		$contentObjectRenderer = $this->request->getAttribute('currentContentObject');
@@ -40,7 +38,7 @@ class PageController extends ActionController
 				'site' => $site,
 				'language' => $site->getLanguageById($this->context->getPropertyFromAspect('language', 'id')),
 				'backendUser' => $this->context->getPropertyFromAspect('backend.user', 'username'),
-			]
+			],
 		];
 		$variables = $this->pageContentFetchingProcessor->process(
 			$contentObjectRenderer,

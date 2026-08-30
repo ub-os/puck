@@ -20,6 +20,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 				'enableRichtext' => true,
 			],
 		],
-		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithCropVariants('2:1,3:2')
+		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithCropVariants('2:1,3:2'),
 	]
 );

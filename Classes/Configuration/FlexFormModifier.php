@@ -24,13 +24,13 @@ final readonly class FlexFormModifier
 					'size' => 10,
 					'maxitems' => 999,
 					'minitems' => 0,
-				]
+				],
 			];
 			$structure['sheets']['order']['ROOT']['el']['settings.demand.orderField']['config']['items'][] = [
 				'label' => 'Post date',
-				'value' => 'post_date'
+				'value' => 'post_date',
 			];
-			 $event->setDataStructure($structure);
+			$event->setDataStructure($structure);
 		}
 	}
 }

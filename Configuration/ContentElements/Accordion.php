@@ -20,11 +20,11 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		'item_column_width' => [
-			'label' => 'Media item width'
+			'label' => 'Media item width',
 		],
-		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
+		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants(),
 	]
 );

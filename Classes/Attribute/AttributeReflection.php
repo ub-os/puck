@@ -26,14 +26,13 @@ class AttributeReflection
 		string $extensionKey,
 		string $controllerDirectory,
 		string $controllerNamespace
-	): void
-	{
+	): void {
 		$plugins = [];
 		self::reflectDirectory(
 			$extensionKey,
 			$controllerDirectory,
 			$controllerNamespace,
-			function(\ReflectionClass $reflection, string $className) use (&$plugins) {
+			function (\ReflectionClass $reflection, string $className) use (&$plugins) {
 				foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
 					if (!str_contains($method->getName(), 'Action')) {
 						continue;
@@ -59,14 +58,14 @@ class AttributeReflection
 							} else {
 								$plugins[$pluginName]['actions'][$className] = $actionName;
 							}
-						} else if ($action->defaultAction) {
+						} elseif ($action->defaultAction) {
 							$plugins[$pluginName]['actions'] = [$className => $actionName . ',' . $plugins[$pluginName]['actions'][$className]] + $plugins[$pluginName]['actions'];
 						} else {
 							$plugins[$pluginName]['actions'][$className] .= ',' . $actionName;
 						}
 						if (!$action->cacheable && !($plugins[$pluginName]['nonCacheableActions'][$className] ?? false)) {
 							$plugins[$pluginName]['nonCacheableActions'][$className] = $actionName;
-						} else if (!$action->cacheable) {
+						} elseif (!$action->cacheable) {
 							$plugins[$pluginName]['nonCacheableActions'][$className] .= ',' . $actionName;
 						}
 					}
@@ -96,8 +95,7 @@ class AttributeReflection
 		string $extensionKey,
 		string $modelDirectory,
 		string $modelNamespace
-	): array
-	{
+	): array {
 		$mapping = [];
 		self::reflectDirectory(
 			$extensionKey,
@@ -135,8 +133,7 @@ class AttributeReflection
 		string $namespace,
 		callable $callback,
 		string $excludePattern = ''
-	): void
-	{
+	): void {
 		$directory = ExtensionManagementUtility::extPath($extensionKey, $relativeDirectory);
 		if (!str_ends_with($directory, '/')) {
 			$directory .= '/';

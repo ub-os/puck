@@ -17,7 +17,7 @@ $columns['frame_class'] = [
 			['Default', 'default'],
 			['Alternative', 'alt'],
 		],
-		'default' => 'default'
+		'default' => 'default',
 	],
 ];
 
@@ -32,7 +32,7 @@ $columns['layout'] = [
 			['Default', 'default'],
 		],
 		'disableNoMatchingValueElement' => true,
-		'default' => 'default'
+		'default' => 'default',
 	],
 ];
 
@@ -78,9 +78,9 @@ $columns['header_layout'] = [
 			'<h2>' => '<h2>',
 			'<h3>' => '<h3>',
 			'<p>' => '<p>',
-			'hidden' => 'hidden'
+			'hidden' => 'hidden',
 		],
-		'default' => 'h2.h2'
+		'default' => 'h2.h2',
 	],
 ];
 
@@ -89,7 +89,7 @@ $overrideColumns['bodytext'] = [
 		'search' => [
 			'andWhere' => '',
 		],
-	]
+	],
 ];
 
 $columns['imagecols'] = [
@@ -105,7 +105,7 @@ $columns['imagecols'] = [
 			['4', 4],
 			['5', 5],
 		],
-		'default' => 1
+		'default' => 1,
 	],
 ];
 $columns['media_layout'] = [
@@ -144,7 +144,7 @@ $columns['media_layout'] = [
 			'leftFloat' => [
 				'Left in text',
 				'leftFloat',
-				'media_layout_left_float'
+				'media_layout_left_float',
 			],
 		],
 		'itemsProcFunc' => ContentItemsProcFunc::class . '->mediaLayout',
@@ -155,7 +155,7 @@ $columns['media_layout'] = [
 				'disabled' => false,
 			],
 		],
-	]
+	],
 ];
 
 $columns['pages'] = [
@@ -164,7 +164,7 @@ $columns['pages'] = [
 		'type' => 'group',
 		'allowed' => 'pages',
 		'size' => 3,
-		'maxitems' => 50
+		'maxitems' => 50,
 	],
 ];
 
@@ -183,29 +183,28 @@ $columns['space_before_class'] = [
 		'renderType' => 'selectSingle',
 		'items' => [
 			['Auto', '',
-				'auto'
+				'auto',
 			],
 			['None', 'none',
-				'none'
+				'none',
 			],
 			['Small', 'small',
-				'space_small'
+				'space_small',
 			],
 			['Medium', 'medium',
-				'space_medium'
+				'space_medium',
 			],
 			['Large', 'large',
-				'space_large'
+				'space_large',
 			],
 		],
 		'default' => '',
-	]
+	],
 ];
 
 $GLOBALS['TCA']['tt_content']['columns']['assets']['config']['overrideChildTca']['columns']['crop']['config']['cropVariants'] = [
 	'default' => TcaUtility::getCropVariant('Default', 'standard'),
 ];
-
 
 $columns['icon'] = require ExtensionManagementUtility::extPath('puck') . '/Configuration/TCA/Helper/IconField.php';
 
@@ -295,7 +294,7 @@ $columns['row_align'] = [
 			['Top', 'start', 'align_top'],
 			['Center', 'center', 'align_center_vertical'],
 			['Bottom', 'end', 'align_bottom'],
-			['Stretch', 'stretch', 'align_stretch']
+			['Stretch', 'stretch', 'align_stretch'],
 		],
 		'default' => 'top',
 		'fieldWizard' => [
@@ -337,7 +336,7 @@ $columns['container_offset'] = [
 			['1', 1],
 			['2', 2],
 			['3', 3],
-			['4', 4]
+			['4', 4],
 		],
 		'default' => 0,
 	],
@@ -359,7 +358,7 @@ $columns['card_media_size'] = [
 				'disabled' => false,
 			],
 		],
-	]
+	],
 ];
 $columns['media_max_height'] = [
 	'label' => 'Maximum height',
@@ -370,14 +369,14 @@ $columns['media_max_height'] = [
 		'default' => 0,
 		'range' => [
 			'lower' => 0,
-			'upper' => 100
+			'upper' => 100,
 		],
 		'valuePicker' => [
 			'items' => [
 				['20', 20],
 				['30', 30],
 				['40', 40],
-				['50', 50]
+				['50', 50],
 			],
 		],
 	],
@@ -398,10 +397,10 @@ $columns['menu_item_config'] = [
 			['Post Date (post_date)', 'postDate'],
 			['Page Icon', 'icon'],
 			['Call to action', 'cta'],
-			['Arrow / Link Symbol', 'arrow']
+			['Arrow / Link Symbol', 'arrow'],
 		],
 		'default' => '',
-	]
+	],
 ];
 $columns['flex_grow'] = [
 	'label' => 'Grow items',
@@ -410,14 +409,14 @@ $columns['flex_grow'] = [
 		'type' => 'check',
 		'renderType' => 'checkboxToggle',
 		'default' => 0,
-	]
+	],
 ];
 $columns['options'] = [
 	'label' => 'Options',
 	'config' => [
 		'type' => 'flex',
 		'ds' => $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'],
-	]
+	],
 ];
 
 $columns['classes'] = [
@@ -426,8 +425,8 @@ $columns['classes'] = [
 		'type' => 'select',
 		'renderType' => 'selectCheckBox',
 		'items' => [
-		]
-	]
+		],
+	],
 ];
 
 $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(

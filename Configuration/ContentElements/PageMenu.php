@@ -24,7 +24,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		'layout' => [
 			'config' => [
@@ -34,14 +34,14 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 					['label' => 'Cards (custom settings)', 'value' => 'cards'],
 					['label' => 'Columns (custom settings)', 'value' => 'columns'],
 				],
-				'default' => 'default'
-			]
+				'default' => 'default',
+			],
 		],
 		'header_layout' => [
 			'description' => 'To guarantee proper heading hierarchy, this setting also defines the heading level of menu item headers',
 		],
 		'pi_flexform' => [
-			'label' => 'Menu settings'
+			'label' => 'Menu settings',
 		],
 		'flex_grow' => [
 			'displayCond' => 'FIELD:layout:IN:cards,columns',

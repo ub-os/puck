@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 trait ItemsProcFuncUtilsTrait
 {
-
 	/**
 	 * @param array $items
 	 * @param string $allowedValues

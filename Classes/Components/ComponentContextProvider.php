@@ -2,10 +2,10 @@
 
 namespace UBOS\Puck\Components;
 
-use UBOS\Puck\Constants;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Fluid\Event\ProvideStaticVariablesToComponentEvent;
 use TYPO3\CMS\Fluid\Event\RenderComponentEvent;
+use UBOS\Puck\Constants;
 
 final class ComponentContextProvider
 {
@@ -42,7 +42,7 @@ final class ComponentContextProvider
 			...$event->getArguments(),
 			'site' => [
 				'rootPageId' => $site->getRootPageId(),
-				'settings' => $site->getSettings()
+				'settings' => $site->getSettings(),
 			],
 		]);
 	}

@@ -60,17 +60,17 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 			'categories' => [
 				'table' => 'sys_category',
 				'title' => 'Categories',
-				'uids' => $settings['demand']['categoryGroups']['main']['uids'] ?? ''
+				'uids' => $settings['demand']['categoryGroups']['main']['uids'] ?? '',
 			],
 			'filter_categories' => [
 				'table' => 'sys_category',
 				'title' => 'Filter categories',
-				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['categories'] : ''
+				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['categories'] : '',
 			],
 			'filter_category_groups' => [
 				'table' => 'sys_category',
 				'title' => 'Filter category groups',
-				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['treeCategories'] : ''
+				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['treeCategories'] : '',
 			],
 		];
 		foreach ($recordGroups as $key => $recordGroup) {

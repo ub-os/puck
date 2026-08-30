@@ -40,6 +40,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'item_column_width' => [
 			'label' => 'Media element width',
 		],
-		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
+		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants(),
 	]
 );

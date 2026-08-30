@@ -1,7 +1,5 @@
 <?php
 
-use UBOS\Puck\Utility\TcaUtility;
-
 $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
 	'showitem' => '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
@@ -22,5 +20,5 @@ $GLOBALS['TCA']['tt_content']['types']['powermail_pi1'] = [
 		'item_column_width' => [
 			'label' => 'Media item width',
 		],
-	]
+	],
 ];

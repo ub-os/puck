@@ -2,29 +2,23 @@
 
 namespace UBOS\Puck\Backend;
 
-use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Core\Attribute\AsEventListener;
-use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Backend\RecordList\Event\ModifyRecordListRecordActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ActionGroup;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
-
+use TYPO3\CMS\Core\Attribute\AsEventListener;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 
 /**
  * Adds a button to the page record list to edit the content elements of the page.
  */
 final class PageRecordListActionEnhancer
 {
-
 	public function __construct(
-		protected LoggerInterface $logger,
-		protected UriBuilder      $uriBuilder,
-		protected IconFactory     $iconFactory
-	)
-	{
-	}
+		private UriBuilder $uriBuilder,
+		private IconFactory $iconFactory
+	) {}
 
 	#[AsEventListener]
 	public function __invoke(ModifyRecordListRecordActionsEvent $event): void

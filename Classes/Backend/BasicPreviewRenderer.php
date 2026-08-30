@@ -26,8 +26,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 		protected readonly RecordFactory $recordFactory,
 		protected readonly GridRenderer $gridRenderer,
 		protected readonly RecordFieldPreviewProcessor $fieldProcessor,
-	) {
-	}
+	) {}
 
 	/**
 	 * Creates a fresh, request-aware view for a single preview render.
@@ -101,9 +100,7 @@ class BasicPreviewRenderer implements PreviewRendererInterface
 	/**
 	 * Hook for subclasses to add variables to the "Content" preview template.
 	 */
-	protected function assignPreviewContentVariables(ViewInterface $view, GridColumnItem $item): void
-	{
-	}
+	protected function assignPreviewContentVariables(ViewInterface $view, GridColumnItem $item): void {}
 
 	public function renderPageModulePreviewFooter(GridColumnItem $item): string
 	{

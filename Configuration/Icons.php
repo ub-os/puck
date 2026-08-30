@@ -17,7 +17,7 @@ foreach ($iconPaths as $iconPath) {
 	$filename = PathUtility::pathinfo($iconPath, PATHINFO_FILENAME);
 	$configuration[GeneralUtility::camelCaseToLowerCaseUnderscored($filename)] = [
 		'provider' => SvgIconProvider::class,
-		'source' => 'EXT:' . 'puck' . '/'. $iconDirectory . $filename . '.svg'
+		'source' => 'EXT:' . 'puck' . '/' . $iconDirectory . $filename . '.svg',
 	];
 }
 return array_merge(
@@ -25,7 +25,7 @@ return array_merge(
 	[
 		'content-special-shortcut' => [
 			'provider' => SvgIconProvider::class,
-			'source' => 'EXT:puck/Resources/Public/Icons/Backend/Shortcut.svg'
-		]
+			'source' => 'EXT:puck/Resources/Public/Icons/Backend/Shortcut.svg',
+		],
 	]
 );

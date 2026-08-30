@@ -11,52 +11,52 @@ class TcaUtility
 	public const array STANDARD_CROP_RATIOS = [
 		'free' => [
 			'title' => 'free',
-			'value' => 'NaN'
+			'value' => 'NaN',
 		],
 		'1:1' => [
 			'title' => '1:1',
-			'value' => 1
+			'value' => 1,
 		],
 		'2:1' => [
 			'title' => '2:1',
-			'value' => 2
+			'value' => 2,
 		],
 		'3:1' => [
 			'title' => '3:1',
-			'value' => 3
+			'value' => 3,
 		],
 		'3:2' => [
 			'title' => '3:2',
-			'value' => 3 / 2
+			'value' => 3 / 2,
 		],
 		'4:1' => [
 			'title' => '4:1',
-			'value' => 4
+			'value' => 4,
 		],
 		'4:3' => [
 			'title' => '4:3',
-			'value' => 4 / 3
+			'value' => 4 / 3,
 		],
 		'5:2' => [
 			'title' => '5:2',
-			'value' => 5 / 2
+			'value' => 5 / 2,
 		],
 		'5:3' => [
 			'title' => '5:3',
-			'value' => 5 / 3
+			'value' => 5 / 3,
 		],
 		'5:4' => [
 			'title' => '5:4',
-			'value' => 5 / 4
+			'value' => 5 / 4,
 		],
 		'16:9' => [
 			'title' => '16:9',
-			'value' => 16 / 9
+			'value' => 16 / 9,
 		],
 		'16:10' => [
 			'title' => '16:10',
-			'value' => 16 / 10
-		]
+			'value' => 16 / 10,
+		],
 	];
 
 	public const array CROP_VARIANT_PRESETS = [
@@ -90,7 +90,6 @@ class TcaUtility
 	 * @param string $key
 	 * @param array|string|null $allowedRatios
 	 * @return array
-	 *
 	 */
 	public static function getCropVariant(string $key, array|string|null $allowedRatios = null, $disabled = false): array
 	{
@@ -110,11 +109,11 @@ class TcaUtility
 		$allowedAspectRatios = [];
 		foreach ($allowedRatios as $ratio) {
 			$ratioArr = explode(':', $ratio);
-			$dividend = floatval($ratioArr[0]) ?: 1;
-			$divisor = floatval($ratioArr[1]) ?: 1;
+			$dividend = (float)($ratioArr[0]) ?: 1;
+			$divisor = (float)($ratioArr[1]) ?: 1;
 			$allowedAspectRatios[$ratio] = [
 				'title' => $ratio,
-				'value' => $dividend / $divisor
+				'value' => $dividend / $divisor,
 			];
 		}
 		return [
@@ -153,12 +152,12 @@ class TcaUtility
 					'columns' => [
 						'crop' => [
 							'config' => [
-								'cropVariants' => $cropVariants
+								'cropVariants' => $cropVariants,
 							],
 						],
 					],
-				]
-			]
+				],
+			],
 		];
 	}
 
@@ -170,7 +169,7 @@ class TcaUtility
 					'columns' => [
 						'crop' => [
 							'config' => [
-								'cropVariants' => self::CROP_VARIANT_PRESETS['freeBreakpoints']
+								'cropVariants' => self::CROP_VARIANT_PRESETS['freeBreakpoints'],
 							],
 						],
 					],
@@ -180,8 +179,8 @@ class TcaUtility
 						2 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
 						5 => ['showitem' => '--palette--;;imageoverlayPaletteWithBreakpoints, --palette--;;filePalette'],
 					],
-				]
-			]
+				],
+			],
 		];
 	}
 

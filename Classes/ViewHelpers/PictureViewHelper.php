@@ -3,9 +3,9 @@
 namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper as UriImageViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Advanced picture element ViewHelper with multiple source support
@@ -60,7 +60,8 @@ class PictureViewHelper extends AbstractViewHelper
 			function ($definition) {
 				return $definition->getDefaultValue();
 			},
-			$argumentDefinition);
+			$argumentDefinition
+		);
 		$helper->setArguments(array_merge($defaultArguments, $arguments));
 		$helper->initialize();
 		return $helper;
@@ -102,13 +103,12 @@ class PictureViewHelper extends AbstractViewHelper
 		}
 
 		$pictureClass = "{$this->arguments['className']}__picture";
-		$pictureStyle = "";
+		$pictureStyle = '';
 		if ($this->arguments['reserveHeight']) {
-			$pictureClass .= " -reserveHeight";
+			$pictureClass .= ' -reserveHeight';
 			$pictureStyle = "padding-top: {$this->arguments['reserveHeight']};";
 		}
 		$pictureHtml = "<picture class=\"{$pictureClass}\" style=\"{$pictureStyle}\">";
-
 
 		$title = '';
 		$alt = '';

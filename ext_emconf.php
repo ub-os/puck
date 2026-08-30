@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  * Extension Manager/Repository config file for ext: "puck"
  **
@@ -7,7 +8,7 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Puck',
 	'description' => 'Puck - Site package starter for TYPO3 websites',
 	'category' => 'distribution',
@@ -21,6 +22,6 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '14',
 	'constraints' => [
 		'depends' => [
-		]
+		],
 	],
-);
+];

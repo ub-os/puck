@@ -16,7 +16,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             pages',
 	columnsOverrides: [
 		'header' => [
-			'label' => 'Label'
+			'label' => 'Label',
 		],
 		'layout' => [
 			'label' => 'Mode',

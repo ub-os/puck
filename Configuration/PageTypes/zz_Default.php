@@ -5,11 +5,11 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 	showItemAdditions: [
 		[
 			'--div--;Teaser, --palette--;;teaser',
-			'after:--palette--;;title'
+			'after:--palette--;;title',
 		],
 		[
 			'--palette--;;routing',
-			'after:--palette--;;module'
-		]
+			'after:--palette--;;module',
+		],
 	],
 );

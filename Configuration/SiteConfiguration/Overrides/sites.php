@@ -21,7 +21,6 @@ defined('TYPO3') or die();
  * The disposition toggle requires Initialisation/Site/puck/csp.yaml to declare
  * both an "enforce:" and a "report:" block.
  */
-
 $GLOBALS['SiteConfiguration']['site']['columns']['puck_tracking_head_html'] = [
 	'label' => 'Head markup',
 	'description' => 'HTML injected into <head> on every page (e.g. consent manager / GTM loader). '

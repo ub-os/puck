@@ -5,11 +5,11 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 	showItemAdditions: [
 		[
 			'--palette--;;standard',
-			'replace:doktype'
+			'replace:doktype',
 		],
 		[
 			'--div--;Teaser, --palette--;;teaser',
-			'after:--palette--;;shortcutpage'
-		]
+			'after:--palette--;;shortcutpage',
+		],
 	],
 );

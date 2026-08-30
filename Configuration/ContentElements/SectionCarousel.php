@@ -15,20 +15,20 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		'options' => [
 			'label' => 'Carousel options',
-		]
+		],
 	],
 	flexForms: [
-		'options' => 'FILE:EXT:puck/Configuration/FlexForms/CarouselOptions.xml'
+		'options' => 'FILE:EXT:puck/Configuration/FlexForms/CarouselOptions.xml',
 	],
 	containerConfiguration: [
 		[
 			['name' => 'Content', 'colPos' => 300, 'allowed' => [
-				'CType' => 'puck_text,puck_media,puck_cover_media,puck_hero,puck_row,puck_container'
-			]]
-		]
+				'CType' => 'puck_text,puck_media,puck_cover_media,puck_hero,puck_row,puck_container',
+			]],
+		],
 	],
 );

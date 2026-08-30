@@ -17,13 +17,10 @@ use UBOS\Puck\Constants;
  */
 final class BackendPageLayoutModifier
 {
-
 	public function __construct(
 		private readonly ViewFactoryInterface $viewFactory,
-		protected RecordFactory               $recordFactory,
-	)
-	{
-	}
+		private RecordFactory $recordFactory,
+	) {}
 
 	#[AsEventListener]
 	public function __invoke(ModifyPageLayoutContentEvent $event): void

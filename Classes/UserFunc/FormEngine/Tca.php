@@ -11,7 +11,7 @@ class Tca
 {
 	public function getHash(array $parameters, TcaSlug $reference): string
 	{
-		return "#";
+		return '#';
 	}
 
 }

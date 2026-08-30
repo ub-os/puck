@@ -22,7 +22,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		// colPos < 600 is for section-level elements, >= 600 for container child elements
 		'frame_class' => [
@@ -37,6 +37,6 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'container_offset' => [
 			'displayCond' => 'FIELD:colPos:<:600',
 		],
-		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants()
+		'assets' => \UBOS\Puck\Utility\TcaUtility::configOverrideWithBreakpointCropVariants(),
 	]
 );

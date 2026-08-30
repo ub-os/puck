@@ -19,6 +19,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayViewHelper extends AbstractViewHelper
 {
+	private const ALLOWED_OPERATIONS = [
+		'changeKeys', 'keys', 'slice', 'merge', 'mergeRecursive', 'range', 'unset',
+		'implode', 'indexKey', 'push', 'search', 'getValue', 'filter', 'inverseFilter',
+	];
 	public function initializeArguments(): void
 	{
 		$this->registerArgument('input', 'array', 'Input array to manipulate. If not provided, child content will be used', false, []);
@@ -82,11 +86,6 @@ class ArrayViewHelper extends AbstractViewHelper
 		}
 		return self::doOperations($input, $arguments);
 	}
-
-	private const ALLOWED_OPERATIONS = [
-		'changeKeys', 'keys', 'slice', 'merge', 'mergeRecursive', 'range', 'unset',
-		'implode', 'indexKey', 'push', 'search', 'getValue', 'filter', 'inverseFilter',
-	];
 
 	/**
 	 * Applies the configured operations to the array in order. Stops as soon as
@@ -153,7 +152,7 @@ class ArrayViewHelper extends AbstractViewHelper
 		$slice = explode(' ', $slice);
 		if (count($slice) === 1) {
 			$array = array_slice($array, (int)$slice[0]);
-		} else if (count($slice)) {
+		} elseif (count($slice)) {
 			$array = array_slice($array, (int)$slice[0], (int)$slice[1]);
 		}
 		return $array;
@@ -196,9 +195,9 @@ class ArrayViewHelper extends AbstractViewHelper
 		$range = explode(' ', $range);
 		if (count($range) === 1) {
 			$array = range(0, (int)$range[0]);
-		} else if (count($range) === 2) {
+		} elseif (count($range) === 2) {
 			$array = range((int)$range[0], (int)$range[1]);
-		} else if (count($range)) {
+		} elseif (count($range)) {
 			$array = range((int)$range[0], (int)$range[1], (int)$range[2]);
 		}
 		return $array;

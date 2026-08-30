@@ -7,26 +7,26 @@ $palettes['gridContainer'] = [
 	'showitem' => '
         container_width, 
         --linebreak--,
-        container_position, container_offset'
+        container_position, container_offset',
 ];
 $palettes['gridContainerWidth'] = [
 	'label' => 'Grid container',
 	'showitem' => '
-        container_width'
+        container_width',
 ];
 $palettes['gridColumns'] = [
 	'label' => 'Layout',
 	'showitem' => '
         item_column_width,flex_grow,
         --linebreak--,
-        row_justify, row_align'
+        row_justify, row_align',
 ];
 $palettes['gridColumnsAlignment'] = [
 	'label' => 'Layout',
 	'showitem' => '
         flex_grow,
         --linebreak--,
-        row_justify, row_align'
+        row_justify, row_align',
 ];
 $palettes['gridMedia'] = [
 	'label' => 'Layout',
@@ -39,7 +39,7 @@ $palettes['gridMedia'] = [
         item_column_width, 
         --linebreak--,
         row_justify, row_align,
-        media_max_height'
+        media_max_height',
 ];
 $palettes['gridCard'] = [
 	'label' => 'Layout',
@@ -48,7 +48,7 @@ $palettes['gridCard'] = [
 		--linebreak--,
         media_column_width,
         --linebreak--,
-        row_align,'
+        row_align,',
 ];
 $palettes['gridMenuPages'] = [
 	'label' => 'Layout',
@@ -61,7 +61,7 @@ $palettes['gridMenuPages'] = [
 		--linebreak--,
         text_column_width, media_column_width,
         --linebreak--,
-        flex_grow'
+        flex_grow',
 ];
 $palettes['appearanceOptions'] = [
 	'label' => 'Appearance',
@@ -77,18 +77,18 @@ $palettes['appearanceClasses'] = [
 ];
 
 $palettes['appearance'] = [
-//	'label' => 'Appearance',
+	//	'label' => 'Appearance',
 	'showitem' => '
-        frame_class'
+        frame_class',
 ];
 $palettes['appearanceLayout'] = [
-//	'label' => 'Appearance',
+	//	'label' => 'Appearance',
 	'showitem' => '
-        frame_class, layout'
+        frame_class, layout',
 ];
 $palettes['layout'] = [
 	'showitem' => '
-        layout'
+        layout',
 ];
 $palettes['headers'] = [
 	'label' => 'Headlines',
@@ -97,14 +97,14 @@ $palettes['headers'] = [
         --linebreak--,
         header_layout, header_position,
         --linebreak--,
-	 	subheader,'
+	 	subheader,',
 ];
 $palettes['header_header_position'] = [
 	'label' => 'Headlines',
 	'showitem' => '
         header,
         --linebreak--,
-        header_position'
+        header_position',
 ];
 $palettes['header_subheader_header_position'] = [
 	'label' => 'Headlines',
@@ -113,7 +113,7 @@ $palettes['header_subheader_header_position'] = [
         --linebreak--,
         subheader,
         --linebreak--,
-        header_position'
+        header_position',
 ];
 $palettes['bodytext'] = [
 	'showitem' => 'bodytext;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext_formlabel',
@@ -121,7 +121,7 @@ $palettes['bodytext'] = [
 $palettes['page_menu'] = [
 	'label' => 'Menu',
 	'showitem' => 'pages; Selected pages, parents; Parent pages',
-	'canNotCollapse' => 1
+	'canNotCollapse' => 1,
 ];
 $palettes['media'] = [
 	'showitem' => 'media',

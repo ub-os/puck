@@ -6,24 +6,24 @@ namespace UBOS\Puck\Install;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Package\Event\AfterPackageActivationEvent;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Attribute\UpgradeWizard;
 use TYPO3\CMS\Core\Upgrades\ChattyInterface;
 use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 #[UpgradeWizard('puck_extension_setup')]
 final class ExtensionSetup implements UpgradeWizardInterface, ChattyInterface
 {
-	protected OutputInterface $output;
+	private const EXTENSION_KEY = 'puck';
+	private const ROUTE_PREFIX = '/_assets/theme';
+	private OutputInterface $output;
 
 	public function setOutput(OutputInterface $output): void
 	{
 		$this->output = $output;
 	}
-	private const EXTENSION_KEY = 'puck';
-	private const ROUTE_PREFIX = '/_assets/theme';
 
 	/**
 	 * Create symlink after extension installation (signal/slot method)

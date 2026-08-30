@@ -19,6 +19,6 @@ ArrayUtility::mergeRecursiveWithOverrule(
 					'enableRichtext' => true,
 				],
 			],
-		]
+		],
 	]
 );

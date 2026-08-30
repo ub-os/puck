@@ -30,6 +30,7 @@ use UBOS\Puck\Controller;
  */
 class ContentElementConfiguration
 {
+	protected array $valueOverrides = [];
 	/**
 	 * @param string $type Content element CType (will be converted to lower_case_underscore and prefixed with the extension name)
 	 * @param string $label Human-readable name of the content element
@@ -54,22 +55,21 @@ class ContentElementConfiguration
 		public string $description,
 		public string $group = '01_content',
 		public string $icon = 'default',
-		public float  $sorting = 1000,
+		public float $sorting = 1000,
 		public string $showItem = '',
-		public array  $columnsOverrides = [],
+		public array $columnsOverrides = [],
 		public string $pluginName = '',
 		public string $extensionName = 'Puck',
 		public string $componentCollection = 'UBOS\\Puck\\Components\\Modules',
 		public string $component = '',
-		public array  $flexForms = [],
-		public array  $containerConfiguration = [],
-		public array  $dataProcessing = [],
+		public array $flexForms = [],
+		public array $containerConfiguration = [],
+		public array $dataProcessing = [],
 		public string $previewRenderer = BasicPreviewRenderer::class,
-	)
-	{
+	) {
 		if (!isset($this->dataProcessing['record'])) {
 			$this->dataProcessing['record'] = [
-				'processor' => 'record-transformation'
+				'processor' => 'record-transformation',
 			];
 		}
 		if ($this->containerConfiguration && !isset($this->dataProcessing['container'])) {
@@ -79,8 +79,6 @@ class ContentElementConfiguration
 			];
 		}
 	}
-
-	protected array $valueOverrides = [];
 
 	/**
 	 * Loads and sorts content element configurations from a specified folder
@@ -119,7 +117,8 @@ class ContentElementConfiguration
 					$this->getCType(),
 					$this->label,
 					$this->description,
-					$this->containerConfiguration))
+					$this->containerConfiguration
+				))
 					->setIcon($this->icon)
 					->SetGroup($this->group)
 					->setBackendTemplate('')
@@ -149,7 +148,6 @@ class ContentElementConfiguration
 		);
 	}
 
-
 	/**
 	 * Adds the necessary TypoScript configuration for content element type.
 	 *
@@ -177,7 +175,7 @@ class ContentElementConfiguration
                 extensionName = ' . $this->extensionName . '
                 pluginName = ' . $this->pluginName . '
             }
-            plugin.tx_'. strtolower($this->extensionName) .'_' . strtolower($this->pluginName) . '.settings.contentElementConfiguration {
+            plugin.tx_' . strtolower($this->extensionName) . '_' . strtolower($this->pluginName) . '.settings.contentElementConfiguration {
 				componentCollection = ' . $this->componentCollection . '
 				component = ' . $component . '
 				dataProcessing {
@@ -228,10 +226,9 @@ class ContentElementConfiguration
 		string $description,
 		string $group = '',
 		string $icon = '',
-		float  $sorting = 0,
-		array  $valueOverrides = []
-	): ContentElementConfiguration
-	{
+		float $sorting = 0,
+		array $valueOverrides = []
+	): ContentElementConfiguration {
 		if (!$this->component) {
 			$this->component = GeneralUtility::underscoredToLowerCamelCase($this->type);
 		}

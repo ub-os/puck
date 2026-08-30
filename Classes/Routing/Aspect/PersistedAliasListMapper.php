@@ -2,9 +2,9 @@
 
 namespace UBOS\Puck\Routing\Aspect;
 
-use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Routing aspect mapper that maps a (default: comma-separated) list of UIDs to a (default: dot-separated) list of slugs.
@@ -74,10 +74,12 @@ class PersistedAliasListMapper extends PersistedAliasMapper
 				$queryBuilder->expr()->or(
 					$queryBuilder->expr()->eq(
 						'uid',
-						$queryBuilder->createNamedParameter($value, Connection::PARAM_INT)),
+						$queryBuilder->createNamedParameter($value, Connection::PARAM_INT)
+					),
 					$queryBuilder->expr()->eq(
 						$this->languageParentFieldName,
-						$queryBuilder->createNamedParameter($value, Connection::PARAM_INT)),
+						$queryBuilder->createNamedParameter($value, Connection::PARAM_INT)
+					),
 				),
 				$queryBuilder->expr()->in(
 					$this->languageFieldName,
@@ -89,7 +91,7 @@ class PersistedAliasListMapper extends PersistedAliasMapper
 				$queryBuilder->expr()->eq(
 					'uid',
 					$queryBuilder->createNamedParameter($value, Connection::PARAM_INT)
-				)
+				),
 			];
 		}
 		$result = $queryBuilder

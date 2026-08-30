@@ -14,7 +14,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
             subheader,',
 	columnsOverrides: [
 		'header' => [
-			'label' => 'Title'
+			'label' => 'Title',
 		],
 		'subheader' => [
 			'label' => 'URL Segment',

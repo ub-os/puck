@@ -8,9 +8,6 @@ use TYPO3\CMS\Core\Domain\Record\ComputedProperties;
 use TYPO3\CMS\Core\Domain\RecordInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- */
 class TransientRecordViewHelper extends AbstractViewHelper
 {
 	public function initializeArguments(): void

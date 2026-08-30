@@ -3,8 +3,6 @@
 namespace UBOS\Puck\Configuration;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use B13\Container\Tca\ContainerConfiguration;
-use B13\Container\Tca\Registry;
 
 /**
  * Provides a centralized way to define and configure TYPO3 page types (doktypes).
@@ -20,17 +18,15 @@ use B13\Container\Tca\Registry;
 class PageTypeConfiguration
 {
 	public function __construct(
-		public int    $doktype,
+		public int $doktype,
 		public string $label = '',
 		public string $description = '',
 		public string $group = 'default',
 		public string $icon = 'apps-pagetree-page',
 		public string $showItem = '',
-		public array  $showItemAdditions = [],
-		public array  $columnsOverrides = [],
-	)
-	{
-	}
+		public array $showItemAdditions = [],
+		public array $columnsOverrides = [],
+	) {}
 
 	public function addTCA(): void
 	{
@@ -49,7 +45,9 @@ class PageTypeConfiguration
 				$addition[1] ?? 'after:--palette--;;title'
 			);
 		}
-		if (!$this->label) return;
+		if (!$this->label) {
+			return;
+		}
 		ExtensionManagementUtility::addTcaSelectItem(
 			'pages',
 			'doktype',
@@ -57,7 +55,7 @@ class PageTypeConfiguration
 				'label' => $this->label,
 				'value' => $this->doktype,
 				'icon' => $this->icon,
-				'group' => $this->group
+				'group' => $this->group,
 			],
 			'1',
 			'after'
@@ -68,8 +66,6 @@ class PageTypeConfiguration
 
 	}
 
-	public function addTypoScript(): void
-	{
-	}
+	public function addTypoScript(): void {}
 
 }

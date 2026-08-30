@@ -7,27 +7,27 @@ return new \UBOS\Puck\Configuration\PageTypeConfiguration(
 	showItemAdditions: [
 		[
 			'--div--;Teaser, --palette--;;teaser',
-			'after:--palette--;;title'
+			'after:--palette--;;title',
 		],
-//		[
-//			'link',
-//			'after:--palette--;;title'
-//		],
+		//		[
+		//			'link',
+		//			'after:--palette--;;title'
+		//		],
 		[
 			'--palette--;;routing',
-			'after:--palette--;;module'
-		]
+			'after:--palette--;;module',
+		],
 	],
 	columnsOverrides: [
 		'post_date' => [
 			'config' => [
 				'required' => 1,
-			]
+			],
 		],
-//		'link' => [
-//			'config' => [
-//				'required' => 0
-//			]
-//		],
+		//		'link' => [
+		//			'config' => [
+		//				'required' => 0
+		//			]
+		//		],
 	]
 );

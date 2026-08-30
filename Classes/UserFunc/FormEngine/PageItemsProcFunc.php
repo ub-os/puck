@@ -25,7 +25,7 @@ class PageItemsProcFunc
 		if ($pidRow['module'] == 'news') {
 			$params['items'] = $this->filterItemsByValues(
 				$params['items'],
-				Constants::DOKTYPES['news'].','.Constants::DOKTYPES['link']
+				Constants::DOKTYPES['news'] . ',' . Constants::DOKTYPES['link']
 			);
 		}
 	}
@@ -37,7 +37,7 @@ class PageItemsProcFunc
 		foreach ($allowedList as $key) {
 			$params['items'][] = [
 				'label' => $key,
-				'value' => 'pagets__' . $key
+				'value' => 'pagets__' . $key,
 			];
 		}
 	}

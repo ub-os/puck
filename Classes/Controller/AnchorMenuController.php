@@ -20,7 +20,7 @@ class AnchorMenuController extends ActionController
 {
 	use ComponentContentElementTrait;
 
-	#[AsAction("AnchorMenu")]
+	#[AsAction('AnchorMenu')]
 	public function anchorMenuAction(): ResponseInterface
 	{
 		$variables = $this->getProcessedData();

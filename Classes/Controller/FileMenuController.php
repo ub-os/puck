@@ -19,11 +19,9 @@ class FileMenuController extends ActionController
 
 	public function __construct(
 		protected ResourceFactory $resourceFactory
-	)
-	{
-	}
+	) {}
 
-	#[AsAction("FileMenu")]
+	#[AsAction('FileMenu')]
 	public function fileMenuAction(): ResponseInterface
 	{
 		$variables = $this->getProcessedData();

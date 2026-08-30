@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace UBOS\Puck\Attribute;
+
 use Attribute;
 
 /**
@@ -9,7 +11,7 @@ use Attribute;
  * Add to model classes to map them to database tables, or to properties to map them to table fields.
  * @see AttributeReflection::createExtbasePersistenceMapping() uses this attribute for persistence mapping
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_CLASS)]
 class Persistence
 {
 	/**
@@ -17,7 +19,5 @@ class Persistence
 	 */
 	public function __construct(
 		public string $name,
-	)
-	{
-	}
+	) {}
 }

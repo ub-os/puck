@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace UBOS\Puck\Controller;
 
+use Amdeu\MenuControls\Controller\MenuController;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Amdeu\MenuControls\Controller\MenuController;
 use UBOS\Puck\Attribute\AsAction;
 use UBOS\Puck\Domain\Repository\PageTeaserRepository;
 
@@ -21,7 +21,7 @@ class PageMenuController extends MenuController
 {
 	use ComponentContentElementTrait;
 
-	#[AsAction("PageMenu")]
+	#[AsAction('PageMenu')]
 	public function pageMenuAction(): ResponseInterface
 	{
 		$variables = $this->getProcessedData();
@@ -48,25 +48,24 @@ class PageMenuController extends MenuController
 			...[
 				'menu' => $pageRecords,
 				'pagination' => $menuVariables['pagination'] ?? null,
-				'categoryFilter' => $menuVariables['categoryFilters']['main'] ?? null
-			]
+				'categoryFilter' => $menuVariables['categoryFilters']['main'] ?? null,
+			],
 		];
 		return $this->htmlResponse(
 			$this->renderComponent($variables)
 		);
 	}
 
-
-//	protected function buildFragmentUrl(string $actionName, array $overrides): string
-//	{
-//		$args = $this->request->getArguments();
-//		$overrides['ceUid'] = $this->request->getAttribute('currentContentObject')?->data['uid'] ?? null;
-//		return $this->uriBuilder
-//			->reset()
-//			->setTargetPageUid($this->request->getAttribute('routing')->getPageId())
-//			->setTargetPageType(1619409324)
-//			->setCreateAbsoluteUri(false)
-//			->uriFor($actionName, $this->removeNullValues(array_replace_recursive($args, $overrides)));
-//	}
+	//	protected function buildFragmentUrl(string $actionName, array $overrides): string
+	//	{
+	//		$args = $this->request->getArguments();
+	//		$overrides['ceUid'] = $this->request->getAttribute('currentContentObject')?->data['uid'] ?? null;
+	//		return $this->uriBuilder
+	//			->reset()
+	//			->setTargetPageUid($this->request->getAttribute('routing')->getPageId())
+	//			->setTargetPageType(1619409324)
+	//			->setCreateAbsoluteUri(false)
+	//			->uriFor($actionName, $this->removeNullValues(array_replace_recursive($args, $overrides)));
+	//	}
 
 }

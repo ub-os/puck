@@ -1,7 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 $GLOBALS['TCA']['sys_file_reference']['columns']['crop']['config']['cropVariants'] = [];
 $GLOBALS['TCA']['sys_file_reference']['palettes']['videoOverlayPalette']['showitem'] = 'title,description';
 

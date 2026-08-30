@@ -22,7 +22,7 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 		'bodytext' => [
 			'config' => [
 				'enableRichtext' => true,
-			]
+			],
 		],
 		'layout' => [
 			'config' => [
@@ -30,19 +30,19 @@ return new \UBOS\Puck\Configuration\ContentElementConfiguration(
 					['label' => 'Rows', 'value' => 'default', 'icon' => 'row_layout_row'],
 					['label' => 'Carousel', 'value' => 'carousel', 'icon' => 'row_layout_carousel'],
 				],
-			]
+			],
 		],
 		'options' => [
 			'label' => 'Carousel options',
 			'displayCond' => 'FIELD:layout:IN:carousel',
-		]
+		],
 	],
 	flexForms: [
-		'options' => 'FILE:EXT:puck/Configuration/FlexForms/CarouselOptions.xml'
+		'options' => 'FILE:EXT:puck/Configuration/FlexForms/CarouselOptions.xml',
 	],
 	containerConfiguration: [
 		[
-			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_text, puck_media, puck_card']]
-		]
+			['name' => 'Content', 'colPos' => 600, 'allowed' => ['CType' => 'puck_text, puck_media, puck_card']],
+		],
 	],
 );
