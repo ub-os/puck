@@ -3,10 +3,10 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 use UBOS\Puck\Configuration\PageTypeConfiguration;
 
-foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/pages/*.php')) as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/pages/*.php')) ?: [] as $file) {
 	include $file;
 }
-foreach (glob(ExtUtil::extPath('puck', 'Configuration/PageTypes/*.php')) as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/PageTypes/*.php')) ?: [] as $file) {
 	$conf = (include $file);
 	if ($conf instanceof PageTypeConfiguration) {
 		$conf->addTCA();

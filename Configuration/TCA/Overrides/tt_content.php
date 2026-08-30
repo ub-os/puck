@@ -3,7 +3,7 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility as ExtUtil;
 use UBOS\Puck\Configuration\ContentElementConfiguration;
 
-foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/tt_content/*.php')) as $file) {
+foreach (glob(ExtUtil::extPath('puck', 'Configuration/TCA/Overrides/tt_content/*.php')) ?: [] as $file) {
 	include $file;
 }
 foreach (ContentElementConfiguration::getOrderedConfigurationsFromFolder('Configuration/ContentElements/*.php') as $conf) {

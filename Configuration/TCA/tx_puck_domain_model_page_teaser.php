@@ -13,7 +13,6 @@ $ctrl = [
 	'transOrigPointerField' => 'l10n_parent',
 	'transOrigDiffSourceField' => 'l10n_diffsource',
 	'delete' => 'deleted',
-	'hideTable' => true,
 	'iconfile' => 'EXT:puck/Resources/Public/Icons/Backend/PageTeaser.svg',
 	'enablecolumns' => [
 		'disabled' => 'hidden',

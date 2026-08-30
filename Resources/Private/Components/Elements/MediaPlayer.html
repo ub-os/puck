@@ -8,9 +8,10 @@
 <f:argument default="1" name="loadOnClick" optional="1" type="boolean"/>
 <f:argument default="1" name="openInModal" optional="1" type="boolean"/>
 <f:argument default="{0:0}" name="playerAttributes" optional="1" type="array"/>
+<f:argument name="id" optional="1" type="string"/>
 
 
-<u:id set="id" suffix="{file.name}"/>
+<f:variable name="id" value="{f:if(condition: id, then: '{id}', else: 'mediaPlayer-{file.uid}')}"/>
 <u:file get="{file.properties.storage}:{file.identifier}.jpg" set="localPoster"/>
 <u:var if="{file.extension} === 'youtube' || {file.extension} === 'vimeo'" then="{file.contents}" else="" set="embedId"/>
 <u:array merge="{src:file.publicUrl, provider:file.extension, embedId:embedId}" set="playerAttributes">{playerAttributes}</u:array>
@@ -26,6 +27,7 @@
 
 <div class="{name}">
 	<button class="{name}__button"
+			type="button"
 			data-action="modal.toggle#{id}-modal media-player.load#{id}"
 			aria-controls="{id}-modal"
 			aria-label="{f:translate(key:'play-video',extensionName:'puck')}{f:if(condition:'{file.title}', then:': {file.title}')}">

@@ -92,16 +92,14 @@ class ContentElementConfiguration
 	public static function getOrderedConfigurationsFromFolder(string $folder, string $extensionName = 'puck'): array
 	{
 		$configurations = [];
-		$files = glob(ExtensionManagementUtility::extPath($extensionName, $folder));
+		$files = glob(ExtensionManagementUtility::extPath($extensionName, $folder)) ?: [];
 		foreach ($files as $file) {
 			$return = (include $file);
 			if ($return instanceof ContentElementConfiguration) {
 				$configurations[] = $return;
 			}
 		}
-		usort($configurations, function ($a, $b) {
-			return $a->sorting - $b->sorting;
-		});
+		usort($configurations, static fn($a, $b): int => $a->sorting <=> $b->sorting);
 		return $configurations;
 	}
 

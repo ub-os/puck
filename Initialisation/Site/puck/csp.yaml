@@ -3,7 +3,7 @@
 # Do not edit by hand - this file is driven by the site configuration
 # "Tracking & Security" tab:
 #   - puck_csp_mode (off / report / enforce) selects which of the headers below
-#     is actually sent (\UBOS\Puck\Security\Csp\ApplySiteConfigCspBehavior).
+#     is actually sent (\UBOS\Puck\Security\Csp\SiteConfigContentSecurityPolicy).
 #   - puck_csp_allow_inline_scripts flips useHash and adds 'unsafe-inline'.
 #   - puck_csp_rules adds directive mutations at runtime.
 #

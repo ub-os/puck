@@ -62,13 +62,14 @@ htmx.on('htmx:before:request', event => {
 })
 
 htmx.on('htmx:response:error', event => {
-	// route to error page
-	window.location.href = event.detail.xhr.responseURL
+	// navigate to the error response so the server-rendered error page is shown;
+	// fall back to reloading the current page when there is no usable URL (e.g. network error)
+	const url = event.detail?.xhr?.responseURL
+	window.location.href = url && url !== '' ? url : window.location.href
 })
 
 htmx.on('htmx:after:init', event => {
-	if (isBodySwapEvent(event)) {
-	} else {
+	if (!isBodySwapEvent(event)) {
 		resolveFocusAfterSwap()
 	}
 	focusAfterSwapSelector = null
@@ -113,7 +114,7 @@ htmx.on('htmx:before:head:add', event => {
 	// if the element has an id and a data-hx-preserve attribute, and an element with that id already exists, prevent adding the element (prevents duplicate head elements that only differ in cache-busting query params)
 	// @todo: doesn't work anymore, hx-head always merges defer scripts :((
 	if (el.id && el.getAttribute('data-hx-preserve')) {
-		console.log('prevented adding head element with id', el.id)
+		Logger.console.log('prevented adding head element with id', el.id)
 		event.preventDefault();
 	}
 })

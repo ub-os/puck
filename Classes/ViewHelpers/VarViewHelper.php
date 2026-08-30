@@ -43,24 +43,28 @@ class VarViewHelper extends AbstractViewHelper
 	 */
 	public function render(): mixed
 	{
-		$value = $this->arguments['value'] ?: $this->renderChildren() ?? null;
-		if ($this->arguments['if'] && $this->arguments['then'] !== null) {
-			$value = $this->arguments['then'];
-		} elseif ($this->arguments['else'] !== null) {
-			$value = $this->arguments['else'];
+		// "value" and "get" are interchangeable value sources
+		$value = $this->arguments['value'] ?? $this->arguments['get'];
+		if ($value === null) {
+			$rendered = $this->renderChildren();
+			$value = ($rendered === '' || $rendered === null) ? null : $rendered;
 		}
+
+		// conditional mode: active as soon as "then" or "else" is given
+		if ($this->arguments['then'] !== null || $this->arguments['else'] !== null) {
+			$value = $this->arguments['if'] ? $this->arguments['then'] : $this->arguments['else'];
+		}
+
 		if ($value === null) {
 			$value = $this->arguments['fallback'];
 		}
-		if ($value !== null && $this->arguments['set']) {
-			$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $value);
+
+		if ($this->arguments['set'] !== '') {
+			if ($value !== null) {
+				$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $value);
+			}
+			return null;
 		}
-		if ($this->arguments['get'] === '') {
-			return $value;
-		}
-		if ($this->arguments['get'] !== null) {
-			return $this->arguments['get'];
-		}
-		return null;
+		return $value;
 	}
 }

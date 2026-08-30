@@ -40,19 +40,23 @@ class PersistedAliasListMapper extends PersistedAliasMapper
 
 	public function resolve(string $value): ?string
 	{
-		$results = [];
 		$value = $this->routeValuePrefix . $this->purgeRouteValuePrefix($value);
+		$results = [];
 		foreach (explode($this->slugSeparator, $value) as $val) {
-			$results[] = $this->findByRouteFieldValue($val);
-		}
-		foreach ($results as $index => $res) {
-			if ($res[$this->languageParentFieldName] ?? null > 0) {
-				$results[$index] = $res[$this->languageParentFieldName];
-			} else if (isset($res['uid'])) {
-				$results[$index] = $res['uid'];
+			$res = $this->findByRouteFieldValue($val);
+			if (!is_array($res)) {
+				// one slug in the list did not resolve -> the whole list is invalid
+				return null;
+			}
+			if ((int)($res[$this->languageParentFieldName] ?? 0) > 0) {
+				$results[] = $res[$this->languageParentFieldName];
+			} elseif (isset($res['uid'])) {
+				$results[] = $res['uid'];
+			} else {
+				return null;
 			}
 		}
-		if (!$results[0]) {
+		if ($results === []) {
 			return null;
 		}
 		return implode($this->uidSeparator, $results);

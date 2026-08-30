@@ -57,24 +57,18 @@ class FileMenuController extends ActionController
 
 	protected function sortMenu(array $menu, string $filelinkSorting, string $filelinkSortingDirection): array
 	{
-		if ($filelinkSorting) {
-			usort($menu, function ($a, $b) use ($filelinkSorting, $filelinkSortingDirection) {
-				$valA = $a->getProperties()[$filelinkSorting];
-				$valB = $b->getProperties()[$filelinkSorting];
-				if ($filelinkSortingDirection === 'desc') {
-					if (is_string($valA)) {
-						return strcasecmp($valA, $valB);
-					}
-					return $valA < $valB;
-				} else {
-					if (is_string($valA)) {
-						return strcasecmp($valB, $valA);
-					}
-					return $valA > $valB;
-				}
-			}
-			);
+		if ($filelinkSorting === '') {
+			return $menu;
 		}
+		$descending = strtolower($filelinkSortingDirection) === 'desc';
+		usort($menu, static function ($a, $b) use ($filelinkSorting, $descending): int {
+			$valA = $a->getProperties()[$filelinkSorting] ?? null;
+			$valB = $b->getProperties()[$filelinkSorting] ?? null;
+			$result = is_string($valA) || is_string($valB)
+				? strcasecmp((string)$valA, (string)$valB)
+				: $valA <=> $valB;
+			return $descending ? -$result : $result;
+		});
 		return $menu;
 	}
 }

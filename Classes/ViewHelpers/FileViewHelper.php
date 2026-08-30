@@ -3,7 +3,9 @@
 namespace UBOS\Puck\ViewHelpers;
 
 use TYPO3\CMS\Core\Resource;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -65,17 +67,17 @@ class FileViewHelper extends AbstractViewHelper
 	 * @param mixed $file The file reference to retrieve
 	 * @return null|string|Resource\FileReference|Resource\File File object or error message
 	 */
-	public static function getFile(mixed $file): false|string|Resource\FileReference|Resource\File
+	public static function getFile(mixed $file): null|string|Resource\FileReference|Resource\File
 	{
 		if (!$file) {
-			return $file;
+			return null;
 		}
 		if (is_int($file)) {
 			$resourceFactory = GeneralUtility::makeInstance(Resource\ResourceFactory::class);
 			try {
 				return $resourceFactory->getFileObject($file);
 			} catch (\Exception $e) {
-				return false;
+				return null;
 			}
 		}
 		if (is_string($file)) {
@@ -83,7 +85,7 @@ class FileViewHelper extends AbstractViewHelper
 			try {
 				return $resourceFactory->getFileObjectFromCombinedIdentifier($file);
 			} catch (\Exception $e) {
-				return false;
+				return null;
 			}
 		}
 		if (is_object($file)) {
@@ -105,38 +107,32 @@ class FileViewHelper extends AbstractViewHelper
 	}
 
 	/**
-	 * Gets the thumbnail URL for online media files (YouTube/Vimeo)
+	 * Resolves a poster/thumbnail URL for an online media file (YouTube/Vimeo).
 	 *
-	 * For YouTube:
-	 * - Can use Usercentrics privacy proxy if useUcSource=true
-	 * - Otherwise tries several thumbnail resolutions (maxres, hq, mq)
+	 * - useUcSource=true (YouTube only): returns the Usercentrics privacy-proxy
+	 *   URL, without any HTTP request.
+	 * - otherwise: delegates to the TYPO3 core online media helper, which fetches
+	 *   the poster once and caches it on disk, and returns the local web path.
 	 *
-	 * For Vimeo:
-	 * - Retrieves the large thumbnail from Vimeo API
-	 *
-	 * @param Resource\FileReference|Resource\File $file File or FileReference object
 	 * @param array $arguments ViewHelper arguments
-	 * @return string|null Thumbnail URL or null if not available
+	 * @return string|null Poster URL or null if none is available
 	 */
-	protected static function getOnlineMediaImageSrc(Resource\FileReference|Resource\File $file, array $arguments = []): string|null
+	protected static function getOnlineMediaImageSrc(Resource\FileReference|Resource\File $file, array $arguments = []): ?string
 	{
-		$id = $file->getContents();
-		if ($file->getProperty('extension') === 'youtube') {
-			if ($arguments['useUcSource']) {
-				return "https://privacy-proxy-server.usercentrics.eu/video/youtube/{$id}-poster-image";
-			}
-			$resolutions = array('maxresdefault', 'hqdefault', 'mqdefault');
-			foreach ($resolutions as $res) {
-				$imgUrl = 'https://i.ytimg.com/vi/' . $file->getContents() . $res . '.jpg';
-				if (@getimagesize(($imgUrl)))
-					return $imgUrl;
-			}
+		$originalFile = $file instanceof Resource\FileReference ? $file->getOriginalFile() : $file;
+
+		if (($arguments['useUcSource'] ?? false) && $originalFile->getExtension() === 'youtube') {
+			return 'https://privacy-proxy-server.usercentrics.eu/video/youtube/'
+				. $originalFile->getContents() . '-poster-image';
 		}
-		if ($file->getProperty('extension') === 'vimeo') {
-			$data = file_get_contents('https://vimeo.com/api/v2/video/' . $file->getContents() . '.json');
-			$data = json_decode($data);
-			return $data[0]->{'thumbnail_large'};
+
+		$helper = GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class)->getOnlineMediaHelper($originalFile);
+		if ($helper === false) {
+			return null;
 		}
-		return null;
+		$localPreview = $helper->getPreviewImage($originalFile);
+		return $localPreview !== '' && is_file($localPreview)
+			? PathUtility::getAbsoluteWebPath($localPreview)
+			: null;
 	}
 }

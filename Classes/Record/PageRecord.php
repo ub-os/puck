@@ -48,7 +48,12 @@ class PageRecord extends CorePageRecord
 	{
 		$this->properties['teaser_title'] = $teaser->title;
 		$this->properties['teaser_text'] = $teaser->text;
-		$this->properties['media'] = $teaser->media;
+		// Normalise the Extbase file references to core FileReference objects
+		$media = [];
+		foreach ($teaser->media ?? [] as $reference) {
+			$media[] = $reference->getOriginalResource();
+		}
+		$this->properties['media'] = $media;
 	}
 
 }

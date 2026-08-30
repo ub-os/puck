@@ -18,6 +18,7 @@
 <f:argument name="usePlayerComponentForLocalVideoFiles" type="boolean" optional="1" default="1"/>
 <f:argument name="showTitle" type="boolean" optional="1" default="0"/>
 <f:argument name="showDesc" type="boolean" optional="1" default="0"/>
+<f:argument name="id" type="string" optional="1"/>
 
 
 <u:var set="files" if="{file}" then="{0:file}" else="{files}"/>
@@ -26,8 +27,9 @@
 	<f:for each="{files}" as="fileItem" iteration="i">
 
 		{u:file(get:fileItem, set:'file')}
-
+		<u:var set="itemId" if="{id}" then="{id}-{i.cycle}"/>
 		<div class="{u:prependClass()}{name}__figure"
+			 {f:if(condition:'{itemId}', then:'id="{itemId}"')}
 			 {f:if(condition:'{showDesc} && {file.description}',then:'role="figure"')}>
 		<f:if condition="{file.link}">
 			<f:then>
@@ -93,6 +95,7 @@
 			if="{file.extension} == 'youtube' || {file.extension} == 'vimeo' || ({usePlayerComponentForLocalVideoFiles} && ({file.extension} == 'mp4' || {file.extension} == 'webm'))">
 			<div class="{name}__file {name}__{file.extension}">
 				<element:mediaPlayer file="{file}"
+									 id="{f:if(condition:'{itemId}', then:'{itemId}-mediaPlayer')}"
 									 width="{width}"
 									 posterWebp="{webp}"
 									 posterSources="{sources}"

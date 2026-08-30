@@ -15,12 +15,13 @@ class MergedFlexFormSheetsViewHelper extends AbstractViewHelper
 
 	public function render(): ?array
 	{
-		/** @var ?FlexFormFieldValues $value */
 		$value = $this->renderChildren();
-		$sheets = $value->toArray();
+		if (!$value instanceof FlexFormFieldValues) {
+			return null;
+		}
 		$mergedArray = [];
-		foreach ($sheets as $sheet) {
-			$mergedArray = array_merge_recursive($mergedArray, $sheet);
+		foreach ($value->toArray() as $sheet) {
+			$mergedArray = array_replace_recursive($mergedArray, $sheet);
 		}
 		return $mergedArray;
 	}

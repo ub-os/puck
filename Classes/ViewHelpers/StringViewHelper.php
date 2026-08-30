@@ -38,9 +38,15 @@ class StringViewHelper extends AbstractViewHelper
 	 *
 	 * @return array|string|null|int The processed result, which varies based on operations performed
 	 */
-	public function render(): array|string|null|int
+	public function render(): mixed
 	{
-		$input = $this->arguments['input'] ?: $this->renderChildren() ?? '';
+		$input = $this->arguments['input'];
+		if ($input === null || $input === '') {
+			$input = $this->renderChildren();
+		}
+		if (!is_string($input) && !is_array($input)) {
+			$input = (string)$input;
+		}
 		$result = self::process($input, $this->arguments);
 		if ($this->arguments['set']) {
 			$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
@@ -56,36 +62,40 @@ class StringViewHelper extends AbstractViewHelper
 	 * @param array $arguments ViewHelper arguments
 	 * @return array|string|null The processed result
 	 */
-	protected static function process(array|string $input, array $arguments): array|string|null
+	protected static function process(array|string $input, array $arguments): mixed
 	{
 		if ($arguments['if'] !== null && !$arguments['if']) {
 			return $input;
 		}
-		if ($arguments['bulk']) {
-			return array_map(function ($value) use ($arguments) {
-				return self::doOperations($value, $arguments);
-			}, $input);
-		} else {
-			return self::doOperations($input, $arguments);
+		if ($arguments['bulk'] && is_array($input)) {
+			return array_map(
+				static fn($value) => self::doOperations(is_string($value) ? $value : (string)$value, $arguments),
+				$input
+			);
 		}
+		return self::doOperations(is_array($input) ? '' : $input, $arguments);
 	}
 
+	private const ALLOWED_OPERATIONS = ['contains', 'search', 'dataReplace', 'length', 'explode'];
+
 	/**
-	 * Applies operations to the string in the order specified
-	 *
-	 * @param string $string The string to process
-	 * @param array $arguments ViewHelper arguments
-	 * @return string|array The string after all operations or array if exploded
+	 * Applies the configured operations to the string in order. Stops as soon as
+	 * an operation produces a non-string (contains / length / explode).
 	 */
-	protected static function doOperations(string $string, array $arguments): string|array
+	protected static function doOperations(string $string, array $arguments): mixed
 	{
-		$operations = explode(' ', $arguments['operations']);
-		foreach ($operations as $operation) {
-			if ($arguments[$operation] !== null) {
-				$string = self::$operation($string, $arguments[$operation], $arguments);
+		$result = $string;
+		foreach (explode(' ', $arguments['operations']) as $operation) {
+			if (!in_array($operation, self::ALLOWED_OPERATIONS, true) || ($arguments[$operation] ?? null) === null) {
+				continue;
 			}
+			if (!is_string($result)) {
+				// a previous operation already produced a non-string (bool/int/array)
+				break;
+			}
+			$result = self::$operation($result, $arguments[$operation], $arguments);
 		}
-		return $string;
+		return $result;
 	}
 
 	/**
@@ -137,27 +147,18 @@ class StringViewHelper extends AbstractViewHelper
 	 */
 	protected static function dataReplace(string $string, array $dataReplace): string
 	{
-		preg_match_all("/\{\{(.*?)\}\}/", $string, $matches);
-		$matches = array_values(array_unique($matches, SORT_REGULAR));
-		$variables = array_map(function ($match) {
-			return [
-				"match" => '{{' . $match . '}}',
-				"parts" => explode(".", trim($match))
-			];
-		}, $matches[1]);
-
-		foreach ($variables as $variable) {
+		preg_match_all('/\{\{(.*?)\}\}/', $string, $matches);
+		foreach (array_unique($matches[1]) as $token) {
 			$value = $dataReplace;
-			foreach ($variable["parts"] as $part) {
-				if (isset($value[$part])) {
-					$value = $value[$part];
-				} else {
+			foreach (explode('.', trim($token)) as $part) {
+				if (!is_array($value) || !array_key_exists($part, $value)) {
 					$value = null;
 					break;
 				}
+				$value = $value[$part];
 			}
-			if ($value !== null) {
-				$string = str_replace($variable["match"], $value, $string);
+			if (is_scalar($value)) {
+				$string = str_replace('{{' . $token . '}}', (string)$value, $string);
 			}
 		}
 

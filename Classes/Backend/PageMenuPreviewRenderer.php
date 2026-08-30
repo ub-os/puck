@@ -5,23 +5,27 @@ namespace UBOS\Puck\Backend;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
+use TYPO3\CMS\Core\Domain\FlexFormFieldValues;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewInterface;
 
 /**
  * Preview renderer for the PageMenu plugin.
  */
 class PageMenuPreviewRenderer extends BasicPreviewRenderer
 {
-	public function renderPageModulePreviewContent(GridColumnItem $item): string
+	protected function assignPreviewContentVariables(ViewInterface $view, GridColumnItem $item): void
 	{
-		$record = $item->getRecord();
-		$flexFormValues = $record->get('pi_flexform');
-		$sheets = $flexFormValues->getSheets();
-		$settings = array_merge_recursive(...array_values($sheets))['settings'] ?? [];
-		$this->view->assign('pageMenuSettings', $settings);
-		$this->view->assign('pageMenuProcessed', $this->getDataForPageMenuFlexFormPreview($settings));
-		$item->setRecord($record);
-		return parent::renderPageModulePreviewContent($item);
+		$flexFormValues = $item->getRecord()->get('pi_flexform');
+		if (!$flexFormValues instanceof FlexFormFieldValues) {
+			return;
+		}
+		$settings = [];
+		foreach ($flexFormValues->toArray() as $sheet) {
+			$settings = array_replace_recursive($settings, $sheet['settings'] ?? []);
+		}
+		$view->assign('pageMenuSettings', $settings);
+		$view->assign('pageMenuProcessed', $this->getDataForPageMenuFlexFormPreview($settings));
 	}
 
 	protected function getDataForPageMenuFlexFormPreview(array $settings): array
@@ -30,8 +34,7 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		foreach (['records', 'parents'] as $key) {
 			if (!empty($settings['demand'][$key])) {
-				$uids = explode(',', $settings['demand'][$key]);
-				foreach ($uids as $uid) {
+				foreach (GeneralUtility::intExplode(',', (string)$settings['demand'][$key], true) as $uid) {
 					$page = BackendUtility::getRecord('pages', $uid, '*', '', true);
 					if (!$page) {
 						continue;
@@ -74,13 +77,12 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 			],
 		];
 		foreach ($recordGroups as $key => $recordGroup) {
-			if (isset($recordGroup['uids']) && !empty($recordGroup['uids'])) {
-				$uids = explode(',', $recordGroup['uids']);
-				foreach ($uids as $uid) {
-					if (!$uid) {
+			if (!empty($recordGroup['uids'])) {
+				foreach (GeneralUtility::intExplode(',', (string)$recordGroup['uids'], true) as $uid) {
+					$record = BackendUtility::getRecord($recordGroup['table'], $uid, '*', '', true);
+					if (!$record) {
 						continue;
 					}
-					$record = BackendUtility::getRecord($recordGroup['table'], $uid, '*', '', true);
 					$record['backend_link'] = $uriBuilder->buildUriFromRoute(
 						'record_edit',
 						[

@@ -38,17 +38,23 @@ class RenderAttributesViewHelper extends AbstractViewHelper
 	 */
 	public function render(): string
 	{
-		$attributes = $this->arguments['attributes'] ?: $this->renderChildren() ?? [];
-		$string = '';
-		if ($attributes === null) {
-			return $string;
+		$attributes = $this->arguments['attributes'];
+		if (!is_array($attributes) || $attributes === []) {
+			$rendered = $this->renderChildren();
+			$attributes = is_array($rendered) ? $rendered : [];
 		}
+		$replacements = $this->arguments['keyReplacements'] ?: [];
+		$string = '';
 		foreach ($attributes as $key => $value) {
-			if ($this->arguments['keyReplacements']) {
-				// replace keys (e.g. "data____foo" => "data:foo", since ":" is not allowed in fluid array keys)
-				$key = str_replace(array_keys($this->arguments['keyReplacements']), array_values($this->arguments['keyReplacements']), $key);
+			if ($value === null || $value === false) {
+				continue;
 			}
-			$string .= $key . '="' . $value . '" ';
+			if ($replacements) {
+				// e.g. "data____foo" => "data:foo", since ":" is not allowed in fluid array keys
+				$key = str_replace(array_keys($replacements), array_values($replacements), (string)$key);
+			}
+			$string .= htmlspecialchars((string)$key, ENT_QUOTES)
+				. '="' . htmlspecialchars((string)$value, ENT_QUOTES) . '" ';
 		}
 		return $string;
 	}

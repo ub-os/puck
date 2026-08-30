@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  * Adds puck's asset tags to the <head> of every rendered frontend page:
  *
  *  - the extension stylesheet + script
- *  - the favicon <link> tags (package selected via the "template.favicon" site setting)
+ *  - the favicon <link> tags (package selected via the "puck.favicon" site setting)
  *  - the administrator tracking / analytics markup from the "Tracking & Security" tab
  *    (inline <script>/<style> as CSP-hashed assets; <noscript>/pixels as raw markup)
  *
@@ -101,7 +101,7 @@ final class PageAssetDecorator
 
 	private function addFavicon(Site $site): void
 	{
-		$package = (string)($site->getSettings()->get('template.favicon') ?: 'default');
+		$package = (string)($site->getSettings()->get('puck.favicon') ?: 'default');
 		$path = PathUtility::getAbsoluteWebPath(GeneralUtility::getFileAbsFileName(
 			'EXT:puck/Resources/Public/Favicons/packages/' . $package
 		));

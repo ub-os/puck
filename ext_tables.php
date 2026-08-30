@@ -1,2 +1,3 @@
- <?php
- defined('TYPO3') or die();
+<?php
+
+defined('TYPO3') or die();

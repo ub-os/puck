@@ -32,9 +32,10 @@ class TranslationUidViewHelper extends AbstractViewHelper
 					]
 				)
 				->fetchAssociative();
-			return $translatedUid['uid'] ?: $this->arguments['uid'];
-		} else {
-			return $this->arguments['uid'];
+			if (is_array($translatedUid) && !empty($translatedUid['uid'])) {
+				return (int)$translatedUid['uid'];
+			}
 		}
+		return $this->arguments['uid'];
 	}
 }

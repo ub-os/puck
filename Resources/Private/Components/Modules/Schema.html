@@ -11,6 +11,10 @@
 
 <f:variable name="pageUrl">{f:uri.page(absolute:1)}</f:variable>
 
+<f:variable name="datePublished"><f:format.trim>
+	<f:if condition="{record.post_date}">{record.post_date -> f:format.date(format: 'c')}</f:if>
+</f:format.trim></f:variable>
+
 <f:variable name="imageUrl"><f:format.trim>
 	<f:if condition="{record.media}">
 		<f:then>{f:uri.image(image: record.media.0, crop: record.media.0.crop, width: '1920', cropVariant: '16:9', absolute: '1')}</f:then>
@@ -71,7 +75,7 @@
 		description="{record.description}"
 		image="{imageUrl}"
 		inLanguage="{context.language.hreflang}"
-		datePublished="{record.post_date -> f:format.date()}">
+		datePublished="{datePublished}">
 		<f:render section="WebSite" arguments="{_all}"/>
 	</schema:type.newsArticle>
 </f:section>

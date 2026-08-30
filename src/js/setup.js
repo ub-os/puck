@@ -57,6 +57,9 @@ stim.registerSelectorCallback({
 	'a.download, a[download]': el => {
 		el.setAttribute('data-hx-boost', 'false')
 		htmx.process(el)
+	},
+	'[data-uc-show-second-layer]': el => {
+		el.addEventListener('click', () => window.UC_UI?.showSecondLayer())
 	}
 })
 

@@ -41,7 +41,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9;
 
 // Backend Extension Configuration
 $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['puck'] = 'EXT:puck/Resources/Public/Css/dist/puck-backend.min.css';
-$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Favicons/packages/default/android-chrome-72x72.png';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendLogo'] = 'EXT:puck/Resources/Public/Favicons/packages/default/android-chrome-192x192.png';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['backendFavicon'] = 'EXT:puck/Resources/Public/Favicons/packages/default/favicon.ico';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginHighlightColor'] = '#ff8700';
 $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend']['loginLogo'] = 'EXT:puck/Resources/Public/Images/Logos/default.svg';

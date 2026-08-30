@@ -47,10 +47,14 @@ class ArrayViewHelper extends AbstractViewHelper
 	 *
 	 * @return array|string|null Processed array or string (if implode used), or null if result stored in variable
 	 */
-	public function render(): array|string|null
+	public function render(): mixed
 	{
-		$input = $this->arguments['input'] ?: $this->renderChildren() ?? [];
-		$result = ArrayViewHelper::process($input, $this->arguments);
+		$input = $this->arguments['input'];
+		if (!is_array($input) || $input === []) {
+			$rendered = $this->renderChildren();
+			$input = is_array($rendered) ? $rendered : (is_array($input) ? $input : []);
+		}
+		$result = self::process($input, $this->arguments);
 		if ($this->arguments['set']) {
 			$this->renderingContext->getVariableProvider()->add($this->arguments['set'], $result);
 			return null;
@@ -65,36 +69,43 @@ class ArrayViewHelper extends AbstractViewHelper
 	 * @param array $arguments ViewHelper arguments
 	 * @return array|string|null The processed result
 	 */
-	protected static function process(array $input, array $arguments): array|string|null
+	protected static function process(array $input, array $arguments): mixed
 	{
 		if ($arguments['if'] !== null && !$arguments['if']) {
 			return $input;
 		}
 		if ($arguments['bulk']) {
-			return array_map(function ($value) use ($arguments) {
-				return self::doOperations($value, $arguments);
-			}, $input);
-		} else {
-			return self::doOperations($input, $arguments);
+			return array_map(
+				static fn($value) => is_array($value) ? self::doOperations($value, $arguments) : $value,
+				$input
+			);
 		}
+		return self::doOperations($input, $arguments);
 	}
 
+	private const ALLOWED_OPERATIONS = [
+		'changeKeys', 'keys', 'slice', 'merge', 'mergeRecursive', 'range', 'unset',
+		'implode', 'indexKey', 'push', 'search', 'getValue', 'filter', 'inverseFilter',
+	];
+
 	/**
-	 * Applies configured operations to the array in order
-	 *
-	 * @param array $array The array to process
-	 * @param array $arguments ViewHelper arguments
-	 * @return array|string The processed array or string
+	 * Applies the configured operations to the array in order. Stops as soon as
+	 * an operation produces a scalar (implode / search / getValue).
 	 */
-	protected static function doOperations(array $array, array $arguments): array|string
+	protected static function doOperations(array $array, array $arguments): mixed
 	{
-		$operations = explode(' ', $arguments['operations']);
-		foreach ($operations as $operation) {
-			if ($arguments[$operation] !== null) {
-				$array = self::$operation($array, $arguments[$operation]);
+		$result = $array;
+		foreach (explode(' ', $arguments['operations']) as $operation) {
+			if (!in_array($operation, self::ALLOWED_OPERATIONS, true) || ($arguments[$operation] ?? null) === null) {
+				continue;
 			}
+			if (!is_array($result)) {
+				// a previous operation (implode / search / getValue) already produced a scalar
+				break;
+			}
+			$result = self::$operation($result, $arguments[$operation]);
 		}
-		return $array;
+		return $result;
 	}
 
 	/**
@@ -259,9 +270,10 @@ class ArrayViewHelper extends AbstractViewHelper
 	 * @param string $search Value to search for
 	 * @return array Key of the first matching value
 	 */
-	protected static function search(array $array, string $search): array
+	protected static function search(array $array, string $search): string|int|null
 	{
-		return array_search($search, $array);
+		$key = array_search($search, $array, false);
+		return $key === false ? null : $key;
 	}
 
 	protected static function getValue(array $array, string $key): mixed

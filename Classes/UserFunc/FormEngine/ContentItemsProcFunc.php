@@ -3,7 +3,6 @@
 namespace UBOS\Puck\UserFunc\FormEngine;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use UBOS\Puck\Domain\Repository\PageRepository;
 
 /**
  * ItemsProcFunc methods for 'tt_content' fields

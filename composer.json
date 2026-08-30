@@ -16,7 +16,7 @@
     "amdeu/typo3-label-editor": "^2",
     "amdeu/typo3-locallang-formats": "^2",
     "amdeu/typo3-menu-controls": "^1",
-    "amdeu/typo3-shape": "^0.5",
+    "amdeu/typo3-shape": "^0.5 || dev-main",
     "b13/container": "^3.2",
     "b13/menus": "^2.0",
     "brotkrueml/schema": "^4.2",

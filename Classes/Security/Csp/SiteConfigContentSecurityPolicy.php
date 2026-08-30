@@ -26,9 +26,9 @@ use TYPO3\CMS\Core\Site\Entity\Site;
  * Sites module and never touch csp.yaml:
  *
  *  - puck_csp_mode (off | report | enforce)
- *    csp.yaml declares both an "enforce:" and a "report:" disposition; the
- *    policy of whichever disposition(s) the mode does not want is emptied so the
- *    corresponding HTTP header is not sent.
+ *    csp.yaml declares both an "enforce:" and a "report:" disposition; whichever
+ *    disposition(s) the mode does not want are removed from the policy bag's
+ *    disposition map so the corresponding HTTP header is not sent.
  *
  *  - puck_csp_allow_inline_scripts
  *    adds 'unsafe-inline' to script-src / style-src and disables hash mode (the
@@ -81,11 +81,40 @@ final class SiteConfigContentSecurityPolicy
 	}
 
 	/**
-	 * puck_csp_mode + puck_csp_allow_inline_scripts -> disposition selection and
-	 * inline script handling.
+	 * puck_csp_allow_inline_scripts -> add 'unsafe-inline' to script-src / style-src.
+	 *
+	 * Applied on PolicyMutatedEvent rather than PolicyPreparedEvent: by the time
+	 * the policies are "prepared" they are sealed into the PolicyBag, whose
+	 * setPolicy() is append-only and throws "Policy already set" on a second call.
+	 * PolicyMutatedEvent fires once per disposition while the policy is still
+	 * mutable; the disposition is irrelevant here because non-kept dispositions are
+	 * dropped in selectDisposition() before any header is compiled.
 	 */
 	#[AsEventListener]
-	public function applyBehavior(PolicyPreparedEvent $event): void
+	public function allowInlineScripts(PolicyMutatedEvent $event): void
+	{
+		$site = $this->resolveFrontendSite($event->scope, $event->request);
+		if ($site === null) {
+			return;
+		}
+		if (!(bool)($site->getConfiguration()['puck_csp_allow_inline_scripts'] ?? false)) {
+			return;
+		}
+		$event->setCurrentPolicy($this->withInlineScriptsAllowed($event->getCurrentPolicy()));
+	}
+
+	/**
+	 * puck_csp_mode -> which disposition header(s) are actually sent, plus the
+	 * useHash toggle that pairs with puck_csp_allow_inline_scripts.
+	 *
+	 * PolicyProvider::prepare() has already stored a policy for every disposition
+	 * by the time this event fires and PolicyBag::setPolicy() refuses to overwrite,
+	 * so an unwanted disposition cannot be "emptied". Removing it from the (still
+	 * mutable) dispositionMap is what stops the CSP middleware from emitting its
+	 * header.
+	 */
+	#[AsEventListener]
+	public function selectDisposition(PolicyPreparedEvent $event): void
 	{
 		$policyBag = $event->policyBag;
 		$site = $this->resolveFrontendSite($policyBag->scope, $event->request);
@@ -97,18 +126,10 @@ final class SiteConfigContentSecurityPolicy
 		$mode = (string)($config['puck_csp_mode'] ?? 'report');
 		$allowInlineScripts = (bool)($config['puck_csp_allow_inline_scripts'] ?? false);
 
-		foreach ($policyBag->dispositionMap as $disposition => $_) {
+		// keys() returns a copy, so unsetting during the loop is safe.
+		foreach ($policyBag->dispositionMap->keys() as $disposition) {
 			if (!$this->keepsDisposition($mode, $disposition)) {
-				if (!$policyBag->getPolicy($disposition)->isEmpty()) {
-					$policyBag->setPolicy($disposition, new Policy());
-				}
-				continue;
-			}
-			if ($allowInlineScripts) {
-				$policyBag->setPolicy(
-					$disposition,
-					$this->withInlineScriptsAllowed($policyBag->getPolicy($disposition))
-				);
+				unset($policyBag->dispositionMap[$disposition]);
 			}
 		}
 

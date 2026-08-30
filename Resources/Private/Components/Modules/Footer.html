@@ -8,7 +8,8 @@
 		<element:navigation name="{name}__nav" identifier="footer">
 			<f:if condition="{site.settings.puck.enableCookieSettings}">
 				<li class="{name}__nav__item">
-					<button class="{name}__nav__link" onclick="UC_UI.showSecondLayer();">Cookie-Einstellungen
+					<button type="button" class="{name}__nav__link" data-uc-show-second-layer>
+						<f:translate key="cookie-settings" extensionName="puck"/>
 					</button>
 				</li>
 			</f:if>
