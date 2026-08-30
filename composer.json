@@ -7,10 +7,13 @@
   "require": {
     "php": "^8.3",
     "typo3/cms-core": "^14",
+    "typo3/cms-backend": "^14.3",
+    "typo3/cms-extbase": "^14",
+    "typo3/cms-fluid": "^14",
+    "typo3/cms-frontend": "^14",
     "typo3/cms-lowlevel": "^14",
     "typo3/cms-redirects": "^14",
     "typo3/cms-recycler": "^14",
-    "typo3/cms-backend": "^14.3",
     "oliveoilexpert/ckeditor-icons": "^0.2.6",
     "amdeu/typo3-copy-presets": "^1.1",
     "amdeu/typo3-label-editor": "^2",
@@ -26,6 +29,11 @@
     "plan2net/webp": "^14.5",
     "wapplersystems/save_and_close": "^14.0"
   },
+  "require-dev": {
+    "phpstan/phpstan": "^2.1",
+    "saschaegerer/phpstan-typo3": "^3.1",
+    "typo3/coding-standards": "^0.9"
+  },
   "replace": {
     "typo3-ter/puck": "self.version"
   },
@@ -33,6 +41,23 @@
     "psr-4": {
       "UBOS\\Puck\\": "./Classes/"
     }
+  },
+  "config": {
+    "platform": {
+      "php": "8.3.0"
+    },
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "php-http/discovery": true,
+      "helhum/typo3-console": true
+    }
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse --memory-limit=1G",
+    "phpstan:baseline": "phpstan analyse --memory-limit=1G --generate-baseline",
+    "cs:check": "php-cs-fixer fix --dry-run --diff",
+    "cs:fix": "php-cs-fixer fix"
   },
   "extra": {
     "typo3/cms": {

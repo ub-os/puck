@@ -1,4 +1,11 @@
 node_modules
+/vendor/
+/composer.lock
+/.Build/
+/var/
+/public/
+/.php-cs-fixer.cache
+/.php-cs-fixer.php
 .DS_Store
 .sass-cache
 /.vscode
