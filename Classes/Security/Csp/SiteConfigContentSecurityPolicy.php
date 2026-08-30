@@ -126,10 +126,10 @@ final class SiteConfigContentSecurityPolicy
 		$mode = (string)($config['puck_csp_mode'] ?? 'report');
 		$allowInlineScripts = (bool)($config['puck_csp_allow_inline_scripts'] ?? false);
 
-		// keys() returns a copy, so unsetting during the loop is safe.
+		// keys() returns a copy, so mutating the map during the loop is safe.
 		foreach ($policyBag->dispositionMap->keys() as $disposition) {
 			if (!$this->keepsDisposition($mode, $disposition)) {
-				unset($policyBag->dispositionMap[$disposition]);
+				$policyBag->dispositionMap->offsetUnset($disposition);
 			}
 		}
 

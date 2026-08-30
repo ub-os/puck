@@ -89,9 +89,6 @@ class FileViewHelper extends AbstractViewHelper
 			}
 		}
 		if (is_object($file)) {
-			if (get_class($file) === 'SMS\FluidComponents\Domain\Model\FalFile') {
-				$file = $file->getFile();
-			}
 			if (get_class($file) === 'TYPO3\CMS\Extbase\Domain\Model\FileReference') {
 				$file = $file->getOriginalResource();
 			}

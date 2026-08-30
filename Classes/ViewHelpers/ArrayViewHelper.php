@@ -180,7 +180,8 @@ class ArrayViewHelper extends AbstractViewHelper
 	 */
 	protected static function mergeRecursive(array $array, array $mergeRecursive): array
 	{
-		return ArrayUtility::mergeRecursiveWithOverrule($array, $mergeRecursive);
+		ArrayUtility::mergeRecursiveWithOverrule($array, $mergeRecursive);
+		return $array;
 	}
 
 	/**
@@ -268,7 +269,7 @@ class ArrayViewHelper extends AbstractViewHelper
 	 *
 	 * @param array $array Input array
 	 * @param string $search Value to search for
-	 * @return array Key of the first matching value
+	 * @return string|int|null Key of the first matching value, or null if not found
 	 */
 	protected static function search(array $array, string $search): string|int|null
 	{

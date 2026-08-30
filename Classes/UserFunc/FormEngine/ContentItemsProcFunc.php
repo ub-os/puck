@@ -101,7 +101,7 @@ class ContentItemsProcFunc
 		} else {
 			$maximum = $containerWidth;
 		}
-		$items = array_filter($params['items'], function ($item) use ($params, $maximum) {
+		$items = array_filter($params['items'], function ($item) use ($maximum) {
 			return $item[1] <= $maximum;
 		});
 		$params['items'] = $items;
@@ -134,7 +134,7 @@ class ContentItemsProcFunc
 			return;
 		}
 		$maximum = $containerWidth - $this->val($params['row']['media_column_width']);
-		$items = array_filter($params['items'], function ($item) use ($params, $maximum) {
+		$items = array_filter($params['items'], function ($item) use ($maximum) {
 			return $item[1] <= $maximum;
 		});
 		$params['items'] = $items;
@@ -177,7 +177,7 @@ class ContentItemsProcFunc
 			// maximum width = container width - text width
 			$maximum = $containerWidth - $this->val($params['row']['text_column_width']);
 		}
-		$items = array_filter($params['items'], function ($item) use ($params, $maximum) {
+		$items = array_filter($params['items'], function ($item) use ($maximum) {
 			return $item[1] <= $maximum;
 		});
 		$params['items'] = $items;

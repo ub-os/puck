@@ -1,5 +1,6 @@
 <f:if condition="{record.header} || {record.subheader}">
 	<div class="t3-page-ce-body-headline">
+		<f:comment>todo implement slug; sectionIndex replaces anchor element. sectionIndex as nullable input. slug field with generatorFields title and sectionIndex</f:comment>
 		<f:if condition="{record.CType} !== 'puck_anchor'">
 			<f:then>
 				<f:if condition="{record.header_layout.value} == 100">
@@ -7,9 +8,9 @@
 						<i>{record.header -> f:format.raw()}</i>
 					</f:then>
 					<f:else if="{record.header_layout.tag}">
-						<{record.header_layout.tag}>
+						<element:tag tag="{record.header_layout.tag}">
 							{record.header -> f:format.raw()}
-						</{record.header_layout.tag}>
+						</element:tag>
 					</f:else>
 					<f:else if="{record.CType} == 'puck_hero'">
 						<h1>{record.header -> f:format.raw()}</h1>

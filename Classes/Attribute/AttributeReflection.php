@@ -33,7 +33,7 @@ class AttributeReflection
 			$extensionKey,
 			$controllerDirectory,
 			$controllerNamespace,
-			function(\ReflectionClass $reflection, string $className) use ($extensionKey, &$plugins) {
+			function(\ReflectionClass $reflection, string $className) use (&$plugins) {
 				foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
 					if (!str_contains($method->getName(), 'Action')) {
 						continue;

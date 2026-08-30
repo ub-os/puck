@@ -9,6 +9,7 @@
 
 <div id="{id}" class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
 	<button class="{name}__button e-button -icon-right"
+			type="button"
 			data-target="dialog.control#{id}__dialog">
 		{label}
 		<f:slot name="button"/>

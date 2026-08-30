@@ -27,5 +27,4 @@ class PageTeaser extends AbstractEntity
 
 	public string $icon = '';
 
-	public string $parentTable;
 }

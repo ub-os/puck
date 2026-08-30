@@ -5,8 +5,10 @@ namespace UBOS\Puck\Controller;
 use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverDelegateRegistry;
+use TYPO3\CMS\Fluid\View\FluidViewAdapter;
 use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3Fluid\Fluid\Core\Component\ComponentDefinitionProviderInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Controller trait for content element plugins rendering Fluid components,
@@ -81,7 +83,7 @@ trait ComponentContentElementTrait
 
         $component = $component
             ?? $this->settings['contentElementConfiguration']['component']
-            ?? lcfirst($this->view->getRenderingContext()->getControllerAction());
+            ?? lcfirst($this->resolveRenderingContext()->getControllerAction());
 
 
         $delegate = $this->delegateRegistry->getAll()[$componentCollection] ?? null;
@@ -96,8 +98,19 @@ trait ComponentContentElementTrait
             $component,
 			$arguments,
             [],
-            $this->view->getRenderingContext(),
+            $this->resolveRenderingContext(),
         );
+    }
+
+    private function resolveRenderingContext(): RenderingContextInterface
+    {
+        if (!$this->view instanceof FluidViewAdapter) {
+            throw new \RuntimeException(
+                'Rendering Fluid components requires a Fluid view.',
+                1676412347,
+            );
+        }
+        return $this->view->getRenderingContext();
     }
 
     /**

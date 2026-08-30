@@ -13,6 +13,8 @@ use TYPO3\CMS\Core\Routing\Aspect\PersistedAliasMapper;
  */
 class PersistedAliasListMapper extends PersistedAliasMapper
 {
+	protected string $uidSeparator;
+	protected string $slugSeparator;
 
 	public function __construct(array $settings)
 	{
@@ -55,9 +57,6 @@ class PersistedAliasListMapper extends PersistedAliasMapper
 			} else {
 				return null;
 			}
-		}
-		if ($results === []) {
-			return null;
 		}
 		return implode($this->uidSeparator, $results);
 	}

@@ -93,7 +93,10 @@ class StringViewHelper extends AbstractViewHelper
 				// a previous operation already produced a non-string (bool/int/array)
 				break;
 			}
-			$result = self::$operation($result, $arguments[$operation], $arguments);
+			// "search" is a search-and-replace and needs the sibling "replace" argument.
+			$result = $operation === 'search'
+				? self::search($result, $arguments['search'], $arguments)
+				: self::$operation($result, $arguments[$operation]);
 		}
 		return $result;
 	}

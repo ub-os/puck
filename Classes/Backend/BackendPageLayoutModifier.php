@@ -39,7 +39,7 @@ final class BackendPageLayoutModifier
 		$pageRenderer->loadJavaScriptModule(
 			'@ubos/puck/Backend/web-layout-content-minimize.js'
 		);
-		$row = BackendUtility::readPageAccess($request->getQueryParams()['id'], true);
+		$row = BackendUtility::readPageAccess($request->getQueryParams()['id'], '1=1');
 		$record = $this->recordFactory->createResolvedRecordFromDatabaseRow('pages', $row);
 		$view = $this->viewFactory->create(
 			new ViewFactoryData(

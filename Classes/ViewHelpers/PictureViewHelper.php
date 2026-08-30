@@ -152,7 +152,7 @@ class PictureViewHelper extends AbstractViewHelper
 
 		$sources = $this->arguments['sources'];
 		if ($this->arguments['breakpointSources']) {
-			$imageBreakpoints = explode(',', $this->arguments['image']->getProperties()['breakpoints']) ?? [];
+			$imageBreakpoints = explode(',', (string)($this->arguments['image']->getProperties()['breakpoints'] ?? ''));
 			foreach ($imageBreakpoints as $breakpoint) {
 				if (!$breakpoint || $breakpoint === 'default') {
 					continue;

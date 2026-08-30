@@ -60,19 +60,16 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 			'categories' => [
 				'table' => 'sys_category',
 				'title' => 'Categories',
-				'titleField' => 'title',
 				'uids' => $settings['demand']['categoryGroups']['main']['uids'] ?? ''
 			],
 			'filter_categories' => [
 				'table' => 'sys_category',
 				'title' => 'Filter categories',
-				'titleField' => 'title',
 				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['categories'] : ''
 			],
 			'filter_category_groups' => [
 				'table' => 'sys_category',
 				'title' => 'Filter category groups',
-				'titleField' => 'title',
 				'uids' => isset($settings['categoryFilter']) ? $settings['categoryFilter']['treeCategories'] : ''
 			],
 		];
@@ -91,9 +88,6 @@ class PageMenuPreviewRenderer extends BasicPreviewRenderer
 						]
 					);
 					$record['table'] = $recordGroup['table'];
-					if ($recordGroup['titleField'] !== 'title' && isset($record[$recordGroup['titleField']])) {
-						$record['title'] = $record[$recordGroup['titleField']];
-					}
 					$record['backend_link_title'] = 'Edit record';
 					$processedMenuData[$key][] = $record;
 				}
