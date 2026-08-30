@@ -173,6 +173,10 @@ AddEncoding x-gzip .gz
 
 	ExpiresByType text/x-cross-domain-policy            "access plus 1 week"
 
+	<FilesMatch "^index\.php$">
+		ExpiresActive Off
+	</FilesMatch>
+
 </IfModule>
 
 ### End: Browser caching of resource files ###
@@ -202,7 +206,7 @@ AddEncoding x-gzip .gz
 	AddType application/xml                             rdf xml
 
 	# JavaScript
-	AddType application/javascript                      js
+	AddType application/javascript                      js mjs
 
 	# Manifest files
 	AddType application/manifest+json                   webmanifest
@@ -303,7 +307,7 @@ AddDefaultCharset utf-8
 	# IMPORTANT: This rule has to be the very first RewriteCond in order to work!
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.+)\.(\d+)\.(php|js|mjs|css|png|jpg|gif|svg|avif|webp|gz)$ %{ENV:CWD}$1.$3 [L]
+	RewriteRule ^(.+)\.(\d+)\.(php|js|mjs|css|png|jpg|gif|svg|avif|webp|gz|xsl|ico)$ %{ENV:CWD}$1.$3 [L]
 
 	# Access block for folders
 	RewriteRule _(?:recycler|temp)_/ - [F]
@@ -324,15 +328,13 @@ AddDefaultCharset utf-8
     RewriteCond %{REQUEST_FILENAME}\.avif -f
     RewriteRule ^ %{REQUEST_FILENAME}\.avif [L,T=image/avif]
 
-	# Stop rewrite processing, if we are in any other known directory
+	# Stop rewrite processing, if we are in any known directory
 	# NOTE: Add your additional local storages here
 	RewriteRule ^(?:fileadmin/|typo3conf/|typo3temp/|_assets/) - [L]
 
-	# If the file/symlink/directory does not exist but is below /typo3/, redirect to the TYPO3 Backend entry point.
+	# If the file/symlink/directory does not exist but is below /typo3/, redirect to the main TYPO3 entry point.
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteCond %{REQUEST_FILENAME} !-l
-	RewriteRule ^typo3/(.*)$ %{ENV:CWD}typo3/index.php [QSA,L]
+	RewriteRule ^typo3/(.*)$ %{ENV:CWD}index.php [QSA,L]
 
 	# If the file/symlink/directory does not exist => Redirect to index.php.
 	# For httpd.conf, you need to prefix each '%{REQUEST_FILENAME}' with '%{DOCUMENT_ROOT}'.
