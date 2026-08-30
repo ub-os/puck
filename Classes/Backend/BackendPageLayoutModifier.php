@@ -19,7 +19,7 @@ final class BackendPageLayoutModifier
 {
 	public function __construct(
 		private readonly ViewFactoryInterface $viewFactory,
-		private RecordFactory $recordFactory,
+		private readonly RecordFactory $recordFactory,
 	) {}
 
 	#[AsEventListener]

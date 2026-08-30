@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UBOS\Puck\ContentObject;
 
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverDelegateRegistry;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
@@ -43,6 +44,7 @@ class FluidComponentContentObject extends AbstractContentObject
 		private readonly RenderingContextFactory $renderingContextFactory,
 		private readonly ContentDataProcessor $contentDataProcessor,
 		private readonly ViewHelperResolverDelegateRegistry $delegateRegistry,
+		private readonly LoggerInterface $logger,
 	) {}
 
 	public function render($conf = []): string
@@ -75,7 +77,16 @@ class FluidComponentContentObject extends AbstractContentObject
 				[],
 				$renderingContext,
 			);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
+			$this->logger->error(
+				'FLUIDCOMPONENT rendering failed for component "{component}" in collection "{collection}": {message}',
+				[
+					'component' => $componentName,
+					'collection' => $namespace,
+					'message' => $e->getMessage(),
+					'exception' => $e,
+				],
+			);
 			if ($GLOBALS['TYPO3_CONF_VARS']['FE']['debug'] ?? false) {
 				return sprintf(
 					'<!-- FLUIDCOMPONENT ERROR: %s -->',

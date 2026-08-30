@@ -204,7 +204,11 @@ class ContentElementConfiguration
 	}
 
 	/**
-	 * Creates a new element configuration with restricted fields based on this configuration.
+	 * Reconfigures this instance in place as a restricted variant of another content
+	 * element, reusing its component template but exposing fewer fields to editors.
+	 *
+	 * Mutates and returns $this — safe because every content element config file is
+	 * `include`d into a fresh instance (see getOrderedConfigurationsFromFolder()).
 	 *
 	 * This is useful for creating preset variants of a content element that offer
 	 * fewer configuration options to editors, making them simpler to use while
@@ -217,7 +221,7 @@ class ContentElementConfiguration
 	 * @param string $icon Icon identifier (optional)
 	 * @param float $sorting Sorting value for content element wizard (optional)
 	 * @param array $valueOverrides Fields that will be hidden in the backend and overridden with the given values
-	 * @return ContentElementConfiguration The modified configuration instance
+	 * @return ContentElementConfiguration This instance, reconfigured
 	 * @see \UBOS\Puck\Record\ContentRecord::setOverriddenProperties
 	 */
 	public function makeRestrictedChildElement(
