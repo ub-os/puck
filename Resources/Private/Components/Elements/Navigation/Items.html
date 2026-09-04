@@ -27,7 +27,7 @@
 								 language="{item.language.languageId}"
 								 class="{u:bem(el:'link', mod:{active-lang: item.isActiveLanguage})}"
 								 absolute="1">
-					{item.language.title}
+					{item.language.navigationTitle}
 				</f:link.typolink>
 			</f:else>
 			<f:else if="{item.url -> u:string(contains:'mailto:')}">
@@ -89,6 +89,7 @@
 					 )}">
 							{item.nav_title -> f:format.raw()}
 						</f:link.typolink>
+					</li>
 				</f:for>
 			</ul>
 		</f:if>

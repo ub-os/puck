@@ -25,8 +25,7 @@
 				value="{u:sysNavigationData(identifier:identifier, depth:depth)}"/>
 
 	<nav class="{u:prependClass()}{name}" aria-label="{nav.label}">
-		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes ->
-			u:renderAttributes()}>
+		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
 			<element:navigation.items
 				name="{name}"
 				menu="{nav.menu}"
