@@ -5,14 +5,14 @@
 <f:argument name="field" type="string" optional="1" default="bodytext"/>
 
 <f:if condition="{text} || {record.{field}}">
-	<div class="{u:class(base:'{class} {name}')}">
+	<tag:div class="{class} {name}">
 		<f:if condition="{record}">
 			{record -> f:render.text(field: field)}
 		</f:if>
 		<f:if condition="{text}">
 			{text -> f:format.html()}
 		</f:if>
-	</div>
+	</tag:div>
 </f:if>
 
 

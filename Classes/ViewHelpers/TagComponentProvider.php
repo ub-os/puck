@@ -24,9 +24,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperResolverDelegateInterface;
  * means arbitrary attributes arrive as one flat array in renderComponent()
  * rather than being spread into named variables.
  *
- * Registered in ext_localconf.php:
- *   $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['tag'][] =
- *       \UBOS\Puck\ViewHelpers\TagComponentProvider::class;
+ * Registered in ext_localconf.php
  *
  * @see https://docs.typo3.org/other/typo3fluid/fluid/main/en-us/Extending/ComponentProviders.html
  */
@@ -71,10 +69,9 @@ final class TagComponentProvider implements
 	 *    Explicit attributes on the tag itself take precedence on collision.
 	 *  Builds `class` from three sources, in order, then drops it if empty:
 	 * - `class` — plain string, used as-is
-	 * - `classList` — map of className => bool, truthy keys included (as
-	 *   sitegeist/fluid-tagbuilder does)
-	 * - classModifiers — BEM modifiers as key => value; booleans render as `-key`,
-	 *   other values as `key-value`, `false`/`'default'` are skipped
+	 * - `classList` — map of className => bool, only truthy keys included
+	 * - classModifiers — BEM modifiers as key => value; booleans render as `key`,
+	 *   other values as `key-value`, `false`/`null`/`""` are skipped
 	 *
 	 * All other attributes are dropped when empty/null so conditional ones
 	 * (id, role, ...) need no f:if wrapping — except data-*, kept even when

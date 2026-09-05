@@ -3,7 +3,7 @@
 <f:argument name="record" type="mixed"/>
 
 <f:if condition="({record.header} || {record.subheader}) && {record.header_layout.value} != 100">
-	<div class="{u:class(base:'{class} {name} -class-{record.header_layout.class}')}">
+	<tag:div class="{class} {name} -class-{record.header_layout.class}">
 		<f:if condition="{record.header}">
 			<tag:dynamic is="{record.header_layout.tag}"
 						 class="{name}__header {record.header_layout.class} u-text-{record.header_position}">
@@ -15,5 +15,5 @@
 				{record -> f:render.text(field:'subheader') -> f:format.raw()}
 			</p>
 		</f:if>
-	</div>
+	</tag:div>
 </f:if>

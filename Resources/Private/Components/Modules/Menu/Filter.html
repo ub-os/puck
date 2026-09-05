@@ -19,34 +19,38 @@
 								label="{item.label}"
 								id="c{contentUid}-filter-{i.index}-dropdown">
 								<f:for each="{item.children}" as="childItem">
-									<a href="{childItem.url}"
-									   class="e-dropdown__option {u:class(modifiers:{-active:childItem.active, -disabled:childItem.noPotential})}"
-									   data-autofocus
-									   data-hx-get="{childItem.url}"
-									   data-hx-replace-url="{childItem.url}">
+									<tag:a
+										href="{childItem.url}"
+										class="e-dropdown__option"
+										classModifiers="{-active:childItem.active, -disabled:childItem.noPotential}"
+										data-autofocus
+										data-hx-get="{childItem.url}"
+										data-hx-replace-url="{childItem.url}">
 										{childItem.label}
 										<f:if condition="{childItem.active}">
 											 
 											<icon:char icon="xmark-regular"
 													   class="e-dropdown__option__close__icon"/>
 										</f:if>
-									</a>
+									</tag:a>
 								</f:for>
 							</element:dropdown>
 						</f:then>
 
 						<f:else>
-							<a href="{item.url}"
-							   class="{name}__link e-button {u:class(modifiers:{-active:item.active, -disabled:item.noPotential, -icon: item.active})}"
-							   data-autofocus
-							   data-hx-get="{item.url}"
-							   data-hx-replace-url="{item.url}">
+							<tag:a
+								href="{item.url}"
+								class="{name}__link e-button"
+								classModifiers="{-active:item.active, -disabled:item.noPotential, -icon: item.active}"
+								data-autofocus
+								data-hx-get="{item.url}"
+								data-hx-replace-url="{item.url}">
 								{item.label}
 								<f:if condition="{item.active}">
 									 
 									<icon:char icon="xmark-regular"/>
 								</f:if>
-							</a>
+							</tag:a>
 						</f:else>
 
 					</f:if>

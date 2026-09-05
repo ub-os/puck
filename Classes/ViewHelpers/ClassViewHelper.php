@@ -10,7 +10,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * handling, available standalone for ViewHelpers/components that aren't
  * tag:x-based.
  *
- * {u:class(base: '{class} {name}', list: {active: isActive}, modifiers: bemMod)}
+ * {u:class(base: '{class} {name}', list: {active: isActive}, modifiers: {layout: record.layout})}
  */
 class ClassViewHelper extends AbstractViewHelper
 {
