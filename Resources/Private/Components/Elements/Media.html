@@ -29,9 +29,10 @@
 		<u:file get="{fileItem}" set="file"/>
 		<u:var set="itemId" if="{id}" then="{id}-{i.cycle}"/>
 
-		<tag:div class="{class} {name}__figure"
-				 role="{f:if(condition:'{showDesc} && {file.description}', then:'figure')}"
-				 id="{itemId}">
+		<tag:dynamic
+			is="{f:if(condition:'{showDesc} && {file.description}', then:'figure')}"
+			class="{class} {name}__figure"
+			id="{itemId}">
 
 			<f:if condition="{file.link}">
 				<f:then>
@@ -49,9 +50,9 @@
 			</f:if>
 
 			<f:if condition="{showDesc} && {file.description}">
-				<div class="{name}__file__desc" role="caption">{file.description}</div>
+				<figcaption class="{name}__file__desc">{file.description}</figcaption>
 			</f:if>
-		</tag:div>
+		</tag:dynamic>
 
 	</f:for>
 </f:if>

@@ -2,7 +2,7 @@ import Logger from '#/Helper/Logger.js'
 
 // ensure exe.js is only loaded once and log if it is already loaded
 if (!window.puckExeLoaded) {
-	import('./exe.js').then(data => {
+	import('./exe.js').then(_data => {
 		Logger.console.log('%chead script executed', 'color:orange')
 	})
 } else {

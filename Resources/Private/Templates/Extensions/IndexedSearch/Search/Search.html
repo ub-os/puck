@@ -21,11 +21,11 @@
 		{result.searchedInSectionInfo}
 		<f:if condition="{result.count} > 0">
 			<f:then>
-				<div class="{name}__list" role="list">
+				<ul class="{name}__list">
 					<f:for each="{result.rows}" as="row">
 						<f:render partial="Searchresult" arguments="{row: row}"/>
 					</f:for>
-				</div>
+				</ul>
 				<f:if condition="{result.pagination.lastPageNumber} > 1">
 					<div class="{name}__pagination">
 						<f:render partial="Pagination"

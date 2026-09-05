@@ -103,10 +103,10 @@ htmx.on('htmx:history:cache:before:save', event => {
 htmx.on('htmx:before:head:remove', event => {
 	// prevent removing head elements with data-hx-preserve attribute
 	if (event.detail.headElement.hasAttribute('data-hx-preserve')) {
-		event.preventDefault();
+		event.preventDefault()
 	}
 	if (event.detail.headElement.id === 'uc-block-styles') {
-		event.preventDefault();
+		event.preventDefault()
 	}
 })
 htmx.on('htmx:before:head:add', event => {
@@ -115,7 +115,7 @@ htmx.on('htmx:before:head:add', event => {
 	// @todo: doesn't work anymore, hx-head always merges defer scripts :((
 	if (el.id && el.getAttribute('data-hx-preserve')) {
 		Logger.console.log('prevented adding head element with id', el.id)
-		event.preventDefault();
+		event.preventDefault()
 	}
 })
 
