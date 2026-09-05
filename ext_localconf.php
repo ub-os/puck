@@ -32,6 +32,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['module'] = ['UBOS\Puc
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['icon'] = ['UBOS\Puck\Components\Icons'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['puck'] = ['UBOS\Puck\ViewHelpers'];
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['u'] = ['UBOS\Puck\ViewHelpers'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['tag'][] = \UBOS\Puck\ViewHelpers\TagComponentProvider::class;
 
 // Set css and js gzip compression
 $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = 9;

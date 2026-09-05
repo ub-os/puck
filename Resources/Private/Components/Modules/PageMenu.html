@@ -12,7 +12,7 @@
 	<element:moduleHeader record="{record}"/>
 	<element:richText record="{record}" class="{name}__bodytext"/>
 
-	<div class="{name}__body" id="c{record.uid}-body" data-focus-after-swap="#c{record.uid}-list a">
+	<div class="{name}__body" data-focus-after-swap="#c{record.uid}-list a" id="c{record.uid}-body">
 
 		<f:if condition="{categoryFilter}">
 			<module:menu.filter categoryFilter="{categoryFilter}" contentUid="{record.uid}"/>
@@ -65,8 +65,7 @@
 				<f:case value="columns">
 					<layout:row class="{name}__row"
 								id="c{record.uid}-list"
-								flexGrow="{record.flex_grow}" align="{record.row_align}"
-								justify="{record.row_justify}">
+								flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}">
 						<f:for as="item" each="{menu}" iteration="i">
 							<module:teaser
 								class="{name}__item l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"
@@ -87,8 +86,7 @@
 				<f:case value="cards">
 					<layout:row class="{name}__row"
 								id="c{record.uid}-list"
-								flexGrow="{record.flex_grow}" align="{record.row_align}"
-								justify="{record.row_justify}">
+								flexGrow="{record.flex_grow}" align="{record.row_align}" justify="{record.row_justify}">
 						<f:for as="item" each="{menu}" iteration="i">
 							<module:teaser
 								class="{name}__item l-row__item -bp-auto -width-{record.item_column_width} -variant-{record.layout}"

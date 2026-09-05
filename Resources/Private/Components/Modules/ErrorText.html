@@ -4,7 +4,7 @@
 
 
 <layout:section
-	class="{u:prependClass()}{name}__wrap"
+	class="{class} {name}__wrap"
 	record="{record}">
 	<div class="{name}">
 		<h1 class="{name}__header">
@@ -14,7 +14,7 @@
 			{record -> f:render.text(field:'subheader')}
 		</p>
 		<f:slot/>
-		<a href="/">
+		<a href="/" aria-label="Home">
 			<f:image class="{name}__logo" src="EXT:puck/Resources/Public/Images/Logos/default.svg"/>
 		</a>
 		<element:richText record="{record}"/>

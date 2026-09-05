@@ -6,11 +6,13 @@
 <f:argument name="attributes" type="mixed" optional="1"/>
 
 
-<div class="{u:prependClass()}{u:bem(mod:{width: width, align: align})} -offset-{offset}">
+<tag:div class="{class} {name} -offset-{offset}"
+		 classModifiers="{-width: width, -align: align}"
+		 additionalAttributes="{attributes}">
 	<div class="{name}__inner">
 		<f:slot/>
 	</div>
-</div>
+</tag:div>
 
 
 

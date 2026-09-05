@@ -4,12 +4,11 @@
 <f:argument name="align" type="string" optional="1" default="start"/>
 <f:argument name="carouselAttributes" type="array"/>
 
-<div
-	class="{u:prependClass()}{name} splide"
-	id="{id}"
-	data-controller="carousel"
-	data-carousel="{carouselAttributes -> f:format.json()}"
-	data-carousel.base-splide-class="{name}">
+<tag:div class="{class} {name} splide"
+		 data-controller="carousel"
+		 data-carousel="{carouselAttributes -> u:array(merge:{baseSplideClass:name}) -> f:format.json()}"
+		 id="{id}">
+
 	<div class="{name}__track splide__track -overflow-{carouselAttributes.trackOverflow}">
 		<div class="{name}__list splide__list -align-{align}">
 			<f:slot/>
@@ -33,4 +32,4 @@
 		</f:if>
 	</div>
 
-</div>
+</tag:div>

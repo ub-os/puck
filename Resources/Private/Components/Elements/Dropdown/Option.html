@@ -4,11 +4,11 @@
 <f:argument name="href" type="string" optional="1"/>
 
 
-<element:tag class="{u:prependClass()}{name}"
-			 is="{f:if(condition:href,then:'a',else:'button')}"
-			 attributes="{attributes -> u:array(if:'{href}', merge:{href:href})}">
+<tag:dynamic is="{f:if(condition:href,then:'a',else:'button')}"
+			 class="{class} {name}"
+			 additionalAttributes="{attributes -> u:array(if:'{href}', merge:{href:href})}">
 	<f:slot/>
-</element:tag>
+</tag:dynamic>
 
 
 

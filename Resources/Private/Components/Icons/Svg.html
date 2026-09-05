@@ -5,12 +5,12 @@
 <f:argument name="titlePrefix" type="string" optional="1" default=""/>
 
 
-<svg class="{u:prependClass()}svg-icon svg--{icon}" {f:if(condition: img, then:
-'role="img"' else: 'aria-hidden="true"')} {attributes -> u:renderAttributes()}>
-<f:if condition="{img}">
-	<title>{titlePrefix}{icon}</title>
-</f:if>
-<use tabindex="-1" href="{f:uri.resource(path:'Icons/sprite-sheet.svg', extensionName: 'puck')}#{icon}"></use>
-</svg>
-
-
+<tag:svg class="{class} svg-icon svg--{icon}"
+		 role="{f:if(condition:img, then:'img')}"
+		 aria-hidden="{f:if(condition:img, else:'true')}"
+		 additionalAttributes="{attributes}">
+	<f:if condition="{img}">
+		<title>{titlePrefix}{icon}</title>
+	</f:if>
+	<use tabindex="-1" href="{f:uri.resource(path:'Icons/sprite-sheet.svg', extensionName: 'puck')}#{icon}"></use>
+</tag:svg>

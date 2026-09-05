@@ -8,9 +8,9 @@
 						<i>{record.header -> f:format.raw()}</i>
 					</f:then>
 					<f:else if="{record.header_layout.tag}">
-						<element:tag tag="{record.header_layout.tag}">
+						<tag:dynamic is="{record.header_layout.tag}">
 							{record.header -> f:format.raw()}
-						</element:tag>
+						</tag:dynamic>
 					</f:else>
 					<f:else if="{record.CType} == 'puck_hero'">
 						<h1>{record.header -> f:format.raw()}</h1>

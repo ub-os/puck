@@ -7,7 +7,10 @@
 <f:argument name="dialogAttributes" type="array" optional="1" default="{duration:170}"/>
 
 
-<div id="{id}" class="{u:bem(mod:{showSelected:showSelectedOption})}" {attributes -> u:renderAttributes()}>
+<tag:div class="{name}"
+		 classList="{-showSelected: showSelectedOption}"
+		 additionalAttributes="{attributes}"
+		 id="{id}">
 	<button class="{name}__button e-button -icon-right"
 			type="button"
 			data-target="dialog.control#{id}__dialog">
@@ -24,6 +27,6 @@
 			id="{id}__dialog">
 		<f:slot/>
 	</dialog>
-</div>
+</tag:div>
 
 

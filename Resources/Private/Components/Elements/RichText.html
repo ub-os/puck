@@ -5,7 +5,7 @@
 <f:argument name="field" type="string" optional="1" default="bodytext"/>
 
 <f:if condition="{text} || {record.{field}}">
-	<div class="{u:prependClass()}{name}">
+	<div class="{u:class(base:'{class} {name}')}">
 		<f:if condition="{record}">
 			{record -> f:render.text(field: field)}
 		</f:if>

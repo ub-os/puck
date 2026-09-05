@@ -4,10 +4,10 @@
 <f:argument name="children_300" type="array" optional="1"/>
 
 <f:variable name="optionsArray" value="{record.options -> u:mergedFlexFormSheets()}"/>
-<layout:carousel id="c{record.uid}"
-				 class="{name}"
+<layout:carousel class="{name}"
 				 align="stretch"
-				 carouselAttributes="{optionsArray.carousel}">
+				 carouselAttributes="{optionsArray.carousel}"
+				 id="c{record.uid}">
 	<f:for each="{children_300}" as="child">
 		<div class="{name}__slide splide__slide">
 			{child.renderedContent -> f:format.raw()}

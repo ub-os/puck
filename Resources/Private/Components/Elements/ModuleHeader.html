@@ -3,12 +3,12 @@
 <f:argument name="record" type="mixed"/>
 
 <f:if condition="({record.header} || {record.subheader}) && {record.header_layout.value} != 100">
-	<div class="{u:prependClass()}{name} -class-{record.header_layout.class}">
+	<div class="{u:class(base:'{class} {name} -class-{record.header_layout.class}')}">
 		<f:if condition="{record.header}">
-			<element:tag is="{record.header_layout.tag}"
+			<tag:dynamic is="{record.header_layout.tag}"
 						 class="{name}__header {record.header_layout.class} u-text-{record.header_position}">
 				{record -> f:render.text(field:'header') -> f:format.raw()}
-			</element:tag>
+			</tag:dynamic>
 		</f:if>
 		<f:if condition="{record.subheader}">
 			<p class="{name}__subheader {record.header_layout.subheaderClass} u-text-{record.header_position}">

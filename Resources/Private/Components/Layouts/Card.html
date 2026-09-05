@@ -12,19 +12,21 @@
 <f:argument name="attributes" type="array" optional="1"/>
 
 <f:variable
-	name="bemMod"
-	value="{
-	layout: mediaLayout,
-	width: width,
-	mediaSize: mediaSize,
-	mediaWidth: mediaWidth,
-	align: align
-	}"
+	name="classModifiers"
+	value="{u:class(modifiers:{
+		-layout: mediaLayout,
+		-width: width,
+		-mediaSize: mediaSize,
+		-mediaWidth: mediaWidth,
+		-align: align
+		}
+	)}"
 />
 
-<div class="{u:prependClass()}{u:bem(mod:bemMod)}{f:if(condition:media.0,then:' -media')}"
-	 {attributes -> u:renderAttributes()}>
-	<div class="{u:bem(el:'content', mod:bemMod)}">
+<tag:div class="{class} {name} {classModifiers}"
+		 classList="{-media: media.0}"
+		 additionalAttributes="{attributes}">
+	<div class="{name}__content {classModifiers}">
 		<f:slot/>
 	</div>
 	<f:if condition="{mediaWidth} > 6 || !{mediaWidth}">
@@ -47,7 +49,7 @@
 	<f:if condition="{media}">
 		<element:media
 			name="{name}"
-			class="{u:bem(el:'figure', mod:bemMod)}"
+			class="{name}__figure {classModifiers}"
 			file="{media.0}"
 			cropVariant="{cropVariant}"
 			width="{calcWidth}"
@@ -60,12 +62,12 @@
 			showDesc="{f:if(condition: '{mediaSize} == \'contain\'', then: '1', else: '0')}"/>
 	</f:if>
 	<f:if condition="{mediaUrl}">
-		<div class="{u:bem(el:'figure', mod:bemMod)}">
-			<img src="{mediaUrl}" class="{name}__file {name}__image">
+		<div class="{name}__figure {classModifiers}">
+			<img src="{mediaUrl}" class="{name}__file {name}__image" alt="">
 		</div>
 	</f:if>
 	{outerContent -> f:format.raw()}
-</div>
+</tag:div>
 
 
 

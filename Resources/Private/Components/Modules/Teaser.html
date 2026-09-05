@@ -11,7 +11,7 @@
 
 <f:if condition="{layoutMedia}">
 	<f:then>
-		<div class="{u:prependClass()}{name} {name}__column" {attributes -> u:renderAttributes()}>
+		<tag:div class="{class} {name} {name}__column" additionalAttributes="{attributes}">
 			<layout:media
 				media="{media}"
 				cropVariant="{layoutMedia.cropVariant}"
@@ -23,12 +23,12 @@
 				showDesc="0">
 				<f:render section="Content" arguments="{_all}"/>
 			</layout:media>
-		</div>
+		</tag:div>
 	</f:then>
 	<f:else>
 		<layout:card
 			attributes="{attributes}"
-			class="{u:prependClass()}{name} {name}__card"
+			class="{u:class(base:'{class} {name} {name}__card')}"
 			media="{media}"
 			cropVariant="{layoutCard.cropVariant}"
 			mediaLayout="{layoutCard.mediaLayout}"
@@ -48,9 +48,9 @@
 	<div class="{name}__content">
 		<f:if condition="{titleIsHeading}">
 			<f:then>
-				<element:tag is="{headingTag}" class="{name}__heading">
+				<tag:dynamic is="{headingTag}" class="{name}__heading">
 					<f:render section="TeaserLink" arguments="{_all}"/>
-				</element:tag>
+				</tag:dynamic>
 				<f:render section="Metadata" arguments="{_all}"/>
 			</f:then>
 			<f:else>

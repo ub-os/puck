@@ -13,18 +13,18 @@
 <u:var set="bpClasses">
 	<f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val}</f:for>
 </u:var>
-<div class="{u:prependClass()}{u:bem(
-   mod:{
-	  itemWidth: itemWidth,
-	  direction: direction,
-	  justify: justify,
-	  align: align,
-	  flexGrow: flexGrow
- })} {bpClasses}"
-	 {f:if(condition: id, then:'id="{id}"', else: '')} {attributes -> u:renderAttributes()}>
-<f:slot/>
-</div>
-
+<tag:div class="{class} {name} {bpClasses}"
+		 classModifiers="{
+		  -itemWidth: itemWidth,
+		  -direction: direction,
+		  -justify: justify,
+		  -align: align,
+		  -flexGrow: flexGrow
+		 }"
+		 additionalAttributes="{attributes}"
+		 id="{id}">
+	<f:slot/>
+</tag:div>
 
 
 

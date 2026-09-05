@@ -2,10 +2,10 @@
 <f:argument name="name" type="string" optional="1" default="m-indexedsearch"/>
 
 
-<layout:modal id="header-search-modal"
-			  width="10"
+<layout:modal width="10"
 			  class="{name}__modal"
-			  modalAttributes="{focus-on-open:'first'}">
+			  modalAttributes="{focus-on-open:'first'}"
+			  id="header-search-modal">
 	<search>
 		<f:form pluginName="Pi2"
 				extensionName="indexedsearch"
@@ -15,10 +15,10 @@
 				action="search">
 			<div class="{name}__bar">
 				<f:form.textfield
-					id="main-nav-search-input"
 					class="{name}__input"
 					placeholder="Suchbegriff"
-					name="search[sword]"/>
+					name="search[sword]"
+					id="main-nav-search-input"/>
 				 
 				<button type="submit" name="search[submitButton]"
 						class="{name}__submit e-button">

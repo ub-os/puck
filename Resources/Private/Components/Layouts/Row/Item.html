@@ -6,9 +6,10 @@
 
 
 <u:var set="bpClasses"><f:for each="{breakpoints}" key="bp" as="val">-{bp}-{val} </f:for></u:var>
-<div class="{u:prependClass()}{name} -width-{width} {bpClasses}" {attributes -> u:renderAttributes()}>
-<f:slot/>
-</div>
+
+<tag:div class="{class} {name} -width-{width} {bpClasses}" additionalAttributes="{attributes}">
+	<f:slot/>
+</tag:div>
 
 
 

@@ -25,20 +25,19 @@
 			<f:else if="{processor} == 'language'">
 				<f:link.typolink parameter="{item.uid}"
 								 language="{item.language.languageId}"
-								 class="{u:bem(el:'link', mod:{active-lang: item.isActiveLanguage})}"
+								 class="{name}__link {u:class(modifiers:{-active-lang: item.isActiveLanguage})}"
 								 absolute="1">
 					{item.language.navigationTitle}
 				</f:link.typolink>
 			</f:else>
 			<f:else if="{item.url -> u:string(contains:'mailto:')}">
 				<f:link.email email="{item.url -> u:string(search:'mailto:', replace:'')}"
-							  class="{u:bem(
-						el:'link',
-						mod:{
-						  rootline: item.isInRootLine,
-						  current: item.isCurrentPage,
-						  has-subpages: item.hasSubpages}
-					 )}"
+							  class="{name}__link {u:class(modifiers:{
+								  -rootline: item.isInRootLine,
+								  -current: item.isCurrentPage,
+								  -has-subpages: item.hasSubpages
+								  }
+							  )}"
 							  target="_blank"
 							  additionalAttributes="{aria-label: item.nav_title}">
 					<f:if condition="{prependIcon} && {item.icon}">
@@ -52,13 +51,12 @@
 			</f:else>
 			<f:else>
 				<f:link.typolink parameter="{item.uid}"
-								 class="{u:bem(
-						el:'link',
-						mod:{
-						  rootline: item.isInRootLine,
-						  current: item.isCurrentPage,
-						  has-subpages: item.hasSubpages}
-					 )}"
+								 class="{name}__link {u:class(modifiers:{
+									  -rootline: item.isInRootLine,
+									  -current: item.isCurrentPage,
+									  -has-subpages: item.hasSubpages
+									  }
+								  )}"
 								 absolute="1"
 								 additionalAttributes="{aria-label: item.nav_title}">
 					<f:if condition="{prependIcon} && {item.icon}">
@@ -79,14 +77,11 @@
 						<f:link.typolink
 							parameter="{item.link}"
 							absolute="1"
-							class="{u:bem(
-						block:subName,
-						el:'link',
-						mod:{
-						  rootline: item.isInRootLine,
-						  current: item.isCurrentPage,
-						  has-subpages: item.hasSubpages}
-					 )}">
+							class="{subName}__link {u:class(modifiers:{
+							  -rootline: item.isInRootLine,
+							  -current: item.isCurrentPage,
+							  -has-subpages: item.hasSubpages
+						  	})}">
 							{item.nav_title -> f:format.raw()}
 						</f:link.typolink>
 					</li>

@@ -6,17 +6,16 @@
 <f:argument name="containerName" type="string" optional="1" default=""/>
 <f:argument name="attributes" type="array" optional="1"/>
 
-<u:var set="sectionId" if="!{id} && {record.uid}" then="c{record.uid}" else="{id}"/>
 
-<section class="{u:prependClass()}{u:bem(
-		   mod:{
-			  background: record.frame_class,
-			  layout: record.layout,
-			  noHeaderSpacing: record._remove_header_spacing
-		   }
-		 )}"
-		 id="{sectionId}"
-		 {attributes -> u:renderAttributes()}>
+<tag:section class="{class} {name}"
+			 classModifiers="{
+			  -background: record.frame_class,
+			  -layout: record.layout,
+			  -noHeaderSpacing: record._remove_header_spacing
+		   	 }"
+			 additionalAttributes="{attributes}"
+			 id="{f:if(condition:'!{id} && {record.uid}', then:'c{record.uid}', else:id)}">
+
 	<f:if condition="!{container}">
 		<f:then>
 			<f:slot/>
@@ -35,6 +34,7 @@
 			</layout:container>
 		</f:else>
 	</f:if>
-</section>
+</tag:section>
+
 
 

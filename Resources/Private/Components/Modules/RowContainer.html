@@ -12,10 +12,10 @@
 
 		<f:case value="carousel">
 			<f:variable name="optionsArray" value="{record.options -> u:mergedFlexFormSheets()}"/>
-			<layout:carousel id="c{record.uid}-splide"
-							 class="{name}__carousel"
+			<layout:carousel class="{name}__carousel"
 							 align="{record.row_align}"
-							 carouselAttributes="{optionsArray.carousel}">
+							 carouselAttributes="{optionsArray.carousel}"
+							 id="c{record.uid}-splide">
 				<f:for each="{children_600}" as="child">
 					<layout:row.item
 						class="splide__slide {name}__item {f:if(condition:'{record.row_align} === \'stretch\'', then:'-stretchContent')}"
@@ -23,7 +23,7 @@
 						{child.renderedContent -> f:format.raw()}
 					</layout:row.item>
 				</f:for>
-			</layout:carousel>
+			</layout:carousel >
 		</f:case>
 
 		<f:defaultCase>

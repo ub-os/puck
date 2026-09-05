@@ -24,8 +24,10 @@
 	<f:variable name="nav"
 				value="{u:sysNavigationData(identifier:identifier, depth:depth)}"/>
 
-	<nav class="{u:prependClass()}{name}" aria-label="{nav.label}">
-		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
+	<tag:nav class="{class} {name}" aria-label="{nav.label}">
+		<tag:ul class="{name}__list"
+				classList="{-icons: iconFromTitle}"
+				additionalAttributes="{attributes}">
 			<element:navigation.items
 				name="{name}"
 				menu="{nav.menu}"
@@ -35,8 +37,8 @@
 				hideTitle="{hideTitle}"
 			/>
 			<f:slot/>
-		</ul>
-	</nav>
+		</tag:ul>
+	</tag:nav>
 </f:section>
 
 <f:section name="FromArguments">
@@ -45,8 +47,10 @@
 					value="{u:menu(pages:pages, processor:processor, depth:depth)}"/>
 	</f:if>
 
-	<nav class="{u:prependClass()}{name}" aria-label="{label}">
-		<ul class="{name}__list {f:if(condition: iconFromTitle, then: '-icons')}" {attributes -> u:renderAttributes()}>
+	<tag:nav class="{class} {name}" aria-label="{nav.label}">
+		<tag:ul class="{name}__list"
+				classList="{-icons: iconFromTitle}"
+				additionalAttributes="{attributes}">
 			<element:navigation.items
 				name="{name}"
 				menu="{menu}"
@@ -56,8 +60,6 @@
 				hideTitle="{hideTitle}"
 			/>
 			<f:slot/>
-		</ul>
-	</nav>
+		</tag:ul>
+	</tag:nav>
 </f:section>
-
-

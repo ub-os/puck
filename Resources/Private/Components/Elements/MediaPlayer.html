@@ -11,17 +11,16 @@
 <f:argument name="id" optional="1" type="string"/>
 
 
-<f:variable name="id" value="{f:if(condition: id, then: '{id}', else: 'mediaPlayer-{file.uid}')}"/>
+<u:var set="id" if="{id}" then="{id}" else="mediaPlayer-{file.uid}" />
 <u:file get="{file.properties.storage}:{file.identifier}.jpg" set="localPoster"/>
 <u:var if="{file.extension} === 'youtube' || {file.extension} === 'vimeo'" then="{file.contents}" else="" set="embedId"/>
 <u:array merge="{src:file.publicUrl, provider:file.extension, embedId:embedId}" set="playerAttributes">{playerAttributes}</u:array>
 
 <u:var set="playerContent">
-	<div
-		id="{id}"
-		class="{name}__modal__frame"
-		data-controller="media-player"
-		data-media-player='{playerAttributes -> f:format.json()}'>
+	<div class="{name}__modal__frame"
+		 data-controller="media-player"
+		 data-media-player='{playerAttributes -> f:format.json()}'
+		 id="{id}">
 	</div>
 </u:var>
 
@@ -62,7 +61,7 @@
 	<icon:svg class="{name}__icon" icon="play-solid"/>
 	<f:if condition="{openInModal}">
 		<f:then>
-			<layout:modal id="{id}-modal" width="12">
+			<layout:modal width="12" id="{id}-modal" >
 				{playerContent -> f:format.raw()}
 			</layout:modal>
 		</f:then>

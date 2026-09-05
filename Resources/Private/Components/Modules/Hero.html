@@ -4,8 +4,7 @@
 
 
 <layout:section
-	class="{name}__wrap{f:if(condition: '!{record.bodytext} && !{record.assets}', then: ' -headerOnly')} -layout-{record.layout}"
-	id="c{record.uid}">
+	class="{name}__wrap{f:if(condition: '!{record.bodytext} && !{record.assets}', then: ' -headerOnly')} -layout-{record.layout}" id="c{record.uid}">
 	<div class="{name}">
 		<div class="{name}__text u-text-{record.header_position}">
 			<f:if condition="{record.subheader}">

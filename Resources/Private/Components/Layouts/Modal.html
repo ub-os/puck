@@ -5,13 +5,12 @@
 <f:argument name="modalAttributes" type="array" optional="1" default="{}"/>
 <f:argument name="attributes" type="array" optional="1"/>
 
-
-{u:var(set:'defaultModalAttributes',value:'{duration:170}')}
-<dialog data-controller="modal"
-		class="{u:prependClass()}{name} -width-{width}"
-		id="{id}"
-		data-modal="{defaultModalAttributes -> u:array(merge:modalAttributes) -> f:format.json()}"
-		{attributes -> u:renderAttributes()}>
+<tag:dialog
+	class="{class} {name} -width-{width}"
+	data-controller="modal"
+	data-modal="{u:array(input:{duration:170}, merge:modalAttributes) -> f:format.json()}"
+	additionalAttributes="{attributes}"
+	id="{id}">
 
 	<button class="{name}__close"
 			type="button"
@@ -20,9 +19,8 @@
 			aria-label="{f:translate(key:'close')}">
 		<icon:char icon="xmark-regular"/>
 	</button>
-
 	<f:slot/>
-</dialog>
+</tag:dialog>
 
 
 

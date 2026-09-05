@@ -6,28 +6,24 @@
 
 <f:if condition="{categoryFilter.items}">
 	<div class="{name}"
-		 id="c{contentUid}-filter"
 		 data-hx-focus-after-swap="#c{contentUid}-list a"
 		 data-hx-select:inherited="#c{contentUid}-body"
-		 data-hx-target:inherited="#c{contentUid}-body">
+		 data-hx-target:inherited="#c{contentUid}-body"
+		 id="c{contentUid}-filter">
 		<ul class="{name}__list">
 			<f:for each="{categoryFilter.items}" as="item" iteration="i">
 				<li class="{name}__item">
 					<f:if condition="{item.children}">
 						<f:then>
 							<element:dropdown
-								id="c{contentUid}-filter-{i.index}-dropdown"
-								label="{item.label}">
+								label="{item.label}"
+								id="c{contentUid}-filter-{i.index}-dropdown">
 								<f:for each="{item.children}" as="childItem">
 									<a href="{childItem.url}"
+									   class="e-dropdown__option {u:class(modifiers:{-active:childItem.active, -disabled:childItem.noPotential})}"
 									   data-autofocus
 									   data-hx-get="{childItem.url}"
-									   data-hx-replace-url="{childItem.url}"
-									   class="{u:bem(
-										block:'e-dropdown',
-										el:'option',
-										mod:{active:childItem.active, disabled:childItem.noPotential}
-									 )}">
+									   data-hx-replace-url="{childItem.url}">
 										{childItem.label}
 										<f:if condition="{childItem.active}">
 											 
@@ -41,10 +37,7 @@
 
 						<f:else>
 							<a href="{item.url}"
-							   class="{u:bem(
-									el:'link',
-									mod:{active:item.active, disabled:item.noPotential, icon: item.active}
-								 )} e-button"
+							   class="{name}__link e-button {u:class(modifiers:{-active:item.active, -disabled:item.noPotential, -icon: item.active})}"
 							   data-autofocus
 							   data-hx-get="{item.url}"
 							   data-hx-replace-url="{item.url}">

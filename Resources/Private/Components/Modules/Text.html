@@ -5,14 +5,14 @@
 <f:if condition="{record.colPos} < 600">
 	<f:then>
 		<layout:section
-			class="{u:prependClass()}{name}__wrap{f:if(condition: '!{record.bodytext}', then: ' -headerOnly')}"
+			class="{u:class(base:'{class} {name}__wrap')}{f:if(condition:'!{record.bodytext}', then:' -headerOnly')}"
 			record="{record}">
 			<f:render section="InnerContent" arguments="{_all}"/>
 		</layout:section>
 	</f:then>
 	<f:else>
 		<layout:row.item
-			class="{u:prependClass()}{name}__row__item"
+			class="{u:class(base:'{class} {name}__row__item')}"
 			width="{record.container_width}"
 			attributes="{id:'c{record.uid}'}">
 			<f:render section="InnerContent" arguments="{_all}"/>

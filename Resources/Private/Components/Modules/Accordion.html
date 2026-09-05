@@ -8,10 +8,12 @@
 		 data-accordion.group-id="c{record.tx_container_parent.uid}"
 		 aria-labelledby="c{record.uid}-button"
 		 id="c{record.uid}">
+
 	<summary class="{name}__button"
 			 data-action="accordion.toggle"
 			 aria-controls="c{record.uid}"
 			 id="c{record.uid}-button">
+
 		<span class="{name}__title">
 			{record -> f:render.text(field:'header') -> f:format.raw()}
 		</span>
@@ -31,7 +33,3 @@
 			itemWidth="{record.item_column_width}"/>
 	</div>
 </details>
-
-
-
-
