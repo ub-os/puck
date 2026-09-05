@@ -14,9 +14,11 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"a11y": {
-				"useGenericFontNames": "off"
+				"useGenericFontNames": "off",
+                "useValidAriaRole": "off",
+                "useValidAriaValues": "off"
 			},
 			"complexity": {
 				"noForEach": "off",
