@@ -10,4 +10,14 @@ foreach (ContentElementConfiguration::getOrderedConfigurationsFromFolder('Config
 	$conf->addTCA();
 }
 
-//$GLOBALS['TCA']['tt_content']['types']['powermail_pi1']['previewRenderer'] = \In2code\Powermail\Hook\PluginPreviewRenderer::class;
+/**
+ * !!!
+ * Removes most of the default EXT:frontend CType items, because we replace them with our versions
+ * kinda hacky, filters out all CType items with 'group' in default,menu,lists
+ */
+foreach ($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] as $index => $item) {
+	if (in_array($item['group'], ['default','menu','lists'])) {
+		unset($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][$index]);
+	}
+}
+

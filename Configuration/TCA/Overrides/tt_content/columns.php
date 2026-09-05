@@ -7,6 +7,15 @@ use UBOS\Puck\Utility\TcaUtility;
 $columns = [];
 $overrideColumns = [];
 
+$overrideColumns['CType'] = [
+	'config' => [
+		'itemGroups' => [
+			'01_content' => 'Content',
+			'02_menu' => 'Menus'
+		]
+	]
+];
+
 $columns['frame_class'] = [
 	'label' => 'Background',
 	'config' => [
@@ -14,10 +23,10 @@ $columns['frame_class'] = [
 		'renderType' => 'selectSingle',
 		'disableNoMatchingValueElement' => true,
 		'items' => [
-			['Default', 'default'],
+			['Default', ''],
 			['Alternative', 'alt'],
 		],
-		'default' => 'default',
+		'default' => '',
 	],
 ];
 
