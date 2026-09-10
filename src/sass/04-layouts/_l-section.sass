@@ -24,7 +24,7 @@
 	&:where([class*="-background-"])
 		--scroll-margin-padding-offset: #{ section-spacing(2) }
 		padding-block: section-spacing(2)
-		:where(&, & + .e-anchor) + :where(&)
+		:where(&, & + .e-anchor) + &
 			margin-top: section-spacing(-1)
 
 	=background-spacing-rules($bg)
